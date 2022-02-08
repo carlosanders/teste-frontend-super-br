@@ -6,3 +6,5 @@ export * from './assinatura.actions';
 export * from './ajuda.action';
 export * from './counter.action';
 export * from './notificacao.actions';
+export * from './avaliacao.actions';
+export * from './objeto-avaliado.actions';

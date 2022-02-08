@@ -43,7 +43,6 @@ export class DocumentosEffects {
                     'tarefaOrigem',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                    'componentesDigitais'
                 ]
             };
 

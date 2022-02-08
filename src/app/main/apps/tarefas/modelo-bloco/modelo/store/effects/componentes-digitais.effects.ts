@@ -75,7 +75,11 @@ export class ComponenteDigitalEffects {
             ]),
             catchError((err) => {
                 console.log(err);
-                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                const payload = {
+                    id: action.payload.componenteDigital.tarefaOrigem.id,
+                    error: err
+                };
+                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(payload));
             })
         ))
     ));

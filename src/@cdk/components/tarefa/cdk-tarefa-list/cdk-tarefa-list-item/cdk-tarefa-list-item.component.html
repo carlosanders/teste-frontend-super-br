@@ -32,7 +32,7 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }}</span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
@@ -112,8 +112,10 @@
                     (create)="doVinculacaoEtiquetaCreate($event)"
                     (delete)="doVinculacaoEtiquetaDelete($event)"
                     (edit)="doVinculacaoEtiquetaEdit($event)"
+                    (addEtiqueta)="doAddEtiqueta($event)"
                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
-                >
+                    [errorsAddEtiqueta]="errorsAddEtiqueta"
+                    [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta">
                 </cdk-vinculacao-etiqueta-chips>
             </div>
 
@@ -121,7 +123,8 @@
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
-                    <mat-icon class="mr-4 small">picture_as_pdf</mat-icon>
+                    <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
+                    <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
                     <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                     <mat-icon *ngIf="!!vinculacaoEtiqueta.objectContext['temAnexos']" [matTooltip]="'Possui Anexos'" class="ml-2 mr-2 small"
                               (click)="doUploadAnexos(vinculacaoEtiqueta); $event.stopPropagation();">attach_file</mat-icon>
@@ -246,17 +249,21 @@
                                     {{formTipoDocumento.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent"  [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
+                            <button mat-raised-button color="accent" [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
                                 SALVAR
                             </button>
                         </form>
                     </mat-menu>
                 </div>
+                <div class="etiqueta-loading" *ngIf="savingComponentesDigitais">
+                    CARREGANDO
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
                 <cdk-componente-digital-card-list class="componente-digital-card"
                                                   #cdkUpload
                                                   [tarefaOrigem]="tarefa"
                                                   [mode]="'tarefas-list'"
-                                                  (completed)="onComplete()"
+                                                  (completed)="onComplete($event)"
                                                   (completedAll)="onCompleteAll()"
                                                   (erroUpload)="onErroUpload($event)">
                 </cdk-componente-digital-card-list>
@@ -312,7 +319,7 @@
         <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Movimentar tarefa"
                 mat-icon-button (click)="doMovimentar(); $event.stopPropagation();"
                 aria-label="Movimentar tarefa" fxHide.xs>
-            <mat-icon class="secondary-text">autorenew</mat-icon>
+            <mat-icon class="secondary-text">send</mat-icon>
         </button>
 
         <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Editar tarefa"

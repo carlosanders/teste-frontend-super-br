@@ -108,7 +108,7 @@ export const componentesDigitaisReducer = (
             return {
                 ...state,
                 saving: false,
-                errors: action.payload,
+                errors: action.payload.error,
                 loading: false
             };
         }

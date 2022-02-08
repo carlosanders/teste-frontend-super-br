@@ -759,3 +759,22 @@
 * Correção na lixeira de minutas dentro do painel de minutas
 * Correção na exibição de conteúdo de uma juntada desentranhada por dentro do visualizador de processo
 * Melhoria na barra lateral de processos, exibindo o botão editar como um botão colapsável com todas as opções de edição do processo
+* Correção ao remover anexo de documentos no editor, o botão carregar mais aparece incorretamente
+* Correção de falha grave no editor ao assinar um anexo de dentro do editor de documentos
+* Correção ao remover um componente digital dentro do editor de documentos, ocorre erro 404 do backend
+* Correção ao adicionar componente digital, editor se comportava de forma incorreta
+* Correção ao remover componente digital que estava sendo exibido, editor não redirecionava a tela e tentava abrir componente inexistente
+* Correção no botão de próximo componente digital do editor, que em algumas situações pulava um componente digital
+* Correção no botão de componente digital anterior do editor, que não verificava se havia mudanças no editor antes de trocar de componente
+* Correção de css no formulário de novas tramitações em edição de processo
+* Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa
+* Correção em css de painel de coordenação relacionado a unidade/setores
+* Correção adicionado listener para eventos de assinatura dentro do editor, para atualizar o conteúdo do documento após assinatura com sucesso
+* Correção resposta de erro do backend de componente digital mata navegação da aplicação em definitivo
+* Correção trazendo de volta opção para criar etiquetas diretamente do local onde se adiciona etiquetas às tarefas conforme ux antiga
+* Correção em componente digital com erro de codificação quando componente era convertido de HTML para PDF por motivos de segurança
+* Correção acima também aplicada para anexos de documento e de documento-avulso
+* Correção adicionando ícone diferente para minutas editáveis e PDF
+* Correção de desaparecimento de mensagens de erros de upload poucos instantes após erro aparecer
+* Melhoria criação de marcadores de páginas para pdfs (bookmarks)
+* Correção para exibição de pds e arquivos para download dentro do editor

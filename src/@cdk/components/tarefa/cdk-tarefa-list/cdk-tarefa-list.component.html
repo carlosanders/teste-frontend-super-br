@@ -263,6 +263,7 @@
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                    [savingComponentesDigitais]="savingComponentesDigitaisIds.length > 0 && savingComponentesDigitaisIds.indexOf(tarefa.id) > -1"
                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                     [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1"
                     [countSelected]="selectedIds.length"
@@ -311,12 +312,12 @@
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
                     [savingObservacao]="savingObservacao"
+                    (addEtiqueta)="doAddEtiqueta($event)"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
                     (erroUpload)="onErroUpload($event)"
                     (completed)="onComplete($event)"
-                    (completedAll)="onCompleteAll($event)"
-                >
+                    (completedAll)="onCompleteAll($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

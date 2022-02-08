@@ -6,7 +6,7 @@ export const getComponenteDigitalState: any = createSelector(
     (state: TarefasAppState) => state.componentesDigitais
 );
 
-export const getIsSavingComponentesDigitais: any = createSelector(
+export const getSavingComponentesDigitaisIds: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.saving
 );

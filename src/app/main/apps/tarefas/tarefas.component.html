@@ -39,7 +39,7 @@
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa)">
-                    <mat-icon>autorenew</mat-icon>
+                    <mat-icon>send</mat-icon>
                     <span>Movimentar</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
@@ -227,6 +227,7 @@
                                      [deletingDocumentosId]="(deletingDocumentosId$ | async)"
                                      [downloadP7SDocumentoIds]="(downloadP7SDocumentoIds$ | async)"
                                      [removendoAssinaturaDocumentosId]="(removendoAssinaturaDocumentosId$ | async)"
+                                     [savingComponentesDigitaisIds]="(savingComponentesDigitaisIds$ | async)"
                                      [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                      [folders]="(folders$ | async)"
                                      [usuarioAtual]="usuarioAtual"
@@ -259,6 +260,7 @@
                                      (movimentarBloco)="doMovimentarBloco()"
                                      (etiquetarBloco)="doEtiquetarBloco()"
                                      (editorBloco)="doEditorBloco()"
+                                     (addEtiqueta)="doCreateEtiqueta($event)"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
                                      (restauraTarefa)="doRestauraTarefa($event)"
@@ -289,6 +291,7 @@
                                      (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
                                      (uploadAnexos)="doUploadAnexos($event)"
                                      (verResposta)="doVerResposta($event)"
+                                     (completed)="onComplete($event)"
                                      (completedAll)="onCompleteAll($event)">
                     </cdk-tarefa-list>
                 </div>

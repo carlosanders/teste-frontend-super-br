@@ -80,8 +80,6 @@ export class ResolveGuard implements CanActivate {
                             'tipoDocumento',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
-                            'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                            'componentesDigitais',
                             'processoOrigem',
                             'setorOrigem',
                             'tarefaOrigem',

@@ -123,6 +123,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds: number[] = [];
     draggingIds$: Observable<number[]>;
 
+    savingComponentesDigitaisIds$: Observable<number[]>;
+
     selectedTarefas$: Observable<Tarefa[]>;
 
     selectedTarefas: Tarefa[] = [];
@@ -259,6 +261,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.savingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getSavingComponentesDigitaisIds));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
@@ -1239,9 +1242,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
             this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
-        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
-            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
-        }
+    }
+
+    doCreateEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEtiqueta({
+            etiqueta: params.etiqueta,
+            tarefa: params.tarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     doVinculacaoEtiquetaCreate(params): void {
@@ -1254,6 +1263,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVinculacaoEtiquetaEdit(params): void {
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
+    }
+
+    onComplete(uploaded: { tarefaId: number; documento: Documento }): void {
+        // this._store.dispatch(new fromStore.GetEtiquetaMinuta(uploaded));
     }
 
     onCompleteAll(tarefaId: number): void {

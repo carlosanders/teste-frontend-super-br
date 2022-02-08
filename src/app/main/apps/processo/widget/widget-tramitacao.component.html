@@ -1,11 +1,14 @@
-<mat-card class="scrollable-content">
+<mat-card class="scrollable-content" (click)="trocarVisualizacao()">
     <mat-card-header>
         <mat-icon class="s-52" mat-card-avatar>inbox</mat-icon>
         <mat-card-title>Tramitações</mat-card-title>
         <mat-card-subtitle>Pendentes de recebimento</mat-card-subtitle>
+        <mat-icon class="icone-tramitacao" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}"
+                >swap_horiz
+        </mat-icon>
     </mat-card-header>
     <mat-card-content>
-        <div class="p-24" fxLayout="column" fxLayoutAlign="center center">
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.tramitacoesCount === false" diameter="64"></mat-spinner>
             <div *ngIf="this.tramitacoesCount !== false" class="light-blue-fg font-size-64 line-height-64">
                 {{this.tramitacoesCount}}
@@ -14,8 +17,21 @@
                 A caminho
             </div>
         </div>
+        <div class="card-oficio" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isContadorPrincipal">
+            <mat-spinner *ngIf="this.isLoading !== false" diameter="64"></mat-spinner>
+            <div *ngIf="this.isLoading === false">
+                <div *ngFor="let item of tramitacoes">
+                    <button class="botao-link" mat-button
+                            [routerLink]="'/apps/processo/' + item.processo.id + '/editar/tramitacoes/listar'">
+                        <span class="material-icons">link</span>
+                        <span class="titulo">NUP {{item.processo.NUP}}<br></span>
+                    </button>
+                </div>
+                <div *ngIf="tramitacoesCount === 0" class="mensagem-aviso">Não há tramitações pendentes de recebimento</div>
+            </div>
+        </div>
     </mat-card-content>
-    <mat-card-footer>
+    <mat-card-footer *ngIf="isContadorPrincipal">
         <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
                Autos físicos em trâmite para minha unidade

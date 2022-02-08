@@ -1,6 +1,6 @@
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
-    assunto as assuntoSchema,
+    assunto as assuntoSchema, etiqueta as etiquetaSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
     tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema
@@ -28,7 +28,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -59,6 +59,7 @@ import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -199,6 +200,32 @@ export class TarefasEffect {
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
         })
     ));
+    getEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetEtiquetaMinuta>(TarefasActions.GET_ETIQUETA_MINUTA),
+        mergeMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({
+                'tarefa.id': 'eq:' + action.payload.tarefaId,
+                'objectUuid': 'eq:' + action.payload.documento.uuid
+            }),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['etiqueta'])).pipe(
+            mergeMap(response => [
+                new TarefasActions.GetEtiquetaMinutaSuccess(response),
+                new AddChildData<VinculacaoEtiqueta>({
+                    data: response['entities'],
+                    childSchema: vinculacaoEtiquetaSchema,
+                    parentSchema: tarefaSchema,
+                    parentId: action.payload.tarefaId
+                })
+            ])
+        ), 25),
+        catchError((err) => {
+            console.log(err);
+            return of(new TarefasActions.GetEtiquetaMinutaFailed(err));
+        })
+    ));
     atualizaEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.AtualizaEtiquetaMinuta>(TarefasActions.ATUALIZA_ETIQUETA_MINUTA),
         map(action => action.payload),
@@ -207,16 +234,21 @@ export class TarefasEffect {
                 map(vinculacaoEtiqueta => vinculacaoEtiqueta)
             ))
         ), 25),
-        mergeMap(([, vinculacao]) => this._vinculacaoEtiquetaService.get(
-            vinculacao.id,
-            JSON.stringify(['etiqueta'])).pipe(
-            tap((response) => {
-                this._store.dispatch(new AddData<VinculacaoEtiqueta>({
-                    data: [response],
-                    schema: vinculacaoEtiquetaSchema
-                }));
-            })
-        ),25),
+        mergeMap(([, vinculacao]) => {
+            if (vinculacao) {
+                return this._vinculacaoEtiquetaService.get(
+                    vinculacao.id,
+                    JSON.stringify(['etiqueta'])).pipe(
+                    tap((response) => {
+                        this._store.dispatch(new AddData<VinculacaoEtiqueta>({
+                            data: [response],
+                            schema: vinculacaoEtiquetaSchema
+                        }));
+                    })
+                );
+            }
+            return of(null);
+        },25),
         catchError((err) => {
             console.log(err);
             return err;
@@ -995,6 +1027,28 @@ export class TarefasEffect {
             );
         }, 25)
     ));
+    /**
+     * Save Etiqueta
+     *
+     * @type {Observable<any>}
+     */
+    saveEtiqueta: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SaveEtiqueta>(TarefasActions.SAVE_ETIQUETA),
+        switchMap((action) => {
+            const tarefa = action.payload.tarefa;
+            return this._etiquetaService.save(action.payload.etiqueta).pipe(
+                mergeMap((response: Etiqueta) => [
+                    new AddData<Etiqueta>({data: [response], schema: etiquetaSchema}),
+                    new TarefasActions.CreateVinculacaoEtiqueta({
+                        operacaoId: action.payload.operacaoId,
+                        tarefa: tarefa,
+                        etiqueta: response
+                    })
+                ]),
+                catchError(err => of(new TarefasActions.SaveEtiquetaFailed(err)))
+            );
+        })
+    ));
 
     /**
      * Delete Vinculacao Etiqueta
@@ -1051,6 +1105,7 @@ export class TarefasEffect {
         private _router: Router,
         private _assuntoService: AssuntoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
+        private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService
     ) {
         this._store.pipe(

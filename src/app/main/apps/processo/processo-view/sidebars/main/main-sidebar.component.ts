@@ -226,7 +226,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     isSavingBookmark$: Observable<boolean>;
     isLoadingBookmarks$: Observable<boolean>;
     bookmarks$: Observable<Bookmark[]>;
-    bookmarks: any;
+    bookmarks: Bookmark[] = [];
     bookmarksBySequencial: any;
     paginationBookmark$: any;
     paginationBookmark: any;

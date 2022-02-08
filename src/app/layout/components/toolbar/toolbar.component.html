@@ -136,8 +136,7 @@
                         <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
                             <div class="notification-item" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
-                                <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial;"
-                                   [innerHTML]="notificacao.conteudo">
+                                <p [innerHTML]="notificacao.conteudo">
                                 </p>
                                 <div class="actions">
                                     <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">search</mat-icon>

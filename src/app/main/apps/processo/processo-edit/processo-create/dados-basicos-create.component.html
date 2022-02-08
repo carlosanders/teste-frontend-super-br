@@ -15,6 +15,7 @@
             [configuracaoNupPagination]="configuracaoNupPagination"
             [logEntryPagination]="logEntryPagination"
             [nupIsValid]="nupIsValid"
+            (calcularNup)="calcularNup($event)"
             (gerirProcedencia)="gerirProcedencia()"
             (classificacao)="doSelectClassificacao($event)"
             (editProcedencia)="editProcedencia($event)"
@@ -174,6 +175,7 @@
             (gerirProcedencia)="gerirProcedencia()"
             (editProcedencia)="editProcedencia($event)"
             (validateNup)="validateNup($event)"
+            (calcularNup)="calcularNup($event)"
             (save)="submit($event)">
         </cdk-processo-form>
     </mat-step>

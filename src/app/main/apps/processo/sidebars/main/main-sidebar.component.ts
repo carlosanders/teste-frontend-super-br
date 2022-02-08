@@ -69,20 +69,18 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Listen for router events
-        this._router.events
-            .pipe(
-                filter(event => event instanceof NavigationEnd),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((event: NavigationEnd) => {
-                // Check if the url can be found in
-                // one of the children of this item
-                if (this.isUrlInChildren(this.itemEditar, event.urlAfterRedirects)) {
-                    this.expand();
-                } else {
-                    this.collapse();
-                }
-            });
+        this._router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((event: NavigationEnd) => {
+            // Check if the url can be found in
+            // one of the children of this item
+            if (this.isUrlInChildren(this.itemEditar, event.urlAfterRedirects)) {
+                this.expand();
+            } else {
+                this.collapse();
+            }
+        });
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -118,104 +116,146 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
-        });
+            this.linksEdit = [];
 
-        this.linksEdit = [];
+            if (!this.routerState.url.includes('dados-basicos-steps')) {
+                const pathEdit = 'app/main/apps/processo/processo-edit/sidebars/main';
 
-        if (!this.routerState.url.includes('dados-basicos-steps')) {
-            const pathEdit = 'app/main/apps/processo/processo-edit/sidebars/main';
+                modulesConfig.forEach((module) => {
+                    if (module.sidebars.hasOwnProperty(pathEdit)) {
+                        module.sidebars[pathEdit].forEach((s => this.linksEdit.push(s)));
+                    }
+                });
 
-            modulesConfig.forEach((module) => {
-                if (module.sidebars.hasOwnProperty(pathEdit)) {
-                    module.sidebars[pathEdit].forEach((s => this.linksEdit.push(s)));
-                }
-            });
+                this.linksEdit.push(
+                    {
+                        index: 10,
+                        nome: 'Dados Básicos',
+                        link: 'editar/dados-basicos',
+                    },
+                    {
+                        index: 20,
+                        nome: 'Assuntos',
+                        link: 'editar/assuntos'
+                    },
+                    {
+                        index: 30,
+                        nome: 'Interessados',
+                        link: 'editar/interessados'
+                    },
+                    {
+                        index: 40,
+                        nome: 'Volumes',
+                        link: 'editar/volumes',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 50,
+                        nome: 'Juntadas',
+                        link: 'editar/juntadas',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 60,
+                        nome: 'Vinculações',
+                        link: 'editar/vinculacoes-processos',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 70,
+                        nome: 'Relevâncias',
+                        link: 'editar/relevancias',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 80,
+                        nome: 'Sigilos',
+                        link: 'editar/sigilos',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 90,
+                        nome: 'Restrições de Acesso',
+                        link: 'editar/acessos',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 110,
+                        nome: 'Tarefas',
+                        link: 'editar/tarefas',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 120,
+                        nome: 'Ofícios',
+                        link: 'editar/oficios',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 130,
+                        nome: 'Remessas',
+                        link: 'editar/remessas',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 140,
+                        nome: 'Temporalidades e Destinações',
+                        link: 'editar/transicoes',
+                        role: 'ROLE_COLABORADOR'
+                    },
+                    {
+                        index: 150,
+                        nome: 'Tramitações',
+                        link: 'editar/tramitacoes',
+                        role: 'ROLE_COLABORADOR',
+                        canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
+                            filter(processo => !!processo),
+                            switchMap((processo) => {
+                                if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                                    return of(false);
+                                }
+                                return of(true);
+                            })
+                        )
+                    },
+                    {
+                        index: 160,
+                        nome: 'Histórico',
+                        link: 'editar/historico',
+                        role: 'ROLE_COLABORADOR'
+                    }
+                );
+            } else {
+                this.linksEdit.push(
+                    {
+                        index: 10,
+                        nome: 'Dados Básicos',
+                        link: 'editar/dados-basicos-steps/' + this.routerState.params['generoHandle'],
+                    }
+                );
+            }
 
-            this.linksEdit.push(
+            this.links = [
                 {
-                    index: 10,
-                    nome: 'Dados Básicos',
-                    link: 'editar/dados-basicos',
+                    nome: 'Visualizar',
+                    icon: 'library_books',
+                    link: 'visualizar',
+                    type: 'item',
+                    processo: true,
+                    role: 'ROLE_USER'
                 },
                 {
-                    index: 20,
-                    nome: 'Assuntos',
-                    link: 'editar/assuntos'
-                },
-                {
-                    index: 30,
-                    nome: 'Interessados',
-                    link: 'editar/interessados'
-                },
-                {
-                    index: 40,
-                    nome: 'Volumes',
-                    link: 'editar/volumes',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 50,
-                    nome: 'Juntadas',
-                    link: 'editar/juntadas',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 60,
-                    nome: 'Vinculações',
-                    link: 'editar/vinculacoes-processos',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 70,
-                    nome: 'Relevâncias',
-                    link: 'editar/relevancias',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 80,
-                    nome: 'Sigilos',
-                    link: 'editar/sigilos',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 90,
-                    nome: 'Restrições de Acesso',
-                    link: 'editar/acessos',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 110,
-                    nome: 'Tarefas',
-                    link: 'editar/tarefas',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 120,
-                    nome: 'Ofícios',
-                    link: 'editar/oficios',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 130,
-                    nome: 'Remessas',
-                    link: 'editar/remessas',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 140,
-                    nome: 'Temporalidades e Destinações',
-                    link: 'editar/transicoes',
-                    role: 'ROLE_COLABORADOR'
-                },
-                {
-                    index: 150,
-                    nome: 'Tramitações',
-                    link: 'editar/tramitacoes',
+                    nome: 'Editar',
+                    icon: 'edit',
+                    type: 'collapsable',
+                    link: undefined,
+                    processo: true,
                     role: 'ROLE_COLABORADOR',
+                    children: this.linksEdit,
                     canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
                         filter(processo => !!processo),
                         switchMap((processo) => {
-                            if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                            if (processo.somenteLeitura) {
                                 return of(false);
                             }
                             return of(true);
@@ -223,76 +263,34 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                     )
                 },
                 {
-                    index: 160,
-                    nome: 'Histórico',
-                    link: 'editar/historico',
-                    role: 'ROLE_COLABORADOR'
+                    nome: 'Download',
+                    icon: 'cloud_download',
+                    link: 'download',
+                    type: 'item',
+                    processo: true,
+                    role: 'ROLE_USER'
                 }
-            );
-        } else {
-            this.linksEdit.push(
-                {
-                    index: 10,
-                    nome: 'Dados Básicos',
-                    link: 'editar/dados-basicos-steps/' + this.routerState.params['generoHandle'],
+            ];
+
+            const path = 'app/main/apps/processo/sidebars/main';
+
+            modulesConfig.forEach((module) => {
+                if (module.sidebars.hasOwnProperty(path)) {
+                    module.sidebars[path].forEach((s => this.links.push(s)));
                 }
-            );
-        }
+            });
 
-        this.links = [
-            {
-                nome: 'Visualizar',
-                icon: 'library_books',
-                link: 'visualizar',
-                type: 'item',
-                processo: true,
-                role: 'ROLE_USER'
-            },
-            {
-                nome: 'Editar',
-                icon: 'edit',
-                type: 'collapsable',
-                link: undefined,
-                processo: true,
-                role: 'ROLE_COLABORADOR',
-                children: this.linksEdit,
-                canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
-                    filter(processo => !!processo),
-                    switchMap((processo) => {
-                        if (processo.somenteLeitura) {
-                            return of(false);
-                        }
-                        return of(true);
-                    })
-                )
-            },
-            {
-                nome: 'Download',
-                icon: 'cloud_download',
-                link: 'download',
-                type: 'item',
-                processo: true,
-                role: 'ROLE_USER'
+            this.itemEditar = this.links[1];
+
+            // Check if the url can be found in
+            // one of the children of this item
+            if (this.isUrlInChildren(this.itemEditar, this._router.url)) {
+                this.expand();
+            } else {
+                this.collapse();
             }
-        ];
-
-        const path = 'app/main/apps/processo/sidebars/main';
-
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
-            }
+            this._changeDetectorRef.markForCheck();
         });
-
-        this.itemEditar = this.links[1];
-
-        // Check if the url can be found in
-        // one of the children of this item
-        if (this.isUrlInChildren(this.itemEditar, this._router.url)) {
-            this.expand();
-        } else {
-            this.collapse();
-        }
     }
 
     /**

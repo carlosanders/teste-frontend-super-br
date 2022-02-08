@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
+import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -48,6 +48,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     assinandoTarefasIds: number[] = [];
+
+    @Input()
+    savingComponentesDigitaisIds: number[] = [];
 
     @Input()
     savingVinculacaoEtiquetaId: number;
@@ -260,7 +263,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
 
     @Output()
-    completed = new EventEmitter<number>();
+    completed = new EventEmitter<{ tarefaId: number; documento: Documento }>();
+
+    @Output()
+    addEtiqueta = new EventEmitter<{ tarefa: Tarefa; etiqueta: Etiqueta }>();
 
     /**
      * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
@@ -703,6 +709,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.etiquetaClickHandler.emit(event);
     }
 
+    doAddEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
+        this.addEtiqueta.emit(params);
+    }
+
     doVinculacaoEtiquetaCreate(params): void {
         this.vinculacaoEtiquetaCreate.emit(params);
     }
@@ -751,8 +761,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.verResposta.emit(event);
     }
 
-    onComplete(tarefaId: number): void {
-        this.completed.emit(tarefaId);
+    onComplete(uploaded: {tarefaId: number; documento: Documento}): void {
+        this.completed.emit(uploaded);
     }
 
     onCompleteAll(tarefaId: number): void {

@@ -110,7 +110,11 @@ export const documentosVinculadosReducer = (
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total - 1
+                }
             };
         }
 

@@ -1,11 +1,14 @@
-<mat-card class="scrollable-content">
+<mat-card class="scrollable-content" (click)="trocarVisualizacao()">
     <mat-card-header>
         <mat-icon class="s-52" mat-card-avatar>schedule</mat-icon>
         <mat-card-title>Tarefas da Coordenação</mat-card-title>
         <mat-card-subtitle>Pendentes de conclusão</mat-card-subtitle>
+        <mat-icon class="icone-tarefas-coordenador" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}"
+            >swap_horiz
+        </mat-icon>
     </mat-card-header>
     <mat-card-content>
-    <div class="p-12" fxLayout="column" fxLayoutAlign="center center">
+        <div class="p-12" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.tarefasCount === false" diameter="64"></mat-spinner>
             <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-64 line-height-64">
                 {{this.tarefasCount}}
@@ -14,8 +17,21 @@
                 Nos setores que eu coordeno
             </div>
         </div>
+        <div class="card-tarefas-coordenador" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isContadorPrincipal">
+            <mat-spinner *ngIf="this.isLoading !== false" diameter="64"></mat-spinner>
+            <div *ngIf="this.isLoading === false">
+                <div *ngFor="let item of tarefas">
+                <button class="botao-link" mat-button
+                         [routerLink]="'/apps/tarefas/' + item.especieTarefa.generoTarefa.nome.toLowerCase() + '/coordenacao/' +item.setorResponsavel.id">
+                    <span class="material-icons">link</span>
+                    <span class="titulo">Setor {{item.setorResponsavel.sigla}}({{item.setorResponsavel.unidade.sigla}}) {{this.numeroTarefas[item.setorResponsavel.id]}}<br></span>
+                </button>
+            </div>
+            <div *ngIf="tarefasCount === 0" class="mensagem-aviso">Não há tarefas de Coordenação</div>
+            </div>
+        </div>
     </mat-card-content>
-    <mat-card-footer>
+    <mat-card-footer *ngIf="isContadorPrincipal">
         <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
                 Vencidas:

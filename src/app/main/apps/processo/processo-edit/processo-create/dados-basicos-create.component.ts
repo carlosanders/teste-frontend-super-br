@@ -1,3 +1,4 @@
+import { CdkProcessoModalCalculoNupComponent } from './../../../../../../@cdk/components/processo/cdk-processo-modal-calculo-nup/cdk-processo-modal-calculo-nup.component';
 import { Back } from '../../../../../store';
 import {
     AfterViewInit,
@@ -72,6 +73,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     _profile: Usuario;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    calculoNupDialogRef: MatDialogRef<CdkProcessoModalCalculoNupComponent>;
     dialogRef: any;
 
     processo$: Observable<Processo>;
@@ -577,6 +579,25 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }
+    }
+
+    calcularNup(nup?: string): void {
+
+        this.calculoNupDialogRef = this.dialog.open(CdkProcessoModalCalculoNupComponent, {
+            data: {
+                nup
+            },
+            width: '650px',
+            height: '280px',
+        });
+
+        this.calculoNupDialogRef.afterClosed().subscribe((nup?: string) => {
+            if (nup) {
+                console.log('Confirmado: ', nup);
+                this.formProcesso.patchValue({NUP: nup});
+            }
+            this.calculoNupDialogRef = null;
+        });
     }
 
     gerirProcedencia(): void {

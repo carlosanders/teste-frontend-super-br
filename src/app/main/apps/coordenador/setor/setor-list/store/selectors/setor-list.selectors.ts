@@ -4,12 +4,24 @@ import {getSetorListAppState, SetorListAppState, SetorListState} from '../reduce
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models/setor.model';
+import {getRouterState} from '../../../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Setor>(setorSchema);
 
 export const getSetorListState: any = createSelector(
     getSetorListAppState,
     (state: SetorListAppState) => state.setorList
+);
+
+export const getUnidadeHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['generoHandle'] === 'unidade' ? router?.state.params['entidadeHandle'] : ''
+);
+
+export const getCurrentUnidade: any = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getUnidadeHandle,
+    schemaSelectors.entityProjector
 );
 
 export const getSetorListIds: any = createSelector(

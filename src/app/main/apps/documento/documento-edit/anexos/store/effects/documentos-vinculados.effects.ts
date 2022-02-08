@@ -17,7 +17,6 @@ import {
     vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -82,8 +81,6 @@ export class DocumentosVinculadosEffects {
                     'tipoDocumento',
                     'vinculacaoDocumentoPrincipal',
                     'vinculacaoDocumentoPrincipal.documento',
-                    'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                    'componentesDigitais',
                     'processoOrigem',
                     'setorOrigem',
                     'tarefaOrigem',
@@ -238,20 +235,12 @@ export class DocumentosVinculadosEffects {
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
             let sidebar = 'editar/anexos';
-            let primary: string;
-            primary = 'componente-digital/';
-            if (action.payload.componentesDigitais[0]) {
-                primary += action.payload.componentesDigitais[0].id + '/editor/ckeditor';
-            } else {
-                primary += '0';
-            }
             if (action.payload.vinculacaoDocumentoPrincipal) {
                 sidebar = 'editar/dados-basicos';
             }
             this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],
