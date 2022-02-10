@@ -1,9 +1,13 @@
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
-    assunto as assuntoSchema, etiqueta as etiquetaSchema,
+    assunto as assuntoSchema,
+    etiqueta as etiquetaSchema,
+    especieProcesso as especieProcessoSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
-    tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+    tarefa as tarefaSchema,
+    vinculacaoEspecieProcessoWorkflow as vinculacaoEspecieProcessoWorkflowSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -28,7 +32,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Tarefa, VinculacaoEspecieProcessoWorkflow, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -60,6 +64,9 @@ import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
+import {
+    VinculacaoEspecieProcessoWorkflowService
+} from '@cdk/services/vinculacao-especie-processo-workflow.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -88,11 +95,11 @@ export class TarefasEffect {
             concatMap(response => [
                 new AddData<Tarefa>({
                     data: response['entities'],
-                    schema: tarefaSchema,
-                    populate: action.payload.populate
+                    schema: tarefaSchema
                 }),
                 new TarefasActions.GetTarefasSuccess({
                     entitiesId: response['entities'].map(tarefa => tarefa.id),
+                    especieProcessoIds: response['entities'].map(tarefa => tarefa.processo.especieProcesso.id),
                     loaded: {
                         id: 'generoHandle_typeHandle_targetHandle',
                         value: this.routerState.params.generoHandle + '_' +
@@ -133,10 +140,8 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
+                // 'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                // 'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'vinculacaoWorkflow',
                 'vinculacaoWorkflow.workflow'
             ];
@@ -162,10 +167,10 @@ export class TarefasEffect {
                 map((response) => {
                     this._store.dispatch(new AddData<Tarefa>({
                         data: [response],
-                        schema: tarefaSchema,
-                        populate: populate
+                        schema: tarefaSchema
                     }));
                     this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(response.id));
+                    this._store.dispatch(new TarefasActions.GetWorkflowTarefa(response.processo.especieProcesso.id));
                     return new TarefasActions.GetTarefaSuccess(response);
                 }),
                 catchError((err) => {
@@ -175,6 +180,18 @@ export class TarefasEffect {
             );
         }, 25)
     ));
+    getTarefasSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefasSuccess>(TarefasActions.GET_TAREFAS_SUCCESS),
+        tap((action) => {
+            action.payload.entitiesId.forEach((tarefaId) => {
+                this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(tarefaId));
+            });
+            const especieProcessoIds = [...new Set(action.payload.especieProcessoIds)];
+            especieProcessoIds.forEach((especieProcessoId) => {
+                this._store.dispatch(new TarefasActions.GetWorkflowTarefa(especieProcessoId));
+            });
+        })
+    ), {dispatch: false});
     getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
         mergeMap(action => this._vinculacaoEtiquetaService.query(
@@ -198,6 +215,31 @@ export class TarefasEffect {
         catchError((err) => {
             console.log(err);
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
+        })
+    ));
+    getWorkflowTarefas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetWorkflowTarefa>(TarefasActions.GET_WORKFLOW_TAREFA),
+        mergeMap(action => this._vinculacaoEspecieProcessoWorkflowService.query(
+            JSON.stringify({
+                'especieProcesso.id': 'eq:' + action.payload,
+            }),
+            100,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['workflow'])).pipe(
+            mergeMap(response => [
+                new TarefasActions.GetWorkflowTarefaSuccess(response),
+                new AddChildData<VinculacaoEspecieProcessoWorkflow>({
+                    data: response['entities'],
+                    childSchema: vinculacaoEspecieProcessoWorkflowSchema,
+                    parentSchema: especieProcessoSchema,
+                    parentId: action.payload
+                })
+            ])
+        ), 25),
+        catchError((err) => {
+            console.log(err);
+            return of(new TarefasActions.GetWorkflowTarefaFailed(err));
         })
     ));
     getEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
@@ -1105,6 +1147,7 @@ export class TarefasEffect {
         private _router: Router,
         private _assuntoService: AssuntoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
+        private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
         private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService
     ) {
