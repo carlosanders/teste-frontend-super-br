@@ -62,7 +62,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     tarefa: Tarefa;
 
     @Input()
-    saving: boolean;
+    saving: boolean = false;
 
     @Input()
     errors: any;
