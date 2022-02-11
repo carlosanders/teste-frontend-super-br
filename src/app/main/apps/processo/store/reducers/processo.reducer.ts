@@ -296,6 +296,13 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
+        case ProcessoActions.PLUGIN_SET_ERROR: {
+            return {
+                ...state,
+                errors: action.payload
+            };
+        }
+
         default:
             return state;
     }

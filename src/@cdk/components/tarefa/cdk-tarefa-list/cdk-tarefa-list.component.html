@@ -10,6 +10,7 @@
     <div class="header">
 
         <mat-checkbox class="ml-8" (click)="toggleSelectAll($event)"
+                      *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'"
                       [checked]="!!selectedIds.length"
                       [indeterminate]="isIndeterminate">
         </mat-checkbox>
@@ -29,7 +30,7 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira' && targetHandle !== 'outros-usuarios'">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira' && targetHandle !== 'outros-usuarios'">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -43,13 +44,13 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
+                *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && selectedIds?.length > 1 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
         <mat-menu #moreMenu="matMenu">
 
-            <ng-template [ngIf]="targetHandle !== 'lixeira'">
+            <ng-template [ngIf]="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'">
                 <button mat-menu-item aria-label="apagar"
                         (click)="doDeleteTarefaBloco()">
                     <ng-container>
@@ -146,7 +147,7 @@
                 <ng-template #dynamicComponent></ng-template>
             </ng-template>
 
-            <ng-template [ngIf]="targetHandle === 'lixeira'">
+            <ng-template [ngIf]="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle === 'lixeira'">
                 <button mat-menu-item aria-label="restaurar"
                         (click)="doRestaurarBloco()">
                     <ng-container>
@@ -250,6 +251,7 @@
                  class="drag-tarefa"
                  [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
+                 [dndDisableIf]="typeHandle === 'concluidas' || typeHandle === 'enviadas'"
                  (dndEnd)="onCancelDrag($event)"
                  (dndCopied)="onCopied($event, tarefa)"
                  (dndStart)="onStartDrag($event, tarefa)">
@@ -312,6 +314,8 @@
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
                     [savingObservacao]="savingObservacao"
+                    [targetHandle]="targetHandle"
+                    [typeHandle]="typeHandle"
                     (addEtiqueta)="doAddEtiqueta($event)"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"

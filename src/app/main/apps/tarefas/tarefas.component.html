@@ -63,6 +63,7 @@
                     <span>Dar Ciência</span>
                 </button>
                 <button mat-button aria-label="enviar ofício"
+                        *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doCreateDocumentoAvulso(currentTarefaId)" fxHide.lt-lg>
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
@@ -277,6 +278,7 @@
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
                                      [totalInteressadosProcessosId]="(totalInteressadosProcessosId$ | async)"
                                      [targetHandle]="targetHandle"
+                                     [typeHandle]="typeHandle"
                                      [cienciaIds]="(cienciaIds$ | async)"
                                      [mobileMode]="mobileMode"
                                      (criaRelatorio)="criarRelatorio()"

@@ -104,7 +104,7 @@
                 </mat-icon>
             </div>
 
-            <div class="search-wrapper" (click)="$event.stopPropagation();">
+            <div class="search-wrapper" (click)="$event.stopPropagation();" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'">
                 <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
                     [pagination]="vinculacaoEtiquetaPagination"
@@ -130,7 +130,8 @@
                               (click)="doUploadAnexos(vinculacaoEtiqueta); $event.stopPropagation();">attach_file</mat-icon>
                     <mat-icon class="ml-2 mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['assinado']">lock</mat-icon>
                     <button mat-icon-button [matMenuTriggerFor]="minutaMenu" #menuTriggerMinutas="matMenuTrigger"
-                            *ngIf="!(deletingDocumentosId.indexOf(vinculacaoEtiqueta.objectId) > -1) &&
+                            *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' &&
+                            !(deletingDocumentosId.indexOf(vinculacaoEtiqueta.objectId) > -1) &&
                             !(assinandoDocumentosId.indexOf(vinculacaoEtiqueta.objectId) > -1) &&
                             !(convertendoDocumentosId.indexOf(vinculacaoEtiqueta.objectId) > -1) &&
                             !(downloadP7SDocumentoIds.indexOf(vinculacaoEtiqueta.objectId) > -1) &&
@@ -308,7 +309,7 @@
         </div>
     </div>
 
-    <div class="actions">
+    <div class="actions" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'">
 
         <button style="display: none;" class="ferramentas" *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
                 mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
@@ -360,7 +361,7 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <button mat-menu-item aria-label="apagar"
+            <button mat-menu-item aria-label="apagar" *ngIf="usuarioAtual?.id === tarefa?.usuarioResponsavel?.id"
                     (click)="doDelete()">
                 <ng-container>
                     <mat-icon>delete</mat-icon>

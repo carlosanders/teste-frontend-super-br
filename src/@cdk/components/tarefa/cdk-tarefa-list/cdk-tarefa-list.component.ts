@@ -299,6 +299,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     targetHandle: any;
 
     @Input()
+    typeHandle: any;
+
+    @Input()
     editandoObservacaoIds: number[] = [];
 
     @Input()
@@ -403,12 +406,17 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     ngAfterViewInit(): void {
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
         const path = '@cdk/components/tarefa/cdk-tarefa-list';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                    if (this.container !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
                 }));
             }
         });
