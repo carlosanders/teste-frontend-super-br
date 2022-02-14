@@ -63,6 +63,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     countSelected: number = 0;
 
     @Input()
+    targetHandle: any;
+
+    @Input()
+    typeHandle: any;
+
+    @Input()
     alterandoDocumentosId: number[] = [];
 
     @Input()

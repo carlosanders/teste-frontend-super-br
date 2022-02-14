@@ -54,6 +54,8 @@ export const REMOVE_PLUGIN_LOADING = '[PROCESSO] REMOVE PLUGIN LOADING';
 export const SINCRONIZA_BARRAMENTO = '[PROCESSO] SINCRONIZACAO BARRAMENTO';
 export const SINCRONIZA_BARRAMENTO_SUCCESS = '[PROCESSO] SINCRONIZACAO BARRAMENTO SUCCESS';
 
+export const PLUGIN_SET_ERROR = '[PROCESSO] PLUGIN SET ERROR';
+
 /**
  * Expandir Processo
  */
@@ -503,6 +505,18 @@ export class SincronizaBarramentoSuccess implements Action
     }
 }
 
+/**
+ * Plugin Set Error
+ */
+export class PluginSetError implements Action
+{
+    readonly type = PLUGIN_SET_ERROR;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -541,4 +555,5 @@ export type ProcessoActionsAll
     | AddPluginLoading
     | RemovePluginLoading
     | SincronizaBarramento
-    | SincronizaBarramentoSuccess;
+    | SincronizaBarramentoSuccess
+    | PluginSetError;

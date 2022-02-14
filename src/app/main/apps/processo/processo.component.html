@@ -34,7 +34,7 @@
                         <mat-spinner diameter="20"></mat-spinner>
                     </div>
 
-                    <div class="actions" *ngIf="processo !== null && !((togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length)">
+                    <div class="actions" [hidden]="processo === null || (togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
 
                         <button mat-icon-button aria-label="arquivar processo" matTooltip="Arquivar Processo" fxHide.xs
                                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"

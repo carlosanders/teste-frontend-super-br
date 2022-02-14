@@ -49,7 +49,7 @@ export interface TarefasState {
     savingObservacao: boolean;
 }
 
-export const TarefasInitialState: TarefasState = {
+export const tarefasInitialState: TarefasState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -96,13 +96,13 @@ export const TarefasInitialState: TarefasState = {
     savingObservacao: false,
 };
 
-export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
+export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
     switch (action.type) {
 
         case TarefasActions.UNLOAD_TAREFAS: {
             if (action.payload.reset) {
                 return {
-                    ...TarefasInitialState
+                    ...tarefasInitialState
                 };
             } else {
                 return {
@@ -183,6 +183,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 loading: false,
                 loaded: false,
+                error: action.payload,
                 errorDelete: []
             };
         }
@@ -392,7 +393,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.UNDELETE_TAREFA_FAILED: {
             return {
                 ...state,
-                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id)
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
             };
         }
 
@@ -719,6 +721,4 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         default:
             return state;
     }
-}
-
-
+};

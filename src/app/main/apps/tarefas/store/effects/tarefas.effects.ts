@@ -99,7 +99,6 @@ export class TarefasEffect {
                 }),
                 new TarefasActions.GetTarefasSuccess({
                     entitiesId: response['entities'].map(tarefa => tarefa.id),
-                    especieProcessoIds: response['entities'].map(tarefa => tarefa.processo.especieProcesso.id),
                     loaded: {
                         id: 'generoHandle_typeHandle_targetHandle',
                         value: this.routerState.params.generoHandle + '_' +
@@ -140,10 +139,7 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                // 'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                // 'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
-                'vinculacaoWorkflow',
-                'vinculacaoWorkflow.workflow'
+                'vinculacaoWorkflow'
             ];
             let context = {};
             const paramUrl = this.routerState.params['targetHandle'];
@@ -170,7 +166,6 @@ export class TarefasEffect {
                         schema: tarefaSchema
                     }));
                     this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(response.id));
-                    this._store.dispatch(new TarefasActions.GetWorkflowTarefa(response.processo.especieProcesso.id));
                     return new TarefasActions.GetTarefaSuccess(response);
                 }),
                 catchError((err) => {
@@ -185,10 +180,6 @@ export class TarefasEffect {
         tap((action) => {
             action.payload.entitiesId.forEach((tarefaId) => {
                 this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(tarefaId));
-            });
-            const especieProcessoIds = [...new Set(action.payload.especieProcessoIds)];
-            especieProcessoIds.forEach((especieProcessoId) => {
-                this._store.dispatch(new TarefasActions.GetWorkflowTarefa(especieProcessoId));
             });
         })
     ), {dispatch: false});
@@ -215,31 +206,6 @@ export class TarefasEffect {
         catchError((err) => {
             console.log(err);
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
-        })
-    ));
-    getWorkflowTarefas: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<TarefasActions.GetWorkflowTarefa>(TarefasActions.GET_WORKFLOW_TAREFA),
-        mergeMap(action => this._vinculacaoEspecieProcessoWorkflowService.query(
-            JSON.stringify({
-                'especieProcesso.id': 'eq:' + action.payload,
-            }),
-            100,
-            0,
-            JSON.stringify({}),
-            JSON.stringify(['workflow'])).pipe(
-            mergeMap(response => [
-                new TarefasActions.GetWorkflowTarefaSuccess(response),
-                new AddChildData<VinculacaoEspecieProcessoWorkflow>({
-                    data: response['entities'],
-                    childSchema: vinculacaoEspecieProcessoWorkflowSchema,
-                    parentSchema: especieProcessoSchema,
-                    parentId: action.payload
-                })
-            ])
-        ), 25),
-        catchError((err) => {
-            console.log(err);
-            return of(new TarefasActions.GetWorkflowTarefaFailed(err));
         })
     ));
     getEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
@@ -833,6 +799,15 @@ export class TarefasEffect {
             );
         }, 25)
     ));
+    darCienciaTarefaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.DarCienciaTarefaSuccess>(TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS),
+        tap(() => {
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+            ]).then();
+        })
+    ), {dispatch: false});
     /**
      * Change Selected Tarefas
      */
