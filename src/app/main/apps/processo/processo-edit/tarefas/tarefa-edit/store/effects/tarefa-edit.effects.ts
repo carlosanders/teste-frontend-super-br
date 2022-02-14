@@ -45,13 +45,13 @@ export class TarefaEditEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
                 'vinculacaoWorkflow',
                 'vinculacaoWorkflow.workflow',
-            ]))),
+            ]),
+            JSON.stringify({'especieProcessoWorkflow': true})
+        )),
         switchMap(response => [
             new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
             new TarefaEditActions.GetTarefaSuccess({
