@@ -229,10 +229,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.processoPagination = new Pagination();
         this.processoPagination.populate =
             ['especieProcesso', 'especieProcesso.generoProcesso',
-                'especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'setorAtual', 'setorAtual.unidade'
             ];
+        this.processoPagination.context = {'especieProcessoWorkflow': true};
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.unidadeResponsavelPagination = new Pagination();
@@ -483,7 +482,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                //fazer validação se tem id ou não para habilitar/desabilitar campos
                 if (this.tarefa?.id) {
                     this.form.get('workflow').disable();
                     this.form.get('tarefaWorkflow').disable();
@@ -562,7 +560,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             };
                         }
 
-                        if (value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) {
+                        if (value?.especieProcesso?.workflow) {
                             if (!this.tarefa?.id) {
                                 this.form.get('especieTarefa').reset();
                             }
@@ -913,7 +911,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('workflow').disable();
                 this.form.get('tarefaWorkflow').disable();
 
-            } else if (this.form.get('processo').value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) {
+            } else if (this.form.get('processo').value?.especieProcesso?.workflow) {
                 this.form.get('tarefaWorkflow').enable();
                 this.form.get('tarefaWorkflow').setValue(false, {emitEvent: false});
                 this.form.get('workflow').disable();
@@ -1047,7 +1045,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     changeFiltrosWorkflow(): void {
-        if (this.form.get('processo')?.value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) {
+        if (this.form.get('processo')?.value?.especieProcesso?.workflow) {
             this.workflowPagination.filter = {
                 orX: [
                     {
@@ -1487,7 +1485,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     exibeEspecieTarefa(): boolean {
-        if (!!this.form.get('processo').value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length
+        if (!!this.form.get('processo').value?.especieProcesso?.workflow
             && this.form.get('tarefaWorkflow').value) {
             return false;
         }
