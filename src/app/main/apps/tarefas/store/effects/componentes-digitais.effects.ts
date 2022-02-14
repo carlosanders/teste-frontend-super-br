@@ -222,7 +222,7 @@ export class ComponentesDigitaisEffects {
                         content: 'Ocorreu um erro ao criar aprovação.',
                         status: 2, // erro
                     }));
-                    return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                    return of(new ComponenteDigitalActions.AprovarDocumentoFailed(err));
                 })
             );
         })

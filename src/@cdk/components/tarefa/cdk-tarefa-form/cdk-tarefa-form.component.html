@@ -34,7 +34,7 @@
     </div>
 
     <mat-slide-toggle formControlName="tarefaWorkflow"
-      *ngIf="!!form.get('processo').value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length">
+      *ngIf="form.get('processo').value?.especieProcesso?.workflow">
         Seguir Workflow
     </mat-slide-toggle>
 

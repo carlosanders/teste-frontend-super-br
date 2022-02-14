@@ -94,11 +94,9 @@ export class FoldersEffect {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                            'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                             'workflow'
                         ],
-                        context: {}
+                        context: {'especieProcessoWorkflow': true}
                     },
                     nome: response.nome.toUpperCase(),
                     increment: false

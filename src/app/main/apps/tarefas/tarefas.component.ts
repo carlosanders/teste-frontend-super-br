@@ -118,6 +118,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     error$: Observable<any>;
     errorDelete$: Observable<any>;
     errorDistribuir$: Observable<any>;
+    errorComponentesDigitais$: Observable<any>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
@@ -249,6 +250,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingUrgenteIds$ = this._store.pipe(select(fromStore.getIsTogglingUrgenteIds));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
+        this.errorComponentesDigitais$ = this._store.pipe(select(fromStore.getErrorsComponentesDigitais));
         this.currentTarefa$ = this._store.pipe(select(fromStore.getCurrentTarefa));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
@@ -528,6 +530,19 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.error$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
+
+        this.errorComponentesDigitais$.pipe(
             filter(errors => !!errors),
             takeUntil(this._unsubscribeAll)
         ).subscribe((errors) => {

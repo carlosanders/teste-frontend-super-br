@@ -1,6 +1,7 @@
 <div class="content" cdkPerfectScrollbar>
     <cdk-processo-form
         [processo]="processo"
+        [form]="form"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [especieProcessoPagination]="especieProcessoPagination"
@@ -13,6 +14,7 @@
         (gerirProcedencia)="gerirProcedencia()"
         (editProcedencia)="editProcedencia($event)"
         (abort)="abort()"
+        (calcularNup)="calcularNup($event)"
         (classificacao)="doSelectClassificacao($event)"
         (save)="submit($event)">
     </cdk-processo-form>

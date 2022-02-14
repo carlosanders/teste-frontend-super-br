@@ -14,6 +14,10 @@ export const GET_ETIQUETAS_TAREFAS = '[TAREFAS] GET ETIQUETAS TAREFA';
 export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFAS] GET ETIQUETAS TAREFA SUCCESS';
 export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFAS] GET ETIQUETAS TAREFA FAILED';
 
+export const GET_WORKFLOW_TAREFA = '[TAREFAS] GET WORKFLOW TAREFA';
+export const GET_WORKFLOW_TAREFA_SUCCESS = '[TAREFAS] GET WORKFLOW TAREFA SUCCESS';
+export const GET_WORKFLOW_TAREFA_FAILED = '[TAREFAS] GET WORKFLOW TAREFA FAILED';
+
 export const GET_ETIQUETA_MINUTA = '[TAREFAS] GET ETIQUETA MINUTA';
 export const GET_ETIQUETA_MINUTA_SUCCESS = '[TAREFAS] GET ETIQUETA MINUTA SUCCESS';
 export const GET_ETIQUETA_MINUTA_FAILED = '[TAREFAS] GET ETIQUETA MINUTA FAILED';
@@ -200,6 +204,36 @@ export class GetEtiquetasTarefasSuccess implements Action {
  */
 export class GetEtiquetasTarefasFailed implements Action {
     readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Get Workflow Tarefa
+ */
+export class GetWorkflowTarefa implements Action {
+    readonly type = GET_WORKFLOW_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Workflow Tarefa Success
+ */
+export class GetWorkflowTarefaSuccess implements Action {
+    readonly type = GET_WORKFLOW_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Workflow Tarefa Failed
+ */
+export class GetWorkflowTarefaFailed implements Action {
+    readonly type = GET_WORKFLOW_TAREFA_FAILED;
 
     constructor(public payload: string) {
     }
@@ -1185,6 +1219,9 @@ export type TarefasActionsAll
     | GetEtiquetasTarefas
     | GetEtiquetasTarefasSuccess
     | GetEtiquetasTarefasFailed
+    | GetWorkflowTarefa
+    | GetWorkflowTarefaSuccess
+    | GetWorkflowTarefaFailed
     | GetEtiquetaMinuta
     | GetEtiquetaMinutaSuccess
     | GetEtiquetaMinutaFailed
