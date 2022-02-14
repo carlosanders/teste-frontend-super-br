@@ -188,9 +188,10 @@
         <div class="content-card"
              [ngClass]="{'current-tarefa-selected':currentTarefaId || (loading$ | async)}">
 
-            <button mat-icon-button (click)="retornar()" *ngIf="mobileMode && mostraCriar">
+            <button mat-icon-button (click)="retornar()" fxHide.gt-sm *ngIf="routerState.params['processoHandle']">
                 <mat-icon>arrow_back</mat-icon>
             </button>
+
 
             <!-- CONTENT -->
             <div class="content">
