@@ -1,42 +1,55 @@
 import {createSelector} from '@ngrx/store';
 import {ComponenteDigitalAppState, ComponenteDigitalState, getComponenteDigitalAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital} from '@cdk/models';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {ComponenteDigital, Documento} from '@cdk/models';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {getRouterState} from '../../../../../../store';
 
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
+const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getComponenteDigitalState = createSelector(
+export const getDocumentoHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['documentoHandle']
+);
+
+export const getDocumento: any = createSelector(
+    schemaDocumentoSelectors.getNormalizedEntities,
+    getDocumentoHandle,
+    schemaDocumentoSelectors.entityProjector
+);
+
+export const getComponenteDigitalState: any = createSelector(
     getComponenteDigitalAppState,
     (state: ComponenteDigitalAppState) => state.componenteDigital
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.loading
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.errors
 );
 
-export const getComponenteDigitalLoaded = createSelector(
+export const getComponenteDigitalLoaded: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.loaded
 );
 
-export const getComponenteDigitalId = createSelector(
+export const getComponenteDigitalId: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.componenteDigitalId
 );
 
-export const getComponenteDigital = createSelector(
+export const getComponenteDigital: any = createSelector(
     schemaComponenteDigitalSelectors.getNormalizedEntities,
     getComponenteDigitalId,
     schemaComponenteDigitalSelectors.entityProjector

@@ -82,26 +82,6 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true
@@ -187,6 +167,8 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -229,7 +211,7 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,

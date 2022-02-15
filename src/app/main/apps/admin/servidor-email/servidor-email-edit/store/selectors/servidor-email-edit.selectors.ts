@@ -6,33 +6,33 @@ import {servidorEmail as servidorEmailSchema} from '@cdk/normalizr';
 
 const schemaServidorEmailSelectors = createSchemaSelectors<ServidorEmail>(servidorEmailSchema);
 
-export const getServidorEmailEditState = createSelector(
+export const getServidorEmailEditState: any = createSelector(
     getServidorEmailEditAppState,
     (state: ServidorEmailEditAppState) => state.servidorEmail
 );
 
-export const getServidorEmailId = createSelector(
+export const getServidorEmailId: any = createSelector(
     getServidorEmailEditState,
     (state: ServidorEmailEditState) => state.entityId
 );
 
-export const getServidorEmail = createSelector(
+export const getServidorEmail: any = createSelector(
     schemaServidorEmailSelectors.getNormalizedEntities,
     getServidorEmailId,
     schemaServidorEmailSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getServidorEmailEditState,
     (state: ServidorEmailEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getServidorEmailEditState,
     (state: ServidorEmailEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getServidorEmailEditState,
     (state: ServidorEmailEditState) => state.errors
 );

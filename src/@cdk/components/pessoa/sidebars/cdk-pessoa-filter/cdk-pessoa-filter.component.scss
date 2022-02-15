@@ -21,7 +21,7 @@ cdk-pessoa-filter {
         flex-direction: column;
         height: 0;
         overflow-y: auto;
-        padding: 16px;
+        padding: 8px;
 
         > form {
             flex: 0 1 auto;
@@ -34,7 +34,7 @@ cdk-pessoa-filter {
                 align-items: center;
                 justify-content: space-between;
                 flex: 1 1 auto;
-                margin-right: 16px;
+                margin-right: 8px;
 
                 .filtrado {
                     color: red;
@@ -43,7 +43,7 @@ cdk-pessoa-filter {
             }
 
             mat-form-field {
-                margin-right: 16px;
+                margin-right: 8px;
             }
         }
     }
@@ -54,7 +54,7 @@ cdk-pessoa-filter {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        padding: 16px;
+        padding: 8px;
         button:first-child {
             margin: 0 8px 0 8px;
         }

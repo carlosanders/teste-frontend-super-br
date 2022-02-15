@@ -7,58 +7,58 @@ import {ChatAppState, ChatParticipanteState, getChatAppState} from '../reducers'
 const schemaSelectors = createSchemaSelectors<ChatParticipante>(chatParticipanteSchema);
 
 
-export const getChatParticipanteState = createSelector(
+export const getChatParticipanteState: any = createSelector(
     getChatAppState,
     (state: ChatAppState) => state.chatParticipante
 );
 
-export const getChatParticipanteListIds = createSelector(
+export const getChatParticipanteListIds: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.entitiesId
 );
 
-export const getChatParticipanteList = createSelector(
+export const getChatParticipanteList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getChatParticipanteListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getChatParticipanteIsLoaded = createSelector(
+export const getChatParticipanteIsLoaded: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.loaded
 );
 
-export const getChatParticipanteIsSaving = createSelector(
+export const getChatParticipanteIsSaving: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.saving
 );
 
-export const getChatParticipanteIsSaved = createSelector(
+export const getChatParticipanteIsSaved: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.saved
 );
 
-export const getChatParticipanteIsLoading = createSelector(
+export const getChatParticipanteIsLoading: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.loading
 );
 
-export const getChatParticipanteDeletingIds = createSelector(
+export const getChatParticipanteDeletingIds: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.deletingIds
 );
 
-export const getChatParticipanteDeletedIds = createSelector(
+export const getChatParticipanteDeletedIds: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.deletedIds
 );
 
-export const getChatParticipantePagination = createSelector(
+export const getChatParticipantePagination: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.pagination
 );
 
-export const getChatParticipanteErrors = createSelector(
+export const getChatParticipanteErrors: any = createSelector(
     getChatParticipanteState,
     (state: ChatParticipanteState) => state.errors
 );

@@ -10,7 +10,7 @@ export const getDocumentoEditJuntadaAppState = createFeatureSelector<DocumentoEd
     'documento-edit-juntada-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditJuntadaAppState,
     (state: DocumentoEditJuntadaAppState) => state
 );

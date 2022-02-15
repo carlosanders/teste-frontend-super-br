@@ -9,7 +9,7 @@ export const getSetorListAppState = createFeatureSelector<SetorListAppState>(
     'admin-setor-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getSetorListAppState,
     (state: SetorListAppState) => state
 );

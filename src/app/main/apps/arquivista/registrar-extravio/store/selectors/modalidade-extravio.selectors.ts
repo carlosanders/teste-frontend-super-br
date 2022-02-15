@@ -7,28 +7,28 @@ import {getRegistrarExtravioAppState, ModalidadeExtravioState, RegistrarExtravio
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 
-export const getModalidadeExtravioState = createSelector(
+export const getModalidadeExtravioState: any = createSelector(
     getRegistrarExtravioAppState,
     (state: RegistrarExtravioAppState) => state.modalidadeExtravio
 );
 
-export const getModalidadeTransicaoId = createSelector(
+export const getModalidadeTransicaoId: any = createSelector(
     getModalidadeExtravioState,
     (state: ModalidadeExtravioState) => state.modalidadeTransicaoId
 );
 
-export const getModalidadeTransicao = createSelector(
+export const getModalidadeTransicao: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModalidadeTransicaoId,
     schemaSelectors.entityProjector
 );
 
-export const getModalidadeTransicaoLoaded = createSelector(
+export const getModalidadeTransicaoLoaded: any = createSelector(
     getModalidadeExtravioState,
     (state: ModalidadeExtravioState) => state.loaded
 );
 
-export const getIsLoadingModalidadeTransicao = createSelector(
+export const getIsLoadingModalidadeTransicao: any = createSelector(
     getModalidadeExtravioState,
     (state: ModalidadeExtravioState) => state.loading
 );

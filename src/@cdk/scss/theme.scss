@@ -1,5 +1,6 @@
 @import "../components/countdown/countdown.theme";
 @import "../components/material-color-picker/material-color-picker.theme";
+@import "../components/barra-pesquisa/barra-pesquisa.theme";
 @import "../components/search-bar/search-bar.theme";
 @import "../components/shortcuts/shortcuts.theme";
 @import "../components/sidebar/sidebar.theme";
@@ -16,6 +17,7 @@
     @include typography-theme($theme);
 
     // Theming for Cdk components
+    @include barra-pesquisa-theme($theme);
     @include cdk-countdown-theme($theme);
     @include cdk-search-bar-theme($theme);
     @include cdk-shortcuts-theme($theme);

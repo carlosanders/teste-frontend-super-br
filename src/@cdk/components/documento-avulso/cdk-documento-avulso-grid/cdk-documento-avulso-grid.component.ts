@@ -257,7 +257,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'visualizar'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -291,6 +291,9 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     @Output()
     responder = new EventEmitter<number[]>();
+
+    @Output()
+    visualizar = new EventEmitter<DocumentoAvulso>();
 
     dataSource: DocumentoAvulsoDataSource;
 
@@ -340,6 +343,8 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -529,4 +534,8 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     getMessageError(obj): any {
         return obj?.error?.error?.message;
    }
+
+    visualizarDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
+        this.visualizar.emit(documentoAvulso);
+    }
 }

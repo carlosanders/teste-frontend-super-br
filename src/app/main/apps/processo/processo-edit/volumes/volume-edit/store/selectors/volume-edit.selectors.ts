@@ -6,33 +6,33 @@ import {volume as volumeSchema} from '@cdk/normalizr';
 
 const schemaVolumeSelectors = createSchemaSelectors<Volume>(volumeSchema);
 
-export const getVolumeEditState = createSelector(
+export const getVolumeEditState: any = createSelector(
     getVolumeEditAppState,
     (state: VolumeEditAppState) => state.volume
 );
 
-export const getVolumeId = createSelector(
+export const getVolumeId: any = createSelector(
     getVolumeEditState,
     (state: VolumeEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVolume = createSelector(
+export const getVolume: any = createSelector(
     schemaVolumeSelectors.getNormalizedEntities,
     getVolumeId,
     schemaVolumeSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVolumeEditState,
     (state: VolumeEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVolumeEditState,
     (state: VolumeEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVolumeEditState,
     (state: VolumeEditState) => state.errors
 );

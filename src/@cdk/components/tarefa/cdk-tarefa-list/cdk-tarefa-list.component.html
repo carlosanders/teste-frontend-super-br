@@ -2,13 +2,15 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
-        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"></cdk-tarefa-filter>
+        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
+                           [arrayFiltrosEtiquetas]="arraySearchTypes"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <div class="header">
 
         <mat-checkbox class="ml-8" (click)="toggleSelectAll($event)"
+                      *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'"
                       [checked]="!!selectedIds.length"
                       [indeterminate]="isIndeterminate">
         </mat-checkbox>
@@ -28,7 +30,7 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira' && targetHandle !== 'outros-usuarios'">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira' && targetHandle !== 'outros-usuarios'">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -42,13 +44,13 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
+                *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && selectedIds?.length > 1 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
         <mat-menu #moreMenu="matMenu">
 
-            <ng-template [ngIf]="targetHandle !== 'lixeira'">
+            <ng-template [ngIf]="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'">
                 <button mat-menu-item aria-label="apagar"
                         (click)="doDeleteTarefaBloco()">
                     <ng-container>
@@ -112,11 +114,17 @@
                     </ng-container>
                 </button>
                 <mat-menu fxHide #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doMinutas()">
+                        Gerenciar
+                    </button>
                     <button mat-menu-item (click)="doUploadBloco()">
                         Upload
                     </button>
                     <button mat-menu-item (click)="doEditorBloco()">
                         Editor
+                    </button>
+                    <button mat-menu-item (click)="doAssinaMinutas()">
+                        Assinar
                     </button>
                 </mat-menu>
 
@@ -139,7 +147,7 @@
                 <ng-template #dynamicComponent></ng-template>
             </ng-template>
 
-            <ng-template [ngIf]="targetHandle === 'lixeira'">
+            <ng-template [ngIf]="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle === 'lixeira'">
                 <button mat-menu-item aria-label="restaurar"
                         (click)="doRestaurarBloco()">
                     <ng-container>
@@ -222,7 +230,7 @@
          cdkPerfectScrollbar
          infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="5"
+         [infiniteScrollDistance]="3"
          [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
@@ -243,21 +251,31 @@
                  class="drag-tarefa"
                  [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
+                 [dndDisableIf]="typeHandle === 'concluidas' || typeHandle === 'enviadas'"
                  (dndEnd)="onCancelDrag($event)"
                  (dndCopied)="onCopied($event, tarefa)"
                  (dndStart)="onStartDrag($event, tarefa)">
-                <cdk-tarefa-list-item
+                <cdk-tarefa-list-item #tarefaListItems
                     [tarefa]="tarefa"
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
+                    [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
                     [displayedCampos]="displayedCampos"
                     (click)="selectTarefa($event, tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
-                    [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1 || assinandoTarefasEletronicamenteIds.length > 0 && assinandoTarefasEletronicamenteIds.indexOf(tarefa.id) > -1"
+                    [savingComponentesDigitais]="savingComponentesDigitaisIds.length > 0 && savingComponentesDigitaisIds.indexOf(tarefa.id) > -1"
+                    [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
+                    [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1"
                     [countSelected]="selectedIds.length"
                     [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
+                    [alterandoDocumentosId]="alterandoDocumentosId"
+                    [assinandoDocumentosId]="assinandoDocumentosId"
+                    [convertendoDocumentosId]="convertendoDocumentosId"
+                    [deletingDocumentosId]="deletingDocumentosId"
+                    [downloadP7SDocumentoIds]="downloadP7SDocumentoIds"
+                    [removendoAssinaturaDocumentosId]="removendoAssinaturaDocumentosId"
                     (toggleInSelectedTarefas)="toggleInSelected($event)"
                     (delete)="doDeleteTarefa($event)"
                     (restauraTarefa)="doRestauraTarefa($event)"
@@ -271,22 +289,39 @@
                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
-                    (assinaMinutas)="doAssinaMinutas($event)"
+                    (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                    (aprovaDocumento)="doAprovaDocumento($event)"
+                    (assinaDocumento)="doAssinaDocumento($event)"
+                    (converteHtml)="doConverteHtml($event)"
+                    (convertePdf)="doConvertePdf($event)"
+                    (deleteDocumento)="doDeleteDocumento($event)"
+                    (downloadP7S)="doDownloadP7S($event)"
+                    (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
+                    (uploadAnexos)="doUploadAnexos($event)"
+                    (verResposta)="doVerResposta($event)"
                     [ngClass]="{
                         'selected':tarefa.id === currentTarefaId,
                         'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
                     }"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     (loadInteressados)="doLoadInteressados($event)"
+                    (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                    (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                    (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
                     [savingObservacao]="savingObservacao"
+                    [targetHandle]="targetHandle"
+                    [typeHandle]="typeHandle"
+                    (addEtiqueta)="doAddEtiqueta($event)"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
-                >
+                    (erroUpload)="onErroUpload($event)"
+                    (completed)="onComplete($event)"
+                    (completedAll)="onCompleteAll($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

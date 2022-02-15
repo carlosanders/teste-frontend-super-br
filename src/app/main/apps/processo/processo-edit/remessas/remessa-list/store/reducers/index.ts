@@ -10,7 +10,7 @@ export const getRemessaListAppState = createFeatureSelector<RemessaListAppState>
     'remessa-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRemessaListAppState,
     (state: RemessaListAppState) => state
 );

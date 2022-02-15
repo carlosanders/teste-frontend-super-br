@@ -5,7 +5,6 @@ import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
 import {getLoginAppState} from 'app/main/auth/login/store';
-import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store';
 import {LoginService} from './login.service';
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit {
     errorMessage$: Observable<any>;
     loadingConfig$: Observable<boolean>;
     loading$: Subject<boolean> = new Subject<boolean>();
-    certificadoDigital = '';
     routerState: any;
 
     config$: Observable<any>;
@@ -131,13 +129,12 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.nome = config.name;
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
-            localStorage.setItem('barramento', config.barramento);
+            this.cdkConfigService.assinadorVersion = config.assinador;
             this.cdkConfigService.email = config.email;
+            this.cdkConfigService.ldap = config.ldap;
+            localStorage.setItem('barramento', config.barramento);
+            localStorage.setItem('assinadorVersion', config.assinador);
         });
-
-        if (environment.base_url_x509) {
-            this.certificadoDigital = environment.base_url_x509;
-        }
 
         if (this.routerState.queryParams['token'] &&
             this.routerState.queryParams['exp'] &&
@@ -156,6 +153,11 @@ export class LoginComponent implements OnInit {
                 redirect: true
             }));
         }
+
+        // BC
+        if (this._loginService.getLoginType() === 'externo') {
+            this._loginService.setLoginType('interno');
+        }
     }
 
     reloadConfig(): void {
@@ -164,14 +166,14 @@ export class LoginComponent implements OnInit {
 
     onSubmit(values): void {
         this.loading$.next(true);
-        if (values.tipoLogin === 'externo') {
-            this.onSubmitExterno(values);
+        if (values.tipoLogin === 'interno') {
+            this.onSubmitInterno(values);
         } else if (values.tipoLogin === 'ldap') {
             this.onSubmitLdap(values);
         }
     }
 
-    onSubmitExterno(values): void {
+    onSubmitInterno(values): void {
         const payload = {
             username: values.username.replace(/\D/g, ''),
             password: values.password

@@ -15,6 +15,7 @@ import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-dig
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import * as fromGuards from './store/guards';
 import {CdkComponenteDigitalFormModule} from '@cdk/components/componente-digital/cdk-componente-digital-form/cdk-componente-digital-form.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
     {
@@ -51,6 +52,7 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalCardListModule,
         CdkComponenteDigitalGridModule,
         CdkComponenteDigitalFormModule,
+        MatProgressSpinnerModule,
     ],
     providers: [
         DocumentoService,

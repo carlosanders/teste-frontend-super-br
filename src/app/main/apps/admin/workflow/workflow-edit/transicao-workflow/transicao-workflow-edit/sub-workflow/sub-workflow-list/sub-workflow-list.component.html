@@ -1,0 +1,18 @@
+<div class="content">
+    <cdk-vinculacao-transicao-workflow-grid
+            [loading]="(loading$ | async)"
+            [vinculacoesTransicaoWorkflow]="(vinculacoesTransicaoWorkflow$ | async)"
+            [deletingIds]="(deletingIds$ | async)"
+            [deletingErrors]="(deletingErrors$ | async)"
+            [deletedIds]="(deletedIds$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [displayedColumns]="['id', 'workflow.nome', 'transicaoWorkflow.workflow.nome', 'transicaoWorkflow.especieTarefaFrom.nome', 'transicaoWorkflow.especieTarefaTo.nome', 'transicaoWorkflow.especieAtividade.nome', 'actions']"
+            [actions]="['create', 'delete', 'actions']"
+            (cancel)="cancel()"
+            (reload)="reload($event)"
+            (edit)="edit($event)"
+            (create)="create()"
+            (delete)="delete($event)"
+            (deleteBlocoEmmitter)="deleteBloco($event)">
+    </cdk-vinculacao-transicao-workflow-grid>
+</div>

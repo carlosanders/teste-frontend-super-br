@@ -3,7 +3,7 @@
     [modelos]="(modelos$ | async)"
     [total]="(pagination$ | async)?.total"
     [actions]="['select']"
-    [mode]="'search'"
+    [mode]="'documento-avulso'"
     [documento]="true"
     (selected)="doSelect($event)"
     (reload)="reload($event)">

@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <input matInput placeholder="Espécie da Atividade"
@@ -77,7 +77,7 @@
             <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefa')">
             </cdk-tarefa-autocomplete>
         </mat-form-field>
-        
+
         <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
@@ -160,7 +160,7 @@
                              (filtra)="this.filtraApagadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
-        
+
     </form>
 </div>
 

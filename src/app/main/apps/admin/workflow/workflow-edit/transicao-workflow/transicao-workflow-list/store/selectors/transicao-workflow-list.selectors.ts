@@ -7,48 +7,48 @@ import {TransicaoWorkflow} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<TransicaoWorkflow>(transicaoWorkflowSchema);
 
-export const getTransicaoWorkflowListState = createSelector(
+export const getTransicaoWorkflowListState: any = createSelector(
     getTransicaoWorkflowListAppState,
     (state: TransicaoWorkflowListAppState) => state.transicaoWorkflowList
 );
 
-export const getWorkflowListIds = createSelector(
+export const getWorkflowListIds: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.entitiesId
 );
 
-export const getTransicaoWorkflowList = createSelector(
+export const getTransicaoWorkflowList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getWorkflowListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.pagination
 );
 
-export const getWorkflowListLoaded = createSelector(
+export const getWorkflowListLoaded: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getTransicaoWorkflowListState,
     (state: TransicaoWorkflowListState) => state.deletingErrors
 );

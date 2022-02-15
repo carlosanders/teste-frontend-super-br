@@ -132,12 +132,6 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 role: 'ROLE_COLABORADOR'
             },
             {
-                index: 100,
-                nome: 'Garantias',
-                link: 'garantias',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
                 index: 110,
                 nome: 'Tarefas',
                 link: 'tarefas',
@@ -191,7 +185,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

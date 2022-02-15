@@ -10,33 +10,33 @@ import {Repositorio} from '@cdk/models';
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(schemaRepositorio);
 
-export const getRepositoriosState = createSelector(
+export const getRepositoriosState: any = createSelector(
     getDocumentoAvulsoEditInteligenciaAppState,
     (state: DocumentoAvulsoEditInteligenciaAppState) => state.repositorios
 );
 
-export const getRepositoriosIds = createSelector(
+export const getRepositoriosIds: any = createSelector(
     getRepositoriosState,
     (state: RepositoriosState) => state.entitiesId
 );
 
-export const getRepositorios = createSelector(
+export const getRepositorios: any = createSelector(
     schemaRepositorioSelectors.getNormalizedEntities,
     getRepositoriosIds,
     schemaRepositorioSelectors.entitiesProjector
 );
 
-export const getRepositoriosPagination = createSelector(
+export const getRepositoriosPagination: any = createSelector(
     getRepositoriosState,
     (state: RepositoriosState) => state.pagination
 );
 
-export const getRepositoriosIsLoading = createSelector(
+export const getRepositoriosIsLoading: any = createSelector(
     getRepositoriosState,
     (state: RepositoriosState) => state.loading
 );
 
-export const getRepositoriosLoaded = createSelector(
+export const getRepositoriosLoaded: any = createSelector(
     getRepositoriosState,
     (state: RepositoriosState) => state.loaded
 );

@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, distinctUntilKeyChanged, filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'setor-list',
@@ -27,6 +27,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class SetorListComponent implements OnInit, OnDestroy {
 
+    unidade$: Observable<Setor>;
+    unidade: Setor;
     routerState: any;
     setores$: Observable<Setor[]>;
     loading$: Observable<boolean>;
@@ -48,6 +50,7 @@ export class SetorListComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _store: Store<fromStore.SetorListAppState>,
     ) {
+        this.unidade$ = this._store.pipe(select(fromStore.getCurrentUnidade));
         this.setores$ = this._store.pipe(select(fromStore.getSetorList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -69,10 +72,29 @@ export class SetorListComponent implements OnInit, OnDestroy {
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+        this.unidade$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(unidade => !!unidade),
+            distinctUntilKeyChanged('id')
+        ).subscribe((unidade) => {
+            if (!this.unidade || unidade.id !== this.unidade.id) {
+                this.reload({
+                    filter: {
+                        'unidade.id': 'eq:' + unidade.id,
+                        'parent': 'isNotNull'
+                    },
+                    gridFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {id: 'DESC'},
+                });
+            }
+            this.unidade = unidade;
+        });
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadSetores());
     }
@@ -82,12 +104,19 @@ export class SetorListComponent implements OnInit, OnDestroy {
     }
 
     reload(params): void {
+        let filters = {};
+        if (params.filter) {
+            filters = {
+                ...params.filter
+            };
+        } else {
+            filters = {
+                ...this.pagination.filter
+            };
+        }
         this._store.dispatch(new fromStore.GetSetores({
             ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-                parent: 'isNotNull'
-            },
+            filter: filters,
             gridFilter: {
                 ...params.gridFilter
             },

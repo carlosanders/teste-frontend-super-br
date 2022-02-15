@@ -7,17 +7,17 @@ import {Processo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessoDownloadState = createSelector(
+export const getProcessoDownloadState: any = createSelector(
     getProcessoDownloadAppState,
     (state: ProcessoDownloadAppState) => state.processoDownload
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoDownloadState,
     (state: ProcessoDownloadState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoDownloadState,
     (state: ProcessoDownloadState) => state.errors
 );

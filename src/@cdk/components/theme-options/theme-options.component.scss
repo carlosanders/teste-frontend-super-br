@@ -46,8 +46,8 @@ cdk-theme-options {
                 flex-direction: column;
                 position: relative;
                 border-radius: 2px;
-                padding: 28px 16px 8px 16px;
-                margin: 16px 0;
+                padding: 28px 8px 8px 8px;
+                margin: 8px 0;
 
                 h2 {
                     position: absolute;
@@ -55,14 +55,14 @@ cdk-theme-options {
                     left: 8px;
                     margin: 0;
                     padding: 0 8px;
-                    font-size: 16px;
+                    font-size: 13px;
                     font-weight: 600;
                 }
 
                 h3 {
                     font-size: 14px;
                     font-weight: 600;
-                    margin: 24px 0 16px 0;
+                    margin: 24px 0 8px 0;
                     padding: 0;
 
                     &:first-of-type {

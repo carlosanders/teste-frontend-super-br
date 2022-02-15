@@ -6,27 +6,27 @@ import {Processo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessoState = createSelector(
+export const getProcessoState: any = createSelector(
     getEncaminhamentoAppState,
     (state: EncaminhamentoAppState) => state.processo
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.errors
 );
 
-export const getProcessosIdsEncaminhar = createSelector(
+export const getProcessosIdsEncaminhar: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.encaminhandoProcessosIds
 );
 
-export const getProcessosEncaminhamento = createSelector(
+export const getProcessosEncaminhamento: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getProcessosIdsEncaminhar,
     schemaSelectors.entitiesProjector

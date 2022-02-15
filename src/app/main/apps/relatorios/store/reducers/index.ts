@@ -12,7 +12,7 @@ export const getRelatoriosAppState = createFeatureSelector<RelatoriosAppState>(
     'relatorios-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRelatoriosAppState,
     (state: RelatoriosAppState) => state
 );

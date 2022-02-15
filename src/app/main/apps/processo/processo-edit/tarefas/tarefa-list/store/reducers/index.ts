@@ -10,7 +10,7 @@ export const getTarefaListAppState = createFeatureSelector<TarefaListAppState>(
     'tarefa-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaListAppState,
     (state: TarefaListAppState) => state
 );

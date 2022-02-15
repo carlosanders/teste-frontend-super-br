@@ -12,59 +12,59 @@ import {Documento} from '@cdk/models';
 const schemaRelatorioSelectors = createSchemaSelectors<Relatorio>(relatorioSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getRelatorioState = createSelector(
+export const getRelatorioState: any = createSelector(
     getRelatorioDetailAppState,
     (state: RelatorioDetailAppState) => state.relatorioDetail
 );
 
-export const getSavingVincEtiquetaId = createSelector(
+export const getSavingVincEtiquetaId: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.savingVincEtiquetaId
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.loading
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.loaded
 );
 
-export const getRelatorioId = createSelector(
+export const getRelatorioId: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.loaded ? state.loaded.value : null
 );
 
-export const getRelatorio = createSelector(
+export const getRelatorio: any = createSelector(
     schemaRelatorioSelectors.getNormalizedEntities,
     getRelatorioId,
     schemaRelatorioSelectors.entityProjector
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.errors
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getRelatorioState,
     (state: RelatorioDetailState) => state.documentosLoaded
 );

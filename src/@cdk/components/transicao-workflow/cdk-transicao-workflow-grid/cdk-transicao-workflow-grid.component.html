@@ -122,6 +122,14 @@
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, transicaoWorkflow.id)}"> {{transicaoWorkflow?.especieTarefaTo?.nome}} </td>
                 </ng-container>
+                <!--  Column -->
+                <ng-container matColumnDef="qtdDiasPrazo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Prazo Próxima Tarefa
+                    </th>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Prazo Próxima Tarefa: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, transicaoWorkflow.id)}"> {{transicaoWorkflow.qtdDiasPrazo}} dias </td>
+                </ng-container>
 
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
@@ -206,6 +214,15 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('sub-workflows') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"
+                                (click)="subWorkflowsList(transicaoWorkflow.id)"
+                                aria-label="Sub Workflows"
+                                matTooltip="Sub Workflows">
+                            <mat-icon>low_priority</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('actions') > -1"
                                 [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1 && !hasExcluded"
                                 (click)="acaoTransicaoWorkflowList(transicaoWorkflow.id)"
@@ -263,7 +280,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

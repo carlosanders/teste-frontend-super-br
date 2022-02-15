@@ -34,6 +34,9 @@ export class ComponenteDigital {
     @Exclude({toPlainOnly: true})
     unsafe?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    hasBookmark?: boolean;
+
     fileName?: string;
 
     @Exclude({toPlainOnly: true})
@@ -63,6 +66,9 @@ export class ComponenteDigital {
 
     failUpload?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    statusVerificacaoVirus?: number;
+
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraSoftwareCriacao?: moment.Moment;
@@ -78,6 +84,10 @@ export class ComponenteDigital {
     @Type(() => ModalidadeTipoInibidor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeTipoInibidor?: ModalidadeTipoInibidor;
+
+    @Type(() => ComponenteDigital)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    componenteDigitalOrigem?: ComponenteDigital;
 
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -196,8 +206,10 @@ export class ComponenteDigital {
         this.convertidoPdf = null;
         this.assinado = null;
         this.unsafe = null;
+        this.hasBookmark = null;
         this.modalidadeAlvoInibidor = null;
         this.modalidadeTipoInibidor = null;
+        this.componenteDigitalOrigem = null;
         this.modelo = null;
         this.documento = null;
         this.origemDados = null;
@@ -218,5 +230,6 @@ export class ComponenteDigital {
         this.sub = null;
         this.complete = null;
         this.tipoDocumento = null;
+        this.statusVerificacaoVirus = null;
     }
 }

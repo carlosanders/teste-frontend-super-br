@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ContatoListActions from '../actions';
@@ -57,8 +57,8 @@ export class ContatoListEffect {
                             new ContatoListActions.GetContatoSuccess({
                                 entitiesId: response['entities'].map(contato => contato.id),
                                 loaded: {
-                                    id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: 'grupoContatoHandle',
+                                    value: response['entities'][0]
                                 },
                                 total: response['total']
                             })

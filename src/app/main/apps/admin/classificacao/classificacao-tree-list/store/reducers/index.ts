@@ -9,7 +9,7 @@ export const getClassificacaoTreeListAppState = createFeatureSelector<Classifica
     'classificacao-tree-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getClassificacaoTreeListAppState,
     (state: ClassificacaoTreeListAppState) => state
 );

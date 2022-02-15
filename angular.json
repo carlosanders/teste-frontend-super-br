@@ -23,6 +23,7 @@
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
@@ -31,6 +32,16 @@
                                 "glob": "**/*",
                                 "input": "node_modules/monaco-editor",
                                 "output": "assets/monaco-editor"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                                "output": "/assets/"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
+                                "output": "/bleeding-edge/"
                             }
                         ],
                         "styles": [
@@ -49,7 +60,8 @@
                             "date-fns",
                             "@mattlewis92/dom-autoscroller",
                             "dom-plane",
-                            "dom-set"
+                            "dom-set",
+                            "crypto-js"
                         ]
                     },
                     "configurations": {
@@ -58,7 +70,8 @@
                             "optimization": false,
                             "vendorChunk": true,
                             "extractLicenses": false,
-                            "sourceMap": true
+                            "sourceMap": true,
+                            "namedChunks": true
                         },
                         "production": {
                             "fileReplacements": [

@@ -140,27 +140,7 @@ export class DocumentosVinculadosEffect {
             ), 25
         )
     ));
-    /**
-     * Assina Documento Vinculado
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoVinculadoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 2000);
-            }
-        })
-    ), {dispatch: false});
     /**
      * Save Documento Assinatura Eletronica
      *

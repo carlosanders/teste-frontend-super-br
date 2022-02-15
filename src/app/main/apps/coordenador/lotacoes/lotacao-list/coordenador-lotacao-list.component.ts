@@ -104,7 +104,7 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadLotacoes());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

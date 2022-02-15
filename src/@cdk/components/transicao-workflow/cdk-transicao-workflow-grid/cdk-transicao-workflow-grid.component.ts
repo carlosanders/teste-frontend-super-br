@@ -48,7 +48,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'qtdDiasPrazo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -74,6 +74,11 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         {
             id: 'especieTarefaTo.nome',
             label: 'Espécie Tarefa To',
+            fixed: false
+        },
+        {
+            id: 'qtdDiasPrazo',
+            label: 'Prazo Próxima Tarefa',
             fixed: false
         },
         {
@@ -128,7 +133,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'regras', 'actions'];
+    actions: string[] = ['edit', 'delete', 'select', 'regras', 'actions', 'sub-workflows'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -153,6 +158,9 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    subWorkflows = new EventEmitter<number>();
 
     @Output()
     deleteBlocoEmmitter = new EventEmitter<number[]>();
@@ -205,6 +213,8 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -297,6 +307,10 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
 
     acaoTransicaoWorkflowList(transicaoWorkflowId): void {
         this.acoes.emit(transicaoWorkflowId);
+    }
+
+    subWorkflowsList(transicaoWorkflowId: number): void {
+        this.subWorkflows.emit(transicaoWorkflowId);
     }
 
     salvarFavorito(favorito): void {

@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
@@ -129,7 +129,7 @@
                          formControlName="distribuicaoCentena"
                          aria-labelledby="Tipo Prevenção Absoluta">
             <div class="start center mat-form-field-wrapper">
-                <label id="distribuicaoCentena" class="mr-16 flex legenda">Tipo Prevenção Absoluta</label>
+                <label id="distribuicaoCentena" class="mr-8 flex legenda">Tipo Prevenção Absoluta</label>
                 <mat-radio-button [value]="false">
                     DÍGITO
                 </mat-radio-button>
@@ -147,7 +147,7 @@
                          formControlName="prazoEqualizacao"
                          aria-labelledby="Prazo Máximo Equalização">
             <div class="start center mat-form-field-wrapper">
-                <label id="prazoEqualizacao" class="mr-16 flex legenda">Prazo Máximo Equalização </label>
+                <label id="prazoEqualizacao" class="mr-8 flex legenda">Prazo Máximo Equalização </label>
                 <mat-radio-button [value]="7">
                     7 DIAS
                 </mat-radio-button>
@@ -165,7 +165,7 @@
                          formControlName="divergenciaMaxima"
                          aria-labelledby="Divergência Máxima Diária">
             <div class="start center mat-form-field-wrapper">
-                <label id="divergenciaMaxima" class="mr-16 flex legenda">Divergência Máxima Diária </label>
+                <label id="divergenciaMaxima" class="mr-8 flex legenda">Divergência Máxima Diária </label>
                 <mat-radio-button [value]="25">
                     PEQUENA
                 </mat-radio-button>

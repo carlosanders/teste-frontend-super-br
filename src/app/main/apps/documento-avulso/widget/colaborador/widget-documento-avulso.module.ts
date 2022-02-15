@@ -8,6 +8,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {MatCardModule} from '@angular/material/card';
+import {RouterModule} from "@angular/router";
+import {MatButtonModule} from "@angular/material/button";
+
 
 @NgModule({
     declarations: [
@@ -20,6 +23,8 @@ import {MatCardModule} from '@angular/material/card';
         MatProgressSpinnerModule,
         MatIconModule,
         MatCardModule,
+        RouterModule,
+        MatButtonModule,
     ],
     providers: [
         DocumentoAvulsoService,

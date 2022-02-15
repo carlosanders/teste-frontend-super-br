@@ -21,7 +21,7 @@ export interface ComponenteDigitalState {
     repositorio: string;
 }
 
-export const ComponenteDigitalInitialState: ComponenteDigitalState = {
+export const componenteDigitalInitialState: ComponenteDigitalState = {
     entitiesId: [],
     pagination: {
         limit: 10,
@@ -42,7 +42,10 @@ export const ComponenteDigitalInitialState: ComponenteDigitalState = {
     deletingIds: []
 };
 
-export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
+export const componenteDigitalReducer = (
+    state = componenteDigitalInitialState,
+    action: ComponenteDigitalActions.ComponenteDigitalActionsAll
+): ComponenteDigitalState => {
     switch (action.type) {
 
         case ComponenteDigitalActions.RELOAD_COMPONENTES_DIGITAIS: {
@@ -132,7 +135,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             return {
                 ...state,
                 componenteDigitalId: null,
-                loading: action.payload.repositorioId,
+                loading: true,
                 saving: false,
                 errors: false
             };
@@ -142,7 +145,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             return {
                 ...state,
                 componenteDigitalId: action.payload.componenteDigitalId,
-                loading: null,
+                loading: false,
                 loaded: action.payload.repositorioId,
                 saving: false,
                 errors: false
@@ -153,7 +156,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             return {
                 ...state,
                 componenteDigitalId: null,
-                loading: null,
+                loading: false,
                 loaded: null,
                 saving: false,
                 errors: action.payload
@@ -219,4 +222,4 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         default:
             return state;
     }
-}
+};

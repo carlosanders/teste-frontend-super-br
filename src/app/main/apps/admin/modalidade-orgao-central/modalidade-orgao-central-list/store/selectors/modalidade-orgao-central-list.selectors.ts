@@ -11,38 +11,38 @@ import {ModalidadeOrgaoCentral} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(modalidadeOrgaoCentralSchema);
 
-export const getModalidadeOrgaoCentralListState = createSelector(
+export const getModalidadeOrgaoCentralListState: any = createSelector(
     getModalidadeOrgaoCentralListAppState,
     (state: ModalidadeOrgaoCentralListAppState) => state.modalidadeOrgaoCentralList
 );
 
-export const getModalidadeOrgaoCentralListIds = createSelector(
+export const getModalidadeOrgaoCentralListIds: any = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.entitiesId
 );
 
-export const getModalidadeOrgaoCentralList = createSelector(
+export const getModalidadeOrgaoCentralList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.pagination
 );
 
-export const getModalidadeOrgaoCentralListLoaded = createSelector(
+export const getModalidadeOrgaoCentralListLoaded: any = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.deletingErrors
 );

@@ -7,53 +7,53 @@ import {Assunto} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Assunto>(assuntoSchema);
 
-export const getAssuntoState = createSelector(
+export const getAssuntoState: any = createSelector(
     getDadosBasicosAppState,
     (state: DadosBasicosAppState) => state.assuntos
 );
 
-export const getAssuntosIds = createSelector(
+export const getAssuntosIds: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.entitiesId
 );
 
-export const getAssuntos = createSelector(
+export const getAssuntos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAssuntosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getAssuntosPagination = createSelector(
+export const getAssuntosPagination: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.pagination
 );
 
-export const getAssuntosLoaded = createSelector(
+export const getAssuntosLoaded: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.loaded
 );
 
-export const getAssuntosIsLoading = createSelector(
+export const getAssuntosIsLoading: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.loading
 );
 
-export const getAssuntosDeletingIds = createSelector(
+export const getAssuntosDeletingIds: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.deletingIds
 );
 
-export const getAssuntosDeletedIds = createSelector(
+export const getAssuntosDeletedIds: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.deletedIds
 );
 
-export const getAssuntoIsSaving = createSelector(
+export const getAssuntoIsSaving: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.saving
 );
 
-export const getAssuntoErrors = createSelector(
+export const getAssuntoErrors: any = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.errors
 );

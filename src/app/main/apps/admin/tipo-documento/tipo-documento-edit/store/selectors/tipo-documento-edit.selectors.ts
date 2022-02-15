@@ -6,33 +6,33 @@ import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 
 const schemaTipoDocumentoSelectors = createSchemaSelectors<TipoDocumento>(tipoDocumentoSchema);
 
-export const getTipoDocumentoEditState = createSelector(
+export const getTipoDocumentoEditState: any = createSelector(
     getTipoDocumentoEditAppState,
     (state: TipoDocumentoEditAppState) => state.tipoDocumento
 );
 
-export const getTipoDocumentoId = createSelector(
+export const getTipoDocumentoId: any = createSelector(
     getTipoDocumentoEditState,
     (state: TipoDocumentoEditState) => state.entityId
 );
 
-export const getTipoDocumento = createSelector(
+export const getTipoDocumento: any = createSelector(
     schemaTipoDocumentoSelectors.getNormalizedEntities,
     getTipoDocumentoId,
     schemaTipoDocumentoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTipoDocumentoEditState,
     (state: TipoDocumentoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTipoDocumentoEditState,
     (state: TipoDocumentoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTipoDocumentoEditState,
     (state: TipoDocumentoEditState) => state.errors
 );

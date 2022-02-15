@@ -9,7 +9,7 @@ export const getUsuariosListAppState = createFeatureSelector<UsuariosListAppStat
     'coordenador-usuarios-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getUsuariosListAppState,
     (state: UsuariosListAppState) => state
 );

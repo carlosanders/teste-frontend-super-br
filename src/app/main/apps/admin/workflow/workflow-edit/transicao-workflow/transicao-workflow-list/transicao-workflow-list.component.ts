@@ -11,9 +11,9 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {TransicaoWorkflow} from '@cdk/models/transicao-workflow.model';
-import {Back, getRouterState} from '../../../../../../../store';
+import {Back, getRouterState} from 'app/store';
 import {cdkAnimations} from '@cdk/animations';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -70,7 +70,7 @@ export class TransicaoWorkflowListComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -103,6 +103,10 @@ export class TransicaoWorkflowListComponent implements OnInit, OnDestroy {
 
     acoes(transicaoWorkflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/acoes']).then();
+    }
+
+    subWorkflows(transicaoWorkflowId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/sub-workflows/listar']).then();
     }
 
     create(): void {

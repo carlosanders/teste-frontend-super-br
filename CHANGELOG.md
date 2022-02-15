@@ -707,3 +707,74 @@
 * Correção rota incorreta ao tentar excluir restrição de acesso de documentos no editor
 * Correção em url do editor devido a um bug no escape de caracteres especiais do angular
 * Melhoria iniciando processo de remoção de populate desnecessário de juntadaAtual na visualização de processo
+* Correção ao editar tarefa, distribuição automática virá desmarcada
+
+1.8.0
+
+* Melhoria implementado painel para gerenciar minutas de tarefas selecionadas
+* Correção em erro ao alterar visualização do editor de documentos avulsos para processo, e depois retornar para visualização do conteúdo do documento avulso
+* Correção de erro ao fechar editor de minutas em uma determinada rota da aplicação
+* Melhoria para realizar preloading nas listas de tarefas e juntadas
+* Melhoria para consta primeira e ultima paginas nas paginacoes
+* Correção Sistema está permitindo selecionar e salvar um usuário com nível de acesso negativo #690
+* Melhoria inclusão do menu histórico nas Configurações do usuário
+* Correção adicionada importação de OnInit ao cdk-aviso-form
+* Melhoria adicionado evento StartedUpload que é disparado quando componente de upload inicia o envio dos arquivos
+* Melhoria botão "Desvincular" dentro de anexos do editor quando for juntada com vinculação
+* Melhoria na ux do painel de minutas, agora agrupado por NUPs
+* Correção excluir documento(s) de dentro do painel de minutas atualiza as etiquetas da(s) tarefa(s) relacionada(s) na listagem
+* Correção adicionar minutas em bloco (por upload ou por modelo) atualiza as etiquetas das tarefas relacionadas na listagem
+* Correção adicionada paginação individual por NUP ao painel de minutas
+* Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
+* Correção no Compartilhamento de Tarefas em Bloco
+* Correção validação do Form Alterar Tipo de Documento Minuta antes de habilitar o salvamento
+* Correção nas rotas das ações no Painel de Tarefas
+* Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade
+* Correção erro de inconsistência grave detectada ao tentar restaurar um ofício apagado #717
+* Melhoria inclusão do botão para Habilitar a Consulta Público de Processos ao Cidadão
+* Correção componentes digitais grid para utilizar a classe correta de css nos métodos que utilizavam um seletor
+* Melhoria painel de minutas corrigido agrupamento, agora agrupando por tarefas dentro do agrupamento por processo
+* Melhoria grid de modelos agora também utiliza corretamente o modo search, que deixa a sidebar lockedOpen
+* Correção componente de editor de minuta com base em modelo agora é aberto no contexto da edição de tarefa, e não da visualização do processo
+* Correção na rota utilizada para abrir o editor de minutas de dentro do componente de modelos
+* Melhoria alterada forma utilizada para atualizar as etiquetas das tarefas após exclusão de minuta(s)
+* Melhoria criação de minutas em bloco com base em modelos agora também permite pesquisar modelos ou componentes digitais, seguindo o que já ocorria para tarefa individual
+* Correção na rota de abertura de editor após criação de minuta com base em modelo
+* Melhoria assinatura, assinatura eletrônica e remover assinatura passam a ocorrer através de um evento global e único no sistema
+* Melhoria implementadas ações sobre minutas diretamente do painel de tarefas
+* Refatoramento em todo o sistema e módulos para padronização e utilização dos eventos globais de assinaturas
+* Correção de problema no dialog de uploads sendo aberto em uma minuta sem anexos
+* Melhoria implementada função de assinar em bloco todas as minutas das tarefas selecionadas
+* Correção em paginação do dialog de uploads após conclusão de um upload
+* Correção nos guardas de rota de movimentar/movimentar em bloco, que agora traz todos os documentos da(s) tarefa(s)
+* Melhoria garantindo sincronia entre etiqueta da tarefa e minuta após ações nos paineis de movimentação de tarefa
+* Melhoria implementada lixeira de minutas no painel de minutas 
+* Correção em problemas de sincronia entre as etiquetas de minutas no painel de tarefas e as minutas propriamente ditas
+* Correções no funcionamento do acervo de minutas
+* Correção na assinatura de minutas por dentro do editor de minutas
+* Correção na assinatura de minutas de tarefas em bloco
+* Correção em bugs na lixeira do painel de minutas
+* Melhoria barra de pesquisa rápida superior sempre aberta
+* Correção na abertura do editor de juntadas quando acessado de dentro do processo-edit
+* Correção na lixeira de minutas dentro do painel de minutas
+* Correção na exibição de conteúdo de uma juntada desentranhada por dentro do visualizador de processo
+* Melhoria na barra lateral de processos, exibindo o botão editar como um botão colapsável com todas as opções de edição do processo
+* Correção ao remover anexo de documentos no editor, o botão carregar mais aparece incorretamente
+* Correção de falha grave no editor ao assinar um anexo de dentro do editor de documentos
+* Correção ao remover um componente digital dentro do editor de documentos, ocorre erro 404 do backend
+* Correção ao adicionar componente digital, editor se comportava de forma incorreta
+* Correção ao remover componente digital que estava sendo exibido, editor não redirecionava a tela e tentava abrir componente inexistente
+* Correção no botão de próximo componente digital do editor, que em algumas situações pulava um componente digital
+* Correção no botão de componente digital anterior do editor, que não verificava se havia mudanças no editor antes de trocar de componente
+* Correção de css no formulário de novas tramitações em edição de processo
+* Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa
+* Correção em css de painel de coordenação relacionado a unidade/setores
+* Correção adicionado listener para eventos de assinatura dentro do editor, para atualizar o conteúdo do documento após assinatura com sucesso
+* Correção resposta de erro do backend de componente digital mata navegação da aplicação em definitivo
+* Correção trazendo de volta opção para criar etiquetas diretamente do local onde se adiciona etiquetas às tarefas conforme ux antiga
+* Correção em componente digital com erro de codificação quando componente era convertido de HTML para PDF por motivos de segurança
+* Correção acima também aplicada para anexos de documento e de documento-avulso
+* Correção adicionando ícone diferente para minutas editáveis e PDF
+* Correção de desaparecimento de mensagens de erros de upload poucos instantes após erro aparecer
+* Melhoria criação de marcadores de páginas para pdfs (bookmarks)
+* Correção para exibição de pds e arquivos para download dentro do editor

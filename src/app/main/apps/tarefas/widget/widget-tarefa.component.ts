@@ -21,8 +21,6 @@ import {getCounterState} from '../../../../store';
 import * as fromStore from 'app/store';
 import {CounterState} from '../../../../store/reducers/counter.reducer';
 import {CdkNavigationItem} from '../../../../../@cdk/types';
-import {modulesConfig} from "../../../../../modules/modules-config";
-import {keys} from "lodash-es";
 
 @Component({
     selector: 'widget-tarefa',
@@ -152,7 +150,7 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 }

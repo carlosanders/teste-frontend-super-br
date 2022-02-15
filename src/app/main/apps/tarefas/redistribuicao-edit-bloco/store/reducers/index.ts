@@ -10,7 +10,7 @@ export const getRedistribuicaoEditBlocoAppState = createFeatureSelector<Redistri
     'redistribuicao-edit-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRedistribuicaoEditBlocoAppState,
     (state: RedistribuicaoEditBlocoAppState) => state
 );

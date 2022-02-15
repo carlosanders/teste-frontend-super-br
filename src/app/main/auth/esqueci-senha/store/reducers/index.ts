@@ -10,7 +10,7 @@ export const getEsqueciSenhaAppState = createFeatureSelector<EsqueciSenhaAppStat
     'esqueci-senha-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEsqueciSenhaAppState,
     (state: EsqueciSenhaAppState) => state
 );

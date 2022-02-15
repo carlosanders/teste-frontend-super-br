@@ -2,10 +2,11 @@ cdk-tarefa-list-item {
 
     flex: 0 1 auto;
     display: flex;
-    padding: 16px 16px 16px 24px;
+    padding: 8px 8px 8px 24px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
+
 
     > .content {
         flex: 1 1 auto;
@@ -13,6 +14,12 @@ cdk-tarefa-list-item {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+
+        &.show-actions {
+            button.ferramentas {
+                display: block !important;
+            }
+        }
 
         .check {
             flex: 0 1 auto;
@@ -52,13 +59,13 @@ cdk-tarefa-list-item {
                 font-weight: bold;
             }
 
-            margin: 0 16px 0 8px;
+            margin: 0 8px 0 8px;
 
             .title {
                 flex: 1 1 auto;
                 display: flex;
                 flex-direction: row;
-                font-size: 15px;
+                font-size: 14px;
                 font-weight: 600;
             }
 
@@ -84,6 +91,14 @@ cdk-tarefa-list-item {
 
             .body {
                 margin-top: 6px;
+
+                > .search-wrapper {
+                    flex: 0 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
 
                 .observacao {
                     margin-left: 10px;
@@ -163,18 +178,19 @@ cdk-tarefa-list-item {
 
             .etiquetas {
                 flex: 1 1 auto;
-                display: flex;
+                display: none;
                 flex-direction: row;
                 flex-wrap: wrap;
-                margin-top: 8px;
+                margin-top: 6px;
 
                 .etiqueta {
                     font-size: 11px;
-                    border-radius: 4px;
                     margin-bottom: 4px;
                     margin-right: 4px;
                     padding: 3px 8px;
                     cursor: pointer;
+                    min-width: 90px;
+                    border-radius: 3px;
 
                     .etiqueta-color {
                         width: 8px;
@@ -184,12 +200,79 @@ cdk-tarefa-list-item {
                     }
                 }
             }
+
+            .etiquetas-minutas {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-top: 2px;
+
+                .etiqueta {
+                    display: flex;
+                    align-items: center;
+                    font-size: 11px;
+                    border: 1px solid;
+                    margin-right: 2px;
+                    padding: 3px 8px;
+                    cursor: pointer;
+                    max-height: 32px;
+                    align-self: center;
+                    margin-bottom: 2px;
+                    min-width: 90px;
+                    border-radius: 3px;
+
+                    > mat-icon.small {
+                        font-size: 16px;
+                        height: 16px;
+                        width: 16px;
+                        line-height: 22px;
+                        min-width: 16px;
+                    }
+
+                    > .mat-icon-button {
+                        width: 16px;
+                        max-width: 16px;
+                        font-size: 16px;
+
+                        mat-icon.small {
+                            font-size: 16px;
+                            height: 16px;
+                            width: 16px;
+                            line-height: 22px;
+                            min-width: 16px;
+                        }
+                    }
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+                .etiqueta-loading {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-size: 11px;
+                    border: 1px solid;
+                    margin-right: 2px;
+                    padding: 3px 8px;
+                    cursor: pointer;
+                    max-height: 32px;
+                    align-self: center;
+                    margin-bottom: 2px;
+                    min-width: 90px;
+                    border-radius: 3px;
+                }
+            }
         }
 
         .actions {
             flex: 0 1 auto;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
         }

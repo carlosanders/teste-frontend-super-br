@@ -9,7 +9,7 @@ export const getEspecieTarefaListAppState = createFeatureSelector<EspecieTarefaL
     'especie-tarefa-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEspecieTarefaListAppState,
     (state: EspecieTarefaListAppState) => state
 );

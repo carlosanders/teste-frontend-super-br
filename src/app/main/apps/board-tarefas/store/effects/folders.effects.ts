@@ -14,7 +14,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store';
+import {getRouterState} from 'app/store';
 
 @Injectable()
 export class FoldersEffect {
@@ -94,10 +94,9 @@ export class FoldersEffect {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow',
                             'workflow'
                         ],
-                        context: {}
+                        context: {'especieProcessoWorkflow': true}
                     },
                     nome: response.nome.toUpperCase(),
                     increment: false

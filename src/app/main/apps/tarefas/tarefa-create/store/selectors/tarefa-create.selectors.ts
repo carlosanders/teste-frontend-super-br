@@ -5,17 +5,17 @@ import {
     TarefaCreateState
 } from 'app/main/apps/tarefas/tarefa-create/store/reducers';
 
-export const getTarefaCreateState = createSelector(
+export const getTarefaCreateState: any = createSelector(
     getTarefaCreateAppState,
     (state: TarefaCreateAppState) => state.tarefa
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTarefaCreateState,
     (state: TarefaCreateState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTarefaCreateState,
     (state: TarefaCreateState) => state.errors
 );

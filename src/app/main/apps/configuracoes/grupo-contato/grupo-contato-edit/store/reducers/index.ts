@@ -10,7 +10,7 @@ export const getGrupoContatoEditAppState = createFeatureSelector<GrupoContatoEdi
     'grupo-contato-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getGrupoContatoEditAppState,
     (state: GrupoContatoEditAppState) => state
 );

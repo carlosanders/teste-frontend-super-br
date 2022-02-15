@@ -41,9 +41,6 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
     form: FormGroup;
 
     @Input()
-    certificadoDigital: string;
-
-    @Input()
     loading: boolean;
 
     @Input()
@@ -63,7 +60,7 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
         private _formBuilder: FormBuilder,
         public _loginService: LoginService
     ) {
-        const tipoLogin = this._loginService.getLoginType()?? 'externo';
+        const tipoLogin = this._loginService.getLoginType()?? 'interno';
 
         this.form = this._formBuilder.group({
             tipoLogin: [tipoLogin, [Validators.required]],
@@ -79,7 +76,7 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['config'] && this.config) {
             if (!this.config.ldap) {
-                this.form.get('tipoLogin').setValue('externo');
+                this.form.get('tipoLogin').setValue('interno');
             }
         }
 

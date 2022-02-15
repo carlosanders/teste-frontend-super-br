@@ -1,0 +1,20 @@
+<div class="content">
+    <h2 class="ml-8">Pesquisa no Acervo</h2>
+    <cdk-componente-digital-grid
+            [loading]="(loading$ | async)"
+            [componentesDigitais]="(componentesDigitais$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [mode]="'search'"
+            [saving]="(saving$ | async)"
+            [mobileMode]="mobileMode"
+            [displayedColumns]="['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions']"
+            [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
+            [actions]="['select']"
+            (selected)="doSelect($event)"
+            (reload)="reload($event)"
+            (edit)="edit($event)">
+    </cdk-componente-digital-grid>
+</div>
+<div class="footer">
+    <mat-error *ngIf="erro">{{erro}}</mat-error>
+</div>

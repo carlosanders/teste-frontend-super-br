@@ -15,9 +15,7 @@ import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
 import {
     GetDocumentos as GetDocumentosProcesso,
-    GetJuntadas,
-    UnloadDocumentos,
-    UnloadJuntadas
+    UnloadDocumentos
 } from '../../../../../processo/processo-view/store';
 import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 
@@ -46,7 +44,7 @@ export class AtividadeDocumentoEffects {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Atividade) => [
-                new AtividadeDocumentoActions.SaveAtividadeSuccess(response),
+                new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),
             catchError((err) => {
@@ -69,9 +67,9 @@ export class AtividadeDocumentoEffects {
         ofType<AtividadeDocumentoActions.SaveAtividadeSuccess>(AtividadeDocumentoActions.SAVE_ATIVIDADE_SUCCESS),
         tap((action) => {
             if (action.payload.encerraTarefa) {
-                this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
+                this._store.dispatch(new RemoveTarefa(action.payload.atividade.tarefa.id));
             } else {
-                this._store.dispatch(new GetTarefa({id: action.payload.tarefa.id}));
+                this._store.dispatch(new GetTarefa({id: action.payload.atividade.tarefa.id}));
             }
             this._store.dispatch(new UnloadDocumento());
             const url = this.routerState.url;

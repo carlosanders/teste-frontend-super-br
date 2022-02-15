@@ -109,7 +109,7 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadTemplate());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

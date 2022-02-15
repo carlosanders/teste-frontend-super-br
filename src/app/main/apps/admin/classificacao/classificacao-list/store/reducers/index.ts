@@ -9,7 +9,7 @@ export const getClassificacaoListAppState = createFeatureSelector<ClassificacaoL
     'classificacao-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getClassificacaoListAppState,
     (state: ClassificacaoListAppState) => state
 );

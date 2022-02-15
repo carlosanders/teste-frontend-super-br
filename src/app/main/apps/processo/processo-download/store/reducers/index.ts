@@ -10,7 +10,7 @@ export const getProcessoDownloadAppState = createFeatureSelector<ProcessoDownloa
     'processo-download-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoDownloadAppState,
     (state: ProcessoDownloadAppState) => state
 );

@@ -7,53 +7,53 @@ import {Notificacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Notificacao>(notificacaoSchema);
 
-export const getNotificacaoListState = createSelector(
+export const getNotificacaoListState: any = createSelector(
     getNotificacaoListAppState,
     (state: NotificacaoListAppState) => state.notificacaoList
 );
 
-export const getNotificacaoListIds = createSelector(
+export const getNotificacaoListIds: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.entitiesId
 );
 
-export const getNotificacaoList = createSelector(
+export const getNotificacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getNotificacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.pagination
 );
 
-export const getNotificacaoListLoaded = createSelector(
+export const getNotificacaoListLoaded: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.deletingErrors
 );
 
-export const getToggleLidaErrors = createSelector(
+export const getToggleLidaErrors: any = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.toggleLidaErrors
 );

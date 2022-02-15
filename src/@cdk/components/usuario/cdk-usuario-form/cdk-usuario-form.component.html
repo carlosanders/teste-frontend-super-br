@@ -1,13 +1,11 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="CPF"
                formControlName="username"
                [readonly]="!!usuario"
                [matAutocomplete]="usuarioAutocomplete.autocomplete"
-               required
-               maxlength="11"
-               minlength="11">
+               oninput="this.value=this.value.replace(/\D/g,'')">
         <cdk-usuario-autocomplete
             #usuarioAutocomplete="usuarioAutocomplete"
             [control]="form.get('username')"
@@ -20,8 +18,16 @@
                 (click)="showUsuarioGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
-        <mat-error *ngIf="form.get('username').hasError('formError')">
-            {{form.get('username').errors.formError}}
+        <mat-error *ngIf="(form.get('username').invalid && (form.get('username').dirty || form.get('username').touched )) || form.get('username').hasError('formError')">
+            <div *ngIf="form.get('username').hasError('formError')">
+                {{form.get('username').errors.formError}}
+            </div>
+            <div *ngIf="form.get('username').errors?.['required']">
+                CPF é Obrigatório
+            </div>
+            <div *ngIf="form.get('username').errors?.['minlength']|| form.get('username').errors?.['maxlength']">
+                CPF deve ter 11 caracteres
+            </div>
         </mat-error>
     </mat-form-field>
 
@@ -59,15 +65,18 @@
                    type="number"
                    max="4"
                    maxlength="2">
+            <mat-error *ngIf="form.get('nivelAcesso').hasError('formError')">
+                {{form.get('nivelAcesso').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-checkbox formControlName="enabled"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-8 mb-8" fxFlex="0 1 auto">
             Ativo
         </mat-checkbox>
 
         <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-8 mb-8" fxFlex="0 1 auto">
             Validado
         </mat-checkbox>
     </ng-template>

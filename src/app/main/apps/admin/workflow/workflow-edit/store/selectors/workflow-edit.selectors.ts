@@ -6,23 +6,23 @@ import {Workflow} from '@cdk/models';
 
 const schemaWorkflowSelectors = createSchemaSelectors<Workflow>(workflowSchema);
 
-export const getWorkflowEditState = createSelector(
+export const getWorkflowEditState: any = createSelector(
     getWorkflowEditAppState,
     (state: WorkflowEditAppState) => state.workflow
 );
 
-export const getWorkflowId = createSelector(
+export const getWorkflowId: any = createSelector(
     getWorkflowEditState,
     (state: WorkflowEditState) => state.entityId
 );
 
-export const getWorkflow = createSelector(
+export const getWorkflow: any = createSelector(
     schemaWorkflowSelectors.getNormalizedEntities,
     getWorkflowId,
     schemaWorkflowSelectors.entityProjector
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getWorkflowEditState,
     (state: WorkflowEditState) => state.loaded
 );

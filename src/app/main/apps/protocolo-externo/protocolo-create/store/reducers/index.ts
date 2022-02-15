@@ -16,7 +16,7 @@ export const getProtocoloCreateAppState = createFeatureSelector<ProtocoloCreateA
     'protocolo-create-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProtocoloCreateAppState,
     (state: ProtocoloCreateAppState) => state
 );

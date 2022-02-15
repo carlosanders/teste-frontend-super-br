@@ -15,6 +15,7 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models/documento.model';
@@ -55,6 +56,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
     routerState$: Observable<any>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -82,7 +84,8 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
     }
 
@@ -148,7 +151,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -188,7 +191,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -200,7 +203,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     documentoId: result.documento.id,
                     assinatura: assinatura,
                     processoId: this.processo.id,
@@ -210,8 +213,39 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
+        } else {
+            const loteId = CdkUtils.makeId();
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: loteId
+                    }));
+                });
+            });
+        }
+    }
+
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     onClicked(documento): void {

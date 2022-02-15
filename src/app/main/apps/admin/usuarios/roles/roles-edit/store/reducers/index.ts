@@ -9,7 +9,7 @@ export const getRoleEditAppState = createFeatureSelector<RoleEditAppState>(
     'admin-role-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRoleEditAppState,
     (state: RoleEditAppState) => state
 );

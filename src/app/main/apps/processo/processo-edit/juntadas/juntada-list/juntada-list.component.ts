@@ -13,12 +13,11 @@ import {Assinatura, Documento, Juntada, Processo} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getMercureState, getRouterState} from 'app/store/reducers';
+import * as AssinaturaStore from 'app/store';
+import {getRouterState} from 'app/store/reducers';
 import {getProcesso} from '../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '../../../../../../../@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'juntada-list',
@@ -45,11 +44,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
     processo: Processo;
     assinandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
-    javaWebStartOK = false;
-
-    assinaturaInterval = null;
-
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -71,8 +65,8 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
         this.desentranhadoIds$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
         this.copiandoIds$ = this._store.pipe(select(fromStore.getCopiandoIds));
         this.processo$ = this._store.pipe(select(getProcesso));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
 
         this._store.pipe(
             select(getRouterState),
@@ -107,61 +101,10 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
                 });
             }
         });
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
-        });
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -217,7 +160,7 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
 
     assinar(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -229,7 +172,7 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -239,13 +182,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
     }
 
     editar(documento: Documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
         const sidebar = 'editar/dados-basicos';
 
         this._router.navigate([
@@ -253,7 +189,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
                 '/documento/' + documento.id,
                 {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],

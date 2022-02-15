@@ -6,33 +6,33 @@ import {sigilo as sigiloSchema} from '@cdk/normalizr';
 
 const schemaSigiloSelectors = createSchemaSelectors<Sigilo>(sigiloSchema);
 
-export const getSigiloEditState = createSelector(
+export const getSigiloEditState: any = createSelector(
     getSigiloEditAppState,
     (state: SigiloEditAppState) => state.sigilo
 );
 
-export const getSigiloId = createSelector(
+export const getSigiloId: any = createSelector(
     getSigiloEditState,
     (state: SigiloEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getSigilo = createSelector(
+export const getSigilo: any = createSelector(
     schemaSigiloSelectors.getNormalizedEntities,
     getSigiloId,
     schemaSigiloSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getSigiloEditState,
     (state: SigiloEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getSigiloEditState,
     (state: SigiloEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getSigiloEditState,
     (state: SigiloEditState) => state.errors
 );

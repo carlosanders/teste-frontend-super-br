@@ -10,7 +10,7 @@ export const getSigiloEditAppState = createFeatureSelector<SigiloEditAppState>(
     'sigilo-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getSigiloEditAppState,
     (state: SigiloEditAppState) => state
 );

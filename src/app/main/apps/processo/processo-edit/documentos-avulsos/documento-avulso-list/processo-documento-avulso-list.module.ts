@@ -24,11 +24,20 @@ import * as fromGuards
     from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/guards';
 import {CdkDocumentoAvulsoGridModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {
+    CdkComponenteDigitalCardListModule
+} from "../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module";
 
 const routes: Routes = [
     {
         path: '',
         component: DocumentoAvulsoListComponent,
+        children: [
+            {
+                path: 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
@@ -67,6 +76,7 @@ modulesConfig.forEach((module) => {
         CdkDocumentoAvulsoGridModule,
 
         DocumentoAvulsoListStoreModule,
+        CdkComponenteDigitalCardListModule,
     ],
     providers: [
         DocumentoAvulsoService,

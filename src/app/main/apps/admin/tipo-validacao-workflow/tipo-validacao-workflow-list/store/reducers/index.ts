@@ -9,7 +9,7 @@ export const getTipoValidacaoWorkflowListAppState = createFeatureSelector<TipoVa
     'tipo-validacao-workflow-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTipoValidacaoWorkflowListAppState,
     (state: TipoValidacaoWorkflowListAppState) => state
 );

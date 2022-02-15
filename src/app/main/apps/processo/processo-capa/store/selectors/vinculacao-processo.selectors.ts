@@ -7,33 +7,33 @@ import {VinculacaoProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
 
-export const getVinculacaoProcessoState = createSelector(
+export const getVinculacaoProcessoState: any = createSelector(
     getProcessoCapaAppState,
     (state: ProcessoCapaAppState) => state.vinculacoesProcessos
 );
 
-export const getVinculacoesProcessosIds = createSelector(
+export const getVinculacoesProcessosIds: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.entitiesId
 );
 
-export const getVinculacoesProcessos = createSelector(
+export const getVinculacoesProcessos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVinculacoesProcessosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationVinculacoesProcessos = createSelector(
+export const getPaginationVinculacoesProcessos: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.pagination
 );
 
-export const getVinculacoesProcessosLoaded = createSelector(
+export const getVinculacoesProcessosLoaded: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.loaded
 );
 
-export const getIsVinculacoesProcessosLoading = createSelector(
+export const getIsVinculacoesProcessosLoading: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.loading
 );

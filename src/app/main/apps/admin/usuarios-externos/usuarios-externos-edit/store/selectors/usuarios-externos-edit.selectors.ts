@@ -6,33 +6,33 @@ import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(usuarioSchema);
 
-export const getUsuariosExternosEditState = createSelector(
+export const getUsuariosExternosEditState: any = createSelector(
     getUsuariosExternosEditAppState,
     (state: UsuariosExternosEditAppState) => state.usuariosExternos
 );
 
-export const getUsuariosExternosId = createSelector(
+export const getUsuariosExternosId: any = createSelector(
     getUsuariosExternosEditState,
     (state: UsuariosExternosEditState) => state.entityId
 );
 
-export const getUsuariosExternos = createSelector(
+export const getUsuariosExternos: any = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
     getUsuariosExternosId,
     schemaUsuarioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getUsuariosExternosEditState,
     (state: UsuariosExternosEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getUsuariosExternosEditState,
     (state: UsuariosExternosEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getUsuariosExternosEditState,
     (state: UsuariosExternosEditState) => state.errors
 );

@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Assinatura Eletrônica</h1>
-<form class="p-24 mr-24" fxLayoutGap="16px"
+<form class="p-24 mr-24" fxLayoutGap="8px"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (keyup.enter)="close()">
     <div fxFlex="1 0 auto" fxLayout="column">
         <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value">
-            <mat-label>Senha</mat-label>
+            <mat-label>Senha {{labelLdap}}</mat-label>
             <input type="password"
                    matInput #plainPassword
                    name="plainPassword"
@@ -22,11 +22,20 @@
                 Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
-        <mat-slide-toggle class="mt-16" formControlName="certificadoDigital">
+        <mat-slide-toggle class="mt-8" formControlName="certificadoDigital" [disabled]="!temAssinador">
             Usar Certificado Digital
         </mat-slide-toggle>
+        <div class="mt-16" *ngIf="!temAssinador">
+            Instale ou atualize o assinador para usar Certificado Digital!
+        </div>
+        <div class="mt-8"  *ngIf="!temAssinador">
+            <a [href]="urlAssinadorWindows">Versão Windows</a>
+        </div>
+        <div class="mt-8"  *ngIf="!temAssinador">
+            <a [href]="urlAssinadorLinux">Versão Linux</a>
+        </div>
     </div>
-    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
         <button mat-raised-button color="accent" [disabled]="form.invalid" [mat-dialog-close]="{
                 certificadoDigital: this.form.get('certificadoDigital').value,
@@ -34,6 +43,6 @@
             }">
             Assinar
         </button>
-        <button mat-raised-button class="warn ml-16" mat-dialog-close>Cancelar</button>
+        <button mat-raised-button class="warn ml-8" mat-dialog-close>Cancelar</button>
     </div>
 </form>

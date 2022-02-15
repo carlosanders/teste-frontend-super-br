@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Calcular NUP</h1>
+<div mat-dialog-content>
+    <section>
+        <mat-form-field class="mr-1">
+            <mat-label>Prefixo:</mat-label>
+            <input matInput name="prefixo" maxlength="5" placeholder="XXXXX" [(ngModel)]="prefixo"
+                (keyup)="validarDados()"
+                required>
+        </mat-form-field>
+        <mat-form-field class="mr-1">
+            <mat-label>Sequencial:</mat-label>
+            <input matInput name="sequencial" maxlength="6" placeholder="XXXXXX" [(ngModel)]="sequencial"
+                (keyup)="validarDados()"
+                required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ano:</mat-label>
+            <input matInput name="ano" maxlength="4" placeholder="XXXX" [(ngModel)]="ano" 
+                (keyup)="validarDados()"
+                required>
+        </mat-form-field>
+    </section>
+    <section>
+        <p>
+            {{ valido ? 'NUP:' : 'Exemplo:' }} 
+            <span>
+                {{nupFormatado}}-<b>{{this.valido ? this.dv : 'XX'}}</b>
+            </span>
+        </p>
+    </section>
+</div>
+<div mat-dialog-actions class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-raised-button color="accent" class="mr-sm-12" (click)="onConfirm()"
+        [disabled]="!valido"
+    >
+        Confirmar
+    </button>
+    <button mat-raised-button color="primary" class="mr-sm-12" (click)="onClose()">
+        Fechar
+    </button>
+</div>

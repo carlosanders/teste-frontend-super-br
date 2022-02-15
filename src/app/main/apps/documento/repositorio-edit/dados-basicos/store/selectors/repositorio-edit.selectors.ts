@@ -5,17 +5,17 @@ import {
     RepositorioEditDadosBasicosState
 } from '../reducers';
 
-export const getRepositorioEditState = createSelector(
+export const getRepositorioEditState: any = createSelector(
     getRepositorioEditDadosBasicosAppState,
     (state: RepositorioEditDadosBasicosAppState) => state.repositorio
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRepositorioEditState,
     (state: RepositorioEditDadosBasicosState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRepositorioEditState,
     (state: RepositorioEditDadosBasicosState) => state.errors
 );

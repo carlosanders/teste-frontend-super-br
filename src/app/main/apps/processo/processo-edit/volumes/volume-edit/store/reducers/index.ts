@@ -10,7 +10,7 @@ export const getVolumeEditAppState = createFeatureSelector<VolumeEditAppState>(
     'volume-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVolumeEditAppState,
     (state: VolumeEditAppState) => state
 );

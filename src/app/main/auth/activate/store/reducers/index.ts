@@ -10,7 +10,7 @@ export const getActivateAppState = createFeatureSelector<ActivateAppState>(
     'activate-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getActivateAppState,
     (state: ActivateAppState) => state
 );

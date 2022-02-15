@@ -1,0 +1,16 @@
+<div class="content">
+    <cdk-vinculacao-especie-processo-workflow-grid
+        [loading]="(loading$ | async)"
+        [vinculacoesEspecieProcessoWorkflow]="(vinculacoesEspecieProcessoWorkflow$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        (inatived)="inatived($event)"
+        [displayedColumns]="['select', 'id', 'especieProcesso.nome', 'workflow.nome', 'actions']"
+        [actions]="['create', 'delete']"
+        (create)="create()"
+        (reload)="reload($event)"
+        (delete)="delete($event)">
+    </cdk-vinculacao-especie-processo-workflow-grid>
+</div>

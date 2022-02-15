@@ -10,7 +10,7 @@ export const getTarefaEditBlocoAppState = createFeatureSelector<TarefaEditBlocoA
     'tarefa-edit-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaEditBlocoAppState,
     (state: TarefaEditBlocoAppState) => state
 );

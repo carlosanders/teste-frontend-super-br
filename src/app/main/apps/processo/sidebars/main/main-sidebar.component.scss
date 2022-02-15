@@ -20,12 +20,12 @@ processo-main-sidebar {
 
         .logo-nup {
             margin-top: 4px;
-            font-size: 16px;
+            font-size: 12px;
             line-height: 22px;
         }
 
         .logo-subtext {
-            font-size: 16px;
+            font-size: 12px;
             line-height: 22px;
         }
     }
@@ -37,5 +37,36 @@ processo-main-sidebar {
         height: 0;
         overflow-y: auto;
         margin-top: 8px;
+
+        > .nav {
+            > .nav-item {
+                > .children {
+                    overflow: hidden;
+                }
+
+                &.closed {
+                    > .children {
+                        display: none !important;
+                    }
+                }
+                > .nav-link {
+                    > span {
+                        flex: 1 1 auto;
+                        white-space: nowrap;
+                    }
+
+                    .collapsable-arrow {
+                        transition: transform .3s ease-in-out, opacity .25s ease-in-out .1s;
+                        transform: rotate(0);
+                    }
+
+                    &.open {
+                        .collapsable-arrow {
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

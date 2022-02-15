@@ -228,9 +228,20 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
+        if (this.mode === 'documento') {
+            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        } else {
+            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+        }
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (this.mode === 'documento') {
+            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        } else {
+            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+        }
+
         if (changes['repositorio']) {
             if (this.editor) {
                 if (this.repositorio) {
@@ -278,7 +289,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this._componenteDigitalService.alterandoModelo.next(false);
             }
 
-            if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo) {
+            if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo && this.componenteDigital.editavel && !this.componenteDigital.assinado) {
                 this.fetch();
                 this._componenteDigitalService.trocandoDocumento.next(false);
             }
@@ -315,7 +326,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         if (this.autoSave) {
             clearInterval(this.autoSave);
         }
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

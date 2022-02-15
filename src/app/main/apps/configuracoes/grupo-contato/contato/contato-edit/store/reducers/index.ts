@@ -10,7 +10,7 @@ export const getContatoEditAppState = createFeatureSelector<ContatoEditAppState>
     'contato-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getContatoEditAppState,
     (state: ContatoEditAppState) => state
 );

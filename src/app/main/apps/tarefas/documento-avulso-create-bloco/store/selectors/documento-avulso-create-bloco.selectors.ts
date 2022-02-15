@@ -5,17 +5,17 @@ import {
     getDocumentoAvulsoCreateBlocoAppState
 } from '../reducers';
 
-export const getDocumentoAvulsoCreateBlocoState = createSelector(
+export const getDocumentoAvulsoCreateBlocoState: any = createSelector(
     getDocumentoAvulsoCreateBlocoAppState,
     (state: DocumentoAvulsoCreateBlocoAppState) => state.documentoAvulsoCreateBloco
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getDocumentoAvulsoCreateBlocoState,
     (state: DocumentoAvulsoCreateBlocoState) => state.savingProcessosId.length > 0
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getDocumentoAvulsoCreateBlocoState,
     (state: DocumentoAvulsoCreateBlocoState) => state.errors
 );

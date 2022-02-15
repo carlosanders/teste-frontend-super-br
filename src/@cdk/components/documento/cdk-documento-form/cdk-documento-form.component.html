@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="Tipo de Documento"
@@ -41,6 +41,28 @@
                 (click)="showLogEntryGrid('localizadorOriginal')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+    </mat-form-field>
+    <mat-form-field *ngIf="form.get('copia').value">
+        <input matInput placeholder="Tipo de Cópia"
+               formControlName="modalidadeCopia"
+               [matAutocomplete]="modalidadeCopia.autocomplete"
+               (blur)="checkModalidadeCopia()">
+        <cdk-modalidade-copia-autocomplete
+            #modalidadeCopia="modalidadeCopiaAutocomplete"
+            [control]="form.get('modalidadeCopia')"
+            [pagination]="modalidadeCopiaPagination">
+        </cdk-modalidade-copia-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeCopiaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('modalidadeCopia')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeCopia').hasError('formError')">
+            {{form.get('modalidadeCopia').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -124,6 +146,22 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+        <mat-label>Dependências de Software</mat-label>
+        <input matInput #dependenciaSoftware
+               name="dependenciaSoftware"
+               formControlName="dependenciaSoftware"
+               maxlength="255" upperCase>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Dependências de Hardware</mat-label>
+        <input matInput #dependenciaHardware
+               name="dependenciaHardware"
+               formControlName="dependenciaHardware"
+               maxlength="255" upperCase>
+    </mat-form-field>
+
     <!-- Observacao Column -->
     <ng-container matColumnDef="observacao">
         <th mat-header-cell *matHeaderCellDef mat-sort-header
@@ -171,3 +209,10 @@
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-modalidade-copia-gridsearch
+    *ngIf="activeCard === 'modalidade-copia-gridsearch'"
+    [pagination]="modalidadeCopiaPagination"
+    (selected)="selectModalidadeCopia($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-copia-gridsearch>

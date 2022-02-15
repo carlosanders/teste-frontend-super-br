@@ -47,17 +47,15 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'especieTarefaInicial.nome', 'actions'];
 
     /**
      *
      * @param _changeDetectorRef
      * @param _workflowService
      */
-    constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _workflowService: WorkflowService
-    ) {
+    constructor(private _changeDetectorRef: ChangeDetectorRef,
+                private _workflowService: WorkflowService) {
         this.loading = false;
         this.pagination = new Pagination();
     }

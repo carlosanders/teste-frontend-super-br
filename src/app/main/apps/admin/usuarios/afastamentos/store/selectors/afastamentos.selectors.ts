@@ -6,28 +6,28 @@ import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(usuarioSchema);
 
-export const getAfastamentosState = createSelector(
+export const getAfastamentosState: any = createSelector(
     getAfastamentosAppState,
     (state: AfastamentosAppState) => state.afastamentos
 );
 
-export const getUsuarioId = createSelector(
+export const getUsuarioId: any = createSelector(
     getAfastamentosState,
     (state: AfastamentosState) => (state.loaded && state.loaded.id === 'usuarioHandle') ? state.loaded.value : null
 );
 
-export const getUsuario = createSelector(
+export const getUsuario: any = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
     getUsuarioId,
     schemaUsuarioSelectors.entityProjector
 );
 
-export const getHasLoadedUsuario = createSelector(
+export const getHasLoadedUsuario: any = createSelector(
     getAfastamentosState,
     (state: AfastamentosState) => state.loaded.id === 'usuarioHandle' ? state.loaded : false
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAfastamentosState,
     (state: AfastamentosState) => state.errors
 );

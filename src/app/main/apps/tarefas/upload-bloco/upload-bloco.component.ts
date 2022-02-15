@@ -13,7 +13,7 @@ import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
-import * as fromStore from '../store';
+import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ComponenteDigital, Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store';
@@ -37,6 +37,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
     tarefas$: Observable<Tarefa[]>;
     tarefasBloco: Tarefa[] = [];
     tarefaPrincipal: Tarefa;
+    tarefas: Tarefa[] = [];
 
     operacoes: any[] = [];
 
@@ -53,7 +54,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.TarefasAppState>,
+        private _store: Store<fromStore.UploadBlocoAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
@@ -71,6 +72,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
             this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
             this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
             this._changeDetectorRef.markForCheck();
@@ -87,7 +89,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -100,6 +102,10 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
         this.cdkUpload.upload();
     }
 
+    onStartedUpload(): void {
+        this._store.dispatch(new fromStore.UploadIniciado(this.tarefas.map(tarefa => tarefa.id)));
+    }
+
     onComplete(componenteDigital: ComponenteDigital): void {
         this.operacoes.push({
             type: 'upload',
@@ -107,5 +113,11 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
             success: true
         });
         this._changeDetectorRef.markForCheck();
+    }
+
+    onCompleteAll(): void {
+        this.tarefas.forEach((tarefa) => {
+            this._store.dispatch(new fromStore.UploadConcluido(tarefa.id));
+        });
     }
 }

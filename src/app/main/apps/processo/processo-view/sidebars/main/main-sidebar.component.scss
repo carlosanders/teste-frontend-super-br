@@ -126,7 +126,7 @@ processo-view-main-sidebar {
                     mat-form-field {
                         flex: 1 1 auto;
                         display: flex;
-                        margin-right: 16px;
+                        margin-right: 8px;
 
                         .mat-form-field-wrapper {
                             flex: 1 1 auto;
@@ -151,6 +151,10 @@ processo-view-main-sidebar {
         display: flex;
         flex-direction: column;
 
+        mat-expansion-panel.minutas-tarefa {
+            display: none;
+        }
+
         .minutas {
             max-height: 155px;
             overflow-y: auto;
@@ -160,7 +164,7 @@ processo-view-main-sidebar {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 16px;
+                padding: 8px;
             }
         }
 
@@ -214,6 +218,18 @@ processo-view-main-sidebar {
             }
         }
 
+        > .bookmarks {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+
+            .place-holder {
+                display: none;
+            }
+        }
+
         > .loading-minutas {
             flex: 0 0 auto;
             display: flex;
@@ -258,7 +274,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 16px;
+            padding: 8px;
             cursor: pointer;
 
             .actions {
@@ -369,7 +385,7 @@ processo-view-main-sidebar {
                     border-left: 1px solid;
                     width: 1px;
                     height: 50%;
-                    left: 33px;
+                    left: 25px;
                     z-index: 8;
                 }
 
@@ -425,7 +441,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 16px;
+            padding: 8px;
             cursor: pointer;
             margin-top: 2px;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
@@ -538,7 +554,7 @@ processo-view-main-sidebar {
                     border-left: 1px solid;
                     width: 1px;
                     height: 50%;
-                    left: 33px;
+                    left: 25px;
                     z-index: 8;
                 }
 
@@ -603,7 +619,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 16px;
+            padding: 8px;
             cursor: pointer;
 
             .etiquetas {
@@ -708,7 +724,7 @@ processo-view-main-sidebar {
                     border-left: 1px solid;
                     width: 1px;
                     height: 50%;
-                    left: 33px;
+                    left: 25px;
                     z-index: 8;
                 }
 
@@ -754,6 +770,27 @@ processo-view-main-sidebar {
             .criado-em {
                 font-style: italic;
                 font-size: 10px;
+            }
+
+            .tipo-documento {
+                .index-vinculado {
+                    display: flex;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 25px;
+                        min-width: 25px;
+                        max-width: 25px;
+                        height: 25px;
+                        border-radius: 100%;
+                        font-size: 11px;
+                        border: 1px solid;
+                        font-weight: bold;
+                        z-index: 10;
+                    }
+                }
             }
         }
 

@@ -69,7 +69,8 @@ export class CdkProcessoGridsearchComponent implements OnInit {
             params.limit,
             params.offset,
             JSON.stringify(params.sort),
-            JSON.stringify(params.populate))
+            JSON.stringify(params.populate),
+            JSON.stringify(params.context))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe((response) => {
@@ -89,7 +90,8 @@ export class CdkProcessoGridsearchComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         };
         this.load (params);
     }

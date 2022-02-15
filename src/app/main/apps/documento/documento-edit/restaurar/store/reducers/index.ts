@@ -10,7 +10,7 @@ export const getDocumentoEditRestaurarAppState = createFeatureSelector<Documento
     'documento-edit-restaurar-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditRestaurarAppState,
     (state: DocumentoEditRestaurarAppState) => state
 );

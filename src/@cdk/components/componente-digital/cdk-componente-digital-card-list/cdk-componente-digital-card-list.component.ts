@@ -1,17 +1,17 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ElementRef,
     EventEmitter,
     Input,
-    Output,
+    Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital, Documento, DocumentoAvulso, Processo, Tarefa} from '@cdk/models';
-import {classToPlain} from 'class-transformer';
-import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
+import {ComponenteDigital, Documento, DocumentoAvulso, Processo, Tarefa, Visibilidade} from '@cdk/models';
+import {classToPlain, plainToClass} from 'class-transformer';
+import {HttpClient, HttpErrorResponse, HttpEventType, HttpParams, HttpRequest} from '@angular/common/http';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
@@ -27,6 +27,8 @@ import {CdkUtils} from '../../../utils';
     animations: cdkAnimations
 })
 export class CdkComponenteDigitalCardListComponent {
+
+    @ViewChild('file', {static: false}) file: ElementRef<HTMLInputElement>;
 
     @Input()
     componentesDigitais: ComponenteDigital[] = [];
@@ -73,13 +75,6 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     erroUpload = new EventEmitter<string>();
 
-
-    selectedIds: number[] = [];
-
-    hasSelected = false;
-
-    isIndeterminate = false;
-
     /** Target URL for file uploading. */
     @Input()
     target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
@@ -102,17 +97,31 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     completedAll = new EventEmitter<any>();
 
-    private files: Array<FileUploadModel> = [];
+    /**
+     * Disparado quando o upload for iniciado
+     */
+    @Output()
+    startedUpload = new EventEmitter<any>();
 
-    private currentFile: FileUploadModel = null;
+    selectedIds: number[] = [];
 
-    private arquivoSubscription: Subscription;
+    hasSelected = false;
+
+    isIndeterminate = false;
 
     uploading: boolean = false;
 
     pending: Array<FileUploadModel> = [];
 
     lastOrder = 0;
+
+    hasErrors: Array<any> = [];
+
+    private files: Array<FileUploadModel> = [];
+
+    private currentFile: FileUploadModel = null;
+
+    private arquivoSubscription: Subscription;
 
     /**
      * @param _http
@@ -147,6 +156,7 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     onRetry(componenteDigital: ComponenteDigital): void {
+        this.hasErrors = this.hasErrors.filter(fileError => fileError !== componenteDigital.file);
         this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
         componenteDigital.canRetry = false;
         componenteDigital.errorMsg = null;
@@ -170,11 +180,11 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     upload(): void {
-        const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-        fileUpload.onchange = () => {
-            for (let index = 0; index < fileUpload.files.length; index++) {
+        // const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
+        this.file.nativeElement.onchange = () => {
+            for (let index = 0; index < this.file.nativeElement.files.length; index++) {
                 this.lastOrder++;
-                const tmpFile = fileUpload.files[index];
+                const tmpFile = this.file.nativeElement.files[index];
                 const file = {
                     data: tmpFile,
                     state: 'in',
@@ -207,16 +217,17 @@ export class CdkComponenteDigitalCardListComponent {
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
             }
-            fileUpload.value = '';
+            this.file.nativeElement.value = '';
 
             if (this.uploadMode !== 'linear') {
                 this.start();
             }
         };
-        fileUpload.click();
+        this.file.nativeElement.click();
     }
 
     start(): void {
+        this.startedUpload.emit(true);
         this.uploading = true;
         if (this.uploadMode !== 'linear') {
             this.files.forEach((file) => {
@@ -235,7 +246,9 @@ export class CdkComponenteDigitalCardListComponent {
         } else {
             this.currentFile = null;
             this.uploading = false;
-            this.completedAll.emit(true);
+            if (!this.hasErrors.length) {
+                this.completedAll.emit(true);
+            }
         }
     }
 
@@ -243,6 +256,9 @@ export class CdkComponenteDigitalCardListComponent {
         // @ts-ignore
         this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
         this.removeFileFromArray(componenteDigital.file);
+        if (!this.hasErrors.length && !this.uploading) {
+            this.completedAll.emit(true);
+        }
         this._changeDetectorRef.markForCheck();
     }
 
@@ -265,14 +281,20 @@ export class CdkComponenteDigitalCardListComponent {
 
         this.getBase64(file.data).then(
             (conteudo) => {
-                const componenteDigital = this.componentesDigitais.find(componenteDigital => componenteDigital.file === file);
+                const componenteDigital = this.componentesDigitais.find(cd => cd.file === file);
                 componenteDigital.conteudo = conteudo;
                 this._changeDetectorRef.markForCheck();
 
-                const params = classToPlain(componenteDigital);
+                const body = classToPlain(componenteDigital);
+                const params = {};
+                params['populate'] = JSON.stringify([
+                    'documento',
+                    'documento.tipoDocumento'
+                ]);
 
-                const req = new HttpRequest('POST', this.target, params, {
-                    reportProgress: true
+                const req = new HttpRequest('POST', this.target, body, {
+                    reportProgress: true,
+                    params: new HttpParams({fromObject: params})
                 });
 
                 componenteDigital.inProgress = true;
@@ -292,6 +314,7 @@ export class CdkComponenteDigitalCardListComponent {
                     }),
                     last(),
                     catchError((error: HttpErrorResponse) => {
+                        this.hasErrors.push(file);
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
                         componenteDigital.errorMsg = CdkUtils.errorsToString(error);
@@ -301,7 +324,7 @@ export class CdkComponenteDigitalCardListComponent {
                         this.currentFile = null;
                         if (this.uploadMode !== 'linear') {
                             this.removeFileFromArray(file);
-                            if (!this.files.length) {
+                            if (!this.files.length && !this.hasErrors.length) {
                                 this.completedAll.emit(true);
                             }
                         }
@@ -318,12 +341,14 @@ export class CdkComponenteDigitalCardListComponent {
                             componenteDigital.id = event.body.id;
                             componenteDigital.complete = true;
                             componenteDigital.inProgress = false;
+                            componenteDigital.documento = plainToClass(Documento, event.body.documento);
+                            delete componenteDigital.documento.tarefaOrigem;
                             this.currentFile = null;
                             this._changeDetectorRef.markForCheck();
                             setTimeout(() => {
                                 if (this.uploadMode !== 'linear') {
                                     this.removeFileFromArray(file);
-                                    if (!this.files.length) {
+                                    if (!this.files.length && !this.hasErrors.length) {
                                         this.completedAll.emit(true);
                                     }
                                 }

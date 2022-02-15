@@ -10,7 +10,7 @@ export const getCalendarioAppState = createFeatureSelector<CalendarioAppState>(
     'calendario-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCalendarioAppState,
     (state: CalendarioAppState) => state
 );

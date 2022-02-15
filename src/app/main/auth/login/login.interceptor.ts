@@ -22,7 +22,6 @@ export class LoginInterceptor implements HttpInterceptor {
     loadingConfig$: Observable<boolean>;
     loadingConfig: boolean;
     loading$: Subject<boolean> = new Subject<boolean>();
-    certificadoDigital = '';
     errorMessage$: Observable<any>;
 
     loginError: any;
@@ -55,10 +54,6 @@ export class LoginInterceptor implements HttpInterceptor {
         this.token$ = this.store.pipe(select(getToken));
 
         this.store.pipe(select(getRouterState)).subscribe(state => this.routerState = state?.state);
-
-        if (environment.base_url_x509) {
-            this.certificadoDigital = environment.base_url_x509;
-        }
 
         this.token$
             .pipe(
@@ -156,7 +151,6 @@ export class LoginInterceptor implements HttpInterceptor {
                 loading$: this.loading$,
                 config$: this.config$,
                 loadingConfig$: this.loadingConfig$,
-                certificadoDigital: this.certificadoDigital,
                 errorMessage$: this.errorMessage$,
                 username: this.loginService.getUserProfile()?.username
             },
@@ -165,15 +159,15 @@ export class LoginInterceptor implements HttpInterceptor {
         });
 
         this.subscribers = this.dialogRef.afterClosed().subscribe((result) => {
-            if (result.tipoLogin === 'externo') {
-                this.onSubmitExterno(result);
+            if (result.tipoLogin === 'interno') {
+                this.onSubmitInterno(result);
             } else if (result.tipoLogin === 'ldap') {
                 this.onSubmitLdap(result);
             }
         });
     }
 
-    onSubmitExterno(values): void {
+    onSubmitInterno(values): void {
         const payload = {
             username: !!this.loginService.getUserProfile()?.username ? this.loginService.getUserProfile().username : values.username,
             password: values.password,

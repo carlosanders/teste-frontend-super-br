@@ -24,11 +24,11 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
     @HostBinding('class.open')
     public isOpen = false;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
-
     isGrantedRole: boolean;
     isCoordenador: boolean;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -141,7 +141,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -161,7 +161,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
 
         // Navigation collapse toggled...
         this._cdkNavigationService.onItemCollapsed.next(this.item);
-        this._cdkNavigationService.onItemCollapseToggled.next();
+        this._cdkNavigationService.onItemCollapseToggled.next(true);
     }
 
     /**
@@ -177,7 +177,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
         // Mark for check
         this._changeDetectorRef.markForCheck();
 
-        this._cdkNavigationService.onItemCollapseToggled.next();
+        this._cdkNavigationService.onItemCollapseToggled.next(true);
     }
 
     /**
@@ -193,7 +193,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
         // Mark for check
         this._changeDetectorRef.markForCheck();
 
-        this._cdkNavigationService.onItemCollapseToggled.next();
+        this._cdkNavigationService.onItemCollapseToggled.next(true);
     }
 
     /**

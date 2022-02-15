@@ -9,7 +9,7 @@ export const getEspecieRelevanciaEditAppState = createFeatureSelector<EspecieRel
     'especie-relevancia-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEspecieRelevanciaEditAppState,
     (state: EspecieRelevanciaEditAppState) => state
 );

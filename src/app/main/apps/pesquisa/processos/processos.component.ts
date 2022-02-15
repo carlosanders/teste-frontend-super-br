@@ -91,11 +91,7 @@ export class ProcessosComponent implements OnInit, OnDestroy {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -105,7 +101,7 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

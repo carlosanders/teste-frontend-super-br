@@ -8,53 +8,53 @@ import {getProcessoState, ProcessoState} from "../../../../../../processo/store"
 
 const schemaSelectors = createSchemaSelectors<Coordenador>(coordenadoreschema);
 
-export const getCoordenadoresListState = createSelector(
+export const getCoordenadoresListState: any = createSelector(
     getCoordenadoresListAppState,
     (state: CoordenadoresListAppState) => state.coordenadoresList
 );
 
-export const getCoordenadoresListIds = createSelector(
+export const getCoordenadoresListIds: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.entitiesId
 );
 
-export const getCoordenadoresList = createSelector(
+export const getCoordenadoresList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getCoordenadoresListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.pagination
 );
 
-export const getCoordenadoresListLoaded = createSelector(
+export const getCoordenadoresListLoaded: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.deletingErrors
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.errors
 );

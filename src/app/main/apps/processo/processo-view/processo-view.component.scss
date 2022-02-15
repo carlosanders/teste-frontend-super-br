@@ -121,6 +121,16 @@ processo-view {
                             justify-content: center;
                         }
 
+                        > ngx-extended-pdf-viewer {
+                            flex: 1 1 auto;
+                            border: none;
+
+                            .findbar {
+                                left: auto !important;
+                                top: auto !important;
+                            }
+                        }
+
                         > iframe {
                             flex: 1 1 auto;
                             display: flex;
@@ -150,7 +160,7 @@ processo-view {
                                 flex: 0 0 auto;
                                 display: flex;
                                 flex-direction: column;
-                                margin: 16px;
+                                margin: 8px;
                                 align-self: stretch;
 
                                 mat-card-subtitle {

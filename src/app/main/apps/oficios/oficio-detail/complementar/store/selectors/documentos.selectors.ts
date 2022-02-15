@@ -6,49 +6,49 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getDocumentosState = createSelector(
+export const getDocumentosState: any = createSelector(
     getComplementarAppState,
     (state: ComplementarAppState) => state ? state.documentos : null
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getIsLoadingDocumentos = createSelector(
+export const getIsLoadingDocumentos: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.loading
 );
 
-export const getIsSavingDocumentos = createSelector(
+export const getIsSavingDocumentos: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.saving
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.documentosLoaded
 );
 
-export const getSelectedDocumentoIds = createSelector(
+export const getSelectedDocumentoIds: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getConvertendoAllDocumentosId = createSelector(
+export const getConvertendoAllDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => [
             ...state.convertendoDocumentoIds,
@@ -56,42 +56,32 @@ export const getConvertendoAllDocumentosId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosId = createSelector(
-    getDocumentosState,
-    (state: DocumentosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId = createSelector(
-    getDocumentosState,
-    (state: DocumentosState) => state.removendoAssinaturaDocumentoIds
-);
-
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.alterandoDocumentoIds
 );
 
-export const getDownloadDocumentosP7SId = createSelector(
+export const getDownloadDocumentosP7SId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.downloadDocumentosP7SIds
 );
 
-export const getDocumentosPagination = createSelector(
+export const getDocumentosPagination: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.pagination
 );

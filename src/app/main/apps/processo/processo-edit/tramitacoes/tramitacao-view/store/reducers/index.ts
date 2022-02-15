@@ -10,7 +10,7 @@ export const getTramitacaoViewAppState = createFeatureSelector<TramitacaoViewApp
     'tramitacao-view-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTramitacaoViewAppState,
     (state: TramitacaoViewAppState) => state
 );

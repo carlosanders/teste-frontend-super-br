@@ -163,7 +163,7 @@ export class ChatEffects {
             );
     });
 
-    setChatActiveCard: any = createEffect(() => {
+    setChatActiveCard: any = createEffect((): any => {
         return this._actions
             .pipe(
                 ofType<ChatActions.SetChatActiveCard>(ChatActions.SET_CHAT_ACTIVE_CARD),

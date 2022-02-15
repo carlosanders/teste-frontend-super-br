@@ -1,0 +1,9 @@
+<div class="header" *ngIf="routerState.url.includes('/vinculacao-especie-processo-workflow')">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<div class="content">
+    <router-outlet></router-outlet>
+</div>

@@ -15,18 +15,17 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models/documento.model';
-import {getMercureState, getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Assinatura, ComponenteDigital, DocumentoAvulso, Pagination, Usuario} from '@cdk/models';
 import {getDocumentoAvulso} from '../store';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'complementar',
@@ -70,9 +69,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
     convertendoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
-    javaWebStartOK = false;
 
     assinaturaInterval = null;
     lote: string;
@@ -100,13 +97,13 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.isSavingDocumentos$ = this._store.pipe(select(fromStore.getIsSavingDocumentos));
         this.isLoadingDocumentos$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosPagination));
     }
 
@@ -127,36 +124,6 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
             this.mode = routerState.state.params['oficioTargetHandle'];
             this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-        });
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
         });
 
         this.documentoAvulso$.pipe(
@@ -186,27 +153,6 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((selectedDocumentos) => {
             this.selectedOficios = selectedDocumentos;
         });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
-        });
     }
 
     ngAfterViewInit(): void {
@@ -228,7 +174,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -264,7 +210,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -276,7 +222,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -291,7 +237,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
             const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
@@ -305,7 +251,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
                         operacaoId: operacaoId,
@@ -356,7 +302,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doRemoveAssinatura(documentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doConverte(documentoId): void {

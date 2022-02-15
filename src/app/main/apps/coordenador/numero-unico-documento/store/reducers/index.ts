@@ -10,7 +10,7 @@ export const getNumeroUnicoDocumentoAppState = createFeatureSelector<NumeroUnico
     'numero-unico-documento-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getNumeroUnicoDocumentoAppState,
     (state: NumeroUnicoDocumentoAppState) => state
 );

@@ -10,43 +10,43 @@ import {Setor} from '@cdk/models';
 const schemaLocalizadorSelectors = createSchemaSelectors<Localizador>(localizadorSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getRootLocalizadorEditState = createSelector(
+export const getRootLocalizadorEditState: any = createSelector(
     getRootLocalizadorEditAppState,
     (state: RootLocalizadorEditAppState) => state.localizador
 );
 
-export const getLocalizadorId = createSelector(
+export const getLocalizadorId: any = createSelector(
     getRootLocalizadorEditState,
     (state: RootLocalizadorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getLocalizador = createSelector(
+export const getLocalizador: any = createSelector(
     schemaLocalizadorSelectors.getNormalizedEntities,
     getLocalizadorId,
     schemaLocalizadorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRootLocalizadorEditState,
     (state: RootLocalizadorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRootLocalizadorEditState,
     (state: RootLocalizadorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRootLocalizadorEditState,
     (state: RootLocalizadorEditState) => state.errors
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getRootLocalizadoresState,
     (state: RootLocalizadoresState) => (state.loaded && state.loaded.id === 'setorHandle') ? state.loaded.value : null
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector

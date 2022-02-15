@@ -12,7 +12,7 @@ export const getValidacaoTransicaoWorkflowListAppState = createFeatureSelector<V
     'admin-validacao-transicao-workflow-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getValidacaoTransicaoWorkflowListAppState,
     (state: ValidacaoTransicaoWorkflowListAppState) => state
 );

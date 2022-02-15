@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 import {TranslateService} from '@ngx-translate/core';
-import {fromEvent, Subject} from 'rxjs';
+import {fromEvent, Observable, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
@@ -13,11 +13,15 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 
 import {navigation} from 'app/navigation/navigation';
 import {locale as navigationEnglish} from 'app/navigation/i18n/en';
-import {Store} from '@ngrx/store';
-import {State} from 'app/store/reducers';
+import {select, Store} from '@ngrx/store';
+import {getMercureState, State} from 'app/store/reducers';
 import {SetScreen} from 'app/store';
 import {modulesConfig} from '../modules/modules-config';
 import {LoginService} from './main/auth/login/login.service';
+import * as AssinaturaStore from 'app/store';
+import {UpdateData} from '../@cdk/ngrx-normalizr';
+import {Documento} from '../@cdk/models';
+import {documento as documentoSchema} from '../@cdk/normalizr';
 
 @Component({
     selector: 'app',
@@ -30,6 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
     resize$: any;
 
     // Private
+    private _assinandoDocumentosId$: Observable<number[]>;
+    private _javaWebStartOK = false;
+    private _assinaturaInterval = null;
     private _unsubscribeAll: Subject<any>;
 
     /**
@@ -72,6 +79,11 @@ export class AppComponent implements OnInit, OnDestroy {
                             n.role = [].concat(i['role'] ?? [], n.role);
                         }
                     });
+                    if (i.id === 'modulos') {
+                        i.entries.forEach((j) => {
+                            this.navigation[1].children.push(j);
+                        });
+                    }
                 });
             }
         });
@@ -158,6 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 // Color theme - Use normal for loop for IE11 compatibility
                 // tslint:disable-next-line:prefer-for-of
+                // eslint-disable-next-line @typescript-eslint/prefer-for-of
                 for (let i = 0; i < this.document.body.classList.length; i++) {
                     const className = this.document.body.classList[i];
 
@@ -168,7 +181,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.cdkConfig.colorTheme);
             });
-
+        this._assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.resize$ = fromEvent(window, 'resize')
             .pipe(
                 debounceTime(200),
@@ -192,6 +205,55 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this._loginService.getUserProfile() && !this._loginService.isExpired()) {
             this._loginService.startCountdown();
         }
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this._javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this._javaWebStartOK = false;
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this._javaWebStartOK = false;
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this._javaWebStartOK = false;
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this._assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
+            if (assinandoDocumentosId.length > 0) {
+                if (this._assinaturaInterval) {
+                    clearInterval(this._assinaturaInterval);
+                }
+                this._assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this._javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new AssinaturaStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this._assinaturaInterval);
+            }
+        });
     }
 
     /**
@@ -199,7 +261,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -177,7 +177,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadSigilos());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

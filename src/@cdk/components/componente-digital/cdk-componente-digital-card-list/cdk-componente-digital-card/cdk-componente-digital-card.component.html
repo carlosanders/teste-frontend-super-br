@@ -1,6 +1,6 @@
 <div class="arquivo" [matTooltip]="componenteDigital.errorMsg ?? this.fullTitle"
      matTooltipClass="multiline-tooltip"
-     [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
+     [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'tarefas-list': mode === 'tarefas-list', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
     <mat-checkbox class="ml-8 select"
                   *ngIf="mode === 'tarefa' && uploadMode !== 'linear'"
                   [checked]="selected"
@@ -12,7 +12,7 @@
         <mat-icon>picture_as_pdf</mat-icon>
     </div>
 
-    <div (click)="onClick(componenteDigital)" class="content-card">
+    <div (click)="$event.stopPropagation(); onClick(componenteDigital)" class="content-card">
         <div class="content-card-item">
             {{title}}
         </div>
@@ -26,28 +26,28 @@
     </div>
 
     <div class="menu">
-        <button mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more" #menuTrigger="matMenuTrigger">
+        <button mat-icon-button [matMenuTriggerFor]="card20Menu" (click)="$event.stopPropagation()" aria-label="more" #menuTrigger="matMenuTrigger">
             <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #card20Menu="matMenu">
             <button [disabled]="!componenteDigital.canRetry"
-                    (click)="onRetry(componenteDigital)" mat-menu-item>
+                    (click)="$event.stopPropagation(); onRetry(componenteDigital)" mat-menu-item>
                 <mat-icon>desktop_windows</mat-icon>
                 <span>Repetir</span>
             </button>
             <button [disabled]="!componenteDigital.canRetry"
                     *ngIf="uploadMode !== 'linear'"
-                    (click)="onCancel(componenteDigital)" mat-menu-item>
+                    (click)="$event.stopPropagation(); onCancel(componenteDigital)" mat-menu-item>
                 <mat-icon>delete</mat-icon>
                 <span>Cancelar</span>
             </button>
             <button [disabled]="!componenteDigital.canRetry && componenteDigital.inProgress"
                     *ngIf="uploadMode === 'linear'"
-                    (click)="onCancel(componenteDigital)" mat-menu-item>
+                    (click)="$event.stopPropagation(); onCancel(componenteDigital)" mat-menu-item>
                 <mat-icon>delete</mat-icon>
                 <span>Cancelar</span>
             </button>
-            <button *ngIf="uploadMode === 'linear' && !componenteDigital.inProgress"
+            <button *ngIf="uploadMode === 'linear' && !componenteDigital.inProgress" (click)="$event.stopPropagation()"
                     [matMenuTriggerFor]="tipoDocumentoMenu" #menuTriggerTipoDocumento="matMenuTrigger" mat-menu-item>
                 <mat-icon>edit</mat-icon>
                 <span>{{(componenteDigital.tipoDocumento) ? componenteDigital.tipoDocumento.nome + ': Alterar' : 'Escolher Tipo de Documento'}}</span>
@@ -56,7 +56,7 @@
     </div>
 
     <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
-        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+        <form class="p-8 mb-8" fxLayoutGap="8px" fxLayout="column" fxLayoutAlign="start"
               fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()"
               (submit)="salvarTipoDocumento()">
             <mat-form-field fxFlex="100">

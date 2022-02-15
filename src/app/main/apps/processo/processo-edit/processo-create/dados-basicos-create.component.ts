@@ -1,3 +1,5 @@
+import { CdkProcessoModalCalculoNupComponent } from './../../../../../../@cdk/components/processo/cdk-processo-modal-calculo-nup/cdk-processo-modal-calculo-nup.component';
+import { Back } from '../../../../../store';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -35,19 +37,18 @@ import {
 } from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
+import * as AssinaturaStore from 'app/store';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
 import {getProcesso} from '../../store';
-import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
-import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
-import {CdkUtils} from '../../../../../../@cdk/utils';
-import {UpdateData} from '@cdk/ngrx-normalizr';
+import {configuracaoNup} from '@cdk/normalizr';
+import {CdkUtils} from '@cdk/utils';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
@@ -72,6 +73,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     _profile: Usuario;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    calculoNupDialogRef: MatDialogRef<CdkProcessoModalCalculoNupComponent>;
     dialogRef: any;
 
     processo$: Observable<Processo>;
@@ -123,11 +125,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     juntadasPagination$: Observable<any>;
     juntadasPagination: any;
     assinandoDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     desentranhandoJuntadasId$: Observable<number[]>;
     desentranhadoJuntadasId$: Observable<number[]>;
-    javaWebStartOK = false;
-    assinaturaInterval = null;
 
     vinculacoesProcessos$: Observable<VinculacaoProcesso[]>;
     vinculacoesProcessos: VinculacaoProcesso[] = [];
@@ -166,10 +165,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     editandoProcedencia = false;
     editandoInteressado = false;
 
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
-
     operacaoId?: string;
 
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      *
@@ -227,7 +225,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntada));
         this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.desentranhandoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
         this.desentranhadoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
 
@@ -252,6 +250,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             id: [null],
             temProcessoOrigem: [null],
             processoOrigem: [null],
+            processoOrigemIncluirDocumentos: [null],
             // eslint-disable-next-line @typescript-eslint/naming-convention
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             tipoProtocolo: [null, [Validators.required]],
@@ -320,7 +319,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             setores: [null],
             setorOrigem: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]],
-            localEvento: [null, [Validators.maxLength(255)]]
+            localEvento: [null, [Validators.maxLength(255)]],
+            tarefaWorkflow: [null, [Validators.required]],
+            workflow: [null, [Validators.required]],
         });
     }
 
@@ -334,7 +335,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     ngOnInit(): void {
 
         this.operacaoId = null;
-
 
         this.configuracaoNupList$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -350,7 +350,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         ).subscribe((isValid) => {
             this.nupIsValid = isValid;
         });
-
 
         this._store.pipe(
             select(getRouterState),
@@ -482,57 +481,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.juntadasPagination = pagination;
         });
 
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
-        });
-
         this.vinculacoesProcessos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
@@ -566,7 +514,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadTarefa());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -633,6 +581,25 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
+    calcularNup(nup?: string): void {
+
+        this.calculoNupDialogRef = this.dialog.open(CdkProcessoModalCalculoNupComponent, {
+            data: {
+                nup
+            },
+            width: '650px',
+            height: '280px',
+        });
+
+        this.calculoNupDialogRef.afterClosed().subscribe((nup?: string) => {
+            if (nup) {
+                console.log('Confirmado: ', nup);
+                this.formProcesso.patchValue({NUP: nup});
+            }
+            this.calculoNupDialogRef = null;
+        });
+    }
+
     gerirProcedencia(): void {
         this.editandoProcedencia = true;
         this.editandoInteressado = false;
@@ -667,6 +634,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         if (this.stepper['_selectedIndex'] === 4) {
             this.vinculacaoProcessoActivated = 'grid';
         }
+    }
+
+    abort(): void {
+        this._store.dispatch(new Back());
     }
 
     submitAssunto(values): void {
@@ -733,7 +704,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
         this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
-
     }
 
     submitLote(event: any): void {
@@ -840,7 +810,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteAssunto(id, this.lote));
     }
-
 
     reloadInteressados(params): void {
         this._store.dispatch(new fromStore.GetInteressados({
@@ -997,13 +966,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     editar(documento: Documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
         const sidebar = 'editar/dados-basicos';
 
         this._router.navigate([
@@ -1011,7 +973,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 '/documento/' + documento.id,
                 {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],
@@ -1022,7 +983,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     assinar(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -1034,7 +995,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId

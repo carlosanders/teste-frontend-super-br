@@ -7,9 +7,9 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, QueryList,
     SimpleChange,
-    ViewChild,
+    ViewChild, ViewChildren,
     ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
@@ -19,11 +19,13 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Usuario, VinculacaoEtiqueta} from '../../../models';
+import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
+import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -36,6 +38,8 @@ import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 })
 export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges {
 
+    @ViewChildren('tarefaListItems', {read: CdkTarefaListItemComponent}) tarefaListItems: QueryList<CdkTarefaListItemComponent>;
+
     @Input()
     loading: boolean;
 
@@ -46,7 +50,16 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     assinandoTarefasIds: number[] = [];
 
     @Input()
-    assinandoTarefasEletronicamenteIds: number[] = [];
+    savingComponentesDigitaisIds: number[] = [];
+
+    @Input()
+    savingVinculacaoEtiquetaId: number;
+
+    @Input()
+    arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
+
+    @Input()
+    vinculacaoEtiquetaPagination: Pagination;
 
     @Input()
     tarefas: Tarefa[] = [];
@@ -68,6 +81,24 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     selectedIds: number[] = [];
+
+    @Input()
+    alterandoDocumentosId: number[] = [];
+
+    @Input()
+    assinandoDocumentosId: number[] = [];
+
+    @Input()
+    convertendoDocumentosId: number[] = [];
+
+    @Input()
+    deletingDocumentosId: number[] = [];
+
+    @Input()
+    downloadP7SDocumentoIds: number[] = [];
+
+    @Input()
+    removendoAssinaturaDocumentosId: number[] = [];
 
     @Output()
     changeSelectedIds = new EventEmitter();
@@ -94,6 +125,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     delete = new EventEmitter<Tarefa>();
 
     @Output()
+    gerenciarMinutasBloco = new EventEmitter<any>();
+
+    @Output()
     restauraTarefa = new EventEmitter<Tarefa>();
 
     @Output()
@@ -118,16 +152,16 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     createTarefa = new EventEmitter<any>();
 
     @Output()
-    movimentar = new EventEmitter<number>();
+    movimentar = new EventEmitter<Tarefa>();
 
     @Output()
     editProcesso = new EventEmitter<any>();
 
     @Output()
-    editTarefa = new EventEmitter<number>();
+    editTarefa = new EventEmitter<Tarefa>();
 
     @Output()
-    redistribuirTarefa = new EventEmitter<number>();
+    redistribuirTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     cienciaTarefa = new EventEmitter<any>();
@@ -187,7 +221,61 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    assinaMinutas = new EventEmitter<Tarefa>();
+    alterarTipoDocumento = new EventEmitter<any>();
+
+    @Output()
+    assinaMinutas = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaCreate = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaDelete = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaEdit = new EventEmitter<any>();
+
+    @Output()
+    aprovaDocumento = new EventEmitter<number>();
+
+    @Output()
+    assinaDocumento = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    converteHtml = new EventEmitter<number>();
+
+    @Output()
+    convertePdf = new EventEmitter<number>();
+
+    @Output()
+    deleteDocumento = new EventEmitter<{ documentoId: number; tarefaId: number }>();
+
+    @Output()
+    downloadP7S = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    removeAssinaturaDocumento = new EventEmitter<number>();
+
+    @Output()
+    uploadAnexos = new EventEmitter<{ vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }>();
+
+    @Output()
+    verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
+
+    @Output()
+    completed = new EventEmitter<{ tarefaId: number; documento: Documento }>();
+
+    @Output()
+    addEtiqueta = new EventEmitter<{ tarefa: Tarefa; etiqueta: Etiqueta }>();
+
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    completedAll = new EventEmitter<number>();
+
+    @Output()
+    erroUpload = new EventEmitter<string>();
 
     @Input()
     loadingAssuntosProcessosId: number[];
@@ -209,6 +297,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     targetHandle: any;
+
+    @Input()
+    typeHandle: any;
 
     @Input()
     editandoObservacaoIds: number[] = [];
@@ -315,12 +406,17 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     ngAfterViewInit(): void {
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
         const path = '@cdk/components/tarefa/cdk-tarefa-list';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                    if (this.container !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
                 }));
             }
         });
@@ -506,8 +602,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.createDocumentoAvulso.emit(tarefaId);
     }
 
-    doAssinaMinutas(tarefa: Tarefa): void {
-        this.assinaMinutas.emit(tarefa);
+    doAlterarTipoDocumento(event): void {
+        this.alterarTipoDocumento.emit(event);
+    }
+
+    doAssinaMinutas(): void {
+        this.assinaMinutas.emit(true);
     }
 
     doCreateDocumentoAvulsoBloco(): void {
@@ -558,15 +658,19 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     doEtiquetarBloco(): void {
-        this.etiquetarBloco.emit();
+        this.etiquetarBloco.emit(true);
+    }
+
+    doMinutas(): void {
+        this.gerenciarMinutasBloco.emit(true);
     }
 
     doUploadBloco(): void {
-        this.uploadBloco.emit();
+        this.uploadBloco.emit(true);
     }
 
     doEditorBloco(): void {
-        this.editorBloco.emit();
+        this.editorBloco.emit(true);
     }
 
     doRestaurarBloco(): void {
@@ -611,5 +715,69 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doClickEtiqueta(event): void {
         this.etiquetaClickHandler.emit(event);
+    }
+
+    doAddEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
+        this.addEtiqueta.emit(params);
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this.vinculacaoEtiquetaCreate.emit(params);
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this.vinculacaoEtiquetaDelete.emit(params);
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this.vinculacaoEtiquetaEdit.emit(params);
+    }
+
+    doAprovaDocumento(documentoId: number): void {
+        this.aprovaDocumento.emit(documentoId);
+    }
+
+    doAssinaDocumento(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.assinaDocumento.emit(vinculacaoEtiqueta);
+    }
+
+    doConverteHtml(documentoId: number): void {
+        this.converteHtml.emit(documentoId);
+    }
+
+    doConvertePdf(documentoId: number): void {
+        this.convertePdf.emit(documentoId);
+    }
+
+    doDeleteDocumento(event: { documentoId: number; tarefaId: number }): void {
+        this.deleteDocumento.emit(event);
+    }
+
+    doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.downloadP7S.emit(vinculacaoEtiqueta);
+    }
+
+    doRemoveAssinaturaDocumento(documentoId: number): void {
+        this.removeAssinaturaDocumento.emit(documentoId);
+    }
+
+    doUploadAnexos(event: { vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }): void {
+        this.uploadAnexos.emit(event);
+    }
+
+    doVerResposta(event: { documentoRespostaId: number; tarefa: Tarefa }): void {
+        this.verResposta.emit(event);
+    }
+
+    onComplete(uploaded: {tarefaId: number; documento: Documento}): void {
+        this.completed.emit(uploaded);
+    }
+
+    onCompleteAll(tarefaId: number): void {
+        this.completedAll.emit(tarefaId);
+    }
+
+    onErroUpload(mensagem: string): void {
+        this.erroUpload.emit(mensagem);
     }
 }

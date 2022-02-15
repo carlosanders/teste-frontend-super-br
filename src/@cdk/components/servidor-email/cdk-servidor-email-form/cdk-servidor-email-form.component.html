@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <mat-label>Nome</mat-label>
@@ -46,9 +46,14 @@
                type="number"
                formControlName="porta"
                maxlength="255">
-        <mat-error *ngIf="form.get('porta').hasError('formError')">
-            {{form.get('porta').errors.formError}}
-        </mat-error>
+               <mat-error *ngIf="(form.get('porta').invalid && (form.get('porta').dirty || form.get('porta').touched )) || form.get('porta').hasError('formError')">
+                    <div *ngIf="form.get('porta').hasError('formError')">
+                        {{form.get('porta').errors.formError}}
+                    </div>
+                    <div *ngIf="form.get('porta').errors?.['min']">
+                        O número da Porta não pode ser negativo.
+                    </div>
+                </mat-error>
     </mat-form-field>
 
     <label class="radio-button-label" id="protocolo-rg">Protocolo</label>

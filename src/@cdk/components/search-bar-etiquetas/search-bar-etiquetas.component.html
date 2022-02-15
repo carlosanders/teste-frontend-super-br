@@ -6,7 +6,7 @@
     <span class="material-icons-outlined mat-icon mat-icon-no-color icone">manage_search</span>
 </button>
 <cdk-etiqueta-chips [etiquetas]="etiquetas"
-                    [placeholder]="'Filtrar as ' + entidades + ' pelas ' + labelEtiquetasSearch"
+                    [placeholder]="'Filtrar pelas ' + labelEtiquetasSearch"
                     (create)="adiciona($event)"
                     [pagination]="vinculacaoEtiquetaPagination"
                     (delete)="remove($event)">

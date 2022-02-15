@@ -1,5 +1,5 @@
 <div class="atividade">
-    <div class="warn mb-16" *ngIf="mensagemErro">
+    <div class="warn mb-8" *ngIf="mensagemErro">
         {{mensagemErro}}
     </div>
 
@@ -41,7 +41,7 @@
 
         <mat-menu #modeloMenu="matMenu">
             <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
-            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
+            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
                   fxLayoutAlign="start"
                   (submit)="doEditor()"
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">

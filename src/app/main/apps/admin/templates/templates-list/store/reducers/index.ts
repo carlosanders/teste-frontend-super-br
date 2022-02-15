@@ -9,7 +9,7 @@ export const getTemplatesListAppState = createFeatureSelector<TemplatesListAppSt
     'templates-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTemplatesListAppState,
     (state: TemplatesListAppState) => state
 );

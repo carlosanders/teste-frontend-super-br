@@ -1,17 +1,17 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefaEditBlocoAppState, TarefaEditBlocoAppState, TarefaEditBlocoState} from '../reducers';
 
-export const getTarefaEditBlocoState = createSelector(
+export const getTarefaEditBlocoState: any = createSelector(
     getTarefaEditBlocoAppState,
     (state: TarefaEditBlocoAppState) => state.tarefaEditBloco
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTarefaEditBlocoState,
     (state: TarefaEditBlocoState) => state.savingId.length > 0
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTarefaEditBlocoState,
     (state: TarefaEditBlocoState) => state.errors
 );

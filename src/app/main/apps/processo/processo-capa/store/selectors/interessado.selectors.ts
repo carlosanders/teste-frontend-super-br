@@ -7,33 +7,33 @@ import {Interessado} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Interessado>(interessadoSchema);
 
-export const getInteressadoState = createSelector(
+export const getInteressadoState: any = createSelector(
     getProcessoCapaAppState,
     (state: ProcessoCapaAppState) => state.interessados
 );
 
-export const getInteressadosIds = createSelector(
+export const getInteressadosIds: any = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.entitiesId
 );
 
-export const getInteressados = createSelector(
+export const getInteressados: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getInteressadosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationInteressados = createSelector(
+export const getPaginationInteressados: any = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.pagination
 );
 
-export const getInteressadosLoaded = createSelector(
+export const getInteressadosLoaded: any = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.loaded
 );
 
-export const getIsInteressadosLoading = createSelector(
+export const getIsInteressadosLoading: any = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.loading
 );

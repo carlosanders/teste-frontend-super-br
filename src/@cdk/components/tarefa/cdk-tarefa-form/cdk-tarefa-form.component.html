@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular' && !fromProcesso" formControlName="blocoProcessos">
         Bloco de Processos
@@ -33,8 +33,34 @@
         </cdk-processo-grid>
     </div>
 
+    <mat-slide-toggle formControlName="tarefaWorkflow"
+      *ngIf="form.get('processo').value?.especieProcesso?.workflow">
+        Seguir Workflow
+    </mat-slide-toggle>
+
     <mat-form-field
-        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
+            *ngIf="form.get('tarefaWorkflow')?.value">
+        <input matInput placeholder="Workflow"
+               formControlName="workflow"
+               [matAutocomplete]="workflow.autocomplete" required
+               (blur)="checkWorkflow()">
+        <cdk-workflow-autocomplete
+            #workflow="workflowAutocomplete"
+            [control]="form.get('workflow')"
+            [pagination]="workflowPagination">
+        </cdk-workflow-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                [disabled]="form.get('workflow').disabled"
+                (click)="showWorkflowGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('workflow').hasError('formError')">
+            {{form.get('workflow').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+        *ngIf="exibeEspecieTarefa()">
         <input matInput placeholder="Espécie de Tarefa"
                formControlName="especieTarefa"
                [readonly]="desabilitaEspecieTarefa || !!tarefa.dataHoraConclusaoPrazo"
@@ -79,7 +105,7 @@
 
         <div class="align-icon">
             <div class="align-icon toggle-icon">
-                <mat-slide-toggle class="align-icon toggle-icon mr-16 mb-16"
+                <mat-slide-toggle class="align-icon toggle-icon mr-8 mb-8"
                                   *ngIf="!tarefa.id && mode === 'regular'"
                                   formControlName="blocoResponsaveis">
                     Bloco de Responsáveis
@@ -95,7 +121,7 @@
         </div>
         <mat-menu #lotacoesMenu="matMenu">
             <h4 class="p-4 mt-4 mb-4">Consulta de Lotações</h4>
-            <div class="p-8 mb-4" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
+            <div class="p-8 mb-4" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
                  fxLayoutAlign="start" fxFlex="1 0 auto" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
@@ -252,7 +278,7 @@
 
     </mat-card>
 
-    <mat-card class="dates mb-16"
+    <mat-card class="dates mb-8"
               *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
 
         <mat-card-subtitle>Prazo</mat-card-subtitle>
@@ -360,7 +386,7 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions mb-16" *ngIf="!tarefa.dataHoraConclusaoPrazo">
+    <div class="actions mb-8" *ngIf="!tarefa.dataHoraConclusaoPrazo">
         <button type="submit" mat-raised-button color="accent" (click)="submit()"
                 [disabled]="form.invalid || !valid" *ngIf="!saving">
             SALVAR
@@ -370,7 +396,7 @@
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
-    <div class="actions mb-16" *ngIf="tarefa.dataHoraConclusaoPrazo">
+    <div class="actions mb-8" *ngIf="tarefa.dataHoraConclusaoPrazo">
         <button mat-raised-button color="accent" type="button" (click)="doAbort()" *ngIf="!saving">
             VOLTAR
         </button>
@@ -429,6 +455,7 @@
 
 <cdk-setor-tree
     *ngIf="activeCard === 'setor-tree'"
+    [pagination]="setorResponsavelPaginationTree"
     (selected)="selectSetorResponsavel($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
@@ -454,3 +481,11 @@
     (selected)="selectLotacao($event)"
     (cancel)="cancel()">
 </cdk-lotacao-gridsearch>
+
+<cdk-workflow-gridsearch
+    *ngIf="activeCard === 'workflow-gridsearch'"
+    [pagination]="workflowPagination"
+    [mode]="'search'"
+    (selected)="selectWorkflow($event)"
+    (cancel)="cancel()">
+</cdk-workflow-gridsearch>

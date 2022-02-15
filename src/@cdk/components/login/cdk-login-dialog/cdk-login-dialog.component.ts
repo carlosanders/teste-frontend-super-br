@@ -25,8 +25,6 @@ export class CdkLoginDialogComponent implements OnInit {
     config$: Observable<any>;
     config: any;
 
-    certificadoDigital = '';
-
     errorMessage$: Observable<any>;
     errorMessage: any;
 
@@ -51,11 +49,10 @@ export class CdkLoginDialogComponent implements OnInit {
     ) {
         this.loading$ = data.loading$;
         this.config$ = data.config$;
-        this.certificadoDigital = data.certificadoDigital;
         this.loadingConfig$ = data.loadingConfig$;
         this.errorMessage$ = data.errorMessage$;
 
-        this.tipoLogin = this._loginService.getLoginType()?? 'externo';
+        this.tipoLogin = this._loginService.getLoginType()?? 'interno';
 
         this.form = this._formBuilder.group({
             tipoLogin: [this.tipoLogin, [Validators.required]],

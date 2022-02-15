@@ -8,6 +8,7 @@ export const assuntoAdministrativo = new schema.Entity('assunto-administrativo')
 export const assunto = new schema.Entity('assunto');
 export const atividade = new schema.Entity('atividade');
 export const aviso = new schema.Entity('aviso');
+export const bookmark = new schema.Entity('bookmark');
 export const cadastroIdentificador = new schema.Entity('cadastro-identificador');
 export const cargo = new schema.Entity('cargo');
 export const classificacao = new schema.Entity('classificacao');
@@ -34,7 +35,6 @@ export const etiqueta = new schema.Entity('etiqueta');
 export const favorito = new schema.Entity('favorito');
 export const feriado = new schema.Entity('feriado');
 export const folder = new schema.Entity('folder');
-export const garantia = new schema.Entity('garantia');
 export const generoAtividade = new schema.Entity('genero-atividade');
 export const generoDocumentoAvulso = new schema.Entity('genero-documento-avulso');
 export const generoDocumento = new schema.Entity('genero-documento');
@@ -58,7 +58,6 @@ export const modalidadeDocumentoIdentificador = new schema.Entity('modalidade-do
 export const modalidadeEtiqueta = new schema.Entity('modalidade-etiqueta');
 export const modalidadeFase = new schema.Entity('modalidade-fase');
 export const modalidadeFolder = new schema.Entity('modalidade-folder');
-export const modalidadeGarantia = new schema.Entity('modalidade-garantia');
 export const modalidadeGeneroPessoa = new schema.Entity('modalidade-genero-pessoa');
 export const modalidadeInteressado = new schema.Entity('modalidade-interessado');
 export const modalidadeMeio = new schema.Entity('modalidade-meio');
@@ -131,6 +130,14 @@ export const statusBarramento = new schema.Entity('status-barramento');
 export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
+export const modalidadeCopia = new schema.Entity('modalidade-copia');
+export const dossie = new schema.Entity('dossie');
+export const tipoDossie = new schema.Entity('tipo-dossie');
+export const vinculacaoEspecieProcessoWorkflow = new schema.Entity('vinculacao-especie-processo-workflow');
+export const vinculacaoTransicaoWorkflow = new schema.Entity('vinculacao-transicao-workflow');
+export const vinculacaoWorkflow = new schema.Entity('vinculacao-workflow');
+export const objetoAvaliado = new schema.Entity('objeto-avaliado');
+export const avaliacao = new schema.Entity('avaliacao');
 
 acao.define({
     criadoPor: usuario,
@@ -194,6 +201,16 @@ cadastroIdentificador.define({
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+bookmark.define({
+    usuario: usuario,
+    processo: processo,
+    componenteDigital: componenteDigital,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
 
 cargo.define({
     criadoPor: usuario,
@@ -376,7 +393,6 @@ especieProcesso.define({
     generoProcesso: generoProcesso,
     classificacao: classificacao,
     modalidadeMeio: modalidadeMeio,
-    workflow: workflow,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -414,14 +430,6 @@ feriado.define({
 folder.define({
     modalidadeFolder: modalidadeFolder,
     usuario: usuario,
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
-garantia.define( {
-    processo: processo,
-    modalidadeGarantia: modalidadeGarantia,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -565,12 +573,6 @@ modalidadeEtiqueta.define({
 });
 
 modalidadeFolder.define({
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
-modalidadeGarantia.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -721,6 +723,7 @@ pessoa.define({
     naturalidade: municipio,
     modalidadeQualificacaoPessoa: modalidadeQualificacaoPessoa,
     origemDados: origemDados,
+    dossies: [dossie],
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -1113,4 +1116,61 @@ contaEmail.define({
     atualizadoPor: usuario,
     setor: setor,
     servidorEmail: servidorEmail
+});
+
+modalidadeCopia.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+dossie.define({
+    pessoa: pessoa,
+    processo: processo,
+    origemDados: origemDados,
+    documento: documento,
+    tipoDossie: tipoDossie,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+tipoDossie.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+vinculacaoEspecieProcessoWorkflow.define({
+    especieProcesso: especieProcesso,
+    workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+vinculacaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
+    workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+vinculacaoWorkflow.define({
+    tarefaInicial: tarefa,
+    tarefaAtual: tarefa,
+    workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+avaliacao.define({
+    objetoAvaliado: objetoAvaliado,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+objetoAvaliado.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });

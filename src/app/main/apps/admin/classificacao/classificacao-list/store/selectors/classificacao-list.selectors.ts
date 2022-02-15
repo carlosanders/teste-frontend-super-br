@@ -6,48 +6,48 @@ import {Classificacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Classificacao>(classificacaoSchema);
 
-export const getClassificacaoListState = createSelector(
+export const getClassificacaoListState: any = createSelector(
     getClassificacaoListAppState,
     (state: ClassificacaoListAppState) => state.classificacaoList
 );
 
-export const getClassificacaoListIds = createSelector(
+export const getClassificacaoListIds: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.entitiesId
 );
 
-export const getClassificacaoList = createSelector(
+export const getClassificacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getClassificacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.pagination
 );
 
-export const getClassificacaoListLoaded = createSelector(
+export const getClassificacaoListLoaded: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.deletingIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.deletingErrors
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.deletedIds
 );

@@ -6,33 +6,33 @@ import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '@cdk/normalizr';
 
 const schemaTipoAcaoWorkflowSelectors = createSchemaSelectors<TipoAcaoWorkflow>(tipoAcaoWorkflowSchema);
 
-export const getTipoAcaoWorkflowEditState = createSelector(
+export const getTipoAcaoWorkflowEditState: any = createSelector(
     getTipoAcaoWorkflowEditAppState,
     (state: TipoAcaoWorkflowEditAppState) => state.tipoAcaoWorkflow
 );
 
-export const getTipoAcaoWorkflowId = createSelector(
+export const getTipoAcaoWorkflowId: any = createSelector(
     getTipoAcaoWorkflowEditState,
     (state: TipoAcaoWorkflowEditState) => state.entityId
 );
 
-export const getTipoAcaoWorkflow = createSelector(
+export const getTipoAcaoWorkflow: any = createSelector(
     schemaTipoAcaoWorkflowSelectors.getNormalizedEntities,
     getTipoAcaoWorkflowId,
     schemaTipoAcaoWorkflowSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTipoAcaoWorkflowEditState,
     (state: TipoAcaoWorkflowEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTipoAcaoWorkflowEditState,
     (state: TipoAcaoWorkflowEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTipoAcaoWorkflowEditState,
     (state: TipoAcaoWorkflowEditState) => state.errors
 );

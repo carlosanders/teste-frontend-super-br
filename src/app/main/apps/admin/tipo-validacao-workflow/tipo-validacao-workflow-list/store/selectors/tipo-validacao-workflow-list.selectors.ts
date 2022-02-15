@@ -11,48 +11,48 @@ import {TipoValidacaoWorkflow} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<TipoValidacaoWorkflow>(tipoValidacaoWorkflowSchema);
 
-export const getTipoValidacaoWorkflowListState = createSelector(
+export const getTipoValidacaoWorkflowListState: any = createSelector(
     getTipoValidacaoWorkflowListAppState,
     (state: TipoValidacaoWorkflowListAppState) => state.tipoValidacaoWorkflowList
 );
 
-export const getTipoValidacaoWorkflowListIds = createSelector(
+export const getTipoValidacaoWorkflowListIds: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.entitiesId
 );
 
-export const getTipoValidacaoWorkflowList = createSelector(
+export const getTipoValidacaoWorkflowList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTipoValidacaoWorkflowListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.pagination
 );
 
-export const getTipoValidacaoWorkflowListLoaded = createSelector(
+export const getTipoValidacaoWorkflowListLoaded: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.deletingErrors
 );

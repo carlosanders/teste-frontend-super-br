@@ -6,7 +6,7 @@
 
         <div class="title mb-8">{{config.name | uppercase}}</div>
 
-        <div class="subtitle mb-16">{{config.environment | uppercase}}</div>
+        <div class="subtitle mb-8">{{config.environment | uppercase}}</div>
 
         <form name="form" [formGroup]="form" novalidate>
 
@@ -51,7 +51,7 @@
             <div *ngIf="!!config.ldap" class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
                  fxLayoutAlign="space-between center">
 
-                <a class="forgot-password" (click)="onChangeTipoLogin(form.get('tipoLogin').value === 'ldap' ? 'externo' : 'ldap')">
+                <a class="forgot-password" (click)="onChangeTipoLogin(form.get('tipoLogin').value === 'ldap' ? 'interno' : 'ldap')">
                     {{form.get('tipoLogin').value === 'ldap' ? 'Logar com credenciais do sistema?' : 'Logar com credenciais ' + config.ldap + '?'}}
                 </a>
             </div>
@@ -61,13 +61,8 @@
                 Login {{!!config.ldap && form.get('tipoLogin').value === 'ldap' ? config.ldap : ''}}
             </button>
 
-            <a *ngIf="certificadoDigital.length" [href]="certificadoDigital + 'auth/x509_get_token'" mat-raised-button
-               color="accent" class="submit-button" aria-label="login com certificado digital">
-                Certificado Digital
-            </a>
-
             <a *ngIf="config.govBR?.client_id" mat-raised-button
-               [href]="config.govBR?.sso_url+'/authorize?response_type=code&client_id='+config.govBR?.client_id+'&scope=openid+email+phone+profile&redirect_uri='+config.govBR?.redirect_uri"
+               [href]="config.govBR?.sso_url+'/authorize?response_type=code&client_id='+config.govBR?.client_id+'&scope=openid+email+phone+profile+govbr_confiabilidades&redirect_uri='+config.govBR?.redirect_uri"
                class="submit-button gov-br" aria-label="entrar com gov.br">
                Entrar com <strong>gov.br</strong>
             </a>

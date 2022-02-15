@@ -54,14 +54,12 @@ export class CdkSearchBarEtiquetasComponent implements OnInit, OnDestroy {
      * Constructor
      *
      * @param _cdkConfigService
-     * @param _loginService
      * @param _dialog
      * @param _searchBarEtiquetasService
      * @param _changeDetectorRef
      */
     constructor(
         private _cdkConfigService: CdkConfigService,
-        private _loginService: LoginService,
         private _dialog: MatDialog,
         private _searchBarEtiquetasService: SearchBarEtiquetasService,
         private _changeDetectorRef: ChangeDetectorRef
@@ -96,7 +94,7 @@ export class CdkSearchBarEtiquetasComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

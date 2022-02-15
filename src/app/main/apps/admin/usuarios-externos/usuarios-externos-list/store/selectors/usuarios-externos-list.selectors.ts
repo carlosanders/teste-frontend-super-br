@@ -7,33 +7,33 @@ import {Usuario} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Usuario>(usuarioSchema);
 
-export const getUsuariosExternosListState = createSelector(
+export const getUsuariosExternosListState: any = createSelector(
     getUsuariosExternosListAppState,
     (state: UsuariosExternosListAppState) => state.usuariosExternosList
 );
 
-export const getUsuariosExternosListIds = createSelector(
+export const getUsuariosExternosListIds: any = createSelector(
     getUsuariosExternosListState,
     (state: UsuariosExternosListState) => state.entitiesId
 );
 
-export const getUsuariosExternosList = createSelector(
+export const getUsuariosExternosList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getUsuariosExternosListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getUsuariosExternosListState,
     (state: UsuariosExternosListState) => state.pagination
 );
 
-export const getUsuariosExternosListLoaded = createSelector(
+export const getUsuariosExternosListLoaded: any = createSelector(
     getUsuariosExternosListState,
     (state: UsuariosExternosListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getUsuariosExternosListState,
     (state: UsuariosExternosListState) => state.loading
 );

@@ -5,17 +5,17 @@ export interface AtividadeCreateBlocoState {
     errors: any;
 }
 
-export const AtividadeCreateInitialState: AtividadeCreateBlocoState = {
+export const atividadeCreateInitialState: AtividadeCreateBlocoState = {
     savingTarefasId: [],
     errors: false
 };
 
-export function AtividadeCreateBlocoReducer(
-    state = AtividadeCreateInitialState, action: AtividadeCreateBlocoActions.AtividadeCreateBlocoActionsAll
-): AtividadeCreateBlocoState {
+export const atividadeCreateBlocoReducer = (
+    state = atividadeCreateInitialState, action: AtividadeCreateBlocoActions.AtividadeCreateBlocoActionsAll
+): AtividadeCreateBlocoState => {
     switch (action.type) {
 
-        case AtividadeCreateBlocoActions.CREATE_ATIVIDADE: {
+        case AtividadeCreateBlocoActions.UNLOAD_ATIVIDADE: {
             return {
                 savingTarefasId: [],
                 errors: false
@@ -47,4 +47,4 @@ export function AtividadeCreateBlocoReducer(
         default:
             return state;
     }
-}
+};

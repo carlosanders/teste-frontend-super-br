@@ -6,33 +6,33 @@ import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
 
 const schemaTipoRelatorioSelectors = createSchemaSelectors<TipoRelatorio>(tipoRelatorioSchema);
 
-export const getTipoRelatorioEditState = createSelector(
+export const getTipoRelatorioEditState: any = createSelector(
     getTipoRelatorioEditAppState,
     (state: TipoRelatorioEditAppState) => state.tipoRelatorio
 );
 
-export const getTipoRelatorioId = createSelector(
+export const getTipoRelatorioId: any = createSelector(
     getTipoRelatorioEditState,
     (state: TipoRelatorioEditState) => state.entityId
 );
 
-export const getTipoRelatorio = createSelector(
+export const getTipoRelatorio: any = createSelector(
     schemaTipoRelatorioSelectors.getNormalizedEntities,
     getTipoRelatorioId,
     schemaTipoRelatorioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTipoRelatorioEditState,
     (state: TipoRelatorioEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTipoRelatorioEditState,
     (state: TipoRelatorioEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTipoRelatorioEditState,
     (state: TipoRelatorioEditState) => state.errors
 );

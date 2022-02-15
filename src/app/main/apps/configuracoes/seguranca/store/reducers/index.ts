@@ -10,7 +10,7 @@ export const getSegurancaAppState = createFeatureSelector<SegurancaAppState>(
     'seguranca-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getSegurancaAppState,
     (state: SegurancaAppState) => state
 );

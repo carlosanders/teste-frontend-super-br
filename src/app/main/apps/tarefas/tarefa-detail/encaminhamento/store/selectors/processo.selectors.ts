@@ -1,17 +1,17 @@
 import {createSelector} from '@ngrx/store';
 import {EncaminhamentoAppState, getEncaminhamentoAppState, ProcessoState} from '../reducers';
 
-export const getProcessoState = createSelector(
+export const getProcessoState: any = createSelector(
     getEncaminhamentoAppState,
     (state: EncaminhamentoAppState) => state.processo
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.errors
 );

@@ -7,70 +7,70 @@ import {Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
-export const getJuntadaListState = createSelector(
+export const getJuntadaListState: any = createSelector(
     getJuntadaListAppState,
     (state: JuntadaListAppState) => state.juntadaList
 );
 
-export const getJuntadaListIds = createSelector(
+export const getJuntadaListIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.entitiesId
 );
 
-export const getJuntadaList = createSelector(
+export const getJuntadaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.pagination
 );
 
-export const getJuntadaListLoaded = createSelector(
+export const getJuntadaListLoaded: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.loading
 );
 
-export const getDesentranhandoIds = createSelector(
+export const getDesentranhandoIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.desentranhandoIds
 );
 
-export const getDesentranhadoIds = createSelector(
+export const getDesentranhadoIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.desentranhadoIds
 );
 
-export const getCopiandoIds = createSelector(
+export const getCopiandoIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.copiandoIds
 );
 
-export const getDesentranhandoJuntadas = createSelector(
+export const getDesentranhandoJuntadas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDesentranhandoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getCopiandoJuntadas = createSelector(
+export const getCopiandoJuntadas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getCopiandoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.removendoAssinaturaDocumentoIds
 );

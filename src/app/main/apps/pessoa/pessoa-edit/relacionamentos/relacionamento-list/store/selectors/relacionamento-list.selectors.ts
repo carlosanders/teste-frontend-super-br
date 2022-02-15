@@ -7,48 +7,48 @@ import {RelacionamentoPessoal} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<RelacionamentoPessoal>(relacionamentoSchema);
 
-export const getRelacionamentoListState = createSelector(
+export const getRelacionamentoListState: any = createSelector(
     getRelacionamentoListAppState,
     (state: RelacionamentoListAppState) => state.relacionamentoList
 );
 
-export const getRelacionamentoListIds = createSelector(
+export const getRelacionamentoListIds: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.entitiesId
 );
 
-export const getRelacionamentoList = createSelector(
+export const getRelacionamentoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRelacionamentoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.pagination
 );
 
-export const getRelacionamentoListLoaded = createSelector(
+export const getRelacionamentoListLoaded: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.deletingErrors
 );

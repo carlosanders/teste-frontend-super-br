@@ -53,10 +53,9 @@ export class TarefaEditBlocoEffect {
                 'especieTarefa.generoTarefa',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.workflow',
                 'workflow'
             ]);
-            return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
+            return this._tarefaService.save(action.payload.tarefa, JSON.stringify({'especieProcessoWorkflow': true}), populate).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',

@@ -31,8 +31,8 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
-import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
-import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -122,7 +122,7 @@ export class TarefasEffect {
         }))),
         mergeMap((action) => {
             const folder = action.payload.folder ? action.payload.folder.id : null;
-            const context: any = {};
+            const context: any = {'especieProcessoWorkflow': true};
             if (folder) {
                 context.folderId = folder;
             }
@@ -148,10 +148,10 @@ export class TarefasEffect {
                         'setorOrigem',
                         'setorOrigem.unidade',
                         'especieTarefa.generoTarefa',
+                        'vinculacaoWorkflow',
+                        'vinculacaoWorkflow.workflow',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.workflow',
-                        'workflow'
                     ]
                 ),
                 JSON.stringify(context)
@@ -350,10 +350,10 @@ export class TarefasEffect {
                         'especieTarefa.generoTarefa',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.workflow',
                         'workflow'
                     ]
-                )
+                ),
+                JSON.stringify({'especieProcessoWorkflow': true})
             ).pipe(
                 mergeMap((response: any) => [
                     new TarefasActions.ChangeTarefasFolderSuccess({

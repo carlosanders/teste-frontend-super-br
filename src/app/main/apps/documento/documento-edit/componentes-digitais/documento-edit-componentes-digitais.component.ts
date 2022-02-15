@@ -26,6 +26,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {getComponenteDigitalLoading} from "./store";
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -164,7 +165,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -177,8 +178,9 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this._store.dispatch(new fromStore.DownloadComponenteDigital({componenteDigitalId: componenteDigital.componenteDigital.id}));
     }
 
-    onCompleteComponenteDigital(): void {
-        this._store.dispatch(new GetDocumento());
+    onCompleteComponenteDigital(componenteDigital: ComponenteDigital): void {
+        // this._store.dispatch(new GetDocumento());
+        this._store.dispatch(new fromStore.SaveComponenteDigital(componenteDigital));
         this.reloadComponentesDigitais({});
     }
 
@@ -191,6 +193,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.DeleteComponenteDigital({
                 componenteDigitalId: componenteDigitalId,
+                documento: this.documento,
                 operacaoId: operacaoId,
                 loteId: loteId,
             }));

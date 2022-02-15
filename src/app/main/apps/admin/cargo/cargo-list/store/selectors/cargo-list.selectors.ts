@@ -7,38 +7,38 @@ import {Cargo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Cargo>(cargoSchema);
 
-export const getCargoListState = createSelector(
+export const getCargoListState: any = createSelector(
     getCargoListAppState,
     (state: CargoListAppState) => state.cargoList
 );
 
-export const getCargoListIds = createSelector(
+export const getCargoListIds: any = createSelector(
     getCargoListState,
     (state: CargoListState) => state.entitiesId
 );
 
-export const getCargoList = createSelector(
+export const getCargoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getCargoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getCargoListState,
     (state: CargoListState) => state.pagination
 );
 
-export const getCargoListLoaded = createSelector(
+export const getCargoListLoaded: any = createSelector(
     getCargoListState,
     (state: CargoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getCargoListState,
     (state: CargoListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getCargoListState,
     (state: CargoListState) => state.deletingErrors
 );

@@ -4,26 +4,24 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {getFoldersLoaded, getIsLoading, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from '../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
-import {navigationConverter} from '../../../../../navigation/navigation';
+import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
-    private _profile: Usuario;
     routerState: any;
-
     loadingTarefas: boolean = false;
-
+    private _profile: Usuario;
     /**
      *
      * @param _store
@@ -110,7 +108,8 @@ export class ResolveGuard implements CanActivate {
     getTarefas(): any {
         return this._store.pipe(
             select(getTarefasLoaded),
-            tap((loaded: any) => {
+            withLatestFrom(this._store.pipe(select(fromStore.getTarefaHandle))),
+            tap(([loaded, tarefaHandle]) => {
                 if (!this.loadingTarefas && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
@@ -142,10 +141,8 @@ export class ResolveGuard implements CanActivate {
                             'setorOrigem',
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow',
-                            'workflow'
+                            'vinculacaoWorkflow',
+                            'vinculacaoWorkflow.workflow',
                         ],
                         context: {}
                     };
@@ -157,6 +154,20 @@ export class ResolveGuard implements CanActivate {
                             tarefaFilter = {
                                 'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
                                 'dataHoraConclusaoPrazo': 'isNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'concluidas') {
+                            tarefaFilter = {
+                                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                'dataHoraConclusaoPrazo': 'isNotNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'enviadas') {
+                            tarefaFilter = {
+                                'criadoPor.id': 'eq:' + this._profile.id,
+                                'usuarioResponsavel.id': 'neq:' + this._profile.id,
                             };
                         }
 
@@ -242,11 +253,15 @@ export class ResolveGuard implements CanActivate {
                     });
 
                     this._store.dispatch(new fromStore.GetTarefas(params));
-                    this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
+                    if (!tarefaHandle) {
+                        this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
+                    } else {
+                        this._store.dispatch(new fromStore.ChangeSelectedTarefas([parseInt(tarefaHandle, 10)]));
+                    }
                     this.loadingTarefas = true;
                 }
             }),
-            filter((loaded: any) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+            filter(([loaded,]) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                 this.routerState.params['targetHandle'] &&
                 (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                     this.routerState.params['targetHandle']) ===

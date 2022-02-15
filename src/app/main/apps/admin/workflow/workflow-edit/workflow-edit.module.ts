@@ -31,9 +31,9 @@ const routes: Routes = [
                     .then(m => m.TransicaoWorkflowModule)
             },
             {
-                path: 'especies-processo',
-                loadChildren: () => import('./especies-processo/especies-processo.module')
-                    .then(m => m.EspeciesProcessoModule)
+                path: 'vinculacao-especie-processo-workflow',
+                loadChildren: () => import('./vinculacao-especie-processo-workflow/vinculacao-especie-processo-workflow.module')
+                    .then(m => m.VinculacaoEspecieProcessoWorkflowModule)
             },
             {
                 path: 'visualizar',

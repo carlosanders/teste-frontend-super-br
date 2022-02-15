@@ -6,33 +6,33 @@ import {endereco as enderecoSchema} from '@cdk/normalizr';
 
 const schemaEnderecoSelectors = createSchemaSelectors<Endereco>(enderecoSchema);
 
-export const getEnderecoEditState = createSelector(
+export const getEnderecoEditState: any = createSelector(
     getEnderecoEditAppState,
     (state: EnderecoEditAppState) => state.endereco
 );
 
-export const getEnderecoId = createSelector(
+export const getEnderecoId: any = createSelector(
     getEnderecoEditState,
     (state: EnderecoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getEndereco = createSelector(
+export const getEndereco: any = createSelector(
     schemaEnderecoSelectors.getNormalizedEntities,
     getEnderecoId,
     schemaEnderecoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEnderecoEditState,
     (state: EnderecoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getEnderecoEditState,
     (state: EnderecoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEnderecoEditState,
     (state: EnderecoEditState) => state.errors
 );

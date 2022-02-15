@@ -6,17 +6,21 @@ import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators'
 
 import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    documento as documentoSchema,
+    vinculacaoDocumento as vinculacaoDocumentoSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -77,8 +81,6 @@ export class DocumentosVinculadosEffects {
                     'tipoDocumento',
                     'vinculacaoDocumentoPrincipal',
                     'vinculacaoDocumentoPrincipal.documento',
-                    'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                    'componentesDigitais',
                     'processoOrigem',
                     'setorOrigem',
                     'tarefaOrigem',
@@ -157,27 +159,7 @@ export class DocumentosVinculadosEffects {
                 })
             ), 25)
     ));
-    /**
-     * Prepara Assinatura Success
-     *
-     * @type {Observable<any>}
-     */
-    preparaAssinaturaSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.PreparaAssinaturaVinculadoSuccess>(DocumentosVinculadosActions.PREPARA_ASSINATURA_VINCULADO_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
     /**
      * Save Documento Assinatura Eletronica
      *
@@ -253,20 +235,12 @@ export class DocumentosVinculadosEffects {
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
             let sidebar = 'editar/anexos';
-            let primary: string;
-            primary = 'componente-digital/';
-            if (action.payload.componentesDigitais[0]) {
-                primary += action.payload.componentesDigitais[0].id + '/editor/ckeditor';
-            } else {
-                primary += '0';
-            }
             if (action.payload.vinculacaoDocumentoPrincipal) {
                 sidebar = 'editar/dados-basicos';
             }
             this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],
@@ -293,7 +267,11 @@ export class DocumentosVinculadosEffects {
                     new UpdateData<Documento>({
                         id: response.id,
                         schema: documentoSchema,
-                        changes: {atualizadoEm: response.atualizadoEm, atualizadoPor: response.atualizadoPor, tipoDocumento: response.tipoDocumento}
+                        changes: {
+                            atualizadoEm: response.atualizadoEm,
+                            atualizadoPor: response.atualizadoPor,
+                            tipoDocumento: response.tipoDocumento
+                        }
                     })
                 ]),
                 catchError((err) => {
@@ -345,6 +323,50 @@ export class DocumentosVinculadosEffects {
                 })
             ), 25)
     ));
+    removeVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.RemoveVinculacaoDocumento>(DocumentosVinculadosActions.REMOVE_VINCULACAO_DOCUMENTO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'documento vinculado',
+            content: 'Removendo a vinculação id ' + action.payload.vinculacaoDocumento.id + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload.vinculacaoDocumento.id).pipe(
+            mergeMap(() => [
+                new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento vinculado',
+                    content: 'Vinculação de juntada id ' + action.payload.vinculacaoDocumento.id + ' removida com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId
+                }),
+                new RemoveChildData({
+                    id: action.payload.vinculacaoDocumento.id,
+                    childSchema: vinculacaoDocumentoSchema,
+                    parentSchema: documentoSchema,
+                    parentId: action.payload.vinculacaoDocumento.documento.id
+                }),
+                new DocumentosVinculadosActions.RemoveVinculacaoDocumentoSuccess(action.payload.vinculacaoDocumento.id),
+                new DocumentosVinculadosActions.ReloadDocumentosVinculados(),
+            ]),
+            catchError((err) => {
+                const payload = {
+                    id: action.payload.vinculacaoDocumento.id,
+                    error: err
+                };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento vinculado',
+                    content: 'Erro ao apagar a vinculação de documento id' + action.payload.vinculacaoDocumento.id + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                console.log(err);
+                return of(new DocumentosVinculadosActions.RemoveVinculacaoDocumentoFailed(payload));
+            })
+        ))
+    ));
 
     constructor(
         private _actions: Actions,
@@ -354,6 +376,7 @@ export class DocumentosVinculadosEffects {
         private _store: Store<State>,
         private _activatedRoute: ActivatedRoute,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _vinculacaoDocumentoService: VinculacaoDocumentoService
     ) {
         this._store.pipe(
             select(getRouterState),

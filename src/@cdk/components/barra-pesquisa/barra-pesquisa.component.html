@@ -1,0 +1,41 @@
+<form name="form" [formGroup]="form">
+    <div class="cdk-barra-pesquisa" fxHide.lt-sm>
+        <div class="cdk-barra-pesquisa-content">
+            <div class="form-field-flex">
+                <button mat-icon-button
+                        class="custom-search-button"
+                        aria-label="Pesquisar por"
+                        [matTooltip]="'Pesquisando processos por ' + this.searchFieldName"
+                        [matMenuTriggerFor]="menuBusca">
+                    <span class="material-icons-outlined mat-icon mat-icon-no-color">manage_search</span>
+                </button>
+                <input matInput class="input-field"
+                       placeholder="Pesquisa rápida de processos por {{searchFieldName}}"
+                       formControlName="processo"
+                       [matAutocomplete]="processoSearch.autocomplete"
+                       (blur)="checkProcesso()">
+                <cdk-processo-search-autocomplete
+                    #processoSearch="processoSearchAutocomplete"
+                    [searchField]="searchField"
+                    [control]="form.get('processo')"
+                    [pagination]="processoPagination">
+                </cdk-processo-search-autocomplete>
+            </div>
+        </div>
+    </div>
+    <mat-menu #menuBusca="matMenu" class="menu-busca" [overlapTrigger]="false" xPosition="before">
+        <div class="custom-search-header">
+            <span class="title">Buscar processos por:</span>
+        </div>
+        <div class="campo" (click)="selecionaCampo('NUP', 'NUP')" [ngClass]="{'selected': searchField === 'NUP'}">
+            <span>NUP</span>
+            <mat-icon class="green-fg" *ngIf="searchField === 'NUP'">check</mat-icon>
+        </div>
+        <div class="campo" (click)="selecionaCampo('outroNumero', 'Outro Número')" [ngClass]="{'selected': searchField === 'outroNumero'}">
+            <span>Outro Número</span>
+            <mat-icon class="green-fg" *ngIf="searchField === 'outroNumero'">check</mat-icon>
+        </div>
+
+        <ng-template #dynamicComponent></ng-template>
+    </mat-menu>
+</form>

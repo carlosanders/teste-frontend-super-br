@@ -6,10 +6,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
-import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store';
-import {Back} from '../../../../../store';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Back, getRouterState} from 'app/store';
+import {CdkUtils} from '@cdk/utils';
 import {filter} from 'rxjs/operators';
 
 @Component({

@@ -21,14 +21,14 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
-    GetDocumentos as GetDocumentosProcesso,
     GetJuntada,
     GetJuntadas,
     SetCurrentStep,
-    UnloadDocumentos,
     UnloadJuntadas
-} from '../processo/processo-view/store/actions';
-import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+} from '../processo/processo-view/store';
+import {
+    GetDocumentos as GetDocumentosAtividade
+} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
@@ -130,11 +130,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -142,8 +138,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
             // Entrou na rota de visualizar processo
             this.matTabGroup.selectedIndex = 1;
-            const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
-            if (steps) {
+            if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
+                const steps = this.routerState.params['stepHandle'].split('-');
                 this._store.dispatch(new SetCurrentStep({
                     step: steps[0],
                     subStep: steps[1]
@@ -161,20 +157,15 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         content.classList.remove('full-screen');
 
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
 
         this._store.dispatch(new UnloadComponenteDigital());
         this._store.dispatch(new fromStore.UnloadDocumento());
-        if (this.unloadDocumentosTarefas) {
-            this._store.dispatch(new UnloadDocumentos());
-        }
         if (this.getDocumentosAtividades) {
             this._store.dispatch(new GetDocumentosAtividade());
         } else if (this.getDocumentosAvulsos) {
             this._store.dispatch(new GetDocumentosAvulsos());
-        } else if (this.getDocumentosProcesso) {
-            this._store.dispatch(new GetDocumentosProcesso());
         }
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
@@ -183,7 +174,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.reloadJuntadas();
             return;
         }
-        if (this.routerState.params.stepHandle) {
+        if (this.routerState.params['stepHandle']) {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: steps[0],
@@ -219,7 +210,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
         && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
-        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
+        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1;
 
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
@@ -228,7 +219,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.getDocumentosAtividades = true;
         } else if (url.indexOf('/oficios') !== -1) {
             this.getDocumentosAvulsos = true;
-        } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
+        } else if (url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1) {
             this.getDocumentosProcesso = true;
         }
 
@@ -308,8 +299,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                 }
             });
-        }
-        if (!this.currentComponenteDigital.editavel) {
+        } else {
             let nextComponenteDigital = null;
             this.documento.componentesDigitais.forEach((componenteDigital) => {
                 if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
@@ -330,18 +320,38 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      * Go to previous step
      */
     gotoPreviousStep(): void {
-        let prevComponenteDigital = null;
-        this.documento.componentesDigitais.forEach((componenteDigital) => {
-            if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
-                prevComponenteDigital = componenteDigital;
-                return;
+        if (this.currentComponenteDigital.editavel) {
+            this.podeNavegarDoEditor().subscribe((result) => {
+                if (result) {
+                    let prevComponenteDigital = null;
+                    this.documento.componentesDigitais.forEach((componenteDigital) => {
+                        if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
+                            prevComponenteDigital = componenteDigital;
+                            return;
+                        }
+                    });
+                    if (prevComponenteDigital) {
+                        this._store.dispatch(new fromStore.SetCurrentStep({
+                            id: prevComponenteDigital.id,
+                            editavel: prevComponenteDigital.editavel && this.documento.minuta
+                        }));
+                    }
+                }
+            });
+        } else {
+            let prevComponenteDigital = null;
+            this.documento.componentesDigitais.forEach((componenteDigital) => {
+                if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
+                    prevComponenteDigital = componenteDigital;
+                    return;
+                }
+            });
+            if (prevComponenteDigital) {
+                this._store.dispatch(new fromStore.SetCurrentStep({
+                    id: prevComponenteDigital.id,
+                    editavel: prevComponenteDigital.editavel && this.documento.minuta
+                }));
             }
-        });
-        if (prevComponenteDigital) {
-            this._store.dispatch(new fromStore.SetCurrentStep({
-                id: prevComponenteDigital.id,
-                editavel: prevComponenteDigital.editavel && this.documento.minuta
-            }));
         }
     }
 
@@ -401,6 +411,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
                 if (this.documento.vinculacaoDocumentoPrincipal) {
                     sidebar = 'editar/dados-basicos';
+                }
+                if (!!this.documento.documentoAvulsoRemessa) {
+                    sidebar = 'oficio/dados-basicos';
                 }
                 this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                     {

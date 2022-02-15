@@ -8,34 +8,34 @@ import {DocumentoState} from '../../../../store/reducers';
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
 
-export const getDocumentoId = createSelector(
+export const getDocumentoId: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getCurrentComponenteDigitalId = createSelector(
+export const getCurrentComponenteDigitalId: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loaded ? state.currentComponenteDigitalId : null
 );
 
-export const getCurrentComponenteDigital = createSelector(
+export const getCurrentComponenteDigital: any = createSelector(
     schemaComponenteDigitalSelectors.getNormalizedEntities,
     getCurrentComponenteDigitalId,
     schemaComponenteDigitalSelectors.entityProjector
 );
 
-export const getDocumento = createSelector(
+export const getDocumento: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentoId,
     schemaDocumentoSelectors.entityProjector
 );
 
-export const getDocumentoLoaded = createSelector(
+export const getDocumentoLoaded: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loading
 );

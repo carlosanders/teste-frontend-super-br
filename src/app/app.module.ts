@@ -4,7 +4,7 @@ import localePt from '@angular/common/locales/pt';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ExtraOptions, RouterModule, Routes} from '@angular/router';
+import {ExtraOptions, RouterModule} from '@angular/router';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MAT_DATE_LOCALE, MatButtonModule, MatIconModule, MatSnackBarModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
@@ -32,23 +32,27 @@ import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-l
 import {MatStepperIntl} from '@angular/material/stepper';
 import {CdkMatStepperIntl} from '../@cdk/angular/cdk-mat-stepper-intl';
 import {GlobalErrorHandler} from './global-error-handler';
+import {AssinaturaService} from '../@cdk/services/assinatura.service';
+import {DocumentoService} from '../@cdk/services/documento.service';
+import {AvaliacaoService} from '../@cdk/services/avaliacao.service';
+import {ObjetoAvaliadoService} from '../@cdk/services/objeto-avaliado.service';
 import {modulesConfig} from '../modules/modules-config';
 
 registerLocaleData(localePt, 'pt');
 
-const appRoutes: Routes = [
+let routes = [
     {
         path: 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
+        loadChildren: (): any => import('./main/apps/apps.module').then(m => m.AppsModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'auth',
-        loadChildren: () => import('./main/auth/auth.module').then(m => m.AuthModule)
+        loadChildren: (): any => import('./main/auth/auth.module').then(m => m.AuthModule)
     },
     {
         path: 'pages',
-        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
+        loadChildren: (): any => import('./main/pages/pages.module').then(m => m.PagesModule)
     },
     {
         path: '**',
@@ -61,33 +65,42 @@ const routingConfiguration: ExtraOptions = {
 //    onSameUrlNavigation: 'reload'
 };
 
-const httpInterceptors = [
+let httpInterceptors = [
     {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 ];
+
+let rootModules = [];
+let childModules = [];
+
 const path = 'app';
-modulesConfig.forEach((module) => {
-    if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach(((r) => {
-            const index = appRoutes.findIndex(rota => rota.path === r.path);
-            if (index !== -1) {
-                appRoutes[index] = r;
-            } else {
-                appRoutes.push(r);
-            }
-        }));
+modulesConfig.forEach((module: any) => {
+    if (module.hasOwnProperty('extension')) {
+        const extension = new module.extension();
+
+        rootModules = [
+            ...rootModules,
+            extension.forRoot()
+        ];
+        childModules = [
+            ...childModules,
+            extension.forChild(path)
+        ];
+        routes = extension.manageRoutes(path, routes);
+        httpInterceptors = extension.manageInterceptors(path, httpInterceptors);
     }
 });
+
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        RouterModule.forRoot(appRoutes, routingConfiguration),
+        RouterModule.forRoot(routes, routingConfiguration),
 
         TranslateModule.forRoot(),
 
@@ -119,15 +132,20 @@ modulesConfig.forEach((module) => {
         LayoutModule,
         AppStoreModule,
         LoginStoreModule,
-        ModelModule
+        ModelModule,
+        ...rootModules,
+        ...childModules
     ],
     providers: [
         {provide: ErrorHandler, useClass: GlobalErrorHandler},
-        httpInterceptors,
+        ...httpInterceptors,
         {provide: MatStepperIntl, useClass: CdkMatStepperIntl},
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},
-        AuthGuard
+        {provide: AssinaturaService, useClass: AssinaturaService},
+        {provide: DocumentoService, useClass: DocumentoService},
+        {provide: AvaliacaoService, useClass: AvaliacaoService},
+        {provide: ObjetoAvaliadoService, useClass: ObjetoAvaliadoService},
     ],
     bootstrap: [
         AppComponent

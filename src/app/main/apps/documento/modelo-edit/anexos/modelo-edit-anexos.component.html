@@ -2,7 +2,7 @@
     <h3 style="font-weight: bold">Anexos</h3>
 
     <button mat-mini-fab
-            class="ml-8 mb-16 active accent add-file-button"
+            class="ml-8 mb-8 active accent add-file-button"
             [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
             (click)="$event.stopPropagation()">
         <mat-icon class="secondary-text">attach_file</mat-icon>
@@ -22,12 +22,15 @@
     <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
                              [deletingId]="(deletingDocumentosVinculadosId$ | async)"
                              [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
+                             [removendoAssinaturaId]="(removendoAssinaturaDocumentosVinculadosId$ | async)"
                              [saving]="(isSavingDocumentosVinculados$ | async)"
                              [loading]="(isLoadingDocumentosVinculados$ | async)"
                              [documentosPagination]="pagination"
                              (delete)="doDeleteDocumentoVinculado($event)"
+                             (deleteBlocoEmmitter)="doDeleteBloco($event)"
                              (assinatura)="doAssinaturaDocumentoVinculado($event)"
                              (assinaturaBloco)="doAssinaturaBloco($event)"
+                             (removeAssinatura)="doRemoveAssinatura($event)"
                              (clicked)="onClickedDocumentoVinculado($event)"
                              (getMore)="paginaDocumentosVinculados()"
                              (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">

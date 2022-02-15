@@ -68,8 +68,6 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
-    _profile: Usuario;
-
     @Input()
     processo: Processo;
 
@@ -119,7 +117,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
-    classificacao = new EventEmitter<Classificacao|null>();
+    calcularNup = new EventEmitter<string>();
+
+    @Output()
+    classificacao = new EventEmitter<Classificacao | null>();
 
     @Output()
     editProcedencia = new EventEmitter<number>();
@@ -159,6 +160,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     paramHandle: string;
+
+    _profile: Usuario;
 
     activeCard = 'form';
 
@@ -204,6 +207,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             id: [null],
             temProcessoOrigem: [null],
             processoOrigem: [null],
+            processoOrigemIncluirDocumentos: [null],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]],
@@ -239,6 +244,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
+        // eslint-disable-next-line max-len
         this.processoPagination.populate = ['configuracaoNup', 'procedencia', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.especieProcessoPagination.populate = ['generoProcesso', 'modalidadeMeio', 'classificacao'];
         this._profile = this._loginService.getUserProfile();
@@ -346,6 +352,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
+        this.form.get('visibilidadeExterna').valueChanges.subscribe((value) => {
+            this.form.get('visibilidadeExterna').setValue(value, {emitEvent: false});
+        });
+
         this.form.get('modalidadeFase').disable();
     }
 
@@ -354,6 +364,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
 
+        // eslint-disable-next-line max-len
         if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.unidadeArquivistica !== this.form.get('unidadeArquivistica').value))) {
             this.form.patchValue({...this.processo});
             this.form.get('configuracaoNup').clearValidators();
@@ -364,7 +375,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 const data = JSON.parse(this.errors.error.message);
                 data.forEach((field) => {
                     const control = this.form.get(field.propertyPath);
-                    control.setErrors({formError: data.message});
+                    control.setErrors({formError: field.message});
+
                 });
             } catch (e) {
                 this.form.setErrors({rulesError: this.errors.error.message});
@@ -439,6 +451,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     doGerirProcedencia(): void {
         this.gerirProcedencia.emit();
+    }
+
+    doCalcularNUP(): void {
+        const valorNup = this.form.get('NUP').value;
+        this.calcularNup.emit(valorNup);
     }
 
     doEditProcedencia(): void {

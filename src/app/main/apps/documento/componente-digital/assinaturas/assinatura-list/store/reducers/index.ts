@@ -10,7 +10,7 @@ export const getAssinaturaListAppState = createFeatureSelector<AssinaturaListApp
     'assinatura-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAssinaturaListAppState,
     (state: AssinaturaListAppState) => state
 );

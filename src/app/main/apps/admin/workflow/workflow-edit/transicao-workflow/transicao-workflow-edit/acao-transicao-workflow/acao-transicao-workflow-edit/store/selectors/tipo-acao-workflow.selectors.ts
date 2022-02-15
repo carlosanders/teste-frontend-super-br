@@ -7,28 +7,28 @@ import {TipoAcaoWorkflow} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<TipoAcaoWorkflow>(tipoAcaoWorkflowSchema);
 
-export const getTipoAcaoWorkflowListState = createSelector(
+export const getTipoAcaoWorkflowListState: any = createSelector(
     getAcaoEditAppState,
     (state: AcaoTransicaoWorkflowEditAppState) => state.tipoAcaoWorkflowList
 );
 
-export const getTipoAcaoWorkflowListIds = createSelector(
+export const getTipoAcaoWorkflowListIds: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowState) => state.entitiesId
 );
 
-export const getTipoAcaoWorkflowList = createSelector(
+export const getTipoAcaoWorkflowList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTipoAcaoWorkflowListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getTipoAcaoWorkflowListLoaded = createSelector(
+export const getTipoAcaoWorkflowListLoaded: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowState) => state.loading
 );

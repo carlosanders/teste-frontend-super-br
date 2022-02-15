@@ -66,7 +66,7 @@ export class SaveDesentranhamentoSuccess implements Action
 {
     readonly type = SAVE_DESENTRANHAMENTO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

@@ -11,28 +11,28 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getDocumentoState = createSelector(
+export const getDocumentoState: any = createSelector(
     getDocumentoAppState,
     (state: DocumentoAppState) => state.documento
 );
 
-export const getDocumentoId = createSelector(
+export const getDocumentoId: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getDocumento = createSelector(
+export const getDocumento: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentoId,
     schemaDocumentoSelectors.entityProjector
 );
 
-export const getDocumentoEditDadosBasicosState = createSelector(
+export const getDocumentoEditDadosBasicosState: any = createSelector(
     getDocumentoEditDadosBasicosAppState,
     (state: DocumentoEditDadosBasicosAppState) => state.documento
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getDocumentoEditDadosBasicosState,
     (state: DocumentoEditDadosBasicosState) => state.saving
 );

@@ -61,6 +61,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'highlights', 'actions'];
 
     @Input()
+    mobileMode = false;
+
+    @Input()
     deletingIds: number[] = [];
 
     @Input()
@@ -297,6 +300,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -478,6 +483,12 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     setFilter(gridFilter): void {
+        if(this.mobileMode && this.modelos) {
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-modelo-pesquisa-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-modelo-pesquisa-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-modelo-lista-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-modelo-lista-on');
+        }
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -501,4 +512,11 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     getMessageError(obj): any {
         return obj?.error?.error?.message;
    }
+
+    cssPesquisaOn(): void {
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-modelo-pesquisa-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-modelo-pesquisa-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-modelo-lista-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-modelo-lista-off');
+    }
 }

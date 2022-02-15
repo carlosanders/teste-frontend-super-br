@@ -21,7 +21,7 @@ import {CdkUtils} from '@cdk/utils';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {getRouterState} from '../../../../store';
+import {getRouterState} from 'app/store';
 
 @Component({
     selector: 'folder-list-column',
@@ -478,7 +478,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 }

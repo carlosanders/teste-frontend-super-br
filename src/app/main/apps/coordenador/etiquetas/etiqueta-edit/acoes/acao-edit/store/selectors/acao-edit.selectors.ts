@@ -6,33 +6,33 @@ import {acao as acaoSchema} from '@cdk/normalizr';
 
 const schemaAcaoSelectors = createSchemaSelectors<Acao>(acaoSchema);
 
-export const getAcaoEditState = createSelector(
+export const getAcaoEditState: any = createSelector(
     getAcaoEditAppState,
     (state: AcaoEditAppState) => state.acao
 );
 
-export const getAcaoId = createSelector(
+export const getAcaoId: any = createSelector(
     getAcaoEditState,
     (state: AcaoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getAcao = createSelector(
+export const getAcao: any = createSelector(
     schemaAcaoSelectors.getNormalizedEntities,
     getAcaoId,
     schemaAcaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getAcaoEditState,
     (state: AcaoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getAcaoEditState,
     (state: AcaoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAcaoEditState,
     (state: AcaoEditState) => state.errors
 );

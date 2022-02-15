@@ -15,11 +15,13 @@
             [configuracaoNupPagination]="configuracaoNupPagination"
             [logEntryPagination]="logEntryPagination"
             [nupIsValid]="nupIsValid"
+            (calcularNup)="calcularNup($event)"
             (gerirProcedencia)="gerirProcedencia()"
             (classificacao)="doSelectClassificacao($event)"
             (editProcedencia)="editProcedencia($event)"
             (validateNup)="validateNup($event)"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (abort)="abort()">
         </cdk-processo-form>
     </mat-step>
     <mat-step [completed]="(assuntos$ | async)?.length > 0">
@@ -173,6 +175,7 @@
             (gerirProcedencia)="gerirProcedencia()"
             (editProcedencia)="editProcedencia($event)"
             (validateNup)="validateNup($event)"
+            (calcularNup)="calcularNup($event)"
             (save)="submit($event)">
         </cdk-processo-form>
     </mat-step>

@@ -8,48 +8,48 @@ import {ChatAppState, getChatAppState} from '../reducers';
 const schemaSelectors = createSchemaSelectors<ChatMensagem>(chatMensagemSchema);
 
 
-export const getChatMensagemState = createSelector(
+export const getChatMensagemState: any = createSelector(
     getChatAppState,
     (state: ChatAppState) => state.chatMensagem
 );
 
-export const getChatMensagemListIds = createSelector(
+export const getChatMensagemListIds: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.entitiesId
 );
 
-export const getChatMensagemList = createSelector(
+export const getChatMensagemList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getChatMensagemListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getChatMensagemIsLoaded = createSelector(
+export const getChatMensagemIsLoaded: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.loaded
 );
 
-export const getChatMensagemIsLoading = createSelector(
+export const getChatMensagemIsLoading: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.loading
 );
 
-export const getChatMensagemDeletingIds = createSelector(
+export const getChatMensagemDeletingIds: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.deletingIds
 );
 
-export const getChatMensagemDeletedIds = createSelector(
+export const getChatMensagemDeletedIds: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.deletedIds
 );
 
-export const getChatMensagemPagination = createSelector(
+export const getChatMensagemPagination: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.pagination
 );
 
-export const getChatMensagemIsSaving = createSelector(
+export const getChatMensagemIsSaving: any = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.saving
 );

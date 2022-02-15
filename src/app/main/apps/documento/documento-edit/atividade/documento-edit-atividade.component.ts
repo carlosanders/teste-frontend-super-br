@@ -104,7 +104,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             tarefa: [null],
             unidadeAprovacao: [null, [Validators.required]],
             setorAprovacao: [null, [Validators.required]],
-            usuarioAprovacao: [null, [Validators.required]]
+            usuarioAprovacao: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            distribuicaoAutomatica: [null],
         });
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
@@ -156,14 +160,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                 this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
             }
 
-            // caso tarefa seja de workflow verificar espécies permitidas
-            this.especieAtividadePagination['context'] = {};
-            if (tarefa.workflow) {
-                this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.workflow.id': 'eq:' + tarefa.workflow.id
-                };
-                this.especieAtividadePagination['context'] = {tarefaId: tarefa.id};
-            }
+            this.verificaFilterWorkflow();
         });
 
         this.documento$.pipe(
@@ -213,7 +210,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadDocumentos());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -292,23 +289,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         if (!this.disabledIds.includes(documento.id)) {
             this.podeNavegarDoEditor().subscribe((result) => {
                 if (result) {
-                    let primary: string;
-                    primary = 'componente-digital/';
-                    let componenteDigital = null;
-
-                    if (documento.componentesDigitais[0]) {
-                        componenteDigital = documento.componentesDigitais[0];
-                        primary += componenteDigital.id;
-                    } else {
-                        primary += '0';
-                    }
-
-                    if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-                        primary += '/editor/ckeditor';
-                    } else {
-                        primary += '/visualizar';
-                    }
-
                     const sidebar = 'editar/' + this.routeAtividadeDocumento;
                     this._componenteDigitalService.trocandoDocumento.next(true);
 
@@ -317,7 +297,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                             '/documento/' + documento.id,
                             {
                                 outlets: {
-                                    primary: primary,
                                     sidebar: sidebar
                                 }
                             }],
@@ -339,6 +318,33 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         } else {
             this.changedSelectedIds([this.documento.id]);
             this.disabledIds = [this.documento.id];
+        }
+        this.verificaFilterWorkflow();
+    }
+
+    verificaFilterWorkflow(): void {
+        // caso tarefa seja de workflow verificar espécies permitidas
+        this.especieAtividadePagination['context'] = {};
+        if (this.tarefa?.vinculacaoWorkflow && this.form.get('encerraTarefa').value) {
+            this.especieAtividadePagination.filter = {
+                orX: [
+                    {'transicoesWorkflow.workflow.id': 'eq:' + this.tarefa.vinculacaoWorkflow.workflow.id},
+                    {
+                        'transicoesWorkflow.workflow.id': 'isNull',
+                        'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()
+                    },
+
+                ]
+            };
+
+            this.especieAtividadePagination['context'] = {tarefaId: this.tarefa.id};
+
+        } else {
+            if (this.tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
         }
     }
 

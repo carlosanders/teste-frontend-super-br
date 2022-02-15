@@ -9,7 +9,7 @@
     configuracoes {
 
         .logo-text {
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .center {
@@ -127,5 +127,16 @@
                 }
             }
         }
+    }
+
+    cdk-acompanhamento-filter {
+        background: map-get($background, card);
+        .search-wrapper {
+            background: map-get($background, card);
+            .search {
+                background: map-get($background, card);
+            }
+        }
+
     }
 }

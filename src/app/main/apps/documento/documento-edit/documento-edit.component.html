@@ -2,8 +2,8 @@
     <!-- CENTER -->
     <div class="center">
         <!-- CONTENT HEADER -->
-        <div class="actions p-16" *ngIf="!routerState.url.includes('visualizar-processo')">
-            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm && !(documento$ | async)?.vinculacaoDocumentoPrincipal && !routerState.url.includes('anexar-copia')"
+        <div class="actions p-8" *ngIf="!routerState.url.includes('visualizar-processo')">
+            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm && !(documento$ | async)?.vinculacaoDocumentoPrincipal && !routerState.url.includes('anexar-copia') && !routerState.url.includes('/minutas')"
                     mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" [routerLink]="routeAtividade"
                     [routerLinkActive]="['active', 'accent']">
@@ -77,7 +77,7 @@
                         </ng-container>
                     </button>
 
-                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.juntadaAtual"
+                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.minuta === false"
                             matTooltip="Juntada" routerLink="juntada"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
@@ -88,7 +88,7 @@
 
                     <button mat-menu-item aria-label="modelos"
                             matTooltip="Modelos" routerLink="modelos"
-                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false && (documento$ | async)?.minuta"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">file_copy</mat-icon>
@@ -98,7 +98,7 @@
 
                     <button mat-menu-item aria-label="versões"
                             matTooltip="Versões" routerLink="versoes"
-                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false && (documento$ | async)?.minuta"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">folder</mat-icon>
@@ -121,7 +121,7 @@
         </div>
 
         <cdk-vinculacao-etiqueta-chips
-            class="m-16"
+            class="m-8"
             *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id && !(documento$ | async)?.apagadoEm"
             [vinculacoesEtiquetas]="(documento$ | async)?.vinculacoesEtiquetas"
             (create)="onEtiquetaCreate($event)"

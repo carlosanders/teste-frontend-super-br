@@ -13,7 +13,7 @@ export const getDocumentoAvulsoCreateBlocoAppState = createFeatureSelector<Docum
     'documento-avulso-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoCreateBlocoAppState,
     (state: DocumentoAvulsoCreateBlocoAppState) => state
 );

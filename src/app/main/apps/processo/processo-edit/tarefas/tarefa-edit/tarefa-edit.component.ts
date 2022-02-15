@@ -16,11 +16,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getProcesso} from '../../../store';
 import * as moment from 'moment';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {Back, getOperacoes} from '../../../../../../store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Back, getOperacoes} from 'app/store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
-import * as fromStoreSidebar from "../../../../tarefas/store";
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-edit',
@@ -46,7 +45,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
 
     logEntryPagination: Pagination;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     operacoes: any[] = [];
     operacoesPendentes: any[] = [];
@@ -54,6 +52,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     lote: string = '';
     isClearForm$: Observable<boolean>;
     isClearForm = false;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * @param _store
@@ -74,7 +73,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         this.logEntryPagination = new Pagination();
         this.especieTarefaPagination = new Pagination();
-        this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso', 'especieProcesso.workflow'];
+        this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
@@ -125,8 +124,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
-            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.detectChanges();
         });
     }
@@ -135,7 +134,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }

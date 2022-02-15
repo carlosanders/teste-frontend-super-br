@@ -7,28 +7,28 @@ import {Processo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessosState = createSelector(
+export const getProcessosState: any = createSelector(
     getProcessosAppState,
     (state: ProcessosAppState) => state.processos
 );
 
-export const getProcessosIds = createSelector(
+export const getProcessosIds: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.entitiesId
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.pagination
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.loading
 );

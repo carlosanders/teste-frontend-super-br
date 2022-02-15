@@ -136,18 +136,14 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
 
         this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

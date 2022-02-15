@@ -6,33 +6,33 @@ import {favorito as favoritoSchema} from '@cdk/normalizr';
 
 const schemaFavoritoSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 
-export const getFavoritoEditState = createSelector(
+export const getFavoritoEditState: any = createSelector(
     getFavoritoEditAppState,
     (state: FavoritoEditAppState) => state.favorito
 );
 
-export const getFavoritoId = createSelector(
+export const getFavoritoId: any = createSelector(
     getFavoritoEditState,
     (state: FavoritoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getFavorito = createSelector(
+export const getFavorito: any = createSelector(
     schemaFavoritoSelectors.getNormalizedEntities,
     getFavoritoId,
     schemaFavoritoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getFavoritoEditState,
     (state: FavoritoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getFavoritoEditState,
     (state: FavoritoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getFavoritoEditState,
     (state: FavoritoEditState) => state.errors
 );

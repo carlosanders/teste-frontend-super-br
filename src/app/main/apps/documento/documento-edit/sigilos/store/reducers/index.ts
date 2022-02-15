@@ -11,7 +11,7 @@ export const getDocumentoEditSigilosAppState = createFeatureSelector<DocumentoEd
     'documento-edit-sigilos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditSigilosAppState,
     (state: DocumentoEditSigilosAppState) => state
 );

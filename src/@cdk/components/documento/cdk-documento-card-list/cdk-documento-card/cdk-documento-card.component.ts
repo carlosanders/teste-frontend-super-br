@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination, TipoDocumento} from '@cdk/models';
+import {Documento, Pagination, TipoDocumento, VinculacaoDocumento} from '@cdk/models';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
@@ -41,9 +41,6 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Input()
     tiposDocumentosNaoEditaveis = [];
-
-    podeAlterarTipoDocumento = true;
-    podeDeletar = true;
 
     @Input()
     selected = true;
@@ -94,7 +91,10 @@ export class CdkDocumentoCardComponent implements OnInit {
     downloadP7s = new EventEmitter<Documento>();
 
     @Output()
-    clicked = new EventEmitter<number>();
+    desvincular = new EventEmitter<VinculacaoDocumento>();
+
+    @Output()
+    clicked = new EventEmitter<Documento>();
 
     @Output()
     changedSelected = new EventEmitter<boolean>();
@@ -108,6 +108,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    podeAlterarTipoDocumento = true;
+    podeDeletar = true;
 
     form: FormGroup;
 
@@ -172,6 +175,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doRemoveAssinatura(documentoId): void {
         this.removeAssinatura.emit(documentoId);
+    }
+
+    doDesvincular(vinculacaoDocumento: VinculacaoDocumento): void {
+        this.desvincular.emit(vinculacaoDocumento);
     }
 
     doRestaurar(documentoId): void {

@@ -13,20 +13,25 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Folder, Tarefa} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Folder, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/store';
+import * as AssinaturaStore from '../../../../store';
+import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
-import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'tarefas-operacoes-bloco',
@@ -68,6 +73,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
      * @param _snackBar
      * @param _router
      * @param _changeDetectorRef
+     * @param _matDialog
      */
     constructor(
         private _dynamicService: DynamicService,
@@ -75,7 +81,8 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         public _loginService: LoginService,
         private _snackBar: MatSnackBar,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _matDialog: MatDialog
     ) {
         this.tarefas$ = this._store.pipe(select(fromStoreTarefas.getSelectedTarefas));
         this.folders$ = this._store.pipe(select(fromStoreTarefas.getFolders));
@@ -146,7 +153,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -314,6 +321,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         ]).then();
     }
 
+    doMinutas(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/minutas'
+        ]).then();
+    }
+
     doEditTarefaBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -350,7 +364,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     doEditorBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/modelo-bloco'
+            + this.routerState.params.targetHandle + '/modelo-bloco/modelo'
         ]).then();
     }
 
@@ -371,6 +385,62 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
                 operacaoId: operacaoId,
                 loteId: loteId
             }));
+        });
+    }
+
+    doAssinaturaTarefas(): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                const ids = this.tarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+            } else {
+                this.tarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
+                    vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                    vinculacao.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
+            }
         });
     }
 

@@ -48,10 +48,16 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
 import {MatBadgeModule} from '@angular/material/badge';
-import {AssinaturaService} from '../../../../@cdk/services/assinatura.service';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
-import {CdkSearchBarEtiquetasModule} from '../../../../@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
+import {CdkSearchBarEtiquetasModule} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
+import {
+    CdkModeloAutocompleteModule
+} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {
+    VinculacaoEspecieProcessoWorkflowService
+} from '@cdk/services/vinculacao-especie-processo-workflow.service';
 
 const routes: Routes = [
     {
@@ -118,6 +124,10 @@ const routes: Routes = [
             {
                 path: 'encaminhamento-bloco',
                 loadChildren: () => import('./encaminhamento-bloco/encaminhamento-bloco.module').then(m => m.EncaminhamentoBlocoModule)
+            },
+            {
+                path: 'minutas',
+                loadChildren: () => import('./minutas/minutas.module').then(m => m.MinutasModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -174,6 +184,7 @@ modulesConfig.forEach((module) => {
         MatBadgeModule,
         CdkAssinaturaEletronicaPluginModule,
         CdkSearchBarEtiquetasModule,
+        CdkModeloAutocompleteModule,
     ],
     providers: [
         TarefaService,
@@ -187,7 +198,8 @@ modulesConfig.forEach((module) => {
         fromGuards.ResolveGuard,
         AssuntoService,
         InteressadoService,
-        DocumentoService
+        DocumentoService,
+        VinculacaoEspecieProcessoWorkflowService,
     ],
     entryComponents: [
         SnackBarDesfazerComponent,

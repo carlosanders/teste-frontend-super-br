@@ -2,7 +2,8 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-acompanhamento-filter" position="left">
-        <cdk-acompanhamento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-acompanhamento-filter>
+        <cdk-acompanhamento-filter (selected)="setFilter($event)" [mode]="this.mode"
+                                   [arrayFiltrosEtiquetas]="arraySearchTypes"></cdk-acompanhamento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -241,7 +242,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

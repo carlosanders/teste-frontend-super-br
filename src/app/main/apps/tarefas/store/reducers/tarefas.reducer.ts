@@ -28,7 +28,7 @@ export interface TarefasState {
     bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
-    currentTarefaId: number;
+    currentTarefaId: any;
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
     draggingIds: number[];
@@ -39,6 +39,7 @@ export interface TarefasState {
     cienciaTarefaIds: number[];
     redistribuindoTarefaIds: number[];
     distribuindoTarefaIds: number[];
+    savingVinculacaoEtiquetaId: number;
     error: any;
     errorDelete: number[];
     errorCiencia: number[];
@@ -48,7 +49,7 @@ export interface TarefasState {
     savingObservacao: boolean;
 }
 
-export const TarefasInitialState: TarefasState = {
+export const tarefasInitialState: TarefasState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -75,6 +76,7 @@ export const TarefasInitialState: TarefasState = {
     bufferingRedistribuir: 0,
     bufferingDistribuir: 0,
     deletedTarefaIds: [],
+    savingVinculacaoEtiquetaId: null,
     selectedTarefaIds: [],
     draggingIds: [],
     currentTarefaId: null,
@@ -94,13 +96,13 @@ export const TarefasInitialState: TarefasState = {
     savingObservacao: false,
 };
 
-export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
+export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
     switch (action.type) {
 
         case TarefasActions.UNLOAD_TAREFAS: {
             if (action.payload.reset) {
                 return {
-                    ...TarefasInitialState
+                    ...tarefasInitialState
                 };
             } else {
                 return {
@@ -138,6 +140,27 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: action.payload.vinculacaoEtiqueta.id
+            };
+        }
+
+        case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null
+            };
+        }
+
+        case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null
+            };
+        }
+
         case TarefasActions.GET_TAREFAS_SUCCESS: {
 
             const loaded = action.payload.loaded;
@@ -160,6 +183,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 loading: false,
                 loaded: false,
+                error: action.payload,
                 errorDelete: []
             };
         }
@@ -369,7 +393,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.UNDELETE_TAREFA_FAILED: {
             return {
                 ...state,
-                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id)
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
             };
         }
 
@@ -439,7 +464,16 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.SET_CURRENT_TAREFA: {
             return {
                 ...state,
-                currentTarefaId: action.payload
+                currentTarefaId: action.payload,
+                selectedTarefaIds: action.payload.tarefaId ? [action.payload.tarefaId] : []
+            };
+        }
+
+        case TarefasActions.SYNC_CURRENT_TAREFA_ID: {
+            return {
+                ...state,
+                currentTarefaId: action.payload,
+                selectedTarefaIds: action.payload.tarefaId ? [action.payload.tarefaId] : state.selectedTarefaIds
             };
         }
 
@@ -453,7 +487,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
             return {
                 ...state,
-                // tslint:disable-next-line:max-line-length
+                // eslint-disable-next-line max-len
                 loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
             };
         }
@@ -663,27 +697,28 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.SAVE_OBSERVACAO: {
             return {
                 ...state,
-                savingObservacao: true
+                savingObservacao: true,
+                error: null
             };
         }
 
         case TarefasActions.SAVE_OBSERVACAO_SUCCESS: {
             return {
                 ...state,
-                savingObservacao: false
+                savingObservacao: false,
+                error: null
             };
         }
 
         case TarefasActions.SAVE_OBSERVACAO_FAILED: {
             return {
                 ...state,
-                savingObservacao: false
+                savingObservacao: false,
+                error: {statusText: action.payload.error.message},
             };
         }
 
         default:
             return state;
     }
-}
-
-
+};

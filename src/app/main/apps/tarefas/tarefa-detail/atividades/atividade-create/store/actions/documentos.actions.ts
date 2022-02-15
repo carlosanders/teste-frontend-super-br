@@ -18,18 +18,6 @@ export const UPDATE_DOCUMENTO = '[ATIVIDADE CREATE] UPDATE DOCUMENTO';
 export const UPDATE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] UPDATE DOCUMENTO SUCCESS';
 export const UPDATE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UPDATE DOCUMENTO FAILED';
 
-export const ASSINA_DOCUMENTO = '[ATIVIDADE CREATE] ASSINA DOCUMENTO';
-export const ASSINA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO SUCCESS';
-export const ASSINA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO FAILED';
-
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
-
-export const REMOVE_ASSINATURA_DOCUMENTO = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO';
-export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO SUCCESS';
-export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO FAILED';
-
 export const CLICKED_DOCUMENTO = '[ATIVIDADE CREATE] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO = '[ATIVIDADE CREATE] COMPLETE DOCUMENTO';
 
@@ -197,114 +185,6 @@ export class UpdateDocumentoSuccess implements Action
 export class UpdateDocumentoFailed implements Action
 {
     readonly type = UPDATE_DOCUMENTO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento
- */
-export class AssinaDocumento implements Action
-{
-    readonly type = ASSINA_DOCUMENTO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Success
- */
-export class AssinaDocumentoSuccess implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Failed
- */
-export class AssinaDocumentoFailed implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente
- */
-export class AssinaDocumentoEletronicamente implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente Success
- */
-export class AssinaDocumentoEletronicamenteSuccess implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente Failed
- */
-export class AssinaDocumentoEletronicamenteFailed implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remove Assinatura Documento
- */
-export class RemoveAssinaturaDocumento implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remove Assinatura Documento Success
- */
-export class RemoveAssinaturaDocumentoSuccess implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remove Assinatura Documento Failed
- */
-export class RemoveAssinaturaDocumentoFailed implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
 
     constructor(public payload: any)
     {
@@ -480,15 +360,6 @@ export type AtividadeCreateDocumentosActionsAll
     | GetDocumentosFailed
     | ClickedDocumento
     | CompleteDocumento
-    | AssinaDocumento
-    | AssinaDocumentoSuccess
-    | AssinaDocumentoFailed
-    | AssinaDocumentoEletronicamente
-    | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed
-    | RemoveAssinaturaDocumento
-    | RemoveAssinaturaDocumentoSuccess
-    | RemoveAssinaturaDocumentoFailed
     | UpdateDocumento
     | UpdateDocumentoSuccess
     | UpdateDocumentoFailed

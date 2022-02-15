@@ -1,0 +1,51 @@
+<!-- CONTENT -->
+<div class="content">
+
+    <h2>Gerenciar Minutas</h2>
+
+    <div class="upload">
+        <cdk-minutas-card-list *ngIf="operacoes.length === 0"
+                               [documentos]="minutas"
+                               [processos]="processos"
+                               [minutasPorTarefa]="documentos"
+                               [tarefasAgrupadas]="tarefasAgrupadas"
+                               [selectedIds]="(selectedIds$ | async)"
+                               [deletingId]="(deletingDocumentosId$ | async)"
+                               [assinandoId]="(assinandoDocumentosId$ | async)"
+                               [convertendoId]="(convertendoDocumentosId$ | async)"
+                               [alterandoId]="(alterandoDocumentosId$ | async)"
+                               [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                               [undeletingId]="(undeletingDocumentosId$ | async)"
+                               [downloadId]="(downloadP7SDocumentosId$ | async)"
+                               [lixeiraMinutas]="(lixeiraMinutas$ | async)"
+                               [loading]="(isLoadingAny$ | async)"
+                               (delete)="doDelete($event)"
+                               (deleteBlocoEmmitter)="doDeleteBloco($event)"
+                               (assinatura)="doAssinatura($event)"
+                               (assinaturaBloco)="doAssinaturaBloco($event)"
+                               (removeAssinatura)="doRemoveAssinatura($event)"
+                               (converte)="doConverte($event)"
+                               (converteHtml)="doConverteHtml($event)"
+                               (downloadP7S)="doDownloadP7S($event)"
+                               (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                               (getMore)="paginaDocumentos($event)"
+                               (clicked)="onClicked($event)"
+                               (toggleLixeira)="doToggleLixeiraMinutas($event)"
+                               (restaurar)="doRestaurar($event)"
+                               (changedSelectedIds)="changedSelectedIds($event)">
+        </cdk-minutas-card-list>
+    </div>
+
+    <mat-list *ngIf="operacoes.length > 0">
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+</div>
+
+<router-outlet></router-outlet>

@@ -6,33 +6,33 @@ import {cargo as cargoSchema} from '@cdk/normalizr';
 
 const schemaCargoSelectors = createSchemaSelectors<Cargo>(cargoSchema);
 
-export const getCargoEditState = createSelector(
+export const getCargoEditState: any = createSelector(
     getCargoEditAppState,
     (state: CargoEditAppState) => state.cargo
 );
 
-export const getCargoId = createSelector(
+export const getCargoId: any = createSelector(
     getCargoEditState,
     (state: CargoEditState) => state.entityId
 );
 
-export const getCargo = createSelector(
+export const getCargo: any = createSelector(
     schemaCargoSelectors.getNormalizedEntities,
     getCargoId,
     schemaCargoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getCargoEditState,
     (state: CargoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getCargoEditState,
     (state: CargoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getCargoEditState,
     (state: CargoEditState) => state.errors
 );

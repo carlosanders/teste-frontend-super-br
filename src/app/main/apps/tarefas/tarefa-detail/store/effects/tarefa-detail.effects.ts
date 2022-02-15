@@ -21,7 +21,7 @@ import {
 } from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {LoginService} from '../../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
     DarCienciaTarefa,
@@ -34,6 +34,7 @@ import {
 @Injectable()
 export class TarefaDetailEffect {
     routerState: any;
+    populate: string[] = [];
     /**
      * Get Tarefa with router parameters
      *
@@ -41,35 +42,42 @@ export class TarefaDetailEffect {
      */
     getTarefa: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
-        switchMap(action => this._tarefaService.get(
-            action.payload.id,
-            JSON.stringify([
-                'populateAll',
+        switchMap((action) => {
+            this.populate = action.payload.populate ?? [
+                'processo',
                 'processo.especieProcesso',
                 'processo.especieProcesso.generoProcesso',
                 'processo.modalidadeMeio',
                 'processo.documentoAvulsoOrigem',
-                'processo.especieProcesso.generoProcesso',
-                'processo.especieProcesso.workflow',
-                'processo.especieProcesso.workflow.especieTarefaInicial',
-                'processo.tarefaAtualWorkflow',
-                'processo.tarefaAtualWorkflow.especieTarefa',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
                 'setorResponsavel.unidade',
+                'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta'])
-        )),
-        mergeMap(response => [
-            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-            new TarefaDetailActions.GetTarefaSuccess({
-                loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params.tarefaHandle
-                },
-                tarefa: response
-            })
-        ]),
+                'vinculacoesEtiquetas.etiqueta'
+            ];
+            return this._tarefaService.get(
+                action.payload.id,
+                JSON.stringify(this.populate),
+                JSON.stringify({'especieProcessoWorkflow': true})
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: this.populate}),
+                    new TarefaDetailActions.GetTarefaSuccess({
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params.tarefaHandle
+                        },
+                        tarefa: response
+                    })
+                ])
+            );
+        }),
         catchError((err) => {
             console.log(err);
             return of(new TarefaDetailActions.GetTarefaFailed(err));
@@ -242,12 +250,12 @@ export class TarefaDetailEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.workflow',
-                'workflow'
             ]);
-            return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
+            return this._tarefaService.save(action.payload.tarefa, JSON.stringify({'especieProcessoWorkflow': true}), populate).pipe(
                 map((response) => {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,

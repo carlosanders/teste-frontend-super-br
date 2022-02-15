@@ -23,20 +23,24 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../../processo/processo-view/store';
-import {GetDocumentos as GetDocumentosAtividade} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {
+    GetDocumentos as GetDocumentosAtividade
+} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {GetDocumentos as GetDocumentosAvulsos} from '../../../tarefas/tarefa-detail/oficios/store';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Injectable()
 export class DocumentoEffect {
     routerState: any;
+    routeAtividade = 'atividade';
     lixeira = false;
     pesquisa = false;
+    populate = [];
     /**
      * Get Documento with router parameters
      *
@@ -62,47 +66,48 @@ export class DocumentoEffect {
             if (this.lixeira) {
                 context = {'mostrarApagadas': true};
             }
-
+            this.populate = [
+                'procedencia',
+                'setorOrigem',
+                'tipoDocumento',
+                'componentesDigitais',
+                'componentesDigitais.assinaturas',
+                'componentesDigitais.modelo',
+                'modelo',
+                'modelo.template',
+                'modelo.modalidadeModelo',
+                'processoOrigem',
+                'tarefaOrigem',
+                'tarefaOrigem.usuarioResponsavel',
+                'tarefaOrigem.vinculacoesEtiquetas',
+                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                'repositorio',
+                'juntadaAtual',
+                'repositorio.modalidadeRepositorio',
+                'documentoAvulsoRemessa',
+                'documentoAvulsoRemessa.especieDocumentoAvulso',
+                'documentoAvulsoRemessa.processo',
+                'documentoAvulsoRemessa.processo.especieProcesso',
+                'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
+                'documentoAvulsoRemessa.modelo',
+                'documentoAvulsoRemessa.setorDestino',
+                'documentoAvulsoRemessa.pessoaDestino',
+                'documentoAvulsoRemessa.usuarioRemessa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'modalidadeCopia'
+            ];
 
             return this._documentoService.query(
                 `{"id": "eq:${handle.value}"}`,
                 1,
                 0,
                 '{"componentesDigitais.numeracaoSequencial": "ASC"}',
-                JSON.stringify([
-                    'procedencia',
-                    'setorOrigem',
-                    'tipoDocumento',
-                    'componentesDigitais',
-                    'componentesDigitais.assinaturas',
-                    'componentesDigitais.modelo',
-                    'modelo',
-                    'modelo.template',
-                    'modelo.modalidadeModelo',
-                    'processoOrigem',
-                    'tarefaOrigem',
-                    'tarefaOrigem.usuarioResponsavel',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                    'repositorio',
-                    'juntadaAtual',
-                    'repositorio.modalidadeRepositorio',
-                    'documentoAvulsoRemessa',
-                    'documentoAvulsoRemessa.especieDocumentoAvulso',
-                    'documentoAvulsoRemessa.processo',
-                    'documentoAvulsoRemessa.processo.especieProcesso',
-                    'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
-                    'documentoAvulsoRemessa.modelo',
-                    'documentoAvulsoRemessa.setorDestino',
-                    'documentoAvulsoRemessa.pessoaDestino',
-                    'documentoAvulsoRemessa.usuarioRemessa',
-                    'vinculacoesEtiquetas',
-                    'vinculacoesEtiquetas.etiqueta'
-                ]),
+                JSON.stringify(this.populate),
                 JSON.stringify(context));
         }),
         switchMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+            new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: this.populate}),
             new DocumentoActions.GetDocumentoSuccess({
                 loaded: {
                     id: 'documentoHandle',
@@ -127,7 +132,7 @@ export class DocumentoEffect {
     getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<DocumentoActions.GetDocumentoSuccess>(DocumentoActions.GET_DOCUMENTO_SUCCESS),
         tap((action) => {
-            if (this.routerState.url.indexOf('anexar-copia') === -1) {
+            if (this.routerState.url.indexOf('anexar-copia') === -1 && this.routerState.params['componenteDigitalHandle'] !== 'default') {
                 if (action.payload.currentComponenteDigitalId) {
                     this._store.dispatch(new DocumentoActions.SetCurrentStep({
                         id: action.payload.currentComponenteDigitalId,
@@ -143,9 +148,8 @@ export class DocumentoEffect {
                     }));
                 } else {
                     this._router.navigate([
-                            this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
-                        ]
-                    ).then();
+                        this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
+                    ]).then();
                 }
             }
         })
@@ -229,8 +233,8 @@ export class DocumentoEffect {
      */
     setCurrentStep: any = createEffect(() => this._actions.pipe(
         ofType<DocumentoActions.SetCurrentStep>(DocumentoActions.SET_CURRENT_STEP),
-        withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
-        tap(([action, componenteDigital]) => {
+        withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumento)), this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
+        tap(([action, documento, componenteDigital]) => {
             let sidebar = '';
             let arrPrimary = [];
             if (this.routerState.url.indexOf('anexar-copia') !== -1) {
@@ -259,9 +263,12 @@ export class DocumentoEffect {
                 sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                 if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
                     type = '/editor/ckeditor';
-                    if (!sidebar) {
-                        sidebar = 'editar/atividade';
-                    }
+                }
+                if (!sidebar) {
+                    sidebar = 'editar/' + this.routeAtividade;
+                }
+                if (documento.documentoAvulsoRemessa) {
+                    sidebar = 'oficio/dados-basicos';
                 }
                 if (url.indexOf('/assinaturas') > -1) {
                     type = '/assinaturas';
@@ -277,7 +284,7 @@ export class DocumentoEffect {
             }
 
             this._router.navigate([
-                    this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                    this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id,
                     {
                         outlets: {
                             primary: arrPrimary,
@@ -294,38 +301,7 @@ export class DocumentoEffect {
                 }).then();
         })
     ), {dispatch: false});
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<DocumentoActions.AssinaDocumento>(DocumentoActions.ASSINA_DOCUMENTO),
-        withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumentoId))),
-        mergeMap(([action, documentoId]) => this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 10)]))
-            .pipe(
-                tap((response: any) => {
-                    if (response.secret) {
-                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
-                        const ifrm = document.createElement('iframe');
-                        ifrm.setAttribute('src', url);
-                        ifrm.style.width = '0';
-                        ifrm.style.height = '0';
-                        ifrm.style.border = '0';
-                        document.body.appendChild(ifrm);
-                        setTimeout(() => document.body.removeChild(ifrm), 20000);
-                    }
-                }),
-                catchError((err) => {
-                    const payload = {
-                        id: parseInt(documentoId, 10),
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new DocumentoActions.AssinaDocumentoFailed(payload));
-                })
-            ))
-    ), {dispatch: false});
+
     /**
      * Assina Documento Success
      *
@@ -551,8 +527,19 @@ export class DocumentoEffect {
             this.routerState = routerState.state;
             this.lixeira = !!routerState.state.queryParams.lixeira;
             this.pesquisa = !!routerState.state.queryParams.pesquisa;
+            const path = 'app/main/apps/documento/documento-edit';
+            if (this.routerState.params.generoHandle === 'administrativo') {
+                this.routeAtividade = 'atividade';
+            } else {
+                modulesConfig.forEach((module) => {
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividade') &&
+                        module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
+                    }
+                });
+            }
         });
-
         this._profile = _loginService.getUserProfile();
     }
 

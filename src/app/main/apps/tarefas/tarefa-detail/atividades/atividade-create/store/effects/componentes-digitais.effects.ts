@@ -15,8 +15,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../actions';
-import * as fromStoreTarefaDetail from '../../../../store';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CdkUtils} from '@cdk/utils';
 
@@ -70,14 +68,11 @@ export class ComponentesDigitaisEffects {
                 content: `Componente Digital id ${response.id} criado com sucesso!`,
                 status: 1, // sucesso
             }))),
-            tap(() => {
-                this._store.dispatch(new GetDocumentos());
-                this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
-                    id: this.routerState.params['tarefaHandle']
-                }));
-            }),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess({
+                    componenteDigital: response,
+                    tarefa: action.payload.componenteDigital.tarefaOrigem
+                }),
                 new ComponenteDigitalActions.GetDocumento({
                     componenteDigitalId: response.id,
                     routeTarefa: action.payload.routeTarefa,
@@ -91,13 +86,17 @@ export class ComponentesDigitaisEffects {
             catchError((err) => {
                 const erroString = CdkUtils.errorsToString(err);
                 console.log(err);
+                const payload = {
+                    id: action.payload.componenteDigital.tarefaOrigem.id,
+                    error: err
+                };
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'componente digital',
                     content: `Houve erro na criação de componente digital: ${erroString}`,
                     status: 2 // erro
                 }));
-                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(payload));
             })
         ))
     ));

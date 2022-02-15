@@ -10,7 +10,7 @@ export const getTarefaCreateBlocoAppState = createFeatureSelector<TarefaCreateBl
     'encaminhar-bloco-tarefa-create-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaCreateBlocoAppState,
     (state: TarefaCreateBlocoAppState) => state
 );

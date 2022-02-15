@@ -1,6 +1,6 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-24">
-    <mat-icon class="mr-16">language</mat-icon>
+    <mat-icon class="mr-8">language</mat-icon>
     <span class="h5">{{(this.orgaoCentral$ | async)?.valor}}</span>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -9,10 +9,10 @@
 <div class="content" cdkPerfectScrollbar
      *ngIf="this.routerState.params.unidadeHandle !== 'default' && this.routerState.params.unidadeHandle !== 'criar'">
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
-        <div class="nav-subheader pl-16 mt-0">
+        <div class="nav-subheader pl-8 mt-0">
             <span>COORDENAÇÃO DE UNIDADE</span>
         </div>
-        <div class="nav-subheader pl-8 mt-0">
+        <div class="nav-subheader pl-8 mt-0 mb-6">
             <mat-icon>location_city</mat-icon>
             <span>{{(this.unidade$ | async)?.nome}}</span>
         </div>

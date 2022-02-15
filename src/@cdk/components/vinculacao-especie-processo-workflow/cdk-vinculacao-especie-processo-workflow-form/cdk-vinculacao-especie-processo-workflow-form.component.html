@@ -1,0 +1,68 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <input matInput placeholder="Espécie Processo"
+               formControlName="especieProcesso"
+               [matAutocomplete]="especieProcesso.autocomplete" required [readonly]="!!vinculacaoEspecieProcessoWorkflow.id"
+               (blur)="checkEspecieProcesso()">
+        <cdk-especie-processo-autocomplete
+            #especieProcesso="especieProcessoAutocomplete"
+            [control]="form.get('especieProcesso')"
+            [pagination]="especieProcessoPagination">
+        </cdk-especie-processo-autocomplete>
+        <button *ngIf="form.get('especieProcesso').enabled" matSuffix mat-button mat-icon-button
+                (click)="showEspecieProcessoGrid()" [disabled]="!!vinculacaoEspecieProcessoWorkflow.id">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieProcesso').hasError('formError')">
+            {{form.get('especieProcesso').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Workflow"
+               formControlName="workflow"
+               [matAutocomplete]="workflow.autocomplete" required [readonly]="!!vinculacaoEspecieProcessoWorkflow.id"
+               (blur)="checkWorkflow()">
+        <cdk-workflow-autocomplete
+            #workflow="workflowAutocomplete"
+            [control]="form.get('workflow')"
+            [pagination]="workflowPagination">
+        </cdk-workflow-autocomplete>
+        <button *ngIf="form.get('workflow').enabled" matSuffix mat-button mat-icon-button
+                (click)="showWorkflowGrid()" [disabled]="!!vinculacaoEspecieProcessoWorkflow.id">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('workflow').hasError('formError')">
+            {{form.get('workflow').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-especie-processo-gridsearch
+    *ngIf="activeCard === 'especie-processo-gridsearch'"
+    [pagination]="especieProcessoPagination"
+    (selected)="selectEspecieProcesso($event)"
+    (cancel)="cancel()">
+</cdk-especie-processo-gridsearch>
+
+<cdk-workflow-gridsearch
+    *ngIf="activeCard === 'workflow-gridsearch'"
+    [pagination]="workflowPagination"
+    (selected)="selectWorkflow($event)"
+    (cancel)="cancel()">
+</cdk-workflow-gridsearch>

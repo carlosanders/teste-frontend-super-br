@@ -108,8 +108,8 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tramitação' && operacao.lote === this.lote);
-            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tramitação' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tramitação' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tramitação' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.detectChanges();
         });
     }
@@ -118,7 +118,7 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

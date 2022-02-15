@@ -1,6 +1,10 @@
 // Import Cdk core library
 @import "@cdk/scss/core";
 
+// Ag-Grid Component
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+
 // Import app.theme.scss
 @import "app/app.theme";
 
@@ -97,6 +101,24 @@ mat-option.mat-option {
     max-width: 400px !important;
 }
 
+.mat-icon-button {
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+}
+
+.mat-card-title {
+    font-size: 16px !important;
+}
+
+.mat-card-content {
+    font-size: 13px !important;
+}
+
+.mat-toolbar {
+    height: 48px;
+}
+
 mat-cell, .mat-cell,
 mat-footer-cell, .mat-footer-cell,
 mat-header-cell, .mat-header-cell {
@@ -175,4 +197,12 @@ div.menu-sort {
 
 .mat-list-base .mat-list-item {
     height: auto !important;
+}
+
+.mat-checkbox {
+    margin-bottom: 8px;
+}
+
+.mat-slide-toggle {
+    margin-bottom: 8px;
 }

@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ParentGenericService} from './parent-generic.service';
-import {ComponenteDigital, PaginatedResponse, Pessoa} from '@cdk/models';
+import {ComponenteDigital, PaginatedResponse} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
@@ -42,7 +42,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
 
         return this.modelService.search('administrativo/componente_digital', new HttpParams({fromObject: params}))
             .pipe(
-                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+                map(response => new PaginatedResponse(plainToClass(ComponenteDigital, response['entities']), response['total']))
             );
     }
 

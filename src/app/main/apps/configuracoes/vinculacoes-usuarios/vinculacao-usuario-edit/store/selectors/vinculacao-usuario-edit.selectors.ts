@@ -6,33 +6,33 @@ import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
 
 const schemaVinculacaoUsuarioSelectors = createSchemaSelectors<VinculacaoUsuario>(vinculacaoUsuarioSchema);
 
-export const getVinculacaoUsuarioEditState = createSelector(
+export const getVinculacaoUsuarioEditState: any = createSelector(
     getVinculacaoUsuarioEditAppState,
     (state: VinculacaoUsuarioEditAppState) => state.vinculacaoUsuario
 );
 
-export const getVinculacaoUsuarioId = createSelector(
+export const getVinculacaoUsuarioId: any = createSelector(
     getVinculacaoUsuarioEditState,
     (state: VinculacaoUsuarioEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVinculacaoUsuario = createSelector(
+export const getVinculacaoUsuario: any = createSelector(
     schemaVinculacaoUsuarioSelectors.getNormalizedEntities,
     getVinculacaoUsuarioId,
     schemaVinculacaoUsuarioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVinculacaoUsuarioEditState,
     (state: VinculacaoUsuarioEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVinculacaoUsuarioEditState,
     (state: VinculacaoUsuarioEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVinculacaoUsuarioEditState,
     (state: VinculacaoUsuarioEditState) => state.errors
 );

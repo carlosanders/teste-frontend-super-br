@@ -1,7 +1,9 @@
 # pulled from ubuntu
-FROM node:14.15.5-alpine as base
+FROM node:16.13.0-alpine as base
 
 RUN apk add tzdata
+
+RUN apk add python3 make g++
 
 ENV TZ America/Sao_Paulo
 
@@ -17,7 +19,7 @@ COPY docker/dev/node.sh /usr/local/bin/node
 
 RUN chmod +x /usr/local/bin/node
 
-RUN npm install npm@7.24.2 -g
+RUN npm install npm@8.5.0 -g
 
 FROM base as dev
 

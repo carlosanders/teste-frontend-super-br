@@ -10,7 +10,7 @@ export const getDocumentoAvulsoDetailAppState = createFeatureSelector<OficioDeta
     'oficio-detail-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoDetailAppState,
     (state: OficioDetailAppState) => state
 );

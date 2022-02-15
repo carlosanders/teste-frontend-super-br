@@ -1,24 +1,42 @@
 <!-- SIDEBAR HEADER -->
-<div class="header mt-16 mb-8">
+<div class="header mt-8 mb-8">
     <div class="logo" fxLayout="row" fxLayoutAlign="start center">
         <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{label}}</span>
     </div>
     <div class="logo-nup" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{nup}}</div>
-    <div class="logo-subtext" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{generoProcesso | titleCasePipe}}</div>
+    <div class="logo-subtext"
+         [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{generoProcesso | titleCasePipe}}</div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
-        <div class="nav-item" *ngFor="let link of links">
-            <a matTooltip="{{link.tooltip}}" *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
+        <div class="nav-item" *ngFor="let link of links" [ngClass]="{'open': link.type === 'collapsable' && isOpenEditar}">
+            <a matTooltip="{{link.tooltip}}"
+               *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
                class="nav-link" matRipple [routerLink]="link.link"
-               (click)="fecharSidebar()"
-               [routerLinkActive]="['active', 'accent']">
+               [ngClass]="{'open': link.type === 'collapsable' && isOpenEditar, 'closed': link.type === 'collapsable' && !isOpenEditar}"
+               (click)="link.type === 'item' ? fecharSidebar() : toggleOpenEditar($event)"
+               [routerLinkActive]="['active', 'accent']"
+               [routerLinkActiveOptions]="{exact: false}">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>
+                <mat-icon class="collapsable-arrow" *ngIf="link.type === 'collapsable'">keyboard_arrow_right</mat-icon>
             </a>
+            <div class="children"
+                 *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
+                 [@slideInOut]="isOpenEditar">
+                <div class="nav-item" *ngFor="let item of link.children">
+                    <a class="nav-link" matRipple
+                       *ngIf="(item.canShow === undefined || (item.canShow(this.processo$) | async) === true) && (item.role === undefined || this._loginService.isGranted(item.role))"
+                       (click)="fecharSidebar()"
+                       [routerLink]="[item.link]" [routerLinkActive]="['active', 'accent']"
+                       [routerLinkActiveOptions]="{exact: false}">
+                        <span>{{item.nome | titlecase}}</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

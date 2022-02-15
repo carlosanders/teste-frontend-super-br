@@ -60,38 +60,52 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length >= 4),
             switchMap((value) => {
                     const termFilterNUP = [];
                     const termFilterOutroNumero = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        termFilterNUP.push({
-                            // eslint-disable-next-line @typescript-eslint/naming-convention
-                            NUP: `like:%${bit.replace(/\D/g, '')}%`
-                        });
-                        termFilterOutroNumero.push({
-                            outroNumero: `like:%${bit}%`
-                        });
+                    // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                    //     termFilterNUP.push({
+                    //         // eslint-disable-next-line @typescript-eslint/naming-convention
+                    //         NUP: `like:%${bit.replace(/\D/g, '')}%`
+                    //     });
+                    //     termFilterOutroNumero.push({
+                    //         outroNumero: `like:%${bit}%`
+                    //     });
+                    // });
+                    termFilterNUP.push({
+                        // eslint-disable-next-line @typescript-eslint/naming-convention
+                        NUP: `like:${value.replace(/\D/g, '')}%`
                     });
+                    termFilterOutroNumero.push({
+                        // eslint-disable-next-line @typescript-eslint/naming-convention
+                        outroNumero: `like:${value}%`
+                    });
+
+                    /*
                     const termFilter = {
                         orX: [
                             {andX: termFilterNUP},
                             {andX: termFilterOutroNumero}
                         ]
                     };
+                    */
+
+
                     if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {
                         this.processoListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: termFilterNUP
                         };
-                        return this._processoService.search(
+                        return this._processoService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
+                            JSON.stringify(this.pagination.populate),
+                            JSON.stringify(this.pagination.context))
                             .pipe(
                                 finalize(() => this.processoListIsLoading = false),
                                 catchError(() => of([]))

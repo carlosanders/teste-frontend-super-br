@@ -215,6 +215,7 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
 
             const sub = this.dialogRef.componentInstance.editVinc.subscribe((result) => {
                 this.edit.emit(result);
+                this.dialogRef.componentInstance.dialogRef.close();
             });
 
             this.dialogRef.afterClosed()

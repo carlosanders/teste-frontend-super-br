@@ -7,59 +7,59 @@ import {Documento, Processo} from '@cdk/models';
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getProcessoState = createSelector(
+export const getProcessoState: any = createSelector(
     getProcessoDetailAppState,
     (state: ProcessoDetailAppState) => state.processoDetail
 );
 
-export const getSavingVinculacaoEtiquetaId = createSelector(
+export const getSavingVinculacaoEtiquetaId: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.savingVinculacaoEtiquetaId
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.loading
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.loaded
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.loaded ? state.loaded.value : null
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessoId,
     schemaProcessoSelectors.entityProjector
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.errors
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getProcessoState,
     (state: ProcessoDetailState) => state.documentosLoaded
 );

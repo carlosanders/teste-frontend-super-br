@@ -6,33 +6,33 @@ import {StatusBarramento} from "../../../../../../../../../@cdk/models/status-ba
 
 const schemaStatusBarramentoSelectors = createSchemaSelectors<StatusBarramento>(statusBarramentoSchema);
 
-export const getStatusBarramentoState = createSelector(
+export const getStatusBarramentoState: any = createSelector(
     getStatusBarramentoAppState,
     (state: StatusBarramentoAppState) => state.statusBarramento
 );
 
-export const getStatusBarramentoId = createSelector(
+export const getStatusBarramentoId: any = createSelector(
     getStatusBarramentoState,
     (state: StatusBarramentoState) => state.statusBarramentoId
 );
 
-export const getStatusBarramento = createSelector(
+export const getStatusBarramento: any = createSelector(
     schemaStatusBarramentoSelectors.getNormalizedEntities,
     getStatusBarramentoId,
     schemaStatusBarramentoSelectors.entityProjector
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getStatusBarramentoState,
     (state: StatusBarramentoState) => state.errors
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getStatusBarramentoState,
     (state: StatusBarramentoState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getStatusBarramentoState,
     (state: StatusBarramentoState) => state.loading
 );

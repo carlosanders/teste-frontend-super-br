@@ -7,48 +7,48 @@ import {Afastamento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Afastamento>(afastamentoSchema);
 
-export const getAfastamentoListState = createSelector(
+export const getAfastamentoListState: any = createSelector(
     getAfastamentoListAppState,
     (state: AfastamentoListAppState) => state.afastamentoList
 );
 
-export const getAfastamentoListIds = createSelector(
+export const getAfastamentoListIds: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.entitiesId
 );
 
-export const getAfastamentoList = createSelector(
+export const getAfastamentoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAfastamentoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.pagination
 );
 
-export const getAfastamentoListLoaded = createSelector(
+export const getAfastamentoListLoaded: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.deletingErrors
 );

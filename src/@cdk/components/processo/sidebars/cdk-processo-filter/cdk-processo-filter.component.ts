@@ -249,7 +249,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         };
 
         this._cdkProcessoFilterService.reset();
-        this._cdkProcessoFilterService.collect.next();
+        this._cdkProcessoFilterService.collect.next(true);
 
         if (this._cdkProcessoFilterService.filters.length) {
             this._cdkProcessoFilterService.filters.forEach((f) => {
@@ -310,7 +310,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this._cdkProcessoFilterService.clear.next();
+        this._cdkProcessoFilterService.clear.next(true);
         const request = {
             filters: {},
         };

@@ -191,7 +191,7 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
         this._destroy();
 
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

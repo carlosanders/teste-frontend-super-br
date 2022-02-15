@@ -7,48 +7,48 @@ import {GrupoContato} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<GrupoContato>(grupoContatoSchema);
 
-export const getGrupoContatoListState = createSelector(
+export const getGrupoContatoListState: any = createSelector(
     getGrupoContatoListAppState,
     (state: GrupoContatoListAppState) => state.grupoContatoList
 );
 
-export const getGrupoContatoListIds = createSelector(
+export const getGrupoContatoListIds: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.entitiesId
 );
 
-export const getGrupoContatoList = createSelector(
+export const getGrupoContatoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getGrupoContatoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.pagination
 );
 
-export const getGrupoContatoListLoaded = createSelector(
+export const getGrupoContatoListLoaded: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.deletingErrors
 );

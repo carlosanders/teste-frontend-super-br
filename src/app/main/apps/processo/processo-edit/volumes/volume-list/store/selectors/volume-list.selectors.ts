@@ -7,48 +7,48 @@ import {Volume} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Volume>(volumeSchema);
 
-export const getVolumeListState = createSelector(
+export const getVolumeListState: any = createSelector(
     getVolumeListAppState,
     (state: VolumeListAppState) => state.volumeList
 );
 
-export const getVolumeListIds = createSelector(
+export const getVolumeListIds: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.entitiesId
 );
 
-export const getVolumeList = createSelector(
+export const getVolumeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVolumeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.pagination
 );
 
-export const getVolumeListLoaded = createSelector(
+export const getVolumeListLoaded: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.deletingErrors
 );

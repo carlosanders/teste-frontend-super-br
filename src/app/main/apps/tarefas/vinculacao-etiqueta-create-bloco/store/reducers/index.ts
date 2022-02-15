@@ -13,7 +13,7 @@ export const getVinculacaoEtiquetaCreateBlocoAppState = createFeatureSelector<Vi
     'vinculacao-etiqueta-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoEtiquetaCreateBlocoAppState,
     (state: VinculacaoEtiquetaCreateBlocoAppState) => state
 );

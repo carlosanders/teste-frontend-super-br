@@ -4,11 +4,14 @@ import * as fromRouter from '@ngrx/router-store';
 import {normalized, NormalizedState} from '@cdk/ngrx-normalizr';
 import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
+import {assinaturaReducer, AssinaturaState} from './assinatura.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
 import {LOGOUT} from '../../main/auth/login/store';
 import {CounterReducer, CounterState} from './counter.reducer';
 import {NotificacaoReducer, NotificacaoState} from './notificacao.reducer';
+import {avaliacaoReducer, AvaliacaoState} from './avaliacao.reducer';
+import {objetoAvaliadoReducer, ObjetoAvaliadoState} from './objeto-avaliado.reducer';
 
 export interface RouterStateUrl {
     url: string;
@@ -21,9 +24,12 @@ export interface State extends NormalizedState {
     mercureReducer: MercureState;
     counterReducer: CounterState;
     ajudaReducer: AjudaState;
+    assinaturaReducer: AssinaturaState;
     screenReducer: ScreenState;
     operacoesReducer: OperacoesState;
     notificacoes: NotificacaoState;
+    avaliacaoReducer: AvaliacaoState;
+    objetoAvaliadoReducer: ObjetoAvaliadoState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -32,12 +38,15 @@ export const reducers: ActionReducerMap<State> = {
     mercureReducer: MercureReducer,
     counterReducer: CounterReducer,
     ajudaReducer: AjudaReducer,
+    assinaturaReducer: assinaturaReducer,
     screenReducer: ScreenReducer,
     operacoesReducer: OperacoesReducer,
-    notificacoes: NotificacaoReducer
+    notificacoes: NotificacaoReducer,
+    avaliacaoReducer: avaliacaoReducer,
+    objetoAvaliadoReducer: objetoAvaliadoReducer
 };
 
-export function clearState(reducer): any {
+export const clearState = (reducer): any => {
     return (state, action) => {
 
         if (action.type === LOGOUT) {
@@ -46,8 +55,7 @@ export function clearState(reducer): any {
 
         return reducer(state, action);
     };
-}
-
+};
 
 export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
 
@@ -57,11 +65,17 @@ export const getCounterState = createFeatureSelector<CounterState>('counterReduc
 
 export const getAjudaState = createFeatureSelector<AjudaState>('ajudaReducer');
 
+export const getAssinaturaState = createFeatureSelector<AssinaturaState>('assinaturaReducer');
+
 export const getScreenState = createFeatureSelector<ScreenState>('screenReducer');
 
 export const getOperacoesState = createFeatureSelector<OperacoesState>('operacoesReducer');
 
 export const getNotificacoesState = createFeatureSelector<NotificacaoState>('notificacoes');
+
+export const getAvaliacaoState = createFeatureSelector<AvaliacaoState>('avaliacaoReducer');
+
+export const getObjetoAvaliadoState = createFeatureSelector<ObjetoAvaliadoState>('objetoAvaliadoReducer');
 
 export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
     serialize(routerState: RouterStateSnapshot): RouterStateUrl {

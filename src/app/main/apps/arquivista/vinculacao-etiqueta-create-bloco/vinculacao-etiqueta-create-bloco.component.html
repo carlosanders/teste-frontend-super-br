@@ -10,7 +10,7 @@
                         (create)="addEtiqueta($event)"
                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
 
-    <div *ngIf="(isSaving$ | async) === false && operacoes.length === 0" class="actions mr-sm-12 mt-8 mb-16">
+    <div *ngIf="(isSaving$ | async) === false && operacoes.length === 0" class="actions mr-sm-12 mt-8 mb-8">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="!(processos$ | async)?.length || !etiquetas.length">
             SALVAR
@@ -21,7 +21,7 @@
         </button>
     </div>
 
-    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="actions mr-sm-12 mt-16 mb-16">
+    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="actions mr-sm-12 mt-8 mb-8">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 

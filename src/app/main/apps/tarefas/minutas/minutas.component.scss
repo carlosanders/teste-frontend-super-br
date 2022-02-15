@@ -1,0 +1,42 @@
+minutas {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 8px;
+
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+        flex-direction: column;
+        height: 0;
+        overflow-y: auto;
+
+        > .upload {
+            padding-bottom: 8px;
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        > mat-list {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 auto;
+            p.mat-line {
+                white-space: pre-wrap !important;
+            }
+        }
+
+        > div.actions {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: row;
+            flex: 0 0 auto;
+            align-content: center;
+            align-items: center;
+            align-self: center;
+        }
+    }
+}

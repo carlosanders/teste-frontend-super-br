@@ -10,7 +10,7 @@ export const getLotacaoListAppState = createFeatureSelector<LotacaoListAppState>
     'lotacao-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getLotacaoListAppState,
     (state: LotacaoListAppState) => state
 );

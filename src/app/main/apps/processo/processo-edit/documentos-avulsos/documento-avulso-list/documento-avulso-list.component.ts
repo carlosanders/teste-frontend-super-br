@@ -10,7 +10,7 @@ import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {DocumentoAvulso} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
@@ -42,11 +42,13 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.DocumentoAvulsoListAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.documentosAvulsos$ = this._store.pipe(select(fromStore.getDocumentoAvulsoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -73,7 +75,7 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -140,5 +142,24 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
             this.routerState.url.replace('listar', 'status-barramento-oficio/') +
             documentoAvulsoId
         ]).then();
+    }
+
+    visualizar(documentoAvulso: DocumentoAvulso): void {
+        const sidebar = 'oficio/dados-basicos';
+        this._router.navigate([
+                this.routerState.url +
+                '/documento/' + documentoAvulso.documentoRemessa.id,
+                {
+                    outlets: {
+                        sidebar: sidebar
+                    }
+                }],
+            {
+                relativeTo: this._activatedRoute.parent
+            }).then();
+    }
+
+    onComplete(): void {
+        this._store.dispatch(new fromStore.GetDocumentosAvulsos(this.pagination));
     }
 }
