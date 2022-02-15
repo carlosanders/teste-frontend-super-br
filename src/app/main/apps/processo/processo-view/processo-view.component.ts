@@ -372,14 +372,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     disabledNext(): boolean {
-        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1;
+        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1;
     }
 
     /**
      * Go to next step
      */
     gotoNextStep(): void {
-        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1) {
+        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1) {
             return;
         }
 
