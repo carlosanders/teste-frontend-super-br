@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
-
 import {getRouterState, State} from 'app/store/reducers';
 import * as AssinaturaActions from '../actions/assinatura.actions';
-
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assinatura, Documento} from '@cdk/models';
 import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';

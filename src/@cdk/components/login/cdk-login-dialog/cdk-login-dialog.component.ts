@@ -52,7 +52,7 @@ export class CdkLoginDialogComponent implements OnInit {
         this.loadingConfig$ = data.loadingConfig$;
         this.errorMessage$ = data.errorMessage$;
 
-        this.tipoLogin = this._loginService.getLoginType()?? 'externo';
+        this.tipoLogin = this._loginService.getLoginType()?? 'interno';
 
         this.form = this._formBuilder.group({
             tipoLogin: [this.tipoLogin, [Validators.required]],

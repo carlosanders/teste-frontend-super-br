@@ -159,15 +159,15 @@ export class LoginInterceptor implements HttpInterceptor {
         });
 
         this.subscribers = this.dialogRef.afterClosed().subscribe((result) => {
-            if (result.tipoLogin === 'externo') {
-                this.onSubmitExterno(result);
+            if (result.tipoLogin === 'interno') {
+                this.onSubmitInterno(result);
             } else if (result.tipoLogin === 'ldap') {
                 this.onSubmitLdap(result);
             }
         });
     }
 
-    onSubmitExterno(values): void {
+    onSubmitInterno(values): void {
         const payload = {
             username: !!this.loginService.getUserProfile()?.username ? this.loginService.getUserProfile().username : values.username,
             password: values.password,
