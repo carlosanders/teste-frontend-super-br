@@ -102,21 +102,16 @@ export class JuntadaEffects {
             status: 0, // carregando
         }))),
         switchMap((action) => {
-            const populate = JSON.stringify([
+            const populate = [
                 'documento',
                 'documento.origemDados',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
-                'documento.vinculacoesDocumentos',
-                'documento.vinculacoesDocumentos.documentoVinculado',
-                'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
-                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                 'documento.criadoPor',
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
-            ]);
-            return this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento, '{}', populate).pipe(
+            ];
+            return this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento, '{}', JSON.stringify(populate)).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'vinculação do documento',
@@ -124,7 +119,7 @@ export class JuntadaEffects {
                     status: 1, // sucesso
                 }))),
                 mergeMap((response: VinculacaoDocumento) => [
-                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
+                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema, populate: populate}),
                     new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
                     new RetiraJuntada(action.payload.juntadaVinculadaId),
                     new GetJuntada(action.payload.juntada.id),
