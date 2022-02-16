@@ -1190,14 +1190,26 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento): void {
+        const componentesDigitais = documento.componentesDigitais.length;
+        const vinculacoes = documento.vinculacoesDocumentos.length;
         const vinculado = this.routerState.url.slice(-1);
-        if(vinculado !== '0'){
+        if(vinculado === '0'){
+            this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
+        } else if(componentesDigitais>1){
+            if(this.routerState.url.slice(-1) < componentesDigitais){
+                this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[this.routerState.url.slice(-1)].id));
+            } else {
+                console.log(vinculacoes);
+                this._store.dispatch(new fromStore.VisualizarJuntada(
+                    documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - componentesDigitais].documentoVinculado.componentesDigitais[0].id)
+                );
+            }
+        }else {
             this._store.dispatch(new fromStore.VisualizarJuntada(
                 documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - 1].documentoVinculado.componentesDigitais[0].id)
             );
-        } else {
-            this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
         }
+
     }
 
     uploadAnexo(documento: Documento): void {
