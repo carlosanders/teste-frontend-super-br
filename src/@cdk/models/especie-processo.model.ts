@@ -65,6 +65,7 @@ export class EspecieProcesso {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: moment.Moment;
 
+    @Exclude({ toPlainOnly: true })
     workflow?: boolean;
 
     constructor() {

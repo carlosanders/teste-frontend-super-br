@@ -267,10 +267,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 'documento.origemDados',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
-                'documento.vinculacoesDocumentos',
-                'documento.vinculacoesDocumentos.documentoVinculado',
-                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
             ]
         };
 

@@ -122,7 +122,7 @@ export class TarefasEffect {
         }))),
         mergeMap((action) => {
             const folder = action.payload.folder ? action.payload.folder.id : null;
-            const context: any = {};
+            const context: any = {'especieProcessoWorkflow': true};
             if (folder) {
                 context.folderId = folder;
             }
@@ -152,8 +152,6 @@ export class TarefasEffect {
                         'vinculacaoWorkflow.workflow',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
                     ]
                 ),
                 JSON.stringify(context)
@@ -352,11 +350,10 @@ export class TarefasEffect {
                         'especieTarefa.generoTarefa',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                         'workflow'
                     ]
-                )
+                ),
+                JSON.stringify({'especieProcessoWorkflow': true})
             ).pipe(
                 mergeMap((response: any) => [
                     new TarefasActions.ChangeTarefasFolderSuccess({

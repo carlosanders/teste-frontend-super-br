@@ -131,6 +131,7 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.barramento = config.barramento;
             this.cdkConfigService.assinadorVersion = config.assinador;
             this.cdkConfigService.email = config.email;
+            this.cdkConfigService.ldap = config.ldap;
             localStorage.setItem('barramento', config.barramento);
             localStorage.setItem('assinadorVersion', config.assinador);
         });
@@ -152,6 +153,11 @@ export class LoginComponent implements OnInit {
                 redirect: true
             }));
         }
+
+        // BC
+        if (this._loginService.getLoginType() === 'externo') {
+            this._loginService.setLoginType('interno');
+        }
     }
 
     reloadConfig(): void {
@@ -160,14 +166,14 @@ export class LoginComponent implements OnInit {
 
     onSubmit(values): void {
         this.loading$.next(true);
-        if (values.tipoLogin === 'externo') {
-            this.onSubmitExterno(values);
+        if (values.tipoLogin === 'interno') {
+            this.onSubmitInterno(values);
         } else if (values.tipoLogin === 'ldap') {
             this.onSubmitLdap(values);
         }
     }
 
-    onSubmitExterno(values): void {
+    onSubmitInterno(values): void {
         const payload = {
             username: values.username.replace(/\D/g, ''),
             password: values.password

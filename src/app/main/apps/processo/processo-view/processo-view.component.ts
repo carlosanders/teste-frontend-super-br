@@ -208,7 +208,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                         break;
                     case 'application/pdf':
-                        this.src = blob;
+                        this.downloadUrl = null;
+                        this.src = this._router.url.includes('/documento/') ? this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)) : blob;
                         break;
                     default:
                         this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
@@ -372,14 +373,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     disabledNext(): boolean {
-        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1;
+        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1;
     }
 
     /**
      * Go to next step
      */
     gotoNextStep(): void {
-        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1) {
+        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1) {
             return;
         }
 

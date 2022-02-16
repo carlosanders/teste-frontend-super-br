@@ -18,6 +18,7 @@ export class CdkConfigService
     public nome = 'SISTEMA ÚNICO DE PROCURADORIAS PÚBLICAS';
     public sigla = 'SUPP';
     public email = '';
+    public ldap = '';
     public assinadorVersion = localStorage.getItem('assinadorVersion');
     public barramento = localStorage.getItem('barramento');
 

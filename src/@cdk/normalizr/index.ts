@@ -393,7 +393,6 @@ especieProcesso.define({
     generoProcesso: generoProcesso,
     classificacao: classificacao,
     modalidadeMeio: modalidadeMeio,
-    workflow: workflow,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
 import {ProcessoStoreModule} from '../../processo/store/store.module';
-import {AcompanhamentoService} from "../../../../../@cdk/services/acompanhamento.service";
+import {AcompanhamentoService} from '../../../../../@cdk/services/acompanhamento.service';
 
 const routes: Routes = [
     {

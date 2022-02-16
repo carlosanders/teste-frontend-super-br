@@ -61,6 +61,7 @@ import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {HasTarefa} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
+import {Back} from "app/store";
 
 @Component({
     selector: 'tarefas',
@@ -1220,7 +1221,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     retornar(): void {
         this.mostraCriar = false;
-        //this.currentTarefaId = null;
+        this._store.dispatch(new Back());
     }
 
     doSalvarObservacao(params: any): void {
