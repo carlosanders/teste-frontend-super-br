@@ -335,11 +335,7 @@ export class ProcessoViewEffect {
                             );
                         }
                     );
-                    console.log(index);
-                    console.log(novoIndex);
-                    console.log(componentesDigitaisIds);
                     novoIndex[action.payload.juntadaIndice] = componentesDigitaisIds;
-                    console.log(novoIndex);
                     return vinculacoesDocumentos;
                 }),
                 mergeMap(() => [
@@ -359,6 +355,25 @@ export class ProcessoViewEffect {
             return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(err));
         })
     ));
+    /**
+     * GetDocumentosVinculadosJuntadaSuccess
+     *
+     * @type {any}
+     */
+    getDocumentosVinculadosJuntadaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS),
+        tap((action) => {
+            if (this.routerState.params['stepHandle']) {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                if (parseInt(steps[0], 10) === action.payload.juntadaIndice && parseInt(steps[1], 10) > 0) {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                        step: steps[0],
+                        subStep: steps[1]
+                    }));
+                }
+            }
+        })
+    ), {dispatch: false});
 
     /**
      * Get Juntadas Success

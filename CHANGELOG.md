@@ -778,3 +778,12 @@
 * Correção de desaparecimento de mensagens de erros de upload poucos instantes após erro aparecer
 * Melhoria criação de marcadores de páginas para pdfs (bookmarks)
 * Correção para exibição de pds e arquivos para download dentro do editor
+
+1.8.1 
+
+* Correção de erro de navegação na ação visualizar processo do editor de ofícios
+* Correção de erro ao salvar dados básicos de ofício e alterar visualização do editor, onde ao retornar para o formulário de dados básicos, os dados do ofício não estavam atualizados
+* Correção em bug no editor causado pelo novo componente de visualização de PDF, em que a opção de visualizar processo não era capaz de exibir o conteúdo das juntadas dentro do editor
+* Melhoria na visualização de juntadas do processo, passando a carregar documentos vinculados após a carga inicial de juntadas ser concluída, somente para juntadas que possuem anexos
+* Correção de erro ao vincular juntadas
+* Correção de erro ao realizar reload enquanto estiver visualizando componente digital vinculado em alguma juntada 

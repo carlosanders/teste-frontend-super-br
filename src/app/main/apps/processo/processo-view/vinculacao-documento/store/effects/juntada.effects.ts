@@ -119,7 +119,7 @@ export class JuntadaEffects {
                     status: 1, // sucesso
                 }))),
                 mergeMap((response: VinculacaoDocumento) => [
-                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema, populate: populate}),
+                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
                     new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
                     new RetiraJuntada(action.payload.juntadaVinculadaId),
                     new GetJuntada(action.payload.juntada.id),
