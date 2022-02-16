@@ -188,7 +188,6 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit, OnDestro
     }
 
     onCompleteDocumentoVinculado(event): void {
-        console.log(event);
         this.completeDocumentoVinculado.emit({documentoPrincipal: this.documento, componenteDigital: event});
     }
 

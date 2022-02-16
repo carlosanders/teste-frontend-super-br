@@ -25,6 +25,7 @@ import {CdkUtils} from '../../../../utils';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
+import * as moment from 'moment';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -263,6 +264,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     formTipoDocumentoValid = false;
     habilitarTipoDocumentoSalvar = false;
 
+    prazoVenceHoje = false;
+    prazoVenceu = false;
+
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
     vinculacoesEtiquetasMinutas: VinculacaoEtiqueta[] = [];
 
@@ -351,6 +355,19 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
+            this.prazoVenceHoje = false;
+            this.prazoVenceu = false;
+            if (this.tarefa.dataHoraFinalPrazo) {
+                const currDate = moment().startOf('day');
+                const vencimentoPrazo = this.tarefa.dataHoraFinalPrazo.clone().startOf('day');
+                const diff = vencimentoPrazo.diff(currDate, 'days');
+                if (diff === 0) {
+                    this.prazoVenceHoje = true;
+                }
+                if (diff < 0) {
+                    this.prazoVenceu = true;
+                }
+            }
             this._cdkTarefaListItemService.tarefa = this.tarefa;
             this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
