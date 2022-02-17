@@ -8,10 +8,10 @@ import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoAvulsoEditActions from '../actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documentoAvulso as documentoAvulsoSchema, documento as documentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import {DocumentoAvulso} from '@cdk/models';
+import {Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {UnloadDocumento} from '../../../../store';
 import {
@@ -52,7 +52,11 @@ export class DocumentoAvulsoEditEffects {
             }))),
             mergeMap((response: DocumentoAvulso) => [
                 new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
-                new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
+                new UpdateData<Documento>({
+                    id: action.payload.documentoId,
+                    schema: documentoSchema,
+                    changes: {documentoAvulsoRemessa: response}
+                })
             ]),
             catchError((err) => {
                 console.log(err);
@@ -168,10 +172,9 @@ export class DocumentoAvulsoEditEffects {
                             'documento.origemDados',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
-                            'documento.vinculacoesDocumentos',
-                            'documento.vinculacoesDocumentos.documentoVinculado',
-                            'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais'
+                            'documento.criadoPor',
+                            'documento.setorOrigem',
+                            'documento.setorOrigem.unidade'
                         ]
                     };
 

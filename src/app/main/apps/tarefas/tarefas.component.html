@@ -13,6 +13,15 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
+            <button mat-icon-button (click)="retornar()" fxHide.gt-sm *ngIf="routerState.params['processoHandle']">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                    (click)="toggleSidebar('tarefas-main-sidebar')">
+                <mat-icon>menu</mat-icon>
+            </button>
+
             <mat-toolbar [ngClass]="currentTarefa ? 'showToolbar' : 'hideToolbar'">
                 <button mat-button aria-label="minutas"
                         [matMenuTriggerFor]="selectMenuMinutas"
@@ -164,12 +173,6 @@
             </mat-toolbar>
 
             <div class="search-wrapper">
-
-                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
-                        (click)="toggleSidebar('tarefas-main-sidebar')">
-                    <mat-icon>menu</mat-icon>
-                </button>
-
                 <div class="search">
                     <cdk-search-bar-etiquetas [etiquetas]="etiquetas"
                                               [entidades]="'tarefas'"
@@ -187,11 +190,6 @@
         <!-- CONTENT CARD -->
         <div class="content-card"
              [ngClass]="{'current-tarefa-selected':currentTarefaId || (loading$ | async)}">
-
-            <button mat-icon-button (click)="retornar()" fxHide.gt-sm *ngIf="routerState.params['processoHandle']">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-
 
             <!-- CONTENT -->
             <div class="content">

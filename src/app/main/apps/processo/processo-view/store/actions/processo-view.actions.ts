@@ -13,6 +13,10 @@ export const GET_JUNTADAS_ETIQUETAS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS';
 export const GET_JUNTADAS_ETIQUETAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS SUCCESS';
 export const GET_JUNTADAS_ETIQUETAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS FAILED';
 
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA';
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA SUCCESS';
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA FAILED';
+
 export const SET_CURRENT_STEP = '[JUNTADAS] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
@@ -152,6 +156,42 @@ export class GetJuntadasEtiquetasFailed implements Action
 }
 
 /**
+ * Get Documentos Vinculados Juntada
+ */
+export class GetDocumentosVinculadosJuntada implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documentos Vinculados Juntada Success
+ */
+export class GetDocumentosVinculadosJuntadaSuccess implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documentos Vinculados Juntada Failed
+ */
+export class GetDocumentosVinculadosJuntadaFailed implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
  * Set Current Step
  */
 export class SetCurrentStep implements Action {
@@ -280,6 +320,9 @@ export type ProcessoViewActionsAll
     | GetJuntada
     | GetJuntadaSuccess
     | GetJuntadaFailed
+    | GetDocumentosVinculadosJuntada
+    | GetDocumentosVinculadosJuntadaSuccess
+    | GetDocumentosVinculadosJuntadaFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed
