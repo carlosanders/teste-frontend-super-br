@@ -305,9 +305,8 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.GetDocumentosVinculadosJuntada>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA),
         withLatestFrom(this._store.pipe(select(getIndex))),
         mergeMap(([action, index]) => {
-            const novoIndex = [...index];
             const componentesDigitaisIds = [
-                ...novoIndex[action.payload.juntadaIndice]
+                ...index[action.payload.juntadaIndice]
             ];
             let vinculacoesDocumentos = [];
             return this._vinculacaoDocumentoService.query(
@@ -335,7 +334,6 @@ export class ProcessoViewEffect {
                             );
                         }
                     );
-                    novoIndex[action.payload.juntadaIndice] = componentesDigitaisIds;
                     return vinculacoesDocumentos;
                 }),
                 mergeMap(() => [
@@ -345,7 +343,10 @@ export class ProcessoViewEffect {
                         parentSchema: documentoSchema,
                         parentId: action.payload.documentoId
                     }),
-                    new ProcessoViewActions.UpdateIndex(novoIndex),
+                    new ProcessoViewActions.UpdateNode({
+                        indice: action.payload.juntadaIndice,
+                        componentesDigitaisIds: componentesDigitaisIds
+                    }),
                     new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess(action.payload)
                 ]),
             );
