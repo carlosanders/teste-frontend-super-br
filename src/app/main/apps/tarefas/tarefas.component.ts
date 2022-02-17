@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
@@ -62,6 +62,8 @@ import {
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {HasTarefa} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
 import {Back} from "app/store";
+import {navigationConverter} from "../../../navigation/navigation";
+import * as moment from "moment";
 
 @Component({
     selector: 'tarefas',
@@ -84,6 +86,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     routerState: any;
+    hiddenFilters: string[] = [];
 
     searchInput: FormControl;
 
@@ -443,6 +446,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
                 }
             });
+
+            if (this.typeHandle !== 'minhas-tarefas') {
+                this.hiddenFilters = ['tipoBusca'];
+            } else {
+                this.hiddenFilters = []
+            }
         });
 
         this._store.pipe(
@@ -616,11 +625,70 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.novaTarefa = false;
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
-        const nparams = {
+        let nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
+
+        let generoParam = this.routerState.params['generoHandle'];
+        if (this.typeHandle === 'minhas-tarefas' && params.tipoBusca === 'todas') {
+            nparams.filter = {
+                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`,
+                'dataHoraConclusaoPrazo': 'isNull' //<- não traz as concluídas
+            };
+            nparams.context = {
+                modulo: generoParam,
+                mostrarApagadas: true
+            };
+            delete nparams['folderFilter'];
+        } else if (this.typeHandle === 'minhas-tarefas') {
+            nparams.filter = {
+                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                'dataHoraConclusaoPrazo': 'isNull'
+            };
+            let folderFilter = 'isNull';
+            let paramUrl = '';
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                generoParam = navigationConverter[this.routerState.params['generoHandle']];
+            }
+            const routeTargetParam = of('targetHandle');
+            routeTargetParam.subscribe((targetParam) => {
+                if (
+                    this.routerState.params[targetParam] !== 'entrada' &&
+                    this.routerState.params[targetParam] !== 'lixeira'
+                ) {
+                    const folderName = this.routerState.params[targetParam];
+                    folderFilter = `eq:${folderName.toUpperCase()}`;
+                }
+
+                paramUrl = this.routerState.params[targetParam];
+                if (this.routerState.params[targetParam] === 'lixeira') {
+                    nparams.filters = {
+                        'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                        'apagadoEm': 'gt:' + moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')
+                    };
+                }
+
+            });
+
+            if (paramUrl !== 'lixeira') {
+                nparams['folderFilter'] = {
+                    'folder.nome': folderFilter
+                };
+                nparams.context = {modulo: generoParam};
+            } else {
+                nparams.context = {
+                    modulo: generoParam,
+                    mostrarApagadas: true
+                };
+            }
+            nparams['filter'] = {
+                ...nparams['filter'],
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
+            };
+        }
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }

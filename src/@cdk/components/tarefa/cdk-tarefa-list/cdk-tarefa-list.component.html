@@ -3,7 +3,9 @@
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
-                           [arrayFiltrosEtiquetas]="arraySearchTypes"></cdk-tarefa-filter>
+                           [arrayFiltrosEtiquetas]="arraySearchTypes"
+                           [targetHandle]="targetHandle"
+                           [typeHandle]="typeHandle"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -182,7 +184,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': !(listFilter | json).includes('{}')}"
+            <button class="toggle-filter" [ngClass]="{'warn': !((listFilter?.filters || {}) | json).includes('{}') || listFilter?.tipoBusca === 'todas'}"
                     mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
