@@ -75,7 +75,8 @@ export class DadosBasicosEffect {
                 action.payload.id,
                 JSON.stringify([
                     'populateAll', 'especieProcesso.generoProcesso', 'setorAtual.unidade', 'setorAtual.especieSetor'
-                ])
+                ]),
+                {'especieProcessoWorkflow': true}
             );
         }),
         switchMap(response => [

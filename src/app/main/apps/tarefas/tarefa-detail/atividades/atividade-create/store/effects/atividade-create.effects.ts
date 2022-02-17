@@ -32,7 +32,7 @@ export class AtividadeCreateEffect {
             content: 'Salvando a atividade ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._atividadeService.save(action.payload.atividade).pipe(
+        switchMap(action => this._atividadeService.save(action.payload.atividade, '{}', JSON.stringify(['tarefa', 'tarefa.vinculacaoWorkflow', 'tarefa.processo'])).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'atividade',
@@ -63,7 +63,14 @@ export class AtividadeCreateEffect {
         tap((action) => {
             if (action.payload.encerraTarefa) {
                 this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
-                this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
+                if (action.payload?.tarefa?.vinculacaoWorkflow) {
+                    this._router.navigate([
+                        'apps/tarefas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada'
+                    ]).then();
+                } else {
+                    this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
+                }
+
             } else {
                 // Não foi encerrada a tarefa, encaminha pra visão do processo
                 // tslint:disable-next-line:max-line-length
