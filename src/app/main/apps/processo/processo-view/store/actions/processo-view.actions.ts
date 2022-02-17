@@ -22,6 +22,7 @@ export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
 
 export const UPDATE_INDEX = '[PROCESSO VIEW] UPDATE INDEX';
+export const UPDATE_NODE = '[PROCESSO VIEW] UPDATE NODE';
 
 export const UNLOAD_JUNTADAS = '[JUNTADAS] UNLOAD JUNTADAS';
 
@@ -268,6 +269,18 @@ export class UpdateIndex implements Action
 }
 
 /**
+ * Update Node
+ */
+export class UpdateNode implements Action
+{
+    readonly type = UPDATE_NODE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Retira Juntada
  */
 export class RetiraJuntada implements Action
@@ -331,6 +344,7 @@ export type ProcessoViewActionsAll
     | ExpandirProcesso
     | ReloadJuntadas
     | UpdateIndex
+    | UpdateNode
     | RetiraJuntada
     | SetBinaryView
     | SetBinaryViewSuccess

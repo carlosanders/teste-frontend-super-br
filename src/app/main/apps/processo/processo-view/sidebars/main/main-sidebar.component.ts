@@ -616,13 +616,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         if (event?.ctrlKey && componenteDigitalId) {
             this._store.dispatch(new fromStore.VisualizarJuntada(componenteDigitalId));
-        } else{
+        } else {
             if (this.juntadas[step] === undefined) {
                 this._store.dispatch(new fromStore.GetCapaProcesso());
                 return;
             }
 
-            if (componenteDigitalId) {
+            if (componenteDigitalId && this.index[step].indexOf(componenteDigitalId) !== -1) {
                 substep = this.index[step].indexOf(componenteDigitalId);
             }
 

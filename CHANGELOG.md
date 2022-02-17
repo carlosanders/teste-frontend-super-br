@@ -787,3 +787,5 @@
 * Melhoria na visualização de juntadas do processo, passando a carregar documentos vinculados após a carga inicial de juntadas ser concluída, somente para juntadas que possuem anexos
 * Correção de erro ao vincular juntadas
 * Correção de erro ao realizar reload enquanto estiver visualizando componente digital vinculado em alguma juntada 
+* Correção de erro de concorrência ao tentar atualizar índice de juntadas com documentos vinculados
+* Correção de erro ao montar url da aplicação em casos específicos para juntadas com documentos vinculados
