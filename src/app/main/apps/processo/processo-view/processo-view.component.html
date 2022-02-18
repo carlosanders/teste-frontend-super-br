@@ -28,7 +28,7 @@
                     <ng-container *showIfRole="'ROLE_COLABORADOR'">
                         <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
                                 class="previous accent cdk-white-fg ml-8"
-                                *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
+                                *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
                                 (click)="criarBookmark(this.componenteDigital.id)">
                             <mat-icon>bookmark</mat-icon>
                         </button>
@@ -98,7 +98,11 @@
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
+                    <iframe id="iframe-juntadas-pdf" *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && this.routerState.url.includes('/documento')"
+                            [src]="src">
+                    </iframe>
+                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
+                                             [ngClass]="{'documento': this.routerState.url.includes('/documento/')}"
                                              [src]="src"
                                              [useBrowserLocale]="true"
                                              [textLayer]="true"

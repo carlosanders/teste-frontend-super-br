@@ -13,24 +13,6 @@ cdk-tarefa-filter {
         padding: 8px;
     }
 
-    > .search-wrapper {
-        margin: 8px;
-        flex: 0 1 auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        overflow: hidden;
-
-        > .search {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-        }
-    }
-
     > .content {
         flex: 1 1 auto;
         display: flex;
@@ -43,10 +25,47 @@ cdk-tarefa-filter {
             display: flex;
             flex-direction: column;
 
+            .search-wrapper {
+                margin: 8px;
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                overflow: hidden;
+
+                .search {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    padding: 0 24px;
+
+                    > .mat-button-toggle-group-custom {
+                        margin-bottom: 0 !important;
+                        font-size: 14px;
+                    }
+
+                    > .mat-button-toggle-label-content {
+                        line-height: 15px !important;
+                    }
+
+                    > .button-toggle-custom {
+                        width: 100%;
+                    }
+                }
+            }
+
+            mat-expansion-panel:first-of-type {
+                top: -20px;
+            }
+
             > mat-expansion-panel {
                 padding: 8px;
                 display: flex;
                 flex-direction: column;
+                box-shadow: none !important;
 
                 .filtro-data {
                     display: flex;

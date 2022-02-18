@@ -208,7 +208,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                         break;
                     case 'application/pdf':
-                        this.src = blob;
+                        this.downloadUrl = null;
+                        this.src = this._router.url.includes('/documento/') ? this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)) : blob;
                         break;
                     default:
                         this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));

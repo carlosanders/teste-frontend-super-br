@@ -61,6 +61,7 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
+import {componenteDigital} from "../../../../../../../@cdk/normalizr";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -608,66 +609,71 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * @param step
      * @param restrito
      * @param componenteDigitalId
+     * @param event
      */
-    gotoStep(step, restrito, componenteDigitalId = null): void {
+    gotoStep(step, restrito, componenteDigitalId = null, event = null): void {
         let substep = 0;
 
-        if (this.juntadas[step] === undefined) {
-            this._store.dispatch(new fromStore.GetCapaProcesso());
-            return;
-        }
-
-        if (componenteDigitalId) {
-            substep = this.index[step].indexOf(componenteDigitalId);
-        }
-
-        // Decide the animation direction
-        this.animationDirection = this.currentStep.step < step ? 'left' : 'right';
-
-        // Run change detection so the change
-        // in the animation direction registered
-        this._changeDetectorRef.detectChanges();
-
-        if (this.routerState.url.indexOf('/documento/') !== -1) {
-            const arrPrimary = [];
-            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                'visualizar-processo' : 'anexar-copia');
-            arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
-                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
-            if (this.routerState.params.chaveAcessoHandle) {
-                arrPrimary.push('chave');
-                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-            }
-            arrPrimary.push('visualizar');
-            arrPrimary.push(step + '-' + substep);
-            // Navegação do processo deve ocorrer por outlet
-            this._router.navigate(
-                [
-                    this.routerState.url.split('/documento/')[0] + '/documento/' +
-                    this.routerState.params.documentoHandle,
-                    {
-                        outlets: {
-                            primary: arrPrimary
-                        }
-                    }
-                ],
-                {
-                    relativeTo: this._activatedRoute.parent
-                }
-            ).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-            });
+        if (event?.ctrlKey && componenteDigitalId) {
+            this._store.dispatch(new fromStore.VisualizarJuntada(componenteDigitalId));
         } else {
-            let url = this.routerState.url.split('/processo/')[0] +
-                '/processo/' +
-                this.routerState.params.processoHandle;
-            if (this.routerState.params.chaveAcessoHandle) {
-                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+            if (this.juntadas[step] === undefined) {
+                this._store.dispatch(new fromStore.GetCapaProcesso());
+                return;
             }
-            url += '/visualizar/' + step + '-' + substep;
-            this._router.navigateByUrl(url).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-            });
+
+            if (componenteDigitalId && this.index[step].indexOf(componenteDigitalId) !== -1) {
+                substep = this.index[step].indexOf(componenteDigitalId);
+            }
+
+            // Decide the animation direction
+            this.animationDirection = this.currentStep.step < step ? 'left' : 'right';
+
+            // Run change detection so the change
+            // in the animation direction registered
+            this._changeDetectorRef.detectChanges();
+
+            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                const arrPrimary = [];
+                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                    'visualizar-processo' : 'anexar-copia');
+                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
+                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                }
+                arrPrimary.push('visualizar');
+                arrPrimary.push(step + '-' + substep);
+                // Navegação do processo deve ocorrer por outlet
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                        this.routerState.params.documentoHandle,
+                        {
+                            outlets: {
+                                primary: arrPrimary
+                            }
+                        }
+                    ],
+                    {
+                        relativeTo: this._activatedRoute.parent
+                    }
+                ).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                });
+            } else {
+                let url = this.routerState.url.split('/processo/')[0] +
+                    '/processo/' +
+                    this.routerState.params.processoHandle;
+                if (this.routerState.params.chaveAcessoHandle) {
+                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                }
+                url += '/visualizar/' + step + '-' + substep;
+                this._router.navigateByUrl(url).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                });
+            }
         }
     }
 
@@ -1184,7 +1190,26 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento): void {
-        this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
+        const componentesDigitais = documento.componentesDigitais.length;
+        const vinculacoes = documento.vinculacoesDocumentos.length;
+        const vinculado = this.routerState.url.slice(-1);
+        if(vinculado === '0'){
+            this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
+        } else if(componentesDigitais>1){
+            if(this.routerState.url.slice(-1) < componentesDigitais){
+                this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[this.routerState.url.slice(-1)].id));
+            } else {
+                console.log(vinculacoes);
+                this._store.dispatch(new fromStore.VisualizarJuntada(
+                    documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - componentesDigitais].documentoVinculado.componentesDigitais[0].id)
+                );
+            }
+        }else {
+            this._store.dispatch(new fromStore.VisualizarJuntada(
+                documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - 1].documentoVinculado.componentesDigitais[0].id)
+            );
+        }
+
     }
 
     uploadAnexo(documento: Documento): void {

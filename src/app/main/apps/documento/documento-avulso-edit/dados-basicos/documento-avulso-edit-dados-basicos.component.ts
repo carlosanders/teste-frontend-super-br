@@ -184,6 +184,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveDocumentoAvulso({
             documentoAvulso: documentoAvulso,
+            documentoId: this.documento.id,
             operacaoId: operacaoId
         }));
     }

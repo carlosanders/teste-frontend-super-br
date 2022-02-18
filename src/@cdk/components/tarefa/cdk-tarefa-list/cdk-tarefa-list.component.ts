@@ -307,6 +307,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     savingObservacao: boolean = false;
 
+    @Input()
+    hiddenFilters: string[] = [];
+
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
@@ -477,7 +480,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     loadPage(): void {
         this.reload.emit({
             listFilter: this.listFilter.filters,
-            listSort: this.listSort
+            listSort: this.listSort,
+            tipoBusca: this.listFilter.tipoBusca
         });
     }
 

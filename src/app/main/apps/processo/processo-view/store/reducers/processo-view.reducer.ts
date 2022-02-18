@@ -181,6 +181,15 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.UPDATE_NODE: {
+            const novoIndex = [...state.index];
+            novoIndex[action.payload.indice] = action.payload.componentesDigitaisIds;
+            return {
+                ...state,
+                index: novoIndex
+            };
+        }
+
         case ProcessoViewActions.RETIRA_JUNTADA: {
             return {
                 ...state,

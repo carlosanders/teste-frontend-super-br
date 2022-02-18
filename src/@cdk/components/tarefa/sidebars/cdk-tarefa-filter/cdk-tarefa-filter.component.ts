@@ -18,7 +18,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {of, Subject} from 'rxjs';
 import {Etiqueta, Pagination} from '../../../../models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {SearchBarEtiquetasFiltro} from '../../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 
 @Component({
@@ -39,6 +39,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
 
     @Input()
     mode = 'list';
+
+    @Input()
+    typeHandle: any;
+
+    @Input()
+    targetHandle: any;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
@@ -111,6 +117,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
             atualizadoEm: [null],
             apagadoPor: [null],
             apagadoEm: [null],
+            tipoBusca: [null],
         });
         this.form.get('setorResponsavel').disable();
         this.form.get('setorOrigem').disable();
@@ -181,6 +188,15 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         if (changes['arrayFiltrosEtiquetas']) {
             this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
         }
+
+        if (this.typeHandle === 'minhas-tarefas' && changes['targetHandle'] !== this.targetHandle) {
+            this.form.get('tipoBusca').setValue('pastaAtual');
+        }
+
+        if (this.typeHandle !== changes['typeHandle'] && this.targetHandle !== changes['targetHandle']) {
+            this.form.get('redistribuida').setValue('todos');
+            this.form.get('urgente').setValue('todos');
+        }
     }
 
     emite(): void {
@@ -197,6 +213,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         if (!this._cdkTarefaFilterService.isValid) {
             return;
         }
+
+
+        const request = {
+            filters: {},
+            tipoBusca: null
+        };
 
         const andXFilter = [];
 
@@ -361,15 +383,17 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
             andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
+        if (this.typeHandle === 'minhas-tarefas' && this.form.get('tipoBusca').value !== 'pastaAtual') {
+            request.tipoBusca = this.form.get('tipoBusca').value;
+        } else {
+            request.tipoBusca = null;
+        }
+
         this.etiquetas.forEach((e) => {
             const objFiltro = {};
             objFiltro[this.filtroEtiquetas.queryFilter] = `eq:${e.id}`;
             andXFilter.push(objFiltro);
         });
-
-        const request = {
-            filters: {},
-        };
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
@@ -428,6 +452,13 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         this.limparFormFiltroDatas$.next(true);
         this._cdkTarefaFilterService.clear.next(true);
         this.etiquetas = [];
+
+        if (this.form.get('tipoBusca')) {
+            this.form.get('tipoBusca').setValue('pastaAtual');
+        }
+        this.form.get('redistribuida').setValue('todos');
+        this.form.get('urgente').setValue('todos');
+
         this.emite();
     }
 

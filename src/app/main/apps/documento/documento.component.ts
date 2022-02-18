@@ -260,17 +260,16 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             listFilter: {},
             limit: 10,
             offset: 0,
-            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
             populate: [
                 'volume',
                 'documento',
                 'documento.origemDados',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
-                'documento.vinculacoesDocumentos',
-                'documento.vinculacoesDocumentos.documentoVinculado',
-                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
             ]
         };
 
