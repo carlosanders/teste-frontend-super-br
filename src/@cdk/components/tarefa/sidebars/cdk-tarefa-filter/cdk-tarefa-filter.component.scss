@@ -39,11 +39,11 @@ cdk-tarefa-filter {
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-start;
-                    align-items: start;
+                    align-items: flex-start;
                     padding: 0 24px;
 
                     > .mat-button-toggle-group-custom {
-                        margin-bottom: 0px !important;
+                        margin-bottom: 0 !important;
                         font-size: 14px;
                     }
 
