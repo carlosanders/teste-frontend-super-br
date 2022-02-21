@@ -2,11 +2,9 @@ import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-norm
 import {
     assunto as assuntoSchema,
     etiqueta as etiquetaSchema,
-    especieProcesso as especieProcessoSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
     tarefa as tarefaSchema,
-    vinculacaoEspecieProcessoWorkflow as vinculacaoEspecieProcessoWorkflowSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
 } from '@cdk/normalizr';
 
@@ -32,7 +30,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Etiqueta, Tarefa, VinculacaoEspecieProcessoWorkflow, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
