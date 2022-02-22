@@ -9,6 +9,7 @@ import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/reducers';
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {
+    getBinary,
     getIsLoading,
     getIsLoadingVolumes,
     getVolumesLoaded
@@ -21,6 +22,8 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
     loadingJuntadas: boolean = false;
     loadingVolumes: boolean = false;
+    loadingLatestBinary: boolean = false;
+    loadingStep = null;
 
     /**
      * Constructor
@@ -52,6 +55,15 @@ export class ResolveGuard implements CanActivate {
             .subscribe((loading) => {
                 this.loadingVolumes = loading;
             });
+
+        this._store
+            .pipe(select(getBinary))
+            .subscribe((binary) => {
+                if (this.loadingStep === null || binary.step !== null && this.loadingStep === 'default') {
+                    this.loadingLatestBinary = binary.loading;
+                    this.loadingStep = binary.step;
+                }
+            });
     }
 
     /**
@@ -77,7 +89,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getJuntadas(), this.getVolumes()]).pipe(
+        return forkJoin([this.downloadLatestBinary(), this.getJuntadas(), this.getVolumes()]).pipe(
             take(1)
         );
     }
@@ -109,7 +121,7 @@ export class ResolveGuard implements CanActivate {
                         listFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
                         populate: [
                             'volume',
                             'documento',
@@ -166,6 +178,26 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            take(1)
+        );
+    }
+
+    downloadLatestBinary(): any {
+        return this._store.pipe(
+            select(getBinary),
+            tap((binary: any) => {
+                if (!this.loadingLatestBinary && (!binary.src)) {
+                    let processoId = null;
+
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
+                    this.loadingLatestBinary = true;
+                }
+            }),
+            filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
             take(1)
         );
     }

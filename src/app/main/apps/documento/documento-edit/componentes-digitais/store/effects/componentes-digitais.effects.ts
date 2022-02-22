@@ -136,11 +136,7 @@ export class ComponenteDigitalEffects {
         ofType<ComponenteDigitalActions.DeleteComponenteDigitalSuccess>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_SUCCESS),
         withLatestFrom(this._store.pipe(select(getDocumento))),
         tap(([action, documento]) => {
-            console.log(this.routerState.params['componenteDigitalHandle']);
-            console.log(action.payload);
-            console.log(documento);
             if (parseInt(this.routerState.params['componenteDigitalHandle'], 10) === action.payload) {
-                console.log('entrou aqui');
                 let primary = '';
                 let nextComponenteDigital = null;
                 nextComponenteDigital = documento.componentesDigitais[0];

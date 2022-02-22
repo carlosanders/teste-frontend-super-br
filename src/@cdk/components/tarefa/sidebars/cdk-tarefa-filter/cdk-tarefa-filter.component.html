@@ -5,20 +5,28 @@
     <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Filtro</span>
 </div>
 
-<div class="search-wrapper">
-    <div class="search">
-        <cdk-search-bar-etiquetas [etiquetas]="etiquetas"
-                                  [entidades]="''"
-                                  [arraySearchTypes]="arrayFiltrosEtiquetas"
-                                  (create)="addEtiqueta($event)"
-                                  (changeFilter)="changeEtiquetaFilter($event)"
-                                  (delete)="deleteEtiqueta($event)">
-        </cdk-search-bar-etiquetas>
-    </div>
-</div>
-
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+
+        <div class="search-wrapper">
+            <div class="search">
+                <ng-container *ngIf="typeHandle === 'minhas-tarefas'">
+                    Pesquisar em
+                    <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="tipoBusca">
+                        <mat-button-toggle value="pastaAtual" [checked]=true class="button-toggle-custom">Pasta atual</mat-button-toggle>
+                        <mat-button-toggle value="todas" class="button-toggle-custom">Todas as pastas</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </ng-container>
+
+                <cdk-search-bar-etiquetas [etiquetas]="etiquetas"
+                                          [entidades]="''"
+                                          [arraySearchTypes]="arrayFiltrosEtiquetas"
+                                          (create)="addEtiqueta($event)"
+                                          (changeFilter)="changeEtiquetaFilter($event)"
+                                          (delete)="deleteEtiqueta($event)">
+                </cdk-search-bar-etiquetas>
+            </div>
+        </div>
 
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
@@ -279,18 +287,18 @@
             </mat-menu>
 
             <div class="filtro-data">
-            <span [ngClass]="{'filtrado': filterApagadoEm?.length}">Apagado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroApagadoEm"
-                    [ngClass]="{'filtrado': filterApagadoEm?.length}">
-                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
-            </button>
-        </div>
-        <mat-menu #filtroApagadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="apagadoEm"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraApagadoEm($event)">
-            </cdk-date-filter>
-        </mat-menu>
+                <span [ngClass]="{'filtrado': filterApagadoEm?.length}">Apagado Em</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroApagadoEm"
+                        [ngClass]="{'filtrado': filterApagadoEm?.length}">
+                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+            <mat-menu #filtroApagadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+                <cdk-date-filter [datetime]="true" campo="apagadoEm"
+                                 [limparForm]="this.limparFormFiltroDatas$"
+                                 (filtra)="this.filtraApagadoEm($event)">
+                </cdk-date-filter>
+            </mat-menu>
         </mat-expansion-panel>
     </form>
     <ng-template #dynamicComponent></ng-template>

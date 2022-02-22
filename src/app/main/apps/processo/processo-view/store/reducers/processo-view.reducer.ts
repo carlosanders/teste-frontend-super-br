@@ -22,6 +22,7 @@ export interface ProcessoViewState {
     binary: {
         src: any;
         loading: boolean;
+        step: any;
     };
     expandir: boolean;
 }
@@ -47,7 +48,8 @@ export const processoViewInitialState: ProcessoViewState = {
     index: [],
     binary: {
         src: null,
-        loading: false
+        loading: false,
+        step: null
     },
     expandir: false
 };
@@ -124,16 +126,23 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             }
         }
 
+        case ProcessoViewActions.START_LOADING_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    loading: true,
+                    src: null
+                }
+            };
+        }
+
         case ProcessoViewActions.SET_CURRENT_STEP: {
             return {
                 ...state,
                 currentStep: {
                     step: parseInt(action.payload.step, 10),
                     subStep: parseInt(action.payload.subStep, 10),
-                },
-                binary: {
-                    src: null,
-                    loading: true
                 }
             };
         }
@@ -142,8 +151,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: action.payload.binary,
-                    loading: false
+                    loading: false,
                 },
                 currentStepLoaded: action.payload.loaded
             };
@@ -154,7 +164,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     src: null,
-                    loading: false
+                    loading: false,
+                    step: null
                 },
                 currentStepLoaded: false
             };
@@ -181,6 +192,15 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.UPDATE_NODE: {
+            const novoIndex = [...state.index];
+            novoIndex[action.payload.indice] = action.payload.componentesDigitaisIds;
+            return {
+                ...state,
+                index: novoIndex
+            };
+        }
+
         case ProcessoViewActions.RETIRA_JUNTADA: {
             return {
                 ...state,
@@ -197,7 +217,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     src: null,
-                    loading: true
+                    loading: true,
+                    step: null
                 }
             };
         }
@@ -206,6 +227,7 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: action.payload.binary,
                     loading: false
                 }
@@ -217,7 +239,19 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     src: null,
-                    loading: false
+                    loading: false,
+                    step: null
+                }
+            };
+        }
+
+        case ProcessoViewActions.DOWNLOAD_LATEST_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: true,
+                    step: 'default'
                 }
             };
         }
