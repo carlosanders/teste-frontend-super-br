@@ -85,6 +85,16 @@
                                 <mat-icon>explore</mat-icon>
                                 <p >Tour</p>
                             </button>
+                            <ng-container *ngIf="botoesModulos.length">
+                                <button *ngFor="let modulo of botoesModulos" mat-icon-button
+                                        color="primary"
+                                        [attr.aria-label]="modulo.name"
+                                        [title]="modulo.label"
+                                        (click)="pesquisarCat(modulo.name)">
+                                    <mat-icon>{{ modulo.icon }}</mat-icon>
+                                    <p>{{ modulo.label | titleCasePipe }}</p>
+                                </button>
+                            </ng-container>
                         </div>
                     </div>
                 </section>
