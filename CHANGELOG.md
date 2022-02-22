@@ -789,3 +789,5 @@
 * Correção de erro ao realizar reload enquanto estiver visualizando componente digital vinculado em alguma juntada 
 * Correção de erro de concorrência ao tentar atualizar índice de juntadas com documentos vinculados
 * Correção de erro ao montar url da aplicação em casos específicos para juntadas com documentos vinculados
+* Correção de carregamento de vinculações de documentos de juntadas, que estava limitando a apenas 25 registros (hotfix)
+* Correção no carregamento de vinculações de documentos de juntadas, que não atualizava a tela ao término do carregamento (hotfix)

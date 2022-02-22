@@ -187,7 +187,7 @@ export class GetDocumentosVinculadosJuntadaFailed implements Action
 {
     readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED;
 
-    constructor(public payload: string)
+    constructor(public payload: any)
     {
     }
 }
