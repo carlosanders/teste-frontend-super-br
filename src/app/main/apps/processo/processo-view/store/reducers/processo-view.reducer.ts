@@ -1,5 +1,22 @@
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
+export interface PaginadorVinculacoesDocumento {
+    documentoId: number;
+    indice: number;
+    vinculacoes: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
+    loaded: any;
+    loading: boolean;
+    error?: any;
+}
+
 export interface ProcessoViewState {
     entitiesId: number[];
     pagination: {
@@ -12,6 +29,8 @@ export interface ProcessoViewState {
         total: number;
     };
     loading: boolean;
+    loadingVinculacoesDocumentosId: number[];
+    paginadoresDocumentosVinculados: {[id: number]: PaginadorVinculacoesDocumento };
     loaded: any;
     currentStep: {
         step: number;
@@ -38,6 +57,8 @@ export const processoViewInitialState: ProcessoViewState = {
         total: 0,
     },
     loading: false,
+    loadingVinculacoesDocumentosId: [],
+    paginadoresDocumentosVinculados: {},
     loaded: false,
     currentStep: {
         step: 0,
@@ -231,6 +252,79 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA: {
+            const total = state.paginadoresDocumentosVinculados[action.payload.documentoId]?.pagination?.total ?? 0;
+            const loading = [...state.loadingVinculacoesDocumentosId, action.payload.documentoId];
+            const paginadores = {
+                ...state.paginadoresDocumentosVinculados,
+                [action.payload.documentoId]: {
+                    ...state.paginadoresDocumentosVinculados[action.payload.documentoId],
+                    documentoId: action.payload.documentoId,
+                    indice: action.payload.juntadaIndice,
+                    loading: true,
+                    loaded: state.paginadoresDocumentosVinculados[action.payload.documentoId]?.loaded ?? false,
+                    pagination: {
+                        limit: action.payload.limit,
+                        offset: action.payload.offset,
+                        filter: action.payload.filter,
+                        populate: action.payload.populate,
+                        sort: action.payload.sort,
+                        total: total
+                    }
+                }
+            };
+            return {
+                ...state,
+                paginadoresDocumentosVinculados: paginadores,
+                loadingVinculacoesDocumentosId: loading
+            };
+        }
+
+        case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS: {
+            const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.documentoId);
+            let vinculacoes = [];
+            if (state.paginadoresDocumentosVinculados[action.payload.documentoId].vinculacoes) {
+                vinculacoes = state.paginadoresDocumentosVinculados[action.payload.documentoId].vinculacoes;
+            }
+            const paginadores = {
+                ...state.paginadoresDocumentosVinculados,
+                [action.payload.documentoId]: {
+                    ...state.paginadoresDocumentosVinculados[action.payload.documentoId],
+                    loading: false,
+                    vinculacoes: [...vinculacoes, ...action.payload.entitiesId],
+                    loaded: {
+                        offset: state.paginadoresDocumentosVinculados[action.payload.documentoId].pagination.offset,
+                        total: action.payload.total
+                    },
+                    pagination: {
+                        ...state.paginadoresDocumentosVinculados[action.payload.documentoId].pagination,
+                        total: action.payload.total
+                    }
+                }
+            };
+            return {
+                ...state,
+                paginadoresDocumentosVinculados: paginadores,
+                loadingVinculacoesDocumentosId: loading
+            };
+        }
+
+        case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED: {
+            const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.id);
+            const paginadores = {
+                ...state.paginadoresDocumentosVinculados,
+                [action.payload.id]: {
+                    ...state.paginadoresDocumentosVinculados[action.payload.id],
+                    loading: false,
+                    error: action.payload.error
+                }
+            };
+            return {
+                ...state,
+                loadingVinculacoesDocumentosId: loading,
+                paginadoresDocumentosVinculados: paginadores
+            };
+        }
         default:
             return state;
     }

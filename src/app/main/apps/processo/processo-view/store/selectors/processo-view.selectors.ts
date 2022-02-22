@@ -1,4 +1,4 @@
-import {createSelector} from '@ngrx/store';
+import {createSelector, MemoizedSelector} from '@ngrx/store';
 import {
     getProcessoViewAppState,
     ProcessoViewAppState,
@@ -70,4 +70,19 @@ export const getCurrentStepLoaded: any = createSelector(
 export const getIsLoadingBinary: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.binary.loading
+);
+
+export const getLoadingVinculacoesDocumentosIds: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.loadingVinculacoesDocumentosId
+);
+
+export const getPaginadores: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.paginadoresDocumentosVinculados
+);
+
+export const getPaginadoresStateByDocumentoId = (documentoId: number): MemoizedSelector<any, any> => createSelector(
+    getPaginadores,
+    paginadores => paginadores[documentoId]
 );

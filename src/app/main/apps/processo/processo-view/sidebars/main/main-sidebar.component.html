@@ -851,7 +851,7 @@
                                     PENDENTE DE CIÊNCIA
                                 </div>
                             </div>
-                            <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); index as j;"
+                            <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                  class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
@@ -870,28 +870,25 @@
                                  index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
                                  (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                             </div>
-                            <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length === 0">
-                                <mat-spinner diameter="16"></mat-spinner>
-                            </ng-container>
                             <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
                                     class="tipo-documento" fxLayout="column" fxLayoutAlign="start">
                                     <div
-                                        *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); index as z;"
+                                        *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado?.componentesDigitais); index as z;"
                                         class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                         <mat-icon class="ml-8 s-14">attach_file</mat-icon>
                                         <span class="index-vinculado" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
                                         <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
                                     </span>
-                                    <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
-                                    <a class="ml-4"
-                                       (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                       [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                        {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
-                                    </a>
-                                    <mat-icon class="ml-4 s-24"
-                                              *ngIf="!capa && !!index &&
+                                        <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                                        <a class="ml-4"
+                                           (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                           [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
+                                        </a>
+                                        <mat-icon class="ml-4 s-24"
+                                                  *ngIf="!capa && !!index &&
                                                index[currentStep.step] &&
                                                index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                             arrow_left
@@ -902,6 +899,16 @@
                                      (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
+                                <div class="load-more" (click)="$event.stopPropagation(); doGetMoreVinculacoes(juntada.documento.id)" matTooltip="Carregar mais"
+                                     *ngIf="this.paginadores !== null && juntada.documento.vinculacoesDocumentos && juntada.documento.vinculacoesDocumentos.length < this.paginadores[juntada.documento.id]?.pagination?.total && !this.paginadores[juntada.documento.id].loading">
+                                    <span>+</span>
+                                </div>
+                                <ng-container *ngIf="this.paginadores[juntada.documento.id].loading">
+                                    <mat-spinner diameter="16"></mat-spinner>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="juntada.documento.temAnexos && loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1 && juntada.documento.vinculacoesDocumentos?.length === 0">
+                                <mat-spinner diameter="16"></mat-spinner>
                             </ng-container>
                             <div class="numero"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">

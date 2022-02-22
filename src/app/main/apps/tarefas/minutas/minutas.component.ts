@@ -25,7 +25,7 @@ import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
-import {AgrupadorTarefa, isLoadingAny} from './store';
+import {AgrupadorTarefa} from './store';
 
 @Component({
     selector: 'minutas',

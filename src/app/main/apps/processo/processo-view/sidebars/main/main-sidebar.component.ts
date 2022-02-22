@@ -29,7 +29,7 @@ import * as fromStore from '../../store';
 import * as AssinaturaStore from 'app/store';
 import {
     getDeletingBookmarkId,
-    getDocumentosHasLoaded,
+    getDocumentosHasLoaded, getLoadingVinculacoesDocumentosIds,
     getSelectedVolume,
     getVolumes
 } from '../../store';
@@ -52,7 +52,9 @@ import {
 } from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
@@ -61,7 +63,6 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
-import {componenteDigital} from "../../../../../../../@cdk/normalizr";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -233,6 +234,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
     isJuntadas = true;
+    loadingVinculacoesDocumentosIds$: Observable<number[]>;
+    loadingVinculacoesDocumentosIds: number[] = [];
+    paginadores: any = {};
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -312,6 +316,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
+        this.loadingVinculacoesDocumentosIds$ = this._store.pipe(select(fromStore.getLoadingVinculacoesDocumentosIds));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -373,6 +378,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             volumes => this.volumes = volumes
         );
 
+        this.loadingVinculacoesDocumentosIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((loading) => {
+            this.loadingVinculacoesDocumentosIds = loading;
+            this._changeDetectorRef.markForCheck();
+        });
+
         this.formEditor.get('modelo').valueChanges.subscribe((value) => {
             this.formEditorValid = value && typeof value === 'object';
         });
@@ -418,16 +430,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.errorsDocumento$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((errors) => {
-            if (errors && errors.status && errors.status === 422) {
-                const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
-                this._snackBar.open(error, null, {
-                    duration: 5000,
-                    horizontalPosition: this.horizontalPosition,
-                    verticalPosition: this.verticalPosition,
-                    panelClass: ['danger-snackbar']
-                });
+                if (errors && errors.status && errors.status === 422) {
+                    const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+                    this._snackBar.open(error, null, {
+                        duration: 5000,
+                        horizontalPosition: this.horizontalPosition,
+                        verticalPosition: this.verticalPosition,
+                        panelClass: ['danger-snackbar']
+                    });
+                }
             }
-        }
         );
 
         this.bookmarks$.pipe(
@@ -437,7 +449,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 if (bookmarks) {
                     this.bookmarks = bookmarks;
                     this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
-                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({ key, value })).sort((a,b) => b.key-a.key);
+                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({
+                        key,
+                        value
+                    })).sort((a, b) => b.key - a.key);
                     this._changeDetectorRef.markForCheck();
                 }
             }
@@ -582,6 +597,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
+        });
+        this._store.pipe(
+            select(fromStore.getPaginadores),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((paginadores) => {
+            this.paginadores = paginadores;
         });
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
@@ -920,7 +941,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doVisualizarModelo(): void {
-        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento?.componentesDigitais[0].id));
     }
 
     closeAutocomplete(): void {
@@ -1190,26 +1211,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento): void {
-        const componentesDigitais = documento.componentesDigitais.length;
-        const vinculacoes = documento.vinculacoesDocumentos.length;
+        const componentesDigitais = documento?.componentesDigitais?.length;
+        const vinculacoes = documento?.vinculacoesDocumentos?.length;
         const vinculado = this.routerState.url.slice(-1);
-        if(vinculado === '0'){
+        if (vinculado === '0') {
             this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
-        } else if(componentesDigitais>1){
-            if(this.routerState.url.slice(-1) < componentesDigitais){
+        } else if (componentesDigitais > 1) {
+            if (this.routerState.url.slice(-1) < componentesDigitais) {
                 this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[this.routerState.url.slice(-1)].id));
             } else {
-                console.log(vinculacoes);
                 this._store.dispatch(new fromStore.VisualizarJuntada(
-                    documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - componentesDigitais].documentoVinculado.componentesDigitais[0].id)
+                    documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - componentesDigitais].documentoVinculado?.componentesDigitais[0].id)
                 );
             }
-        }else {
+        } else {
             this._store.dispatch(new fromStore.VisualizarJuntada(
-                documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - 1].documentoVinculado.componentesDigitais[0].id)
+                documento.vinculacoesDocumentos[this.routerState.url.slice(-1) - 1].documentoVinculado?.componentesDigitais[0].id)
             );
         }
-
     }
 
     uploadAnexo(documento: Documento): void {
@@ -1378,8 +1397,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     aprovar(documento: Documento): void {
         this._store.dispatch(new fromStore.AprovarComponenteDigital({
-                documentoOrigem: documento
-            }));
+            documentoOrigem: documento
+        }));
         this.aprovarDocumento.emit(documento);
     }
 
@@ -1418,7 +1437,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     abreJuntadas(): void {
         this.isJuntadas = true;
-       // this.reloadJuntadas();
+        // this.reloadJuntadas();
     }
 
     reloadBookmarks(): void {
@@ -1440,10 +1459,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         SharedBookmarkService.modeBookmark = true;
 
         this._router.navigate([
-            this.routerState.url.split('/processo/')[0] +
-            '/processo/' +
-            this.routerState.params.processoHandle + '/visualizar/' + bookmark.componenteDigital.id
-            ], { queryParams: { pagina: pagina } }
+                this.routerState.url.split('/processo/')[0] +
+                '/processo/' +
+                this.routerState.params.processoHandle + '/visualizar/' + bookmark.componenteDigital.id
+            ], {queryParams: {pagina: pagina}}
         ).then(() => {
             this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
         });
@@ -1455,5 +1474,23 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             bookmarkId: bookmarkId,
             operacaoId: operacaoId,
         }));
+    }
+
+    doGetMoreVinculacoes(documentoId: number): void {
+        const paginador = this.paginadores[documentoId];
+        const pagination = paginador.pagination;
+        const vinculacoes = paginador.vinculacoes;
+        if (vinculacoes.length >= pagination.total) {
+            return;
+        }
+        if (!this.paginadores[documentoId].loading) {
+            const nparams = {
+                ...pagination,
+                offset: pagination.offset + pagination.limit,
+                documentoId: paginador.documentoId,
+                juntadaIndice: paginador.indice
+            };
+            this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
+        }
     }
 }
