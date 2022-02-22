@@ -114,6 +114,16 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.descricao}} </td>
                 </ng-container>
 
+                <!-- Genero Processo Column -->
+                <ng-container matColumnDef="generoProcesso.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Gênero do Processo
+                    </th>
+                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                        data-label='Gênero do Processo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.generoProcesso?.nome}} </td>
+                </ng-container>
+
                 <!-- Especie Tarefa Inicial Column -->
                 <ng-container matColumnDef="especieTarefaInicial.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

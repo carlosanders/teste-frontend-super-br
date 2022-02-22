@@ -1,29 +1,28 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {GeneroDocumentoAvulso, Usuario} from '@cdk/models';
+import {GeneroDocumentoAvulso, Usuario, Workflow} from '@cdk/models';
 
 export class EspecieDocumentoAvulso {
 
-    @Exclude({ toPlainOnly: true })
     id?: number;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => GeneroDocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoDocumentoAvulso?: GeneroDocumentoAvulso;
+
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    workflow?: Workflow;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -62,6 +61,7 @@ export class EspecieDocumentoAvulso {
         this.descricao = null;
         this.ativo = null;
         this.generoDocumentoAvulso = null;
+        this.workflow = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
