@@ -794,3 +794,7 @@
 * Correção de ordenação em vinculações de juntadas
 * Correção de ordenação de componentes digitais de juntadas em diversos locais do sistema
 * Melhoria no download de componentes digitais na tela de visualização de processo, agora ocorrendo em simultâneo com o carregamento da lista das juntadas
+* Correção no método que realizava o carregamento posterior das vinculações de documentos de juntadas, que não estava levando em consideração o offset da consulta ao tentar atualizar o index de juntadas da aplicação (hotfix)
+* Correção na ordenação da consulta (hotfix)
+* Correção histórico agora não permite mais full table scan, necessitando obrigatoriamente de um processo para agilizar a consulta (hotfix)
+* Correção de download de último componente digital entrando em loop quando ocorre dentro da listagem de tarefas
