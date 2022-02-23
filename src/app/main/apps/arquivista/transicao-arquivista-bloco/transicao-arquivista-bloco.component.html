@@ -1,7 +1,7 @@
 <!-- CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
-    <h2>{{modalidadeTransicao.valor | titlecase}} de processos em bloco</h2>
+    <h2>{{modalidadeTransicao.valor | titleCasePipe}} de processos em bloco</h2>
 
     <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
 

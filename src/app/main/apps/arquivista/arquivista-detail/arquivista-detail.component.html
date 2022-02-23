@@ -26,7 +26,7 @@
             <mat-icon class="black-fg">edit</mat-icon>
         </button>
 
-        <button *ngIf="!!(modalidadeTransicao$ | async)" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titlecase"
+        <button *ngIf="!!(modalidadeTransicao$ | async)" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titleCasePipe"
                 [routerLinkActive]="['active', 'accent']"
                 [routerLink]="[(processo$ | async)?.id, 'temporalidade-destinacao']"
                 aria-label="Realizar Temporalidade e Destinação"

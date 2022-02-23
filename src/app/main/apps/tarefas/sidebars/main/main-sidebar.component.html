@@ -2,7 +2,7 @@
 <div class="header mt-8">
     <div class="logo">
         <div class="titulo" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</div>
-        <div class="modulo">{{generoHandleAcentuado | titlecase}}</div>
+        <div class="modulo">{{generoHandleAcentuado | titleCasePipe}}</div>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -117,7 +117,7 @@
                                   matBadgeSize="small">
                             folder
                         </mat-icon>
-                        <span style="flex: 1 1 auto;">{{folder.nome | titlecase}}</span>
+                        <span style="flex: 1 1 auto;">{{folder.nome | titleCasePipe}}</span>
                         <mat-icon class="place-holder">
                             assignment_return
                         </mat-icon>
@@ -628,7 +628,7 @@
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
-                <span>{{usuario.nome | titlecase}}</span>
+                <span>{{usuario.nome | titleCasePipe}}</span>
             </a>
         </div>
 
