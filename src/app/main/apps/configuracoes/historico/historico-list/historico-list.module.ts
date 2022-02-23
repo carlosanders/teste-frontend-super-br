@@ -20,14 +20,13 @@ import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {CdkHistoricoGridModule} from "../../../../../../@cdk/components/historico/cdk-historico-grid/cdk-historico-grid.module";
-import {HistoricoConfigListStoreModule} from "./store/store.module";
+import {CdkHistoricoGridModule} from '../../../../../../@cdk/components/historico/cdk-historico-grid/cdk-historico-grid.module';
+import {HistoricoConfigListStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: HistoricoConfigListComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        component: HistoricoConfigListComponent
     }
 ];
 
