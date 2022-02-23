@@ -151,6 +151,14 @@ processo-view-main-sidebar {
         display: flex;
         flex-direction: column;
 
+        > .nav {
+            >.nav-item {
+                >.children {
+                    margin-left: 48px;
+                }
+            }
+        }
+
         mat-expansion-panel.minutas-tarefa {
             display: none;
         }
