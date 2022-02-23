@@ -424,17 +424,19 @@ export class ProcessoViewEffect {
                 this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
             });
             action.payload.documentosVinculacoesId.forEach((documentoId, juntadaIndice) => {
+                const indice = juntadaIndice + pagination.offset;
                 if (documentoId) {
                     this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                         documentoId: documentoId,
-                        juntadaIndice: juntadaIndice,
+                        juntadaIndice: indice,
                         filter: {
                             'documento.id': 'eq:' + documentoId
                         },
                         limit: 25,
                         offset: 0,
                         sort: {
-                            id: 'ASC'
+                            'id': 'ASC',
+                            'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
                         },
                         populate: [
                             'documentoVinculado',
@@ -602,6 +604,11 @@ export class ProcessoViewEffect {
                 }
             } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                if (steps[0] >= pagination.limit) {
+                    steps[0] = 0;
+                    steps[1] = 0;
+                }
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
                         let sidebar;
@@ -646,14 +653,12 @@ export class ProcessoViewEffect {
                                 relativeTo: this._activatedRoute.parent
                             }
                         ).then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
                             }));
                         });
                     } else {
-                        const steps = this.routerState.params['stepHandle'].split('-');
                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                             step: steps[0],
                             subStep: steps[1]
@@ -673,7 +678,6 @@ export class ProcessoViewEffect {
                     };
                     this._router.navigate([url], extras)
                         .then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
