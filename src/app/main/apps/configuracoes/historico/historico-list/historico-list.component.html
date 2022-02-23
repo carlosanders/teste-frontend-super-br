@@ -9,6 +9,7 @@
         [historicos]="(historicosConfig$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="[]"
+        [mode]="'search'"
         [displayedColumns]="['id', 'descricao', 'processo', 'criadoEm']"
         (reload)="reload($event)">
 </cdk-historico-grid>
