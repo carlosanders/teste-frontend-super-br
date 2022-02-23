@@ -17,6 +17,7 @@ export class ResolveGuard implements CanActivate {
 
     routerState: any;
     loadingLatestBinary: boolean = false;
+    loadingStep = null;
 
     /**
      * Constructor
@@ -38,7 +39,10 @@ export class ResolveGuard implements CanActivate {
         this._store
             .pipe(select(getBinary))
             .subscribe((binary) => {
-                this.loadingLatestBinary = binary.loading;
+                if (this.loadingStep === null || binary.step !== null && this.loadingStep === 'default') {
+                    this.loadingLatestBinary = binary.loading;
+                    this.loadingStep = binary.step;
+                }
             });
     }
 
@@ -68,9 +72,9 @@ export class ResolveGuard implements CanActivate {
         if (this.routerState.params['processoHandle'] &&
             this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1) {
             return forkJoin([
+                this.downloadLatestBinary(),
                 this.getTarefa(),
                 this.getProcesso(),
-                this.downloadLatestBinary(),
                 this.getJuntadas()
             ]).pipe(
                 take(1),
@@ -174,7 +178,11 @@ export class ResolveGuard implements CanActivate {
                         listFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
+                        sort: {
+                            'volume.numeracaoSequencial': 'DESC',
+                            'numeracaoSequencial': 'DESC',
+                            'documento.componentesDigitais.numeracaoSequencial': 'ASC'
+                        },
                         populate: [
                             'volume',
                             'documento',
