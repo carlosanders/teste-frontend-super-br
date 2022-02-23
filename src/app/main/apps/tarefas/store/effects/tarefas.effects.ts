@@ -241,7 +241,7 @@ export class TarefasEffect {
             ))
         ), 25),
         mergeMap(([, vinculacao]) => {
-            if (vinculacao) {
+            if (vinculacao?.id) {
                 return this._vinculacaoEtiquetaService.get(
                     vinculacao.id,
                     JSON.stringify(['etiqueta'])).pipe(
