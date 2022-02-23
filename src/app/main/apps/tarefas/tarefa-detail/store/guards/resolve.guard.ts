@@ -9,13 +9,14 @@ import * as fromStoreProcessoView from 'app/main/apps/processo/processo-view/sto
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import {getHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getJuntadasLoaded} from '../../../../processo/processo-view/store';
+import {getBinary, getJuntadasLoaded} from '../../../../processo/processo-view/store';
 import {getProcessoLoaded} from '../../../../processo/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    loadingLatestBinary: boolean = false;
 
     /**
      * Constructor
@@ -34,6 +35,11 @@ export class ResolveGuard implements CanActivate {
             this.routerState = routerState.state;
         });
 
+        this._store
+            .pipe(select(getBinary))
+            .subscribe((binary) => {
+                this.loadingLatestBinary = binary.loading;
+            });
     }
 
     /**
@@ -64,6 +70,7 @@ export class ResolveGuard implements CanActivate {
             return forkJoin([
                 this.getTarefa(),
                 this.getProcesso(),
+                this.downloadLatestBinary(),
                 this.getJuntadas()
             ]).pipe(
                 take(1),
@@ -115,6 +122,27 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            take(1)
+        );
+    }
+
+    /**
+     * Download Latest Binary Processo
+     *
+     * @returns
+     */
+    downloadLatestBinary(): any {
+        return this._store.pipe(
+            select(getBinary),
+            tap((binary: any) => {
+                if (!this.loadingLatestBinary && (!binary.src)) {
+                    if (this.routerState.params['processoHandle'] !== 'criar') {
+                        this._store.dispatch(new fromStoreProcessoView.DownloadLatestBinary(this.routerState.params['processoHandle']));
+                        this.loadingLatestBinary = true;
+                    }
+                }
+            }),
+            filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
             take(1)
         );
     }

@@ -17,7 +17,7 @@ import {
     vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
+import {getBinary, getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
@@ -60,25 +60,39 @@ export class ProcessoViewEffect {
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
             ];
-            return this._juntadaService.get(
-                action.payload,
+            const filters = {
+                'id':'eq:' + action.payload
+            };
+            return this._juntadaService.query(
+                JSON.stringify(filters),
+                1,
+                0,
+                JSON.stringify({
+                    'documento.componentesDigitais.numeracaoSequencial': 'ASC',
+                    'documento.vinculacoesDocumentos.id': 'ASC',
+                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                }),
                 JSON.stringify(populate),
                 JSON.stringify(chaveAcesso)
             ).pipe(
-                tap(() => {
+                tap((response) => {
                     this.index = juntadas.map(
                         (juntada) => {
-                            if (!juntada.ativo) {
+                            let novaJuntada = juntada;
+                            if (juntada.id === response['entities'][0].id) {
+                                novaJuntada = response['entities'][0];
+                            }
+                            if (!novaJuntada.ativo) {
                                 return [];
                             }
                             let componentesDigitaisIds = [];
-                            if (juntada.documento.componentesDigitais) {
-                                componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                            if (novaJuntada.documento.componentesDigitais) {
+                                componentesDigitaisIds = novaJuntada.documento.componentesDigitais.map(
                                     cd => cd.id
                                 );
                             }
-                            if (juntada.documento.vinculacoesDocumentos) {
-                                juntada.documento.vinculacoesDocumentos.map(
+                            if (novaJuntada.documento.vinculacoesDocumentos) {
+                                novaJuntada.documento.vinculacoesDocumentos.map(
                                     (vinculacaoDocumento) => {
                                         vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
                                             cd => componentesDigitaisIds.push(cd.id)
@@ -91,9 +105,9 @@ export class ProcessoViewEffect {
                     );
                 }),
                 concatMap(response => [
-                    new AddData<Juntada>({data: [response], schema: juntadaSchema}),
-                    new ProcessoViewActions.GetJuntadasEtiquetas(response.documento.id),
-                    new ProcessoViewActions.GetJuntadaSuccess(response),
+                    new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadasEtiquetas(response['entities'][0]?.documento.id),
+                    new ProcessoViewActions.GetJuntadaSuccess(response['entities'][0]),
                     new ProcessoViewActions.UpdateIndex(this.index)
                 ]),
                 catchError((err) => {
@@ -210,9 +224,10 @@ export class ProcessoViewEffect {
      */
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
-        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas))),
-        switchMap(([action, index, currentStep, juntadas]) => {
+        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas)), this._store.pipe(select(getBinary))),
+        switchMap(([action, index, currentStep, juntadas, binary]) => {
             let stepHandle = action.payload.step;
+            let defaultStep = '0-0';
             if (stepHandle === 'default') {
                 let firstJuntada = 0;
                 if (index) {
@@ -249,18 +264,37 @@ export class ProcessoViewEffect {
                 const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                 const context = JSON.stringify(chaveAcesso);
+                if (index) {
+                    let firstJuntada = 0;
+                    firstJuntada = index.findIndex(indice => indice.length > 0);
+                    if (firstJuntada > -1) {
+                        defaultStep = firstJuntada + '-0';
+                    }
+                }
 
-                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
-                    map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-                        binary: response,
-                        loaded: this.routerState.params.stepHandle
-                    })),
-                    catchError((err) => {
-                        console.log(err);
-                        return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-                    })
-                );
+                if ((!binary.loading && (binary.step !== this.routerState.params.stepHandle ||
+                    (binary.step === 'default' && this.routerState.params.stepHandle !== defaultStep))) ||
+                    (binary.loading && binary.step !== this.routerState.params.stepHandle))
+                {
+                    this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
+                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                            binary: response,
+                            loaded: this.routerState.params.stepHandle
+                        })),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                        })
+                    );
+                } else {
+                    return of(new ProcessoViewActions.StillLoadingBinary());
+                }
             }
+        }),
+        catchError((err) => {
+            console.log(err);
+            return of(null);
         })
     ));
 
@@ -315,7 +349,10 @@ export class ProcessoViewEffect {
                 }),
                 25,
                 0,
-                JSON.stringify({}),
+                JSON.stringify({
+                    'id': 'ASC',
+                    'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                }),
                 JSON.stringify([
                     'documentoVinculado',
                     'documentoVinculado.juntadaAtual',
@@ -683,20 +720,38 @@ export class ProcessoViewEffect {
             }
         })
     ), {dispatch: false});
-
+    /**
+     * @type {Observable<ProcessoViewActions.ProcessoViewActionsAll>}
+     */
+    downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
+        switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
+            map((response: any) => {
+                console.log(response);
+                return new ProcessoViewActions.SetCurrentStepSuccess({
+                    binary: response
+                });
+            }),
+            catchError((err) => {
+                console.log(err);
+                return of(new ProcessoViewActions.GetCapaProcesso());
+            })
+        ))
+    ));
     /**
      * @type {Observable<any>}
      */
     setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
-        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')),
-        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-            binary: response
-        })),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-        })
+        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}').pipe(
+            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                binary: response
+            })),
+            catchError((err) => {
+                console.log(err);
+                return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+            })
+        ))
     ));
 
     constructor(
