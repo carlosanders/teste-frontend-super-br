@@ -343,22 +343,13 @@ export class ProcessoViewEffect {
                 ...index[action.payload.juntadaIndice]
             ];
             let vinculacoesDocumentos = [];
+            let total = 0;
             return this._vinculacaoDocumentoService.query(
-                JSON.stringify({
-                    'documento.id': 'eq:' + action.payload.documentoId,
-                }),
-                25,
-                0,
-                JSON.stringify({
-                    'id': 'ASC',
-                    'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
-                }),
-                JSON.stringify([
-                    'documentoVinculado',
-                    'documentoVinculado.juntadaAtual',
-                    'documentoVinculado.tipoDocumento',
-                    'documentoVinculado.componentesDigitais',
-                ])).pipe(
+                JSON.stringify(action.payload.filter),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate)).pipe(
                 map((response) => {
                     vinculacoesDocumentos = response['entities'].map((vinculacao) => {
                         vinculacao.documentoVinculado.vinculacaoDocumentoPrincipal.documento = null;
@@ -371,6 +362,7 @@ export class ProcessoViewEffect {
                             );
                         }
                     );
+                    total = response.total;
                     return vinculacoesDocumentos;
                 }),
                 mergeMap(() => [
@@ -384,14 +376,22 @@ export class ProcessoViewEffect {
                         indice: action.payload.juntadaIndice,
                         componentesDigitaisIds: componentesDigitaisIds
                     }),
-                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess(action.payload)
+                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
+                        documentoId: action.payload.documentoId,
+                        entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
+                        total: total
+                    })
                 ]),
+                catchError((err) => {
+                    console.log(err);
+                    const payload = {
+                        id: action.payload.documentoId,
+                        error: err
+                    };
+                    return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
+                })
             );
-        }, 25),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(err));
-        })
+        }, 25)
     ));
     /**
      * GetDocumentosVinculadosJuntadaSuccess
@@ -428,7 +428,20 @@ export class ProcessoViewEffect {
                     this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                         documentoId: documentoId,
                         juntadaIndice: juntadaIndice,
-                        index: action.payload.index
+                        filter: {
+                            'documento.id': 'eq:' + documentoId
+                        },
+                        limit: 25,
+                        offset: 0,
+                        sort: {
+                            id: 'ASC'
+                        },
+                        populate: [
+                            'documentoVinculado',
+                            'documentoVinculado.juntadaAtual',
+                            'documentoVinculado.tipoDocumento',
+                            'documentoVinculado.componentesDigitais',
+                        ]
                     }));
                 }
             });
