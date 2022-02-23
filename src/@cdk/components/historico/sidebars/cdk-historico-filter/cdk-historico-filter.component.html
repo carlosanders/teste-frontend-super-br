@@ -19,6 +19,7 @@
         <mat-form-field>
             <input matInput placeholder="Processo"
                    formControlName="processo"
+                   [required]="this.mode === 'search'"
                    [matAutocomplete]="processo.autocomplete"
                    (change)="verificarValor($event)">
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
@@ -75,7 +76,7 @@
 </div>
 
 <div class="footer">
-    <button mat-raised-button color="accent" (click)="buscar()">
+    <button [disabled]="form.invalid" mat-raised-button color="accent" (click)="buscar()">
         Buscar
     </button>
     <button mat-raised-button color="warn" (click)="limpar()">
