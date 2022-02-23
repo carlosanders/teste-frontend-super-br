@@ -744,7 +744,6 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
             map((response: any) => {
-                console.log(response);
                 return new ProcessoViewActions.SetCurrentStepSuccess({
                     binary: response
                 });
