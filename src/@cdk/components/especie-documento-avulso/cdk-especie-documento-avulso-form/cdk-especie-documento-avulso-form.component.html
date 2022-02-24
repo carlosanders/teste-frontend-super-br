@@ -1,0 +1,146 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" minlength="3" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea formControlName="descricao"
+                  matInput #descricao
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="4"
+                  cdkAutosizeMaxRows="10"
+                  maxlength="255" minlength="3" upperCase></textarea>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Gênero Documento Avulso"
+               formControlName="generoDocumentoAvulso"
+               [matAutocomplete]="generoDocumentoAvulso.autocomplete">
+        <cdk-genero-documento-avulso-autocomplete
+            #generoDocumentoAvulso="generoDocumentoAvulsoAutocomplete"
+            [pagination]="generoDocumentoAvulsoPagination"
+            [control]="form.get('generoDocumentoAvulso')">
+        </cdk-genero-documento-avulso-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGrid('genero-documento-avulso-gridsearch')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Criação de Tarefa Inicial"
+                    formControlName="tarefaInicial"
+                    required>
+            <div *ngFor="let tarefaInicial of tarefaIniciaList">
+                <mat-option [value]="tarefaInicial.valor">{{ tarefaInicial.descricao }}</mat-option>
+            </div>
+        </mat-select>
+        <mat-error *ngIf="form.get('tarefaInicial').hasError('required')">
+            O tipo de criação de tarefa inicial é de preenchimento obrigatório
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="[2,3].includes(form.get('tarefaInicial').value)">
+        <input matInput placeholder="Espécie Processo"
+               formControlName="especieProcesso"
+               [matAutocomplete]="especieProcesso.autocomplete">
+        <cdk-especie-processo-autocomplete
+            #especieProcesso="especieProcessoAutocomplete"
+            [pagination]="especieProcessoPagination"
+            [control]="form.get('especieProcesso')">
+        </cdk-especie-processo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGrid('especie-processo-gridsearch')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="[2].includes(form.get('tarefaInicial').value)">
+        <input matInput placeholder="Espécie Tarefa Inicial"
+               formControlName="especieTarefa"
+               [matAutocomplete]="especieTarefa.autocomplete">
+        <cdk-especie-tarefa-autocomplete
+            #especieTarefa="especieTarefaAutocomplete"
+            [pagination]="especieTarefaPagination"
+            [control]="form.get('especieTarefa')">
+        </cdk-especie-tarefa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGrid('especie-tarefa-gridsearch')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="[3].includes(form.get('tarefaInicial').value)">
+        <input matInput placeholder="Workflow"
+               formControlName="workflow"
+               [matAutocomplete]="workflow.autocomplete">
+        <cdk-workflow-autocomplete
+            #workflow="workflowAutocomplete"
+            [pagination]="workflowPagination"
+            [control]="form.get('workflow')">
+        </cdk-workflow-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGrid('workflow-gridsearch')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-genero-documento-avulso-gridsearch
+    *ngIf="activeCard === 'genero-documento-avulso-gridsearch'"
+    [pagination]="generoDocumentoAvulsoPagination"
+    (selected)="selectItem($event, 'generoDocumentoAvulso')"
+    (cancel)="cancel()">
+</cdk-genero-documento-avulso-gridsearch>
+
+<cdk-especie-processo-gridsearch
+    *ngIf="activeCard === 'especie-processo-gridsearch'"
+    [pagination]="especieProcessoPagination"
+    (selected)="selectItem($event, 'especieProcesso')"
+    (cancel)="cancel()">
+</cdk-especie-processo-gridsearch>
+
+<cdk-especie-tarefa-gridsearch
+    *ngIf="activeCard === 'especie-tarefa-gridsearch'"
+    [pagination]="especieTarefaPagination"
+    (selected)="selectItem($event, 'especieTarefa')"
+    (cancel)="cancel()">
+</cdk-especie-tarefa-gridsearch>
+
+<cdk-workflow-gridsearch
+    *ngIf="activeCard === 'workflow-gridsearch'"
+    [pagination]="workflowPagination"
+    (selected)="selectItem($event, 'workflow')"
+    (cancel)="cancel()">
+</cdk-workflow-gridsearch>

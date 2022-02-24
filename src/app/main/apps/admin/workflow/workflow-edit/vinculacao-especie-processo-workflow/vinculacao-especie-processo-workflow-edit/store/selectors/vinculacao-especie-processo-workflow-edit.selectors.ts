@@ -5,10 +5,11 @@ import {
     VinculacaoEspecieProcessoWorkflowEditState
 } from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {vinculacaoEspecieProcessoWorkflow as vinculacaoEspecieProcessoWorkflowSchema} from '@cdk/normalizr';
-import {VinculacaoEspecieProcessoWorkflow} from '@cdk/models';
+import {vinculacaoEspecieProcessoWorkflow as vinculacaoEspecieProcessoWorkflowSchema, workflow as workflowSchema} from '@cdk/normalizr';
+import {VinculacaoEspecieProcessoWorkflow, Workflow} from '@cdk/models';
 
 const schemaVinculacaoEspecieProcessoWorkflowSelectors = createSchemaSelectors<VinculacaoEspecieProcessoWorkflow>(vinculacaoEspecieProcessoWorkflowSchema);
+const schemaWorkflowSelectors = createSchemaSelectors<Workflow>(workflowSchema);
 
 export const getVinculacaoEspecieProcessoWorkflowEditState: any = createSelector(
     getVinculacaoEspecieProcessoWorkflowEditAppState,
@@ -24,6 +25,12 @@ export const getVinculacaoEspecieProcessoWorkflow: any = createSelector(
     schemaVinculacaoEspecieProcessoWorkflowSelectors.getNormalizedEntities,
     getVinculacaoEspecieProcessoWorkflowId,
     schemaVinculacaoEspecieProcessoWorkflowSelectors.entityProjector
+);
+
+export const getWorkflow: any = (workfloId: number):any => createSelector(
+    schemaWorkflowSelectors.getNormalizedEntities,
+    () => workfloId,
+    schemaWorkflowSelectors.entityProjector,
 );
 
 export const getIsSaving: any = createSelector(

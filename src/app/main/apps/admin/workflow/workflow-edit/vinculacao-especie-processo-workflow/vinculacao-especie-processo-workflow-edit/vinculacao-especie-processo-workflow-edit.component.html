@@ -7,7 +7,7 @@
                    [matAutocomplete]="especieProcesso.autocomplete">
             <cdk-especie-processo-autocomplete
                 #especieProcesso="especieProcessoAutocomplete"
-                [pagination]="especieProcessoAutocompletePagination"
+                [pagination]="especieProcessoPagination"
                 [control]="form.get('especieProcesso')">
             </cdk-especie-processo-autocomplete>
             <button matSuffix mat-button mat-icon-button
@@ -31,7 +31,7 @@
 
     <cdk-especie-processo-gridsearch
         *ngIf="activeCard === 'especie-processo-gridsearch'"
-        [pagination]="especieProcessoGridPagination"
+        [pagination]="especieProcessoPagination"
         (selected)="selectEspecieProcesso($event)"
         (cancel)="closeGridSearch()">
     </cdk-especie-processo-gridsearch>
