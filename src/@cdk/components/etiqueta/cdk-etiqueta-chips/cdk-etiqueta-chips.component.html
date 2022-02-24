@@ -1,15 +1,13 @@
 <mat-form-field class="cdk-etiqueta-chips-list">
     <mat-placeholder class="placeholder">{{placeholder}}</mat-placeholder>
     <mat-chip-list #chipList>
-        <mat-chip
-                [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
+        <cdk-etiqueta-chips-item
                 *ngFor="let etiqueta of etiquetas"
+                [etiqueta]="etiqueta"
                 [selectable]="selectable"
-                [removable]="true"
-                (removed)="remove(etiqueta)">
-            {{etiqueta.nome}}
-            <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
+                [deletable]="true"
+                (delete)="remove($event)">
+        </cdk-etiqueta-chips-item>
         <input #etiquetaInput
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"

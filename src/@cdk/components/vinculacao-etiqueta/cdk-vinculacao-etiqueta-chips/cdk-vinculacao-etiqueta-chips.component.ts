@@ -123,7 +123,7 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
         }
     }
 
-    remove(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    remove(etiqueta:Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.creating = false;
         this.autoCompleteEtiquetas.closePanel();
         const index = this.vinculacoesEtiquetas.indexOf(vinculacaoEtiqueta);
@@ -195,7 +195,7 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
         this._changeDetectorRef.markForCheck();
     }
 
-    openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    openDialogEdit(etiqueta:Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.creating = false;
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
         if (this.savingVinculacaoEtiquetaId !== vinculacaoEtiqueta.id) {
