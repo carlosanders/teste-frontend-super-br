@@ -21,7 +21,7 @@
                [routerLinkActive]="['active', 'accent']"
                [routerLinkActiveOptions]="{exact: false}">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                <span>{{link.nome | titlecase}}</span>
+                <span>{{link.nome | titleCasePipe}}</span>
                 <mat-icon class="collapsable-arrow" *ngIf="link.type === 'collapsable'">keyboard_arrow_right</mat-icon>
             </a>
             <div class="children"
@@ -33,7 +33,7 @@
                        (click)="fecharSidebar()"
                        [routerLink]="[item.link]" [routerLinkActive]="['active', 'accent']"
                        [routerLinkActiveOptions]="{exact: false}">
-                        <span>{{item.nome | titlecase}}</span>
+                        <span>{{item.nome | titleCasePipe}}</span>
                     </a>
                 </div>
             </div>

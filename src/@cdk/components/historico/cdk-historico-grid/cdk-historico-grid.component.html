@@ -1,8 +1,12 @@
 <div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar name="cdk-historico-filter" position="left">
-        <cdk-historico-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-historico-filter>
+    <cdk-sidebar
+        [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+        class="sidebar"
+        name="cdk-historico-filter"
+        position="left">
+        <cdk-historico-filter (selected)="setFilter($event)" [@animate]="{value:'*'}" [mode]="this.mode"></cdk-historico-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

@@ -228,14 +228,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.src = false;
                 if (this.currentJuntada && !this.currentJuntada.documento) {
                     this.srcMessage = 'Não há documento';
-                }
-                if (this.currentJuntada && this.currentJuntada.documento.acessoNegado) {
+                } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
                     this.srcMessage = 'Acesso negado';
-                }
-                if (this.currentJuntada && this.currentJuntada.documento.componentesDigitais.length === 0) {
+                } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
                     this.srcMessage = 'Não há componentes digitais';
-                }
-                if (this.currentJuntada && !this.currentJuntada.ativo) {
+                } else if (this.currentJuntada && !this.currentJuntada.ativo) {
                     this.srcMessage = 'Juntada desentranhada do processo';
                 }
             }

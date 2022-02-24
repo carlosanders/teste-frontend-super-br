@@ -55,7 +55,7 @@ ajuda {
 
     .button-row {
         display: table-cell;
-        width: 500px;
+        width: 400px;
         height: 20px;
     }
 
@@ -74,7 +74,7 @@ ajuda {
 
     .flex-container {
         display: flex;
-        justify-content: normal;
+        justify-content: space-between;
         flex-wrap: wrap;
     }
 }

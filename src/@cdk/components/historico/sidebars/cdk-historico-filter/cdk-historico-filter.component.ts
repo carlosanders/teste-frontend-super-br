@@ -1,8 +1,10 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
+import {CdkConfirmDialogComponent} from '../../../confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'cdk-historico-filter',
@@ -17,23 +19,27 @@ export class CdkHistoricoFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _matDialog: MatDialog,
     ) {
         this.form = this._formBuilder.group({
             descricao: [null],
-            processo: [null],
+            processo: [null, [Validators.required]],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -84,10 +90,19 @@ export class CdkHistoricoFilterComponent {
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
+            this.selected.emit(request);
+            this._cdkSidebarService.getSidebar('cdk-historico-filter').close();
+        } else {
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Erro!',
+                    message: ' Ao menos um campo deve ser preenchido!',
+                    confirmLabel: 'Fechar',
+                    hideCancel: true,
+                },
+                disableClose: false,
+            });
         }
-
-        this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-historico-filter').close();
     }
 
     filtraCriadoEm(value: any): void {

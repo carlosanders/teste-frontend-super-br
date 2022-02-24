@@ -42,6 +42,7 @@ processo-main-sidebar {
             > .nav-item {
                 > .children {
                     overflow: hidden;
+                    margin-left: 48px;
                 }
 
                 &.closed {

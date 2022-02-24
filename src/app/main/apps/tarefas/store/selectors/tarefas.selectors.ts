@@ -188,11 +188,7 @@ export const getIsSavingObservacao: any = createSelector(
 
 export const getTarefaById = (tarefaId: number): any => createSelector(
     schemaSelectors.getNormalizedEntities,
-    ((tarefas) => {
-        console.log(tarefaId);
-        console.log(tarefas);
-        return tarefaId;
-    }),
+    (() => tarefaId),
     schemaSelectors.entityProjector
 );
 
@@ -208,10 +204,10 @@ export const getAllVinculacoesEtiqueta: any = createSelector(
 
 export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector(
     getAllVinculacoesEtiqueta,
-    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectUuid === uuid))
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectUuid === uuid))
 );
 
 export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => createSelector(
     getAllVinculacoesEtiqueta,
-    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectId === documentoId))
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectId === documentoId))
 );

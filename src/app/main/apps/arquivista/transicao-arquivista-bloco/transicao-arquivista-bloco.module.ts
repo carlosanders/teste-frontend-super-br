@@ -13,6 +13,7 @@ import {DirectivesModule} from '@cdk/directives/directives';
 import {CdkConfirmDialogModule} from '@cdk/components';
 import * as fromGuards from './store/guards';
 import {MatButtonModule} from '@angular/material/button';
+import {CdkSharedModule} from "../../../../../@cdk/shared.module";
 
 const routes: Routes = [
     {
@@ -40,7 +41,8 @@ modulesConfig.forEach((module) => {
         MatListModule,
         CdkConfirmDialogModule,
         DirectivesModule,
-        MatButtonModule
+        MatButtonModule,
+        CdkSharedModule
     ],
     providers: [
         ProcessoService,

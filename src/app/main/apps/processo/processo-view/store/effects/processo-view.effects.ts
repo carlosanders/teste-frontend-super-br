@@ -343,22 +343,13 @@ export class ProcessoViewEffect {
                 ...index[action.payload.juntadaIndice]
             ];
             let vinculacoesDocumentos = [];
+            let total = 0;
             return this._vinculacaoDocumentoService.query(
-                JSON.stringify({
-                    'documento.id': 'eq:' + action.payload.documentoId,
-                }),
-                25,
-                0,
-                JSON.stringify({
-                    'id': 'ASC',
-                    'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
-                }),
-                JSON.stringify([
-                    'documentoVinculado',
-                    'documentoVinculado.juntadaAtual',
-                    'documentoVinculado.tipoDocumento',
-                    'documentoVinculado.componentesDigitais',
-                ])).pipe(
+                JSON.stringify(action.payload.filter),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate)).pipe(
                 map((response) => {
                     vinculacoesDocumentos = response['entities'].map((vinculacao) => {
                         vinculacao.documentoVinculado.vinculacaoDocumentoPrincipal.documento = null;
@@ -371,6 +362,7 @@ export class ProcessoViewEffect {
                             );
                         }
                     );
+                    total = response.total;
                     return vinculacoesDocumentos;
                 }),
                 mergeMap(() => [
@@ -384,14 +376,22 @@ export class ProcessoViewEffect {
                         indice: action.payload.juntadaIndice,
                         componentesDigitaisIds: componentesDigitaisIds
                     }),
-                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess(action.payload)
+                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
+                        documentoId: action.payload.documentoId,
+                        entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
+                        total: total
+                    })
                 ]),
+                catchError((err) => {
+                    console.log(err);
+                    const payload = {
+                        id: action.payload.documentoId,
+                        error: err
+                    };
+                    return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
+                })
             );
-        }, 25),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(err));
-        })
+        }, 25)
     ));
     /**
      * GetDocumentosVinculadosJuntadaSuccess
@@ -424,11 +424,26 @@ export class ProcessoViewEffect {
                 this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
             });
             action.payload.documentosVinculacoesId.forEach((documentoId, juntadaIndice) => {
+                const indice = juntadaIndice + pagination.offset;
                 if (documentoId) {
                     this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                         documentoId: documentoId,
-                        juntadaIndice: juntadaIndice,
-                        index: action.payload.index
+                        juntadaIndice: indice,
+                        filter: {
+                            'documento.id': 'eq:' + documentoId
+                        },
+                        limit: 25,
+                        offset: 0,
+                        sort: {
+                            'id': 'ASC',
+                            'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                        },
+                        populate: [
+                            'documentoVinculado',
+                            'documentoVinculado.juntadaAtual',
+                            'documentoVinculado.tipoDocumento',
+                            'documentoVinculado.componentesDigitais',
+                        ]
                     }));
                 }
             });
@@ -589,6 +604,11 @@ export class ProcessoViewEffect {
                 }
             } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                if (steps[0] >= pagination.limit) {
+                    steps[0] = 0;
+                    steps[1] = 0;
+                }
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
                         let sidebar;
@@ -633,14 +653,12 @@ export class ProcessoViewEffect {
                                 relativeTo: this._activatedRoute.parent
                             }
                         ).then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
                             }));
                         });
                     } else {
-                        const steps = this.routerState.params['stepHandle'].split('-');
                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                             step: steps[0],
                             subStep: steps[1]
@@ -660,7 +678,6 @@ export class ProcessoViewEffect {
                     };
                     this._router.navigate([url], extras)
                         .then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
@@ -727,7 +744,6 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
             map((response: any) => {
-                console.log(response);
                 return new ProcessoViewActions.SetCurrentStepSuccess({
                     binary: response
                 });
