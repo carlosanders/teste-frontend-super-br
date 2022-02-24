@@ -104,6 +104,10 @@ const routes: Routes = [
             {
                 path: 'servidor-email',
                 loadChildren: () => import('./servidor-email/servidor-email.module').then(m => m.ServidorEmailModule)
+            },
+            {
+                path: 'especie-documento-avulso',
+                loadChildren: () => import('./especie-documento-avulso/especie-documento-avulso.module').then(m => m.EspecieDocumentoAvulsoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

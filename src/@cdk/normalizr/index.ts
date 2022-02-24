@@ -356,6 +356,8 @@ especieDocumento.define({
 
 especieDocumentoAvulso.define({
     generoDocumentoAvulso: generoDocumentoAvulso,
+    especieProcesso: especieProcesso,
+    especieTarefa: especieTarefa,
     workflow: workflow,
     criadoPor: usuario,
     atualizadoPor: usuario,

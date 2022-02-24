@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {GeneroDocumentoAvulso, Usuario, Workflow} from '@cdk/models';
+import {EspecieProcesso, EspecieTarefa, GeneroDocumentoAvulso, Usuario, Workflow} from '@cdk/models';
 
 export class EspecieDocumentoAvulso {
 
@@ -19,6 +19,14 @@ export class EspecieDocumentoAvulso {
     @Type(() => GeneroDocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoDocumentoAvulso?: GeneroDocumentoAvulso;
+
+    @Type(() => EspecieProcesso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    especieProcesso?: EspecieProcesso;
+
+    @Type(() => EspecieTarefa)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    especieTarefa?: EspecieTarefa;
 
     @Type(() => Workflow)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -60,6 +68,8 @@ export class EspecieDocumentoAvulso {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.especieProcesso = null;
+        this.especieTarefa = null;
         this.generoDocumentoAvulso = null;
         this.workflow = null;
         this.criadoPor = null;
