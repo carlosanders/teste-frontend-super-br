@@ -43,6 +43,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {NgxExtendedPdfViewerModule, NgxExtendedPdfViewerService} from 'ngx-extended-pdf-viewer';
 import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
 import {BookmarkService} from '@cdk/services/bookmark.service';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 
 const routes: Routes = [
     {
@@ -134,7 +135,8 @@ modulesConfig.forEach((module) => {
         CdkSetorAutocompleteModule,
         MatSelectModule,
         NgxExtendedPdfViewerModule,
-        CdkBookmarkEditDialogModule
+        CdkBookmarkEditDialogModule,
+        PdfJsViewerModule
     ],
     providers: [
         JuntadaService,

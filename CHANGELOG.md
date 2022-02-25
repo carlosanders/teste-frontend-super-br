@@ -798,3 +798,7 @@
 * Correção na ordenação da consulta (hotfix)
 * Correção histórico agora não permite mais full table scan, necessitando obrigatoriamente de um processo para agilizar a consulta (hotfix)
 * Correção de download de último componente digital entrando em loop quando ocorre dentro da listagem de tarefas
+
+1.8.2
+
+* Melhoria alterado o componente de visualização de pdf, possibilitando abrir várias instâncias do componente na mesma tela sem efeitos colaterais 

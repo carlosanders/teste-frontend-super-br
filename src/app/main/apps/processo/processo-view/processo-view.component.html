@@ -89,29 +89,26 @@
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="(loading$ | async) === false && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
+                <div [hidden]="(loading$ | async) === true || !juntadas || juntadas?.length === 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <iframe id="iframe-juntadas-pdf" *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && this.routerState.url.includes('/documento')"
-                            [src]="src">
-                    </iframe>
-                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
-                                             [ngClass]="{'documento': this.routerState.url.includes('/documento/')}"
-                                             [src]="src"
-                                             [useBrowserLocale]="true"
-                                             [textLayer]="true"
-                                             [(zoom)]="zoomSetting"
-                                             [showOpenFileButton]="false"
-                                             [page]="page"
-                                             (pageRendered)="onPageRendered()"
-                                             (pageChange)="onPagesLoaded('pageChange', $event)">
-                    </ngx-extended-pdf-viewer>
+                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || (!src || this.componenteDigital?.mimetype !== 'application/pdf')"
+                                      #pdfViewer
+                                      [viewerId]="'processo-view'"
+                                      [pdfSrc]="null"
+                                      [zoom]="zoomSetting"
+                                      [openFile]="false"
+                                      [viewBookmark]="false"
+                                      [download]="true"
+                                      (onDocumentLoad)="onPageRendered($event)"
+                                      (onPageChange)="onPagesLoaded('pageChange', $event)">
+                    </ng2-pdfjs-viewer>
                     <div class="div-about-blank" *ngIf="!src && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
