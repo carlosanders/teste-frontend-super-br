@@ -252,11 +252,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 }
             }
 
-            if (this.routerState && this.routerState?.queryParams?.pagina &&
-                    this.page !== this.routerState?.queryParams?.pagina) {
-                this.page = this.routerState?.queryParams?.pagina;
-            }
-
             if (this.componenteDigital &&
                 !(this.currentJuntada?.documento?.componentesDigitais.some(i => i.id === this.componenteDigital.id)) &&
                 this.currentJuntada?.documento?.vinculacoesDocumentos.length > 0) {
@@ -303,6 +298,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
             this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
+            if (this.routerState && this.routerState?.queryParams?.pagina &&
+                this.page !== this.routerState?.queryParams?.pagina) {
+                this.page = parseInt(this.routerState?.queryParams?.pagina, 10);
+            }
         });
 
         this.loadingJuntadas$.pipe(
@@ -619,6 +618,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     public onPageRendered(event): void {
+        if (this.routerState && this.routerState?.queryParams?.pagina &&
+            this.page !== this.routerState?.queryParams?.pagina) {
+            this.page = parseInt(this.routerState?.queryParams?.pagina, 10);
+        }
         if (this.page <= this.pdfViewer.PDFViewerApplication.pagesCount) {
             this.pdfViewer.page = this.page;
         }
