@@ -7,7 +7,7 @@ import {
     OnInit,
     Output,
     QueryList,
-    SecurityContext,
+    SecurityContext, ViewChild,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
@@ -29,7 +29,6 @@ import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getProcesso} from '../store';
 import {MercureService} from '@cdk/services/mercure.service';
-import {NgxExtendedPdfViewerService, pdfDefaultOptions} from 'ngx-extended-pdf-viewer';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
     CdkBookmarkEditDialogComponent
@@ -37,6 +36,7 @@ import {
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {CdkUtils} from '@cdk/utils';
 import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
+import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 
 @Component({
     selector: 'processo-view',
@@ -52,6 +52,18 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
+
+    @ViewChild('pdfViewer', {static: false}) set content(content: PdfJsViewerComponent) {
+        if (content) {
+            this.pdfViewer = content;
+            if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.src) {
+                this.pdfViewer.pdfSrc = this.src;
+                this.pdfViewer.refresh();
+                this.src = 'PDF BLOB';
+            }
+            this._changeDetectorRef.detectChanges();
+        }
+    }
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -121,6 +133,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    private pdfViewer: PdfJsViewerComponent;
+
     /**
      * @param _juntadaService
      * @param _changeDetectorRef
@@ -132,7 +146,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _activatedRoute
      * @param _mercureService
      * @param _matDialog
-     * @param pdfViewerService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -144,12 +157,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _mercureService: MercureService,
-        private _matDialog: MatDialog,
-        private pdfViewerService: NgxExtendedPdfViewerService
+        private _matDialog: MatDialog
     ) {
-        pdfDefaultOptions.ignoreDestinationZoom = true;
-        pdfDefaultOptions.assetsFolder = 'bleeding-edge';
-
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
         }
@@ -209,7 +218,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         break;
                     case 'application/pdf':
                         this.downloadUrl = null;
-                        this.src = this._router.url.includes('/documento/') ? this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)) : blob;
+                        if (this.pdfViewer) {
+                            this.pdfViewer.pdfSrc = blob;
+                            this.pdfViewer.refresh();
+                            this.src = 'PDF BLOB';
+                        } else {
+                            this.src = blob;
+                        }
                         break;
                     default:
                         this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
@@ -568,7 +583,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 nome: '',
                 pagina: this.page,
                 descricao: '',
-                totalPaginas: this.pdfViewerService.numberOfPages()
+                totalPaginas: this.pdfViewer.PDFViewerApplication.pagesCount
             },
             width: '600px',
             height: '350px',
@@ -603,24 +618,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onPageRendered(): void {
-        if (!this.pdfViewerService.isRenderQueueEmpty()) {
-            // try again later when the pages requested by the pdf.js core or the user have been rendered
-            setTimeout(() => this.onPageRendered(), 100);
-        }
-        const pagesBefore = this.spreadMode === 'off' ? 2 : 2;
-        const pagesAfter = this.spreadMode === 'off' ? 2 : 5;
-        const startPage = Math.max(this.page - pagesBefore, 1);
-        const endPage = Math.min(this.page + pagesAfter, this.pdfViewerService.numberOfPages());
-
-        const renderedPages = this.pdfViewerService.currentlyRenderedPages();
-
-        for (let page = startPage; page <= endPage; page++) {
-            const pageIndex = page - 1;
-            if (this.pdfViewerService.hasPageBeenRendered(pageIndex)) {
-                this.pdfViewerService.addPageToRenderQueue(pageIndex);
-                break; // break because you can request only one page at a time
-            }
+    public onPageRendered(event): void {
+        if (this.page <= this.pdfViewer.PDFViewerApplication.pagesCount) {
+            this.pdfViewer.page = this.page;
         }
     }
 

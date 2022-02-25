@@ -12,16 +12,6 @@ cdk-componente-digital-view {
             flex: 1 1 auto;
         }
 
-        > ngx-extended-pdf-viewer {
-            flex: 1 1 auto;
-            border: none;
-
-            .findbar {
-                left: auto !important;
-                top: auto !important;
-            }
-        }
-
         > .div-about-blank {
             flex: 1 1 auto;
             display: flex;
@@ -57,6 +47,17 @@ cdk-componente-digital-view {
                     align-items: flex-start;
                 }
             }
+        }
+    }
+
+    > ng2-pdfjs-viewer {
+        flex: 1 1 auto;
+        border: none;
+        height: 100% !important;
+
+        .findbar {
+            left: auto !important;
+            top: auto !important;
         }
     }
 }

@@ -14,6 +14,7 @@ import {
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkComponenteDigitalViewComponent} from './cdk-componente-digital-view.component';
 import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-documento-form.module';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-doc
         CdkDocumentoFormModule,
 
         CdkSharedModule,
+        PdfJsViewerModule,
     ],
     providers: [
     ],

@@ -121,23 +121,22 @@ processo-view {
                             justify-content: center;
                         }
 
+                        > ng2-pdfjs-viewer {
+                            flex: 1 1 auto;
+                            border: none;
+
+                            .findbar {
+                                left: auto !important;
+                                top: auto !important;
+                            }
+                        }
+
                         > iframe {
                             flex: 1 1 auto;
                             display: flex;
                             border: none;
                             margin-left: 10px;
                             height: 700px;
-
-                            > ngx-extended-pdf-viewer {
-                                flex: 1 1 auto;
-                                border: none;
-                                height: 100% !important;
-
-                                .findbar {
-                                    left: auto !important;
-                                    top: auto !important;
-                                }
-                            }
                         }
 
                         > .div-about-blank {
