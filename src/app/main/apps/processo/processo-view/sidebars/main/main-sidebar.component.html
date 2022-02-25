@@ -961,38 +961,46 @@
                         <span>{{bookmark.key}}</span>
                     </div>
                     <div fxFlex="1 1 auto" fxLayout="column">
-                        <div class="tipo-documento" fxLayout="column" fxLayoutAlign="start">
-                            <div fxFlex="1 1 auto"
-                                 *ngFor="let book of bookmark.value"
-                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                                <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
-                                    <mat-icon class="ml-4 s-14"
-                                              [ngStyle]="{'color': book.corHexadecimal}">
-                                        bookmark
-                                    </mat-icon>
-                                    <div class="index-vinculado">
-                                        <span>{{book.pagina}}</span>
+                        <div>
+                            <div *ngFor="let book of bookmark.value" fxLayout="column">
+                                <div fxFlex="1 1 auto" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                    <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
+                                        <mat-icon *ngIf="book.corHexadecimal"
+                                                  class="ml-4 s-14"
+                                                  [ngStyle]="{'color': book.corHexadecimal}">
+                                            bookmark
+                                        </mat-icon>
+                                        <mat-icon *ngIf="!book.corHexadecimal"
+                                                  class="ml-4 s-14">
+                                            bookmark
+                                        </mat-icon>
+                                        <div class="index-vinculado">
+                                            <span>{{book.pagina}}</span>
+                                        </div>
+                                        <a class="ml-4"
+                                           (click)="viewBookmark(book, book.pagina, bookmark.key)" >
+                                            {{book.nome}}
+                                        </a>
+                                        <mat-icon class="ml-4 s-24"
+                                                  *ngIf="book.id === bookMarkselected">
+                                            arrow_left
+                                        </mat-icon>
                                     </div>
-                                    <a class="ml-4"
-                                       (click)="viewBookmark(book, book.pagina, bookmark.key)" >
-                                        {{book.nome}}
-                                    </a>
-                                    <mat-icon class="ml-4 s-24"
-                                              *ngIf="book.id === bookMarkselected">
-                                        arrow_left
-                                    </mat-icon>
-                                </div>
-                                <div class="actions">
-                                    <mat-icon class="ml-4 mr-4 s-18"
-                                              *ngIf="((deletingBookmarkId$ | async) === undefined ||
+                                    <div class="actions">
+                                        <mat-icon class="ml-4 mr-4 s-18"
+                                                  *ngIf="((deletingBookmarkId$ | async) === undefined ||
                                                 (deletingBookmarkId$ | async).indexOf(book.id) === -1)"
-                                              (click)="deleteBookmark(book.id)">
-                                        delete
-                                    </mat-icon>
-                                    <mat-spinner diameter="16"
-                                                 *ngIf="((deletingBookmarkId$ | async) !== undefined &&
+                                                  (click)="deleteBookmark(book.id)">
+                                            delete
+                                        </mat-icon>
+                                        <mat-spinner diameter="16"
+                                                     *ngIf="((deletingBookmarkId$ | async) !== undefined &&
                                                 (deletingBookmarkId$ | async).indexOf(book.id) > -1)"
-                                    ></mat-spinner>
+                                        ></mat-spinner>
+                                    </div>
+                                </div>
+                                <div class="criado-em" fxLayout="row" fxLayoutAlign="center center">
+                                    {{book.descricao}}
                                 </div>
                             </div>
                         </div>
