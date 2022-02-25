@@ -73,6 +73,10 @@ cdk-acompanhamento-grid {
                     &.error {
                         color: red;
                     }
+                    cdk-etiqueta-chips-item {
+                        padding: 2px;
+                        display: flex;
+                    }
                 }
             }
         }

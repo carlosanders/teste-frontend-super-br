@@ -974,6 +974,9 @@
                                        (click)="viewBookmark(book, book.pagina, bookmark.key)" >
                                         {{book.nome}}
                                     </a>
+                                    <div class="ml-4 s-24 selected-color"
+                                         [ngStyle]="{background: book.corHexadecimal}">
+                                    </div>
                                     <mat-icon class="ml-4 s-24"
                                               *ngIf="book.id === bookMarkselected">
                                         arrow_left

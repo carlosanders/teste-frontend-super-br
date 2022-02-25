@@ -11,7 +11,7 @@
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [total]="(pagination$ | async)?.total"
-    [displayedColumns]="['id', 'nome', 'descricao', 'especieTarefaInicial.nome', 'actions']"
+    [displayedColumns]="['id', 'nome', 'descricao', 'generoProcesso.nome', 'especieTarefaInicial.nome', 'actions']"
     [actions]="['especies' ,'view', 'transicoes', 'edit', 'create', 'delete']"
     (editTransicoesWorflow)="editTransicoesWorkflow($event)"
     (especies)="especies($event)"

@@ -8,6 +8,20 @@
     </mat-form-field>
 
     <mat-form-field>
+        <input matInput placeholder="Gênero do Processo"
+               formControlName="generoProcesso"
+               [matAutocomplete]="generoProcesso.autocomplete">
+        <cdk-genero-processo-autocomplete
+            #generoProcesso="generoProcessoAutocomplete"
+            [control]="form.get('generoProcesso')">
+        </cdk-genero-processo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGeneroProcessoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput placeholder="Espécie Tarefa Inicial"
                formControlName="especieTarefaInicial"
                [matAutocomplete]="especieTarefa.autocomplete">
@@ -41,3 +55,10 @@
     (selected)="selectEspecieTarefa($event)"
     (cancel)="cancel()">
 </cdk-especie-tarefa-gridsearch>
+
+<cdk-genero-processo-gridsearch
+    *ngIf="activeCard === 'genero-processo-gridsearch'"
+    [pagination]="generoProcessoPagination"
+    (selected)="selectGeneroProcesso($event)"
+    (cancel)="cancel()">
+</cdk-genero-processo-gridsearch>

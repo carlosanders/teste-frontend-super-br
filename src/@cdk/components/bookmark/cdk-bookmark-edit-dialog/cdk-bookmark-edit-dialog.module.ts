@@ -12,6 +12,7 @@ import {
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from "@angular/material/divider";
 import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {MccColorPickerModule} from "material-community-components/color-picker";
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
         MatCheckboxModule,
         MatDividerModule,
         NgxUpperCaseDirectiveModule,
+        MccColorPickerModule,
     ],
     entryComponents: [
         CdkBookmarkEditDialogComponent

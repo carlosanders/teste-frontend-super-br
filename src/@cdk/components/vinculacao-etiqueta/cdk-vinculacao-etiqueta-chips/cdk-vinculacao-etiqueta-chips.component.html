@@ -2,25 +2,17 @@
     <mat-form-field *ngIf="valid" [ngClass]="{'error': creating && etiquetaCtrl.hasError('addEtiqueta')}" appearance="none">
         <mat-placeholder class="placeholder">{{placeholder}}</mat-placeholder>
         <mat-chip-list #chipList>
-            <mat-chip
-                [ngStyle]="{'background-color': vinculacaoEtiqueta.etiqueta.corHexadecimal}"
-                *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetas"
-                [selectable]="selectable"
-                [removable]="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir"
-                matTooltip="Clique para editar o conteúdo"
-                (click)="openDialogEdit(vinculacaoEtiqueta)"
-                (removed)="remove(vinculacaoEtiqueta)">
-                <mat-spinner *ngIf="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
-                <mat-icon class="icon" *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id &&
-                                            vinculacaoEtiqueta.privada">person</mat-icon>
-                <mat-icon class="icon" *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id &&
-                                            !vinculacaoEtiqueta.privada">public</mat-icon>
-                <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
-                {{vinculacaoEtiqueta.etiqueta.nome}}
-                <mat-icon matChipRemove
-                          *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir">cancel
-                </mat-icon>
-            </mat-chip>
+            <cdk-etiqueta-chips-item
+                    *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetas"
+                    [saving]="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id"
+                    [etiqueta]="vinculacaoEtiqueta.etiqueta"
+                    [deletable]="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir"
+                    [selectable]="selectable"
+                    [iconeVisibilidade]="vinculacaoEtiqueta.privada ? 'person' : 'public'"
+                    [conteudo]="vinculacaoEtiqueta.conteudo"
+                    (select)="openDialogEdit($event, vinculacaoEtiqueta)"
+                    (delete)="remove($event, vinculacaoEtiqueta)">
+            </cdk-etiqueta-chips-item>
             <input #etiquetaInput
                    [formControl]="etiquetaCtrl"
                    [matAutocomplete]="etiqueta.autocomplete"

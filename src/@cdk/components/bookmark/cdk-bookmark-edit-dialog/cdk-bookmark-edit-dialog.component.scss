@@ -1,8 +1,21 @@
 cdk-bookmark-edit-dialog {
-  font-size: medium;
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
 
-  .icon {
+    .icon {
     padding-right: 30px;
-  }
+    }
+
+    .content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .actions {
+            display: flex;
+            flex: 0 1 auto;
+        }
+    }
 
 }

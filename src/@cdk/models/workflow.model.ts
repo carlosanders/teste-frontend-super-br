@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {EspecieTarefa, Usuario} from '@cdk/models';
+import {EspecieTarefa, GeneroProcesso, Usuario} from '@cdk/models';
 import {VinculacaoEspecieProcessoWorkflow} from './vinculacao-especie-processo-workflow.model';
 
 export class Workflow {
@@ -19,7 +19,11 @@ export class Workflow {
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieTarefaInicial?: EspecieTarefa;
-lo
+
+    @Type(() => GeneroProcesso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    generoProcesso?: GeneroProcesso;
+
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEspecieProcessoWorkflow)
     vinculacoesEspecieProcessoWorkflow?: VinculacaoEspecieProcessoWorkflow[];
@@ -60,6 +64,7 @@ lo
         this.nome = null;
         this.descricao = null;
         this.especieTarefaInicial = null;
+        this.generoProcesso = null;
         this.vinculacoesEspecieProcessoWorkflow = null;
         this.criadoPor = null;
         this.criadoEm = null;

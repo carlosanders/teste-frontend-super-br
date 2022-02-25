@@ -17,6 +17,9 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAcompanhamentoGridComponent} from './cdk-acompanhamento-grid.component';
 import {CdkAcompanhamentoFilterModule} from '../sidebars/cdk-acompanhamento-filter/cdk-acompanhamento-filter.module';
+import {
+    CdkEtiquetaChipsItemModule
+} from '../../etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips-item/cdk-etiqueta-chips-item.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +42,7 @@ import {CdkAcompanhamentoFilterModule} from '../sidebars/cdk-acompanhamento-filt
         CdkSharedModule,
         CdkSidebarModule,
         MatTooltipModule,
+        CdkEtiquetaChipsItemModule,
     ],
     providers: [
         UsuarioService,

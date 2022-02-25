@@ -586,7 +586,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 totalPaginas: this.pdfViewer.PDFViewerApplication.pagesCount
             },
             width: '600px',
-            height: '350px',
+            height: '475px',
         });
 
         this.bookmarkDialogRef.componentInstance.edit.subscribe((result) => {
