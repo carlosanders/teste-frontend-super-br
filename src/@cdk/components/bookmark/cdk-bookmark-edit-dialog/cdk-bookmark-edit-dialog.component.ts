@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {ComponenteDigital, Pagination} from '@cdk/models';
 
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -37,6 +37,28 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
 
     form: FormGroup;
 
+    colors: string[] = [
+        '#F44336',
+        '#E91E63',
+        '#9C27B0',
+        '#673AB7',
+        '#3F51B5',
+        '#2196F3',
+        '#03A9F4',
+        '#00BCD4',
+        '#009688',
+        '#4CAF50',
+        '#8BC34A',
+        '#CDDC39',
+        '#FFEB3B',
+        '#FFC107',
+        '#FF9800',
+        '#FF5722',
+        '#795548',
+        '#9E9E9E',
+        '#607D8B'
+    ];
+
     /**
      * @param _changeDetectorRef
      * @param _formBuilder
@@ -53,9 +75,10 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             id: [data.id],
-            nome: [data.nome],
+            nome: [data.nome, [Validators.required]],
             pagina: [data.pagina],
-            descricao: [data.descricao]
+            descricao: [data.descricao],
+            corHexadecimal: [data.corHexadecimal, [Validators.required]],
         });
 
     }
@@ -64,7 +87,6 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
     }
 
     submit(): void {
-
         if (this.form.value.pagina > this.data.totalPaginas) {
             this.form.setErrors({rulesError: 'Página não encontrada no documento.'});
         }
@@ -75,7 +97,8 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
                 id: this.form.value.id,
                 nome: this.form.value.nome.toUpperCase(),
                 pagina: this.form.value.pagina,
-                descricao: this.form.value.descricao
+                descricao: this.form.value.descricao,
+                corHexadecimal: this.form.value.corHexadecimal
             });
             this.onCloseClick();
         }
@@ -83,5 +106,11 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
 
     onCloseClick(): void {
         this.dialogRef.close(0);
+    }
+
+    selectColor(cor: any): boolean {
+        this.form.get('corHexadecimal').setValue(cor);
+        this._changeDetectorRef.markForCheck();
+        return false;
     }
 }

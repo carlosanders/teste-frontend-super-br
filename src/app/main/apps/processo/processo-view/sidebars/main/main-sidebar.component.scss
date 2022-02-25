@@ -845,6 +845,12 @@ processo-view-main-sidebar {
         .no-events {
             pointer-events: none;
         }
+        .selected-color {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
     }
 }
 
