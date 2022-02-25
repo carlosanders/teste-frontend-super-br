@@ -966,7 +966,10 @@
                                  *ngFor="let book of bookmark.value"
                                  class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
-                                    <mat-icon class="ml-4 s-14">bookmark</mat-icon>
+                                    <mat-icon class="ml-4 s-14"
+                                              [ngStyle]="{'color': book.corHexadecimal}">
+                                        bookmark
+                                    </mat-icon>
                                     <div class="index-vinculado">
                                         <span>{{book.pagina}}</span>
                                     </div>
@@ -974,9 +977,6 @@
                                        (click)="viewBookmark(book, book.pagina, bookmark.key)" >
                                         {{book.nome}}
                                     </a>
-                                    <div class="ml-4 s-24 selected-color"
-                                         [ngStyle]="{background: book.corHexadecimal}">
-                                    </div>
                                     <mat-icon class="ml-4 s-24"
                                               *ngIf="book.id === bookMarkselected">
                                         arrow_left
