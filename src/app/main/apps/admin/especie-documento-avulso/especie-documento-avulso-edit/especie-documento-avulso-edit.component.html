@@ -1,0 +1,20 @@
+<div class="header">
+    <path icone="description"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-documento-avulso">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-especie-documento-avulso-form
+        [especieDocumentoAvulso]="(especieDocumentoAvulso$ | async)"
+        [form]="formEspecieDocumentoAvulso"
+        [workflowPagination]="workflowPagination"
+        [especieProcessoPagination]="especieProcessoPagination"
+        [especieTarefaPagination]="especieTarefaPagination"
+        [generoDocumentoAvulsoPagination]="generoDocumentoAvulsoPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-especie-documento-avulso-form>
+</div>
