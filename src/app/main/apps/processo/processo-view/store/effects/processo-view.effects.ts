@@ -249,7 +249,6 @@ export class ProcessoViewEffect {
             }
             if (stepHandle === 'capa' || stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
-                // this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                 return of(new ProcessoViewActions.GetCapaProcesso());
             } else if (index[currentStep.step][currentStep.subStep] === undefined) {
                 // temos documento sem componente digital
@@ -272,21 +271,30 @@ export class ProcessoViewEffect {
                     }
                 }
 
-                if ((!binary.loading && (binary.step !== this.routerState.params.stepHandle ||
+                if ((!binary.loading &&
+                    (binary.step !== this.routerState.params.stepHandle ||
                     (binary.step === 'default' && this.routerState.params.stepHandle !== defaultStep))) ||
                     (binary.loading && binary.step !== this.routerState.params.stepHandle))
                 {
-                    this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
-                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
-                        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-                            binary: response,
+                    if ((!binary.src || !binary.src.conteudo || binary.src.id !== index[currentStep.step][currentStep.subStep])) {
+                        this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
+                        return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                                binary: response,
+                                loaded: this.routerState.params.stepHandle
+                            })),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                            })
+                        );
+                    } else {
+                        // Já efetuou o download deste binário no download_latest
+                        return of(new ProcessoViewActions.SetCurrentStepSuccess({
+                            binary: binary.src,
                             loaded: this.routerState.params.stepHandle
-                        })),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-                        })
-                    );
+                        }));
+                    }
                 } else {
                     return of(new ProcessoViewActions.StillLoadingBinary());
                 }

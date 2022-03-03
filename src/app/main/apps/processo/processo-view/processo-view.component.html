@@ -98,7 +98,7 @@
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || (!src || this.componenteDigital?.mimetype !== 'application/pdf')"
+                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || (this.componenteDigital?.mimetype !== 'application/pdf')"
                                       #pdfViewer
                                       [viewerId]="'processo-view'"
                                       [pdfSrc]="null"
@@ -109,7 +109,7 @@
                                       (onDocumentLoad)="onPageRendered($event)"
                                       (onPageChange)="onPagesLoaded('pageChange', $event)">
                     </ng2-pdfjs-viewer>
-                    <div class="div-about-blank" *ngIf="!src && !downloadUrl">
+                    <div class="div-about-blank" *ngIf="(!src && this.componenteDigital?.mimetype !== 'application/pdf') && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>

@@ -802,3 +802,4 @@
 1.8.2
 
 * Melhoria alterado o componente de visualização de pdf, possibilitando abrir várias instâncias do componente na mesma tela sem efeitos colaterais 
+* Correção em bug no carregamento de último componente digital de processo se comportando de forma errática

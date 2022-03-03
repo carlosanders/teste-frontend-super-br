@@ -174,7 +174,7 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     ...state.binary,
                     src: action.payload.binary,
-                    loading: false,
+                    loading: false
                 },
                 currentStepLoaded: action.payload.loaded
             };
@@ -348,6 +348,18 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 loadingVinculacoesDocumentosId: loading,
                 paginadoresDocumentosVinculados: paginadores
+            };
+        }
+
+        case ProcessoViewActions.GET_CAPA_PROCESSO: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: null,
+                    loading: false,
+                    step: null
+                }
             };
         }
         default:
