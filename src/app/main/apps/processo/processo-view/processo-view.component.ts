@@ -56,10 +56,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     @ViewChild('pdfViewer', {static: false}) set content(content: PdfJsViewerComponent) {
         if (content) {
             this.pdfViewer = content;
-            if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.src) {
-                this.pdfViewer.pdfSrc = this.src;
+            if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.pdfSrc) {
+                this.pdfViewer.pdfSrc = this.pdfSrc;
                 this.pdfViewer.refresh();
-                this.src = 'PDF BLOB';
+                this.src = null;
             }
             this._changeDetectorRef.detectChanges();
         }
@@ -95,6 +95,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     sidebarName = 'juntadas-left-sidebar-1';
 
     src: any;
+    pdfSrc: Blob = null;
     srcMessage: string;
     loading = false;
 
@@ -200,6 +201,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
             if (binary.src && binary.src.conteudo) {
+                this.pdfSrc = null;
                 this.componenteDigital = binary.src;
                 this.page = 1;
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
@@ -221,9 +223,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         if (this.pdfViewer) {
                             this.pdfViewer.pdfSrc = blob;
                             this.pdfViewer.refresh();
-                            this.src = 'PDF BLOB';
+                            this.src = null;
                         } else {
-                            this.src = blob;
+                            this.pdfSrc = blob;
                         }
                         break;
                     default:
@@ -241,6 +243,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             } else {
                 this.fileName = '';
                 this.src = false;
+                this.pdfSrc = null;
                 if (this.currentJuntada && !this.currentJuntada.documento) {
                     this.srcMessage = 'Não há documento';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {

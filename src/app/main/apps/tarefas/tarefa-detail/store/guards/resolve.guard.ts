@@ -73,7 +73,6 @@ export class ResolveGuard implements CanActivate {
             this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1) {
             return forkJoin([
                 this.downloadLatestBinary(),
-                this.getTarefa(),
                 this.getProcesso(),
                 this.getJuntadas()
             ]).pipe(
@@ -136,19 +135,25 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     downloadLatestBinary(): any {
-        return this._store.pipe(
-            select(getBinary),
-            tap((binary: any) => {
-                if (!this.loadingLatestBinary && (!binary.src)) {
-                    if (this.routerState.params['processoHandle'] !== 'criar') {
-                        this._store.dispatch(new fromStoreProcessoView.DownloadLatestBinary(this.routerState.params['processoHandle']));
-                        this.loadingLatestBinary = true;
+        if (this.routerState.url.includes('capa/mostrar')) {
+            this.loadingLatestBinary = false;
+            this.loadingStep = null;
+            return of(true);
+        } else {
+            return this._store.pipe(
+                select(getBinary),
+                tap((binary: any) => {
+                    if (!this.loadingLatestBinary && (!binary.src)) {
+                        if (this.routerState.params['processoHandle'] !== 'criar') {
+                            this._store.dispatch(new fromStoreProcessoView.DownloadLatestBinary(this.routerState.params['processoHandle']));
+                            this.loadingLatestBinary = true;
+                        }
                     }
-                }
-            }),
-            filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
-            take(1)
-        );
+                }),
+                filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
+                take(1)
+            );
+        }
     }
 
     /**
@@ -161,7 +166,7 @@ export class ResolveGuard implements CanActivate {
             select(getJuntadasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStoreProcessoView.UnloadJuntadas({reset: true}));
+                    this._store.dispatch(new fromStoreProcessoView.UnloadJuntadas({}));
 
                     let processoFilter = null;
 

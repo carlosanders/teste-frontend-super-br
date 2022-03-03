@@ -104,7 +104,7 @@ export class ResolveGuard implements CanActivate {
             select(getJuntadasLoaded),
             tap((loaded: any) => {
                 if (!this.loadingJuntadas && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
-                    this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+                    this._store.dispatch(new fromStore.UnloadJuntadas({}));
 
                     let processoFilter = null;
 
@@ -183,22 +183,28 @@ export class ResolveGuard implements CanActivate {
     }
 
     downloadLatestBinary(): any {
-        return this._store.pipe(
-            select(getBinary),
-            tap((binary: any) => {
-                if (!this.loadingLatestBinary && (!binary.src)) {
-                    let processoId = null;
+        if (this.routerState.url.includes('capa/mostrar')) {
+            this.loadingLatestBinary = false;
+            this.loadingStep = null;
+            return of(true);
+        } else {
+            return this._store.pipe(
+                select(getBinary),
+                tap((binary: any) => {
+                    if (!this.loadingLatestBinary && (!binary.src)) {
+                        let processoId = null;
 
-                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
-                    routeParams.subscribe((param) => {
-                        processoId = parseInt(this.routerState.params[param], 10);
-                    });
-                    this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
-                    this.loadingLatestBinary = true;
-                }
-            }),
-            filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
-            take(1)
-        );
+                        const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                        routeParams.subscribe((param) => {
+                            processoId = parseInt(this.routerState.params[param], 10);
+                        });
+                        this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
+                        this.loadingLatestBinary = true;
+                    }
+                }),
+                filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
+                take(1)
+            );
+        }
     }
 }
