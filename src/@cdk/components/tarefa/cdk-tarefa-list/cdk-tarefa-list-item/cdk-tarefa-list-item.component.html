@@ -331,7 +331,7 @@
 
         <button *ngIf="!togglingUrgente && !deleting && ! ciencia && ! pluginLoading && ! undeleting && ! assinando && !tarefa.apagadoEm" mat-icon-button
                 (click)="doToggleUrgente(); $event.stopPropagation();"
-                aria-label="Toggle important" fxHide.xs>
+                aria-label="Alterar urgência" fxHide.xs matTooltip="Alterar urgência">
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
         </button>
