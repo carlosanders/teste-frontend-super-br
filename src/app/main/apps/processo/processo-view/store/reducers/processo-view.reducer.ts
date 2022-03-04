@@ -41,7 +41,8 @@ export interface ProcessoViewState {
     binary: {
         src: any;
         loading: boolean;
-        step: any;
+        processo?: any;
+        error?: any;
     };
     expandir: boolean;
 }
@@ -70,7 +71,7 @@ export const processoViewInitialState: ProcessoViewState = {
     binary: {
         src: null,
         loading: false,
-        step: null
+        processo: null
     },
     expandir: false
 };
@@ -174,7 +175,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     ...state.binary,
                     src: action.payload.binary,
-                    loading: false
+                    loading: false,
+                    error: false
                 },
                 currentStepLoaded: action.payload.loaded
             };
@@ -184,9 +186,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: null,
                     loading: false,
-                    step: null
+                    error: action.payload
                 },
                 currentStepLoaded: false
             };
@@ -239,7 +242,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     src: null,
                     loading: true,
-                    step: null
+                    processo: null,
+                    error: null
                 }
             };
         }
@@ -250,7 +254,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     ...state.binary,
                     src: action.payload.binary,
-                    loading: false
+                    loading: false,
+                    error: false
                 }
             };
         }
@@ -261,7 +266,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     src: null,
                     loading: false,
-                    step: null
+                    processo: null,
+                    error: true
                 }
             };
         }
@@ -272,7 +278,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 binary: {
                     src: null,
                     loading: true,
-                    step: 'default'
+                    processo: action.payload,
+                    error: null
                 }
             };
         }
@@ -356,9 +363,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     ...state.binary,
+                    processo: null,
                     src: null,
-                    loading: false,
-                    step: null
+                    loading: false
                 }
             };
         }
