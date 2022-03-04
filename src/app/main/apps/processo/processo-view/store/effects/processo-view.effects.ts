@@ -61,7 +61,7 @@ export class ProcessoViewEffect {
                 'documento.setorOrigem.unidade'
             ];
             const filters = {
-                'id':'eq:' + action.payload
+                'id': 'eq:' + action.payload
             };
             return this._juntadaService.query(
                 JSON.stringify(filters),
@@ -203,7 +203,11 @@ export class ProcessoViewEffect {
                 listFilter: {},
                 limit: 10,
                 offset: 0,
-                sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
+                sort: {
+                    'volume.numeracaoSequencial': 'DESC',
+                    'numeracaoSequencial': 'DESC',
+                    'documento.componentesDigitais.numeracaoSequencial': 'ASC'
+                },
                 populate: [
                     'volume',
                     'documento',
@@ -272,10 +276,9 @@ export class ProcessoViewEffect {
                 }
 
                 if ((!binary.loading &&
-                    (binary.step !== this.routerState.params.stepHandle ||
-                    (binary.step === 'default' && this.routerState.params.stepHandle !== defaultStep))) ||
-                    (binary.loading && binary.step !== this.routerState.params.stepHandle))
-                {
+                        (binary.step !== this.routerState.params.stepHandle ||
+                            (binary.step === 'default' && this.routerState.params.stepHandle !== defaultStep))) ||
+                    (binary.loading && binary.step !== this.routerState.params.stepHandle)) {
                     if ((!binary.src || !binary.src.conteudo || binary.src.id !== index[currentStep.step][currentStep.subStep])) {
                         this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
                         return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
@@ -751,14 +754,12 @@ export class ProcessoViewEffect {
     downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
-            map((response: any) => {
-                return new ProcessoViewActions.SetCurrentStepSuccess({
-                    binary: response
-                });
-            }),
+            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                binary: response
+            })),
             catchError((err) => {
                 console.log(err);
-                return of(new ProcessoViewActions.GetCapaProcesso());
+                return of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message));
             })
         ))
     ));

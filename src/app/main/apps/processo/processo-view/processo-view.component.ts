@@ -59,7 +59,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.pdfSrc) {
                 this.pdfViewer.pdfSrc = this.pdfSrc;
                 this.pdfViewer.refresh();
-                this.src = null;
             }
             this._changeDetectorRef.detectChanges();
         }
@@ -195,6 +194,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((index) => {
             this.index = index;
+            // this.totalSteps = index.flat().length;
         });
 
         this.binary$.pipe(
@@ -220,10 +220,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         break;
                     case 'application/pdf':
                         this.downloadUrl = null;
+                        this.src = null;
                         if (this.pdfViewer) {
                             this.pdfViewer.pdfSrc = blob;
                             this.pdfViewer.refresh();
-                            this.src = null;
                         } else {
                             this.pdfSrc = blob;
                         }
@@ -387,14 +387,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     disabledNext(): boolean {
-        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1;
+        return this.currentStep.step === this.totalSteps - 1 && (this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1);
     }
 
     /**
      * Go to next step
      */
     gotoNextStep(): void {
-        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step]?.length - 1) {
+        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1) {
             return;
         }
 

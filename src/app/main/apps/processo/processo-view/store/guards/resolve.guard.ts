@@ -23,7 +23,8 @@ export class ResolveGuard implements CanActivate {
     loadingJuntadas: boolean = false;
     loadingVolumes: boolean = false;
     loadingLatestBinary: boolean = false;
-    loadingStep = null;
+    loadingProcesso = null;
+    error = null;
 
     /**
      * Constructor
@@ -59,9 +60,10 @@ export class ResolveGuard implements CanActivate {
         this._store
             .pipe(select(getBinary))
             .subscribe((binary) => {
-                if (this.loadingStep === null || binary.step !== null && this.loadingStep === 'default') {
+                if (this.loadingProcesso === null || binary.processo !== this.loadingProcesso || !!binary.error) {
                     this.loadingLatestBinary = binary.loading;
-                    this.loadingStep = binary.step;
+                    this.loadingProcesso = binary.processo;
+                    this.error = binary.error;
                 }
             });
     }
@@ -185,24 +187,25 @@ export class ResolveGuard implements CanActivate {
     downloadLatestBinary(): any {
         if (this.routerState.url.includes('capa/mostrar')) {
             this.loadingLatestBinary = false;
-            this.loadingStep = null;
+            this.loadingProcesso = parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10);
             return of(true);
         } else {
             return this._store.pipe(
                 select(getBinary),
                 tap((binary: any) => {
-                    if (!this.loadingLatestBinary && (!binary.src)) {
-                        let processoId = null;
+                    let processoId = null;
 
-                        const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
-                        routeParams.subscribe((param) => {
-                            processoId = parseInt(this.routerState.params[param], 10);
-                        });
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    if (!this.loadingLatestBinary && (!binary.src) && this.loadingProcesso !== processoId) {
                         this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
                         this.loadingLatestBinary = true;
                     }
                 }),
-                filter((binary: any) => this.loadingLatestBinary || (!!binary.src)),
+                filter((binary: any) => this.loadingLatestBinary || (!!binary.src) ||
+                    (binary.processo === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10))),
                 take(1)
             );
         }
