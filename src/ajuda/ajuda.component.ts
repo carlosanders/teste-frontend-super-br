@@ -77,7 +77,7 @@ export class AjudaComponent implements OnInit {
             }
         );
 
-        modulesConfig.forEach((module) => {
+        modulesConfig.forEach((module: any) => {
             if (module.ajuda.length) {
                 this.botoesModulos.push(
                     {
