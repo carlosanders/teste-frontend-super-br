@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {RemoveTarefa} from '../../../../../store';
+import {RemoveMinutasTarefa} from '../actions';
 
 @Injectable()
 export class AtividadeCreateEffect {
@@ -40,6 +41,10 @@ export class AtividadeCreateEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Atividade) => [
+                new RemoveMinutasTarefa({
+                    documentos: action.payload.atividade.documentos,
+                    tarefaId: action.payload.atividade.tarefa.id
+                }),
                 new AtividadeCreateActions.SaveAtividadeSuccess(response),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),
@@ -70,7 +75,6 @@ export class AtividadeCreateEffect {
                 } else {
                     this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
                 }
-
             } else {
                 // Não foi encerrada a tarefa, encaminha pra visão do processo
                 // tslint:disable-next-line:max-line-length

@@ -805,3 +805,5 @@
 * Correção em bug no carregamento de último componente digital de processo se comportando de forma errática
 * Correção em navegação de juntadas desentranhadas e em carregamento múltiplo de componente digital de processo-view
 * Correção de visualizador de PDF que não era exibido em momentos que deveria aparecer
+* Correção de bugs em movimentação de tarefas, que não removia etiquetas de minutas juntadas ao processo
+* Correção em desaparecimento de botão de bookmark em processo-view

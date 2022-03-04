@@ -13,11 +13,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
-import {
-    GetDocumentos as GetDocumentosProcesso,
-    UnloadDocumentos
-} from '../../../../../processo/processo-view/store';
 import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
+import {RemoveMinutasTarefa} from '../actions';
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -44,6 +41,10 @@ export class AtividadeDocumentoEffects {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Atividade) => [
+                new RemoveMinutasTarefa({
+                    documentos: action.payload.atividade.documentos,
+                    tarefaId: action.payload.atividade.tarefa.id
+                }),
                 new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),
@@ -77,12 +78,7 @@ export class AtividadeDocumentoEffects {
                 const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
                 this._router.navigate([url.split(split)[0] + '/encaminhamento']).then();
             } else {
-                this._router.navigate([url.split('/documento')[0]]).then(() => {
-                    if (url.indexOf('/processo') !== -1) {
-                        this._store.dispatch(new UnloadDocumentos());
-                        this._store.dispatch(new GetDocumentosProcesso());
-                    }
-                });
+                this._router.navigate([url.split('/documento')[0]]).then(() => {});
             }
         })
     ), {dispatch: false});
