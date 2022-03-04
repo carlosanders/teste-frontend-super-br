@@ -110,7 +110,7 @@
                                           (onPageChange)="onPagesLoaded('pageChange', $event)">
                         </ng2-pdfjs-viewer>
                     </div>
-                    <div class="div-about-blank" *ngIf="loading === false && src === false && pdfSrc === null && !downloadUrl">
+                    <div class="div-about-blank" *ngIf="loading === false && src === false && !!this.srcMessage && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>
