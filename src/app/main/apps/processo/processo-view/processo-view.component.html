@@ -98,7 +98,7 @@
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || (src !== null)"
+                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'"
                                       #pdfViewer
                                       [viewerId]="'processo-view'"
                                       [pdfSrc]="null"
