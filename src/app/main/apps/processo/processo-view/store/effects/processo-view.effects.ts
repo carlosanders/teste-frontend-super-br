@@ -758,7 +758,6 @@ export class ProcessoViewEffect {
                 binary: response
             })),
             catchError((err) => {
-                console.log(err);
                 return of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message));
             })
         ))
