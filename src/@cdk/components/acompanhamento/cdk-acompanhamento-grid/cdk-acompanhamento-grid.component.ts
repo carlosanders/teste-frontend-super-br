@@ -68,6 +68,11 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
             fixed: true
         },
         {
+            id: 'etiquetas_processo',
+            label: 'Etiquetas',
+            fixed: false
+        },
+        {
             id: 'usuario.nome',
             label: 'Nome',
             fixed: true

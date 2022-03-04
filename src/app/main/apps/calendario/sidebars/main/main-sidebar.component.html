@@ -37,7 +37,7 @@
             <a class="nav-link" matRipple [routerLink]="'/apps/calendario/coordenacao/' + setor.id"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
-                <span>{{setor.nome | titlecase}}</span>
+                <span>{{setor.nome | titleCasePipe}}</span>
             </a>
         </div>
 
@@ -47,7 +47,7 @@
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/assessor/' + usuario.id"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
-                <span>{{usuario.nome | titlecase}}</span>
+                <span>{{usuario.nome | titleCasePipe}}</span>
             </a>
         </div>
 

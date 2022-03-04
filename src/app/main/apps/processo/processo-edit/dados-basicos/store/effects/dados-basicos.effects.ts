@@ -76,7 +76,7 @@ export class DadosBasicosEffect {
                 JSON.stringify([
                     'populateAll', 'especieProcesso.generoProcesso', 'setorAtual.unidade', 'setorAtual.especieSetor'
                 ]),
-                {'especieProcessoWorkflow': true}
+                JSON.stringify({'especieProcessoWorkflow': true})
             );
         }),
         switchMap(response => [

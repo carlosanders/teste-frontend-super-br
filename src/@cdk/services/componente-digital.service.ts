@@ -31,6 +31,11 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
+    downloadLatestByProcessoId(processoId: number | string, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams().set('context', context);
+        return this.http.get(`${environment.api_url}administrativo/componente_digital/${processoId}/download_latest` + environment.xdebug, {params});
+    }
+
     search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;

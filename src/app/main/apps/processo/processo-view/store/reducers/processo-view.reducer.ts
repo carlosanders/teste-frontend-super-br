@@ -41,6 +41,8 @@ export interface ProcessoViewState {
     binary: {
         src: any;
         loading: boolean;
+        processo?: any;
+        error?: any;
     };
     expandir: boolean;
 }
@@ -68,7 +70,8 @@ export const processoViewInitialState: ProcessoViewState = {
     index: [],
     binary: {
         src: null,
-        loading: false
+        loading: false,
+        processo: null
     },
     expandir: false
 };
@@ -145,16 +148,23 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             }
         }
 
+        case ProcessoViewActions.START_LOADING_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    loading: true,
+                    src: null
+                }
+            };
+        }
+
         case ProcessoViewActions.SET_CURRENT_STEP: {
             return {
                 ...state,
                 currentStep: {
                     step: parseInt(action.payload.step, 10),
                     subStep: parseInt(action.payload.subStep, 10),
-                },
-                binary: {
-                    src: null,
-                    loading: true
                 }
             };
         }
@@ -163,8 +173,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: action.payload.binary,
-                    loading: false
+                    loading: false,
+                    error: false
                 },
                 currentStepLoaded: action.payload.loaded
             };
@@ -174,8 +186,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: null,
-                    loading: false
+                    loading: false,
+                    error: action.payload
                 },
                 currentStepLoaded: false
             };
@@ -227,7 +241,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     src: null,
-                    loading: true
+                    loading: true,
+                    processo: null,
+                    error: null
                 }
             };
         }
@@ -236,8 +252,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
+                    ...state.binary,
                     src: action.payload.binary,
-                    loading: false
+                    loading: false,
+                    error: false
                 }
             };
         }
@@ -247,7 +265,21 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 binary: {
                     src: null,
-                    loading: false
+                    loading: false,
+                    processo: null,
+                    error: true
+                }
+            };
+        }
+
+        case ProcessoViewActions.DOWNLOAD_LATEST_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: true,
+                    processo: action.payload,
+                    error: null
                 }
             };
         }
@@ -323,6 +355,18 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 ...state,
                 loadingVinculacoesDocumentosId: loading,
                 paginadoresDocumentosVinculados: paginadores
+            };
+        }
+
+        case ProcessoViewActions.GET_CAPA_PROCESSO: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    processo: null,
+                    src: null,
+                    loading: false
+                }
             };
         }
         default:

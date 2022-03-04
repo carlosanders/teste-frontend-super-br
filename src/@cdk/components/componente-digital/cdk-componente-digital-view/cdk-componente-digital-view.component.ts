@@ -6,6 +6,7 @@ import {
     OnChanges,
     OnInit,
     SecurityContext,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -13,6 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {ComponenteDigital} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
+import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 
 @Component({
     selector: 'cdk-componente-digital-view',
@@ -30,17 +32,30 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
     @Input()
     componenteDigital: ComponenteDigital;
 
-    src: any;
+    @ViewChild('pdfViewerDocumentoEdit', {static: false}) set content(content: PdfJsViewerComponent) {
+        if (content) {
+            this.pdfViewer = content;
+            if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.src) {
+                this.pdfViewer.pdfSrc = this.src;
+                this.src = null;
+                this.pdfViewer.refresh();
+            }
+            this._changeDetectorRef.detectChanges();
+        }
+    }
 
-    // eslint-disable-next-line @typescript-eslint/member-ordering
     @Input()
     config = {
         language: 'pt-br'
     };
 
+    src: any;
+
     downloadUrl = null;
     unsafe = false;
     fileName = '';
+
+    private pdfViewer: PdfJsViewerComponent;
 
     /**
      * @param _changeDetectorRef
@@ -70,11 +85,23 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
             const blob = new Blob([byteArray], {type: this.componenteDigital.mimetype});
             const URL = window.URL;
 
-            if (this.componenteDigital.mimetype === 'application/pdf' || this.componenteDigital.mimetype === 'text/html') {
-                this.downloadUrl = null;
-                this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-            } else {
-                this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+            switch (this.componenteDigital.mimetype) {
+                case 'text/html':
+                    this.downloadUrl = null;
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    break;
+                case 'application/pdf':
+                    this.downloadUrl = null;
+                    if (this.pdfViewer) {
+                        this.pdfViewer.pdfSrc = blob;
+                        this.pdfViewer.refresh();
+                    } else {
+                        this.src = blob;
+                    }
+                    break;
+                default:
+                    this.src = null;
+                    this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
             }
 
             if (this.componenteDigital.unsafe) {

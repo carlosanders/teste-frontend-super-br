@@ -2,11 +2,9 @@ import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-norm
 import {
     assunto as assuntoSchema,
     etiqueta as etiquetaSchema,
-    especieProcesso as especieProcessoSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
     tarefa as tarefaSchema,
-    vinculacaoEspecieProcessoWorkflow as vinculacaoEspecieProcessoWorkflowSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
 } from '@cdk/normalizr';
 
@@ -32,7 +30,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Etiqueta, Tarefa, VinculacaoEspecieProcessoWorkflow, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -60,6 +58,8 @@ import * as AcervoComponenteDigitalBlocoActions
     from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
+import * as DocumentoEditAtividadeDocumentosActions
+    from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -243,7 +243,7 @@ export class TarefasEffect {
             ))
         ), 25),
         mergeMap(([, vinculacao]) => {
-            if (vinculacao) {
+            if (vinculacao?.id) {
                 return this._vinculacaoEtiquetaService.get(
                     vinculacao.id,
                     JSON.stringify(['etiqueta'])).pipe(
@@ -993,6 +993,45 @@ export class TarefasEffect {
         ofType<AtividadeBlocoCreateActions.ConverteToHtmlSucess>(AtividadeBlocoCreateActions.CONVERTE_DOCUMENTO_HTML_SUCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeCreateActions.RemoveMinutasTarefa>(AtividadeCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar em bloco
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefaBloco: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeBlocoCreateActions.RemoveMinutasTarefa>(AtividadeBlocoCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de documentos
+     *
+     * @type {Observable<any>}
+     */
+    documentoRemoveMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoEditAtividadeDocumentosActions.RemoveMinutasTarefa>(DocumentoEditAtividadeDocumentosActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
         })
     ), {dispatch: false});
 

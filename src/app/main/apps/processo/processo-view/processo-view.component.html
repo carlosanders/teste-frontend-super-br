@@ -28,7 +28,7 @@
                     <ng-container *showIfRole="'ROLE_COLABORADOR'">
                         <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
                                 class="previous accent cdk-white-fg ml-8"
-                                *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
+                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
                                 (click)="criarBookmark(this.componenteDigital.id)">
                             <mat-icon>bookmark</mat-icon>
                         </button>
@@ -85,34 +85,32 @@
 
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso && !modelos" class="processo-view-juntada">
 
-                <div class="loading" *ngIf="(loading$ | async)">
+                <div class="loading" *ngIf="loading">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="(loading$ | async) === false && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="loading && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
+                <div [hidden]="loading === true || !juntadas || juntadas?.length === 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <iframe id="iframe-juntadas-pdf" *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && this.routerState.url.includes('/documento')"
-                            [src]="src">
-                    </iframe>
-                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
-                                             [ngClass]="{'documento': this.routerState.url.includes('/documento/')}"
-                                             [src]="src"
-                                             [useBrowserLocale]="true"
-                                             [textLayer]="true"
-                                             [(zoom)]="zoomSetting"
-                                             [showOpenFileButton]="false"
-                                             [page]="page"
-                                             (pageRendered)="onPageRendered()"
-                                             (pageChange)="onPagesLoaded('pageChange', $event)">
-                    </ngx-extended-pdf-viewer>
-                    <div class="div-about-blank" *ngIf="!src && !downloadUrl">
+                    <div class="pdf-viewer" [hidden]="loading || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'">
+                        <ng2-pdfjs-viewer #pdfViewer
+                                          [viewerId]="'processo-view'"
+                                          [pdfSrc]="null"
+                                          [zoom]="zoomSetting"
+                                          [openFile]="false"
+                                          [viewBookmark]="false"
+                                          [download]="true"
+                                          (onDocumentLoad)="onPageRendered($event)"
+                                          (onPageChange)="onPagesLoaded('pageChange', $event)">
+                        </ng2-pdfjs-viewer>
+                    </div>
+                    <div class="div-about-blank" *ngIf="loading === false && src === false && !!this.srcMessage && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>

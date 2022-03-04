@@ -41,6 +41,8 @@ export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE CREATE] CHANGE SELECTED DO
 
 export const SET_SAVING = '[ATIVIDADE CREATE] SET SAVING COMPONENTES DIGITAIS';
 
+export const REMOVE_MINUTAS_TAREFA = '[ATIVIDADE CREATE] REMOVE MINUTAS TAREFA';
+
 /**
  * Unload Documentos
  */
@@ -354,6 +356,19 @@ export class SetSavingComponentesDigitais implements Action
     }
 }
 
+
+/**
+ * Remove Minutas Tarefa
+ */
+export class RemoveMinutasTarefa implements Action
+{
+    readonly type = REMOVE_MINUTAS_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type AtividadeCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -383,4 +398,5 @@ export type AtividadeCreateDocumentosActionsAll
     | UndeleteDocumento
     | UndeleteDocumentoSuccess
     | UndeleteDocumentoFailed
-    | SetSavingComponentesDigitais;
+    | SetSavingComponentesDigitais
+    | RemoveMinutasTarefa;

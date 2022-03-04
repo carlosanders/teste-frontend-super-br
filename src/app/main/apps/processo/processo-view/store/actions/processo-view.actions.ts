@@ -32,6 +32,12 @@ export const GET_CAPA_PROCESSO = '[JUNTADAS] GET CAPA PROCESSO';
 
 export const RETIRA_JUNTADA = '[PROCESSO VIEW] RETIRA JUNTADA';
 
+export const START_LOADING_BINARY = '[PROCESSO VIEW] START LOADING BINARY';
+export const STILL_LOADING_BINARY = '[PROCESSO VIEW] STILL LOADING BINARY';
+export const DOWNLOAD_LATEST_BINARY = '[PROCESSO VIEW] DOWNLOAD LATEST';
+export const DOWNLOAD_LATEST_BINARY_SUCCESS = '[PROCESSO VIEW] DOWNLOAD LATEST SUCCESS';
+export const DOWNLOAD_LATEST_BINARY_FAILED = '[PROCESSO VIEW] DOWNLOAD LATEST FAILED';
+
 export const SET_BINARY_VIEW = '[PROCESSO VIEW] SET BINARY VIEW';
 export const SET_BINARY_VIEW_SUCCESS = '[PROCESSO VIEW] SET BINARY VIEW SUCCESS';
 export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
@@ -292,6 +298,55 @@ export class RetiraJuntada implements Action
     }
 }
 
+/**
+ * Start Loading Binary
+ */
+export class StartLoadingBinary implements Action {
+    readonly type = START_LOADING_BINARY;
+
+    constructor() {
+    }
+}
+
+/**
+ * Still Loading Binary
+ */
+export class StillLoadingBinary implements Action {
+    readonly type = STILL_LOADING_BINARY;
+
+    constructor() {
+    }
+}
+
+/**
+ * Download Latest Binary
+ */
+export class DownloadLatestBinary implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Success
+ */
+export class DownloadLatestBinarySuccess implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Failed
+ */
+export class DownloadLatestBinaryFailed implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
 
 /**
  * Set Binary View
@@ -346,6 +401,11 @@ export type ProcessoViewActionsAll
     | UpdateIndex
     | UpdateNode
     | RetiraJuntada
+    | StartLoadingBinary
+    | StillLoadingBinary
+    | DownloadLatestBinary
+    | DownloadLatestBinarySuccess
+    | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
     | SetBinaryViewFailed;

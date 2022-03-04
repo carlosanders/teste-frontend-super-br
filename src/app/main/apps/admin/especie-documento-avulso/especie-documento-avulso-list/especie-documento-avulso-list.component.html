@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="description"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-documento-avulso">
+    </path>
+</div>
+<cdk-especie-documento-avulso-grid
+    [loading]="(loading$ | async)"
+    [especieDocumentoAvulsos]="(list$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'nome', 'descricao', 'generoDocumentoAvulso.nome', 'ativo', 'actions']"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-especie-documento-avulso-grid>

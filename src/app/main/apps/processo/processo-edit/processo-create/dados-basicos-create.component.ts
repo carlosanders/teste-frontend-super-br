@@ -1,4 +1,4 @@
-import { CdkProcessoModalCalculoNupComponent } from './../../../../../../@cdk/components/processo/cdk-processo-modal-calculo-nup/cdk-processo-modal-calculo-nup.component';
+import { CdkProcessoModalCalculoNupComponent } from '../../../../../../@cdk/components/processo/cdk-processo-modal-calculo-nup/cdk-processo-modal-calculo-nup.component';
 import { Back } from '../../../../../store';
 import {
     AfterViewInit,

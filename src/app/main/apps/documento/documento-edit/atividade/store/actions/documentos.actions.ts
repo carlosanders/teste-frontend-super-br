@@ -8,6 +8,8 @@ export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE DOCUMENTO] CHANGE SELECTED
 
 export const UNLOAD_DOCUMENTOS = '[ATIVIDADE DOCUMENTO] UNLOAD DOCUMENTOS';
 
+export const REMOVE_MINUTAS_TAREFA = '[ATIVIDADE DOCUMENTO] REMOVE MINUTAS TAREFA';
+
 /**
  * Get Documentos
  */
@@ -68,9 +70,22 @@ export class UnloadDocumentos implements Action
     }
 }
 
+/**
+ * Remove Minutas Tarefa
+ */
+export class RemoveMinutasTarefa implements Action
+{
+    readonly type = REMOVE_MINUTAS_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
     | ChangeSelectedDocumentos
-    | UnloadDocumentos;
+    | UnloadDocumentos
+    | RemoveMinutasTarefa;

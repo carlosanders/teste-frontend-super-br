@@ -791,3 +791,19 @@
 * Correção de erro ao montar url da aplicação em casos específicos para juntadas com documentos vinculados
 * Correção de carregamento de vinculações de documentos de juntadas, que estava limitando a apenas 25 registros (hotfix)
 * Correção no carregamento de vinculações de documentos de juntadas, que não atualizava a tela ao término do carregamento (hotfix)
+* Correção de ordenação em vinculações de juntadas
+* Correção de ordenação de componentes digitais de juntadas em diversos locais do sistema
+* Melhoria no download de componentes digitais na tela de visualização de processo, agora ocorrendo em simultâneo com o carregamento da lista das juntadas
+* Correção no método que realizava o carregamento posterior das vinculações de documentos de juntadas, que não estava levando em consideração o offset da consulta ao tentar atualizar o index de juntadas da aplicação (hotfix)
+* Correção na ordenação da consulta (hotfix)
+* Correção histórico agora não permite mais full table scan, necessitando obrigatoriamente de um processo para agilizar a consulta (hotfix)
+* Correção de download de último componente digital entrando em loop quando ocorre dentro da listagem de tarefas
+
+1.8.2
+
+* Melhoria alterado o componente de visualização de pdf, possibilitando abrir várias instâncias do componente na mesma tela sem efeitos colaterais 
+* Correção em bug no carregamento de último componente digital de processo se comportando de forma errática
+* Correção em navegação de juntadas desentranhadas e em carregamento múltiplo de componente digital de processo-view
+* Correção de visualizador de PDF que não era exibido em momentos que deveria aparecer
+* Correção de bugs em movimentação de tarefas, que não removia etiquetas de minutas juntadas ao processo
+* Correção em desaparecimento de botão de bookmark em processo-view
