@@ -54,13 +54,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     @ViewChild('pdfViewer', {static: false}) set content(content: PdfJsViewerComponent) {
-        if (content && !this.pdfViewer) {
+        if (content) {
+            console.log('aqui em cima');
             this.pdfViewer = content;
             if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.pdfSrc) {
-                if (this.pdfViewer.pdfSrc !== this.pdfSrc) {
-                    this.pdfViewer.pdfSrc = this.pdfSrc;
-                    this.pdfViewer.refresh();
-                }
+                this.pdfViewer.pdfSrc = this.pdfSrc;
+                this.pdfViewer.refresh();
                 this.src = null;
             }
             this._changeDetectorRef.detectChanges();
@@ -97,7 +96,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     sidebarName = 'juntadas-left-sidebar-1';
 
     src: any;
-    pdfSrc: Blob = null;
+    pdfSrc: any = null;
     srcMessage: string;
     loading = false;
 
@@ -223,15 +222,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         break;
                     case 'application/pdf':
                         this.downloadUrl = null;
-                        if (this.pdfViewer) {
-                            if (this.pdfViewer.pdfSrc !== blob) {
-                                this.pdfViewer.pdfSrc = blob;
-                                this.pdfViewer.refresh();
-                            }
-                            this.src = null;
-                        } else {
-                            this.pdfSrc = blob;
-                        }
+                        this.pdfSrc = byteArray;
+                        this.pdfViewer.pdfSrc = byteArray;
+                        this.pdfViewer.refresh();
                         break;
                     default:
                         this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
@@ -263,13 +256,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             if (this.componenteDigital &&
                 !(this.currentJuntada?.documento?.componentesDigitais.some(i => i.id === this.componenteDigital.id)) &&
                 this.currentJuntada?.documento?.vinculacoesDocumentos.length > 0) {
-                  this.currentJuntada?.documento?.vinculacoesDocumentos.map((d) => {
-                      (d?.documentoVinculado?.componentesDigitais.map((c) => {
-                          if (c.id === this.componenteDigital.id) {
-                              SharedBookmarkService.juntadaAtualSelect = d.documentoVinculado.juntadaAtual;
-                          }
-                      }));
-                    });
+                this.currentJuntada?.documento?.vinculacoesDocumentos.map((d) => {
+                    (d?.documentoVinculado?.componentesDigitais.map((c) => {
+                        if (c.id === this.componenteDigital.id) {
+                            SharedBookmarkService.juntadaAtualSelect = d.documentoVinculado.juntadaAtual;
+                        }
+                    }));
+                });
             } else {
                 SharedBookmarkService.juntadaAtualSelect = SharedBookmarkService.modeBookmark ?
                     SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;

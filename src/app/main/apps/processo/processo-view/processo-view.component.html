@@ -85,31 +85,32 @@
 
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso && !modelos" class="processo-view-juntada">
 
-                <div class="loading" *ngIf="(loading$ | async)">
+                <div class="loading" *ngIf="loading">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="loading && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div [hidden]="(loading$ | async) === true || !juntadas || juntadas?.length === 0"
+                <div [hidden]="loading === true || !juntadas || juntadas?.length === 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <ng2-pdfjs-viewer [hidden]="(loading$ | async) === true || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'"
-                                      #pdfViewer
-                                      [viewerId]="'processo-view'"
-                                      [pdfSrc]="null"
-                                      [zoom]="zoomSetting"
-                                      [openFile]="false"
-                                      [viewBookmark]="false"
-                                      [download]="true"
-                                      (onDocumentLoad)="onPageRendered($event)"
-                                      (onPageChange)="onPagesLoaded('pageChange', $event)">
-                    </ng2-pdfjs-viewer>
-                    <div class="div-about-blank" *ngIf="(loading$ | async) === false && src === false && pdfSrc === null && !downloadUrl">
+                    <div class="pdf-viewer" [hidden]="loading || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'">
+                        <ng2-pdfjs-viewer #pdfViewer
+                                          [viewerId]="'processo-view'"
+                                          [pdfSrc]="null"
+                                          [zoom]="zoomSetting"
+                                          [openFile]="false"
+                                          [viewBookmark]="false"
+                                          [download]="true"
+                                          (onDocumentLoad)="onPageRendered($event)"
+                                          (onPageChange)="onPagesLoaded('pageChange', $event)">
+                        </ng2-pdfjs-viewer>
+                    </div>
+                    <div class="div-about-blank" *ngIf="loading === false && src === false && pdfSrc === null && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>
