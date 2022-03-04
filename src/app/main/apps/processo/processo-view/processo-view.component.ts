@@ -55,10 +55,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     @ViewChild('pdfViewer', {static: false}) set content(content: PdfJsViewerComponent) {
         if (content) {
-            console.log('aqui em cima');
             this.pdfViewer = content;
             if (!this.pdfViewer.pdfSrc && this.componenteDigital && this.componenteDigital.mimetype === 'application/pdf' && this.pdfSrc) {
-                this.pdfViewer.pdfSrc = this.pdfSrc;
+                if (this.pdfViewer.pdfSrc !== this.pdfSrc) {
+                    this.pdfViewer.pdfSrc = this.pdfSrc;
+                }
                 this.pdfViewer.refresh();
                 this.src = null;
             }
@@ -222,9 +223,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         break;
                     case 'application/pdf':
                         this.downloadUrl = null;
-                        this.pdfSrc = byteArray;
-                        this.pdfViewer.pdfSrc = byteArray;
-                        this.pdfViewer.refresh();
+                        if (this.pdfViewer) {
+                            if (this.pdfViewer.pdfSrc !== byteArray) {
+                                this.pdfViewer.pdfSrc = byteArray;
+                            }
+                            this.pdfViewer.refresh();
+                        } else {
+                            this.pdfSrc = byteArray;
+                        }
                         break;
                     default:
                         this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
