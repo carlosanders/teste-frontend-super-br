@@ -58,6 +58,8 @@ import * as AcervoComponenteDigitalBlocoActions
     from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
+import * as DocumentoEditAtividadeDocumentosActions
+    from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -991,6 +993,45 @@ export class TarefasEffect {
         ofType<AtividadeBlocoCreateActions.ConverteToHtmlSucess>(AtividadeBlocoCreateActions.CONVERTE_DOCUMENTO_HTML_SUCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeCreateActions.RemoveMinutasTarefa>(AtividadeCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar em bloco
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefaBloco: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeBlocoCreateActions.RemoveMinutasTarefa>(AtividadeBlocoCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de documentos
+     *
+     * @type {Observable<any>}
+     */
+    documentoRemoveMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoEditAtividadeDocumentosActions.RemoveMinutasTarefa>(DocumentoEditAtividadeDocumentosActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
         })
     ), {dispatch: false});
 

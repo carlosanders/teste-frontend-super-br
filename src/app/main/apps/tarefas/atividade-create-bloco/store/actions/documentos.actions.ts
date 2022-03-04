@@ -43,6 +43,8 @@ export const UPDATE_DOCUMENTO_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] UPDATE DO
 
 export const CHANGE_SELECTED_DOCUMENTOS_BLOCO = '[BLOCO ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
 
+export const REMOVE_MINUTAS_TAREFA = '[BLOCO ATIVIDADE CREATE] REMOVE MINUTAS TAREFA';
+
 /**
  * Update Documento Bloco
  */
@@ -395,6 +397,18 @@ export class CompleteDocumento implements Action
     }
 }
 
+/**
+ * Remove Minutas Tarefa
+ */
+export class RemoveMinutasTarefa implements Action
+{
+    readonly type = REMOVE_MINUTAS_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type AtividadeBlocoCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -426,4 +440,5 @@ export type AtividadeBlocoCreateDocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
-    | ChangeSelectedDocumentos;
+    | ChangeSelectedDocumentos
+    | RemoveMinutasTarefa;

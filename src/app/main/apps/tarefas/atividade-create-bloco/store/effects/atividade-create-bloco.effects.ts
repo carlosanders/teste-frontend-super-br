@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {RemoveTarefa} from '../../../store';
 import {AddProcessoEncaminhamento} from '../../../encaminhamento-bloco/store';
+import {RemoveMinutasTarefa} from '../actions';
 
 @Injectable()
 export class AtividadeCreateBlocoEffect {
@@ -43,6 +44,10 @@ export class AtividadeCreateBlocoEffect {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: Atividade) => [
+                new RemoveMinutasTarefa({
+                    documentos: action.payload.atividade.documentos,
+                    tarefaId: action.payload.atividade.tarefa.id
+                }),
                 new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload.atividade),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),

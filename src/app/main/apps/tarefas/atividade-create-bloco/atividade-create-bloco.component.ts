@@ -264,8 +264,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.setor = tarefa.setorResponsavel;
 
             if (tarefa.vinculacaoWorkflow) {
-                atividade.setorResponsavel = tarefa.setorResponsavel
-                atividade.usuarioResponsavel = tarefa.usuarioResponsavel
+                atividade.setorResponsavel = tarefa.setorResponsavel;
+                atividade.usuarioResponsavel = tarefa.usuarioResponsavel;
             }
 
             if (atividade.encerraTarefa) {
@@ -285,7 +285,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     verificaFilterWorkflow(): void {
         if (this.tarefas.length) {
-            let tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa)=> tarefa.vinculacaoWorkflow)
+            const tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa)=> tarefa.vinculacaoWorkflow);
             this.especieAtividadePagination['context'] = {};
             if (tarefasWorkflow.length && tarefasWorkflow[0].vinculacaoWorkflow?.transicaoFinalWorkflow !== true && this.atividade.encerraTarefa) {
                 this.form.get('especieAtividade').setValue(null);
