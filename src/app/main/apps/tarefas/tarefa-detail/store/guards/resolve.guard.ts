@@ -172,10 +172,12 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStoreProcessoView.UnloadJuntadas({}));
 
                     let processoFilter = null;
+                    let processoId = null;
 
                     const routeParams = of('processoHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
+                        processoId = parseInt(this.routerState.params[param], 10);
                     });
 
                     const params = {
@@ -183,6 +185,7 @@ export class ResolveGuard implements CanActivate {
                             'volume.processo.id': processoFilter,
                             'vinculada': 'eq:0'
                         },
+                        processoId: processoId,
                         listFilter: {},
                         limit: 10,
                         offset: 0,
