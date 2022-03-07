@@ -808,3 +808,8 @@
 * Correção de bugs em movimentação de tarefas, que não removia etiquetas de minutas juntadas ao processo
 * Correção em desaparecimento de botão de bookmark em processo-view
 * Correção em defeito que ocorre ao trocar rapidamente de tarefas com requisições de documentos vinculados a juntadas ocorrendo no background e quebrando a aplicação
+
+1.8.3
+
+* Correção css chat
+* Correção erro painel do chat
