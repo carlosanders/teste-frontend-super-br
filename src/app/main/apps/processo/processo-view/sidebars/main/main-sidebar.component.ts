@@ -705,6 +705,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
+            processoId: this.processo.id,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
 

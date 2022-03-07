@@ -162,6 +162,7 @@ export class ProcessoViewEffect {
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
                         documentosVinculacoesId: response['entities'].map(juntada => juntada.documento.temAnexos ? juntada.documento.id : null),
+                        processoId: action.payload.processoId,
                         loaded: {
                             id: this.routerState.params['processoCopiaHandle'] ?
                                 'processoCopiaHandle' : 'processoHandle',
@@ -189,10 +190,12 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.ReloadJuntadas>(ProcessoViewActions.RELOAD_JUNTADAS),
         map(() => {
             let processoFilter = null;
+            let processoId = null;
 
             const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
             routeParams.subscribe((param) => {
                 processoFilter = `eq:${this.routerState.params[param]}`;
+                processoId = parseInt(this.routerState.params[param], 10);
             });
 
             const params = {
@@ -200,6 +203,7 @@ export class ProcessoViewEffect {
                     'volume.processo.id': processoFilter,
                     'vinculada': 'eq:0'
                 },
+                processoId: processoId,
                 listFilter: {},
                 limit: 10,
                 offset: 0,
@@ -385,10 +389,12 @@ export class ProcessoViewEffect {
                     }),
                     new ProcessoViewActions.UpdateNode({
                         indice: action.payload.juntadaIndice,
+                        processoId: action.payload.processoId,
                         componentesDigitaisIds: componentesDigitaisIds
                     }),
                     new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
                         documentoId: action.payload.documentoId,
+                        processoId: action.payload.processoId,
                         entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
                         total: total
                     })
@@ -397,6 +403,7 @@ export class ProcessoViewEffect {
                     console.log(err);
                     const payload = {
                         id: action.payload.documentoId,
+                        processoId: action.payload.processoId,
                         error: err
                     };
                     return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
@@ -440,6 +447,7 @@ export class ProcessoViewEffect {
                     this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                         documentoId: documentoId,
                         juntadaIndice: indice,
+                        processoId: action.payload.processoId,
                         filter: {
                             'documento.id': 'eq:' + documentoId
                         },
@@ -757,9 +765,7 @@ export class ProcessoViewEffect {
             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                 binary: response
             })),
-            catchError((err) => {
-                return of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message));
-            })
+            catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message)))
         ))
     ));
     /**
