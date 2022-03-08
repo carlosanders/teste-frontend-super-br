@@ -1,0 +1,15 @@
+<mat-chip-list #chiplist>
+    <ng-content>
+    </ng-content>
+
+    <mat-chip
+            *ngFor="let especieTarefa of selectedEspecieTarefaList"
+            [selectable]="!disableItemFn(especieTarefa, pagination)"
+            [removable]="!disableItemFn(especieTarefa, pagination)"
+            (removed)="remove(especieTarefa)">
+        {{displayItemFn(especieTarefa)}}
+        <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </mat-chip>
+</mat-chip-list>

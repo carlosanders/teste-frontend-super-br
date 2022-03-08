@@ -1,0 +1,30 @@
+<cdk-autocomplete-multiple
+        (panelState)="panelStateChange($event)"
+        [autoclose]="autoclose"
+        [control]="control">
+    <mat-option *ngIf="especieTarefaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+    <mat-option *ngIf="!especieTarefaListIsLoading && especieTarefaList.length">
+        <mat-checkbox
+                (change)="toggleSelected()"
+                [indeterminate]="isIndeterminate()"
+                [checked]="allSelected()">
+            <span *ngIf="allSelected()">
+                DESMARCAR TODOS
+            </span>
+            <span *ngIf="!allSelected()">
+                MARCAR TODOS
+            </span>
+        </mat-checkbox>
+    </mat-option>
+    <mat-option *ngFor="let especieTarefa of especieTarefaList" [disabled]="disableItemFn(especieTarefa, pagination)"
+                [value]="especieTarefa">
+        <mat-checkbox (change)="toggleItem(especieTarefa)"
+                      [checked]="isSelected(especieTarefa)"
+                      [disabled]="disableItemFn(especieTarefa, pagination)">
+                <span [innerHTML]="displayItemFn(especieTarefa) | highlightOption: this.control.value"
+                      [ngStyle]="disableItemFn(especieTarefa, pagination) ? {'text-decoration': 'line-through'} : {}"></span>
+        </mat-checkbox>
+    </mat-option>
+</cdk-autocomplete-multiple>
