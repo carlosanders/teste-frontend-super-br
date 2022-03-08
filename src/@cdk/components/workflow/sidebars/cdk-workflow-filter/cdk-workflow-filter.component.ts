@@ -1,8 +1,18 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component, ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
+import {EspecieTarefa, Pagination} from "../../../../models";
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
     selector: 'cdk-workflow-filter',
@@ -14,24 +24,24 @@ import {Subject} from 'rxjs';
 })
 export class CdkWorkflowFilterComponent {
 
-    @Output()
-    selected = new EventEmitter<any>();
-
+    @Input() mode = 'list';
+    @Output() selected = new EventEmitter<any>();
+    @ViewChild('especieTarefaInicial', {static: true}) especieTarefaInicialRef: ElementRef<HTMLInputElement>;
     form: FormGroup;
-
-    @Input()
-    mode = 'list';
-
     filterCriadoEm = [];
     filterAtualizadoEm = [];
     filterApagadoEm = [];
-
+    especieTarefaInicialPaination = new Pagination();
+    selectedEspecieTarefaList: EspecieTarefa[] = [];
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+    separatorKeysCodes: number[] = [ENTER, COMMA];
 
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _changeDetectionRef: ChangeDetectorRef
     ) {
+        this.especieTarefaInicialPaination = new Pagination();
         this.form = this._formBuilder.group({
             especieTarefaInicial: [null],
             especieProcesso: [null],
@@ -51,8 +61,8 @@ export class CdkWorkflowFilterComponent {
 
         const andXFilter = [];
 
-        if (this.form.get('especieTarefaInicial').value) {
-            andXFilter.push({'especieTarefaInicial.id': `eq:${this.form.get('especieTarefaInicial').value.id}`});
+        if (this.selectedEspecieTarefaList.length) {
+            andXFilter.push({'especieTarefaInicial.id': `in:${this.selectedEspecieTarefaList.map((especieTarefa) => especieTarefa.id).join(',')}`});
         }
 
         if (this.form.get('especieProcesso').value) {
@@ -130,6 +140,25 @@ export class CdkWorkflowFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this.selectedEspecieTarefaList = [];
         this.emite();
+    }
+
+    especieTarefaDisabledFn(especieTarefa: EspecieTarefa, pagination: Pagination): boolean {
+        return false;
+    }
+
+    especieTarefaDisplayItemFn(especieTarefa: EspecieTarefa): string {
+        let displayed = especieTarefa ? especieTarefa.nome : '';
+        displayed += (especieTarefa && especieTarefa.generoTarefa) ? (' (' + especieTarefa.generoTarefa.nome + ')') : '';
+        return displayed;
+    }
+
+    updateSelectedEspecieTarefaInicialList(selectedList: EspecieTarefa[]): void {
+        this.selectedEspecieTarefaList = selectedList;
+        if (this.form.get('especieTarefaInicial')) {
+            this.especieTarefaInicialRef.nativeElement.focus();
+            this._changeDetectionRef.markForCheck();
+        }
     }
 }
