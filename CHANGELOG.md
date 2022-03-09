@@ -813,3 +813,4 @@
 
 * Correção css chat
 * Correção erro painel do chat
+* Correção abrir Minuta em outra aba

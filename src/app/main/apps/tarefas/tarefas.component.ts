@@ -1328,6 +1328,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    doAbrirMinutaEmOutraAba(event): void {
+        const tarefa = event.tarefa;
+        const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this.abreEditorOutraAba(vinculacaoEtiquetaClicada.objectId, tarefa);
+        }
+    }
+
     doCreateEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveEtiqueta({
@@ -1422,6 +1430,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
             + stepHandle + '/documento/' + documentoId
         ]).then();
+    }
+
+    abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
+        let stepHandle = 'default';
+        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            stepHandle = this.routerState.params['stepHandle'];
+        }
+        window.open(
+            this.routerState.url.split('/')[1] + '/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+        );
     }
 
     /*****************************************************************************************************************

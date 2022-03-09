@@ -172,7 +172,7 @@
                         </button>
                         <button fxLayout="row" fxLayoutAlign="start center"
                                 *ngIf="_loginService.isGranted('ROLE_COLABORADOR')"
-                                (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                                (click)="doAbrirMinutaEmOutraAba(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
                                 mat-menu-item>
                             <mat-icon color="accent">open_in_new</mat-icon>
                             <span>Abrir em outra aba</span>

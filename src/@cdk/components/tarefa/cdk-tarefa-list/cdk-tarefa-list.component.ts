@@ -215,6 +215,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @Output()
+    outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+
+    @Output()
     setDraggedTarefasIds = new EventEmitter<number[]>();
 
     @Output()
@@ -719,6 +722,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doClickEtiqueta(event): void {
         this.etiquetaClickHandler.emit(event);
+    }
+
+    doAbrirOutraAba(event): void {
+        this.outraAbaHandler.emit(event);
     }
 
     doAddEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {

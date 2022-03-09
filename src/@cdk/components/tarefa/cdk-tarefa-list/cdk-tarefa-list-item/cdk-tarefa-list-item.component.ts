@@ -231,6 +231,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     erroUpload = new EventEmitter<string>();
 
+    @Output()
+    outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
 
@@ -581,5 +584,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     onErroUpload(mensagem: string): void {
         this.erroUpload.emit(mensagem);
+    }
+
+    doAbrirMinutaEmOutraAba(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
+        this.menuTriggerMinutas.closeMenu();
+        this.outraAbaHandler.emit({vinculacaoEtiqueta, tarefa});
     }
 }
