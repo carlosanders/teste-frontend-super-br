@@ -379,6 +379,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
+            this._changeDetectorRef.detectChanges();
         }
     }
 

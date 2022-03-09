@@ -39,38 +39,38 @@ export class ProcessoEffect {
 
             contexto['compartilhamentoUsuario'] = 'processo';
 
-            const populate = action.payload.populate ? [...action.payload.populate] : [];
+            let populate = action.payload.populate ? [...action.payload.populate] : [];
+            populate = [
+                ...populate,
+                'origemDados',
+                'especieProcesso',
+                'especieProcesso.generoProcesso',
+                'setorAtual',
+                'setorAtual.especieSetor',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta'
+            ];
             return this._processoService.get(
                 action.payload.id,
-                JSON.stringify([
-                    ...populate,
-                    'origemDados',
-                    'especieProcesso',
-                    'especieProcesso.generoProcesso',
-                    'especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                    'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
-                    'setorAtual',
-                    'setorAtual.especieSetor',
-                    'vinculacoesEtiquetas',
-                    'vinculacoesEtiquetas.etiqueta']
-                ),
-                JSON.stringify(contexto));
+                JSON.stringify(populate),
+                JSON.stringify(contexto)).pipe(
+                switchMap(response => [
+                    new AddData<Processo>({data: [response], schema: processoSchema, populate: populate}),
+                    new ProcessoActions.GetProcessoSuccess({
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                            acessoNegado: response.acessoNegado
+                        },
+                        processoId: response.id
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoActions.GetProcessoFailed(err));
+                })
+            );
         }),
-        switchMap(response => [
-            new AddData<Processo>({data: [response], schema: processoSchema}),
-            new ProcessoActions.GetProcessoSuccess({
-                loaded: {
-                    id: 'processoHandle',
-                    value: this.routerState.params.processoHandle,
-                    acessoNegado: response.acessoNegado
-                },
-                processoId: response.id
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoActions.GetProcessoFailed(err));
-        })
     ));
     /**
      * Autuar Processo

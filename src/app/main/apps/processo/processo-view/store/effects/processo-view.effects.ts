@@ -161,7 +161,7 @@ export class ProcessoViewEffect {
                         ),
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
-                        documentosVinculacoesId: response['entities'].map(juntada => juntada.documento.temAnexos ? juntada.documento.id : null),
+                        documentosVinculacoesId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temAnexos ? juntada.documento.id : null),
                         processoId: action.payload.processoId,
                         loaded: {
                             id: this.routerState.params['processoCopiaHandle'] ?

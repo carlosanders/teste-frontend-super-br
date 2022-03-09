@@ -871,6 +871,7 @@
                                  (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                             </div>
                             <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
+                                {{contadorVinculacoes.reset()}}
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
                                     class="tipo-documento" fxLayout="column" fxLayoutAlign="start">
@@ -885,7 +886,7 @@
                                         <a class="ml-4"
                                            (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
                                            [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
+                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
                                         <mat-icon class="ml-4 s-24"
                                                   *ngIf="!capa && !!index &&

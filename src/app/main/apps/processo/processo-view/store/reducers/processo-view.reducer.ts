@@ -324,9 +324,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
         }
 
         case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS: {
+            const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.documentoId);
             if (state.processoId === action.payload.processoId) {
                 // O documento em questão pertence ao processo que está atualmente no estado da aplicação
-                const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.documentoId);
                 let vinculacoes = [];
                 if (state.paginadoresDocumentosVinculados[action.payload.documentoId]?.vinculacoes) {
                     vinculacoes = state.paginadoresDocumentosVinculados[action.payload.documentoId].vinculacoes;
@@ -356,15 +356,16 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 // O processo não se encontra mais no estado da aplicação, o que significa que esta é uma requisição
                 // de antes de trocar o processo exibido, não deve ser lançado no estado da aplicação
                 return {
-                    ...state
+                    ...state,
+                    loadingVinculacoesDocumentosId: loading
                 };
             }
         }
 
         case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED: {
+            const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.id);
             if (state.processoId === action.payload.processoId) {
                 // O documento em questão pertence ao processo que está atualmente no estado da aplicação
-                const loading = state.loadingVinculacoesDocumentosId.filter(documentoId => documentoId !== action.payload.id);
                 const paginadores = {
                     ...state.paginadoresDocumentosVinculados,
                     [action.payload.id]: {
@@ -382,7 +383,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 // O processo não se encontra mais no estado da aplicação, o que significa que esta é uma requisição
                 // de antes de trocar o processo exibido, não deve ser lançado no estado da aplicação
                 return {
-                    ...state
+                    ...state,
+                    loadingVinculacoesDocumentosId: loading
                 };
             }
         }

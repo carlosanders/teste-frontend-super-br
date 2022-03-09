@@ -31,6 +31,11 @@ export const getDocumentosHasLoaded: any = createSelector(
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosLoaded
 );
 
+export const getIsLoadingDocumentos: any = createSelector(
+    getAtividadeCreateBlocoDocumentosState,
+    (state: AtividadeBlocoCreateDocumentosState) => state.loading
+);
+
 export const getDocumentosHasLoadedTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
     getDocumentosHasLoaded,
     loaded => loaded[tarefaId]

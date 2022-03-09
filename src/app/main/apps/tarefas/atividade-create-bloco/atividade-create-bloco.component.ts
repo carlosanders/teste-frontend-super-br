@@ -78,6 +78,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     alterandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
+    isLoading$: Observable<boolean>;
 
     especieAtividadePagination: Pagination;
 
@@ -139,6 +140,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
+        this.isLoading$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));

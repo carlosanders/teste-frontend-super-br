@@ -390,7 +390,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
      * @returns
      */
     isUrlInChildren(parent, url): boolean {
-        const children = parent.children;
+        const children = parent?.children;
 
         if (!children) {
             return false;
