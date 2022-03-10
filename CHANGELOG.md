@@ -823,3 +823,7 @@
 * Correção para passar o módulo na consulta de GetTarefa do tarefa-detail, evitando sobrescrever valores que são necessários aos módulos
 * Correção em erro de javascript ao acessar a tela de movimentar tarefa e recarregar a aplicação 
 * Melhoria inclusão de botão Ver Compartilhamentos no grid de Tarefas
+* Melhoria permitindo ordenar tarefas por data da última atualização
+* Melhoria para possibilitar que menus de tarefas de módulos já apareçam de forma expandida
+* Correção em movimentação de tarefas de dentro do editor, que não encaminhava para o local correto no momento de fechar o editor
+* Correção no css da tela de dados básicos de ofício no editor, que quebrava a barra de rolagem lateral
