@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
 import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
-import {Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
+import {ComponenteDigital, Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
 import {
     documento as documentoSchema,
     juntada as juntadaSchema,
@@ -28,6 +28,8 @@ import {
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {CacheModelService} from '@cdk/services/cache.service';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -285,7 +287,19 @@ export class ProcessoViewEffect {
                     (binary.loading && binary.step !== this.routerState.params.stepHandle)) {
                     if ((!binary.src || !binary.src.conteudo || binary.src.id !== index[currentStep.step][currentStep.subStep])) {
                         this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
-                        return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                        const download$ = this._cacheComponenteDigitalModelService.get(index[currentStep.step][currentStep.subStep])
+                            .pipe(
+                                switchMap((cachedValue: ComponenteDigital) => {
+                                    if (cachedValue) {
+                                        return of(cachedValue);
+                                    }
+
+                                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
+                                        .pipe(tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep])))
+                                })
+                            )
+
+                        return download$.pipe(
                             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                                 binary: response,
                                 loaded: this.routerState.params.stepHandle
@@ -762,6 +776,7 @@ export class ProcessoViewEffect {
     downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
+            tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload)),
             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                 binary: response
             })),
@@ -773,15 +788,29 @@ export class ProcessoViewEffect {
      */
     setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
-        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}').pipe(
-            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-                binary: response
-            })),
-            catchError((err) => {
-                console.log(err);
-                return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-            })
-        ))
+        switchMap(action => {
+            const download$ = this._cacheComponenteDigitalModelService.get(action.payload.componenteDigitalId)
+                .pipe(
+                    switchMap((cachedValue: ComponenteDigital) => {
+                        if (cachedValue) {
+                            return of(cachedValue);
+                        }
+
+                        return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')
+                            .pipe(tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId)))
+                    })
+                );
+
+            return download$.pipe(
+                map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                    binary: response
+                })),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                })
+            );
+        })
     ));
 
     constructor(
@@ -793,7 +822,9 @@ export class ProcessoViewEffect {
         private _activatedRoute: ActivatedRoute,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
-        private _cdkProgressBarService: CdkProgressBarService
+        private _cdkProgressBarService: CdkProgressBarService,
+        private _loginService: LoginService,
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -801,5 +832,6 @@ export class ProcessoViewEffect {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 }
