@@ -71,16 +71,6 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
             fixed: false
         },
         {
-            id: 'processo',
-            label: 'Processo',
-            fixed: false
-        },
-        {
-            id: 'assessor',
-            label: 'Assessor',
-            fixed: false
-        },
-        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false
@@ -132,7 +122,7 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'cancel'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

@@ -822,3 +822,4 @@
 * Correção para inserir loading das minutas na tela de movimentar tarefas em lote
 * Correção para passar o módulo na consulta de GetTarefa do tarefa-detail, evitando sobrescrever valores que são necessários aos módulos
 * Correção em erro de javascript ao acessar a tela de movimentar tarefa e recarregar a aplicação 
+* Melhoria inclusão de botão Ver Compartilhamentos no grid de Tarefas

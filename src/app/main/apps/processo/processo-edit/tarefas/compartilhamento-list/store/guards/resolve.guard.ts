@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {CompartilhamentoListAppState} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/reducers';
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
+import {CompartilhamentoListAppState} from 'app/main/apps/processo/processo-edit/tarefas/compartilhamento-list/store/reducers';
+import * as fromStore from 'app/main/apps/processo/processo-edit/tarefas/compartilhamento-list/store';
 import {getRouterState} from 'app/store/reducers';
-import {getCompartilhamentoListLoaded} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/selectors';
+import {getCompartilhamentoListLoaded} from 'app/main/apps/processo/processo-edit/tarefas/compartilhamento-list/store/selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -77,7 +77,7 @@ export class ResolveGuard implements CanActivate {
                         sort: {id: 'DESC'},
                         populate: [
                             'populateAll',
-                            'tarefa.especieTarefa'
+                            'tarefa.especieTarefa',
                         ]
                     };
 

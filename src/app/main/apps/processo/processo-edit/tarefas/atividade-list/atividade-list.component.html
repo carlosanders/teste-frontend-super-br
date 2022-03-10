@@ -3,7 +3,8 @@
         [loading]="(loading$ | async)"
         [atividades]="(atividades$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="[]"
-        (reload)="reload($event)">
+        [actions]="['cancel']"
+        (reload)="reload($event)"
+        (cancel)="cancel()">
     </cdk-atividade-grid>
 </div>

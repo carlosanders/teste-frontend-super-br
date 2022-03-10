@@ -351,6 +351,14 @@
                                 (click)="listAtividade(tarefa.id)">
                             <mat-icon class="black-fg">list</mat-icon>
                         </button>
+
+                        <button mat-icon-button
+                                aria-label="ver compartilhamentos"
+                                matTooltip="Ver Compartilhamentos"
+                                *ngIf="actions.indexOf('compartilhamentos') > -1 && !hasExcluded"
+                                (click)="listCompartilhamento(tarefa.id)">
+                            <mat-icon class="black-fg">share</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
