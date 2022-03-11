@@ -295,7 +295,11 @@ export class ProcessoViewEffect {
                                     }
 
                                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
-                                        .pipe(tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep])))
+                                        .pipe(tap((componenteDigital) => {
+                                            if (componenteDigital?.mimetype != 'text/html') {
+                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep])
+                                            }
+                                        }))
                                 })
                             )
 
@@ -776,7 +780,11 @@ export class ProcessoViewEffect {
     downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
-            tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload)),
+            tap((componenteDigital) => {
+                if (componenteDigital?.mimetype != 'text/html') {
+                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload);
+                }
+            }),
             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                 binary: response
             })),
@@ -797,7 +805,13 @@ export class ProcessoViewEffect {
                         }
 
                         return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')
-                            .pipe(tap((componenteDigital) => this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId)))
+                            .pipe(
+                                tap((componenteDigital) => {
+                                    if (componenteDigital?.mimetype != 'text/html') {
+                                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId);
+                                    }
+                                })
+                            )
                     })
                 );
 
