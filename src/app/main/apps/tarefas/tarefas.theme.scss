@@ -171,6 +171,7 @@
                 .processo-view-juntada {
 
                     .processo-view-juntada-content {
+                        overflow: hidden;
                         background: map-get($background, card);
                     }
                 }
