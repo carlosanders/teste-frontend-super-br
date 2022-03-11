@@ -808,3 +808,22 @@
 * Correção de bugs em movimentação de tarefas, que não removia etiquetas de minutas juntadas ao processo
 * Correção em desaparecimento de botão de bookmark em processo-view
 * Correção em defeito que ocorre ao trocar rapidamente de tarefas com requisições de documentos vinculados a juntadas ocorrendo no background e quebrando a aplicação
+
+1.8.3
+
+* Correção css chat
+* Correção erro painel do chat
+* Correção abrir Minuta em outra aba
+* Correção em loading infinito de vinculações de juntadas
+* Correção em numeração sequencial dos anexos de documentos de juntadas
+* Correção em substituição de informações de processos populadas por módulos em algumas chamadas e populates do sistema
+* Correção para evitar que sistema busque vinculações de documentos para juntadas já desentranhadas
+* Correção em erro que evitava que etiquetas de minutas fossem retiradas das tarefas na funcionalidade de movimentar bloco de tarefas
+* Correção para inserir loading das minutas na tela de movimentar tarefas em lote
+* Correção para passar o módulo na consulta de GetTarefa do tarefa-detail, evitando sobrescrever valores que são necessários aos módulos
+* Correção em erro de javascript ao acessar a tela de movimentar tarefa e recarregar a aplicação 
+* Melhoria inclusão de botão Ver Compartilhamentos no grid de Tarefas
+* Melhoria permitindo ordenar tarefas por data da última atualização
+* Melhoria para possibilitar que menus de tarefas de módulos já apareçam de forma expandida
+* Correção em movimentação de tarefas de dentro do editor, que não encaminhava para o local correto no momento de fechar o editor
+* Correção no css da tela de dados básicos de ofício no editor, que quebrava a barra de rolagem lateral

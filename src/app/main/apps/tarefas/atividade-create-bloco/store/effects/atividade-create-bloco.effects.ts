@@ -35,7 +35,7 @@ export class AtividadeCreateBlocoEffect {
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
-        mergeMap(action => this._atividadeService.save(action.payload.atividade).pipe(
+        mergeMap(action => this._atividadeService.save(action.payload.atividade, '{}', JSON.stringify(['tarefa', 'tarefa.vinculacaoWorkflow', 'tarefa.processo'])).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'atividade',

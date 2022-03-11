@@ -76,7 +76,8 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {id: 'DESC'},
                         populate: [
-                            'populateAll'
+                            'populateAll',
+                            'tarefa.especieTarefa'
                         ]
                     };
 

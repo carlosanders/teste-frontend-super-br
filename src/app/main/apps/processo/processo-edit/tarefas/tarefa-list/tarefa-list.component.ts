@@ -120,6 +120,10 @@ export class TarefaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'atividades/') + tarefaId]).then();
     }
 
+    listCompartilhamentos(tarefaId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'compartilhamentos/') + tarefaId]).then();
+    }
+
     delete(tarefaId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteTarefa({

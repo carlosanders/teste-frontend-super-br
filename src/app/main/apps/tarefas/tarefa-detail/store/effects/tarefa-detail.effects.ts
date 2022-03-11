@@ -30,6 +30,7 @@ import {
     RedistribuirTarefaFailed,
     RedistribuirTarefaSuccess
 } from '../../../store';
+import {navigationConverter} from 'app/navigation/navigation';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -61,10 +62,14 @@ export class TarefaDetailEffect {
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
             ];
+            let generoParam = this.routerState.params['generoHandle'];
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                generoParam = navigationConverter[this.routerState.params['generoHandle']];
+            }
             return this._tarefaService.get(
                 action.payload.id,
                 JSON.stringify(this.populate),
-                JSON.stringify({'especieProcessoWorkflow': true})
+                JSON.stringify({'especieProcessoWorkflow': true, 'modulo': generoParam})
             ).pipe(
                 mergeMap(response => [
                     new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: this.populate}),

@@ -249,7 +249,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                     ...this.chatParticipantePaginator,
                     limit: 10,
                     offset: 0,
-                    sort: {'administrador': 'DESC', 'criadoEm': 'ASC'}
+                    sort: {'administrador': 'DESC', 'criadoEm': 'ASC'},
+                    context: {
+                        'chat_individual_usuario': this.usuarioLogado?.id
+                    }
                 });
 
                 this.getChatMensagens({
@@ -376,8 +379,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._store.dispatch(new fromStore.GetMensagens({
             ...paginator,
             filter: {
-                'chat.id': 'eq:'+this.chatOpen.id,
-                'criadoEm': 'gte:'+this.chatOpen.chatParticipante.criadoEm
+                'chat.id': 'eq:'+this.chatOpen?.id,
+                'criadoEm': 'gte:'+this.chatOpen?.chatParticipante?.criadoEm
             },
             populate: [
                 'usuario',

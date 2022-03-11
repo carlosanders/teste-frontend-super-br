@@ -1,0 +1,12 @@
+<div class="content">
+    <cdk-compartilhamento-grid
+        [loading]="(loading$ | async)"
+        [compartilhamentos]="(compartilhamentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingErrors]="(deletingErrors$ | async)"
+        [actions]="['showDeleted', 'cancel']"
+        (reload)="reload($event)"
+        (excluded)="inatived($event)"
+        (cancel)="cancel()">
+    </cdk-compartilhamento-grid>
+</div>

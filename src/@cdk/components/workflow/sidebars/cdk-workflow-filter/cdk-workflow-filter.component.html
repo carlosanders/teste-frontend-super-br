@@ -8,7 +8,6 @@
 
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
-
         <mat-form-field>
             <input matInput placeholder="Especie Processo"
                    formControlName="especieProcesso"
@@ -19,14 +18,29 @@
             </cdk-especie-processo-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <input matInput placeholder="Especie Tarefa"
-                   formControlName="especieTarefaInicial"
-                   [matAutocomplete]="especieTarefa.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
-                                             [control]="form.get('especieTarefaInicial')">
-            </cdk-especie-tarefa-autocomplete>
+        <mat-form-field class="mat-form-field-chiplist">
+            <cdk-especie-tarefa-autocomplete-chiplist #especieTarefaInicialChiplist
+                    [pagination]="especieTarefaInicialPaination"
+                    [selectedEspecieTarefaList]="selectedEspecieTarefaList"
+                    (valuesChanged)="updateSelectedEspecieTarefaInicialList($event)"
+                    [disableItemFn]="especieTarefaDisabledFn"
+                    [displayItemFn]="especieTarefaDisplayItemFn">
+                <input matInput placeholder="Especie Tarefa"
+                       formControlName="especieTarefaInicial"
+                       #especieTarefaInicial
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputFor]="especieTarefaInicialChiplist.chipList"
+                       [cdkAutocompleteMultiple]="especieTarefaInicialAutocomplete.autocomplete">
+            </cdk-especie-tarefa-autocomplete-chiplist>
+            <cdk-especie-tarefa-autocomplete-multiple
+                #especieTarefaInicialAutocomplete="especieTarefaAutocomplete"
+                [pagination]="especieTarefaInicialPaination"
+                (valuesChanged)="updateSelectedEspecieTarefaInicialList($event)"
+                [selectedEspecieTarefaList]="selectedEspecieTarefaList"
+                [disableItemFn]="especieTarefaDisabledFn"
+                [displayItemFn]="especieTarefaDisplayItemFn"
+                [control]="form.get('especieTarefaInicial')">
+            </cdk-especie-tarefa-autocomplete-multiple>
         </mat-form-field>
 
         <mat-form-field>

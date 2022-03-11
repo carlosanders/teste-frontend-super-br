@@ -33,6 +33,7 @@
         </div>
         <cdk-documento-avulso-form cdkPerfectScrollbar
                                    [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
+                                   [mode]="'vertical'"
                                    [saving]="(isSaving$ | async)"
                                    [errors]="(errors$ | async)"
                                    (save)="submit($event)">

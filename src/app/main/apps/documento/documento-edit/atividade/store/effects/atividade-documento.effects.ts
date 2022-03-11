@@ -33,7 +33,7 @@ export class AtividadeDocumentoEffects {
             content: 'Salvando a atividade ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._atividadeService.save(action.payload.atividade).pipe(
+        switchMap(action => this._atividadeService.save(action.payload.atividade, '{}', JSON.stringify(['tarefa', 'tarefa.vinculacaoWorkflow', 'tarefa.processo'])).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'atividade',
@@ -45,7 +45,7 @@ export class AtividadeDocumentoEffects {
                     documentos: action.payload.atividade.documentos,
                     tarefaId: action.payload.atividade.tarefa.id
                 }),
-                new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
+                new AtividadeDocumentoActions.SaveAtividadeSuccess(response),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),
             catchError((err) => {
@@ -68,16 +68,24 @@ export class AtividadeDocumentoEffects {
         ofType<AtividadeDocumentoActions.SaveAtividadeSuccess>(AtividadeDocumentoActions.SAVE_ATIVIDADE_SUCCESS),
         tap((action) => {
             if (action.payload.encerraTarefa) {
-                this._store.dispatch(new RemoveTarefa(action.payload.atividade.tarefa.id));
+                this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
             } else {
-                this._store.dispatch(new GetTarefa({id: action.payload.atividade.tarefa.id}));
+                this._store.dispatch(new GetTarefa({id: action.payload.tarefa.id}));
             }
             this._store.dispatch(new UnloadDocumento());
             const url = this.routerState.url;
             if (action.payload.encerraTarefa) {
                 const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
-                this._router.navigate([url.split(split)[0] + '/encaminhamento']).then();
+                if (action.payload?.tarefa?.vinculacaoWorkflow) {
+                    this._router.navigate([
+                        url.split(split)[0] + '/entrada'
+                    ]).then();
+                } else {
+                    this._router.navigate([url.split(split)[0] + '/encaminhamento']).then();
+                }
             } else {
+                // Não foi encerrada a tarefa, somente fecha a modal de documento
+                // tslint:disable-next-line:max-line-length
                 this._router.navigate([url.split('/documento')[0]]).then(() => {});
             }
         })

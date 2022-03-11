@@ -70,7 +70,7 @@ export class CoordenadorSetorEffects {
                     id: 'setorHandle',
                     value: this.routerState.params['setorHandle']
                 },
-                setorId: response['entities'][0].id
+                setorId: this.routerState.params['setorHandle']
             })
         ]),
         catchError((err) => {

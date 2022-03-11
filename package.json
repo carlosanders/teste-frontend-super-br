@@ -29,6 +29,7 @@
         "@angular/platform-browser": "13.2.5",
         "@angular/platform-browser-dynamic": "13.2.5",
         "@angular/router": "13.2.5",
+        "@drecom/idb-cache": "1.1.0",
         "@mat-datetimepicker/core": "9.0.33",
         "@mat-datetimepicker/moment": "9.0.33",
         "@materia-ui/ngx-monaco-editor": "6.0.0",

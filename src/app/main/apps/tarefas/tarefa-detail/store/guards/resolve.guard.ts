@@ -37,15 +37,19 @@ export class ResolveGuard implements CanActivate {
             this.routerState = routerState.state;
         });
 
-        this._store
-            .pipe(select(getBinary))
-            .subscribe((binary) => {
+        if (this.routerState.params['processoHandle'] &&
+            this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1)
+        {
+            this._store.pipe(
+                select(getBinary)
+            ).subscribe((binary) => {
                 if (this.loadingProcesso === null || binary.processo !== this.loadingProcesso || !!binary.error) {
                     this.loadingLatestBinary = binary.loading;
                     this.loadingProcesso = binary.processo;
                     this.error = binary.error;
                 }
             });
+        }
     }
 
     /**
