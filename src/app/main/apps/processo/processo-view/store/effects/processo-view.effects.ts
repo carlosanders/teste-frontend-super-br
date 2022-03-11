@@ -297,11 +297,11 @@ export class ProcessoViewEffect {
                                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
                                         .pipe(tap((componenteDigital) => {
                                             if (componenteDigital?.mimetype != 'text/html') {
-                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep])
+                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep]);
                                             }
-                                        }))
+                                        }));
                                 })
-                            )
+                            );
 
                         return download$.pipe(
                             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
@@ -796,7 +796,7 @@ export class ProcessoViewEffect {
      */
     setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
-        switchMap(action => {
+        switchMap((action) => {
             const download$ = this._cacheComponenteDigitalModelService.get(action.payload.componenteDigitalId)
                 .pipe(
                     switchMap((cachedValue: ComponenteDigital) => {
@@ -811,7 +811,7 @@ export class ProcessoViewEffect {
                                         this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId);
                                     }
                                 })
-                            )
+                            );
                     })
                 );
 
@@ -826,6 +826,35 @@ export class ProcessoViewEffect {
             );
         })
     ));
+    limpaCacheDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.LimpaCacheDocumento>(ProcessoViewActions.LIMPA_CACHE_DOCUMENTO),
+        map(action => action.payload),
+        mergeMap(documentoId => of(documentoId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getComponentesDigitaisByDocumentoId(documentoId))).pipe(
+                map(componentesDigitais => componentesDigitais)
+            ))
+        ), 25),
+        withLatestFrom(this._store.pipe(select(fromStore.getBinary))),
+        mergeMap(([[, componentesDigitais], binary]) => {
+            if (componentesDigitais?.length > 0) {
+                componentesDigitais.forEach((componenteDigital) => {
+                    console.log(componenteDigital);
+                    if (binary && binary.src && binary.src.conteudo && binary.src.id === componenteDigital.id) {
+                        // Tem binário no processo-view, e preciso limpar o conteudo dele para que o setCurrentStep pegue
+                        // a versão assinada do backend
+                        this._store.dispatch(new fromStore.RemoveConteudoBinario(componenteDigital.id));
+                    }
+                    // limpa o cache do componente digital do repositório de cache de componentes digitais
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id);
+                });
+            }
+            return of(null);
+        },25),
+        catchError((err) => {
+            console.log(err);
+            return err;
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

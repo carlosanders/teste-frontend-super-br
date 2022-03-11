@@ -42,6 +42,10 @@ export const SET_BINARY_VIEW = '[PROCESSO VIEW] SET BINARY VIEW';
 export const SET_BINARY_VIEW_SUCCESS = '[PROCESSO VIEW] SET BINARY VIEW SUCCESS';
 export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
 
+export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
+export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
+
+
 /**
  * Expandir Processo
  */
@@ -378,6 +382,26 @@ export class SetBinaryViewFailed implements Action {
     }
 }
 
+/**
+ * Limpa Cache Documento
+ */
+export class LimpaCacheDocumento implements Action {
+    readonly type = LIMPA_CACHE_DOCUMENTO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Remove Contudo Binario
+ */
+export class RemoveConteudoBinario implements Action {
+    readonly type = REMOVE_CONTEUDO_BINARIO;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -408,4 +432,6 @@ export type ProcessoViewActionsAll
     | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
-    | SetBinaryViewFailed;
+    | SetBinaryViewFailed
+    | LimpaCacheDocumento
+    | RemoveConteudoBinario;

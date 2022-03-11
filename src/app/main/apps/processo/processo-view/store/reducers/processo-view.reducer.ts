@@ -295,6 +295,20 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.REMOVE_CONTEUDO_BINARIO: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: {
+                        ...state.binary.src,
+                        conteudo: null,
+                        loading: true
+                    }
+                }
+            };
+        }
+
         case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA: {
             const total = state.paginadoresDocumentosVinculados[action.payload.documentoId]?.pagination?.total ?? 0;
             const loading = [...state.loadingVinculacoesDocumentosId, action.payload.documentoId];
