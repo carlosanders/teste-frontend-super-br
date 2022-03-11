@@ -22,7 +22,7 @@ export const CacheDefaults = {
     DEFAULT_MODEL_DB_CACHE_CONFIG: {
         size: 104857600,
         count: 99,
-        defaultAge: 10800,
+        defaultAge: 28800,
     },
 }
 

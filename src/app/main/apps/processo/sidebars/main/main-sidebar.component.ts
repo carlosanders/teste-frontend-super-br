@@ -44,10 +44,6 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
-     * @param _router
-     */
-
-    /**
      * Constructor
      */
     constructor(

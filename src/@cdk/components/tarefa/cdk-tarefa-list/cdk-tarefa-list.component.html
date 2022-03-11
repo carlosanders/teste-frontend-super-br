@@ -210,6 +210,12 @@
                     <span>Data da Distribuição</span>
                     <mat-icon color="accent" *ngIf="sortField === 'dataHoraDistribuicao'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
+                <button mat-menu-item class="sort-button"
+                        [ngClass]="{'selected': sortField === 'atualizadoEm'}"
+                        (click)="doSort({'atualizadoEm': sortField === 'atualizadoEm' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                    <span>Última atualização</span>
+                    <mat-icon color="accent" *ngIf="sortField === 'atualizadoEm'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+                </button>
             </mat-menu>
 
             <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">

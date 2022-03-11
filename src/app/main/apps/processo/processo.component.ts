@@ -165,6 +165,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.processo$.pipe(
             filter(processo => !!processo)
         ).subscribe((processo) => {
+            if (this.processo?.id !== processo.id) {
+                this.iniciaModulos();
+            }
             this.processo = processo;
             this.label = 'Protocolo';
             switch (this.processo?.unidadeArquivistica) {
@@ -187,9 +190,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.label = 'Protocolo';
                     this.nup = '';
                     this.generoProcesso = '';
-            }
-            if (this.processo?.id !== processo.id) {
-                this.iniciaModulos();
             }
             this.refresh();
         });
