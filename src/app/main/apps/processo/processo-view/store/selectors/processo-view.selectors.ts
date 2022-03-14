@@ -1,4 +1,4 @@
-import {createSelector} from '@ngrx/store';
+import {createSelector, MemoizedSelector} from '@ngrx/store';
 import {
     getProcessoViewAppState,
     ProcessoViewAppState,
@@ -6,10 +6,11 @@ import {
 } from 'app/main/apps/processo/processo-view/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
-import {Juntada} from '@cdk/models';
+import {documento as documentoSchema, juntada as juntadaSchema} from '@cdk/normalizr';
+import {Documento, Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
+const schemaSelectorsDocumento = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getProcessoViewState: any = createSelector(
     getProcessoViewAppState,
@@ -70,4 +71,30 @@ export const getCurrentStepLoaded: any = createSelector(
 export const getIsLoadingBinary: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.binary.loading
+);
+
+export const getLoadingVinculacoesDocumentosIds: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.loadingVinculacoesDocumentosId
+);
+
+export const getPaginadores: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.paginadoresDocumentosVinculados
+);
+
+export const getPaginadoresStateByDocumentoId = (documentoId: number): MemoizedSelector<any, any> => createSelector(
+    getPaginadores,
+    paginadores => paginadores[documentoId]
+);
+
+export const getDocumentoById = (documentoId: number): any => createSelector(
+    schemaSelectorsDocumento.getNormalizedEntities,
+    (() => documentoId),
+    schemaSelectorsDocumento.entityProjector
+);
+
+export const getComponentesDigitaisByDocumentoId = (documentoId: number): any => createSelector(
+    getDocumentoById(documentoId),
+    ((documento: Documento) => documento.componentesDigitais)
 );

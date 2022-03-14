@@ -34,8 +34,8 @@ export class VinculacaoEspecieProcessoWorkflowEditComponent implements OnInit, O
     errors: any;
     form: FormGroup;
     pagination: any;
-    especieProcessoGridPagination: Pagination;
-    especieProcessoAutocompletePagination: Pagination;
+    especieProcessoPagination: Pagination;
+    workflow: Workflow;
     activeCard: string = 'form';
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -66,6 +66,13 @@ export class VinculacaoEspecieProcessoWorkflowEditComponent implements OnInit, O
             this.routerState = routerState.state;
         });
 
+        this._store.pipe(
+            select(fromStore.getWorkflow(this.routerState.params['workflowHandle'])),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((workflow: Workflow) => {
+            this.workflow = workflow;
+        });
+
         this.form = this._formBuilder.group({
             id: [null],
             especieProcesso: [null, [Validators.required]]
@@ -74,25 +81,14 @@ export class VinculacaoEspecieProcessoWorkflowEditComponent implements OnInit, O
 
     ngOnInit(): void
     {
-        this.especieProcessoGridPagination = new Pagination();
-        this.especieProcessoGridPagination.filter =
+        this.especieProcessoPagination = new Pagination();
+        this.especieProcessoPagination.filter =
             {
+                'generoProcesso.id': `eq: ${this.workflow.generoProcesso.id}`,
                 orX: [
                     {
                         'vinculacoesEspecieProcessoWorkflow.workflow.id': `neq:${this.routerState.params['workflowHandle']}`,
                         'ativo': 'eq:1'
-                    },
-                    {'vinculacoesEspecieProcessoWorkflow.workflow': `isNull`}
-                ]
-            };
-
-        this.especieProcessoAutocompletePagination = new Pagination();
-        this.especieProcessoAutocompletePagination.filter =
-            {
-                orX: [
-                    {
-                        'vinculacoesEspecieProcessoWorkflow.workflow.id': `neq:${this.routerState.params['workflowHandle']}`,
-                        'apagadoEm': 'isNull'
                     },
                     {'vinculacoesEspecieProcessoWorkflow.workflow': `isNull`}
                 ]

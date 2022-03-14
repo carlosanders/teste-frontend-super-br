@@ -177,7 +177,7 @@ export class ProcessoCapaEffect {
                     ...action.payload.listFilter,
                     ...action.payload.gridFilter,
                 }),
-                action.payload.imit,
+                action.payload.limit,
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),

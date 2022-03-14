@@ -11,6 +11,7 @@ export interface CdkNavigationItem
     exactMatch?: boolean;
     externalUrl?: boolean;
     openInNewTab?: boolean;
+    startExpanded?: boolean;
     function?: any;
     badge?: {
         title?: string;

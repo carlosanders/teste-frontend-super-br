@@ -517,6 +517,15 @@
                             <mat-icon>backup</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('visualizar') > -1"
+                                [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1 && !hasExcluded"
+                                (click)="visualizarDocumentoAvulso(documentoAvulso)"
+                                aria-label="visualizar"
+                                matTooltip="visualizar">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+
                         <ng-template #buttonModule></ng-template>
 
                     </td>

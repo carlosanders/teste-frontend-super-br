@@ -35,7 +35,7 @@
             <a class="nav-link" matRipple [routerLink]="'/apps/relatorios/' + generoHandle + '/meus-relatorios/' + folder.nome | lowercase"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
-                <span>{{folder.nome | titlecase}}</span>
+                <span>{{folder.nome | titleCasePipe}}</span>
             </a>
         </div>
 

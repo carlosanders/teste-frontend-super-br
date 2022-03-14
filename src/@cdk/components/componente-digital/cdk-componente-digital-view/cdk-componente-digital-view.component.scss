@@ -11,5 +11,53 @@ cdk-componente-digital-view {
             display: flex;
             flex: 1 1 auto;
         }
+
+        > .div-about-blank {
+            flex: 1 1 auto;
+            display: flex;
+            border: none;
+            margin-left: 10px;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            > span {
+                flex: 0 0 auto;
+                align-self: stretch;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            > .no-componentes {
+                flex: 0 0 auto;
+                display: flex;
+                flex-direction: column;
+                margin: 8px;
+                align-self: stretch;
+
+                mat-card-subtitle {
+                    font-weight: bolder;
+                    justify-content: center;
+                    display: flex;
+                }
+
+                mat-card-content {
+                    align-items: flex-start;
+                }
+            }
+        }
+    }
+
+    > ng2-pdfjs-viewer {
+        flex: 1 1 auto;
+        border: none;
+        height: 100% !important;
+
+        .findbar {
+            left: auto !important;
+            top: auto !important;
+        }
     }
 }

@@ -67,7 +67,7 @@ export class LoginService {
         this.startCountdown();
     }
 
-    setLoginType(type): void {
+    setLoginType(type: string): void {
         localStorage.setItem('loginType', type);
     }
 
@@ -138,16 +138,19 @@ export class LoginService {
     }
 
     login(username: string, password: string): Observable<any> {
+        this.setLoginType('interno');
         const url = `${environment.base_url}auth/get_token` + environment.xdebug;
         return this.http.post(url, {username, password});
     }
 
     loginLdap(username: string, password: string): Observable<any> {
+        this.setLoginType('ldap');
         const url = `${environment.base_url}auth/ldap_get_token` + environment.xdebug;
         return this.http.post(url, {username, password});
     }
 
     loginGovBr(code: string): Observable<any> {
+        this.setLoginType('govBr');
         const url = `${environment.base_url}auth/govbr_get_token` + environment.xdebug;
         return this.http.post(url, {code: code});
     }

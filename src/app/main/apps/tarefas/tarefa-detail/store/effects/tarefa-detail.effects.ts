@@ -30,6 +30,7 @@ import {
     RedistribuirTarefaFailed,
     RedistribuirTarefaSuccess
 } from '../../../store';
+import {navigationConverter} from 'app/navigation/navigation';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -56,16 +57,19 @@ export class TarefaDetailEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'vinculacaoWorkflow',
                 'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
             ];
+            let generoParam = this.routerState.params['generoHandle'];
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                generoParam = navigationConverter[this.routerState.params['generoHandle']];
+            }
             return this._tarefaService.get(
                 action.payload.id,
-                JSON.stringify(this.populate)
+                JSON.stringify(this.populate),
+                JSON.stringify({'especieProcessoWorkflow': true, 'modulo': generoParam})
             ).pipe(
                 mergeMap(response => [
                     new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: this.populate}),
@@ -255,10 +259,8 @@ export class TarefaDetailEffect {
                 'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
             ]);
-            return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
+            return this._tarefaService.save(action.payload.tarefa, JSON.stringify({'especieProcessoWorkflow': true}), populate).pipe(
                 map((response) => {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,

@@ -9,14 +9,15 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
 import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
-import {Juntada, VinculacaoEtiqueta} from '@cdk/models';
+import {ComponenteDigital, Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
 import {
     documento as documentoSchema,
     juntada as juntadaSchema,
-    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
+    vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
+import {getBinary, getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
@@ -25,6 +26,10 @@ import {
     GetJuntadasEtiquetasSuccess
 } from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {CacheModelService} from '@cdk/services/cache.service';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -57,25 +62,39 @@ export class ProcessoViewEffect {
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
             ];
-            return this._juntadaService.get(
-                action.payload,
+            const filters = {
+                'id': 'eq:' + action.payload
+            };
+            return this._juntadaService.query(
+                JSON.stringify(filters),
+                1,
+                0,
+                JSON.stringify({
+                    'documento.componentesDigitais.numeracaoSequencial': 'ASC',
+                    'documento.vinculacoesDocumentos.id': 'ASC',
+                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                }),
                 JSON.stringify(populate),
                 JSON.stringify(chaveAcesso)
             ).pipe(
-                tap(() => {
+                tap((response) => {
                     this.index = juntadas.map(
                         (juntada) => {
-                            if (!juntada.ativo) {
+                            let novaJuntada = juntada;
+                            if (juntada.id === response['entities'][0].id) {
+                                novaJuntada = response['entities'][0];
+                            }
+                            if (!novaJuntada.ativo) {
                                 return [];
                             }
                             let componentesDigitaisIds = [];
-                            if (juntada.documento.componentesDigitais) {
-                                componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                            if (novaJuntada.documento.componentesDigitais) {
+                                componentesDigitaisIds = novaJuntada.documento.componentesDigitais.map(
                                     cd => cd.id
                                 );
                             }
-                            if (juntada.documento.vinculacoesDocumentos) {
-                                juntada.documento.vinculacoesDocumentos.map(
+                            if (novaJuntada.documento.vinculacoesDocumentos) {
+                                novaJuntada.documento.vinculacoesDocumentos.map(
                                     (vinculacaoDocumento) => {
                                         vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
                                             cd => componentesDigitaisIds.push(cd.id)
@@ -88,9 +107,9 @@ export class ProcessoViewEffect {
                     );
                 }),
                 concatMap(response => [
-                    new AddData<Juntada>({data: [response], schema: juntadaSchema}),
-                    new ProcessoViewActions.GetJuntadasEtiquetas(response.documento.id),
-                    new ProcessoViewActions.GetJuntadaSuccess(response),
+                    new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadasEtiquetas(response['entities'][0]?.documento.id),
+                    new ProcessoViewActions.GetJuntadaSuccess(response['entities'][0]),
                     new ProcessoViewActions.UpdateIndex(this.index)
                 ]),
                 catchError((err) => {
@@ -124,49 +143,44 @@ export class ProcessoViewEffect {
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
                 JSON.stringify(chaveAcesso),
-                'app/main/apps/processo/processo-view#juntadas');
-        }),
-        concatMap(response => [
-            new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
-            new ProcessoViewActions.GetJuntadasSuccess({
-                index: response['entities'].map(
-                    (juntada) => {
-                        if (!juntada.ativo) {
-                            return [];
-                        }
-                        let componentesDigitaisIds = [];
-                        if (juntada.documento.componentesDigitais) {
-                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(
-                                cd => cd.id
-                            );
-                        }
-                        if (juntada.documento.vinculacoesDocumentos) {
-                            juntada.documento.vinculacoesDocumentos.map(
-                                (vinculacaoDocumento) => {
-                                    vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
-                                        cd => componentesDigitaisIds.push(cd.id)
+                'app/main/apps/processo/processo-view#juntadas').pipe(
+                concatMap(response => [
+                    new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadasSuccess({
+                        index: response['entities'].map(
+                            (juntada) => {
+                                if (!juntada.ativo) {
+                                    return [];
+                                }
+                                let componentesDigitaisIds = [];
+                                if (juntada.documento.componentesDigitais) {
+                                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                                        cd => cd.id
                                     );
                                 }
-                            );
-                        }
-                        return componentesDigitaisIds;
-                    }
-                ),
-                entitiesId: response['entities'].map(juntada => juntada.id),
-                documentosId: response['entities'].map(juntada => juntada.documento.id),
-                loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle
-                },
-                total: response['total']
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.GetJuntadasFailed(err));
-        })
+                                return componentesDigitaisIds;
+                            }
+                        ),
+                        entitiesId: response['entities'].map(juntada => juntada.id),
+                        documentosId: response['entities'].map(juntada => juntada.documento.id),
+                        documentosVinculacoesId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temAnexos ? juntada.documento.id : null),
+                        processoId: action.payload.processoId,
+                        loaded: {
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._cdkProgressBarService.hide();
+                    return of(new ProcessoViewActions.GetJuntadasFailed(err));
+                })
+            );
+        }),
     ));
 
     /**
@@ -178,10 +192,12 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.ReloadJuntadas>(ProcessoViewActions.RELOAD_JUNTADAS),
         map(() => {
             let processoFilter = null;
+            let processoId = null;
 
             const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
             routeParams.subscribe((param) => {
                 processoFilter = `eq:${this.routerState.params[param]}`;
+                processoId = parseInt(this.routerState.params[param], 10);
             });
 
             const params = {
@@ -189,21 +205,21 @@ export class ProcessoViewEffect {
                     'volume.processo.id': processoFilter,
                     'vinculada': 'eq:0'
                 },
+                processoId: processoId,
                 listFilter: {},
                 limit: 10,
                 offset: 0,
-                sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                sort: {
+                    'volume.numeracaoSequencial': 'DESC',
+                    'numeracaoSequencial': 'DESC',
+                    'documento.componentesDigitais.numeracaoSequencial': 'ASC'
+                },
                 populate: [
                     'volume',
                     'documento',
                     'documento.origemDados',
                     'documento.tipoDocumento',
                     'documento.componentesDigitais',
-                    'documento.vinculacoesDocumentos',
-                    'documento.vinculacoesDocumentos.documentoVinculado',
-                    'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
-                    'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.criadoPor',
                     'documento.setorOrigem',
                     'documento.setorOrigem.unidade'
@@ -218,9 +234,10 @@ export class ProcessoViewEffect {
      */
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
-        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas))),
-        switchMap(([action, index, currentStep, juntadas]) => {
+        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas)), this._store.pipe(select(getBinary))),
+        switchMap(([action, index, currentStep, juntadas, binary]) => {
             let stepHandle = action.payload.step;
+            let defaultStep = '0-0';
             if (stepHandle === 'default') {
                 let firstJuntada = 0;
                 if (index) {
@@ -242,32 +259,75 @@ export class ProcessoViewEffect {
             }
             if (stepHandle === 'capa' || stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
-                this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
-                return of(null);
+                return of(new ProcessoViewActions.GetCapaProcesso());
             } else if (index[currentStep.step][currentStep.subStep] === undefined) {
                 // temos documento sem componente digital
-                return of(null);
+                return of(new ProcessoViewActions.SetCurrentStepFailed(null));
             } else {
                 const juntada = juntadas[currentStep.step];
-                if (juntada.documento.acessoNegado) {
-                    // temos documento com acesso negado
-                    return of(null);
+                if (juntada.documento.acessoNegado || !juntada.ativo) {
+                    // temos documento com acesso negado ou desentranhado
+                    return of(new ProcessoViewActions.SetCurrentStepFailed(null));
                 }
                 // temos componente digital, vamos pega-lo
                 const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                 const context = JSON.stringify(chaveAcesso);
+                if (index) {
+                    let firstJuntada = 0;
+                    firstJuntada = index.findIndex(indice => indice.length > 0);
+                    if (firstJuntada > -1) {
+                        defaultStep = firstJuntada + '-0';
+                    }
+                }
 
-                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
+                if ((!binary.loading &&
+                        (binary.step !== this.routerState.params.stepHandle ||
+                            (binary.step === 'default' && this.routerState.params.stepHandle !== defaultStep))) ||
+                    (binary.loading && binary.step !== this.routerState.params.stepHandle)) {
+                    if ((!binary.src || !binary.src.conteudo || binary.src.id !== index[currentStep.step][currentStep.subStep])) {
+                        this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
+                        const download$ = this._cacheComponenteDigitalModelService.get(index[currentStep.step][currentStep.subStep])
+                            .pipe(
+                                switchMap((cachedValue: ComponenteDigital) => {
+                                    if (cachedValue) {
+                                        return of(cachedValue);
+                                    }
+
+                                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
+                                        .pipe(tap((componenteDigital) => {
+                                            if (componenteDigital?.mimetype != 'text/html') {
+                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep]);
+                                            }
+                                        }));
+                                })
+                            );
+
+                        return download$.pipe(
+                            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                                binary: response,
+                                loaded: this.routerState.params.stepHandle
+                            })),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                            })
+                        );
+                    } else {
+                        // Já efetuou o download deste binário no download_latest
+                        return of(new ProcessoViewActions.SetCurrentStepSuccess({
+                            binary: binary.src,
+                            loaded: this.routerState.params.stepHandle
+                        }));
+                    }
+                } else {
+                    return of(new ProcessoViewActions.StillLoadingBinary());
+                }
             }
         }),
-        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-            binary: response,
-            loaded: this.routerState.params.stepHandle
-        })),
         catchError((err) => {
             console.log(err);
-            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+            return of(null);
         })
     ));
 
@@ -304,6 +364,92 @@ export class ProcessoViewEffect {
     ));
 
     /**
+     * GetDocumentosVinculadosJuntada
+     *
+     * @type {any}
+     */
+    getDocumentosVinculadosJuntada: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetDocumentosVinculadosJuntada>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA),
+        withLatestFrom(this._store.pipe(select(getIndex))),
+        mergeMap(([action, index]) => {
+            const componentesDigitaisIds = [
+                ...index[action.payload.juntadaIndice]
+            ];
+            let vinculacoesDocumentos = [];
+            let total = 0;
+            return this._vinculacaoDocumentoService.query(
+                JSON.stringify(action.payload.filter),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate)).pipe(
+                map((response) => {
+                    vinculacoesDocumentos = response['entities'].map((vinculacao) => {
+                        vinculacao.documentoVinculado.vinculacaoDocumentoPrincipal.documento = null;
+                        return vinculacao;
+                    });
+                    vinculacoesDocumentos.map(
+                        (vinculacaoDocumento) => {
+                            vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                cd => componentesDigitaisIds.push(cd.id)
+                            );
+                        }
+                    );
+                    total = response.total;
+                    return vinculacoesDocumentos;
+                }),
+                mergeMap(() => [
+                    new AddChildData<VinculacaoDocumento>({
+                        data: vinculacoesDocumentos,
+                        childSchema: vinculacaoDocumentoSchema,
+                        parentSchema: documentoSchema,
+                        parentId: action.payload.documentoId
+                    }),
+                    new ProcessoViewActions.UpdateNode({
+                        indice: action.payload.juntadaIndice,
+                        processoId: action.payload.processoId,
+                        componentesDigitaisIds: componentesDigitaisIds
+                    }),
+                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
+                        documentoId: action.payload.documentoId,
+                        processoId: action.payload.processoId,
+                        entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
+                        total: total
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    const payload = {
+                        id: action.payload.documentoId,
+                        processoId: action.payload.processoId,
+                        error: err
+                    };
+                    return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
+                })
+            );
+        }, 25)
+    ));
+    /**
+     * GetDocumentosVinculadosJuntadaSuccess
+     *
+     * @type {any}
+     */
+    getDocumentosVinculadosJuntadaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS),
+        tap((action) => {
+            if (this.routerState.params['stepHandle']) {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                if (parseInt(steps[0], 10) === action.payload.juntadaIndice && parseInt(steps[1], 10) > 0) {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                        step: steps[0],
+                        subStep: steps[1]
+                    }));
+                }
+            }
+        })
+    ), {dispatch: false});
+
+    /**
      * Get Juntadas Success
      */
     getJuntadasSuccess: any = createEffect(() => this._actions.pipe(
@@ -312,6 +458,31 @@ export class ProcessoViewEffect {
         tap(([action, pagination]) => {
             action.payload.documentosId.forEach((documentoId) => {
                 this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
+            });
+            action.payload.documentosVinculacoesId.forEach((documentoId, juntadaIndice) => {
+                const indice = juntadaIndice + pagination.offset;
+                if (documentoId) {
+                    this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
+                        documentoId: documentoId,
+                        juntadaIndice: indice,
+                        processoId: action.payload.processoId,
+                        filter: {
+                            'documento.id': 'eq:' + documentoId
+                        },
+                        limit: 25,
+                        offset: 0,
+                        sort: {
+                            'id': 'ASC',
+                            'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                        },
+                        populate: [
+                            'documentoVinculado',
+                            'documentoVinculado.juntadaAtual',
+                            'documentoVinculado.tipoDocumento',
+                            'documentoVinculado.componentesDigitais',
+                        ]
+                    }));
+                }
             });
             const stepHandle = this.routerState.params['stepHandle'];
             if (stepHandle === 'default') {
@@ -361,8 +532,8 @@ export class ProcessoViewEffect {
                         // Navegação do processo deve ocorrer por outlet
                         this._router.navigate(
                             [
-                                this.routerState.url.split('/visualizar/' + stepHandle)[0] + '/visualizar/capa'
-                                + '/documento/' + this.routerState.params.documentoHandle + '/',
+                                this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                                '/documento/' + this.routerState.params.documentoHandle + '/',
                                 {
                                     outlets: {
                                         primary: arrPrimary,
@@ -470,6 +641,11 @@ export class ProcessoViewEffect {
                 }
             } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                if (steps[0] >= pagination.limit) {
+                    steps[0] = 0;
+                    steps[1] = 0;
+                }
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
                         let sidebar;
@@ -514,14 +690,12 @@ export class ProcessoViewEffect {
                                 relativeTo: this._activatedRoute.parent
                             }
                         ).then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
                             }));
                         });
                     } else {
-                        const steps = this.routerState.params['stepHandle'].split('-');
                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                             step: steps[0],
                             subStep: steps[1]
@@ -541,7 +715,6 @@ export class ProcessoViewEffect {
                     };
                     this._router.navigate([url], extras)
                         .then(() => {
-                            const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: steps[0],
                                 subStep: steps[1]
@@ -601,21 +774,87 @@ export class ProcessoViewEffect {
             }
         })
     ), {dispatch: false});
-
+    /**
+     * @type {Observable<ProcessoViewActions.ProcessoViewActionsAll>}
+     */
+    downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
+        switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
+            tap((componenteDigital) => {
+                if (componenteDigital?.mimetype != 'text/html') {
+                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload);
+                }
+            }),
+            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                binary: response
+            })),
+            catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message)))
+        ))
+    ));
     /**
      * @type {Observable<any>}
      */
     setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
-        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')),
-        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-            binary: response
-        })),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+        switchMap((action) => {
+            const download$ = this._cacheComponenteDigitalModelService.get(action.payload.componenteDigitalId)
+                .pipe(
+                    switchMap((cachedValue: ComponenteDigital) => {
+                        if (cachedValue) {
+                            return of(cachedValue);
+                        }
+
+                        return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')
+                            .pipe(
+                                tap((componenteDigital) => {
+                                    if (componenteDigital?.mimetype != 'text/html') {
+                                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId);
+                                    }
+                                })
+                            );
+                    })
+                );
+
+            return download$.pipe(
+                map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                    binary: response
+                })),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                })
+            );
         })
     ));
+    limpaCacheDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.LimpaCacheDocumento>(ProcessoViewActions.LIMPA_CACHE_DOCUMENTO),
+        map(action => action.payload),
+        mergeMap(documentoId => of(documentoId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getComponentesDigitaisByDocumentoId(documentoId))).pipe(
+                map(componentesDigitais => componentesDigitais)
+            ))
+        ), 25),
+        withLatestFrom(this._store.pipe(select(fromStore.getBinary))),
+        mergeMap(([[, componentesDigitais], binary]) => {
+            if (componentesDigitais?.length > 0) {
+                componentesDigitais.forEach((componenteDigital) => {
+                    console.log(componenteDigital);
+                    if (binary && binary.src && binary.src.conteudo && binary.src.id === componenteDigital.id) {
+                        // Tem binário no processo-view, e preciso limpar o conteudo dele para que o setCurrentStep pegue
+                        // a versão assinada do backend
+                        this._store.dispatch(new fromStore.RemoveConteudoBinario(componenteDigital.id));
+                    }
+                    // limpa o cache do componente digital do repositório de cache de componentes digitais
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id);
+                });
+            }
+            return of(null);
+        },25),
+        catchError((err) => {
+            console.log(err);
+            return err;
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -625,6 +864,10 @@ export class ProcessoViewEffect {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
+        private _vinculacaoDocumentoService: VinculacaoDocumentoService,
+        private _cdkProgressBarService: CdkProgressBarService,
+        private _loginService: LoginService,
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -632,5 +875,6 @@ export class ProcessoViewEffect {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 }

@@ -19,12 +19,13 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../../models';
 import {HasTarefa} from './has-tarefa';
 import {CdkUtils} from '../../../../utils';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
+import * as moment from 'moment';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -63,6 +64,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     countSelected: number = 0;
 
     @Input()
+    targetHandle: any;
+
+    @Input()
+    typeHandle: any;
+
+    @Input()
     alterandoDocumentosId: number[] = [];
 
     @Input()
@@ -79,6 +86,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     removendoAssinaturaDocumentosId: number[] = [];
+
+    @Input()
+    savingComponentesDigitais: boolean = false;
 
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
@@ -159,6 +169,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     vinculacaoEtiquetaPagination: Pagination;
 
     @Input()
+    errorsAddEtiqueta: any;
+
+    @Input()
     assinando: boolean;
 
     @Input()
@@ -166,6 +179,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     savingObservacao: boolean = false;
+
+    @Output()
+    addEtiqueta = new EventEmitter<{ tarefa: Tarefa; etiqueta: Etiqueta }>();
 
     @Output()
     vinculacaoEtiquetaCreate = new EventEmitter<any>();
@@ -204,7 +220,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
 
     @Output()
-    completed = new EventEmitter<number>();
+    completed = new EventEmitter<{ tarefaId: number; documento: Documento }>();
 
     /**
      * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
@@ -214,6 +230,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Output()
     erroUpload = new EventEmitter<string>();
+
+    @Output()
+    outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
@@ -236,6 +255,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     tipoDocumentoPagination: Pagination;
 
+    habilitarOpcaoBtnAddEtiqueta = true;
+
     isOpen: boolean;
     loadedAssuntos: boolean;
     loadedInteressados: boolean;
@@ -245,6 +266,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     formTipoDocumento: FormGroup;
     formTipoDocumentoValid = false;
     habilitarTipoDocumentoSalvar = false;
+
+    prazoVenceHoje = false;
+    prazoVenceu = false;
 
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
     vinculacoesEtiquetasMinutas: VinculacaoEtiqueta[] = [];
@@ -292,14 +316,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.removeTarefa.emit(tarefa);
         });
 
-        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-        );
+        ) : [];
 
-        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
-            vinculacaoEtiqueta => (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento' || vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso')
-        );
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+        ) : [];
     }
 
     ngAfterViewInit(): void {
@@ -334,14 +358,28 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
+            this.prazoVenceHoje = false;
+            this.prazoVenceu = false;
+            if (this.tarefa.dataHoraFinalPrazo) {
+                const currDate = moment().startOf('day');
+                const vencimentoPrazo = this.tarefa.dataHoraFinalPrazo.clone().startOf('day');
+                const diff = vencimentoPrazo.diff(currDate, 'days');
+                if (diff === 0) {
+                    this.prazoVenceHoje = true;
+                }
+                if (diff < 0) {
+                    this.prazoVenceu = true;
+                }
+            }
             this._cdkTarefaListItemService.tarefa = this.tarefa;
-            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
-                vinculacaoEtiqueta => (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento' || vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso')
-            );
-            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            ) : [];
+            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-            );
+            ) : [];
+            this._changeDetectorRef.detectChanges();
         }
     }
 
@@ -370,7 +408,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     canAssinarMinutas(tarefa: Tarefa): boolean {
-        return tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0;
+        return tarefa.vinculacoesEtiquetas ?
+            this.tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0 :
+            false;
     }
 
     doEditProcesso(): void {
@@ -446,6 +486,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.vinculacaoEtiquetaDelete.emit({
             tarefaId: this.tarefa.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        });
+    }
+
+    doAddEtiqueta(etiqueta: Etiqueta): void {
+        this.addEtiqueta.emit({
+            tarefa: this.tarefa,
+            etiqueta: etiqueta
         });
     }
 
@@ -528,8 +575,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.cdkUpload.upload();
     }
 
-    onComplete(): void {
-        this.completed.emit(this.tarefa.id);
+    onComplete(componenteDigital: ComponenteDigital): void {
+        this.completed.emit({tarefaId: this.tarefa.id, documento: componenteDigital.documento});
     }
 
     onCompleteAll(): void {
@@ -538,5 +585,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     onErroUpload(mensagem: string): void {
         this.erroUpload.emit(mensagem);
+    }
+
+    doAbrirMinutaEmOutraAba(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
+        this.menuTriggerMinutas.closeMenu();
+        this.outraAbaHandler.emit({vinculacaoEtiqueta, tarefa});
     }
 }

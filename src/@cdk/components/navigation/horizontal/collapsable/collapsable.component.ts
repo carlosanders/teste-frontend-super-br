@@ -12,22 +12,21 @@ import {LoginService} from '../../../../../app/main/auth/login/login.service';
     styleUrls  : ['./collapsable.component.scss'],
     animations : cdkAnimations
 })
-export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy
-{
-    cdkConfig: any;
-    isOpen = false;
+export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy {
+    @Input()
+    item: any;
 
     @HostBinding('class')
     classes = 'nav-collapsable nav-item';
 
-    @Input()
-    item: any;
+    public isOpen = false;
+
+    cdkConfig: any;
+    isGrantedRole: boolean;
+    isCoordenador: boolean;
 
     // Private
     private _unsubscribeAll: Subject<any>;
-
-    isGrantedRole: boolean;
-    isCoordenador: boolean;
 
     /**
      *
@@ -46,6 +45,24 @@ export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Open
+     */
+    @HostListener('mouseenter')
+    open(): void
+    {
+        this.isOpen = true;
+    }
+
+    /**
+     * Close
+     */
+    @HostListener('mouseleave')
+    close(): void
+    {
+        this.isOpen = false;
+    }
 
     /**
      * On init
@@ -92,22 +109,4 @@ export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Open
-     */
-    @HostListener('mouseenter')
-    open(): void
-    {
-        this.isOpen = true;
-    }
-
-    /**
-     * Close
-     */
-    @HostListener('mouseleave')
-    close(): void
-    {
-        this.isOpen = false;
-    }
 }

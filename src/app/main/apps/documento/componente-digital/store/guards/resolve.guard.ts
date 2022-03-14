@@ -100,9 +100,8 @@ export class ResolveGuard implements CanActivate {
                 ]).then(() => {
                     this._store.dispatch(new DocumentoActions.SetCurrentStep({
                         id: componenteDigital.id,
-                        editavel: componenteDigital.editavel && !componenteDigital.assinado
+                        editavel: (documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa) || documento.minuta
                     }));
-
                 });
             });
             return false;

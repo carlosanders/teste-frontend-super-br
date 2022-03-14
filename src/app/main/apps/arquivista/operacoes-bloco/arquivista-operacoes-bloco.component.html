@@ -51,7 +51,7 @@
                     (click)="doTransicaoBloco()">
                 <ng-container>
                     <mat-icon>swap_horiz</mat-icon>
-                    <span>Realizar {{(modalidadeTransicao$ | async).valor | titlecase}}</span>
+                    <span>Realizar {{(modalidadeTransicao$ | async).valor | titleCasePipe}}</span>
                 </ng-container>
             </button>
         </ng-template>

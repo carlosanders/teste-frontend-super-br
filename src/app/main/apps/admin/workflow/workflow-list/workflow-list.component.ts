@@ -73,10 +73,10 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     reload(params): void {
+        console.log('reload', params);
         this._store.dispatch(new fromStore.GetWorkflow({
             ...this.pagination,
             filter: {
-                ...this.pagination.filter,
                 ...params.gridFilter
             },
             sort: params.sort,

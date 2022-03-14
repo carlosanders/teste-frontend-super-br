@@ -42,7 +42,6 @@ export class VinculacaoEspecieProcessoWorkflowListComponent implements OnInit, O
         private _store: Store<fromStore.VinculacaoEspecieProcessoWorkflowListAppState>,
     ) {
         this.vinculacoesEspecieProcessoWorkflow$ = this._store.pipe(select(fromStore.getVinculacaoEspecieProcessoWorkflowList));
-        this.vinculacoesEspecieProcessoWorkflow$.subscribe((x) => console.log('subs: ', x))
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));

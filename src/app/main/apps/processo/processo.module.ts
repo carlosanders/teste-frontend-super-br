@@ -17,7 +17,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {StatusBarramentoService} from "../../../../@cdk/services/status-barramento";
+import {StatusBarramentoService} from '../../../../@cdk/services/status-barramento';
 
 const routes: Routes = [
     {

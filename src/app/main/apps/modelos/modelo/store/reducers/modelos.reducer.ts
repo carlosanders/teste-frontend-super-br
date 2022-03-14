@@ -15,7 +15,7 @@ export interface ModelosState {
     loaded: any;
 }
 
-export const ModelosInitialState: ModelosState = {
+export const modelosInitialState: ModelosState = {
     entitiesId: [],
     pagination: {
         limit: 10,
@@ -30,7 +30,7 @@ export const ModelosInitialState: ModelosState = {
     loaded: false
 };
 
-export function ModelosReducer(state = ModelosInitialState, action: ModelosActions.ModelosActionsAll): ModelosState {
+export const modelosReducer = (state = modelosInitialState, action: ModelosActions.ModelosActionsAll): ModelosState => {
     switch (action.type) {
 
         case ModelosActions.GET_MODELOS: {
@@ -73,10 +73,10 @@ export function ModelosReducer(state = ModelosInitialState, action: ModelosActio
         }
 
         case ModelosActions.UNLOAD_MODELOS: {
-            return {...ModelosInitialState};
+            return {...modelosInitialState};
         }
 
         default:
             return state;
     }
-}
+};

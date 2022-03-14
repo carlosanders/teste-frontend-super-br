@@ -28,12 +28,16 @@ import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../../processo/processo-view/store';
-import {GetDocumentos as GetDocumentosAtividade} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {
+    GetDocumentos as GetDocumentosAtividade
+} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {GetDocumentos as GetDocumentosAvulsos} from '../../../tarefas/tarefa-detail/oficios/store';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Injectable()
 export class DocumentoEffect {
     routerState: any;
+    routeAtividade = 'atividade';
     lixeira = false;
     pesquisa = false;
     populate = [];
@@ -144,9 +148,8 @@ export class DocumentoEffect {
                     }));
                 } else {
                     this._router.navigate([
-                            this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
-                        ]
-                    ).then();
+                        this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
+                    ]).then();
                 }
             }
         })
@@ -262,7 +265,10 @@ export class DocumentoEffect {
                     type = '/editor/ckeditor';
                 }
                 if (!sidebar) {
-                    sidebar = 'editar/atividade';
+                    sidebar = 'editar/' + this.routeAtividade;
+                }
+                if (documento.documentoAvulsoRemessa) {
+                    sidebar = 'oficio/dados-basicos';
                 }
                 if (url.indexOf('/assinaturas') > -1) {
                     type = '/assinaturas';
@@ -521,8 +527,19 @@ export class DocumentoEffect {
             this.routerState = routerState.state;
             this.lixeira = !!routerState.state.queryParams.lixeira;
             this.pesquisa = !!routerState.state.queryParams.pesquisa;
+            const path = 'app/main/apps/documento/documento-edit';
+            if (this.routerState.params.generoHandle === 'administrativo') {
+                this.routeAtividade = 'atividade';
+            } else {
+                modulesConfig.forEach((module) => {
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividade') &&
+                        module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
+                    }
+                });
+            }
         });
-
         this._profile = _loginService.getUserProfile();
     }
 

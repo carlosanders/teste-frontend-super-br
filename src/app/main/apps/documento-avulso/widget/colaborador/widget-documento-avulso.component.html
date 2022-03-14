@@ -1,11 +1,14 @@
-<mat-card class="scrollable-content">
+<mat-card class="scrollable-content" (click)="trocarVisualizacao()">
     <mat-card-header>
         <mat-icon class="s-52" mat-card-avatar>insert_drive_file</mat-icon>
         <mat-card-title>Meus Ofícios</mat-card-title>
         <mat-card-subtitle>Pendentes de resposta</mat-card-subtitle>
+        <mat-icon class="icone-documento-avulso" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}"
+                  >swap_horiz
+        </mat-icon>
     </mat-card-header>
     <mat-card-content>
-        <div class="p-24" fxLayout="column" fxLayoutAlign="center center">
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.documentosAvulsosCount === false" diameter="64"></mat-spinner>
             <div *ngIf="this.documentosAvulsosCount !== false" class="light-blue-fg font-size-64 line-height-64">
                 {{this.documentosAvulsosCount}}
@@ -14,8 +17,23 @@
                 Aguardando
             </div>
         </div>
+        <div class="card-oficio" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isContadorPrincipal">
+            <mat-spinner *ngIf="this.isLoading !== false" diameter="64"></mat-spinner>
+            <div *ngIf="this.isLoading === false">
+            <div *ngFor="let item of documentoAvulso">
+                <button class="botao-link" mat-button
+                        (click)="visualizar(item)">
+                    <span class="material-icons">link</span>
+                    <span class="titulo">NUP {{item.processo.NUP}}<br></span>
+                    <span class="subtitulo" *ngIf="!item.documentoRemessa.numeroUnicoDocumentoFormatado">{{item.pessoaDestino.nome}}</span>
+                </button>
+                    <span class="subtitulo" *ngIf="item.documentoRemessa.numeroUnicoDocumentoFormatado">{{item.documentoRemessa.numeroUnicoDocumentoFormatado}}</span>
+            </div>
+            <div *ngIf="documentosAvulsosCount === 0" class="mensagem-aviso">Não há ofícios pendentes de resposta</div>
+            </div>
+        </div>
     </mat-card-content>
-    <mat-card-footer>
+    <mat-card-footer *ngIf="isContadorPrincipal">
         <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
                 Vencidos:

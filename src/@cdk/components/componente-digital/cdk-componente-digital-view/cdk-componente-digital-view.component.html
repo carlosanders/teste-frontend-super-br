@@ -1,4 +1,18 @@
 <div class="src">
-    <iframe [src]="src" frameborder="0" *ngIf="this.src">
+    <iframe [src]="src" *ngIf="this.src && this.componenteDigital?.mimetype !== 'application/pdf'">
     </iframe>
+    <div class="div-about-blank" *ngIf="downloadUrl">
+        <button mat-raised-button color="accent" (click)="doDownload()">
+            DOWNLOAD
+        </button>
+    </div>
 </div>
+<ng2-pdfjs-viewer #pdfViewerDocumentoEdit
+                  *ngIf="this.componenteDigital?.mimetype === 'application/pdf'"
+                  [viewerId]="'documento-edit'"
+                  [pdfSrc]="null"
+                  [zoom]="'auto'"
+                  [openFile]="false"
+                  [viewBookmark]="false"
+                  [download]="true">
+</ng2-pdfjs-viewer>

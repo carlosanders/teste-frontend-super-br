@@ -17,6 +17,12 @@ import {CdkWorkflowGridsearchModule} from '../cdk-workflow-autocomplete/cdk-work
 import {CdkGeneroAtividadeGridsearchModule} from '../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-gridsearch/cdk-genero-atividade-gridsearch.module';
 import {CdkEspecieTarefaAutocompleteModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
+import {
+    CdkGeneroProcessoAutocompleteModule
+} from "../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module";
+import {
+    CdkGeneroProcessoGridsearchModule
+} from "../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-gridsearch/cdk-genero-processo-gridsearch.module";
 
 
 @NgModule({
@@ -41,7 +47,9 @@ import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie
         CdkWorkflowGridsearchModule,
         CdkGeneroAtividadeGridsearchModule,
         CdkEspecieTarefaAutocompleteModule,
-        CdkEspecieTarefaGridsearchModule
+        CdkEspecieTarefaGridsearchModule,
+        CdkGeneroProcessoAutocompleteModule,
+        CdkGeneroProcessoGridsearchModule
     ]
 })
 export class CdkWorkflowFormModule { }

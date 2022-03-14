@@ -1,4 +1,5 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -13,21 +14,24 @@ import {
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
 } from '@cdk/angular/material';
-import {TranslateModule} from '@ngx-translate/core';
+import { CdkSidebarModule } from '@cdk/components';
+import { CdkProcessoFormModule } from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
+import {
+    CdkProcessoModalClassificacaoRestritaModule,
+} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module';
+import { ProcessoService } from '@cdk/services/processo.service';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { modulesConfig } from 'modules/modules-config';
 
-import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
-
-import {DadosBasicosComponent} from './dados-basicos.component';
-import {RouterModule, Routes} from '@angular/router';
-import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
-import {DadosBasicosStoreModule} from './store/store.module';
-import {ProcessoService} from '@cdk/services/processo.service';
+import {
+    CdkProcessoModalCalculoNupComponentModule,
+} from './../../../../../../@cdk/components/processo/cdk-processo-modal-calculo-nup/cdk-processo-modal-calculo-nup.module';
+import { DadosBasicosComponent } from './dados-basicos.component';
 import * as fromGuards from './store/guards';
-import {modulesConfig} from 'modules/modules-config';
-import {CdkProcessoModalClassificacaoRestritaModule} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module';
+import { DadosBasicosStoreModule } from './store/store.module';
 
 const routes: Routes = [
     {
@@ -81,7 +85,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         MatDialogModule,
-        CdkProcessoModalClassificacaoRestritaModule
+        CdkProcessoModalClassificacaoRestritaModule,
+        CdkProcessoModalCalculoNupComponentModule
     ],
     providers: [
         ProcessoService,

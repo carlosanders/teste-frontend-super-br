@@ -21,14 +21,14 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
-    GetDocumentos as GetDocumentosProcesso,
     GetJuntada,
     GetJuntadas,
     SetCurrentStep,
-    UnloadDocumentos,
     UnloadJuntadas
-} from '../processo/processo-view/store/actions';
-import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+} from '../processo/processo-view/store';
+import {
+    GetDocumentos as GetDocumentosAtividade
+} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
@@ -260,17 +260,16 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             listFilter: {},
             limit: 10,
             offset: 0,
-            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
             populate: [
                 'volume',
                 'documento',
                 'documento.origemDados',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
-                'documento.vinculacoesDocumentos',
-                'documento.vinculacoesDocumentos.documentoVinculado',
-                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
             ]
         };
 
@@ -299,8 +298,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                 }
             });
-        }
-        if (!this.currentComponenteDigital.editavel) {
+        } else {
             let nextComponenteDigital = null;
             this.documento.componentesDigitais.forEach((componenteDigital) => {
                 if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
@@ -321,18 +319,38 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      * Go to previous step
      */
     gotoPreviousStep(): void {
-        let prevComponenteDigital = null;
-        this.documento.componentesDigitais.forEach((componenteDigital) => {
-            if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
-                prevComponenteDigital = componenteDigital;
-                return;
+        if (this.currentComponenteDigital.editavel) {
+            this.podeNavegarDoEditor().subscribe((result) => {
+                if (result) {
+                    let prevComponenteDigital = null;
+                    this.documento.componentesDigitais.forEach((componenteDigital) => {
+                        if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
+                            prevComponenteDigital = componenteDigital;
+                            return;
+                        }
+                    });
+                    if (prevComponenteDigital) {
+                        this._store.dispatch(new fromStore.SetCurrentStep({
+                            id: prevComponenteDigital.id,
+                            editavel: prevComponenteDigital.editavel && this.documento.minuta
+                        }));
+                    }
+                }
+            });
+        } else {
+            let prevComponenteDigital = null;
+            this.documento.componentesDigitais.forEach((componenteDigital) => {
+                if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
+                    prevComponenteDigital = componenteDigital;
+                    return;
+                }
+            });
+            if (prevComponenteDigital) {
+                this._store.dispatch(new fromStore.SetCurrentStep({
+                    id: prevComponenteDigital.id,
+                    editavel: prevComponenteDigital.editavel && this.documento.minuta
+                }));
             }
-        });
-        if (prevComponenteDigital) {
-            this._store.dispatch(new fromStore.SetCurrentStep({
-                id: prevComponenteDigital.id,
-                editavel: prevComponenteDigital.editavel && this.documento.minuta
-            }));
         }
     }
 

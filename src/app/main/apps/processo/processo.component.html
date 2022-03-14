@@ -34,7 +34,7 @@
                         <mat-spinner diameter="20"></mat-spinner>
                     </div>
 
-                    <div class="actions" *ngIf="processo !== null && !((togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length)">
+                    <div class="actions" [hidden]="processo === null || (togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
 
                         <button mat-icon-button aria-label="arquivar processo" matTooltip="Arquivar Processo" fxHide.xs
                                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
@@ -48,7 +48,7 @@
                                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
                                 (click)="doAutuar()">
                             <ng-container>
-                                <mat-icon>check</mat-icon>
+                                <mat-icon>insert_drive_file</mat-icon>
                             </ng-container>
                         </button>
 

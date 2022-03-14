@@ -8,7 +8,7 @@
 </button>
 
 <cdk-componente-digital-form cdkPerfectScrollbar class="mr-8"
-                 *ngIf="formComponentesDigitais"
+                 *ngIf="formComponentesDigitais && (componenteDigitalLoading$ | async) === false"
                  [componenteDigital]="componenteDigital"
                  [saving]="(componenteDigitalIsSaving$ | async)"
                  [errors]="(componenteDigitalErrors$ | async)"
@@ -16,12 +16,16 @@
                  (abort)="showGridComponentes()">
 </cdk-componente-digital-form>
 
+<div class="loading" *ngIf="formComponentesDigitais && (componenteDigitalLoading$ | async) === true">
+    <mat-spinner diameter="32"></mat-spinner>
+</div>
+
 <cdk-componente-digital-card-list #ckdUploadComponenteDigital
                                   *ngIf="!formComponentesDigitais"
                                   [mode]="'documento-edit'"
                                   [uploadMode]="'linear'"
                                   [documento]="(documento$ | async)"
-                                  (completed)="onCompleteComponenteDigital()">
+                                  (completed)="onCompleteComponenteDigital($event)">
 </cdk-componente-digital-card-list>
 
 <cdk-componente-digital-grid

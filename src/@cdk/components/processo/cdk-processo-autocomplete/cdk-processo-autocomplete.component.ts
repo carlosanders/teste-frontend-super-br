@@ -104,7 +104,8 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
+                            JSON.stringify(this.pagination.populate),
+                            JSON.stringify(this.pagination.context))
                             .pipe(
                                 finalize(() => this.processoListIsLoading = false),
                                 catchError(() => of([]))

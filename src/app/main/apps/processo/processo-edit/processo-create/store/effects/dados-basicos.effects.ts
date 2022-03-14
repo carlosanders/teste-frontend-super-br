@@ -38,7 +38,9 @@ export class DadosBasicosEffect {
                 'especieProcesso',
                 'especieProcesso.vinculacoesEspecieProcessoWorkflow',
                 'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
-            ]))),
+            ]),
+            JSON.stringify({'especieProcessoWorkflow': true})
+        )),
         switchMap(response => [
             new AddData<Processo>({data: [response], schema: processoSchema}),
             new DadosBasicosActions.GetProcessoSuccess({

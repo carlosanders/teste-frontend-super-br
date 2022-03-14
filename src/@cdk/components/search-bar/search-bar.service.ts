@@ -17,11 +17,11 @@ export class SearchBarService
         return this._searchField.asObservable();
     }
 
-    public setSearchFieldName(value: string) {
+    public setSearchFieldName(value: string): void {
         this._searchFieldName.next(value);
     }
 
-    public setSearchField(value: string) {
+    public setSearchField(value: string): void {
         this._searchField.next(value);
     }
 

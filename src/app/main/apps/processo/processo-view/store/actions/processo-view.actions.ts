@@ -13,11 +13,16 @@ export const GET_JUNTADAS_ETIQUETAS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS';
 export const GET_JUNTADAS_ETIQUETAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS SUCCESS';
 export const GET_JUNTADAS_ETIQUETAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS FAILED';
 
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA';
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA SUCCESS';
+export const GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS VINCULADOS JUNTADA FAILED';
+
 export const SET_CURRENT_STEP = '[JUNTADAS] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
 
 export const UPDATE_INDEX = '[PROCESSO VIEW] UPDATE INDEX';
+export const UPDATE_NODE = '[PROCESSO VIEW] UPDATE NODE';
 
 export const UNLOAD_JUNTADAS = '[JUNTADAS] UNLOAD JUNTADAS';
 
@@ -27,9 +32,19 @@ export const GET_CAPA_PROCESSO = '[JUNTADAS] GET CAPA PROCESSO';
 
 export const RETIRA_JUNTADA = '[PROCESSO VIEW] RETIRA JUNTADA';
 
+export const START_LOADING_BINARY = '[PROCESSO VIEW] START LOADING BINARY';
+export const STILL_LOADING_BINARY = '[PROCESSO VIEW] STILL LOADING BINARY';
+export const DOWNLOAD_LATEST_BINARY = '[PROCESSO VIEW] DOWNLOAD LATEST';
+export const DOWNLOAD_LATEST_BINARY_SUCCESS = '[PROCESSO VIEW] DOWNLOAD LATEST SUCCESS';
+export const DOWNLOAD_LATEST_BINARY_FAILED = '[PROCESSO VIEW] DOWNLOAD LATEST FAILED';
+
 export const SET_BINARY_VIEW = '[PROCESSO VIEW] SET BINARY VIEW';
 export const SET_BINARY_VIEW_SUCCESS = '[PROCESSO VIEW] SET BINARY VIEW SUCCESS';
 export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
+
+export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
+export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
+
 
 /**
  * Expandir Processo
@@ -152,6 +167,42 @@ export class GetJuntadasEtiquetasFailed implements Action
 }
 
 /**
+ * Get Documentos Vinculados Juntada
+ */
+export class GetDocumentosVinculadosJuntada implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documentos Vinculados Juntada Success
+ */
+export class GetDocumentosVinculadosJuntadaSuccess implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documentos Vinculados Juntada Failed
+ */
+export class GetDocumentosVinculadosJuntadaFailed implements Action
+{
+    readonly type = GET_DOCUMENTOS_VINCULADOS_JUNTADA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Set Current Step
  */
 export class SetCurrentStep implements Action {
@@ -228,6 +279,18 @@ export class UpdateIndex implements Action
 }
 
 /**
+ * Update Node
+ */
+export class UpdateNode implements Action
+{
+    readonly type = UPDATE_NODE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Retira Juntada
  */
 export class RetiraJuntada implements Action
@@ -239,6 +302,55 @@ export class RetiraJuntada implements Action
     }
 }
 
+/**
+ * Start Loading Binary
+ */
+export class StartLoadingBinary implements Action {
+    readonly type = START_LOADING_BINARY;
+
+    constructor() {
+    }
+}
+
+/**
+ * Still Loading Binary
+ */
+export class StillLoadingBinary implements Action {
+    readonly type = STILL_LOADING_BINARY;
+
+    constructor() {
+    }
+}
+
+/**
+ * Download Latest Binary
+ */
+export class DownloadLatestBinary implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Success
+ */
+export class DownloadLatestBinarySuccess implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Failed
+ */
+export class DownloadLatestBinaryFailed implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
 
 /**
  * Set Binary View
@@ -270,6 +382,26 @@ export class SetBinaryViewFailed implements Action {
     }
 }
 
+/**
+ * Limpa Cache Documento
+ */
+export class LimpaCacheDocumento implements Action {
+    readonly type = LIMPA_CACHE_DOCUMENTO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Remove Contudo Binario
+ */
+export class RemoveConteudoBinario implements Action {
+    readonly type = REMOVE_CONTEUDO_BINARIO;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -280,6 +412,9 @@ export type ProcessoViewActionsAll
     | GetJuntada
     | GetJuntadaSuccess
     | GetJuntadaFailed
+    | GetDocumentosVinculadosJuntada
+    | GetDocumentosVinculadosJuntadaSuccess
+    | GetDocumentosVinculadosJuntadaFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed
@@ -288,7 +423,15 @@ export type ProcessoViewActionsAll
     | ExpandirProcesso
     | ReloadJuntadas
     | UpdateIndex
+    | UpdateNode
     | RetiraJuntada
+    | StartLoadingBinary
+    | StillLoadingBinary
+    | DownloadLatestBinary
+    | DownloadLatestBinarySuccess
+    | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
-    | SetBinaryViewFailed;
+    | SetBinaryViewFailed
+    | LimpaCacheDocumento
+    | RemoveConteudoBinario;

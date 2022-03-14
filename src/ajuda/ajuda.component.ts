@@ -11,11 +11,13 @@ import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
 import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import { ShepherdService } from 'angular-shepherd';
 import { steps as defaultSteps, defaultStepOptions} from './tour/data';
 import {CdkConfigService} from '@cdk/services/config.service';
+import {modulesConfig} from '../modules/modules-config';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'ajuda',
@@ -24,13 +26,13 @@ import {CdkConfigService} from '@cdk/services/config.service';
     encapsulation: ViewEncapsulation.None
 })
 export class AjudaComponent implements OnInit {
+    @ViewChild('container', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     form: FormGroup;
 
     topicos: Topico[] = [];
     resultado: Topico[] = [];
-
-    @ViewChild('container', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+    botoesModulos: any[] = [];
 
     card = 'form';
     titulo = '';
@@ -42,8 +44,6 @@ export class AjudaComponent implements OnInit {
     iniciatour: string;
     tourInicio: boolean;
     aberto: boolean;
-
-
 
     /**
      * Constructor
@@ -61,19 +61,33 @@ export class AjudaComponent implements OnInit {
             pesquisa: [null, [Validators.required, Validators.maxLength(255)]],
         });
 
-        this._router.events.subscribe(
+        this._router.events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .subscribe(
             (next) => {
                 this.context = next;
                 if (this.context.url){
-                    if(CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2])){
-                        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2]);
-                    }
-                    else{
-                        this.resultado = this.topicos.filter(topico => topico.path && topico.path.match(this.context.url));
+                    this.resultado = this.topicos.filter(topico => topico.path && this.context.urlAfterRedirects.match(topico.path));
+                    if (!this.resultado.length) {
+                        if(CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2])){
+                            this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2]);
+                        }
                     }
                 }
             }
         );
+
+        modulesConfig.forEach((module: any) => {
+            if (module.ajuda.length) {
+                this.botoesModulos.push(
+                    {
+                        'label': module?.label ?? module.name,
+                        'name': module.name,
+                        'icon': module?.icon ?? 'input'
+                    }
+                );
+            }
+        });
     }
 
     ngOnInit(): void {

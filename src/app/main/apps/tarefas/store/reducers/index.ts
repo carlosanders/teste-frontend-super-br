@@ -1,5 +1,5 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {TarefasReducer, TarefasState} from './tarefas.reducer';
+import {tarefasReducer, TarefasState} from './tarefas.reducer';
 import {FoldersReducer, FoldersState} from './folders.reducer';
 import {RootLotacaoListReducer, RootLotacaoListState} from './lotacao.reducer';
 import {RootUnidadeReducer, RootUnidadeState} from './unidade.reducer';
@@ -36,7 +36,7 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<TarefasAppState> = {
-    tarefas: TarefasReducer,
+    tarefas: tarefasReducer,
     folders: FoldersReducer,
     lotacaoList: RootLotacaoListReducer,
     unidades: RootUnidadeReducer,

@@ -263,11 +263,27 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onCompleteAllDocumentos(): void {
+
+        const params = {
+            filter: {
+                'processoOrigem.id': `eq:${this.processo.id}`,
+                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+            },
+            limit: 10,
+            offset: 0,
+            sort: {criadoEm: 'DESC'},
+            populate: [
+                'populateAll',
+                'tipoDocumento',
+                'documentoAvulsoRemessa',
+                'documentoAvulsoRemessa.documentoResposta',
+                'componentesDigitais',
+                'juntadaAtual'
+            ]
+        };
+
         this._store.dispatch(new fromStore.UnloadDocumentos());
-        this._store.dispatch(new fromStore.GetDocumentos({
-            'processoOrigem.id': `eq:${this.processo.id}`,
-            'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-        }));
+        this._store.dispatch(new fromStore.GetDocumentos(params));
     }
 
     paginaDocumentos(): void {

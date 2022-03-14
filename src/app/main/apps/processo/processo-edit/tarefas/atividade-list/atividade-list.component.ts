@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from "../../../../../../store";
 
 @Component({
     selector: 'atividade-list',
@@ -74,6 +75,10 @@ export class AtividadeListComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.pagination.populate
         }));
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
 }

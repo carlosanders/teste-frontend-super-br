@@ -12,6 +12,7 @@ import {CdkConfirmDialogModule} from '@cdk/components';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {RouterModule, Routes} from '@angular/router';
+import {CdkSharedModule} from "../../../../../@cdk/shared.module";
 
 const routes: Routes = [
     {
@@ -31,7 +32,8 @@ const routes: Routes = [
 
         MatListModule,
         DirectivesModule,
-        CdkConfirmDialogModule
+        CdkConfirmDialogModule,
+        CdkSharedModule
     ],
     providers: [
         TransicaoService,

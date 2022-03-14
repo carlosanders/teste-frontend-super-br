@@ -25,7 +25,7 @@ import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
-import {AgrupadorTarefa, isLoadingAny} from './store';
+import {AgrupadorTarefa} from './store';
 
 @Component({
     selector: 'minutas',
@@ -202,6 +202,8 @@ export class MinutasComponent implements OnInit, OnDestroy {
                 if (this.tarefasAgrupadas[tarefa]?.documentosId?.length) {
                     const documentosTarefa = this.minutas.filter(documento => documento.tarefaOrigem.id === parseInt(tarefa, 10));
                     novoDocumentos[tarefa] = documentosTarefa;
+                } else {
+                    novoDocumentos[tarefa] = [];
                 }
             });
             Object.keys(novoDocumentos).forEach((tarefaId) => {

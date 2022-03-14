@@ -20,6 +20,13 @@ import {CdkEspecieProcessoAutocompleteModule} from '../../../especie-processo/cd
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {
+    CdkEspecieTarefaAutocompleteMultipleModule
+} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete-multiple/cdk-especie-tarefa-autocomplete-multiple.module';
+import {
+    CdkEspecieTarefaAutocompleteChiplistModule
+} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete-multiple/cdk-especie-tarefa-autocomplete-chiplist/cdk-especie-tarefa-autocomplete-chiplist.module';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -35,6 +42,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
+        MatChipsModule,
         MatCheckboxModule,
 
         CdkSharedModule,
@@ -45,6 +53,8 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkEspecieTarefaAutocompleteModule,
         MatMenuModule,
         CdkDateFilterModule,
+        CdkEspecieTarefaAutocompleteMultipleModule,
+        CdkEspecieTarefaAutocompleteChiplistModule,
     ],
     providers: [
         WorkflowService,
@@ -53,5 +63,6 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkWorkflowFilterComponent
     ]
 })
+
 export class CdkWorkflowFilterModule {
 }

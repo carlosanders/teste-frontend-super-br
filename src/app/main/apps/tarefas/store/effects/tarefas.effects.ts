@@ -1,9 +1,11 @@
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assunto as assuntoSchema,
+    etiqueta as etiquetaSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
-    tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+    tarefa as tarefaSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -28,7 +30,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -56,9 +58,15 @@ import * as AcervoComponenteDigitalBlocoActions
     from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
+import * as DocumentoEditAtividadeDocumentosActions
+    from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
+import {
+    VinculacaoEspecieProcessoWorkflowService
+} from '@cdk/services/vinculacao-especie-processo-workflow.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -87,8 +95,7 @@ export class TarefasEffect {
             concatMap(response => [
                 new AddData<Tarefa>({
                     data: response['entities'],
-                    schema: tarefaSchema,
-                    populate: action.payload.populate
+                    schema: tarefaSchema
                 }),
                 new TarefasActions.GetTarefasSuccess({
                     entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -132,12 +139,7 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
-                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
-                'vinculacaoWorkflow',
-                'vinculacaoWorkflow.workflow'
+                'vinculacaoWorkflow'
             ];
             let context = {};
             const paramUrl = this.routerState.params['targetHandle'];
@@ -161,8 +163,7 @@ export class TarefasEffect {
                 map((response) => {
                     this._store.dispatch(new AddData<Tarefa>({
                         data: [response],
-                        schema: tarefaSchema,
-                        populate: populate
+                        schema: tarefaSchema
                     }));
                     this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(response.id));
                     return new TarefasActions.GetTarefaSuccess(response);
@@ -174,6 +175,14 @@ export class TarefasEffect {
             );
         }, 25)
     ));
+    getTarefasSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefasSuccess>(TarefasActions.GET_TAREFAS_SUCCESS),
+        tap((action) => {
+            action.payload.entitiesId.forEach((tarefaId) => {
+                this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(tarefaId));
+            });
+        })
+    ), {dispatch: false});
     getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
         mergeMap(action => this._vinculacaoEtiquetaService.query(
@@ -199,6 +208,32 @@ export class TarefasEffect {
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
         })
     ));
+    getEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetEtiquetaMinuta>(TarefasActions.GET_ETIQUETA_MINUTA),
+        mergeMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({
+                'tarefa.id': 'eq:' + action.payload.tarefaId,
+                'objectUuid': 'eq:' + action.payload.documento.uuid
+            }),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['etiqueta'])).pipe(
+            mergeMap(response => [
+                new TarefasActions.GetEtiquetaMinutaSuccess(response),
+                new AddChildData<VinculacaoEtiqueta>({
+                    data: response['entities'],
+                    childSchema: vinculacaoEtiquetaSchema,
+                    parentSchema: tarefaSchema,
+                    parentId: action.payload.tarefaId
+                })
+            ])
+        ), 25),
+        catchError((err) => {
+            console.log(err);
+            return of(new TarefasActions.GetEtiquetaMinutaFailed(err));
+        })
+    ));
     atualizaEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.AtualizaEtiquetaMinuta>(TarefasActions.ATUALIZA_ETIQUETA_MINUTA),
         map(action => action.payload),
@@ -207,16 +242,21 @@ export class TarefasEffect {
                 map(vinculacaoEtiqueta => vinculacaoEtiqueta)
             ))
         ), 25),
-        mergeMap(([, vinculacao]) => this._vinculacaoEtiquetaService.get(
-            vinculacao.id,
-            JSON.stringify(['etiqueta'])).pipe(
-            tap((response) => {
-                this._store.dispatch(new AddData<VinculacaoEtiqueta>({
-                    data: [response],
-                    schema: vinculacaoEtiquetaSchema
-                }));
-            })
-        ),25),
+        mergeMap(([, vinculacao]) => {
+            if (vinculacao?.id) {
+                return this._vinculacaoEtiquetaService.get(
+                    vinculacao.id,
+                    JSON.stringify(['etiqueta'])).pipe(
+                    tap((response) => {
+                        this._store.dispatch(new AddData<VinculacaoEtiqueta>({
+                            data: [response],
+                            schema: vinculacaoEtiquetaSchema
+                        }));
+                    })
+                );
+            }
+            return of(null);
+        },25),
         catchError((err) => {
             console.log(err);
             return err;
@@ -759,6 +799,15 @@ export class TarefasEffect {
             );
         }, 25)
     ));
+    darCienciaTarefaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.DarCienciaTarefaSuccess>(TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS),
+        tap(() => {
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+            ]).then();
+        })
+    ), {dispatch: false});
     /**
      * Change Selected Tarefas
      */
@@ -946,6 +995,45 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeCreateActions.RemoveMinutasTarefa>(AtividadeCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar em bloco
+     *
+     * @type {Observable<any>}
+     */
+    removeMinutasTarefaBloco: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeBlocoCreateActions.RemoveMinutasTarefa>(AtividadeBlocoCreateActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
+    /**
+     * Remove Minutas da Tarefa que foram juntadas a processo através do componente de documentos
+     *
+     * @type {Observable<any>}
+     */
+    documentoRemoveMinutasTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoEditAtividadeDocumentosActions.RemoveMinutasTarefa>(DocumentoEditAtividadeDocumentosActions.REMOVE_MINUTAS_TAREFA),
+        tap((action) => {
+            action.payload.documentos.forEach((documento) => {
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+            });
+        })
+    ), {dispatch: false});
 
     /**
      * Create Vinculacao Etiqueta
@@ -994,6 +1082,28 @@ export class TarefasEffect {
                 })
             );
         }, 25)
+    ));
+    /**
+     * Save Etiqueta
+     *
+     * @type {Observable<any>}
+     */
+    saveEtiqueta: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SaveEtiqueta>(TarefasActions.SAVE_ETIQUETA),
+        switchMap((action) => {
+            const tarefa = action.payload.tarefa;
+            return this._etiquetaService.save(action.payload.etiqueta).pipe(
+                mergeMap((response: Etiqueta) => [
+                    new AddData<Etiqueta>({data: [response], schema: etiquetaSchema}),
+                    new TarefasActions.CreateVinculacaoEtiqueta({
+                        operacaoId: action.payload.operacaoId,
+                        tarefa: tarefa,
+                        etiqueta: response
+                    })
+                ]),
+                catchError(err => of(new TarefasActions.SaveEtiquetaFailed(err)))
+            );
+        })
     ));
 
     /**
@@ -1051,6 +1161,8 @@ export class TarefasEffect {
         private _router: Router,
         private _assuntoService: AssuntoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
+        private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
+        private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService
     ) {
         this._store.pipe(

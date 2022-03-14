@@ -21,7 +21,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {UnidadesOrgaoCentralMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
 import {modulesConfig} from 'modules/modules-config';
-import {AvisoService} from "@cdk/services/aviso.service";
+import {AvisoService} from '@cdk/services/aviso.service';
 
 const routes: Routes = [
     {

@@ -2,7 +2,7 @@
     <!-- LIST HEADER -->
     <div class="list-header cartao-head" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
         <div fxFlex="1 0 auto" class="list-header-name">
-            {{folder.nome | titlecase}}
+            {{folder.nome | titleCasePipe}}
         </div>
         <div fxFlex="0 1 auto" *ngIf="folder.id && !controls.deletingIds.includes(folder.id)">
             <button mat-icon-button class="list-header-option-button" [matMenuTriggerFor]="listMenu"

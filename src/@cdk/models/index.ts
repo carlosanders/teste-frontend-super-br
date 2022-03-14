@@ -134,3 +134,5 @@ export * from './vinculacao-workflow.model';
 export * from './vinculacao-transicao-workflow.model';
 export * from './dossie.model';
 export * from './tipo-dossie.model';
+export * from './objeto-avaliado.model';
+export * from './avaliacao.model';

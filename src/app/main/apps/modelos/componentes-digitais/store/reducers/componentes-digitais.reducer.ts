@@ -17,13 +17,14 @@ export interface ComponentesDigitaisState {
     errors: any;
 }
 
-export const ComponentesDigitaisInitialState: ComponentesDigitaisState = {
+export const componentesDigitaisInitialState: ComponentesDigitaisState = {
     entitiesId: [],
     pagination: {
         limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},
+        // eslint-disable-next-line max-len
         populate: ['populateAll', 'documento', 'documento.tipoDocumento', 'documento.juntadaAtual', 'documento.juntadaAtual.volume', 'documento.juntadaAtual.volume.processo', 'documento.juntadaAtual.criadoPor'],
         sort: {},
         total: 0,
@@ -34,7 +35,10 @@ export const ComponentesDigitaisInitialState: ComponentesDigitaisState = {
     loaded: false
 };
 
-export function ComponentesDigitaisReducer(state = ComponentesDigitaisInitialState, action: ComponentesDigitaisActions.ComponentesDigitaisActionsAll): ComponentesDigitaisState {
+export const componentesDigitaisReducer = (
+    state = componentesDigitaisInitialState,
+    action: ComponentesDigitaisActions.ComponentesDigitaisActionsAll
+): ComponentesDigitaisState => {
     switch (action.type) {
 
         case ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS: {
@@ -118,7 +122,7 @@ export function ComponentesDigitaisReducer(state = ComponentesDigitaisInitialSta
             return {
                 ...state,
                 saving: false,
-                errors: action.payload,
+                errors: action.payload.error,
                 loading: false
             };
         }
@@ -126,4 +130,4 @@ export function ComponentesDigitaisReducer(state = ComponentesDigitaisInitialSta
         default:
             return state;
     }
-}
+};

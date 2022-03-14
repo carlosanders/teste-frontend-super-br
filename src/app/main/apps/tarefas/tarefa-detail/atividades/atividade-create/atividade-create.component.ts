@@ -26,8 +26,6 @@ import {getTarefa} from '../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from 'app/store';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';

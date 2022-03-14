@@ -10,8 +10,13 @@ cdk-atividade-form {
         flex-direction: row;
         flex: 1 1 auto;
         align-items: center;
+        margin-bottom: 8px;
 
-        span {
+        > mat-slide-toggle {
+            margin-bottom: 0 !important;
+        }
+
+        > span {
             margin-left: 8px;
         }
     }

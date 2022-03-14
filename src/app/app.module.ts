@@ -34,6 +34,8 @@ import {CdkMatStepperIntl} from '../@cdk/angular/cdk-mat-stepper-intl';
 import {GlobalErrorHandler} from './global-error-handler';
 import {AssinaturaService} from '../@cdk/services/assinatura.service';
 import {DocumentoService} from '../@cdk/services/documento.service';
+import {AvaliacaoService} from '../@cdk/services/avaliacao.service';
+import {ObjetoAvaliadoService} from '../@cdk/services/objeto-avaliado.service';
 import {modulesConfig} from '../modules/modules-config';
 
 registerLocaleData(localePt, 'pt');
@@ -41,22 +43,22 @@ registerLocaleData(localePt, 'pt');
 let routes = [
     {
         path: 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
+        loadChildren: (): any => import('./main/apps/apps.module').then(m => m.AppsModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'auth',
-        loadChildren: () => import('./main/auth/auth.module').then(m => m.AuthModule)
+        loadChildren: (): any => import('./main/auth/auth.module').then(m => m.AuthModule)
     },
     {
         path: 'pages',
-        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
+        loadChildren: (): any => import('./main/pages/pages.module').then(m => m.PagesModule)
     },
     {
         path: '**',
         redirectTo: 'auth/login'
     }
-]
+];
 
 const routingConfiguration: ExtraOptions = {
     paramsInheritanceStrategy: 'always'
@@ -73,7 +75,7 @@ let rootModules = [];
 let childModules = [];
 
 const path = 'app';
-modulesConfig.forEach((module) => {
+modulesConfig.forEach((module: any) => {
     if (module.hasOwnProperty('extension')) {
         const extension = new module.extension();
 
@@ -141,7 +143,9 @@ modulesConfig.forEach((module) => {
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},
         {provide: AssinaturaService, useClass: AssinaturaService},
-        {provide: DocumentoService, useClass: DocumentoService}
+        {provide: DocumentoService, useClass: DocumentoService},
+        {provide: AvaliacaoService, useClass: AvaliacaoService},
+        {provide: ObjetoAvaliadoService, useClass: ObjetoAvaliadoService},
     ],
     bootstrap: [
         AppComponent

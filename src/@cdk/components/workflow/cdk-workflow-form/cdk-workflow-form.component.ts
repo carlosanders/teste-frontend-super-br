@@ -10,9 +10,9 @@ import {
     SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-import {EspecieTarefa, Pagination, Workflow} from '../../../models';
+import {EspecieTarefa, GeneroProcesso, Pagination, Workflow} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {cdkAnimations} from '../../../animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'cdk-workflow-form',
@@ -43,6 +43,9 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
     especieTarefaPagination: Pagination;
 
     @Input()
+    generoProcessoPagination: Pagination;
+
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -58,6 +61,7 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             especieTarefaInicial: [null, [Validators.required]],
+            generoProcesso: [null, [Validators.required]],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
         });
@@ -127,6 +131,17 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
     selectEspecieTarefa(especieTarefaInicial: EspecieTarefa): void {
         if (especieTarefaInicial) {
             this.form.get('especieTarefaInicial').setValue(especieTarefaInicial);
+        }
+        this.activeCard = 'form';
+    }
+
+    showGeneroProcessoGrid(): void {
+        this.activeCard = 'genero-processo-gridsearch';
+    }
+
+    selectGeneroProcesso(generoProcesso: GeneroProcesso): void {
+        if (generoProcesso) {
+            this.form.get('generoProcesso').setValue(generoProcesso);
         }
         this.activeCard = 'form';
     }

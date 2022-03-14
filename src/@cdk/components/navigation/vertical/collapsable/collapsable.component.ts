@@ -24,11 +24,11 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
     @HostBinding('class.open')
     public isOpen = false;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
-
     isGrantedRole: boolean;
     isCoordenador: boolean;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -65,7 +65,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
 
                 // Check if the url can be found in
                 // one of the children of this item
-                if (this.isUrlInChildren(this.item, event.urlAfterRedirects)) {
+                if (this.isUrlInChildren(this.item, event.urlAfterRedirects) || this.item.startExpanded) {
                     this.expand();
                 } else {
                     this.collapse();
@@ -91,7 +91,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
                         }
 
                         // If the clicked item is not this item, collapse...
-                        if (this.item !== clickedItem) {
+                        if (this.item !== clickedItem && !this.item.startExpanded) {
                             this.collapse();
                         }
                     }
@@ -100,7 +100,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
 
         // Check if the url can be found in
         // one of the children of this item
-        if (this.isUrlInChildren(this.item, this._router.url)) {
+        if (this.isUrlInChildren(this.item, this._router.url) || this.item.startExpanded) {
             this.expand();
         } else {
             this.collapse();

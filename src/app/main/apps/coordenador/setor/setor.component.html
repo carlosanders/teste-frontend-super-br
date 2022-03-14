@@ -3,9 +3,7 @@
     <cdk-sidebar class="sidebar" name="setor-main-sidebar" position="left" [lockedOpen]="'gt-md'"
                  *ngIf="showSidebar()">
         <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <setor-main-sidebar [@animate]="{value:'*'}"></setor-main-sidebar>
-        </div>
+        <setor-main-sidebar [@animate]="{value:'*'}"></setor-main-sidebar>
     </cdk-sidebar>
 
     <!-- CENTER -->
