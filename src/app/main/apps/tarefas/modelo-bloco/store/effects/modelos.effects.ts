@@ -29,10 +29,7 @@ export class ModelosEffect {
                     ...action.payload.filter,
                     ...action.payload.gridFilter,
                 };
-                let mode = 'query';
-                if (filters.hasOwnProperty('documento.componentesDigitais.conteudo')) {
-                    mode = 'search';
-                }
+                const mode = 'search';
                 return this._modeloService[`${mode}`](
                     JSON.stringify(filters),
                     action.payload.limit,
