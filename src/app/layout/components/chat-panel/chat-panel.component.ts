@@ -12,16 +12,16 @@ import {
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {Observable, Subject} from 'rxjs';
-import {Chat, ChatMensagem, ChatParticipante, ComponenteDigital, Usuario} from "@cdk/models";
+import {Chat, ChatMensagem, ChatParticipante, ComponenteDigital, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import * as fromStore from './store';
-import {LoginService} from "../../../main/auth/login/login.service";
-import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
-import {cdkAnimations} from "@cdk/animations";
-import {takeUntil} from "rxjs/operators";
-import {MercureService} from "@cdk/services/mercure.service";
-import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
+import {LoginService} from '../../../main/auth/login/login.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {takeUntil} from 'rxjs/operators';
+import {MercureService} from '@cdk/services/mercure.service';
+import {IInfiniteScrollEvent} from 'ngx-infinite-scroll';
 
 @Component({
     selector: 'chat-panel',
@@ -54,11 +54,11 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     chatMensagemPaginator$: Observable<any>;
     chatMensagemPaginator: any;
     chatMensagemLoading$: Observable<boolean>;
-    chatMensagemScrollBottom:boolean = true;
+    chatMensagemScrollBottom: boolean = true;
 
     chatMensagensBuffer: ChatMensagem[] = [];
     recarregaMensagens: boolean = true;
-    chatMensagensTimer:NodeJS.Timeout = null;
+    chatMensagensTimer: NodeJS.Timeout = null;
 
     /**
      * Chat Participante Variables
@@ -73,7 +73,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     /**
      * Chat Group Variables
      */
-    chatFormCapa: ComponenteDigital = new ComponenteDigital;
+    chatFormCapa: ComponenteDigital = new ComponenteDigital();
     chatFormSaving: boolean = false;
     chatFormErrors: any = null;
 
@@ -82,9 +82,9 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      */
     chatMensagemForm: FormGroup;
     activeCard = 'chat-list';
-    usuarioAutenticado:boolean = false;
-    usuarioLogado:Usuario;
-    lastScrollMensagemHeight:number;
+    usuarioAutenticado: boolean = false;
+    usuarioLogado: Usuario;
+    lastScrollMensagemHeight: number;
 
     @ViewChild('mensagem')
     mensagemElementRef: ElementRef;
@@ -151,7 +151,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._loginService.getUserProfileChanges()
             .pipe(
                 takeUntil(this._unsubscribeAll),
-            ).subscribe(profile => {
+            ).subscribe((profile) => {
                 this.usuarioLogado = profile;
                 this.usuarioAutenticado = !!profile;
                 if (this.usuarioAutenticado === true) {
@@ -230,7 +230,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.chatOpen$.subscribe(chat => {
+        this.chatOpen$.subscribe((chat) => {
 
             if (!!this.chatOpen && this.chatOpen?.id != chat?.id) {
                 this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
@@ -277,7 +277,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 this.chatOpen = chat;
             }
         });
-        this.chatMensagens$.subscribe(chatMensagens => {
+        this.chatMensagens$.subscribe((chatMensagens) => {
             if (!this.chatMensagens || !this.chatMensagens.length) {
                 this.chatMensagens = chatMensagens;
             } else {
@@ -286,13 +286,11 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 this.chatMensagensBuffer = chatMensagens;
                 this.recarregaMensagens = true;
                 if (!!chatMensagens && chatMensagens.length) {
-                    let mensagensSemId = this.chatMensagens.filter(chatMensagem => !chatMensagem.id);
+                    const mensagensSemId = this.chatMensagens.filter(chatMensagem => !chatMensagem.id);
 
                     mensagensSemId.forEach((chatMensagemSemId, index) => {
-                        let matchMensagem = chatMensagens.filter(chatMensagemRecebida => {
-                            return chatMensagemRecebida.mensagem === chatMensagemSemId.mensagem
-                                && chatMensagemRecebida.usuario.id === chatMensagemSemId.usuario.id
-                        })
+                        const matchMensagem = chatMensagens.filter(chatMensagemRecebida => chatMensagemRecebida.mensagem === chatMensagemSemId.mensagem
+                                && chatMensagemRecebida.usuario.id === chatMensagemSemId.usuario.id);
 
                         if (!matchMensagem.length) {
                             // Espera a próxima atualização do subscribe para vir com a mensagem em questão
@@ -326,7 +324,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
     }
 
-    private getChatsUsuario(keyword:string = ''): void
+    private getChatsUsuario(keyword: string = ''): void
     {
         let gridFilter = {};
 
@@ -349,7 +347,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }));
     }
 
-    onScrollChatMensagemList() : void
+    onScrollChatMensagemList(): void
     {
         if (this.chatMensagens.length >= this.chatMensagemPaginator.total) {
             return;
@@ -363,7 +361,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.getChatMensagens(paginator);
     }
 
-    openChat(chat: Chat) : void
+    openChat(chat: Chat): void
     {
         if (!this.chatOpen || this.chatOpen.id !== chat.id) {
             this._store.dispatch(new fromStore.OpenChat(chat));
@@ -371,7 +369,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }
     }
 
-    getChatMensagens(paginator:any) : void
+    getChatMensagens(paginator: any): void
     {
         this.chatMensagens = [];
         this._changeDetectorRef.markForCheck();
@@ -391,7 +389,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }));
     }
 
-    getChatParticipantes(paginator:any, increment: boolean = false): void
+    getChatParticipantes(paginator: any, increment: boolean = false): void
     {
         this._store.dispatch(new fromStore.GetParticipantes({
             pagination: {
@@ -409,7 +407,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }));
     }
 
-    fecharChat() : void
+    fecharChat(): void
     {
         // this.toogleChatHandler.emit(false);
         if (this.chatOpen && this.chatOpen.id) {
@@ -442,7 +440,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }
     }
 
-    closeSidebar() : void
+    closeSidebar(): void
     {
         if (!this._cdkSidebarService.getSidebar('chatPanel').isLockedOpen) {
             this._cdkSidebarService.getSidebar('chatPanel').toggleOpen();
@@ -519,7 +517,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      * Scroll to the bottom
      *
      */
-    scrollChatMensagensToBottom(ingoresScrollControl:boolean = false): void
+    scrollChatMensagensToBottom(ingoresScrollControl: boolean = false): void
     {
         if (this.chatMensagemScrollElRef) {
             if (this.chatMensagemScrollBottom || ingoresScrollControl) {
@@ -542,7 +540,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     cancelChatGrupoForm(): void
     {
-        let activeCard = ''
+        let activeCard = '';
         if (!this.chatOpen?.id) {
 
             activeCard = 'chat-list';
@@ -628,7 +626,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._store.dispatch(new fromStore.SetChatActiveCard('chat-mensagem-list'));
     }
 
-    onScrollDownChatParticipante() : void
+    onScrollDownChatParticipante(): void
     {
         if (this.chatParticipanteList.length >= this.chatParticipantePaginator.total) {
             return;

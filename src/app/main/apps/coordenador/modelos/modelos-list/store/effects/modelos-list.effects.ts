@@ -33,7 +33,7 @@ export class ModelosListEffect {
                 ...action.payload.gridFilter,
             };
             let mode = 'query';
-            if (filters.hasOwnProperty('documento.componentesDigitais.conteudo')) {
+            if (JSON.stringify(filters).indexOf('componentesDigitais.conteudo') > -1) {
                 mode = 'search';
             }
             return this._modeloService[`${mode}`](

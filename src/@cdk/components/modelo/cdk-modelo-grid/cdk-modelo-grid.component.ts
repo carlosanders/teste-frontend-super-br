@@ -12,12 +12,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {Documento, Modelo} from '@cdk/models';
 import {ModeloDataSource} from '@cdk/data-sources/modelo-data-source';
 import {FormControl} from '@angular/forms';
@@ -58,7 +56,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'highlights', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'actions'];
 
     @Input()
     mobileMode = false;
@@ -147,13 +145,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: true,
             mode: 'all',
             sort: 'list'
-        },
-        {
-            id: 'highlights',
-            label: 'Resumo',
-            fixed: false,
-            mode: 'search',
-            sort: 'none'
         },
         {
             id: 'ativo',
