@@ -37,10 +37,7 @@ export class ModelosEffects {
                     });
                 });
             }
-            let mode = 'query';
-            if (filters.hasOwnProperty('documento.componentesDigitais.conteudo')) {
-                mode = 'search';
-            }
+            const mode = 'search';
             return this._modeloService[`${mode}`](
                 JSON.stringify({
                     ...filters,

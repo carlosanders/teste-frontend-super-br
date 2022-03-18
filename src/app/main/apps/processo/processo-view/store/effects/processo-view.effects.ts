@@ -297,7 +297,7 @@ export class ProcessoViewEffect {
                                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
                                         .pipe(tap((componenteDigital) => {
                                             if (componenteDigital?.mimetype != 'text/html') {
-                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep]);
+                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep]).subscribe();
                                             }
                                         }));
                                 })
@@ -782,7 +782,7 @@ export class ProcessoViewEffect {
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
             tap((componenteDigital) => {
                 if (componenteDigital?.mimetype != 'text/html') {
-                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload);
+                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
                 }
             }),
             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
@@ -808,7 +808,7 @@ export class ProcessoViewEffect {
                             .pipe(
                                 tap((componenteDigital) => {
                                     if (componenteDigital?.mimetype != 'text/html') {
-                                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId);
+                                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId).subscribe();
                                     }
                                 })
                             );
@@ -845,7 +845,7 @@ export class ProcessoViewEffect {
                         this._store.dispatch(new fromStore.RemoveConteudoBinario(componenteDigital.id));
                     }
                     // limpa o cache do componente digital do repositório de cache de componentes digitais
-                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id);
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
             }
             return of(null);

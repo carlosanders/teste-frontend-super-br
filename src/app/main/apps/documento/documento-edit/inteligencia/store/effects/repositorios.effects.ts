@@ -28,10 +28,7 @@ export class RepositoriosEffects {
                 ...action.payload.filter,
                 ...action.payload.gridFilter,
             };
-            let mode = 'query';
-            if (filters.hasOwnProperty('documento.componentesDigitais.conteudo')) {
-                mode = 'search';
-            }
+            const mode = 'search';
             return this._repositorioService[`${mode}`](
                 JSON.stringify(filters),
                 action.payload.limit,
