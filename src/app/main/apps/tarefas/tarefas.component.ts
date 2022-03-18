@@ -466,7 +466,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((message) => {
             if (message && message.type === 'nova_tarefa') {
-                if (message.content.genero === this.routerState.params.generoHandle) {
+                if (CdkUtils.ajusteString(message.content.genero) === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
                 }
             }
