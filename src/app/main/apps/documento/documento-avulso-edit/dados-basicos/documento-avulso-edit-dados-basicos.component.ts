@@ -23,6 +23,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {CdkUtils} from '@cdk/utils';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../../store';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -187,6 +188,10 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             documentoId: this.documento.id,
             operacaoId: operacaoId
         }));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }

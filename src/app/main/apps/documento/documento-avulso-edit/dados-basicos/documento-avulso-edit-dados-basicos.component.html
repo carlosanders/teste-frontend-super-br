@@ -36,7 +36,8 @@
                                    [mode]="'vertical'"
                                    [saving]="(isSaving$ | async)"
                                    [errors]="(errors$ | async)"
-                                   (save)="submit($event)">
+                                   (save)="submit($event)"
+                                   (abort)="doAbort()">
         </cdk-documento-avulso-form>
     </div>
 </div>

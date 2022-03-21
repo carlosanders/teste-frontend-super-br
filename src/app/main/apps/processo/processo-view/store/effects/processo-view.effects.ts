@@ -245,15 +245,100 @@ export class ProcessoViewEffect {
                     if (firstJuntada === -1) {
                         stepHandle = 'capa';
                     } else {
-                        this._router.navigate([
-                            this.routerState.url.replace('/visualizar/' + this.routerState.params['stepHandle'], '/visualizar/' + firstJuntada + '-0')
-                        ]).then(() => {
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                step: firstJuntada,
-                                subStep: 0
-                            }));
-                        });
-                        return of(null);
+                        if (this.routerState.url.indexOf('/documento/') !== -1) {
+                            let sidebar;
+                            const arrPrimary = [];
+                            const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                                arrPrimary.push('anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                arrPrimary.push('visualizar-processo');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else {
+                                if (this.routerState.params['componenteDigitalHandle']) {
+                                    arrPrimary.push('componente-digital');
+                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                                }
+                                sidebar = null;
+                            }
+                            if (this.routerState.url.indexOf('sidebar:') === -1) {
+                                // Navegação do processo deve ocorrer por outlet
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary,
+                                                sidebar: sidebar
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            } else {
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            }
+                        } else {
+                            let url = this.routerState.url.split('/processo/' +
+                                    this.routerState.params.processoHandle)[0] + '/processo/' +
+                                this.routerState.params.processoHandle;
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                            }
+                            url += '/visualizar/' + firstJuntada + '-0';
+                            const extras = {
+                                queryParams: {
+                                    novaAba: this.routerState.queryParams.novaAba
+                                }
+                            };
+                            this._router.navigate([url], extras)
+                                .then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                        }
+                        return of(new ProcessoViewActions.StillLoadingBinary());
                     }
                 }
             }
@@ -560,41 +645,41 @@ export class ProcessoViewEffect {
                     }
                 } else {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
-                        if (this.routerState.url.indexOf('sidebar:') === -1) {
-                            let sidebar;
-                            const arrPrimary = [];
-                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
-                                arrPrimary.push('anexar-copia');
-                                arrPrimary.push(this.routerState.params.processoHandle);
-                                if (this.routerState.params.chaveAcessoHandle) {
-                                    arrPrimary.push('chave');
-                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                                }
-                                arrPrimary.push('visualizar');
-                                arrPrimary.push(firstJuntada + '-0');
-                                sidebar = 'empty';
-                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-                                arrPrimary.push('visualizar-processo');
-                                arrPrimary.push(this.routerState.params.processoHandle);
-                                if (this.routerState.params.chaveAcessoHandle) {
-                                    arrPrimary.push('chave');
-                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                                }
-                                arrPrimary.push('visualizar');
-                                arrPrimary.push(firstJuntada + '-0');
-                                sidebar = 'empty';
-                            } else {
-                                if (this.routerState.params['componenteDigitalHandle']) {
-                                    arrPrimary.push('componente-digital');
-                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
-                                }
-                                sidebar = null;
+                        let sidebar;
+                        const arrPrimary = [];
+                        const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                            arrPrimary.push('anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                             }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(firstJuntada + '-0');
+                            sidebar = 'empty';
+                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                            arrPrimary.push('visualizar-processo');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(firstJuntada + '-0');
+                            sidebar = 'empty';
+                        } else {
+                            if (this.routerState.params['componenteDigitalHandle']) {
+                                arrPrimary.push('componente-digital');
+                                arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                            }
+                            sidebar = null;
+                        }
+                        if (this.routerState.url.indexOf('sidebar:') === -1) {
                             // Navegação do processo deve ocorrer por outlet
                             this._router.navigate(
                                 [
-                                    this.routerState.url.split('/visualizar/' + stepHandle)[0] + '/visualizar/' + firstJuntada + '-0'
-                                    + '/documento/' + this.routerState.params.documentoHandle + '/',
+                                    url,
                                     {
                                         outlets: {
                                             primary: arrPrimary,
@@ -612,10 +697,24 @@ export class ProcessoViewEffect {
                                 }));
                             });
                         } else {
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                step: firstJuntada,
-                                subStep: 0
-                            }));
+                            this._router.navigate(
+                                [
+                                    url,
+                                    {
+                                        outlets: {
+                                            primary: arrPrimary
+                                        }
+                                    }
+                                ],
+                                {
+                                    relativeTo: this._activatedRoute.parent
+                                }
+                            ).then(() => {
+                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                    step: firstJuntada,
+                                    subStep: 0
+                                }));
+                            });
                         }
                     } else {
                         let url = this.routerState.url.split('/processo/' +
@@ -849,7 +948,7 @@ export class ProcessoViewEffect {
                 });
             }
             return of(null);
-        },25),
+        }, 25),
         catchError((err) => {
             console.log(err);
             return err;
