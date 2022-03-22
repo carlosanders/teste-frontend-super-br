@@ -65,22 +65,23 @@ export class AtividadeCreateDocumentosEffect {
                 params.limit,
                 params.offset,
                 JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
+                JSON.stringify(params.populate)).pipe(
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: params.populate}),
+                    new OficiosDocumentosActions.GetDocumentosSuccess({
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params.tarefaHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new OficiosDocumentosActions.GetDocumentosFailed(err));
+                })
+            );
         }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new OficiosDocumentosActions.GetDocumentosSuccess({
-                loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params.tarefaHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new OficiosDocumentosActions.GetDocumentosFailed(err));
-        })
     ));
     /**
      * Update Documento
@@ -149,7 +150,12 @@ export class AtividadeCreateDocumentosEffect {
                         schema: documentoSchema,
                         changes: {apagadoEm: response.apagadoEm}
                     }));
-                    return new OficiosDocumentosActions.DeleteDocumentoSuccess(response.id);
+                    return new OficiosDocumentosActions.DeleteDocumentoSuccess({
+                        documentoId: action.payload.documentoId,
+                        uuid: action.payload.uuid,
+                        documentoAvulsoUuid: action.payload.documentoAvulsoUuid,
+                        tarefaId: action.payload.tarefaId
+                    });
                 }),
                 catchError((err) => {
                     const payload = {
@@ -170,86 +176,6 @@ export class AtividadeCreateDocumentosEffect {
                 })
             );
         }, 25)
-    ));
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<OficiosDocumentosActions.AssinaDocumento>(OficiosDocumentosActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new OficiosDocumentosActions.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new OficiosDocumentosActions.AssinaDocumentoFailed(err));
-                })
-            ))
-    ));
-
-    removeAssinaturaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<OficiosDocumentosActions.RemoveAssinaturaDocumento>(OficiosDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload).pipe(
-            mergeMap(() => [
-                new OficiosDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                new OficiosDocumentosActions.GetDocumentos(),
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new OficiosDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-            })
-        ))
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
-        ofType<OficiosDocumentosActions.AssinaDocumentoEletronicamente>(OficiosDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Assinando documento id ' + action.payload.documento.id + ' ...',
-            status: 0, // carregando
-            lote: action.payload.loteId
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-                lote: action.payload.loteId
-            }))),
-            mergeMap((response: Assinatura) => [
-                new OficiosDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-                new OficiosDocumentosActions.GetDocumentos(),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao assinar documento id ' + action.payload.documento.id + '.',
-                    status: 2, // erro
-                    lote: action.payload.loteId
-                }));
-                return of(new OficiosDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
     ));
     /**
      * Clicked Documento
@@ -342,7 +268,7 @@ export class AtividadeCreateDocumentosEffect {
                 lote: action.payload.loteId
             }));
         }),
-        mergeMap(action => this._documentoService.undelete(action.payload.documento).pipe(
+        mergeMap(action => this._documentoService.undelete(action.payload.documento, JSON.stringify(action.payload.populate)).pipe(
             map((response) => {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -350,6 +276,11 @@ export class AtividadeCreateDocumentosEffect {
                     content: 'Documento id ' + action.payload.documento.id + ' restaurada com sucesso.',
                     status: 1, // sucesso
                     lote: action.payload.loteId
+                }));
+                this._store.dispatch(new AddData<Documento>({
+                    data: [response],
+                    schema: documentoSchema,
+                    populate: action.payload.populate
                 }));
                 return new OficiosDocumentosActions.UndeleteDocumentoSuccess({
                     documento: response,

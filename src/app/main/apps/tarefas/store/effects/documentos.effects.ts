@@ -96,6 +96,12 @@ export class TarefasDocumentosEffects {
                         uuid: response.uuid,
                         tarefaId: action.payload.tarefaId
                     }));
+                    if (action.payload.documentoAvulsoUuid) {
+                        this._store.dispatch(new TarefasActions.RemoveEtiquetaOficioTarefa({
+                            uuid: action.payload.documentoAvulsoUuid,
+                            tarefaId: action.payload.tarefaId
+                        }));
+                    }
                     return new TarefasDocumentosActions.DeleteDocumentoSuccess(response.id);
                 }),
                 catchError((err) => {

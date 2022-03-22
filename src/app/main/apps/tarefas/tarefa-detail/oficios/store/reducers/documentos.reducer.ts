@@ -77,7 +77,7 @@ export function DocumentosReducer(
         case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.documentoId),
                 errorDelete: [],
                 error: null
             };
@@ -113,7 +113,7 @@ export function DocumentosReducer(
         case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
             return {
                 ...state,
-                documentosId: [...state.documentosId, action.payload],
+                documentosId: [...state.documentosId, action.payload.documentoId],
             };
         }
 
