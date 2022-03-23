@@ -1,4 +1,6 @@
-<cdk-processo-grid
+<cdk-processo-grdockerid
+        [arraySearchTypes]="arrayFiltrosEtiquetas"
+        [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
         [loading]="(loading$ | async)"
         [processos]="(processos$ | async)"
         [total]="(pagination$ | async)?.total"
@@ -9,4 +11,4 @@
         (reload)="reload($event)"
         (edit)="edit($event)"
         (view)="view($event)">
-</cdk-processo-grid>
+</cdk-processo-grdockerid>
