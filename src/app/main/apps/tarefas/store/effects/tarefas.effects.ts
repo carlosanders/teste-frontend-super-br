@@ -820,10 +820,11 @@ export class TarefasEffect {
     ));
     darCienciaTarefaSuccess: any = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.DarCienciaTarefaSuccess>(TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS),
-        tap(() => {
+        tap((action) => {
             this._router.navigate([
                 'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                 this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+                + '/tarefa/' + action.payload + '/encaminhamento'
             ]).then();
         })
     ), {dispatch: false});
