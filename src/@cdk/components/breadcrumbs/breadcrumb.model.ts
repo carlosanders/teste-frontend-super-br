@@ -3,5 +3,4 @@ export interface Breadcrumb {
     link: string;
     url?: string;
     module: string;
-    startPath?: string;
   }

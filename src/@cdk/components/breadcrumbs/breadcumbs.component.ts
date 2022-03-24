@@ -26,7 +26,10 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
     module: string;
 
     @Input()
-    icone: string;
+    icone: string = 'assignment_ind';
+
+    @Input()
+    startPath: string = null;
 
     breadcrumb: Breadcrumb[] = [];
 
@@ -89,8 +92,8 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
                 breadcrumb.forEach((crumb: Breadcrumb) => {
                     // console.log('crumb:', crumb);
 
-                    if (crumb.startPath) {
-                        if (url.match(crumb.startPath)) {
+                    if (this.startPath) {
+                        if (url.match(this.startPath)) {
                             // se encontramos o caminho desejado para iniciar, limpamos a pilha de crumbs
                             this.breadcrumb = [];
                         }
