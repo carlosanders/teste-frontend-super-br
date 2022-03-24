@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, Input,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -9,13 +9,16 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Processo} from '@cdk/models';
+import {Pagination, Processo, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
+import {
+    SearchBarEtiquetasFiltro
+} from "../../../../../@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro";
 
 @Component({
     selector: 'processos',
@@ -37,6 +40,10 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     NUPHandle: any;
     colunas: any[] = ['id', 'NUP', 'actions'];
+
+    arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
+    filtroEtiquetas: SearchBarEtiquetasFiltro;
+    vinculacaoEtiquetaPagination: Pagination;
 
     mobileMode: boolean;
     private _profile: any;
@@ -64,6 +71,40 @@ export class ProcessosComponent implements OnInit, OnDestroy {
         if (_loginService.isGranted('ROLE_COLABORADOR')) {
             this.colunas = ['select', 'id', 'NUP', 'especieProcesso.nome', 'setorAtual.nome', 'unidade', 'actions'];
         }
+
+        const vinculacaoEtiquetaPagination = new Pagination();
+        vinculacaoEtiquetaPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'sistema': 'eq:true',
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                }
+            ]
+        };
+        this.arrayFiltrosEtiquetas.push({
+            label: 'etiquetas do processo',
+            pagination: vinculacaoEtiquetaPagination,
+            queryFilter: 'vinculacoesEtiquetas.etiqueta.id'
+        });
+        this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
     }
 
     ngOnInit(): void {

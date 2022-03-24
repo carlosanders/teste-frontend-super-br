@@ -1,4 +1,6 @@
 <cdk-processo-grid
+        [arraySearchTypes]="arrayFiltrosEtiquetas"
+        [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
         [loading]="(loading$ | async)"
         [processos]="(processos$ | async)"
         [total]="(pagination$ | async)?.total"

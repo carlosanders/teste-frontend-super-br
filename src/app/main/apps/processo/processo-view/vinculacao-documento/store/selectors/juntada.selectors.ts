@@ -52,10 +52,12 @@ export const getJuntadaVinculadaFromStore: any = createSelector(
 export const getJuntadaVinculada: any = createSelector(
     getJuntadaVinculadaFromStore,
     (juntada: Juntada) => {
-        const novaJuntada = new Juntada();
-        novaJuntada.id = juntada.id;
-        novaJuntada.numeracaoSequencial = juntada.numeracaoSequencial;
-        juntada.documento.juntadaAtual = {...novaJuntada};
+        if (juntada) {
+            const novaJuntada = new Juntada();
+            novaJuntada.id = juntada?.id;
+            novaJuntada.numeracaoSequencial = juntada?.numeracaoSequencial;
+            juntada.documento.juntadaAtual = {...novaJuntada};
+        }
         return juntada;
     }
 );

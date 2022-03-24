@@ -298,7 +298,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-grid').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

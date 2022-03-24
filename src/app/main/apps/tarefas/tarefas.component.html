@@ -77,6 +77,12 @@
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
                 </button>
+                <button mat-button aria-label="Ofícios"
+                        *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doOficios(currentTarefa)" fxHide.lt-lg>
+                    <mat-icon>chrome_reader_mode</mat-icon>
+                    <span>Ofícios</span>
+                </button>
                 <button mat-button aria-label="apagar"
                 *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira' && usuarioAtual?.id === currentTarefa?.usuarioResponsavel?.id"
                 (click)="deleteTarefa(currentTarefa)" fxHide.lt-lg>

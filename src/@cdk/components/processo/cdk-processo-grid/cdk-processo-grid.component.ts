@@ -17,11 +17,12 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
-import {Processo} from '@cdk/models';
+import {Pagination, Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {SearchBarEtiquetasFiltro} from "../../search-bar-etiquetas/search-bar-etiquetas-filtro";
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -38,6 +39,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     processos: Processo[] = [];
+
+    @Input()
+    arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
+
+    @Input()
+    vinculacaoEtiquetaPagination: Pagination;
 
     showFilter = false;
 
