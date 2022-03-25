@@ -466,7 +466,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((message) => {
             if (message && message.type === 'nova_tarefa') {
-                if (message.content.genero === this.routerState.params.generoHandle) {
+                if (CdkUtils.ajusteString(message.content.genero) === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
                 }
             }
@@ -1075,6 +1075,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
+    doOficios(tarefa: Tarefa): void {
+        // eslint-disable-next-line max-len
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/oficios'
+        ]).then();
+    }
+
     doMinutas(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -1328,6 +1342,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    doAbrirMinutaEmOutraAba(event): void {
+        const tarefa = event.tarefa;
+        const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this.abreEditorOutraAba(vinculacaoEtiquetaClicada.objectId, tarefa);
+        }
+    }
+
     doCreateEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveEtiqueta({
@@ -1422,6 +1444,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
             + stepHandle + '/documento/' + documentoId
         ]).then();
+    }
+
+    abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
+        let stepHandle = 'default';
+        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            stepHandle = this.routerState.params['stepHandle'];
+        }
+        window.open(
+            this.routerState.url.split('/')[1] + '/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+        );
     }
 
     /*****************************************************************************************************************
@@ -1531,18 +1565,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param event
      * @param loteId
      */
-    doDeleteDocumento(event: { documentoId: number; tarefaId: number }, loteId: string = null): void {
+    doDeleteDocumento(event: { documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
         documento.id = event.documentoId;
+        const documentoAvulsoUuid = event.documentoAvulsoUuid ?? null;
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
+            documentoAvulsoUuid: documentoAvulsoUuid,
             operacaoId: operacaoId,
             tarefaId: event.tarefaId,
             loteId: loteId,
             redo: [
                 new fromStore.DeleteDocumento({
                     documentoId: documento.id,
+                    documentoAvulsoUuid: documentoAvulsoUuid,
                     operacaoId: operacaoId,
                     tarefaId: event.tarefaId,
                     loteId: loteId,
@@ -1554,6 +1591,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ],
             undo: new fromStore.UndeleteDocumento({
                 documento: documento,
+                documentoAvulsoUuid: documentoAvulsoUuid,
                 operacaoId: operacaoId,
                 tarefaId: event.tarefaId,
                 redo: null,

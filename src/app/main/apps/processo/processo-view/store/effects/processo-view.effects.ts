@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
 import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
-import {Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
+import {ComponenteDigital, Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
 import {
     documento as documentoSchema,
     juntada as juntadaSchema,
@@ -28,6 +28,8 @@ import {
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {CacheModelService} from '@cdk/services/cache.service';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -161,7 +163,8 @@ export class ProcessoViewEffect {
                         ),
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
-                        documentosVinculacoesId: response['entities'].map(juntada => juntada.documento.temAnexos ? juntada.documento.id : null),
+                        documentosVinculacoesId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temAnexos ? juntada.documento.id : null),
+                        processoId: action.payload.processoId,
                         loaded: {
                             id: this.routerState.params['processoCopiaHandle'] ?
                                 'processoCopiaHandle' : 'processoHandle',
@@ -189,10 +192,12 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.ReloadJuntadas>(ProcessoViewActions.RELOAD_JUNTADAS),
         map(() => {
             let processoFilter = null;
+            let processoId = null;
 
             const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
             routeParams.subscribe((param) => {
                 processoFilter = `eq:${this.routerState.params[param]}`;
+                processoId = parseInt(this.routerState.params[param], 10);
             });
 
             const params = {
@@ -200,6 +205,7 @@ export class ProcessoViewEffect {
                     'volume.processo.id': processoFilter,
                     'vinculada': 'eq:0'
                 },
+                processoId: processoId,
                 listFilter: {},
                 limit: 10,
                 offset: 0,
@@ -239,15 +245,100 @@ export class ProcessoViewEffect {
                     if (firstJuntada === -1) {
                         stepHandle = 'capa';
                     } else {
-                        this._router.navigate([
-                            this.routerState.url.replace('/visualizar/' + this.routerState.params['stepHandle'], '/visualizar/' + firstJuntada + '-0')
-                        ]).then(() => {
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                step: firstJuntada,
-                                subStep: 0
-                            }));
-                        });
-                        return of(null);
+                        if (this.routerState.url.indexOf('/documento/') !== -1) {
+                            let sidebar;
+                            const arrPrimary = [];
+                            const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                                arrPrimary.push('anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                arrPrimary.push('visualizar-processo');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else {
+                                if (this.routerState.params['componenteDigitalHandle']) {
+                                    arrPrimary.push('componente-digital');
+                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                                }
+                                sidebar = null;
+                            }
+                            if (this.routerState.url.indexOf('sidebar:') === -1) {
+                                // Navegação do processo deve ocorrer por outlet
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary,
+                                                sidebar: sidebar
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            } else {
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            }
+                        } else {
+                            let url = this.routerState.url.split('/processo/' +
+                                    this.routerState.params.processoHandle)[0] + '/processo/' +
+                                this.routerState.params.processoHandle;
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                            }
+                            url += '/visualizar/' + firstJuntada + '-0';
+                            const extras = {
+                                queryParams: {
+                                    novaAba: this.routerState.queryParams.novaAba
+                                }
+                            };
+                            this._router.navigate([url], extras)
+                                .then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                        }
+                        return of(new ProcessoViewActions.StillLoadingBinary());
                     }
                 }
             }
@@ -281,7 +372,23 @@ export class ProcessoViewEffect {
                     (binary.loading && binary.step !== this.routerState.params.stepHandle)) {
                     if ((!binary.src || !binary.src.conteudo || binary.src.id !== index[currentStep.step][currentStep.subStep])) {
                         this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
-                        return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                        const download$ = this._cacheComponenteDigitalModelService.get(index[currentStep.step][currentStep.subStep])
+                            .pipe(
+                                switchMap((cachedValue: ComponenteDigital) => {
+                                    if (cachedValue) {
+                                        return of(cachedValue);
+                                    }
+
+                                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context)
+                                        .pipe(tap((componenteDigital) => {
+                                            if (componenteDigital?.mimetype != 'text/html') {
+                                                this._cacheComponenteDigitalModelService.set(componenteDigital, index[currentStep.step][currentStep.subStep]).subscribe();
+                                            }
+                                        }));
+                                })
+                            );
+
+                        return download$.pipe(
                             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                                 binary: response,
                                 loaded: this.routerState.params.stepHandle
@@ -385,10 +492,12 @@ export class ProcessoViewEffect {
                     }),
                     new ProcessoViewActions.UpdateNode({
                         indice: action.payload.juntadaIndice,
+                        processoId: action.payload.processoId,
                         componentesDigitaisIds: componentesDigitaisIds
                     }),
                     new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
                         documentoId: action.payload.documentoId,
+                        processoId: action.payload.processoId,
                         entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
                         total: total
                     })
@@ -397,6 +506,7 @@ export class ProcessoViewEffect {
                     console.log(err);
                     const payload = {
                         id: action.payload.documentoId,
+                        processoId: action.payload.processoId,
                         error: err
                     };
                     return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
@@ -440,6 +550,7 @@ export class ProcessoViewEffect {
                     this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                         documentoId: documentoId,
                         juntadaIndice: indice,
+                        processoId: action.payload.processoId,
                         filter: {
                             'documento.id': 'eq:' + documentoId
                         },
@@ -534,41 +645,41 @@ export class ProcessoViewEffect {
                     }
                 } else {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
-                        if (this.routerState.url.indexOf('sidebar:') === -1) {
-                            let sidebar;
-                            const arrPrimary = [];
-                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
-                                arrPrimary.push('anexar-copia');
-                                arrPrimary.push(this.routerState.params.processoHandle);
-                                if (this.routerState.params.chaveAcessoHandle) {
-                                    arrPrimary.push('chave');
-                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                                }
-                                arrPrimary.push('visualizar');
-                                arrPrimary.push(firstJuntada + '-0');
-                                sidebar = 'empty';
-                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-                                arrPrimary.push('visualizar-processo');
-                                arrPrimary.push(this.routerState.params.processoHandle);
-                                if (this.routerState.params.chaveAcessoHandle) {
-                                    arrPrimary.push('chave');
-                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                                }
-                                arrPrimary.push('visualizar');
-                                arrPrimary.push(firstJuntada + '-0');
-                                sidebar = 'empty';
-                            } else {
-                                if (this.routerState.params['componenteDigitalHandle']) {
-                                    arrPrimary.push('componente-digital');
-                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
-                                }
-                                sidebar = null;
+                        let sidebar;
+                        const arrPrimary = [];
+                        const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                            arrPrimary.push('anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                             }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(firstJuntada + '-0');
+                            sidebar = 'empty';
+                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                            arrPrimary.push('visualizar-processo');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(firstJuntada + '-0');
+                            sidebar = 'empty';
+                        } else {
+                            if (this.routerState.params['componenteDigitalHandle']) {
+                                arrPrimary.push('componente-digital');
+                                arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                            }
+                            sidebar = null;
+                        }
+                        if (this.routerState.url.indexOf('sidebar:') === -1) {
                             // Navegação do processo deve ocorrer por outlet
                             this._router.navigate(
                                 [
-                                    this.routerState.url.split('/visualizar/' + stepHandle)[0] + '/visualizar/' + firstJuntada + '-0'
-                                    + '/documento/' + this.routerState.params.documentoHandle + '/',
+                                    url,
                                     {
                                         outlets: {
                                             primary: arrPrimary,
@@ -586,10 +697,24 @@ export class ProcessoViewEffect {
                                 }));
                             });
                         } else {
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                step: firstJuntada,
-                                subStep: 0
-                            }));
+                            this._router.navigate(
+                                [
+                                    url,
+                                    {
+                                        outlets: {
+                                            primary: arrPrimary
+                                        }
+                                    }
+                                ],
+                                {
+                                    relativeTo: this._activatedRoute.parent
+                                }
+                            ).then(() => {
+                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                    step: firstJuntada,
+                                    subStep: 0
+                                }));
+                            });
                         }
                     } else {
                         let url = this.routerState.url.split('/processo/' +
@@ -754,12 +879,15 @@ export class ProcessoViewEffect {
     downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
         switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
+            tap((componenteDigital) => {
+                if (componenteDigital?.mimetype != 'text/html') {
+                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
+                }
+            }),
             map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                 binary: response
             })),
-            catchError((err) => {
-                return of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message));
-            })
+            catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err.error.message)))
         ))
     ));
     /**
@@ -767,16 +895,65 @@ export class ProcessoViewEffect {
      */
     setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
-        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}').pipe(
-            map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-                binary: response
-            })),
-            catchError((err) => {
-                console.log(err);
-                return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-            })
-        ))
+        switchMap((action) => {
+            const download$ = this._cacheComponenteDigitalModelService.get(action.payload.componenteDigitalId)
+                .pipe(
+                    switchMap((cachedValue: ComponenteDigital) => {
+                        if (cachedValue) {
+                            return of(cachedValue);
+                        }
+
+                        return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')
+                            .pipe(
+                                tap((componenteDigital) => {
+                                    if (componenteDigital?.mimetype != 'text/html') {
+                                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId).subscribe();
+                                    }
+                                })
+                            );
+                    })
+                );
+
+            return download$.pipe(
+                map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                    binary: response
+                })),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                })
+            );
+        })
     ));
+    limpaCacheDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.LimpaCacheDocumento>(ProcessoViewActions.LIMPA_CACHE_DOCUMENTO),
+        map(action => action.payload),
+        mergeMap(documentoId => of(documentoId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getComponentesDigitaisByDocumentoId(documentoId))).pipe(
+                map(componentesDigitais => componentesDigitais)
+            ))
+        ), 25),
+        withLatestFrom(this._store.pipe(select(fromStore.getBinary))),
+        mergeMap(([[, componentesDigitais], binary]) => {
+            if (componentesDigitais?.length > 0) {
+                componentesDigitais.forEach((componenteDigital) => {
+                    console.log(componenteDigital);
+                    if (binary && binary.src && binary.src.conteudo && binary.src.id === componenteDigital.id) {
+                        // Tem binário no processo-view, e preciso limpar o conteudo dele para que o setCurrentStep pegue
+                        // a versão assinada do backend
+                        this._store.dispatch(new fromStore.RemoveConteudoBinario(componenteDigital.id));
+                    }
+                    // limpa o cache do componente digital do repositório de cache de componentes digitais
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
+                });
+            }
+            return of(null);
+        }, 25),
+        catchError((err) => {
+            console.log(err);
+            return err;
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -787,7 +964,9 @@ export class ProcessoViewEffect {
         private _activatedRoute: ActivatedRoute,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
-        private _cdkProgressBarService: CdkProgressBarService
+        private _cdkProgressBarService: CdkProgressBarService,
+        private _loginService: LoginService,
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -795,5 +974,6 @@ export class ProcessoViewEffect {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 }

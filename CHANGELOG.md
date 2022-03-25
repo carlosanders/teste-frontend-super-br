@@ -813,3 +813,28 @@
 
 * Correção css chat
 * Correção erro painel do chat
+* Correção abrir Minuta em outra aba
+* Correção em loading infinito de vinculações de juntadas
+* Correção em numeração sequencial dos anexos de documentos de juntadas
+* Correção em substituição de informações de processos populadas por módulos em algumas chamadas e populates do sistema
+* Correção para evitar que sistema busque vinculações de documentos para juntadas já desentranhadas
+* Correção em erro que evitava que etiquetas de minutas fossem retiradas das tarefas na funcionalidade de movimentar bloco de tarefas
+* Correção para inserir loading das minutas na tela de movimentar tarefas em lote
+* Correção para passar o módulo na consulta de GetTarefa do tarefa-detail, evitando sobrescrever valores que são necessários aos módulos
+* Correção em erro de javascript ao acessar a tela de movimentar tarefa e recarregar a aplicação 
+* Melhoria inclusão de botão Ver Compartilhamentos no grid de Tarefas
+* Melhoria permitindo ordenar tarefas por data da última atualização
+* Melhoria para possibilitar que menus de tarefas de módulos já apareçam de forma expandida
+* Correção em movimentação de tarefas de dentro do editor, que não encaminhava para o local correto no momento de fechar o editor
+* Correção no css da tela de dados básicos de ofício no editor, que quebrava a barra de rolagem lateral
+* Correção de erro que abria o filtro de tarefas da listagem ao tentar filtrar o grid de tarefas do processo na funcionalidade de edição de processos quando se encontra dentro da listagem de tarefas
+* Correção na exclusão de ofícios para passar a limpar as etiquetas de ofício em elaboração
+* Correção na funcionalidade de anexar por cópia, que não abria corretamente em casos específicos
+* Correção no botão cancelar da tela de dados básicos de ofício, que não realizava nenhuma ação
+* Melhoria removendo código antigo da sidebar do processo-view, eliminando o trecho relativo a minutas da tarefa
+* Correção em comportamentos incorretos do visualizador de processo, que quebrava dentro do editor em ações específicas de documentos avulsos ou de minutas
+* Correção em visualizador de PDF, que não era capaz de recarregar a juntada em situações específicas quando dentro do editor
+* Correção em mensagem de erro de SetCurrentStep dispatching null no console da aplicação, que matava a navegação do sistema
+* Melhoria removendo código legado de assinatura de alguns componentes
+* Correção exibindo o botão para acessar ofícios de uma tarefa no menu superior do componente de tarefas
+* Melhoria disponibilizado link para acessar o NUP à partir do histórico

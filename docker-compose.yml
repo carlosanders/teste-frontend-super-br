@@ -10,7 +10,6 @@ services:
             - 9876:9876
         volumes:
             - '.:/app'
-            - '/home/anilton/WebstormProjects/supp-calculo-frontend/src:/app/src/modules/calculo'
         tty: true
         command: tail -f /dev/null
         networks:

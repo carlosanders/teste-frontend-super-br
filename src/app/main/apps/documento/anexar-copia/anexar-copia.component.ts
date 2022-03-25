@@ -167,7 +167,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         if (this.routerState.params.chaveAcessoHandle) {
             rota += '/chave/' + this.routerState.params.chaveAcessoHandle;
         }
-        rota += '/visualizar/capa/mostrar';
+        rota += '/visualizar/default';
 
         if (emissao.id !== this.routerState.params['processoCopiaHandle']) {
             this._store.dispatch(new UnloadJuntadas({reset: true}));

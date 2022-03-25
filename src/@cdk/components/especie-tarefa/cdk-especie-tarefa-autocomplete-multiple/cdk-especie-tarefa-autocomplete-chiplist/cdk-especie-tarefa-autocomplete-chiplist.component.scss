@@ -1,0 +1,23 @@
+cdk-especie-tarefa-autocomplete-chiplist {
+  display: flex;
+  flex: 1 1 auto;
+
+  mat-form-field {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  mat-chip-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1 auto;
+
+    > .mat-chip-list-wrapper {
+
+      > .mat-input-element {
+        width: 100% !important;
+      }
+    }
+  }
+}

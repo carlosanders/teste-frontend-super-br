@@ -37,15 +37,19 @@ export class ResolveGuard implements CanActivate {
             this.routerState = routerState.state;
         });
 
-        this._store
-            .pipe(select(getBinary))
-            .subscribe((binary) => {
+        if (this.routerState.params['processoHandle'] &&
+            this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1)
+        {
+            this._store.pipe(
+                select(getBinary)
+            ).subscribe((binary) => {
                 if (this.loadingProcesso === null || binary.processo !== this.loadingProcesso || !!binary.error) {
                     this.loadingLatestBinary = binary.loading;
                     this.loadingProcesso = binary.processo;
                     this.error = binary.error;
                 }
             });
+        }
     }
 
     /**
@@ -172,10 +176,12 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStoreProcessoView.UnloadJuntadas({}));
 
                     let processoFilter = null;
+                    let processoId = null;
 
                     const routeParams = of('processoHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
+                        processoId = parseInt(this.routerState.params[param], 10);
                     });
 
                     const params = {
@@ -183,6 +189,7 @@ export class ResolveGuard implements CanActivate {
                             'volume.processo.id': processoFilter,
                             'vinculada': 'eq:0'
                         },
+                        processoId: processoId,
                         listFilter: {},
                         limit: 10,
                         offset: 0,

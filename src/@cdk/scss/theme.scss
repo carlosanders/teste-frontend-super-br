@@ -6,6 +6,7 @@
 @import "../components/sidebar/sidebar.theme";
 @import "../components/theme-options/theme-options.theme";
 @import "../components/widget/widget.theme";
+@import "../components/autocomplete-multiple/cdk-autocomplete-multiple.theme";
 
 @mixin cdk-core-theme($theme) {
 
@@ -25,5 +26,6 @@
     @include cdk-theme-options-theme($theme);
     @include cdk-material-color-picker-theme($theme);
     @include cdk-widget-theme($theme);
+    @include cdk-autocomplete-multiple-theme($theme);
 }
 

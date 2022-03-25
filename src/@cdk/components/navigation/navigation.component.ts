@@ -3,6 +3,7 @@ import {merge, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
+import {CdkNavigation} from '../../types';
 
 @Component({
     selector: 'cdk-navigation',
@@ -16,7 +17,7 @@ export class CdkNavigationComponent implements OnInit {
     layout = 'vertical';
 
     @Input()
-    navigation: any;
+    navigation: CdkNavigation[];
 
     // Private
     private _unsubscribeAll: Subject<any>;

@@ -218,6 +218,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentosVinculadosPagination: any;
 
     contador: Contador = new Contador();
+    contadorVinculacoes: Contador = new Contador();
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -705,6 +706,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
+            processoId: this.processo.id,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
 
@@ -1487,6 +1489,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             const nparams = {
                 ...pagination,
                 offset: pagination.offset + pagination.limit,
+                processoId: this.processo.id,
                 documentoId: paginador.documentoId,
                 juntadaIndice: paginador.indice
             };

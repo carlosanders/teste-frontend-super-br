@@ -155,7 +155,7 @@ export class LoginComponent implements OnInit {
         }
 
         // BC
-        if (this._loginService.getLoginType() === 'externo') {
+        if ((this._loginService.getLoginType() !== 'interno') && (this._loginService.getLoginType() !== 'ldap')) {
             this._loginService.setLoginType('interno');
         }
     }

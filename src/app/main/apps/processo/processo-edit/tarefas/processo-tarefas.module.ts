@@ -40,6 +40,10 @@ const routes: Routes = [
                 loadChildren: () => import('./atividade-list/atividade-list.module').then(m => m.AtividadeListModule),
             },
             {
+                path        : 'compartilhamentos',
+                loadChildren: () => import('./compartilhamento-list/compartilhamento-list.module').then(m => m.CompartilhamentoListModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

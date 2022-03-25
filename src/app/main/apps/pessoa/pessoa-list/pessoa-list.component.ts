@@ -101,11 +101,11 @@ export class PessoaListComponent implements OnInit, OnDestroy {
     }
 
     edit(pessoaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + pessoaId]).then();
+        this._router.navigate([this.routerState.url.replace('pessoa/listar', 'pessoa/editar/') + pessoaId]).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
+        this._router.navigate([this.routerState.url.replace('pessoa/listar', 'pessoa/editar/criar')]).then();
     }
 
     delete(pessoaId: number, loteId: string = null): void {

@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
@@ -47,8 +46,6 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 populate: [
                     'tipoDocumento',
                     'tarefaOrigem',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                     'componentesDigitais'
                 ]
             };
@@ -63,7 +60,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 JSON.stringify(params.populate)
             ).pipe(
                 mergeMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: params.populate}),
                     new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosSuccess({
                         loaded: {
                             id: action.payload
@@ -237,114 +234,6 @@ export class AtividadeCreateBlocoDocumentosEffect {
             ), 25
         )
     ));
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumento>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoFailed(err));
-                })
-            ), 25)
-    ));
-    /**
-     * Remove Assinatura Documento
-     *
-     * @type {Observable<any>}
-     */
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.RemoveAssinaturaDocumento>(AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(() => [
-                    new AtividadeBlocoCreateDocumentosActionsAll.RemoveAssinaturaDocumentoSuccess(action.payload),
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new AtividadeBlocoCreateDocumentosActionsAll.RemoveAssinaturaDocumentoFailed(action.payload));
-                })
-            ), 25)
-    ));
-    /**
-     * Remove Assinatura Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    removeAssinaturaDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.RemoveAssinaturaDocumentoSuccess>(AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamente>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-            lote: action.payload.loteId
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-                lote: action.payload.loteId
-            }))),
-            mergeMap((response: Assinatura) => [
-                new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                    lote: action.payload.loteId
-                }));
-                return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Assinaa Documento Eletronicamente Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamenteSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        // eslint-disable-next-line max-len
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
     /**
      * Clicked Documento
      *

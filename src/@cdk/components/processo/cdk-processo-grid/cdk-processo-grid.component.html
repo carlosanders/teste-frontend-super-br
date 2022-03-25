@@ -8,7 +8,12 @@
                      'mobile-processo-pesquisa-on': (mobileMode && !processos)
                  }"
                  name="cdk-processo-filter">
-        <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode" fxLayout="column"></cdk-processo-filter>
+        <cdk-processo-filter
+            (selected)="setFilter($event)"
+            [mode]="this.mode"
+            fxLayout="column"
+            [arrayFiltrosEtiquetas]="arraySearchTypes">
+        </cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

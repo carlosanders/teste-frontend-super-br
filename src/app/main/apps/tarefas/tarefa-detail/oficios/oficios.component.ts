@@ -213,16 +213,27 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doDelete(documentoId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
-        const documento = new Documento();
-        documento.id = documentoId;
+        const documento = this.oficios.find(oficio => oficio.id === documentoId);
+        const populate = [
+            'tipoDocumento',
+            'documentoAvulsoRemessa',
+            'documentoAvulsoRemessa.documentoResposta',
+            'componentesDigitais',
+            'juntadaAtual'
+        ];
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
             operacaoId: operacaoId,
+            uuid: documento.uuid,
+            tarefaId: this.tarefa.id,
+            documentoAvulsoUuid: documento.documentoAvulsoRemessa.uuid,
             loteId: loteId,
             redo: [
                 new fromStore.DeleteDocumento({
                     documentoId: documento.id,
                     operacaoId: operacaoId,
+                    tarefaId: this.tarefa.id,
+                    documentoAvulsoUuid: documento.documentoAvulsoRemessa.uuid,
                     loteId: loteId,
                     redo: 'inherent',
                     undo: 'inherent'
@@ -234,6 +245,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                 documento: documento,
                 operacaoId: operacaoId,
                 loaded: this.loadedOficios,
+                tarefaId: this.tarefa.id,
+                populate: populate,
                 redo: null,
                 undo: null
             })
@@ -268,11 +281,19 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doRestaurar(documentoId): void {
         const operacaoId = CdkUtils.makeId();
-        const documento = new Documento();
-        documento.id = documentoId;
+        const documento = this.oficios.find(oficio => oficio.id === documentoId);
+        const populate = [
+            'tipoDocumento',
+            'documentoAvulsoRemessa',
+            'documentoAvulsoRemessa.documentoResposta',
+            'componentesDigitais',
+            'juntadaAtual'
+        ];
         this._store.dispatch(new fromStore.UndeleteDocumento({
             documento: documento,
             operacaoId: operacaoId,
+            populate: populate,
+            tarefaId: this.tarefa.id,
             redo: null,
             undo: null
         }));

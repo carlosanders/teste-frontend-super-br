@@ -246,7 +246,6 @@ export class Processo {
         this.interessados = [];
         this.requerimento = null;
         this.protocoloEletronico = null;
-        this.any = null;
         this.configuracaoNup = null;
         this.validaNup = null;
         this.alterarChave = null;

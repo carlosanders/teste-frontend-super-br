@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar name="cdk-tarefa-filter-list" position="left">
+    <cdk-sidebar name="cdk-tarefa-filter-grid" position="left">
         <cdk-tarefa-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -350,6 +350,14 @@
                                 *ngIf="actions.indexOf('atividades') > -1 && !hasExcluded"
                                 (click)="listAtividade(tarefa.id)">
                             <mat-icon class="black-fg">list</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                aria-label="ver compartilhamentos"
+                                matTooltip="Ver Compartilhamentos"
+                                *ngIf="actions.indexOf('compartilhamentos') > -1 && !hasExcluded"
+                                (click)="listCompartilhamento(tarefa.id)">
+                            <mat-icon class="black-fg">share</mat-icon>
                         </button>
                     </td>
                 </ng-container>

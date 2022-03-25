@@ -223,6 +223,9 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    listCompartilhamentos = new EventEmitter<number>();
+
     dataSource: TarefaDataSource;
 
     showFilter = false;
@@ -295,7 +298,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-grid').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -343,6 +346,10 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     listAtividade(tarefaId): void {
         this.listAtividades.emit(tarefaId);
+    }
+
+    listCompartilhamento(tarefaId): void {
+        this.listCompartilhamentos.emit(tarefaId);
     }
 
     deleteBloco(ids): void {

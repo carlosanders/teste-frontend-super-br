@@ -205,7 +205,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     convertePdf = new EventEmitter<number>();
 
     @Output()
-    deleteDocumento = new EventEmitter<{ documentoId: number; tarefaId: number }>();
+    deleteDocumento = new EventEmitter<{ documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }>();
 
     @Output()
     downloadP7S = new EventEmitter<VinculacaoEtiqueta>();
@@ -230,6 +230,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Output()
     erroUpload = new EventEmitter<string>();
+
+    @Output()
+    outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
@@ -376,6 +379,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
+            this._changeDetectorRef.detectChanges();
         }
     }
 
@@ -542,9 +546,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.convertePdf.emit(documentoId);
     }
 
-    doDeleteDocumento(documentoId: number, tarefaId: number): void {
+    doDeleteDocumento(documentoId: number, tarefaId: number, documentoAvulsoUuid: string = null): void {
         this.menuTriggerMinutas.closeMenu();
-        this.deleteDocumento.emit({documentoId: documentoId, tarefaId: tarefaId});
+        this.deleteDocumento.emit({documentoId: documentoId, tarefaId: tarefaId, documentoAvulsoUuid: documentoAvulsoUuid});
     }
 
     doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
@@ -581,5 +585,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     onErroUpload(mensagem: string): void {
         this.erroUpload.emit(mensagem);
+    }
+
+    doAbrirMinutaEmOutraAba(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
+        this.menuTriggerMinutas.closeMenu();
+        this.outraAbaHandler.emit({vinculacaoEtiqueta, tarefa});
     }
 }

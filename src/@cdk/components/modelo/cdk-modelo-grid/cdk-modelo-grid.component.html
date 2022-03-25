@@ -100,7 +100,7 @@
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="(loading || loadingSaving) ? {'display': 'none'} : {}">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="(loading || loadingSaving) ? {'display': 'none'} : {}" multiTemplateDataRows>
 
                 <!-- Selection Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('select') > -1" matColumnDef="select">
@@ -111,7 +111,7 @@
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
-                    <td mat-cell *matCellDef="let modelo">
+                    <td mat-cell *matCellDef="let modelo" class='no-line'>
                         <mat-checkbox [checked]="selectedIds.indexOf(modelo.id) > -1"
                                       (change)="toggleInSelected(modelo.id)"
                                       (click)="$event.stopPropagation();"
@@ -124,7 +124,7 @@
                 <ng-container *ngIf="displayedColumns.indexOf('id') > -1" matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('id')"> Id
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Id: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.id}} </td>
                 </ng-container>
 
@@ -133,7 +133,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('nome')">
                         Nome
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Nome: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.nome}} </td>
                 </ng-container>
 
@@ -142,18 +142,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('descricao')">
                         Descrição
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Descrição: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.descricao}} </td>
-                </ng-container>
-
-                <!-- highlights Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('highlights') > -1" matColumnDef="highlights">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('highlights')">
-                        Resumo
-                    </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Resumo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"><span
-                        [innerHTML]="modelo.highlights | safeHtml"></span></td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -161,7 +151,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('ativo')">
                         Ativo
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Ativo: '>
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Ativo: '>
                         <mat-checkbox
                             [disabled]="true"
                             [checked]="modelo.ativo"></mat-checkbox>
@@ -174,7 +164,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('modalidadeModelo.valor')">
                         Modalidade
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Modalidade: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Modalidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.modalidadeModelo?.valor}} </td>
                 </ng-container>
 
@@ -183,7 +173,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('template.nome')">
                         Template
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Template: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Template: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.template?.nome}} </td>
                 </ng-container>
 
@@ -192,7 +182,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('vinculacoesModelos.setor.nome')">
                         Setor
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Setor: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Setor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.setor?.nome}} </td>
                 </ng-container>
 
@@ -201,7 +191,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('vinculacoesModelos.unidade.nome')">
                         Unidade
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Unidade: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Unidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.unidade?.nome}} </td>
                 </ng-container>
 
@@ -210,7 +200,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('vinculacoesModelos.modalidadeOrgaoCentral.nome')">
                         Órgão Central
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Órgão Central: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Órgão Central: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral?.nome}} </td>
                 </ng-container>
 
@@ -220,7 +210,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('documento.tipoDocumento.nome')">
                         Documento
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Documento: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.documento?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
@@ -229,7 +219,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoPor.nome')">
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -238,7 +228,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoEm')">
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
@@ -248,7 +238,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoPor.nome')">
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -257,7 +247,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoEm')">
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
@@ -266,7 +256,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('apagadoPor.nome')">
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -275,14 +265,14 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('apagadoEm')">
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let modelo">
+                    <td mat-cell *matCellDef="let modelo" class='no-line'>
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('visualizar') > -1"
@@ -348,8 +338,16 @@
                     </td>
                 </ng-container>
 
+                <!-- highlights Column -->
+                <ng-container matColumnDef="highlights">
+                    <td mat-cell *matCellDef="let modelo" [attr.colspan]="displayedColumns.length" style="padding: 0 !important;">
+                        <div style="margin-left: 16px;" [innerHTML]="modelo.highlights | safeHtml"></div>
+                    </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let modelo; columns: displayedColumns;">
+                <tr mat-row *matRowDef="let modelo; columns: ['highlights'];">
                 </tr>
             </table>
         </div>

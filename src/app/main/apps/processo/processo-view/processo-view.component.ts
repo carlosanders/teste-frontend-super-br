@@ -64,6 +64,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.src = null;
             }
             this._changeDetectorRef.detectChanges();
+        } else {
+            this.pdfViewer = undefined;
+            this._changeDetectorRef.detectChanges();
         }
     }
 
@@ -94,7 +97,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     spreadMode: 'off' | 'even' | 'odd' = 'off';
     componenteDigital: ComponenteDigital;
 
-    sidebarName = 'juntadas-left-sidebar-1';
+    sidebarName = 'juntadas-left-sidebar-' + CdkUtils.makeId(3);
 
     src: any;
     pdfSrc: any = null;
@@ -197,6 +200,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((index) => {
             this.index = index;
+            if (this.currentStep && this.index[this.currentStep.step]) {
+                this.currentJuntada = this.juntadas[this.currentStep.step];
+                this._changeDetectorRef.markForCheck();
+            }
         });
 
         this.binary$.pipe(
@@ -629,7 +636,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.page !== this.routerState?.queryParams?.pagina) {
             this.page = parseInt(this.routerState?.queryParams?.pagina, 10);
         }
-        if (this.page <= this.pdfViewer.PDFViewerApplication.pagesCount) {
+        if (this.page <= this.pdfViewer?.PDFViewerApplication?.pagesCount) {
             this.pdfViewer.page = this.page;
         }
     }

@@ -27,7 +27,7 @@ export class HistoricoConfigListEffect {
         ofType<HistoricoConfigListActions.GetHistoricoConfig>(HistoricoConfigListActions.GET_HISTORICO_CONFIG),
         switchMap((action) => {
             const filters = {
-                ...action.payload.filter,
+                'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id,
                 ...action.payload.gridFilter,
             };
             return this._historicoService.query(
