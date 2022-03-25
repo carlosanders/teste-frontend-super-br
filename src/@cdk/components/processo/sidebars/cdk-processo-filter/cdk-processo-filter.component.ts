@@ -155,7 +155,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         const andXFilter = [];
 
         if (this.form.get('cpfCnpj').value) {
-            this.form.get('cpfCnpj').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('cpfCnpj').value.replace(/[^\d]+/g,'').split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`});
             });
         }
