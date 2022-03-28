@@ -11,7 +11,6 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getHistoricoConfigListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
-import * as moment from "moment";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -66,8 +65,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id,
-                            'criadoEm' : 'gt:' + moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss')
+                            'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id
                         },
                         gridFilter: {},
                         limit: 10,
