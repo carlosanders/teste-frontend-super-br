@@ -838,3 +838,8 @@
 * Melhoria removendo código legado de assinatura de alguns componentes
 * Correção exibindo o botão para acessar ofícios de uma tarefa no menu superior do componente de tarefas
 * Melhoria disponibilizado link para acessar o NUP à partir do histórico
+* Correção erro crítico em grids de modo search, que permitia somente clicar no header de ordenação, passando consultas sem where ao backend
+* Correção erro grave no componente de histórico do usuário, que permitia enviar requisição sem where ao backend clicando no botão recarregar
+* Melhoria alterado funcionamento de filtro de histórico de usuário, possibilitando pesquisar por processo ou por janela de tempo de criação do histórico
+* Correção no componente de histórico de usuário, impedindo alterar o campo 'criadoPor' caso esteja no modo search
+* Melhoria no componente de filtro de datas, permitindo informar um intervalo de tempo e, caso informado, alterando o comportamento do mesmo e validando que um período ou data exata foram informados

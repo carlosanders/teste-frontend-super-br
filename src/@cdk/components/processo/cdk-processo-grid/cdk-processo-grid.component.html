@@ -92,7 +92,7 @@
 
         <div class="content" cdkPerfectScrollbar>
 
-            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+            <table mat-table [dataSource]="dataSource" matSort [matSortDisabled]="mode === 'search' && (gridFilter | json).includes('{}')" [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
