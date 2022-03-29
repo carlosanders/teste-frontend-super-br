@@ -1,4 +1,5 @@
 @import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-table-resizable";
 
 cdk-usuario-grid {
     display: flex;
@@ -72,6 +73,13 @@ cdk-usuario-grid {
                     &.error {
                         color: red;
                     }
+                }
+
+                .table-column-drag-over {
+                    background-color:  rgba(0, 0, 0, 0.3) !important;
+                }
+
+                .table-column-drag-over-disabled {
                 }
             }
         }
@@ -153,10 +161,11 @@ cdk-usuario-grid {
 
                 .mat-cell {
                     display: block;
-                    width: 100%;
+                    width: 100% !important;
                     padding: 0 8px;
                     margin: 8px 0;
                     border: 0 none;
+                    word-wrap: initial !important;
 
                     &:first-child {
                         padding: 0 48px 0 8px;
