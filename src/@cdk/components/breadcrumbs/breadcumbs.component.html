@@ -1,0 +1,9 @@
+<div class="content">
+    <mat-icon *ngIf="icone" class="mr-8 s-16">{{icone}}</mat-icon>
+    <div class="container">
+        <span *ngFor="let crumb of breadcrumb; let i = index">
+            <a (click)="navigateTo(crumb.link)">{{crumb.label}}</a>
+            <span *ngIf="!(i===breadcrumb.length-1)" class="mr-4 ml-4">/</span>
+        </span>
+    </div>
+</div>

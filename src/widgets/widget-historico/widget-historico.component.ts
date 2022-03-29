@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {HistoricoService} from '@cdk/services/historico.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'widget-historico',
@@ -31,7 +32,8 @@ export class WidgetHistoricoComponent implements OnInit {
     constructor(
         public _loginService: LoginService,
         private _historicoService: HistoricoService,
-        public _changeDetectorRef: ChangeDetectorRef
+        public _changeDetectorRef: ChangeDetectorRef,
+        private _router: Router
     ) {
         this._profile = _loginService.getUserProfile();
     }
@@ -70,5 +72,9 @@ export class WidgetHistoricoComponent implements OnInit {
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+
+    abrirProcesso(processoId: number): void {
+        this._router.navigate(['apps/processo/' + processoId + '/visualizar']).then();
     }
 }

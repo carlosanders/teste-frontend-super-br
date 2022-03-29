@@ -64,7 +64,7 @@
                 </mat-form-field>
             </ng-container>
 
-            <button class="refresh" mat-icon-button
+            <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
                     matTooltip="Recarregar">
@@ -73,6 +73,7 @@
 
             <button class="toggle-filter" mat-icon-button
                     [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -100,7 +101,7 @@
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="(loading || loadingSaving) ? {'display': 'none'} : {}" multiTemplateDataRows>
+            <table mat-table [dataSource]="dataSource" matSort [matSortDisabled]="mode === 'search' && (gridFilter | json).includes('{}')" [ngStyle]="(loading || loadingSaving) ? {'display': 'none'} : {}" multiTemplateDataRows>
 
                 <!-- Selection Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('select') > -1" matColumnDef="select">

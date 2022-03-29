@@ -23,6 +23,7 @@ export const GET_ETIQUETA_MINUTA_SUCCESS = '[TAREFAS] GET ETIQUETA MINUTA SUCCES
 export const GET_ETIQUETA_MINUTA_FAILED = '[TAREFAS] GET ETIQUETA MINUTA FAILED';
 
 export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFAS] REMOVE ETIQUETA MINUTA TAREFA';
+export const REMOVE_ETIQUETA_OFICIO_TAREFA = '[TAREFAS] REMOVE ETIQUETA OFICIO TAREFA';
 export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFAS] ATUALIZA ETIQUETA MINUTA';
 
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
@@ -274,6 +275,17 @@ export class GetEtiquetaMinutaFailed implements Action {
  */
 export class RemoveEtiquetaMinutaTarefa implements Action {
     readonly type = REMOVE_ETIQUETA_MINUTA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Etiqueta Oficio Tarefa
+ */
+export class RemoveEtiquetaOficioTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_OFICIO_TAREFA;
 
     constructor(public payload: any)
     {
@@ -1226,6 +1238,7 @@ export type TarefasActionsAll
     | GetEtiquetaMinutaSuccess
     | GetEtiquetaMinutaFailed
     | RemoveEtiquetaMinutaTarefa
+    | RemoveEtiquetaOficioTarefa
     | AtualizaEtiquetaMinuta
     | CreateTarefa
     | CreateTarefaSuccess

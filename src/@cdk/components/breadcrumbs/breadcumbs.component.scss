@@ -1,0 +1,18 @@
+@import "src/@cdk/scss/cdk";
+
+breadcrumb {
+    flex: 1 1 auto;
+    display: flex;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    div.container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    a {cursor: pointer;}
+}

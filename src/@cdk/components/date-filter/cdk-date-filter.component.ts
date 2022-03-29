@@ -45,6 +45,9 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     @Input()
     format: string = 'YYYY-MM-DD';
 
+    @Input()
+    interval: string = null;
+
     form: FormGroup;
 
     filters: any = [];
@@ -54,6 +57,11 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     filtroDepois: any = [];
 
     filtroEm: any = [];
+
+    minDateDepois: any = null;
+    maxDateDepois: any = null;
+    minDateAntes: any = null;
+    maxDateAntes: any = null;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -76,27 +84,61 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
      */
     ngOnInit(): void {
         this.form.get('checkAntes').valueChanges.subscribe((value) => {
-            if (value) {
-                this.form.get('filterAntes').enable({emitEvent: false});
-                if (this.form.get('checkEm').value === true) {
-                    this.form.get('checkEm').setValue(false);
+            if (this.interval === null) {
+                if (value) {
+                    this.form.get('filterAntes').enable({emitEvent: false});
+                    if (this.form.get('checkEm').value === true) {
+                        this.form.get('checkEm').setValue(false);
+                    }
+                } else {
+                    this.form.get('filterAntes').setValue('');
+                    this.form.get('filterAntes').disable({emitEvent: false});
                 }
             } else {
-                this.form.get('filterAntes').setValue('');
-                this.form.get('filterAntes').disable({emitEvent: false});
+                if (value) {
+                    this.form.get('filterAntes').enable({emitEvent: false});
+                    this.form.get('checkDepois').setValue(true,{emitEvent: false});
+                    this.form.get('filterDepois').enable({emitEvent: false});
+                    if (this.form.get('checkEm').value === true) {
+                        this.form.get('checkEm').setValue(false);
+                    }
+                } else {
+                    this.form.get('filterAntes').setValue('');
+                    this.form.get('filterAntes').disable({emitEvent: false});
+                    this.form.get('checkDepois').setValue(false, {emitEvent: false});
+                    this.form.get('filterDepois').setValue('');
+                    this.form.get('filterDepois').disable({emitEvent: false});
+                }
             }
             this._changeDetectorRef.markForCheck();
         });
 
         this.form.get('checkDepois').valueChanges.subscribe((value) => {
-            if (value) {
-                this.form.get('filterDepois').enable({emitEvent: false});
-                if (this.form.get('checkEm').value === true) {
-                    this.form.get('checkEm').setValue(false);
+            if (this.interval === null) {
+                if (value) {
+                    this.form.get('filterDepois').enable({emitEvent: false});
+                    if (this.form.get('checkEm').value === true) {
+                        this.form.get('checkEm').setValue(false);
+                    }
+                } else {
+                    this.form.get('filterDepois').setValue('');
+                    this.form.get('filterDepois').disable({emitEvent: false});
                 }
             } else {
-                this.form.get('filterDepois').setValue('');
-                this.form.get('filterDepois').disable({emitEvent: false});
+                if (value) {
+                    this.form.get('filterDepois').enable({emitEvent: false});
+                    this.form.get('checkAntes').setValue(true,{emitEvent: false});
+                    this.form.get('filterAntes').enable({emitEvent: false});
+                    if (this.form.get('checkEm').value === true) {
+                        this.form.get('checkEm').setValue(false);
+                    }
+                } else {
+                    this.form.get('filterDepois').setValue('');
+                    this.form.get('filterDepois').disable({emitEvent: false});
+                    this.form.get('filterAntes').setValue('');
+                    this.form.get('filterAntes').disable({emitEvent: false});
+                    this.form.get('checkAntes').setValue(false, {emitEvent: false});
+                }
             }
             this._changeDetectorRef.markForCheck();
         });
@@ -144,6 +186,16 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
                 this.form.get('filterDepois').disable({emitEvent: false});
                 this.form.get('filterEm').enable({emitEvent: false});
                 this._changeDetectorRef.markForCheck();
+            }
+        }
+
+        if (changes['interval']) {
+            if (this.interval !== null) {
+                this.form.get('checkAntes').setValue(true);
+            } else {
+                this.form.get('checkAntes').setValue(false);
+                this.maxDateAntes = null;
+                this.minDateDepois = null;
             }
         }
 
@@ -207,6 +259,36 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
             }
         }
         this.filtroEm = filters ?? [];
+    }
+
+    alteraDataAntes(event): void {
+        if (this.interval !== null) {
+            // Adicionar validações de intervalo
+            const intervalo = this.interval.split(' ');
+            const objetoIntervalo = {};
+            objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
+            const duration = moment.duration(objetoIntervalo);
+            this.minDateDepois = moment(event.value).subtract(duration);
+            this.maxDateDepois = moment(event.value);
+        } else {
+            this.minDateDepois = null;
+            this.maxDateDepois = null;
+        }
+    }
+
+    alteraDataDepois(event): void {
+        if (this.interval !== null) {
+            // Adicionar validações de intervalo
+            const intervalo = this.interval.split(' ');
+            const objetoIntervalo = {};
+            objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
+            const duration = moment.duration(objetoIntervalo);
+            this.maxDateAntes = moment(event.value).add(duration);
+            this.minDateAntes = moment(event.value);
+        } else {
+            this.maxDateAntes = null;
+            this.minDateAntes = null;
+        }
     }
 
     emite(): void {

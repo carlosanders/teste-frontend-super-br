@@ -18,6 +18,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkProcessoAutocompleteModule,
         MatMenuModule,
         CdkDateFilterModule,
+        MatRadioModule,
     ],
     providers: [
         HistoricoService,

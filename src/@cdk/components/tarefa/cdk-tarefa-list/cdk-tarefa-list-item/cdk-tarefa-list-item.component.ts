@@ -205,7 +205,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     convertePdf = new EventEmitter<number>();
 
     @Output()
-    deleteDocumento = new EventEmitter<{ documentoId: number; tarefaId: number }>();
+    deleteDocumento = new EventEmitter<{ documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }>();
 
     @Output()
     downloadP7S = new EventEmitter<VinculacaoEtiqueta>();
@@ -546,9 +546,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.convertePdf.emit(documentoId);
     }
 
-    doDeleteDocumento(documentoId: number, tarefaId: number): void {
+    doDeleteDocumento(documentoId: number, tarefaId: number, documentoAvulsoUuid: string = null): void {
         this.menuTriggerMinutas.closeMenu();
-        this.deleteDocumento.emit({documentoId: documentoId, tarefaId: tarefaId});
+        this.deleteDocumento.emit({documentoId: documentoId, tarefaId: tarefaId, documentoAvulsoUuid: documentoAvulsoUuid});
     }
 
     doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {

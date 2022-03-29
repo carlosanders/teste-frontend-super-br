@@ -5,7 +5,7 @@ import {
     EventEmitter,
     Input,
     OnInit,
-    Output,
+    Output, SimpleChange,
     ViewChild,
     ViewContainerRef,
     ViewEncapsulation
@@ -18,10 +18,11 @@ import {CdkProcessoFilterService} from './cdk-processo-filter.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {Subject} from 'rxjs';
-import {Pagination} from '../../../../models';
+import {Etiqueta, Pagination} from '../../../../models';
 import {Router} from '@angular/router';
 import {CdkConfirmDialogComponent} from '../../../confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {SearchBarEtiquetasFiltro} from "../../../search-bar-etiquetas/search-bar-etiquetas-filtro";
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -32,6 +33,9 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
     animations: cdkAnimations
 })
 export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
+
+    @Input()
+    arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
 
     @Output()
     selected = new EventEmitter<any>();
@@ -48,6 +52,10 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     filterAtualizadoEm = [];
     filterDataHoraAbertura = [];
     filterDataHoraProximaTransicao = [];
+
+    etiquetas: Etiqueta[] = [];
+    filtroEtiquetas: SearchBarEtiquetasFiltro;
+    etiquetaFilter: any;
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -133,6 +141,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
     }
 
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['arrayFiltrosEtiquetas']) {
+            this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
+        }
+    }
+
     emite(): void {
         if (!this.form.valid) {
             return;
@@ -141,7 +155,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         const andXFilter = [];
 
         if (this.form.get('cpfCnpj').value) {
-            this.form.get('cpfCnpj').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('cpfCnpj').value.replace(/[^\d]+/g,'').split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`});
             });
         }
@@ -244,6 +258,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        this.etiquetas.forEach((e) => {
+            const objFiltro = {};
+            objFiltro[this.filtroEtiquetas.queryFilter] = `eq:${e.id}`;
+            andXFilter.push(objFiltro);
+        });
+
         const request = {
             filters: {},
         };
@@ -314,6 +334,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         const request = {
             filters: {},
         };
+        this.etiquetas = [];
         this.selected.emit(request);
         if (this._router.url.indexOf('/apps/arquivista/') > -1) {
             this._cdkSidebarService?.getSidebar('cdk-processo-list-filter').close();
@@ -353,5 +374,18 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             return false;
         }
         return (this._router.url.indexOf('/apps/arquivista/') > -1);
+    }
+
+    addEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas.push(etiqueta);
+    }
+
+    deleteEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas = this.etiquetas.filter(e => e.id !== etiqueta.id);
+    }
+
+    changeEtiquetaFilter(filtro: SearchBarEtiquetasFiltro): void {
+        this.etiquetas = [];
+        this.filtroEtiquetas = filtro;
     }
 }

@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({
     selector: 'historico-list',
@@ -40,12 +41,14 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
      * @param _router
      * @param _store
      * @param _route
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.HistoricoConfigListAppState>,
-        private _route: ActivatedRoute
+        private _route: ActivatedRoute,
+        private _loginService: LoginService
     ) {
         this.historicosConfig$ = this._store.pipe(select(fromStore.getHistoricoConfigList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -78,21 +81,28 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
     }
 
     reload(params): void {
+        const parametros = {
+            ...params,
+            gridFilter: {
+                ...params.gridFilter,
+                'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id
+            }
+        };
         this._store.dispatch(new fromStore.GetHistoricoConfig({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
             },
             gridFilter: {
-                ...params.gridFilter
+                ...parametros.gridFilter
             },
-            sort: params.sort,
-            limit: params.limit,
-            offset: params.offset,
+            sort: parametros.sort,
+            limit: parametros.limit,
+            offset: parametros.offset,
             populate: [
                 ...this.pagination.populate
             ],
-            context: params.context,
+            context: parametros.context,
         }));
     }
     }

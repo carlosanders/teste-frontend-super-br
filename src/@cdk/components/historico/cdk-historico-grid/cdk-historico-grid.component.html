@@ -45,7 +45,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <button class="refresh" mat-icon-button
+            <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
                     matTooltip="Recarregar">
@@ -53,6 +53,7 @@
             </button>
 
             <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -72,7 +73,7 @@
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+            <table mat-table [dataSource]="dataSource" matSort [matSortDisabled]="mode === 'search' && (gridFilter | json).includes('{}')" [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">

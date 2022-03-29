@@ -27,7 +27,9 @@
                 <mat-icon>book</mat-icon>
                 <div fxLayout="column">
                     <div>
-                        <span class="username">{{historico.processo.NUP}}</span>
+                        <span class="username link" (click)="abrirProcesso(historico.processo.id)">
+                            {{historico.processo.NUP}}
+                        </span>
                     </div>
                     <div>
                         <span class="message"> {{historico.descricao}}</span>

@@ -13,7 +13,7 @@ import {CdkGridColsDirective} from './cdk-grid-cols/cdk-grid-cols.directive';
 import {CdkInputAutoFocusDirective} from './cdk-input-auto-focus-drective/cdk-input-auto-focus-directive';
 import {CdkScrollToDirective} from './cdk-scroll-to/cdk-scroll-to.directive';
 import {CdkHoverClassDirective} from './cdk-hover-class/cdk-hover-class.directive';
-import {CdkAutocompleteMultipleDirective} from "./cdk-autocomplete-multiple/cdk-autocomplete-multiple.directive";
+import {CdkAutocompleteMultipleDirective} from './cdk-autocomplete-multiple/cdk-autocomplete-multiple.directive';
 
 @NgModule({
     declarations: [
@@ -28,7 +28,7 @@ import {CdkAutocompleteMultipleDirective} from "./cdk-autocomplete-multiple/cdk-
         CdkGridColsDirective,
         CdkInputAutoFocusDirective,
         CdkHoverClassDirective,
-        CdkAutocompleteMultipleDirective
+        CdkAutocompleteMultipleDirective,
     ],
     imports: [],
     exports: [
@@ -43,7 +43,7 @@ import {CdkAutocompleteMultipleDirective} from "./cdk-autocomplete-multiple/cdk-
         CdkGridColsDirective,
         CdkInputAutoFocusDirective,
         CdkHoverClassDirective,
-        CdkAutocompleteMultipleDirective
+        CdkAutocompleteMultipleDirective,
     ]
 })
 export class DirectivesModule {
