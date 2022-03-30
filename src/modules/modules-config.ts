@@ -3,6 +3,8 @@
 //import {modulesConfigDisciplinar} from './disciplinar/modules-config';
 //import {modulesConfigEcarta} from './ecarta/modules-config';
 //import {modulesConfigDivida} from './divida/modules-config';
+//import {modulesConfigCalculo} from './calculo/modules-config';
+//import {modulesConfigGestaoDevedor} from './gestao-devedor/modules-config';
 
 export const modulesConfig: any = [
     //modulesConfigJudicial,
@@ -10,6 +12,8 @@ export const modulesConfig: any = [
     //modulesConfigDisciplinar,
     //modulesConfigEcarta,
     //modulesConfigDivida,
+    //modulesConfigCalculo,
+    //modulesConfigGestaoDevedor,
 ];
 
 
