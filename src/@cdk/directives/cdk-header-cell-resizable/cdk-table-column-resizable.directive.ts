@@ -1,7 +1,7 @@
 import {
-    Directive,
+    Directive, DoCheck,
     ElementRef, EventEmitter, HostBinding,
-    Input, OnChanges,
+    Input, KeyValueDiffer, KeyValueDiffers, OnChanges,
     OnInit, Output, Renderer2, SimpleChanges,
 } from '@angular/core';
 import {TableColumn} from '@cdk/components/table-definitions/table-column';
@@ -9,7 +9,7 @@ import {TableColumn} from '@cdk/components/table-definitions/table-column';
 @Directive({
     selector: '[cdkTableColumnResizable]'
 })
-export class CdkTableColumnResizableDirective implements OnInit, OnChanges {
+export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCheck {
     @Input('cdkTableColumnResizable') tableColumn: TableColumn;
     @Output() columnChageWidth: EventEmitter<ColumnWidthChangeEvent> = new EventEmitter<ColumnWidthChangeEvent>();
     @Output() resizing: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -22,8 +22,9 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges {
     private _pressed: boolean;
     private _index: number;
     private _initialized: boolean = false;
+    private _tableColumnDiff: KeyValueDiffer<string, any>;
 
-    constructor(private _renderer: Renderer2, private _host: ElementRef) {
+    constructor(private _renderer: Renderer2, private _host: ElementRef, private _differs: KeyValueDiffers) {
         this._column = this._host.nativeElement;
     }
 
@@ -60,7 +61,15 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['tableColumn'] && this.tableColumn.definitions.width) {
+        if (changes['tableColumn']) {
+            this._tableColumnDiff = this._differs.find(this.tableColumn.definitions).create();
+            this.resizeColumnTo(this.tableColumn.definitions.width);
+        }
+    }
+
+    ngDoCheck(): void {
+        const diffs = this._tableColumnDiff.diff(this.tableColumn.definitions);
+        if (diffs) {
             this.resizeColumnTo(this.tableColumn.definitions.width);
         }
     }
@@ -130,6 +139,19 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges {
             } else {
                 this._renderer.removeStyle(cell, 'width');
             }
+        }
+        //table width
+        let widthSum = 0;
+        Array.from(this._column.parentNode.childNodes).forEach((column: HTMLElement) => {
+            if (column.offsetWidth) {
+                widthSum += parseInt(column?.style?.width?.replace('px', '')) || column.offsetWidth;
+            }
+        });
+
+        if (width && widthSum > this._renderer.parentNode(this._table).offsetWidth) {
+            this._renderer.setStyle(this._table, 'width', `${widthSum}px`);
+        } else {
+            this._renderer.removeStyle(this._table, 'width');
         }
     }
 }
