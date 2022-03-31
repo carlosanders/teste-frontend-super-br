@@ -120,16 +120,19 @@
             </button>
         </div>
 
-        <cdk-vinculacao-etiqueta-chips
-            class="m-8"
-            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id && !(documento$ | async)?.apagadoEm"
-            [vinculacoesEtiquetas]="(documento$ | async)?.vinculacoesEtiquetas"
-            (create)="onEtiquetaCreate($event)"
-            (edit)="onEtiquetaEdit($event)"
-            [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-            [errors]="(vinculacaoEtiquetaErrors$ | async)"
-            [pagination]="vinculacaoEtiquetaPagination"
-            (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+        <div class="search-wrapper" (click)="$event.stopPropagation();">
+            <mat-icon class="secondary-text mr-8">label</mat-icon>
+            <cdk-vinculacao-etiqueta-chips
+                class="m-8"
+                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id && !(documento$ | async)?.apagadoEm"
+                [vinculacoesEtiquetas]="(documento$ | async)?.vinculacoesEtiquetas"
+                (create)="onEtiquetaCreate($event)"
+                (edit)="onEtiquetaEdit($event)"
+                [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+                [errors]="(vinculacaoEtiquetaErrors$ | async)"
+                [pagination]="vinculacaoEtiquetaPagination"
+                (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+        </div>
 
         <div class="dynamic-form">
             <ng-template #dynamicForm></ng-template>
