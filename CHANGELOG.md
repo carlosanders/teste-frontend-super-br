@@ -843,3 +843,8 @@
 * Melhoria alterado funcionamento de filtro de histórico de usuário, possibilitando pesquisar por processo ou por janela de tempo de criação do histórico
 * Correção no componente de histórico de usuário, impedindo alterar o campo 'criadoPor' caso esteja no modo search
 * Melhoria no componente de filtro de datas, permitindo informar um intervalo de tempo e, caso informado, alterando o comportamento do mesmo e validando que um período ou data exata foram informados
+
+1.8.4
+
+* Correção no historico completo
+* Correção nos acompanhamentos
