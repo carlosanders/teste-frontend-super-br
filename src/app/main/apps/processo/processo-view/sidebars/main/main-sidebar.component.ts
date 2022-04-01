@@ -1496,10 +1496,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
         }
     }
-    doCopyNup(numDoc:string): void
+    doCopyNumDoc(numDoc:string): void
     {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (numDoc));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
+    }
+    doCopyBookmark(bookmarks: any[] = []): void
+    {
+        let copyBookmark = '';
+        bookmarks.forEach((book) =>{
+            copyBookmark += 'Sequencial: ' + JSON.stringify(book.key)
+                + ' Página: ' + JSON.stringify(book.value[0].pagina)
+                + ' Marcador:' + JSON.stringify(book.value[0].nome) + '\n\n';
+        });
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (copyBookmark));
             e.preventDefault();
             document.removeEventListener('copy', null);
         });

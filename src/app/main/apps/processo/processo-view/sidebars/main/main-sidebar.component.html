@@ -155,6 +155,12 @@
                     matTooltip="Juntadas do processo">
                 <mat-icon>arrow_back</mat-icon>
             </button>
+            <button mat-icon-button
+                    (click)="doCopyBookmark(bookmarksBySequencial)"
+                    aria-label="copiar Bookmark"
+                    matTooltip="Copiar Bookmark para o clipboard">
+                <mat-icon>file_copy</mat-icon>
+            </button>
         </ng-container>
 
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
@@ -525,7 +531,7 @@
                             <div class="numero"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
                                 {{juntada.documento.numeroUnicoDocumentoFormatado}}
-                                <mat-icon class="s-12" [matTooltip]="'Copiar Número do Documento para o clipboard'" (click)="doCopyNup(juntada.documento?.numeroUnicoDocumentoFormatado)">
+                                <mat-icon class="s-12" [matTooltip]="'Copiar Número do Documento para o clipboard'" (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado)">
                                     file_copy
                                 </mat-icon>
                             </div>
