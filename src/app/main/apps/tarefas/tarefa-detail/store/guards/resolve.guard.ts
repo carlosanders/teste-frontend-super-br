@@ -150,14 +150,15 @@ export class ResolveGuard implements CanActivate {
             return this._store.pipe(
                 select(getBinary),
                 tap((binary: any) => {
-                    const processoId = this.routerState.params['processoHandle'];
+                    const processoId = this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'];
                     if (!this.loadingLatestBinary && (!binary.src) && processoId !== 'criar' && this.loadingProcesso !== parseInt(processoId, 10)) {
                         this._store.dispatch(new fromStoreProcessoView.DownloadLatestBinary(parseInt(processoId, 10)));
                         this.loadingLatestBinary = true;
                     }
                 }),
                 filter((binary: any) => this.loadingLatestBinary || (!!binary.src) ||
-                    (binary.processo === parseInt(this.routerState.params['processoHandle'], 10))),
+                    (binary.processo === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10)) ||
+                    (this.loadingProcesso === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10))),
                 take(1)
             );
         }
@@ -195,15 +196,13 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {
                             'volume.numeracaoSequencial': 'DESC',
-                            'numeracaoSequencial': 'DESC',
-                            'documento.componentesDigitais.numeracaoSequencial': 'ASC'
+                            'numeracaoSequencial': 'DESC'
                         },
                         populate: [
                             'volume',
                             'documento',
                             'documento.origemDados',
                             'documento.tipoDocumento',
-                            'documento.componentesDigitais',
                             'documento.criadoPor',
                             'documento.setorOrigem',
                             'documento.setorOrigem.unidade',

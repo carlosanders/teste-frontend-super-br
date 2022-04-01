@@ -51,14 +51,14 @@ export class DocumentoEffect {
         switchMap(() => {
             let handle = {
                 id: '',
-                value: ''
+                value: null
             };
             const routeParams = of('documentoHandle');
             routeParams.subscribe((param) => {
                 if (this.routerState.params[param]) {
                     handle = {
                         id: param,
-                        value: this.routerState.params[param]
+                        value: parseInt(this.routerState.params[param], 10)
                     };
                 }
             });
@@ -98,25 +98,23 @@ export class DocumentoEffect {
                 'modalidadeCopia'
             ];
 
-            return this._documentoService.query(
-                `{"id": "eq:${handle.value}"}`,
-                1,
-                0,
-                '{"componentesDigitais.numeracaoSequencial": "ASC"}',
+            return this._documentoService.get(
+                handle.value,
                 JSON.stringify(this.populate),
-                JSON.stringify(context));
+                JSON.stringify(context),
+                '{"componentesDigitais.numeracaoSequencial": "ASC"}');
         }),
         switchMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: this.populate}),
+            new AddData<Documento>({data: [response], schema: documentoSchema, populate: this.populate}),
             new DocumentoActions.GetDocumentoSuccess({
                 loaded: {
                     id: 'documentoHandle',
                     value: this.routerState.params.documentoHandle
                 },
-                documentoId: response['entities'][0].id,
+                documentoId: response.id,
                 // tslint:disable-next-line:max-line-length
-                editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || response['entities'][0].minuta,
-                currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
+                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa.dataHoraRemessa) || response.minuta,
+                currentComponenteDigitalId: response.componentesDigitais[0] ? response.componentesDigitais[0].id : null
             })
         ]),
         catchError((err) => {

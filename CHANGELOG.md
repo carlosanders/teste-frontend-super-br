@@ -848,3 +848,5 @@
 
 * Correção no historico completo
 * Correção nos acompanhamentos
+* Melhoria implementado carregamento parcial das juntadas, carregando os componentes digitais posteriormente, para melhoria de performance
+* Correção em chamadas de query ao backend que poderiam ser getOne, para melhoria de performance

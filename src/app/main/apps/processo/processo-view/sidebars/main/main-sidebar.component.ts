@@ -28,8 +28,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as AssinaturaStore from 'app/store';
 import {
-    getDeletingBookmarkId,
-    getDocumentosHasLoaded, getLoadingVinculacoesDocumentosIds,
+    getDocumentosHasLoaded,
     getSelectedVolume,
     getVolumes
 } from '../../store';
@@ -238,6 +237,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     loadingVinculacoesDocumentosIds$: Observable<number[]>;
     loadingVinculacoesDocumentosIds: number[] = [];
     paginadores: any = {};
+    loadingComponentesDigitaisIds$: Observable<number[]>;
+    loadingComponentesDigitaisIds: number[] = [];
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -318,6 +319,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
         this.loadingVinculacoesDocumentosIds$ = this._store.pipe(select(fromStore.getLoadingVinculacoesDocumentosIds));
+        this.loadingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getLoadingComponentesDigitaisIds));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -465,6 +467,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             pagination => this.paginationBookmark = pagination
         );
 
+        this.loadingComponentesDigitaisIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((loading) => {
+            this.loadingComponentesDigitaisIds = loading;
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**
