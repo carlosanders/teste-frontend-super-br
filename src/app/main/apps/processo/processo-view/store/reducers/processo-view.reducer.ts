@@ -17,6 +17,30 @@ export interface PaginadorVinculacoesDocumento {
     error?: any;
 }
 
+export interface JuntadaComponenteDigital {
+    id: number;
+    numeracaoSequencial: number;
+    vinculacao: number;
+}
+
+export interface PaginadorComponentesJuntada {
+    juntadaId: number;
+    componentesDigitais: JuntadaComponenteDigital[];
+    entitiesId: number[];
+    firstJuntada: boolean;
+    indice: number;
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
+    loaded: any;
+    loading: boolean;
+}
+
 export interface ProcessoViewState {
     entitiesId: number[];
     pagination: {
@@ -31,7 +55,9 @@ export interface ProcessoViewState {
     processoId: number;
     loading: boolean;
     loadingVinculacoesDocumentosId: number[];
+    loadingComponentesId: number[];
     paginadoresDocumentosVinculados: {[id: number]: PaginadorVinculacoesDocumento };
+    paginadoresComponentes: {[id: number]: PaginadorComponentesJuntada };
     loaded: any;
     currentStep: {
         step: number;
@@ -62,7 +88,9 @@ export const processoViewInitialState: ProcessoViewState = {
     processoId: null,
     loading: false,
     loadingVinculacoesDocumentosId: [],
+    loadingComponentesId: [],
     paginadoresDocumentosVinculados: {},
+    paginadoresComponentes: {},
     loaded: false,
     currentStep: {
         step: 0,
@@ -309,6 +337,133 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA: {
+            const total = state.paginadoresComponentes[action.payload.juntadaId]?.pagination?.total ?? 0;
+            const loading = [...state.loadingComponentesId, action.payload.juntadaId];
+            const paginadores = {
+                ...state.paginadoresComponentes,
+                [action.payload.juntadaId]: {
+                    ...state.paginadoresComponentes[action.payload.juntadaId],
+                    juntadaId: action.payload.juntadaId,
+                    indice: action.payload.juntadaIndice,
+                    loading: true,
+                    firstJuntada: null,
+                    loaded: state.paginadoresComponentes[action.payload.juntadaId]?.loaded ?? false,
+                    pagination: {
+                        limit: action.payload.limit,
+                        offset: action.payload.offset,
+                        filter: action.payload.filter,
+                        populate: action.payload.populate,
+                        sort: action.payload.sort,
+                        total: total
+                    }
+                }
+            };
+            return {
+                ...state,
+                paginadoresComponentes: paginadores,
+                loadingComponentesId: loading
+            };
+        }
+
+        case ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA_SUCCESS: {
+            const loading = state.loadingComponentesId.filter(juntadaId => juntadaId !== action.payload.juntadaId);
+            if (state.processoId === action.payload.processoId) {
+                // O componente digital em questão pertence ao processo que está atualmente no estado da aplicação
+                let componentesDigitais = [];
+                if (state.paginadoresComponentes[action.payload.juntadaId]?.componentesDigitais) {
+                    componentesDigitais = state.paginadoresComponentes[action.payload.juntadaId].componentesDigitais;
+                }
+                let entities = [];
+                if (state.paginadoresComponentes[action.payload.juntadaId]?.entitiesId) {
+                    entities = state.paginadoresComponentes[action.payload.juntadaId].entitiesId;
+                }
+                const paginadores = {
+                    ...state.paginadoresComponentes,
+                    [action.payload.juntadaId]: {
+                        ...state.paginadoresComponentes[action.payload.juntadaId],
+                        loading: false,
+                        entitiesId: [...entities, ...action.payload.entitiesId],
+                        componentesDigitais: [...componentesDigitais, ...action.payload.componentesDigitais],
+                        loaded: {
+                            offset: state.paginadoresComponentes[action.payload.juntadaId].pagination.offset,
+                            total: action.payload.total
+                        },
+                        pagination: {
+                            ...state.paginadoresComponentes[action.payload.juntadaId].pagination,
+                            total: action.payload.total
+                        }
+                    }
+                };
+                return {
+                    ...state,
+                    paginadoresComponentes: paginadores,
+                    loadingComponentesId: loading
+                };
+            } else {
+                // O processo não se encontra mais no estado da aplicação, o que significa que esta é uma requisição
+                // de antes de trocar o processo exibido, não deve ser lançado no estado da aplicação
+                return {
+                    ...state,
+                    loadingComponentesId: loading
+                };
+            }
+        }
+
+        case ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA_FAILED: {
+            const loading = state.loadingComponentesId.filter(juntadaId => juntadaId !== action.payload.id);
+            if (state.processoId === action.payload.processoId) {
+                // O documento em questão pertence ao processo que está atualmente no estado da aplicação
+                const paginadores = {
+                    ...state.paginadoresComponentes,
+                    [action.payload.id]: {
+                        ...state.paginadoresComponentes[action.payload.id],
+                        loading: false
+                    }
+                };
+                return {
+                    ...state,
+                    loadingComponentesId: loading,
+                    paginadoresComponentes: paginadores
+                };
+            } else {
+                // O processo não se encontra mais no estado da aplicação, o que significa que esta é uma requisição
+                // de antes de trocar o processo exibido, não deve ser lançado no estado da aplicação
+                return {
+                    ...state,
+                    loadingComponentesId: loading
+                };
+            }
+        }
+
+        case ProcessoViewActions.SET_FIRST_JUNTADA_TRUE: {
+            const paginadores = {
+                ...state.paginadoresComponentes,
+                [action.payload]: {
+                    ...state.paginadoresComponentes[action.payload],
+                    firstJuntada: true
+                }
+            };
+            return {
+                ...state,
+                paginadoresComponentes: paginadores
+            };
+        }
+
+        case ProcessoViewActions.SET_FIRST_JUNTADA_FALSE: {
+            const paginadores = {
+                ...state.paginadoresComponentes,
+                [action.payload]: {
+                    ...state.paginadoresComponentes[action.payload],
+                    firstJuntada: false
+                }
+            };
+            return {
+                ...state,
+                paginadoresComponentes: paginadores
+            };
+        }
+
         case ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA: {
             const total = state.paginadoresDocumentosVinculados[action.payload.documentoId]?.pagination?.total ?? 0;
             const loading = [...state.loadingVinculacoesDocumentosId, action.payload.documentoId];
@@ -361,10 +516,22 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                         }
                     }
                 };
+                let componentesDigitais = [];
+                if (state.paginadoresComponentes[action.payload.juntadaId]?.componentesDigitais) {
+                    componentesDigitais = state.paginadoresComponentes[action.payload.juntadaId].componentesDigitais;
+                }
+                const paginadoresComponentes = {
+                    ...state.paginadoresComponentes,
+                    [action.payload.juntadaId]: {
+                        ...state.paginadoresComponentes[action.payload.juntadaId],
+                        componentesDigitais: [...componentesDigitais, ...action.payload.componentesDigitais],
+                    }
+                };
                 return {
                     ...state,
                     paginadoresDocumentosVinculados: paginadores,
-                    loadingVinculacoesDocumentosId: loading
+                    loadingVinculacoesDocumentosId: loading,
+                    paginadoresComponentes: paginadoresComponentes
                 };
             } else {
                 // O processo não se encontra mais no estado da aplicação, o que significa que esta é uma requisição

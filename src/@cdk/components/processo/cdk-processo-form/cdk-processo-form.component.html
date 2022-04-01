@@ -55,7 +55,7 @@
                 </mat-form-field>
             </div>
         </div>
-        <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && form.get('configuracaoNup').value">
+        <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2)">
             <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
             <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" (focusout)="doValidateNup()" required>
             <button matSuffix mat-button mat-icon-button (click)="doCalcularNUP()">

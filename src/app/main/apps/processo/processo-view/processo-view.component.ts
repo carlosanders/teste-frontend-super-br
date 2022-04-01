@@ -108,6 +108,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     loadingJuntadas$: Observable<boolean>;
     loadingJuntadas: boolean;
+    loadingComponentesDigitais$: Observable<number[]>;
+    loadingComponentesDigitais: boolean = false;
 
     pagination$: any;
     pagination: any;
@@ -171,6 +173,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
         this.loadingJuntadas$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.loadingComponentesDigitais$ = this._store.pipe(select(fromStore.getLoadingComponentesDigitaisIds));
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
@@ -204,6 +207,17 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.currentJuntada = this.juntadas[this.currentStep.step];
                 this._changeDetectorRef.markForCheck();
             }
+        });
+
+        this.loadingComponentesDigitais$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((loading) => {
+            if (!this.currentJuntada) {
+                this.loadingComponentesDigitais = loading.length > 0;
+            } else {
+                this.loadingComponentesDigitais = loading.includes(this.currentJuntada.id);
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
         this.binary$.pipe(
