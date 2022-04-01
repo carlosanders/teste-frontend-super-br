@@ -525,6 +525,9 @@
                             <div class="numero"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
                                 {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                <mat-icon class="s-12" [matTooltip]="'Copiar Número do Documento para o clipboard'" (click)="doCopyNup(juntada.documento?.numeroUnicoDocumentoFormatado)">
+                                    file_copy
+                                </mat-icon>
                             </div>
                             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                                 <div class="etiqueta"

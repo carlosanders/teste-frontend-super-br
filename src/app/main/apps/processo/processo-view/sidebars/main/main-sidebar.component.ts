@@ -1496,4 +1496,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
         }
     }
+    doCopyNup(numDoc:string): void
+    {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (numDoc));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
+    }
 }
