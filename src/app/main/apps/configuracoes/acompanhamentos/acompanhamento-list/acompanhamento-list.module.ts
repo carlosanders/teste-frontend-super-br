@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkAcompanhamentoGridModule} from '@cdk/components/acompanhamento/cdk-acompanhamento-grid/cdk-acompanhamento-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 const routes: Routes = [
     {
@@ -70,6 +71,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AcompanhamentoService,
+        VinculacaoEtiquetaService,
         fromGuards.ResolveGuard
     ],
     exports: [

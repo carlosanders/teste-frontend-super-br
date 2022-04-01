@@ -13,7 +13,7 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class AcompanhamentoListEffect {
@@ -35,7 +35,9 @@ export class AcompanhamentoListEffect {
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context)).pipe(
-            mergeMap(response => [
+            mergeMap(response => {
+                response['entities'].forEach((compartilhamento: Compartilhamento) => this._store.dispatch(new AcompanhamentoListActions.GetEtiquetasProcesso(compartilhamento.processo.id)));
+                return [
                     new AddData<Compartilhamento>({
                         data: response['entities'],
                         schema: acompanhamentoSchema
@@ -48,8 +50,8 @@ export class AcompanhamentoListEffect {
                         },
                         total: response['total']
                     })
-                ]
-            ),
+                ];
+            }),
             catchError((err) => {
                 console.log(err);
                 return of(new AcompanhamentoListActions.GetAcompanhamentosFailed(err));

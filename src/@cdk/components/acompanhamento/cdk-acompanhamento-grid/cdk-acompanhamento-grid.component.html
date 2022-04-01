@@ -129,15 +129,18 @@
                 <!-- Etiquetas Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('etiquetas_processo') > -1"
                               matColumnDef="etiquetas_processo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef>
                         Etiquetas
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Etiquetas: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}">
+                        <div class="loading" *ngIf="!loading && acompanhamento?.processo?.vinculacoesEtiquetas == undefined">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
                         <cdk-etiqueta-chips-item
-                                *ngFor="let vinculacaoEtiqueta of acompanhamento.processo.vinculacoesEtiquetas"
-                                [etiqueta]="vinculacaoEtiqueta.etiqueta"
-                                [conteudo]="vinculacaoEtiqueta.conteudo"
+                                *ngFor="let vinculacaoEtiqueta of acompanhamento?.processo?.vinculacoesEtiquetas"
+                                [etiqueta]="vinculacaoEtiqueta?.etiqueta"
+                                [conteudo]="vinculacaoEtiqueta?.conteudo"
                                 [iconeVisibilidade]="vinculacaoEtiqueta.privada ? 'person' : 'public'">
                         </cdk-etiqueta-chips-item>
                     </td>

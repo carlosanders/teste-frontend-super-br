@@ -39,6 +39,14 @@ documento-edit {
                 display: flex;
                 padding: 8px;
             }
+
+            > .search-wrapper {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
         }
     }
 }
