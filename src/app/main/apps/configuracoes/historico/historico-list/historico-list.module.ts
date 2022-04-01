@@ -26,8 +26,7 @@ import {HistoricoConfigListStoreModule} from './store/store.module';
 const routes: Routes = [
     {
         path: '',
-        component: HistoricoConfigListComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        component: HistoricoConfigListComponent
     }
 ];
 

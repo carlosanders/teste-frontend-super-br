@@ -316,7 +316,7 @@ export class ProcessoEffect {
             const acompanhamento = new Compartilhamento();
             acompanhamento.usuario = this._loginService.getUserProfile();
             acompanhamento.processo = action.payload.processo;
-            return this._acompanhamentoService.save(acompanhamento).pipe(
+            return this._acompanhamentoService.save(acompanhamento, JSON.stringify({}), JSON.stringify(['populateAll'])).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'acompanhamento',
@@ -336,7 +336,7 @@ export class ProcessoEffect {
                     const erroString = CdkUtils.errorsToString(err);
                     console.log(err);
                     this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
+                        id: action.payload.operacaoId, 
                         type: 'acompanhamento',
                         content: 'Erro ao salvar o acompanhamento: ' + erroString,
                         status: 2, // erro

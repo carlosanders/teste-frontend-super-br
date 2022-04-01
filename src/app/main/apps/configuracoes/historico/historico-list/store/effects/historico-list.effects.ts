@@ -9,8 +9,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as HistoricoConfigListActions from '../actions';
 
 import {LoginService} from 'app/main/auth/login/login.service';
-import {HistoricoService} from "../../../../../../../../@cdk/services/historico.service";
-import {AddData} from "../../../../../../../../@cdk/ngrx-normalizr";
+import {HistoricoService} from '../../../../../../../../@cdk/services/historico.service';
+import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Historico} from '@cdk/models';
 import {historico as historicoSchema} from '@cdk/normalizr';
 
@@ -27,7 +27,7 @@ export class HistoricoConfigListEffect {
         ofType<HistoricoConfigListActions.GetHistoricoConfig>(HistoricoConfigListActions.GET_HISTORICO_CONFIG),
         switchMap((action) => {
             const filters = {
-                'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id,
+                ...action.payload.filter,
                 ...action.payload.gridFilter,
             };
             return this._historicoService.query(

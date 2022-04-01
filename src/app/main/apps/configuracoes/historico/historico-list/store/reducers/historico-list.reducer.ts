@@ -16,26 +16,26 @@ export interface HistoricoConfigListState {
     loaded: any;
 }
 
-export const HistoricoConfigListInitialState: HistoricoConfigListState = {
+export const historicoConfigListInitialState: HistoricoConfigListState = {
     entitiesId: [],
     pagination: {
-        limit: 0,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},
-        populate: [],
+        populate: ['populateAll'],
         context: {},
-        sort: {},
+        sort: {id: 'DESC'},
         total: 0,
     },
     loading: false,
     loaded: false,
 };
 
-export function HistoricoConfigListReducer(
-    state = HistoricoConfigListInitialState,
+export const historicoConfigListReducer = (
+    state = historicoConfigListInitialState,
     action: HistoricoConfigListActions.HistoricoConfigListActionsAll
-): HistoricoConfigListState {
+): HistoricoConfigListState => {
     switch (action.type) {
 
         case HistoricoConfigListActions.GET_HISTORICO_CONFIG: {
@@ -73,7 +73,7 @@ export function HistoricoConfigListReducer(
 
         case HistoricoConfigListActions.UNLOAD_HISTORICO_CONFIG: {
             return {
-                ...HistoricoConfigListInitialState
+                ...historicoConfigListInitialState
             };
         }
 
@@ -95,4 +95,4 @@ export function HistoricoConfigListReducer(
         default:
             return state;
     }
-}
+};

@@ -1,5 +1,5 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {HistoricoConfigListReducer, HistoricoConfigListState} from './historico-list.reducer';
+import {historicoConfigListReducer, HistoricoConfigListState} from './historico-list.reducer';
 
 export interface HistoricoConfigListAppState
 {
@@ -16,7 +16,7 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<HistoricoConfigListAppState> = {
-    historicoConfigList:HistoricoConfigListReducer
+    historicoConfigList: historicoConfigListReducer
 };
 
 export * from './historico-list.reducer';

@@ -206,3 +206,23 @@ div.menu-sort {
 .mat-slide-toggle {
     margin-bottom: 8px;
 }
+
+.mat-menu-content:not(:empty) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.datasBackdrop {
+    background-color: rgba(204, 204, 204, 0.5);
+}
+
+.datasValidateBackdrop {
+    background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(94, 0, 0, 0.521) 10px,
+            rgba(94, 0, 0, 0.521) 20px
+    );
+    opacity: 0.1 !important;
+}

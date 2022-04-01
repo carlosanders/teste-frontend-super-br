@@ -3,7 +3,12 @@ import {environment} from '../environments/environment';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
+    errorMessage: string;
     handleError(error): void {
+        if (error.message === this.errorMessage) {
+            return;
+        }
+        this.errorMessage = error.message;
         console.log (error);
         const path = 'log_collector';
         if (window.location.pathname.indexOf('ckeditor') > -1) {

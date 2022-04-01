@@ -9,6 +9,22 @@
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
+        <div fxFlex="1 0 auto" fxLayout="column" *ngIf="mode === 'search'">
+
+            <label class="mb-8" id="tipo-rg">Pesquisar por</label>
+
+            <div class="target" fxLayout="column">
+                <mat-radio-group class="tipo-rg" formControlName="tipoPesquisa" aria-labelledby="tipo-pesquisa">
+                    <mat-radio-button [value]="'processo'">
+                        Processo
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-8" [value]="'tempo'">
+                        Tempo
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+
         <mat-form-field>
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
@@ -19,14 +35,14 @@
         <mat-form-field>
             <input matInput placeholder="Processo"
                    formControlName="processo"
-                   [required]="this.mode === 'search'"
+                   [required]="this.mode === 'search' && this.form.get('tipoPesquisa').value === 'processo'"
                    [matAutocomplete]="processo.autocomplete"
                    (change)="verificarValor($event)">
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
             </cdk-processo-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="mode === 'list'">
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
                    [matAutocomplete]="usuarioCriadoPor.autocomplete"
@@ -45,14 +61,23 @@
         </mat-form-field>
 
         <div class="filtro-data">
-            <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
+            <span [ngClass]="{'filtrado': filterCriadoEm?.length}"
+                  *ngIf="this.mode !== 'search' || this.form.get('tipoPesquisa').value !== 'tempo'">Criado Em</span>
+            <span [ngClass]="{'filtrado': filterCriadoEm?.length}"
+                  *ngIf="this.mode === 'search' && this.form.get('tipoPesquisa').value === 'tempo'">Criado Em *</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
+                    (menuOpened)="validate()"
+                    (menuClosed)="removeCloneBackdrop()"
                     [ngClass]="{'filtrado': filterCriadoEm?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
-        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [hasBackdrop]="true"
+                  [backdropClass]="'datasBackdrop'"
+                  [overlapTrigger]="false" xPosition="after">
             <cdk-date-filter [datetime]="true" campo="criadoEm"
+                             [mode]="'period'"
+                             [interval]="this.mode === 'search' && this.form.get('tipoPesquisa').value === 'tempo' ? '10 days' : null"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraCriadoEm($event)">
             </cdk-date-filter>
