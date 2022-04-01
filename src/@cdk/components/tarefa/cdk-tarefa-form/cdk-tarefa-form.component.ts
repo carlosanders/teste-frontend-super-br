@@ -36,6 +36,9 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkUtils} from '@cdk/utils';
+import {
+    Filter
+} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete-filter/filters/filter';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -187,6 +190,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     lotacaoControl: FormControl = new FormControl('');
 
     lote: string;
+
+    filterProcessoAutocomplete: Filter;
 
     /**
      * Constructor
@@ -1491,5 +1496,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         return this.mode === 'regular' || this.mode === 'bloco-create' || this.blocoEdit.blocoEditEspecie;
+    }
+
+    setFilterProcessoAutocomplete(filter: Filter): void {
+        this.filterProcessoAutocomplete = filter;
     }
 }
