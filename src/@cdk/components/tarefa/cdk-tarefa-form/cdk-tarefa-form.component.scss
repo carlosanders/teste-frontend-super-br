@@ -34,4 +34,9 @@ cdk-tarefa-form {
     .button-lotacao {
         margin-left: auto;
     }
+
+    .mat-form-field-infix{
+        flex: 1 1 auto;
+        display: flex;
+    }
 }

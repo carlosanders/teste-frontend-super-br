@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {Filter} from './cdk-processo-autocomplete-filter/filters/filter';
 
 @Component({
     selector: 'cdk-processo-autocomplete',
@@ -35,6 +36,9 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
 
     @Input()
     field = 'NUP';
+
+    @Input()
+    filter: Filter;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
@@ -62,59 +66,38 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 4),
             switchMap((value) => {
-                    const termFilterNUP = [];
-                    const termFilterOutroNumero = [];
-                    // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                    //     termFilterNUP.push({
-                    //         // eslint-disable-next-line @typescript-eslint/naming-convention
-                    //         NUP: `like:%${bit.replace(/\D/g, '')}%`
-                    //     });
-                    //     termFilterOutroNumero.push({
-                    //         outroNumero: `like:%${bit}%`
-                    //     });
-                    // });
-                    termFilterNUP.push({
-                        // eslint-disable-next-line @typescript-eslint/naming-convention
-                        NUP: `like:${value.replace(/\D/g, '')}%`
-                    });
-                    termFilterOutroNumero.push({
-                        // eslint-disable-next-line @typescript-eslint/naming-convention
-                        outroNumero: `like:${value}%`
-                    });
+                let criteria = {};
+                let field = this.filter?.field || 'NUP';
+                let keyword = value.replace(/\D/g, '');
 
-                    /*
-                    const termFilter = {
-                        orX: [
-                            {andX: termFilterNUP},
-                            {andX: termFilterOutroNumero}
-                        ]
-                    };
-                    */
-
-
-                    if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {
-                        this.processoListIsLoading = true;
-                        this._changeDetectorRef.detectChanges();
-                        const filterParam = {
-                            ...this.pagination.filter,
-                            andX: termFilterNUP
-                        };
-                        return this._processoService.query(
-                            JSON.stringify(filterParam),
-                            this.pagination.limit,
-                            this.pagination.offset,
-                            JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate),
-                            JSON.stringify(this.pagination.context))
-                            .pipe(
-                                finalize(() => this.processoListIsLoading = false),
-                                catchError(() => of([]))
-                            );
-                    } else {
-                        return of([]);
-                    }
+                if (this.filter?.field == 'outroNumero') {
+                    keyword = value;
                 }
-            )
+
+                criteria[field] = `like:${keyword}%`;
+
+                if (typeof value === 'string') {
+                    const filters = {
+                        ...this.pagination.filter,
+                        andX: [criteria]
+                    };
+                    this.processoListIsLoading = true;
+                    this._changeDetectorRef.detectChanges();
+                    return this._processoService.query(
+                        JSON.stringify(filters),
+                        this.pagination.limit,
+                        this.pagination.offset,
+                        JSON.stringify(this.pagination.sort),
+                        JSON.stringify(this.pagination.populate),
+                        JSON.stringify(this.pagination.context))
+                        .pipe(
+                            finalize(() => this.processoListIsLoading = false),
+                            catchError(() => of([]))
+                        );
+                }
+
+                return of([]);
+            })
         ).subscribe((response) => {
             this.processoList = response['entities'];
             this._changeDetectorRef.markForCheck();

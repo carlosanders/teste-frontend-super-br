@@ -13,14 +13,21 @@
         <cdk-processo-autocomplete
             #processo="processoAutocomplete"
             [control]="form.get('processo')"
+            [filter]="filterProcessoAutocomplete"
             [pagination]="processoPagination">
         </cdk-processo-autocomplete>
-        <button *ngIf="!inputProcesso" matSuffix mat-button mat-icon-button
-                (click)="showProcessoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
+        <div class="mat-form-field-suffix">
+            <button *ngIf="!inputProcesso" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <cdk-processo-autocomplete-action-filter
+                *ngIf="!inputProcesso"
+                (filterChange)="setFilterProcessoAutocomplete($event)">
+            </cdk-processo-autocomplete-action-filter>
+        </div>
         <mat-error *ngIf="form.get('processo').hasError('formError')">
-            {{form.get('processo').errors.formError}}
+            {{form.get('processo')?.errors?.formError}}
         </mat-error>
     </mat-form-field>
 
