@@ -25,7 +25,8 @@
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
                                         (create)="addEtiqueta($event)"
                                         [pagination]="vinculacaoEtiquetaPagination"
-                                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
+                                        (delete)="deleteEtiqueta($event)"
+                                        [placeholder]="'Filtrar pelas etiquetas de processo'"></cdk-etiqueta-chips>
                 </div>
 
             </div>
@@ -67,7 +68,7 @@
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)">
                     </cdk-processo-list>
                 </div>
-                
+
                 <div class="processo-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [fxFlex]="100"
