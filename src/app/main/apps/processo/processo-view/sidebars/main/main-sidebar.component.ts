@@ -1517,9 +1517,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     {
         let copyBookmark = '';
         bookmarks.forEach((book) =>{
-            copyBookmark += 'Sequencial: ' + JSON.stringify(book.key)
-                + ' Página: ' + JSON.stringify(book.value[0].pagina)
-                + ' Marcador:' + JSON.stringify(book.value[0].nome) + '\n\n';
+            copyBookmark += '- ' + JSON.stringify(book.value[0].nome)
+                + ' (Sequencial:' + JSON.stringify(book.key)
+                + ', Página:' + JSON.stringify(book.value[0].pagina)
+                + ',' + JSON.stringify(book.value[0].componenteDigital.fileName)+ ')\r\n\n'
+                + '     ' + JSON.stringify((book.value[0].descricao))+ '\r\n\n';
         });
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (copyBookmark));
