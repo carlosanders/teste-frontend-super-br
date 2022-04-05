@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, ChangeDetectorRef} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
+import * as AssinaturaStore from 'app/store';
 import {getLoginAppState} from 'app/main/auth/login/store';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store';
@@ -41,6 +42,7 @@ export class LoginComponent implements OnInit {
      *
      * @param cdkConfigService
      * @param store
+     * @param _changeDetectorRef
      * @param _dialog
      * @param _router
      * @param _loginService
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private cdkConfigService: CdkConfigService,
         private store: Store<fromStore.LoginState>,
+        private _changeDetectorRef: ChangeDetectorRef,
         private _dialog: MatDialog,
         private _router: Router,
         public _loginService: LoginService
@@ -111,7 +114,21 @@ export class LoginComponent implements OnInit {
             });
         });
 
-        this.store.dispatch(new fromStore.Unload());
+        if (this.routerState.queryParams['code'] && this.routerState.queryParams['state']) {
+            this.store.dispatch(new AssinaturaStore.RevalidaLoginGovBR({
+                code: this.routerState.queryParams['code'],
+                redirect: true,
+                state: this.routerState.queryParams['state']
+            }));
+        // Retorno login govBR
+        } else if (this.routerState.queryParams['code']) {
+            this.store.dispatch(new fromStore.LoginGovBR({
+                code: this.routerState.queryParams['code'],
+                redirect: true
+            }));
+        } else {
+            this.store.dispatch(new fromStore.Unload());
+        }
 
         this.loading$.next(false);
 
@@ -147,15 +164,8 @@ export class LoginComponent implements OnInit {
             }));
         }
 
-        if (this.routerState.queryParams['code']) {
-            this.store.dispatch(new fromStore.LoginGovBR({
-                code: this.routerState.queryParams['code'],
-                redirect: true
-            }));
-        }
-
         // BC
-        if ((this._loginService.getLoginType() !== 'interno') && (this._loginService.getLoginType() !== 'ldap')) {
+        if (!['interno','ldap','govBr'].includes(this._loginService.getLoginType())) {
             this._loginService.setLoginType('interno');
         }
     }
@@ -166,9 +176,9 @@ export class LoginComponent implements OnInit {
 
     onSubmit(values): void {
         this.loading$.next(true);
-        if (values.tipoLogin === 'interno') {
+        if (values.tipoLogin !== 'ldap') {
             this.onSubmitInterno(values);
-        } else if (values.tipoLogin === 'ldap') {
+        } else {
             this.onSubmitLdap(values);
         }
     }

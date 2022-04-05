@@ -2,10 +2,10 @@
 <form class="p-24 mr-24" fxLayoutGap="8px"
       fxLayout="column"
       fxLayoutAlign="start"
-      name="form" [formGroup]="form" (keyup.enter)="close()">
-    <div fxFlex="1 0 auto" fxLayout="column">
-        <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value">
-            <mat-label>Senha {{labelLdap}}</mat-label>
+      name="form" [formGroup]="form" (keyup.enter)="close()" >
+    <div fxFlex="1 0 auto" fxLayout="column" *ngIf="config && !config.error">
+        <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value && labelLoginType !== 'govBr'">
+            <mat-label>Senha {{labelLoginType}}</mat-label>
             <input type="password"
                    matInput #plainPassword
                    name="plainPassword"
@@ -22,6 +22,13 @@
                 Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
+        <button *ngIf="labelLoginType === 'govBr'" mat-raised-button
+            (click)="redirectRevalidaSenha()" class="mt-8 submit-button gov-br" aria-label="Revalidar senha no gov.br">
+            Revalidar senha no <strong style="color: #1351b4">gov.br</strong>
+        </button>
+        <div class="mt-20 red-fg" *ngIf="popupBloqueado">
+            <strong>É necessário autorizar o uso de PopUps em seu navegador para o {{config.name | uppercase}}</strong>
+        </div>
         <mat-slide-toggle class="mt-8" formControlName="certificadoDigital" [disabled]="!temAssinador">
             Usar Certificado Digital
         </mat-slide-toggle>
