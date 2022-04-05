@@ -464,7 +464,8 @@ export class ProcessoViewEffect {
                 if (action.payload.ativo[juntadaIndice]) {
                     this._store.dispatch(new fromStore.GetComponentesDigitaisJuntada({
                         juntadaId: juntadaId,
-                        documentoId: action.payload.documentosVinculacoesId[juntadaIndice],
+                        documentoId: action.payload.documentosId[juntadaIndice],
+                        documentoVinculacao: !!action.payload.documentosVinculacoesId[juntadaIndice],
                         juntadaIndice: indice,
                         processoId: action.payload.processoId,
                         filter: {
@@ -501,6 +502,7 @@ export class ProcessoViewEffect {
                     processoId: action.payload.processoId,
                     juntadaIndice: action.payload.juntadaIndice,
                     documentoId: action.payload.documentoId,
+                    documentoVinculacao: action.payload.documentoVinculacao,
                     entitiesId: response['entities'].map(cd => cd.id),
                     componentesDigitais: response['entities'].map((componenteDigital) => {
                         const componente = {
@@ -546,7 +548,7 @@ export class ProcessoViewEffect {
                 processoId: action.payload.processoId,
                 componentesDigitaisIds: indexNode
             }));
-            if (action.payload.documentoId) {
+            if (action.payload.documentoVinculacao && action.payload.documentoId) {
                 this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
                     juntadaId: action.payload.juntadaId,
                     documentoId: action.payload.documentoId,
@@ -595,7 +597,8 @@ export class ProcessoViewEffect {
                     this._store.dispatch(new fromStore.SetFirstJuntadaTrue(action.payload.juntadaId));
                 }
                 if (!capa && firstJuntada === parseInt(action.payload.juntadaIndice, 10)) {
-                    if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('anexar-copia') !== -1 || (this.routerState.url.indexOf('visualizar-processo') !== -1))) {
+                    if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('anexar-copia') !== -1 ||
+                        (this.routerState.url.indexOf('visualizar-processo') !== -1))) {
                         let sidebar;
                         const arrPrimary = [];
                         const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
