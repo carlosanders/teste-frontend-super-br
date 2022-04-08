@@ -10,11 +10,10 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
-import * as fromDocumentoStore from '../../store';
 import * as AssinaturaStore from 'app/store';
 import {select, Store} from '@ngrx/store';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {getRouterState} from '../../../../../store';
 import {getRepositorioComponenteDigital} from '../../documento-edit/inteligencia/store';
 import {getRepositorioComponenteDigital as getRepositorioComponenteDigitalAvulso} from '../../documento-avulso-edit/inteligencia/store/selectors';
@@ -27,7 +26,11 @@ import {
     SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso
 } from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
+import * as moment from 'moment';
+import {MatDialog} from '@angular/material/dialog';
+import {ConflitoVersaoDialogComponent} from './dialog/conflito-versao-dialog.component';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -53,15 +56,15 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     btVersoes = true;
     logEntryPagination: Pagination;
     mode = 'documento';
+    localStorageBackupKey: string = 'componenteDigitalBakcup';
+    componenteDigitalReady: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    /**
-     * @param _changeDetectorRef
-     * @param _store
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _store: Store<fromStore.ComponenteDigitalAppState>
+        private _store: Store<fromStore.ComponenteDigitalAppState>,
+        private _dialog: MatDialog,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -110,16 +113,66 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
             filter(cd => !!cd)
         ).subscribe((cd) => {
-            this.componenteDigital = cd;
+            this._cacheGenericUserDataService
+                .get(this.localStorageBackupKey)
+                .subscribe((cachedComponenteDigitalBackupList) => {
+                    const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                    const componenteDigitalBackup = componenteDigitalBackupList
+                        .find((item) => item.id == cd.id);
+                    //first run
+                    if (!this.componenteDigital && componenteDigitalBackup && moment(componenteDigitalBackup.atualizadoEm) > cd.atualizadoEm) {
+                        this.componenteDigitalReady = false;
+                        const dialogRef = this._dialog.open(ConflitoVersaoDialogComponent, {
+                            data: {
+                                componenteDigital: cd,
+                                componenteDigitalBackup: componenteDigitalBackup
+                            },
+                            hasBackdrop: true,
+                            disableClose: true,
+                            closeOnNavigation: true,
+                        });
 
-            if (this.componenteDigital) {
-                this.logEntryPagination = new Pagination();
-                this.logEntryPagination.filter = {
-                    entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
-                    target: 'hash',
-                    id: +this.componenteDigital.id
-                };
-            }
+                        dialogRef.afterClosed()
+                            .pipe(
+                                tap(
+                                    (conteudo) => {
+                                        if (conteudo) {
+                                            this._cacheGenericUserDataService.set(
+                                                componenteDigitalBackupList
+                                                    .filter((backup) => backup.id != componenteDigitalBackup.id),
+                                                this.localStorageBackupKey,
+                                                (60*60*24*30) //30 dias
+                                            );
+                                            this.componenteDigital = {...cd, conteudo: conteudo};
+                                            this.componenteDigitalReady = true;
+                                            this.logEntryPagination = new Pagination();
+                                            this.logEntryPagination.filter = {
+                                                entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
+                                                target: 'hash',
+                                                id: +this.componenteDigital.id
+                                            };
+                                            this._changeDetectorRef.detectChanges();
+                                        }
+                                    }
+                                ),
+                                tap(() => dialogRef.close()),
+                                take(1)
+                            ).subscribe();
+                    } else {
+                        this.componenteDigitalReady = true;
+                        this.componenteDigital = cd;
+                        if (this.componenteDigital) {
+                            this.logEntryPagination = new Pagination();
+                            this.logEntryPagination.filter = {
+                                entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
+                                target: 'hash',
+                                id: +this.componenteDigital.id
+                            };
+                        }
+                    }
+
+                    this._changeDetectorRef.markForCheck();
+                });
         });
         this.documento$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -222,5 +275,22 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     doPdf(): void {
         this._store.dispatch(new fromStore.DownloadAsPdfComponenteDigital());
+    }
+
+    doBackupComponenteDigital(componenteDigitalBackup: any): void {
+        this._cacheGenericUserDataService
+            .get(this.localStorageBackupKey)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((cachedComponenteDigitalBackupList: any) => {
+                const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                this._cacheGenericUserDataService.set(
+                    [
+                        ...componenteDigitalBackupList.filter((backup) => backup.id !== componenteDigitalBackup.id),
+                        componenteDigitalBackup
+                    ],
+                    this.localStorageBackupKey,
+                    (60*60*24*30) //30 dias
+                ).subscribe();
+            });
     }
 }

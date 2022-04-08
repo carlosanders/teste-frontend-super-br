@@ -29,6 +29,14 @@ export const REVERT_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] REVERT COMPONENTE
 export const REVERT_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL SUCCESS';
 export const REVERT_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL FAILED';
 
+export const VISUALIZAR_HTML_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] VISUALIZAR HTML COMPONENTE DIGITAL';
+export const VISUALIZAR_HTML_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] VISUALIZAR HTML COMPONENTE DIGITAL SUCCESS';
+export const VISUALIZAR_HTML_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] VISUALIZAR HTML COMPONENTE DIGITAL FAILED';
+
+export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML';
+export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML SUCCESS';
+export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_FAILED = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML FAILED';
+
 /**
  * Unload ComponenteDigital
  */
@@ -230,6 +238,48 @@ export class RevertComponenteDigitalFailed implements Action {
     }
 }
 
+export class VisualizarHTMLComponenteDigital implements Action {
+    readonly type = VISUALIZAR_HTML_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class VisualizarHTMLComponenteDigitalSuccess implements Action {
+    readonly type = VISUALIZAR_HTML_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class VisualizarHTMLComponenteDigitalFailed implements Action {
+    readonly type = VISUALIZAR_HTML_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class CompararComponenteDigitalComHtml implements Action {
+    readonly type = COMPARAR_COMPONENTE_DIGITAL_COM_HTML;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class CompararComponenteDigitalComHtmlSuccess implements Action {
+    readonly type = COMPARAR_COMPONENTE_DIGITAL_COM_HTML_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class CompararComponenteDigitalComHtmlFailed implements Action {
+    readonly type = COMPARAR_COMPONENTE_DIGITAL_COM_HTML_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = UnloadComponenteDigital
     | VisualizarVersaoComponenteDigital
@@ -250,4 +300,10 @@ export type ComponenteDigitalActionsAll
     | SaveComponenteDigitalFailed
     | RevertComponenteDigital
     | RevertComponenteDigitalSuccess
-    | RevertComponenteDigitalFailed;
+    | RevertComponenteDigitalFailed
+    | VisualizarHTMLComponenteDigital
+    | VisualizarHTMLComponenteDigitalSuccess
+    | VisualizarHTMLComponenteDigitalFailed
+    | CompararComponenteDigitalComHtml
+    | CompararComponenteDigitalComHtmlSuccess
+    | CompararComponenteDigitalComHtmlFailed;

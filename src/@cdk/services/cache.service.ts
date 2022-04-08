@@ -1,8 +1,10 @@
-import {from, Observable, of} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {from, Observable, of, Subject} from 'rxjs';
+import {catchError, delay, filter, switchMap, takeUntil, tap} from 'rxjs/operators';
 import IDBCache from '@drecom/idb-cache';
 import md5 from 'crypto-js/md5';
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
+import {LoginService} from '../../app/main/auth/login/login.service';
+import {Usuario} from '../models';
 
 
 export interface CacheConfig {
@@ -155,5 +157,66 @@ export class CacheModelService<T> extends BaseCacheService<T>{
      */
     private _getKey(key: string): string {
         return md5(`${this._modelName}${CacheDefaults.DEFAULT_DB_KEY_SEPARATOR}${key}`).toString();
+    }
+}
+
+@Injectable({providedIn: 'root'})
+export class CacheGenericUserDataService extends BaseCacheService<any> implements OnDestroy{
+
+    private _unsubscribeAll: Subject<boolean> = new Subject<boolean>();
+    private _usuario: Usuario;
+
+    constructor(private _loginService: LoginService) {
+        super();
+        this._usuario = this._loginService.getUserProfile();
+        this._loginService
+            .getUserProfileChanges()
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter((usuario: Usuario) => !!usuario)
+            )
+            .subscribe((usuario: Usuario) => this._usuario = usuario);
+
+        of(this._usuario)
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter((usuario: Usuario) => !!usuario)
+            )
+            .pipe(
+                tap((usuario: Usuario) => {
+                    if (!this._db) {
+                        this._dbName = usuario.username;
+                        this._dbFactory();
+                    }
+                })
+            )
+            .subscribe();
+
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(true);
+        this._unsubscribeAll.complete();
+    }
+
+    get(key: string): Observable<any> {
+        return of(this._db)
+            .pipe(filter((db: IDBCache) => !!db))
+            .pipe(delay(100))
+            .pipe(switchMap(() => super.get(key)));
+    }
+
+    set(value:Object|Object[], key: string, maxAge?: number): Observable<boolean> {
+        return of(this._db)
+            .pipe(filter((db: IDBCache) => !!db))
+            .pipe(delay(100))
+            .pipe(switchMap(() => super.set(value, key, maxAge)))
+    }
+
+    delete(key: string): Observable<boolean> {
+        return of(this._db)
+            .pipe(filter((db: IDBCache) => !!db))
+            .pipe(delay(100))
+            .pipe(switchMap(() => super.delete(key)))
     }
 }
