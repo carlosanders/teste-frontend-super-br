@@ -1,0 +1,38 @@
+<h1 matDialogTitle>Conflito de versão</h1>
+<div mat-dialog-content>
+    <section class="p-8"><b>Foi identificada uma versão mais recente do documento armazenada no seu computador, escolha a ação que deseja realizar:</b></section>
+</div>
+<div mat-dialog-actions class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-button
+            class="mat-ac"
+            (click)="doVisualizarVersao(data.componenteDigitalBackup)"
+            aria-label="visualizar_versao_computador"
+            matTooltip="Visualizar Versão do Computador">
+        <mat-icon>remove_red_eye</mat-icon> <span fxHide.lt-md> Visualizar Versão do Computador</span>
+    </button>
+    <button mat-button
+            class="mat-ac"
+            (click)="doVisualizarVersao(data.componenteDigital)"
+            aria-label="visualizar_versao_sistema"
+            matTooltip="Visualizar Versão do Sistema">
+        <mat-icon>remove_red_eye</mat-icon> <span fxHide.lt-md> Visualizar Versão do Sistema</span>
+    </button>
+    <button mat-button
+            (click)="doComparar()"
+            aria-label="comparar"
+            matTooltip="Comparar">
+        <mat-icon>compare_arrows</mat-icon> <span fxHide.lt-md> Comparar</span>
+    </button>
+    <button mat-button
+            (click)="doVersaoLocal()"
+            aria-label="utilizar_versao_computador"
+            matTooltip="Utilizar Versão Salva no Computador">
+        <span class="mat-icon material-icons-outlined">fork_left</span> <span fxHide.lt-md> Utilizar Versão Salva no Computador</span>
+    </button>
+    <button mat-button
+            (click)="doVersaoRemota()"
+            aria-label="utilizar_versao_sistema"
+            matTooltip="Utilizar Versão Salva no Sistema">
+        <span class="mat-icon material-icons-outlined">fork_right</span> <span fxHide.lt-md> Utilizar Versão Salva no Sistema</span>
+    </button>
+</div>

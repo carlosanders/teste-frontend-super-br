@@ -64,7 +64,7 @@ export const componenteDigitalReducer = (
                 componenteDigitalId: null,
                 loading: false,
                 saving: false,
-                errors: action.payload
+                errors: addError(action.payload)
             };
         }
 
@@ -88,7 +88,7 @@ export const componenteDigitalReducer = (
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: addError(action.payload)
             };
         }
 
@@ -96,3 +96,15 @@ export const componenteDigitalReducer = (
             return state;
     }
 };
+
+const addError = (errors: any): any => {
+    return {
+        ...errors,
+        statusText: (errors?.statusText || '').replace('Unknown Error', 'Erro Desconhecido'),
+        error: {
+            ...(errors?.error || {}),
+            message: (errors?.error?.message || '').replace('Unknown Error', 'Erro Desconhecido')
+        }
+    }
+
+}
