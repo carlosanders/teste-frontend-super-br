@@ -8,6 +8,7 @@ import {CdkComponenteDigitalCkeditorModule} from '@cdk/components/componente-dig
 import {ComponenteDigitalStoreModule} from '../store/store.module';
 import {MatProgressBarModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
+import {ConflitoVersaoDialogModule} from './dialog/conflito-versao-dialog.module';
 
 const routes: Routes = [
     {
@@ -35,6 +36,7 @@ modulesConfig.forEach((module) => {
         MatProgressBarModule,
 
         ComponenteDigitalStoreModule,
+        ConflitoVersaoDialogModule,
 
         TranslateModule,
         CdkSharedModule,
