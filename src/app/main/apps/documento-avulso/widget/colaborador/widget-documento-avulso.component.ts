@@ -55,7 +55,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
      */
     ngOnInit(): void {
         this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull", "dataHoraEncerramento": "isNull"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(

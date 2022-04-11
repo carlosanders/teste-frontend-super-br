@@ -52,7 +52,6 @@ export * from './modalidade-afastamento.model';
 export * from './modalidade-alvo-inibidor.model';
 export * from './modalidade-categoria-sigilo.model';
 export * from './modalidade-colaborador.model';
-export * from './modalidade-compartilhamento.model';
 export * from './modalidade-destinacao.model';
 export * from './modalidade-documento-identificador.model';
 export * from './modalidade-etiqueta.model';

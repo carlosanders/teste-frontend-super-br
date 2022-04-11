@@ -12,14 +12,8 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {
-    Compartilhamento,
-    ModalidadeCompartilhamento,
-    Pagination,
-    Setor,
-    Usuario
-} from '@cdk/models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Compartilhamento, Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-compartilhamento-form',
@@ -41,20 +35,12 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     valid = true;
 
     selected = false;
-    selectedSetor = false;
-
 
     @Input()
     errors: any;
 
     @Input()
     usuarioPagination: Pagination;
-
-    @Input()
-    setoresPagination: Pagination;
-
-    @Input()
-    modalidadeCompartilhamentoPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Compartilhamento>();
@@ -78,19 +64,12 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
             id: [null],
             processo: [null],
             tarefa: [null],
-            usuario: [null],
-            setor: [null],
-            modalidadeCompartilhamento: [null]
+            usuario: [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
-        this.setoresPagination = new Pagination();
-        this.modalidadeCompartilhamentoPagination = new Pagination();
 
         this.form.get('usuario').valueChanges.subscribe((valor) => {
             this.selected = typeof valor === 'object';
-        });
-        this.form.get('setor').valueChanges.subscribe((valor) => {
-            this.selectedSetor = typeof valor === 'object';
         });
     }
 
@@ -171,39 +150,4 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    checkModalidadeCompartilhamento(): void {
-        const value = this.form.get('modalidadeCompartilhamento').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('modalidadeCompartilhamento').setValue(null);
-        }
-    }
-
-    selectModalidadeCompartilhamento(modalidadeCompartilhamento: ModalidadeCompartilhamento): void {
-        if (modalidadeCompartilhamento) {
-            this.form.get('modalidadeCompartilhamento').setValue(modalidadeCompartilhamento);
-        }
-        this.activeCard = 'form';
-    }
-
-    showModalidadeCompartilhamentoGrid(): void {
-        this.activeCard = 'modalidade-compartilhamento-gridsearch';
-    }
-
-    checkSetor(): void {
-        const value = this.form.get('setor').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        if (setor) {
-            this.form.get('setor').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
-    }
 }

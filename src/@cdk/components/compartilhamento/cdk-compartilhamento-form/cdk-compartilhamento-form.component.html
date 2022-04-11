@@ -1,44 +1,6 @@
 <form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="Modalidade de Compartilhamento"
-               formControlName="modalidadeCompartilhamento"
-               [matAutocomplete]="modalidadecompartilhamento.autocomplete"
-               (blur)="checkModalidadeCompartilhamento()" required>
-        <cdk-modalidade-compartilhamento-autocomplete
-            #modalidadecompartilhamento="modalidadeCompartilhamentoAutocomplete"
-            [control]="form.get('modalidadeCompartilhamento')"
-            [pagination]="modalidadeCompartilhamentoPagination">
-        </cdk-modalidade-compartilhamento-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showModalidadeCompartilhamentoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('modalidadeCompartilhamento').hasError('formError')">
-            {{form.get('modalidadeCompartilhamento').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="form.get('modalidadeCompartilhamento').value?.valor === 'SETOR'">
-        <input matInput placeholder="Nome do Setor"
-               formControlName="setor"
-               [matAutocomplete]="setor.autocomplete"
-               (blur)="checkSetor()" required>
-        <cdk-setor-autocomplete
-            #setor="setorAutocomplete"
-            [control]="form.get('setor')"
-            [pagination]="setoresPagination">
-        </cdk-setor-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showSetorGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('setor').hasError('formError')">
-            {{form.get('setor').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="form.get('modalidadeCompartilhamento').value?.valor === 'USUARIO'">
         <input matInput placeholder="Nome do Usuário"
                formControlName="usuario"
                [matAutocomplete]="usuario.autocomplete"
@@ -78,16 +40,3 @@
     [pagination]="usuarioPagination"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
-
-<cdk-setor-gridsearch
-    *ngIf="activeCard === 'setor-gridsearch'"
-    (selected)="selectSetor($event)"
-    [pagination]="setoresPagination"
-    (cancel)="cancel()">
-</cdk-setor-gridsearch>
-
-<cdk-modalidade-compartilhamento-gridsearch
-    *ngIf="activeCard === 'modalidade-compartilhamento-gridsearch'"
-    (selected)="selectModalidadeCompartilhamento($event)"
-    (cancel)="cancel()">
-</cdk-modalidade-compartilhamento-gridsearch>

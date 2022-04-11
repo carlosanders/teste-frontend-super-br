@@ -53,7 +53,6 @@ export const modalidadeAfastamento = new schema.Entity('modalidade-afastamento')
 export const modalidadeAlvoInibidor = new schema.Entity('modalidade-alvo-inibidor');
 export const modalidadeCategoriaSigilo = new schema.Entity('modalidade-categoria-sigilo');
 export const modalidadeColaborador = new schema.Entity('modalidade-colaborador');
-export const modalidadeCompartilhamento = new schema.Entity('modalidade-compartilhamento');
 export const modalidadeDestinacao = new schema.Entity('modalidade-destinacao');
 export const modalidadeDocumentoIdentificador = new schema.Entity('modalidade-documento-identificador');
 export const modalidadeEtiqueta = new schema.Entity('modalidade-etiqueta');

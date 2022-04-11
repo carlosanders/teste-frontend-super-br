@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Processo, Setor, Tarefa, Usuario} from '@cdk/models';
+import {Processo, Tarefa, Usuario} from '@cdk/models';
 
 export class Compartilhamento {
 
@@ -22,10 +22,6 @@ export class Compartilhamento {
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
-
-    @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setor?: Setor;
 
     assessor?: boolean;
 
@@ -65,7 +61,6 @@ export class Compartilhamento {
         this.tarefa = null;
         this.processo = null;
         this.usuario = null;
-        this.setor = null;
         this.assessor = null;
         this.criadoPor = null;
         this.criadoEm = null;
