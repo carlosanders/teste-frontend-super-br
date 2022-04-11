@@ -4,3 +4,4 @@ export * from './documentos.actions';
 export * from './volumes.actions';
 export * from './documentos-vinculados.actions';
 export * from './bookmark.actions';
+export * from './assinaturas.actions';

@@ -7,9 +7,9 @@ import {
     OnInit,
     Output,
     QueryList,
-    SecurityContext, ViewChild,
-    ViewChildren,
-    ViewEncapsulation
+    SecurityContext, TemplateRef, ViewChild,
+    ViewChildren, ViewContainerRef,
+    ViewEncapsulation,
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
@@ -18,7 +18,7 @@ import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollba
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Juntada, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {expandirTela} from './store';
@@ -35,8 +35,11 @@ import {
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {CdkUtils} from '@cdk/utils';
-import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
+import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
+import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
+import {TemplatePortal} from '@angular/cdk/portal';
+import {MatButton} from '@angular/material/button';
 
 @Component({
     selector: 'processo-view',
@@ -69,6 +72,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.detectChanges();
         }
     }
+
+    @ViewChild('assinaturasTemplate', {static: false}) assinaturasTemplateRef: TemplateRef<any>;
+    @ViewChild('btnAssinaturas', {static: false}) btnAssinaturas: MatButton;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -139,6 +145,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
     isBookmark = false;
 
+    assinaturasIsLoading$: Observable<boolean>;
+    assinaturas$: Observable<Assinatura[]>;
+    assinaturasPagination$: Observable<Pagination>;
+    assinaturasPagination: Pagination;
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private pdfViewer: PdfJsViewerComponent;
@@ -165,7 +176,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _mercureService: MercureService,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+
+        private _overlay: Overlay,
+        private _viewContainerRef: ViewContainerRef
     ) {
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
@@ -306,6 +320,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         ).subscribe(pagination => this.pagination = pagination);
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+
+        this.assinaturasPagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
     }
 
     ngOnInit(): void {
@@ -657,5 +679,61 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     public onPagesLoaded(s, event): void {
         this.page = event;
+    }
+
+    doLoadAssinaturas(): void {
+        const overlay = this._overlay.create({
+            panelClass: 'mat-menu-panel',
+            backdropClass: 'cdk-overlay-transparent-backdrop',
+            maxWidth: 340,
+            width: 340,
+            scrollStrategy: this._overlay.scrollStrategies.reposition(),
+            positionStrategy: (this._overlay
+                .position()
+                .flexibleConnectedTo(this.btnAssinaturas._elementRef.nativeElement)
+                .withPositions([
+                    new ConnectionPositionPair(
+                        { originX: 'end', originY: 'bottom' },
+                        { overlayX: 'end', overlayY: 'top' }
+                    )
+                ])
+                .withFlexibleDimensions(false)
+                .withPush(false)),
+            disposeOnNavigation: true,
+            hasBackdrop: true
+        });
+
+        overlay.attach(new TemplatePortal(this.assinaturasTemplateRef, this._viewContainerRef));
+        overlay.backdropClick()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => overlay.detach())
+
+        const params = {
+            filter: {
+                'componenteDigital.id': `eq:${this.componenteDigital.id}`
+            },
+            listFilter: {},
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: ['populateAll']
+        };
+        this._store.dispatch(new fromStore.GetAssinaturas(params))
+    }
+
+    doReloadAssinaturas(params: any): void {
+        this._store.dispatch(new fromStore.GetAssinaturas({
+            ...this.assinaturasPagination,
+            filter: {
+                ...this.assinaturasPagination.filter,
+            },
+            gridFilter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.assinaturasPagination.populate
+        }));
     }
 }
