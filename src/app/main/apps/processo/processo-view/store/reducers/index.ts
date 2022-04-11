@@ -4,7 +4,8 @@ import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-di
 import {processoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
 import {volumesReducer, VolumesState} from './volumes.reducer';
 import {documentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
-import {bookmarkReducer, BookmarksState} from "./bookmark.reducer";
+import {bookmarkReducer, BookmarksState} from './bookmark.reducer';
+import {assinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 export interface ProcessoViewAppState
 {
@@ -14,6 +15,7 @@ export interface ProcessoViewAppState
     volumes: VolumesState;
     documentosVinculados: DocumentosVinculadosState;
     bookmark: BookmarksState;
+    assinaturas: AssinaturasState;
 }
 
 export const getProcessoViewAppState = createFeatureSelector<ProcessoViewAppState>(
@@ -31,7 +33,8 @@ export const reducers: ActionReducerMap<ProcessoViewAppState> = {
     documentos: processoViewDocumentosReducer,
     volumes: volumesReducer,
     documentosVinculados: documentosVinculadosReducer,
-    bookmark: bookmarkReducer
+    bookmark: bookmarkReducer,
+    assinaturas: assinaturasReducer
 };
 
 export * from './processo-view.reducer';
@@ -40,3 +43,4 @@ export * from './documentos.reducer';
 export * from './volumes.reducer';
 export * from './documentos-vinculados.reducer';
 export * from './bookmark.reducer';
+export * from './assinaturas.reducer';

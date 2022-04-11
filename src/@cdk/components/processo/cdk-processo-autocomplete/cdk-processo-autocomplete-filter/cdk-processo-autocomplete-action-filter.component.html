@@ -1,0 +1,24 @@
+<button mat-icon-button
+        matSuffix
+        mat-button
+        class="custom-search-button"
+        aria-label="Alterar filtro de busca de processo"
+        [matTooltip]="'Alterar filtro de busca de processo'"
+        [matMenuTriggerFor]="filtersMenu">
+    <span class="mat-icon material-icons-outlined">manage_search</span>
+</button>
+<mat-menu #filtersMenu="matMenu" [overlapTrigger]="false" xPosition="before">
+    <div class="cdk-processo-autocomplete-action-filter-menu">
+        <div class="filters-header">
+            <span class="title">Buscar processos por:</span>
+        </div>
+        <div class="filter-content">
+            <div *ngFor="let filter of defaultFilters" class="campo" (click)="setSelectedFilter(filter)"
+                 [ngClass]="{'selected': isFilterSelected(filter)}">
+                <span>{{filter.name}}</span>
+                <mat-icon class="green-fg" *ngIf="isFilterSelected(filter)">check</mat-icon>
+            </div>
+            <ng-template #dynamicComponent></ng-template>
+        </div>
+    </div>
+</mat-menu>

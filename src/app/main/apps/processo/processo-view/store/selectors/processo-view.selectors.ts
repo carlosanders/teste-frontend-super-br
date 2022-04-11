@@ -83,9 +83,19 @@ export const getPaginadores: any = createSelector(
     (state: ProcessoViewState) => state.paginadoresDocumentosVinculados
 );
 
+export const getPaginadoresComponentesDigitais: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.paginadoresComponentes
+);
+
 export const getPaginadoresStateByDocumentoId = (documentoId: number): MemoizedSelector<any, any> => createSelector(
     getPaginadores,
     paginadores => paginadores[documentoId]
+);
+
+export const getPaginadoresComponentesStateByJuntadaId = (juntadaId: number): MemoizedSelector<any, any> => createSelector(
+    getPaginadoresComponentesDigitais,
+    paginadores => paginadores[juntadaId]
 );
 
 export const getDocumentoById = (documentoId: number): any => createSelector(
@@ -97,4 +107,29 @@ export const getDocumentoById = (documentoId: number): any => createSelector(
 export const getComponentesDigitaisByDocumentoId = (documentoId: number): any => createSelector(
     getDocumentoById(documentoId),
     ((documento: Documento) => documento.componentesDigitais)
+);
+
+export const getLowestIndexNull: any = createSelector(
+    getPaginadoresComponentesDigitais,
+    (paginadores: any) => {
+        if (!!paginadores) {
+            const arrayPaginadores = [];
+            Object.entries(paginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
+            if (arrayPaginadores.findIndex(paginador => paginador.firstJuntada === true) !== -1) {
+                return true;
+            }
+            const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
+            if (orderedPaginadores.length) {
+                return orderedPaginadores[0]?.indice;
+            } else {
+                return false;
+            }
+        }
+        return null;
+    }
+);
+
+export const getLoadingComponentesDigitaisIds: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.loadingComponentesId
 );

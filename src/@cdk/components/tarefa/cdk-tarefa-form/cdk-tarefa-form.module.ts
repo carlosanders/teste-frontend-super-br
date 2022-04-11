@@ -39,13 +39,16 @@ import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor
 import {MatCardModule} from '@angular/material/card';
 import {CdkGrupoContatoAutocompleteModule} from '../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-autocomplete.module';
 import {CdkGrupoContatoGridsearchModule} from '../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-gridsearch/cdk-grupo-contato-gridsearch.module';
-import {MatMenuModule} from "@angular/material/menu";
-import {CdkLotacaoAutocompleteModule} from "../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-autocomplete.module";
-import {CdkLotacaoGridsearchModule} from "../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-gridsearch/cdk-lotacao-gridsearch.module";
-import {CdkWorkflowAutocompleteModule} from "../../workflow/cdk-workflow-autocomplete/cdk-workflow-autocomplete.module";
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkLotacaoAutocompleteModule} from '../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-autocomplete.module';
+import {CdkLotacaoGridsearchModule} from '../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-gridsearch/cdk-lotacao-gridsearch.module';
+import {CdkWorkflowAutocompleteModule} from '../../workflow/cdk-workflow-autocomplete/cdk-workflow-autocomplete.module';
 import {
     CdkWorkflowGridsearchModule
 } from '../../workflow/cdk-workflow-autocomplete/cdk-workflow-gridsearch/cdk-workflow-gridsearch.module';
+import {
+    CdkProcessoAutocompleteActionFilterModule
+} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete-filter/cdk-processo-autocomplete-action-filter.module';
 
 @NgModule({
     declarations: [
@@ -94,6 +97,7 @@ import {
         CdkLotacaoGridsearchModule,
         CdkWorkflowAutocompleteModule,
         CdkWorkflowGridsearchModule,
+        CdkProcessoAutocompleteActionFilterModule,
     ],
     providers: [
         EspecieTarefaService,

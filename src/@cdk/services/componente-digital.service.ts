@@ -129,4 +129,28 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
                     plainToClass(ComponenteDigital, response))
             );
     }
+
+    renderHtmlContent(componenteDigital: ComponenteDigital): Observable<ComponenteDigital> {
+        return this.modelService
+            .post('administrativo/componente_digital/render_html_content', classToPlain(componenteDigital))
+            .pipe(
+                map((response) => {
+                    response = plainToClass(ComponenteDigital, response);
+                    Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
+                    return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+                })
+            );
+    }
+
+    comparaComponenteDigitalComHtml(id: number | string, params: {conteudo: string, usuario: string, data: string}, context: any = '{}'): Observable<any> {
+        return this.modelService
+            .post(`administrativo/componente_digital/${id}/compara_component_digital_com_html`, classToPlain(params))
+            .pipe(
+                map((response) => {
+                    response = plainToClass(ComponenteDigital, response);
+                    Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
+                    return Object.assign(new ComponenteDigital(), {...response});
+                })
+            );
+    }
 }

@@ -150,6 +150,13 @@
             </button>
 
             <button mat-icon-button
+                    (click)="doCopyBookmark(bookmarksBySequencial)"
+                    aria-label="copiar Bookmark"
+                    matTooltip="Copiar Bookmark para o clipboard">
+                <mat-icon>file_copy</mat-icon>
+            </button>
+
+            <button mat-icon-button
                     (click)="abreJuntadas()"
                     aria-label="abrir juntadas"
                     matTooltip="Juntadas do processo">
@@ -481,6 +488,9 @@
                                  index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
                                  (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                             </div>
+                            <ng-container *ngIf="this.loadingComponentesDigitaisIds.includes(juntada.id)">
+                                <mat-spinner diameter="16"></mat-spinner>
+                            </ng-container>
                             <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
                                 {{contadorVinculacoes.reset()}}
                                 <div
@@ -511,11 +521,7 @@
                                      (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
-                                <div class="load-more" (click)="$event.stopPropagation(); doGetMoreVinculacoes(juntada.documento.id)" matTooltip="Carregar mais"
-                                     *ngIf="this.paginadores !== null && juntada.documento.vinculacoesDocumentos && juntada.documento.vinculacoesDocumentos.length < this.paginadores[juntada.documento.id]?.pagination?.total && !this.paginadores[juntada.documento.id].loading">
-                                    <span>+</span>
-                                </div>
-                                <ng-container *ngIf="this.paginadores[juntada.documento.id].loading">
+                                <ng-container *ngIf="this.paginadores[juntada.documento.id]?.loading">
                                     <mat-spinner diameter="16"></mat-spinner>
                                 </ng-container>
                             </ng-container>
@@ -525,6 +531,9 @@
                             <div class="numero"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
                                 {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                <mat-icon class="s-12" [matTooltip]="'Copiar Número do Documento para o clipboard'" (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado)">
+                                    file_copy
+                                </mat-icon>
                             </div>
                             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                                 <div class="etiqueta"

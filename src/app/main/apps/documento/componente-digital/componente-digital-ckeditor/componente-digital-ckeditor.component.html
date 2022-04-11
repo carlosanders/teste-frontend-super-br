@@ -1,8 +1,9 @@
 <div class="loading">
     <mat-progress-bar [mode]="'indeterminate'" *ngIf="saving"></mat-progress-bar>
 </div>
-<cdk-componente-digital-ckeditor [mode]="mode"
-                                 [componenteDigital]="(componenteDigital$ | async)"
+<cdk-componente-digital-ckeditor *ngIf="componenteDigitalReady"
+                                 [mode]="mode"
+                                 [componenteDigital]="componenteDigital"
                                  [repositorio]="(repositorio$ | async)"
                                  [pluginAssinar]="false"
                                  [logEntryPagination]="logEntryPagination"
@@ -15,5 +16,6 @@
                                  (comparar)="doComparar($event)"
                                  (assinarEletronicamente)="doAssinarEletronicamente($event)"
                                  (assinarDigitalmente)="doAssinarDigitalmente()"
-                                 (pdf)="doPdf()">
+                                 (pdf)="doPdf()"
+                                 (backupComponenteDigital)="doBackupComponenteDigital($event)">
 </cdk-componente-digital-ckeditor>

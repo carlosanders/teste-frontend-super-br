@@ -17,10 +17,11 @@ export class ParentGenericService<T> {
     ) {
     }
 
-    get(id: number, populate: any = '[]', context: any = '{}'): Observable<T> {
+    get(id: number, populate: any = '[]', context: any = '{}', order: any = '{}'): Observable<T> {
         const params = {};
         params['populate'] = populate;
         params['context'] = context;
+        params['order'] = order;
         return this.modelService.getOne(this.path, id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(this.clz, response))

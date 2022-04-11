@@ -126,13 +126,12 @@ export class ResolveGuard implements CanActivate {
                         listFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
+                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
                         populate: [
                             'volume',
                             'documento',
                             'documento.origemDados',
                             'documento.tipoDocumento',
-                            'documento.componentesDigitais',
                             'documento.criadoPor',
                             'documento.setorOrigem',
                             'documento.setorOrigem.unidade'
@@ -208,7 +207,8 @@ export class ResolveGuard implements CanActivate {
                     }
                 }),
                 filter((binary: any) => this.loadingLatestBinary || (!!binary.src) ||
-                    (binary.processo === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10))),
+                    (binary.processo === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10)) ||
+                    (this.loadingProcesso === parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10))),
                 take(1)
             );
         }

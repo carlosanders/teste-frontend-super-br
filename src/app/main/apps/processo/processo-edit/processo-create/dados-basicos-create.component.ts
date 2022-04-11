@@ -924,7 +924,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     validateNup(values: any): void {
-        this._store.dispatch(new fromStore.ValidaNup(values));
+        if (values.nup.replace(/\D/g, '').length !== 17 ) {
+            this.formProcesso.get('configuracaoNup').setValue(null);
+        }
+        // this._store.dispatch(new fromStore.ValidaNup(values));
     }
 
     doSelectClassificacao(classificacao: Classificacao): void {
