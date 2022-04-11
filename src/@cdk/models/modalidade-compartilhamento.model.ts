@@ -1,9 +1,9 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Processo, Setor, Tarefa, Usuario} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 
-export class Compartilhamento {
+export class ModalidadeCompartilhamento {
 
     @Exclude({ toPlainOnly: true })
     id?: number;
@@ -11,23 +11,14 @@ export class Compartilhamento {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Type(() => Tarefa)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tarefa?: Tarefa;
+    @Exclude({ toPlainOnly: true })
+    valor?: string;
 
-    @Type(() => Processo)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo?: Processo;
+    @Exclude({ toPlainOnly: true })
+    descricao?: string;
 
-    @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario?: Usuario;
-
-    @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setor?: Setor;
-
-    assessor?: boolean;
+    @Exclude({ toPlainOnly: true })
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -62,11 +53,9 @@ export class Compartilhamento {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.tarefa = null;
-        this.processo = null;
-        this.usuario = null;
-        this.setor = null;
-        this.assessor = null;
+        this.valor = null;
+        this.descricao = null;
+        this.ativo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

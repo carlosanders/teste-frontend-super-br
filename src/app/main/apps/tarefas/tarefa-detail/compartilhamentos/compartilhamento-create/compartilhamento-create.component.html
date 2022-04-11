@@ -4,6 +4,7 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [usuarioPagination]="usuarioPagination"
+        [setoresPagination]="setorPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-compartilhamento-form>

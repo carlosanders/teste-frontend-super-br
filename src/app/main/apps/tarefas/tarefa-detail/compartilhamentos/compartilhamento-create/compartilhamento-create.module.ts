@@ -26,6 +26,9 @@ import {CompartilhamentoCreateStoreModule} from './store/store.module';
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {
+    ModalidadeCompartilhamentoService
+} from "../../../../../../../@cdk/services/modalidade-compartilhamento.service";
 
 const routes: Routes = [
     {
@@ -74,7 +77,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        CompartilhamentoService
+        CompartilhamentoService,
+        ModalidadeCompartilhamentoService
     ]
 })
 export class CompartilhamentoCreateModule {

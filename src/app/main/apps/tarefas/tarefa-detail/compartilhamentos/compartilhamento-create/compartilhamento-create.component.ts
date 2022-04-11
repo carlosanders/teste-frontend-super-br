@@ -43,6 +43,8 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     routerState: any;
 
     usuarioPagination: Pagination;
+    setorPagination: Pagination;
+
 
     private _profile: Colaborador;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -70,6 +72,10 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             'id': `neq:${this._loginService.getUserProfile().id}`,
             'colaborador.id': 'isNotNull'
         };
+        this.setorPagination = new Pagination();
+        this.setorPagination.filter['parent'] = 'isNotNull';
+        this.setorPagination.populate = ['unidade', 'parent'];
+
 
         this._store.pipe(
             select(getRouterState),
@@ -121,11 +127,33 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
                 compartilhamento[key] = value;
             }
         );
-
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveCompartilhamento({
-            compartilhamento: compartilhamento,
-            operacaoId: operacaoId
-        }));
+
+        if(compartilhamento.usuario){
+            console.log(compartilhamento);
+            this._store.dispatch(new fromStore.SaveCompartilhamento({
+                compartilhamento: compartilhamento,
+                operacaoId: operacaoId
+            }));
+        } else {
+            const params = {
+                filter: {
+                    'setor.id': 'eq:' + compartilhamento.setor.id
+                },
+                gridFilter: {},
+                limit: 10,
+                offset: 0,
+                sort: {id: 'DESC'},
+                populate: [
+                    'populateAll',
+                    'setor.unidade'
+                ]
+            };
+            this._store.dispatch(new fromStore.GetLotacoesCompartilhamento({
+                compartilhamento,
+                params,
+                operacaoId: operacaoId
+            }));
+        }
     }
 }

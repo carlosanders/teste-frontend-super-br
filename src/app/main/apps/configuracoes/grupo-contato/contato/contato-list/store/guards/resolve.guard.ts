@@ -61,7 +61,8 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getContatoListLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || (this.routerState.params[loaded.id] !== loaded.value.grupoContato.id)){
+                console.log(loaded);
+                if (!this.routerState.params[loaded.id] || (this.routerState.params[loaded.id] !== loaded.value?.grupoContato.id)){
                     const params = {
                         filter: {
                             'grupoContato.id': 'eq:' + this.routerState.params['grupoContatoHandle']

@@ -1,0 +1,10 @@
+<cdk-modalidade-compartilhamento-grid
+        [loading]="loading"
+        [modalidadecompartilhamentos]="modalidadecompartilhamentos"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-compartilhamento-grid>
