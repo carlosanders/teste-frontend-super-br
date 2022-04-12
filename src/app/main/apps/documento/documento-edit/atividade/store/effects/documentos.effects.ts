@@ -40,9 +40,6 @@ export class DocumentosEffects {
                 },
                 populate: [
                     'tipoDocumento',
-                    'tarefaOrigem',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                 ]
             };
 

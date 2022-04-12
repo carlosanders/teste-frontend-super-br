@@ -13,25 +13,18 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
-    assinatura as assinaturaSchema,
     documento as documentoSchema,
     template as templateSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
-import {Assinatura, Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
+import {Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../../processo/processo-view/store';
-import {
-    GetDocumentos as GetDocumentosAtividade
-} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
-import {GetDocumentos as GetDocumentosAvulsos} from '../../../tarefas/tarefa-detail/oficios/store';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Injectable()
@@ -77,10 +70,6 @@ export class DocumentoEffect {
                 'modelo.template',
                 'modelo.modalidadeModelo',
                 'processoOrigem',
-                'tarefaOrigem',
-                'tarefaOrigem.usuarioResponsavel',
-                'tarefaOrigem.vinculacoesEtiquetas',
-                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                 'repositorio',
                 'juntadaAtual',
                 'repositorio.modalidadeRepositorio',
@@ -297,106 +286,6 @@ export class DocumentoEffect {
                         pesquisa: this.pesquisa ? true : null
                     }
                 }).then();
-        })
-    ), {dispatch: false});
-
-    /**
-     * Assina Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<DocumentoActions.AssinaDocumentoSuccess>(DocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
-        tap(() => {
-            this._store.dispatch(new UnloadDocumento());
-            let url = this.routerState.url.split('/documento/')[0];
-            if (url.indexOf('/processo') !== -1) {
-                this._store.dispatch(new UnloadDocumentos());
-            }
-            if (url.indexOf('/capa') !== -1) {
-                url += '/mostrar';
-            }
-            this._router.navigate([url]).then(() => {
-                if (url.indexOf('/atividades') !== -1) {
-                    this._store.dispatch(new GetDocumentosAtividade());
-                } else if (url.indexOf('/oficios') !== -1) {
-                    this._store.dispatch(new GetDocumentosAvulsos());
-                } else if (url.indexOf('/processo') !== -1) {
-                    this._store.dispatch(new GetDocumentosProcesso());
-                }
-            });
-        })
-    ), {dispatch: false});
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentoActions.AssinaDocumentoEletronicamente>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Assinando o documento id ' + action.payload.documentoId + ' ...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' criada com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new DocumentoActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documentoId,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documentoId,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao assinar documento id ' + action.payload.documentoId + '.',
-                    status: 2, // erro
-                }));
-                return of(new DocumentoActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Assina Documento Eletronicamente Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamenteSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<DocumentoActions.AssinaDocumentoEletronicamenteSuccess>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
-        tap(() => {
-            this._store.dispatch(new UnloadDocumento());
-            let url = this.routerState.url.split('/documento/')[0];
-            if (url.indexOf('/processo') !== -1) {
-                this._store.dispatch(new UnloadDocumentos());
-            }
-            if (url.indexOf('/capa') !== -1) {
-                url += '/mostrar';
-            }
-            this._router.navigate([url]).then(() => {
-                if (url.indexOf('/atividades') !== -1) {
-                    this._store.dispatch(new GetDocumentosAtividade());
-                } else if (url.indexOf('/oficios') !== -1) {
-                    this._store.dispatch(new GetDocumentosAvulsos());
-                } else if (url.indexOf('/processo') !== -1) {
-                    this._store.dispatch(new GetDocumentosProcesso());
-                }
-            });
         })
     ), {dispatch: false});
     /**

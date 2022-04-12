@@ -96,20 +96,22 @@
 
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso && !modelos" class="processo-view-juntada">
 
-                <div class="loading" *ngIf="loading || loadingComponentesDigitais">
+                <div class="loading" *ngIf="loading || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="(loading || loadingComponentesDigitais) && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="(loading || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))) && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div [hidden]="(loading === true || loadingComponentesDigitais === true) || !juntadas || juntadas?.length === 0"
-                     class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
+                <div [hidden]="(loading === true || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))) || !juntadas || juntadas?.length === 0"
+                     class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
+                     [ngStyle]="{'display': (loading === true || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))) || !juntadas || juntadas?.length === 0 ? 'none' : 'flex'}">
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <div class="pdf-viewer" [hidden]="(loading || loadingComponentesDigitais) || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'">
+                    <div class="pdf-viewer" [hidden]="(loading || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))) || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf'"
+                         [ngStyle]="{'display': (loading || ((!currentJuntada && loadingComponentesDigitais.length > 0) || (currentJuntada && loadingComponentesDigitais.includes(currentJuntada.id)))) || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
                         <ng2-pdfjs-viewer #pdfViewer
                                           [viewerId]="'processo-view'"
                                           [pdfSrc]="null"
@@ -121,7 +123,7 @@
                                           (onPageChange)="onPagesLoaded('pageChange', $event)">
                         </ng2-pdfjs-viewer>
                     </div>
-                    <div class="div-about-blank" *ngIf="(loading === false && loadingComponentesDigitais === false) && src === false && !!this.srcMessage && !downloadUrl">
+                    <div class="div-about-blank" *ngIf="(loading === false && ((!currentJuntada && loadingComponentesDigitais.length === 0) || (currentJuntada && !loadingComponentesDigitais.includes(currentJuntada.id)))) && src === false && !!this.srcMessage && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>

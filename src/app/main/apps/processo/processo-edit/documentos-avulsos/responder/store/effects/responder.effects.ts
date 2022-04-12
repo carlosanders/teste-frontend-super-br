@@ -42,7 +42,13 @@ export class DocumentoAvulsoResponderEffect {
             0,
             JSON.stringify({}),
             JSON.stringify([
-                'populateAll',
+                'processo',
+                'especieDocumentoAvulso',
+                'modelo',
+                'setorDestino',
+                'pessoaDestino',
+                'documentoRemessa',
+                'documentoResposta',
                 'documentoResposta.componentesDigitais',
             ]))),
         switchMap(response => [

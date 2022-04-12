@@ -70,9 +70,6 @@ export class ProcessoViewEffect {
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
             ];
-            const filters = {
-                'id': 'eq:' + action.payload
-            };
             return this._juntadaService.get(
                 action.payload,
                 JSON.stringify(populate),
@@ -533,12 +530,13 @@ export class ProcessoViewEffect {
      */
     getComponentesDigitaisJuntadaSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetComponentesDigitaisJuntadaSuccess>(ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA_SUCCESS),
-        withLatestFrom(
-            this._store.pipe(select(getPagination)),
-            this._store.pipe(select(getPaginadoresComponentesDigitais)),
-            this._store.pipe(select(fromStore.getLowestIndexNull))
-        ),
-        tap(([action, pagination, paginadoresComponentesDigitais, lowestIndexNull]) => {
+        map(action => action),
+        mergeMap(action => of(action).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getPaginadoresComponentesDigitais)).pipe(
+                map(paginadores => paginadores)
+            ))
+        ), 25),
+        tap(([action, paginadoresComponentesDigitais]) => {
             const componentesDigitaisJuntada = [...paginadoresComponentesDigitais[action.payload.juntadaId]?.componentesDigitais];
             componentesDigitaisJuntada.sort((a, b) => (a.vinculacao - b.vinculacao || a.numeracaoSequencial - b.numeracaoSequencial));
             const entitiesId = [...paginadoresComponentesDigitais[action.payload.juntadaId]?.entitiesId];
@@ -573,131 +571,136 @@ export class ProcessoViewEffect {
             }
             const stepHandle = this.routerState.params['stepHandle'];
             if (stepHandle === 'default') {
-                let capa = false;
-                let firstJuntada = -1;
-                if (indexNode.length === 0 || lowestIndexNull === true) {
-                    this._store.dispatch(new fromStore.SetFirstJuntadaFalse(action.payload.juntadaId));
-                    const arrayPaginadores = [];
-                    const tmpPaginadores = {
-                        ...paginadoresComponentesDigitais,
-                        [action.payload.juntadaId]: {
-                            ...paginadoresComponentesDigitais[action.payload.juntadaId],
-                            firstJuntada: false
-                        }
-                    };
-                    Object.entries(tmpPaginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
-                    const tmpIndex = arrayPaginadores.filter(paginador => paginador.firstJuntada === null);
-                    if (tmpIndex.length === 0) {
-                        // Não tem nenhuma juntada com componentes digitais que seja a default, redirecionar para capa
-                        capa = true;
-                    }
-                }
-                if (indexNode.length > 0 && lowestIndexNull === action.payload.juntadaIndice) {
-                    firstJuntada = action.payload.juntadaIndice;
-                    this._store.dispatch(new fromStore.SetFirstJuntadaTrue(action.payload.juntadaId));
-                }
-                if (!capa && firstJuntada === parseInt(action.payload.juntadaIndice, 10)) {
-                    if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('anexar-copia') !== -1 ||
-                        (this.routerState.url.indexOf('visualizar-processo') !== -1))) {
-                        let sidebar;
-                        const arrPrimary = [];
-                        const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
-                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
-                            arrPrimary.push('anexar-copia');
-                            arrPrimary.push(this.routerState.params.processoCopiaHandle);
-                            if (this.routerState.params.chaveAcessoHandle) {
-                                arrPrimary.push('chave');
-                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                            }
-                            arrPrimary.push('visualizar');
-                            arrPrimary.push(firstJuntada + '-0');
-                            sidebar = 'empty';
-                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-                            arrPrimary.push('visualizar-processo');
-                            arrPrimary.push(this.routerState.params.processoHandle);
-                            if (this.routerState.params.chaveAcessoHandle) {
-                                arrPrimary.push('chave');
-                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                            }
-                            arrPrimary.push('visualizar');
-                            arrPrimary.push(firstJuntada + '-0');
-                            sidebar = 'empty';
-                        } else {
-                            if (this.routerState.params['componenteDigitalHandle']) {
-                                arrPrimary.push('componente-digital');
-                                arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
-                            }
-                            sidebar = null;
-                        }
-                        if (this.routerState.url.indexOf('sidebar:') === -1) {
-                            // Navegação do processo deve ocorrer por outlet
-                            this._router.navigate(
-                                [
-                                    url,
-                                    {
-                                        outlets: {
-                                            primary: arrPrimary,
-                                            sidebar: sidebar
-                                        }
-                                    }
-                                ],
-                                {
-                                    relativeTo: this._activatedRoute.parent
-                                }
-                            ).then(() => {
-                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                    step: firstJuntada,
-                                    subStep: 0
-                                }));
-                            });
-                        } else {
-                            this._router.navigate(
-                                [
-                                    url,
-                                    {
-                                        outlets: {
-                                            primary: arrPrimary
-                                        }
-                                    }
-                                ],
-                                {
-                                    relativeTo: this._activatedRoute.parent
-                                }
-                            ).then(() => {
-                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                    step: firstJuntada,
-                                    subStep: 0
-                                }));
-                            });
-                        }
-                    } else if (this.routerState.url.indexOf('/documento/') === -1) {
-                        let url = this.routerState.url.split('/processo/' +
-                                this.routerState.params.processoHandle)[0] + '/processo/' +
-                            this.routerState.params.processoHandle;
-                        if (this.routerState.params.chaveAcessoHandle) {
-                            url += '/chave/' + this.routerState.params.chaveAcessoHandle;
-                        }
-                        url += '/visualizar/' + firstJuntada + '-0';
-                        const extras = {
-                            queryParams: {
-                                novaAba: this.routerState.queryParams.novaAba
+                let lowestIndex = false;
+                this._store.select(fromStore.isLowestIndexNull(action.payload.juntadaId)).pipe(
+                    filter(result => lowestIndex === false && result !== null)
+                ).subscribe((result) => {
+                    lowestIndex = !!result;
+                    let capa = false;
+                    let firstJuntada = -1;
+                    if (indexNode.length === 0 || result === false) {
+                        this._store.dispatch(new fromStore.SetFirstJuntadaFalse(action.payload.juntadaId));
+                        const arrayPaginadores = [];
+                        const tmpPaginadores = {
+                            ...paginadoresComponentesDigitais,
+                            [action.payload.juntadaId]: {
+                                ...paginadoresComponentesDigitais[action.payload.juntadaId],
+                                firstJuntada: false
                             }
                         };
-                        this._router.navigate([url], extras)
-                            .then(() => {
-                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                    step: firstJuntada,
-                                    subStep: 0
-                                }));
-                            });
+                        Object.entries(tmpPaginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
+                        const tmpIndex = arrayPaginadores.filter(paginador => paginador.firstJuntada === null);
+                        if (tmpIndex.length === 0) {
+                            // Não tem nenhuma juntada com componentes digitais que seja a default, redirecionar para capa
+                            capa = true;
+                        }
                     }
-                } else if (capa) {
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: 'capa'
-                    }));
-                }
-            } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
-                this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
+                    if (indexNode.length > 0 && result === true) {
+                        firstJuntada = action.payload.juntadaIndice;
+                        this._store.dispatch(new fromStore.SetFirstJuntadaTrue(action.payload.juntadaId));
+                    }
+                    if (!capa && firstJuntada === parseInt(action.payload.juntadaIndice, 10)) {
+                        if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('anexar-copia') !== -1 ||
+                            (this.routerState.url.indexOf('visualizar-processo') !== -1))) {
+                            let sidebar;
+                            const arrPrimary = [];
+                            const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                                arrPrimary.push('anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                arrPrimary.push('visualizar-processo');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else {
+                                if (this.routerState.params['componenteDigitalHandle']) {
+                                    arrPrimary.push('componente-digital');
+                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                                }
+                                sidebar = null;
+                            }
+                            if (this.routerState.url.indexOf('sidebar:') === -1) {
+                                // Navegação do processo deve ocorrer por outlet
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary,
+                                                sidebar: sidebar
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            } else {
+                                this._router.navigate(
+                                    [
+                                        url,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                            }
+                        } else if (this.routerState.url.indexOf('/documento/') === -1) {
+                            let url = this.routerState.url.split('/processo/' +
+                                    this.routerState.params.processoHandle)[0] + '/processo/' +
+                                this.routerState.params.processoHandle;
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                            }
+                            url += '/visualizar/' + firstJuntada + '-0';
+                            const extras = {
+                                queryParams: {
+                                    novaAba: this.routerState.queryParams.novaAba
+                                }
+                            };
+                            this._router.navigate([url], extras)
+                                .then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: firstJuntada,
+                                        subStep: 0
+                                    }));
+                                });
+                        }
+                    } else if (capa) {
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                            step: 'capa'
+                        }));
+                    }
+                });
+            } else if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
                 const steps = this.routerState.params['stepHandle'].split('-');
                 if (parseInt(steps[0], 10) === action.payload.juntadaIndice) {
                     const componenteDigitalId = indexNode[steps[1]];

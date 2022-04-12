@@ -106,7 +106,7 @@ export const getDocumentoById = (documentoId: number): any => createSelector(
 
 export const getComponentesDigitaisByDocumentoId = (documentoId: number): any => createSelector(
     getDocumentoById(documentoId),
-    ((documento: Documento) => documento.componentesDigitais)
+    ((documento: Documento) => documento?.componentesDigitais)
 );
 
 export const getLowestIndexNull: any = createSelector(
@@ -121,6 +121,27 @@ export const getLowestIndexNull: any = createSelector(
             const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
             if (orderedPaginadores.length) {
                 return orderedPaginadores[0]?.indice;
+            } else {
+                return false;
+            }
+        }
+        return null;
+    }
+);
+
+export const isLowestIndexNull = (juntadaId: number): any => createSelector(
+    getPaginadoresComponentesDigitais,
+    (paginadores: any) => {
+        if (!!paginadores) {
+            const arrayPaginadores = [];
+            Object.entries(paginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
+            const paginadorFirst = arrayPaginadores.find(paginador => paginador.firstJuntada === true);
+            if (paginadorFirst !== undefined) {
+                return null;
+            }
+            const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
+            if (orderedPaginadores.length) {
+                return orderedPaginadores[0]?.juntadaId === juntadaId;
             } else {
                 return false;
             }

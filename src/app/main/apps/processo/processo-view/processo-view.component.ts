@@ -115,7 +115,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     loadingJuntadas$: Observable<boolean>;
     loadingJuntadas: boolean;
     loadingComponentesDigitais$: Observable<number[]>;
-    loadingComponentesDigitais: boolean = false;
+    loadingComponentesDigitais: number[] = [];
 
     pagination$: any;
     pagination: any;
@@ -155,6 +155,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     private pdfViewer: PdfJsViewerComponent;
 
     /**
+     *
      * @param _juntadaService
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -165,6 +166,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _activatedRoute
      * @param _mercureService
      * @param _matDialog
+     * @param _overlay
+     * @param _viewContainerRef
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -177,7 +180,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _mercureService: MercureService,
         private _matDialog: MatDialog,
-
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef
     ) {
@@ -226,11 +228,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.loadingComponentesDigitais$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((loading) => {
-            if (!this.currentJuntada) {
-                this.loadingComponentesDigitais = loading.length > 0;
-            } else {
-                this.loadingComponentesDigitais = loading.includes(this.currentJuntada.id);
-            }
+            this.loadingComponentesDigitais = loading;
+            // if (!this.currentJuntada) {
+            //     this.loadingComponentesDigitais = loading.length > 0;
+            // } else {
+            //     this.loadingComponentesDigitais = loading.includes(this.currentJuntada.id);
+            // }
             this._changeDetectorRef.markForCheck();
         });
 

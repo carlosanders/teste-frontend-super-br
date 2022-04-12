@@ -97,7 +97,11 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             takeUntil(this._unsubscribeAll)
         ).subscribe((value) => {
             if (value === this.documento.id && this.remeterDocAvulso) {
-                this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+                this._store.dispatch(new fromStore.RemeterDocumentoAvulso({
+                    documentoAvulsoRemessa: this.documento.documentoAvulsoRemessa,
+                    documentoId: this.documento.id,
+                    uuid: this.documento.uuid
+                }));
             }
         });
 
@@ -156,7 +160,11 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                     this._componenteDigitalService.doEditorSave.next(this.documento.id);
                 } else {
                     this.remeterDocAvulso = true;
-                    this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+                    this._store.dispatch(new fromStore.RemeterDocumentoAvulso({
+                        documentoAvulsoRemessa: this.documento.documentoAvulsoRemessa,
+                        documentoId: this.documento.id,
+                        uuid: this.documento.uuid
+                    }));
                 }
             }
             this.confirmDialogRef = null;
