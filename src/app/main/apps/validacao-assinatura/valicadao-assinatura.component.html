@@ -1,0 +1,22 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+    <div class="center">
+        <div class="header">
+            <div class="actions">
+                <button mat-icon-button
+                        (click)="goBack()"
+                        aria-label="voltar"
+                        matTooltip="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="content-card">
+            <div class="content">
+                <cdk-componente-digital-view *ngIf="(componenteDigital$ | async)"
+                                             [loading]="(isLoading$ | async)"
+                                             [componenteDigital]="(componenteDigital$ | async)">
+                </cdk-componente-digital-view>
+            </div>
+        </div>
+    </div>
+</div>
