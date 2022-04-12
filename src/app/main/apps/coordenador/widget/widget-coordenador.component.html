@@ -1,4 +1,4 @@
-<mat-card class="scrollable-content" (click)="trocarVisualizacao()">
+<mat-card class="scrollable-content" (click)="trocarVisualizacao()" *ngIf="this.showComponent">
     <mat-card-header>
         <mat-icon class="s-52" mat-card-avatar>schedule</mat-icon>
         <mat-card-title>Tarefas da Coordenação</mat-card-title>
