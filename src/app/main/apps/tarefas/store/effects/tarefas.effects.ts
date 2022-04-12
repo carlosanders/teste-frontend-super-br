@@ -50,16 +50,22 @@ import {
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
 import * as MinutasActions from '../../minutas/store/actions';
-import * as ModeloComponenteDigitalActions from 'app/main/apps/modelos/modelo/store/actions/componentes-digitais.actions';
+import * as ModeloComponenteDigitalActions
+    from 'app/main/apps/modelos/modelo/store/actions/componentes-digitais.actions';
 import * as AcervoComponenteDigitalActions
     from 'app/main/apps/modelos/componentes-digitais/store/actions/componentes-digitais.actions';
-import * as ModeloComponenteDigitalBlocoActions from '../../modelo-bloco/modelo/store/actions/componentes-digitais.actions';
+import * as ModeloComponenteDigitalBlocoActions
+    from '../../modelo-bloco/modelo/store/actions/componentes-digitais.actions';
 import * as AcervoComponenteDigitalBlocoActions
     from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
 import * as DocumentoEditAtividadeDocumentosActions
     from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
+import * as DocumentoOficioActions
+    from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documento-avulso-edit.actions';
+import * as DocumentoAvulsoCreateActions
+    from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -257,7 +263,7 @@ export class TarefasEffect {
                 );
             }
             return of(null);
-        },25),
+        }, 25),
         catchError((err) => {
             console.log(err);
             return err;
@@ -952,6 +958,13 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })
     ), {dispatch: false});
+    /* Ações referentes à criação de ofício de dentro da listagem de tarefas */
+    createOficio: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload));
+        })
+    ), {dispatch: false});
     /* Ações referentes ao editor de modelos de minutas por acervo,
      * que o painel de tarefas fica observando
      */
@@ -983,6 +996,17 @@ export class TarefasEffect {
         ofType<AtividadeCreateActions.DeleteDocumentoSuccess>(AtividadeCreateActions.DELETE_DOCUMENTO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
+        })
+    ), {dispatch: false});
+    remeteOficio: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoOficioActions.RemeterDocumentoAvulsoSuccess>(DocumentoOficioActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
+            this._store.dispatch(new TarefasActions.RemoveEtiquetaOficioTarefa({
+                uuid: action.payload.documentoAvulsoUuid,
+                tarefaId: action.payload.tarefaId
+            }));
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })
     ), {dispatch: false});
     deleteDocumentoOficios: any = createEffect(() => this._actions.pipe(
@@ -1042,7 +1066,10 @@ export class TarefasEffect {
         ofType<AtividadeCreateActions.RemoveMinutasTarefa>(AtividadeCreateActions.REMOVE_MINUTAS_TAREFA),
         tap((action) => {
             action.payload.documentos.forEach((documento) => {
-                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({
+                    uuid: documento.uuid,
+                    tarefaId: action.payload.tarefaId
+                }));
             });
         })
     ), {dispatch: false});
@@ -1055,7 +1082,10 @@ export class TarefasEffect {
         ofType<AtividadeBlocoCreateActions.RemoveMinutasTarefa>(AtividadeBlocoCreateActions.REMOVE_MINUTAS_TAREFA),
         tap((action) => {
             action.payload.documentos.forEach((documento) => {
-                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({
+                    uuid: documento.uuid,
+                    tarefaId: action.payload.tarefaId
+                }));
             });
         })
     ), {dispatch: false});
@@ -1068,7 +1098,10 @@ export class TarefasEffect {
         ofType<DocumentoEditAtividadeDocumentosActions.RemoveMinutasTarefa>(DocumentoEditAtividadeDocumentosActions.REMOVE_MINUTAS_TAREFA),
         tap((action) => {
             action.payload.documentos.forEach((documento) => {
-                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({uuid: documento.uuid, tarefaId: action.payload.tarefaId}));
+                this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({
+                    uuid: documento.uuid,
+                    tarefaId: action.payload.tarefaId
+                }));
             });
         })
     ), {dispatch: false});

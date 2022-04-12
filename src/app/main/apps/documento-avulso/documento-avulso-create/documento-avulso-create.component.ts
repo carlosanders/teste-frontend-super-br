@@ -226,7 +226,8 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.SaveDocumentoAvulso({
             operacaoId: operacaoId,
             documentoAvulso: documentoAvulso,
-            routeOficio: this.routeOficioDocumento
+            routeOficio: this.routeOficioDocumento,
+            tarefaId: this.tarefa.id
         }));
 
     }

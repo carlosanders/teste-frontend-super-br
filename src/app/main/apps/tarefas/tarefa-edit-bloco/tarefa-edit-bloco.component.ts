@@ -44,7 +44,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    blocoEditEspecie = true;
+    blocoEditEspecie = false;
     blocoEditInicioPrazo = false;
     blocoEditFinalPrazo = false;
     blocoEditUrgente = false;

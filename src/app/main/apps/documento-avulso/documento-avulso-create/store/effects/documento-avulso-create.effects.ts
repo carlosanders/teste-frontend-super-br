@@ -55,7 +55,7 @@ export class DocumentoAvulsoCreateEffect {
                 }
             }),
             mergeMap((response: DocumentoAvulso) => [
-                new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess(),
+                new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess(action.payload.tarefaId),
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
             ]),
             catchError((err) => {

@@ -104,7 +104,7 @@
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div [hidden]="(loading === true || loadingComponentesDigitais === true) || !juntadas || juntadas?.length === 0"
+                <div [hidden]="(loading === true) || !juntadas || juntadas?.length === 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">

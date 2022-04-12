@@ -81,7 +81,7 @@ export class RemeterDocumentoAvulsoSuccess implements Action
 {
     readonly type = REMETER_DOCUMENTO_AVULSO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
