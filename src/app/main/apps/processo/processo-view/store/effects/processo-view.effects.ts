@@ -200,11 +200,7 @@ export class ProcessoViewEffect {
                 listFilter: {},
                 limit: 10,
                 offset: 0,
-                sort: {
-                    'volume.numeracaoSequencial': 'DESC',
-                    'numeracaoSequencial': 'DESC',
-                    'documento.componentesDigitais.numeracaoSequencial': 'ASC'
-                },
+                sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
                 populate: [
                     'volume',
                     'documento',
