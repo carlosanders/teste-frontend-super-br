@@ -11,6 +11,7 @@ import {PesquisaMainSidebarComponent} from './sidebars/main/main-sidebar.compone
 import {CommonModule} from '@angular/common';
 import {RouteGuard} from './guard';
 import {modulesConfig} from 'modules/modules-config';
+import {RoleGuard} from '../role.guard';
 
 const routes: Routes = [
     {
@@ -28,7 +29,9 @@ const routes: Routes = [
             },
             {
                 path: 'documentos',
-                loadChildren: () => import('./componentes-digitais/pesquisa-componentes-digitais.module').then(m => m.PesquisaComponentesDigitaisModule)
+                loadChildren: () => import('./componentes-digitais/pesquisa-componentes-digitais.module').then(m => m.PesquisaComponentesDigitaisModule),
+                data: {roles: ['ROLE_COORDENADOR']},
+                canActivate: [RoleGuard],
             },
             {
                 path: '**',
@@ -66,6 +69,7 @@ modulesConfig.forEach((module) => {
         MatRippleModule
     ],
     providers: [
+        RoleGuard
     ]
 })
 export class PesquisaModule {
