@@ -33,7 +33,51 @@ export class VinculacaoProcessoListEffect {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context))),
+            JSON.stringify(action.payload.context)).pipe(
+        tap(response => {
+            if(response.entities[0]?.processo){
+                this.processoPrincipal = `eq:${response.entities[0].processo.id}`;
+            } else {
+                this.processoPrincipal = action.payload.filter['processoVinculado.id'];
+            }
+        },),
+        mergeMap(response => [
+            new VinculacaoProcessoListActions.GetVinculacoesProcessosPrincipal({
+                filter: {
+                    'processo.id': this.processoPrincipal
+                },
+                gridFilter: {},
+                limit: 10,
+                offset: 0,
+                sort: {id: 'DESC'},
+                populate: [
+                    'populateAll'
+                ]
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new VinculacaoProcessoListActions.GetVinculacoesProcessosFailed(err));
+        }))
+    )));
+
+    /**
+     * Get VinculacoesProcessosPrincipal with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getVinculacoesProcessosPrincipal: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VinculacaoProcessoListActions.GetVinculacoesProcessosPrincipal>(VinculacaoProcessoListActions.GET_VINCULACOES_PROCESSOS_PRINCIPAL),
+        switchMap(action => this._vinculacaoProcessoService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context)).pipe(
         mergeMap(response => [
             new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
             new VinculacaoProcessoListActions.GetVinculacoesProcessosSuccess({
@@ -49,7 +93,8 @@ export class VinculacaoProcessoListEffect {
             console.log(err);
             return of(new VinculacaoProcessoListActions.GetVinculacoesProcessosFailed(err));
         })
-    ));
+    ))));
+
     /**
      * Delete VinculacaoProcesso
      *
@@ -97,12 +142,13 @@ export class VinculacaoProcessoListEffect {
                 })
             ), 25)
     ));
+    private processoPrincipal: string;
 
     constructor(
         private _actions: Actions,
         private _vinculacaoProcessoService: VinculacaoProcessoService,
         private _store: Store<State>
-    ) {
+) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
