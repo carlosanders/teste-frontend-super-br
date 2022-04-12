@@ -1509,19 +1509,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (numDoc));
             e.preventDefault();
+            e.stopPropagation();
             document.removeEventListener('copy', null);
         });
         document.execCommand('copy');
     }
     doCopyBookmark(bookmarks: any[] = []): void
     {
+        console.log(bookmarks);
         let copyBookmark = '';
         bookmarks.forEach((book) =>{
-            copyBookmark += '- ' + JSON.stringify(book.value[0].nome)
-                + ' (Sequencial:' + JSON.stringify(book.key)
-                + ', Página:' + JSON.stringify(book.value[0].pagina)
-                + ',' + JSON.stringify(book.value[0].componenteDigital.fileName)+ ')\r\n\n'
-                + '     ' + JSON.stringify((book.value[0].descricao))+ '\r\n\n';
+            book.value.forEach((b) => {
+                copyBookmark += '- ' + JSON.stringify(b.nome)
+                    + ' (Sequencial:' + JSON.stringify(book.key)
+                    + ', Página:' + JSON.stringify(b.pagina)
+                    + ',' + JSON.stringify(b.componenteDigital.fileName)+ ')\r\n\n';
+                if(b.descricao){
+                    copyBookmark += '     ' + JSON.stringify((b.descricao))+ '\r\n\n';
+                }
+            })
         });
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (copyBookmark));
