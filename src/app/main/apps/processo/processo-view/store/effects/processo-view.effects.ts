@@ -210,7 +210,6 @@ export class ProcessoViewEffect {
                     'documento',
                     'documento.origemDados',
                     'documento.tipoDocumento',
-                    'documento.componentesDigitais',
                     'documento.criadoPor',
                     'documento.setorOrigem',
                     'documento.setorOrigem.unidade'
