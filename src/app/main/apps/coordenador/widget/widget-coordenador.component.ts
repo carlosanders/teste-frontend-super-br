@@ -28,6 +28,7 @@ export class WidgetCoordenadorComponent implements OnInit {
     numeroTarefas: any;
     tarefas: Tarefa[];
     isLoading: boolean = true;
+    showComponent: boolean = false;
 
     /**
      * Constructor
@@ -38,6 +39,7 @@ export class WidgetCoordenadorComponent implements OnInit {
         public _changeDetectorRef: ChangeDetectorRef
     ) {
         this._profile = _loginService.getUserProfile();
+        this.showComponent = !!this._profile.coordenadores.length;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -50,7 +52,6 @@ export class WidgetCoordenadorComponent implements OnInit {
     ngOnInit(): void {
 
         const setoresId = this._profile.coordenadores.filter(coordenador => !!coordenador.setor?.id).map(coordenador => coordenador.setor.id).join(',');
-
         if (setoresId) {
             this._tarefaService.count(
                 `{"setorResponsavel.id": "in:${setoresId}", "dataHoraConclusaoPrazo": "isNull"}`)
