@@ -229,12 +229,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((loading) => {
             this.loadingComponentesDigitais = loading;
-            // if (!this.currentJuntada) {
-            //     this.loadingComponentesDigitais = loading.length > 0;
-            // } else {
-            //     this.loadingComponentesDigitais = loading.includes(this.currentJuntada.id);
-            // }
-            this._changeDetectorRef.markForCheck();
         });
 
         this.binary$.pipe(
