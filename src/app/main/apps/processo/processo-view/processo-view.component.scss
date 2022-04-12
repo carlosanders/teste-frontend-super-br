@@ -42,6 +42,10 @@ processo-view {
                     .right {
                         display: flex;
                         justify-content: flex-end;
+
+                        button {
+                            margin-left: 4px;
+                        }
                     }
                 }
             }
