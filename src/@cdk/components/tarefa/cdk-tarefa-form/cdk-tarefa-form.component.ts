@@ -247,6 +247,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPaginationTree = new Pagination();
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade'];
         this.setorOrigemPaginationTree = new Pagination();
         this.grupoContatoPagination = new Pagination();
         this.grupoContatoPagination.populate = [
