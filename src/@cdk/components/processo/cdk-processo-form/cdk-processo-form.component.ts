@@ -584,6 +584,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     showLogEntryGrid(target: string): void {
         const campo = {target: target};
         Object.assign(this.logEntryPagination.filter, campo);
+        if(this.logEntryPagination.filter.id === null && this.form.get('id').value !== null){
+            const id = {id : this.form.get('id').value};
+            Object.assign(this.logEntryPagination.filter, id);
+        }
         this.activeCard = 'logentry-gridsearch';
     }
 
