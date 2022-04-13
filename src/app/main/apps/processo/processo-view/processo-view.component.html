@@ -94,7 +94,7 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div class="loading-capa" *ngIf="capa && (loading || loadingComponentesDigitais.includes(currentJuntada.id))">
+            <div class="loading-capa" *ngIf="capa && (loading || (juntadas?.length > 0 && loadingComponentesDigitais.includes(currentJuntada.id)))">
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 

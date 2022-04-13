@@ -154,6 +154,8 @@ export class ProcessoViewEffect {
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
                         documentosVinculacoesId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temAnexos ? juntada.documento.id : null),
+                        documentosEtiquetasId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temEtiquetas ? juntada.documento.id : null),
+                        temComponentesDigitais: response['entities'].map(juntada => !!juntada.documento.temComponentesDigitais),
                         ativo: response['entities'].map(juntada => juntada.ativo),
                         processoId: action.payload.processoId,
                         loaded: {
@@ -447,13 +449,10 @@ export class ProcessoViewEffect {
                 }));
                 return;
             }
-            action.payload.documentosId.forEach((documentoId) => {
-                this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
-            });
             action.payload.entitiesId.forEach((juntadaId, juntadaIndice) => {
                 const indice = juntadaIndice + pagination.offset;
                 // Não pede componentes digitais de juntadas desentranhadas
-                if (action.payload.ativo[juntadaIndice]) {
+                if (action.payload.ativo[juntadaIndice] && action.payload.temComponentesDigitais[juntadaIndice]) {
                     this._store.dispatch(new fromStore.GetComponentesDigitaisJuntada({
                         juntadaId: juntadaId,
                         documentoId: action.payload.documentosId[juntadaIndice],
@@ -461,7 +460,7 @@ export class ProcessoViewEffect {
                         juntadaIndice: indice,
                         processoId: action.payload.processoId,
                         filter: {
-                            'documento.juntadaAtual.id': 'eq:' + juntadaId
+                            'documento.id': 'eq:' + action.payload.documentosId[juntadaIndice]
                         },
                         limit: 25,
                         offset: 0,
@@ -470,6 +469,11 @@ export class ProcessoViewEffect {
                         },
                         populate: []
                     }));
+                }
+            });
+            action.payload.documentosEtiquetasId.forEach((documentoId) => {
+                if (documentoId) {
+                    this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
                 }
             });
         })
@@ -790,7 +794,7 @@ export class ProcessoViewEffect {
                     documentoId: action.payload.documentoId,
                     processoId: action.payload.processoId,
                     filter: {
-                        'documento.juntadaAtual.id': 'eq:' + action.payload.juntadaId
+                        'documento.id': 'eq:' + action.payload.documentoId
                     },
                     limit: paginationComponentesDigitais.limit,
                     offset: paginationComponentesDigitais.offset + paginationComponentesDigitais.limit,
