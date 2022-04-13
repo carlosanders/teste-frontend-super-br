@@ -19,6 +19,8 @@ export class Tarefa {
 
     localEvento?: string;
 
+    temEtiquetas?: boolean;
+
     @Exclude({toPlainOnly: true})
     redistribuida?: boolean;
 
@@ -137,6 +139,7 @@ export class Tarefa {
         this.observacao = null;
         this.localEvento = null;
         this.redistribuida = null;
+        this.temEtiquetas = false;
         this.dataHoraInicioPrazo = null;
         this.dataHoraFinalPrazo = null;
         this.dataHoraConclusaoPrazo = null;

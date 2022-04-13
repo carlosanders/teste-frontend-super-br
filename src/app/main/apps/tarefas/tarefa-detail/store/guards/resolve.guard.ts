@@ -78,7 +78,7 @@ export class ResolveGuard implements CanActivate {
         if (this.routerState.params['processoHandle'] &&
             this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1) {
             return forkJoin([
-                this.downloadLatestBinary(),
+                // this.downloadLatestBinary(),
                 this.getTarefa(),
                 this.getProcesso(),
                 this.getJuntadas()

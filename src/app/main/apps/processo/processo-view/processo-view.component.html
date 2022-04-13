@@ -100,7 +100,7 @@
 
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso && !modelos" class="processo-view-juntada">
 
-                <div class="loading" *ngIf="loading">
+                <div class="loading" *ngIf="loading || loadingComponentesDigitais.includes(currentJuntada?.id)">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
@@ -109,12 +109,12 @@
                 </div>
 
                 <div class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
-                     [ngStyle]="{'display': loading === true || !juntadas || juntadas?.length === 0 ? 'none' : 'flex'}">
-                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
+                     [ngStyle]="{'display': loading === true || loadingComponentesDigitais.includes(currentJuntada?.id) || !juntadas || juntadas?.length === 0 ? 'none' : 'flex'}">
+                    <iframe id="iframe-juntadas" *ngIf="src && !loadingComponentesDigitais.includes(currentJuntada?.id) && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
                     <div class="pdf-viewer"
-                         [ngStyle]="{'display': loading || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
+                         [ngStyle]="{'display': loading || loadingComponentesDigitais.includes(currentJuntada?.id) || juntadas?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
                         <ng2-pdfjs-viewer #pdfViewer
                                           [viewerId]="'processo-view'"
                                           [pdfSrc]="null"

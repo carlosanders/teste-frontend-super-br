@@ -91,7 +91,11 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.downloadLatestBinary(), this.getJuntadas(), this.getVolumes()]).pipe(
+        return forkJoin([
+            // this.downloadLatestBinary(),
+            this.getJuntadas(),
+            this.getVolumes()
+        ]).pipe(
             take(1)
         );
     }
