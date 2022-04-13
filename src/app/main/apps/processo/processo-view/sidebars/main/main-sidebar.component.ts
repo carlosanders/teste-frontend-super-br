@@ -1509,14 +1509,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (numDoc));
             e.preventDefault();
-            e.stopPropagation();
             document.removeEventListener('copy', null);
         });
         document.execCommand('copy');
     }
     doCopyBookmark(bookmarks: any[] = []): void
     {
-        console.log(bookmarks);
         let copyBookmark = '';
         bookmarks.forEach((book) =>{
             book.value.forEach((b) => {

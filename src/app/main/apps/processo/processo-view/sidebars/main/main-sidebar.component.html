@@ -530,12 +530,18 @@
                             <ng-container *ngIf="juntada.documento.temAnexos && loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1 && juntada.documento.vinculacoesDocumentos?.length === 0">
                                 <mat-spinner diameter="16"></mat-spinner>
                             </ng-container>
-                            <div class="numero"
+                            <div fxFlex fxLayout="row"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado && !this.loadingComponentesDigitaisIds.includes(juntada.id)">
-                                {{juntada.documento.numeroUnicoDocumentoFormatado}}
-                                <mat-icon class="s-12" [matTooltip]="'Copiar Número do Documento para o clipboard'" (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado)">
-                                    file_copy
-                                </mat-icon>
+                                <div class="numero" fxFlex="1 1 auto" fxLayoutAlign="space-between center">
+                                    <div>
+                                        {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                    </div>
+                                    <mat-icon class="s-8" fxFlex="1 1 auto" fxLayoutAlign="center"
+                                              [matTooltip]="'Copiar Número do Documento'"
+                                              (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado); $event.stopPropagation();">
+                                        file_copy
+                                    </mat-icon>
+                                </div>
                             </div>
                             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                                 <div class="etiqueta"
