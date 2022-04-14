@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="right">
-                    <button mat-mini-fab *ngIf="componenteDigital?.id" #btnAssinaturas (click)="doLoadAssinaturas()">
+                    <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas (click)="doLoadAssinaturas()">
                         <mat-icon class="mat-18">lock</mat-icon>
                     </button>
                     <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
