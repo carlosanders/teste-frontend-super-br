@@ -837,7 +837,7 @@ processo-view-main-sidebar {
         .actions {
             flex: 0 1 auto;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
         }

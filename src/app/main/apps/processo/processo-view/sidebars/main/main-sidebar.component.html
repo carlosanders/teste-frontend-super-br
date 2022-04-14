@@ -333,113 +333,17 @@
                     <div class="index">
                         <span dndDragImageRef>{{juntada.numeracaoSequencial}}</span>
                     </div>
-                    <div fxFlex fxLayout="column">
-                        <div *ngIf="!juntada.ativo">
-                            <div class="desentranhado">DESENTRANHADO</div>
-                        </div>
-                        <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
-                            <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
-                            </mat-icon>
-                        </div>
+                    <div *ngIf="!juntada.ativo">
+                        <div class="desentranhado">DESENTRANHADO</div>
+                    </div>
+                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
+                        </mat-icon>
+                    </div>
+                    <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
-                            <div fxFlex fxLayout="row">
-                                <div class="descricao">
-                                    {{juntada.descricao.split('/').join(' ')}}
-                                    <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
-                                              *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
-                                    </mat-icon>
-                                    <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
-                                              *ngIf="isOpen[juntada.id]">keyboard_arrow_up
-                                    </mat-icon>
-                                </div>
-                                <div class="actions">
-                                    <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
-                                    </mat-icon>
-                                    <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
-                                    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
-                                !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
-                                        <mat-icon class="secondary-text">more_vert</mat-icon>
-                                    </button>
-
-                                    <div
-                                        *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                                        class="spinner-container m-8">
-                                        <mat-spinner diameter="24"></mat-spinner>
-                                    </div>
-
-                                    <mat-menu #moreMenu="matMenu">
-                                        <button mat-menu-item aria-label="enviar por email"
-                                                (click)="enviarDocumentoEmail(juntada.id)">
-                                            <ng-container>
-                                                <mat-icon>send</mat-icon>
-                                                <span>Enviar por email</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="editar"
-                                                *ngIf="!juntada.documento.acessoNegado && !_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
-                                                (click)="onClickedMinuta(juntada.documento)">
-                                            <ng-container>
-                                                <mat-icon>edit</mat-icon>
-                                                <span>Editar</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="assinar juntada"
-                                                (click)="doAssinaturaJuntada(juntada.documento, i)">
-                                            <ng-container>
-                                                <mat-icon>lock</mat-icon>
-                                                <span>Assinar</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="abrir em outra aba"
-                                                *ngIf="!juntada.documento.acessoNegado"
-                                                (click)="doJuntadaOutraAba(juntada.documento)">
-                                            <ng-container>
-                                                <mat-icon>open_in_new</mat-icon>
-                                                <span>Abrir em outra aba</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button fxLayout="row" fxLayoutAlign="start center"
-                                                *ngIf="juntada.documento.assinado && !juntada.documento.acessoNegado"
-                                                (click)="doDownloadP7S(juntada.documento)"
-                                                mat-menu-item>
-                                            <mat-icon>get_app</mat-icon>
-                                            <span>Exportar como P7S</span>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="adicionar vinculação"
-                                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                                                (click)="doAdicionarVinculacao(juntada.id)">
-                                            <ng-container>
-                                                <mat-icon>link</mat-icon>
-                                                <span>Adicionar vinculação</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="remover vinculações"
-                                                (click)="doRemoverVinculacoes(juntada)"
-                                                *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
-                                            <ng-container>
-                                                <mat-icon>lock</mat-icon>
-                                                <span>Desvincular</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="desentranhar"
-                                                (click)="doDesentranharSimples(juntada.id)"
-                                                *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
-                                            <ng-container>
-                                                <mat-icon>low_priority</mat-icon>
-                                                <span>Desentranhar</span>
-                                            </ng-container>
-                                        </button>
-                                    </mat-menu>
-                                </div>
+                            <div class="descricao">
+                                {{juntada.descricao.split('/').join(' ')}}
                             </div>
                             <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>
                             <div class="criado-em" *ngIf="juntada.criadoPor?.nome && isOpen[juntada.id]" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
@@ -552,6 +456,99 @@
                                     <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="actions" *ngIf="juntada.ativo">
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
+                            </mat-icon>
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="isOpen[juntada.id]">keyboard_arrow_up
+                            </mat-icon>
+                            <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                                    *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                                !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                    aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                            </mat-icon>
+                            <div
+                                *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                class="spinner-container m-8">
+                                <mat-spinner diameter="24"></mat-spinner>
+                            </div>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="enviar por email"
+                                        (click)="enviarDocumentoEmail(juntada.id)">
+                                    <ng-container>
+                                        <mat-icon>send</mat-icon>
+                                        <span>Enviar por email</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="editar"
+                                        *ngIf="!juntada.documento.acessoNegado && !_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
+                                        (click)="onClickedMinuta(juntada.documento)">
+                                    <ng-container>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Editar</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="assinar juntada"
+                                        (click)="doAssinaturaJuntada(juntada.documento, i)">
+                                    <ng-container>
+                                        <mat-icon>lock</mat-icon>
+                                        <span>Assinar</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="abrir em outra aba"
+                                        *ngIf="!juntada.documento.acessoNegado"
+                                        (click)="doJuntadaOutraAba(juntada.documento)">
+                                    <ng-container>
+                                        <mat-icon>open_in_new</mat-icon>
+                                        <span>Abrir em outra aba</span>
+                                    </ng-container>
+                                </button>
+
+                                <button fxLayout="row" fxLayoutAlign="start center"
+                                        *ngIf="juntada.documento.assinado && !juntada.documento.acessoNegado"
+                                        (click)="doDownloadP7S(juntada.documento)"
+                                        mat-menu-item>
+                                    <mat-icon>get_app</mat-icon>
+                                    <span>Exportar como P7S</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="adicionar vinculação"
+                                        *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                        (click)="doAdicionarVinculacao(juntada.id)">
+                                    <ng-container>
+                                        <mat-icon>link</mat-icon>
+                                        <span>Adicionar vinculação</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="remover vinculações"
+                                        (click)="doRemoverVinculacoes(juntada)"
+                                        *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
+                                    <ng-container>
+                                        <mat-icon>lock</mat-icon>
+                                        <span>Desvincular</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="desentranhar"
+                                        (click)="doDesentranharSimples(juntada.id)"
+                                        *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
+                                    <ng-container>
+                                        <mat-icon>low_priority</mat-icon>
+                                        <span>Desentranhar</span>
+                                    </ng-container>
+                                </button>
+                            </mat-menu>
                         </div>
                     </div>
                 </div>
