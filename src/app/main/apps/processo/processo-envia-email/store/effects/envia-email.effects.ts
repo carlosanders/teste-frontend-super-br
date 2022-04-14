@@ -63,12 +63,18 @@ export class EnviaEmailEffects {
     enviaEmailJuntadaSuccess: any = createEffect(() => this._actions.pipe(
         ofType<EnviaEmailActions.EnviaEmailSuccess>(EnviaEmailActions.ENVIA_EMAIL_DOCUMENTO_SUCCESS),
         tap(() => {
-            this._router.navigate([
-                'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                this.routerState.params.typeHandle + '/' +
-                this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
-                '/processo/' + this.routerState.params.processoHandle + '/visualizar']
-            ).then();
+            if(this.routerState.params.tarefaHandle){
+                this._router.navigate([
+                    'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' +
+                    this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
+                    '/processo/' + this.routerState.params.processoHandle + '/visualizar']
+                    ).then();
+            } else {
+                this._router.navigate([
+                    'apps/processo/' + this.routerState.params.processoHandle + '/visualizar'
+                ])
+            }
         })
     ), {dispatch: false});
     /**
