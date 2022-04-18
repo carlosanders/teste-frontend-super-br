@@ -856,3 +856,7 @@
 * Correção para buscar o provider de processo com 15 dígitos
 * Melhoria inclusão do Copiar Bookmark para clipboard
 * Melhoria inclusão do Copiar número do documento juntado para o clipboard
+
+1.8.6
+
+* Melhoria Compartilhar Tarefa para Setor e Grupo de Contato
