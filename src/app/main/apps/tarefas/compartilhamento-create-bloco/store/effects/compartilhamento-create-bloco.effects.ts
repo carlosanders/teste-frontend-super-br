@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {LotacaoService} from "../../../../../../../@cdk/services/lotacao.service";
 import {LoginService} from "../../../../../auth/login/login.service";
+import {CdkUtils} from "../../../../../../../@cdk/utils";
 
 @Injectable()
 export class CompartilhamentoCreateBlocoEffect {
@@ -110,7 +111,7 @@ export class CompartilhamentoCreateBlocoEffect {
      */
     getLotacoes: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<CompartilhamentoCreateBlocoActions.GetLotacoesCompartilhamentoBloco>(CompartilhamentoCreateBlocoActions.GET_LOTACOES_COMPARTILHAMENTO_BLOCO),
-        switchMap(action => this._lotacaoService.query(
+        mergeMap(action => this._lotacaoService.query(
             JSON.stringify(action.payload.params.filter),
             action.payload.params.limit,
             0,
@@ -126,7 +127,6 @@ export class CompartilhamentoCreateBlocoEffect {
                 new CompartilhamentoCreateBlocoActions.GetLotacoesCompartilhamentoBlocoSuccess({
                     response: response,
                     compartilhamento: action.payload.compartilhamento,
-                    operacaoId: action.payload.operacaoId,
                     lote: action.payload.loteId
                 }),
                 new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
@@ -146,6 +146,7 @@ export class CompartilhamentoCreateBlocoEffect {
         tap((action) => {
             action.payload.response.entities.forEach(
                 lotacao => {
+                    const operacaoIdSetor = CdkUtils.makeId();
                     const compartilhamento = new Compartilhamento();
                     Object.entries(action.payload.compartilhamento).forEach(
                         ([key, value]) => {
@@ -155,7 +156,7 @@ export class CompartilhamentoCreateBlocoEffect {
                     compartilhamento['usuario'] = lotacao.colaborador.usuario;
                     this._store.dispatch(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSetorBloco({
                         compartilhamento: compartilhamento,
-                        operacaoId: action.payload.operacaoId,
+                        operacaoId: operacaoIdSetor,
                         lote: action.payload.loteId
                     }));
                 });

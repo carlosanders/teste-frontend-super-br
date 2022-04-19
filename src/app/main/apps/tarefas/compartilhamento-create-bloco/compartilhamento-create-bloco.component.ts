@@ -152,9 +152,9 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
             compartilhamento.tarefa = tarefa;
 
-            const operacaoId = CdkUtils.makeId();
             switch (values.modalidadeCompartilhamento){
                 case "usuario":
+                    const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.SaveCompartilhamento({
                         compartilhamento: compartilhamento,
                         operacaoId: operacaoId,
@@ -178,12 +178,12 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                     this._store.dispatch(new fromStore.GetLotacoesCompartilhamentoBloco({
                         compartilhamento,
                         params,
-                        operacaoId: operacaoId,
                         loteId: this.lote
                     }));
                     break;
                 case "grupoContato":
                     compartilhamento.grupoContato.contatos.forEach(contato =>{
+                        const operacaoIdGrupo = CdkUtils.makeId();
                         if(contato.usuario){
                             const compartilhamentoGrupo  = new Compartilhamento();
                             Object.entries(values).forEach(
@@ -195,7 +195,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                             compartilhamentoGrupo['tarefa'] = tarefa;
                             this._store.dispatch(new fromStore.SaveCompartilhamentoSetorBloco({
                                 compartilhamento: compartilhamentoGrupo,
-                                operacaoId: operacaoId,
+                                operacaoId: operacaoIdGrupo,
                                 loteId: this.lote
                             }));
                         }

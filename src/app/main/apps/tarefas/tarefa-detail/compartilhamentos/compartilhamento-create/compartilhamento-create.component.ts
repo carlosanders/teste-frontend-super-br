@@ -19,7 +19,7 @@ import {getTarefa} from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models/colaborador.model';
-import {Back} from '../../../../../../store';
+import {Back, getOperacoes} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
@@ -39,6 +39,9 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     compartilhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
+    lote: string;
 
     routerState: any;
 
@@ -113,6 +116,24 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
         ).subscribe((tarefa) => {
             this.compartilhamento.tarefa = tarefa;
         });
+
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'compartilhamento' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'compartilhamento' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
+        });
     }
 
     doAbort(): void {
@@ -141,10 +162,10 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        const operacaoId = CdkUtils.makeId();
 
         switch (values.modalidadeCompartilhamento){
             case "usuario":
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.SaveCompartilhamento({
                     compartilhamento: compartilhamento,
                     operacaoId: operacaoId
@@ -166,12 +187,12 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
                 };
                 this._store.dispatch(new fromStore.GetLotacoesCompartilhamento({
                     compartilhamento,
-                    params,
-                    operacaoId: operacaoId
+                    params
                 }));
                 break;
             case "grupoContato":
                 compartilhamento.grupoContato.contatos.forEach(contato =>{
+                    const operacaoIdGrupo = CdkUtils.makeId();
                     if(contato.usuario){
                         const compartilhamentoGrupo  = new Compartilhamento();
                         Object.entries(values).forEach(
@@ -182,7 +203,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
                         compartilhamentoGrupo['usuario'] = contato.usuario;
                         this._store.dispatch(new fromStore.SaveCompartilhamentoSetor({
                             compartilhamento: compartilhamentoGrupo,
-                            operacaoId: operacaoId
+                            operacaoId: operacaoIdGrupo,
                         }));
                     }
                 });

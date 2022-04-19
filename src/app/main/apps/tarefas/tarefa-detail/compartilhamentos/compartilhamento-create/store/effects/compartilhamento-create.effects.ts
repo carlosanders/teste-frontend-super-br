@@ -19,6 +19,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {LotacaoService} from "../../../../../../../../../@cdk/services/lotacao.service";
 import {LoginService} from "../../../../../../../auth/login/login.service";
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -79,12 +80,20 @@ export class CompartilhamentoCreateEffect {
      */
     saveCompartilhamentoSetor: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<CompartilhamentoCreateActions.SaveCompartilhamentoSetor>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO_SETOR),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'compartilhamento',
+            content: 'Salvando o compartilhamento ...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
         mergeMap(action => this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'compartilhamento',
                 content: 'Compartilhamento id ' + response.id + ' salvo com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Compartilhamento) => [
                 new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(),
@@ -145,6 +154,7 @@ export class CompartilhamentoCreateEffect {
         tap((action) => {
             action.payload.response.entities.forEach(
                 lotacao => {
+                    const operacaoIdSetor = CdkUtils.makeId();
                     const compartilhamento = new Compartilhamento();
                     Object.entries(action.payload.compartilhamento).forEach(
                         ([key, value]) => {
@@ -154,7 +164,7 @@ export class CompartilhamentoCreateEffect {
                     compartilhamento['usuario'] = lotacao.colaborador.usuario;
                     this._store.dispatch(new CompartilhamentoCreateActions.SaveCompartilhamentoSetor({
                         compartilhamento: compartilhamento,
-                        operacaoId: action.payload.operacaoId
+                        operacaoId: operacaoIdSetor
                     }));
                 });
         })
