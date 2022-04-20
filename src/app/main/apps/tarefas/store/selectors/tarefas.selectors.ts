@@ -181,9 +181,9 @@ export const getCurrentTarefaId: any = createSelector(
     (state: TarefasState) => state.currentTarefaId
 );
 
-export const getIsSavingObservacao: any = createSelector(
+export const getSavingObservacaoIds: any = createSelector(
     getTarefasState,
-    (state: TarefasState) => state.savingObservacao
+    (state: TarefasState) => state.savingObservacaoIds
 );
 
 export const getTarefaById = (tarefaId: number): any => createSelector(
@@ -210,4 +210,14 @@ export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector
 export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => createSelector(
     getAllVinculacoesEtiqueta,
     ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectId === documentoId))
+);
+
+export const getEditObservacaoIds: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.observacaoEditIds
+);
+
+export const getViewMode: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.viewMode
 );

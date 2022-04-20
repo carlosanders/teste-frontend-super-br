@@ -3,7 +3,9 @@
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
-        <tarefas-main-sidebar (reload)="reload($event)"></tarefas-main-sidebar>
+        <tarefas-main-sidebar
+            (reload)="reload($event)" (changeViewMode)="doTarefaListViewModeChange()">
+        </tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -208,7 +210,7 @@
                         'current-tarefa': currentTarefaId  || mostraCriar,
                         'no-current-tarefa': !currentTarefaId && !mostraCriar,
                         'maximizado': (maximizado$ | async)
-                     }">
+                     }" *ngIf="tarefaListViewMode == 'list' || componentRootUrl">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
@@ -279,7 +281,8 @@
                                      (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
                                      (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
                                      (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
-                                     [savingObservacao]="savingObservacao$ | async"
+                                     [savingObservacaoIds]="savingObservacaoIds$ | async"
+                                     [editandoObservacaoIds]="editObservacaoIds$ | async"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
                                      [totalInteressadosProcessosId]="(totalInteressadosProcessosId$ | async)"
@@ -301,11 +304,14 @@
                                      (verResposta)="doVerResposta($event)"
                                      (completed)="onComplete($event)"
                                      (completedAll)="onCompleteAll($event)"
-                                     (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)">
+                                     (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)"
+                                     (editarObservacao)="doEditarObservacao($event)"
+                                     [viewMode]="tarefaListViewMode">
                     </cdk-tarefa-list>
                 </div>
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
+                     *ngIf="tarefaListViewMode === 'list' || !this.componentRootUrl"
                      [fxFlex]="100"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{

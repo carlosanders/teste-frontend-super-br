@@ -844,8 +844,9 @@ export class TarefasEffect {
      */
     changeSelectedTarefas: any = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.ChangeSelectedTarefas>(TarefasActions.CHANGE_SELECTED_TAREFAS),
-        tap((action) => {
-            if (action.payload.length > 1) {
+        withLatestFrom(this._store.pipe(select(fromStore.getViewMode))),
+        tap(([action, viewMode]) => {
+            if (action.payload.length > 1 && viewMode == 'list') {
                 this._router.navigate([
                     'apps',
                     'tarefas',
@@ -903,7 +904,7 @@ export class TarefasEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Tarefa) => [
-                new TarefasActions.SaveObservacaoSuccess(),
+                new TarefasActions.SaveObservacaoSuccess(response.id),
                 new UpdateData<Tarefa>({
                     id: response.id,
                     schema: tarefaSchema,
@@ -917,7 +918,7 @@ export class TarefasEffect {
                     content: 'Erro ao alterar a observação da tarefa id ' + action.payload.tarefa.id + '.',
                     status: 2, // erro
                 }));
-                return of(new TarefasActions.SaveObservacaoFailed(err));
+                return of(new TarefasActions.SaveObservacaoFailed({error: err, tarefaId: action.payload.tarefa.id}));
             })
         ))
     ));
@@ -1239,7 +1240,7 @@ export class TarefasEffect {
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
         private _etiquetaService: EtiquetaService,
-        private _interessadoService: InteressadoService
+        private _interessadoService: InteressadoService,
     ) {
         this._store.pipe(
             select(getRouterState),

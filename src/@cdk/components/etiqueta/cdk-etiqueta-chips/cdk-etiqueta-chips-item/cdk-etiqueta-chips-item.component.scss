@@ -1,6 +1,7 @@
 cdk-etiqueta-chips-item {
     .mat-chip {
-        height: 24px !important;
+        height: auto !important;
+        padding: 4px !important;
 
         .icon {
             margin-right: 6px !important;
