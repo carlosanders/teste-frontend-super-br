@@ -109,6 +109,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoes.push(operacoes[operacaoId]);
             });
+            this.operacoes.reverse();
             if (!this.loteAtual) {
                 if (this.filtros.value !== 'todas') {
                     this.displayedOperacoes = this.operacoes.filter((operacao: any) => operacao.status == this.filtros.value);

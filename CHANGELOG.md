@@ -860,3 +860,4 @@
 1.8.6
 
 * Melhoria Compartilhar Tarefa para Setor e Grupo de Contato
+* Correção ordenação das últimas operações
