@@ -322,8 +322,8 @@
                  (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
                 {{contador.reset()}}
                 <div class="juntada drag-juntada" matRipple
-                     (click)="gotoStep(i,juntada.documento.acessoNegado,null, $event)"
-                     [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
+                     (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, $event)"
+                     [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}"
                      [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                      [dndDragImageOffsetFunction]="this.offsetFunction"
                      [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
@@ -378,20 +378,15 @@
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
                                     <a class="ml-4"
-                                       (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                       [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                       (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                       [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                         {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                                     </a>
                                     <mat-icon class="ml-4 s-24"
-                                              *ngIf="!capa && !!index &&
-                                           index[currentStep.step] &&
-                                           index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                              *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                         arrow_left
                                     </mat-icon>
-                                    <mat-spinner *ngIf="!capa && !!index &&
-                                 index[currentStep.step] &&
-                                 index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
-                                 (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
+                                    <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="this.loadingComponentesDigitaisIds.includes(juntada.id)">
@@ -411,20 +406,15 @@
                                     </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                         <a class="ml-4"
-                                           (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                           [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                           (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                           [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                             {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
                                         <mat-icon class="ml-4 s-24"
-                                                  *ngIf="!capa && !!index &&
-                                               index[currentStep.step] &&
-                                               index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                                  *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
                                         </mat-icon>
-                                        <mat-spinner *ngIf="!capa && !!index &&
-                                     index[currentStep.step] &&
-                                     index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
-                                     (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
+                                        <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
                                 <ng-container *ngIf="this.paginadores[juntada.documento.id]?.loading">
@@ -498,7 +488,7 @@
                                 </button>
 
                                 <button mat-menu-item aria-label="assinar juntada"
-                                        (click)="doAssinaturaJuntada(juntada.documento, i)">
+                                        (click)="doAssinaturaJuntada(juntada.documento, juntada.id)">
                                     <ng-container>
                                         <mat-icon>lock</mat-icon>
                                         <span>Assinar</span>

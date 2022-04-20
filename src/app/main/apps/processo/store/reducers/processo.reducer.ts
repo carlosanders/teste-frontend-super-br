@@ -34,7 +34,6 @@ export const ProcessoInitialState: ProcessoState = {
     deletingIds: [],
     deletedIds: [],
     loadingAcompanhamento: false,
-
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -70,7 +69,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: {
                     id: undefined,
                     value: undefined,
-                    acessoNegado: false
+                    acessoNegado: false,
+                    juntadaIndex: {}
                 },
                 loading: false,
                 errors: false,
@@ -301,6 +301,16 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 ...state,
                 errors: action.payload
             };
+        }
+
+        case ProcessoActions.ATUALIZA_JUNTADA_INDEX: {
+            return {
+                ...state,
+                loaded: {
+                    ...state.loaded,
+                    juntadaIndex: action.payload.juntadaIndex
+                }
+            }
         }
 
         default:

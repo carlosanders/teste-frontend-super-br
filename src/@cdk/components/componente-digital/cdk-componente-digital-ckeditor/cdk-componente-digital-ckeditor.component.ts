@@ -189,11 +189,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     private _lastContent: string;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param dialog
      * @param el
      * @param _componenteDigitalService
      * @param snackBar
+     * @param _loginService
      */
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog,

@@ -16,6 +16,8 @@ import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {GetJuntada, RetiraJuntada} from '../../../store';
+import {GetJuntadaIndex} from '../../../../store';
+import * as ProcessoViewActions from '../../../store/actions';
 
 @Injectable()
 export class JuntadaEffects {
@@ -121,6 +123,7 @@ export class JuntadaEffects {
                 mergeMap((response: VinculacaoDocumento) => [
                     new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
                     new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
+                    new GetJuntadaIndex({processoId: action.payload.processoId}),
                     new RetiraJuntada(action.payload.juntadaVinculadaId),
                     new GetJuntada(action.payload.juntada.id),
                 ]),
@@ -143,7 +146,14 @@ export class JuntadaEffects {
     saveVinculacaoDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO_SUCCESS),
         tap(() => {
-            this._router.navigate([this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0]]).then();
+            this._router.navigate([this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0]])
+                .then(() => {
+                    const steps = this.routerState.params['stepHandle'].split('-');
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                        step: parseInt(steps[0], 10),
+                        subStep: parseInt(steps[1], 10)
+                    }));
+                });
         })
     ), {dispatch: false});
 

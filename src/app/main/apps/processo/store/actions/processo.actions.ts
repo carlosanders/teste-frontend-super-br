@@ -56,6 +56,9 @@ export const SINCRONIZA_BARRAMENTO_SUCCESS = '[PROCESSO] SINCRONIZACAO BARRAMENT
 
 export const PLUGIN_SET_ERROR = '[PROCESSO] PLUGIN SET ERROR';
 
+export const GET_JUNTADA_INDEX = '[PROCESSO] GET JUNTADA INDEX';
+export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
+
 /**
  * Expandir Processo
  */
@@ -517,6 +520,30 @@ export class PluginSetError implements Action
     }
 }
 
+/**
+ * Get Juntada Index
+ */
+export class GetJuntadaIndex implements Action
+{
+    readonly type = GET_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Atualiza Juntada Index
+ */
+export class AtualizaJuntadaIndex implements Action
+{
+    readonly type = ATUALIZA_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -556,4 +583,6 @@ export type ProcessoActionsAll
     | RemovePluginLoading
     | SincronizaBarramento
     | SincronizaBarramentoSuccess
-    | PluginSetError;
+    | PluginSetError
+    | GetJuntadaIndex
+    | AtualizaJuntadaIndex;

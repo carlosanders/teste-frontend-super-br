@@ -137,8 +137,8 @@ export class DocumentoAvulsoEditEffects {
                 if (this.routerState.params.stepHandle) {
                     const steps = this.routerState.params['stepHandle'].split('-');
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: steps[0],
-                        subStep: steps[1]
+                        step: parseInt(steps[0], 10),
+                        subStep: parseInt(steps[1], 10)
                     }));
                 }
             });

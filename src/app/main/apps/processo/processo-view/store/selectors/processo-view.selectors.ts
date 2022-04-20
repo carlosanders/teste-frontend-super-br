@@ -53,11 +53,6 @@ export const getBinary: any = createSelector(
     (state: ProcessoViewState) => state.binary
 );
 
-export const getIndex: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.index
-);
-
 export const getCurrentStep: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.currentStep
@@ -109,48 +104,12 @@ export const getComponentesDigitaisByDocumentoId = (documentoId: number): any =>
     ((documento: Documento) => documento?.componentesDigitais)
 );
 
-export const getLowestIndexNull: any = createSelector(
-    getPaginadoresComponentesDigitais,
-    (paginadores: any) => {
-        if (!!paginadores) {
-            const arrayPaginadores = [];
-            Object.entries(paginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
-            if (arrayPaginadores.findIndex(paginador => paginador.firstJuntada === true) !== -1) {
-                return true;
-            }
-            const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
-            if (orderedPaginadores.length) {
-                return orderedPaginadores[0]?.indice;
-            } else {
-                return false;
-            }
-        }
-        return null;
-    }
-);
-
-export const isLowestIndexNull = (juntadaId: number): any => createSelector(
-    getPaginadoresComponentesDigitais,
-    (paginadores: any) => {
-        if (!!paginadores) {
-            const arrayPaginadores = [];
-            Object.entries(paginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
-            const paginadorFirst = arrayPaginadores.find(paginador => paginador.firstJuntada === true);
-            if (paginadorFirst !== undefined) {
-                return null;
-            }
-            const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
-            if (orderedPaginadores.length) {
-                return orderedPaginadores[0]?.juntadaId === juntadaId;
-            } else {
-                return false;
-            }
-        }
-        return null;
-    }
-);
-
 export const getLoadingComponentesDigitaisIds: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.loadingComponentesId
+);
+
+export const getProcessoId: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.processoId
 );

@@ -27,7 +27,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getProcesso} from '../store';
+import {getProcesso, getProcessoLoaded} from '../store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
@@ -84,8 +84,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
 
-    index$: Observable<any>;
-    index = {};
+    index = [];
 
     totalSteps = 0;
 
@@ -150,6 +149,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     assinaturasPagination$: Observable<Pagination>;
     assinaturasPagination: Pagination;
 
+    sortOrder: string = 'DESC';
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private pdfViewer: PdfJsViewerComponent;
@@ -193,44 +194,50 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
-        this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
+
+        this.processo$ = this._store.pipe(select(getProcesso));
+
+        this._store.pipe(
+            select(getProcessoLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loaded => this.index = loaded.juntadaIndex);
+
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+            }
+            if (processo?.origemDados) {
+                this._mercureService.subscribe(processo.origemDados['@id']);
+            }
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
+
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(juntadas => !!juntadas)
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
+            if (this.currentStep) {
+                this.currentJuntada = this.juntadas.find(juntada => juntada.id === this.currentStep.step);
+                this._changeDetectorRef.markForCheck();
+            }
         });
-
-        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.currentStep$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(currentStep => currentStep.step !== 0 && currentStep.subStep !== 0)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
-            if (this.index && this.index[currentStep.step]) {
-                this.currentJuntada = this.juntadas[currentStep.step];
-            }
-        });
-
-        this.index$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((index) => {
-            this.index = index;
-            if (this.currentStep && this.index[this.currentStep.step]) {
-                this.currentJuntada = this.juntadas[this.currentStep.step];
-                this._changeDetectorRef.markForCheck();
-            }
-        });
-
-        this.loadingComponentesDigitais$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((loading) => {
-            this.loadingComponentesDigitais = loading;
-            if (this.currentJuntada && !loading.includes(this.currentJuntada.id)) {
-                this._changeDetectorRef.markForCheck();
+            if (this.juntadas.length > 0) {
+                this.currentJuntada = this.juntadas.find(juntada => juntada.id === currentStep.step);
+            } else {
+                this.currentJuntada = this.index.find(juntada => juntada.id === currentStep.step);
             }
         });
 
@@ -283,14 +290,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.fileName = '';
                 this.src = false;
                 this.pdfSrc = null;
-                if (this.currentJuntada && !this.currentJuntada.documento) {
+                if (this.currentJuntada && !this.currentJuntada.ativo) {
+                    this.srcMessage = 'Juntada desentranhada do processo';
+                } else if (this.currentJuntada && !this.currentJuntada.documento) {
                     this.srcMessage = 'Não há documento';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
                     this.srcMessage = 'Acesso negado';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
                     this.srcMessage = 'Não há componentes digitais';
-                } else if (this.currentJuntada && !this.currentJuntada.ativo) {
-                    this.srcMessage = 'Juntada desentranhada do processo';
                 }
             }
 
@@ -360,19 +367,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.loadingJuntadas = loading;
         });
 
-        this.processo$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((processo) => {
-            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
-                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
-            }
-            if (processo?.origemDados) {
-                this._mercureService.subscribe(processo.origemDados['@id']);
-            }
-            this.processo = processo;
-            this._changeDetectorRef.markForCheck();
-        });
-
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
@@ -433,43 +427,27 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    disabledNext(): boolean {
-        return this.currentStep.step === this.totalSteps - 1 && (this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1);
-    }
-
-    /**
-     * Go to next step
-     */
-    gotoNextStep(): void {
-        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1) {
-            return;
-        }
-
-        // Set the animation direction
-        this.animationDirection = 'left';
-
-        // Run change detection so the change
-        // in the animation direction registered
-        this._changeDetectorRef.detectChanges();
-
-        let step = (this.currentStep.step + 1) + '-0';
-
-        if ((this.currentStep.subStep + 1) <= this.index[this.currentStep.step].length - 1) {
-            step = this.currentStep.step + '-' + (this.currentStep.subStep + 1);
-        }
-
-        this.navigateToStep(step);
-    }
-
     disabledBack(): boolean {
-        return this.currentStep.step === 0 && this.currentStep.subStep === 0;
+        if (this.juntadas.length) {
+            const firstJuntada = this.index.find(juntadaIndex => juntadaIndex.id === this.juntadas[0].id);
+            return this.currentStep.step === firstJuntada.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
+        }
+        return true;
+    }
+
+    disabledNext(): boolean {
+        if (this.juntadas.length) {
+            const lastJuntada = this.index.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas.length - 1].id);
+            return this.currentStep.step === lastJuntada.id && this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1];
+        }
+        return true;
     }
 
     /**
      * Go to previous step
      */
     gotoPreviousStep(): void {
-        if (this.currentStep.step === 0 && this.currentStep.subStep === 0) {
+        if (this.disabledBack()) {
             return;
         }
 
@@ -480,17 +458,59 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // in the animation direction registered
         this._changeDetectorRef.detectChanges();
 
-        let step = 0;
-        let subStep = 0;
-
-        if ((this.currentStep.subStep - 1) >= 0) {
-            subStep = this.currentStep.subStep - 1;
+        let step;
+        let subStep;
+        const currentJuntadaPosition = this.juntadas.findIndex(juntada => juntada.id === this.currentStep.step);
+        const currentIndex = this.index.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
+        if ((currentComponenteDigitalPosition - 1) >= 0) {
+            subStep = currentIndex.componentesDigitais[currentComponenteDigitalPosition - 1];
             step = this.currentStep.step;
         } else {
-            if (this.currentStep.step > 0) {
-                step = this.currentStep.step - 1;
-                subStep = (this.index[step].length - 1) >= 0 ? this.index[step].length - 1 : 0;
+            if (currentJuntadaPosition > 0) {
+                step = this.juntadas[currentJuntadaPosition - 1].id;
+                const newIndex = this.index.find(juntada => juntada.id === step);
+                subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
+                    newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
+                    newIndex.componentesDigitais[0];
             }
+        }
+
+        this.navigateToStep(step + '-' + subStep);
+    }
+
+    /**
+     * Go to next step
+     */
+    gotoNextStep(): void {
+        if (this.disabledNext()) {
+            return;
+        }
+
+        // Set the animation direction
+        this.animationDirection = 'left';
+
+        // Run change detection so the change
+        // in the animation direction registered
+        this._changeDetectorRef.detectChanges();
+
+        let step;
+        let subStep;
+        const currentJuntadaPosition = this.juntadas.findIndex(juntada => juntada.id === this.currentStep.step);
+        const currentIndex = this.index.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
+        let newJuntadaPosition;
+        let nextComponenteDigitalPosition;
+        if (currentComponenteDigitalPosition + 1 <= currentIndex.componentesDigitais.length - 1) {
+            nextComponenteDigitalPosition = currentComponenteDigitalPosition + 1;
+            step = this.currentStep.step;
+            subStep = currentIndex.componentesDigitais[nextComponenteDigitalPosition];
+        } else {
+            newJuntadaPosition = currentJuntadaPosition + 1 <= this.juntadas.length - 1 ? currentJuntadaPosition + 1 : this.juntadas.length - 1;
+            nextComponenteDigitalPosition = 0;
+            step = this.juntadas[newJuntadaPosition].id;
+            const newIndex = this.index.find(juntada => juntada.id === step);
+            subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
         }
 
         this.navigateToStep(step + '-' + subStep);
@@ -498,7 +518,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     navigateToStep(step: string): void {
         const newSteps = step.split('-');
-        if (this.index[newSteps[0]]) {
+        const currentStep = {
+            step: parseInt(newSteps[0], 10),
+            subStep: parseInt(newSteps[1], 10)
+        };
+        const index = this.index.find(juntadaIndex => juntadaIndex.id === currentStep.step);
+        if (index !== undefined && index.componentesDigitais.indexOf(currentStep.subStep) !== -1) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 const arrPrimary = [];
                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
@@ -526,7 +551,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         relativeTo: this._activatedRoute.parent
                     }
                 ).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                    this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 });
             } else {
                 let url = this.routerState.url.split('/processo/')[0] +
@@ -537,7 +562,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 }
                 url += '/visualizar/' + step;
                 this._router.navigateByUrl(url).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                    this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 });
             }
         }
@@ -562,10 +587,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         const nparams = {
             ...this.pagination,
+            processoId: this.processo.id,
             offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
+    }
+
+    onSort(order: string): void {
+        this.sortOrder = order;
+        this._changeDetectorRef.detectChanges();
     }
 
     zoomIn(): void {
@@ -693,8 +724,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 .flexibleConnectedTo(this.btnAssinaturas._elementRef.nativeElement)
                 .withPositions([
                     new ConnectionPositionPair(
-                        { originX: 'end', originY: 'bottom' },
-                        { overlayX: 'end', overlayY: 'top' }
+                        {originX: 'end', originY: 'bottom'},
+                        {overlayX: 'end', overlayY: 'top'}
                     )
                 ])
                 .withFlexibleDimensions(false)

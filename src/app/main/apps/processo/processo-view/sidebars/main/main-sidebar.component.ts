@@ -37,7 +37,7 @@ import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
-import {getProcesso} from '../../../store';
+import {GetJuntadaIndex, getProcesso, getProcessoLoaded} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
@@ -81,6 +81,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @Output()
     scrolled = new EventEmitter<any>();
+
+    @Output()
+    sorted = new EventEmitter<string>();
 
     @Output()
     aprovarDocumento: EventEmitter<any> = new EventEmitter<Documento>();
@@ -134,8 +137,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     currentStep$: Observable<any>;
     currentStep: any;
 
-    index$: Observable<any>;
-    index: any = {};
+    index = [];
 
     animationDirection: 'left' | 'right' | 'none';
 
@@ -294,7 +296,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.loadingVolumes$ = this._store.pipe(select(fromStore.getIsLoadingVolumes));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
-        this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.volumesPagination$ = this._store.pipe(select(fromStore.getVolumesPagination));
         this.processo$ = this._store.pipe(select(getProcesso));
@@ -321,35 +322,35 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.loadingVinculacoesDocumentosIds$ = this._store.pipe(select(fromStore.getLoadingVinculacoesDocumentosIds));
         this.loadingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getLoadingComponentesDigitaisIds));
 
+        this.currentStep$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentStep) => {
+            this.currentStep = currentStep;
+            this.isJuntadas = true;
+            SharedBookmarkService.modeBookmark = false;
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._store.pipe(
+            select(getProcessoLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((loaded) => {
+            this.index = loaded.juntadaIndex;
+            this._changeDetectorRef.markForCheck();
+        });
+
         this.tipoDocumentoPagination = new Pagination();
 
         this.juntadas$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).pipe(filter(juntadas => !!juntadas)).subscribe(
-            (juntadas) => {
-                this.juntadas = juntadas;
-                this.totalSteps = juntadas.length;
+            takeUntil(this._unsubscribeAll),
+            filter(juntadas => !!juntadas)
+        ).subscribe((juntadas) => {
+            this.juntadas = juntadas;
+            this.totalSteps = juntadas.length;
 
-                this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada.volume.numeracaoSequencial);
-            }
-        );
-
-        this.currentStep$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (currentStep) => {
-                this.currentStep = currentStep;
-                this.isJuntadas = true;
-                SharedBookmarkService.modeBookmark = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this.index$.pipe(
-            filter(index => !!index)
-        ).subscribe(
-            index => this.index = index
-        );
+            this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada.volume.numeracaoSequencial);
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.selectedVolume$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -359,9 +360,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pagination => this.pagination = pagination
-        );
+        ).subscribe((pagination) => {
+            this.pagination = pagination;
+            this.listFilter = {...this.pagination.listFilter};
+            const sort = {...this.pagination.sort};
+            if (this.listFilter.numeracaoSequencial) {
+                const numeracaoSequencial = this.listFilter.numeracaoSequencial.split('eq:')[1];
+                this.form.get('numeracaoSequencial').setValue(numeracaoSequencial);
+            } else {
+                this.form.get('numeracaoSequencial').setValue(null);
+            }
+            if (sort['volume.numeracaoSequencial'] === 'ASC' && sort['numeracaoSequencial'] === 'ASC') {
+                this.sort = 'ASC';
+            } else {
+                this.sort = 'DESC';
+            }
+        });
 
         this.volumesPagination$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -371,9 +385,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            processo => this.processo = processo
-        );
+        ).subscribe((processo) => {
+            this.processo = processo;
+        });
 
         this.volumes$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -636,24 +650,28 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     /**
      *
-     * @param step
+     * @param juntadaId
      * @param restrito
      * @param componenteDigitalId
      * @param event
      */
-    gotoStep(step, restrito, componenteDigitalId = null, event = null): void {
+    goToJuntada(juntadaId, restrito, componenteDigitalId = null, event = null): void {
+        const step = juntadaId;
         let substep = 0;
 
         if (event?.ctrlKey && componenteDigitalId) {
             this._store.dispatch(new fromStore.VisualizarJuntada(componenteDigitalId));
         } else {
-            if (this.juntadas[step] === undefined) {
+            const juntada = this.index.find(junt => junt.id === juntadaId);
+            if (juntada === undefined) {
                 this._store.dispatch(new fromStore.GetCapaProcesso());
                 return;
             }
 
-            if (componenteDigitalId && this.index[step].indexOf(componenteDigitalId) !== -1) {
-                substep = this.index[step].indexOf(componenteDigitalId);
+            if (!componenteDigitalId) {
+                substep = juntada.componentesDigitais[0];
+            } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
+                substep = componenteDigitalId;
             }
 
             // Decide the animation direction
@@ -715,7 +733,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             ...this.pagination,
             listFilter: params.listFilter,
             processoId: this.processo.id,
-            sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
+            sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
+            default: true
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
@@ -723,8 +742,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
-        this._store.dispatch(new fromStore.ReloadJuntadas());
+        this._store.dispatch(new GetJuntadaIndex({
+            processoId: this.processo.id,
+            reload: true
+        }));
     }
 
     reloadDocumentos(): void {
@@ -831,6 +852,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.sort = sort;
         this.listSort = {'volume.numeracaoSequencial': sort, 'numeracaoSequencial': sort};
         this.reload({listFilter: this.listFilter, listSort: this.listSort});
+        this.sorted.emit(sort);
     }
 
     toggleFilter(): void {
@@ -995,7 +1017,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     }
 
-    doAssinaturaJuntada(documento: Documento, step: number): void {
+    doAssinaturaJuntada(documento: Documento, juntadaId: number): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -1023,9 +1045,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         });
-        setTimeout(() => {
-            this.gotoStep(step, null);
-        }, 10000);
     }
 
     doAdicionarVinculacao(juntadaId: number): void {
@@ -1048,13 +1067,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao));
+                juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao, juntada.documento.id));
             }
         });
     }
 
-    removeVinculacao(vinculacao: VinculacaoDocumento): void {
-        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacao));
+    removeVinculacao(vinculacao: VinculacaoDocumento, documentoId: number): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento({
+            vinculacaoDocumento: vinculacao,
+            documentoId: documentoId,
+            processoId: this.processo.id
+        }));
     }
 
     doDesentranharSimples(juntadaId: number): void {
@@ -1447,7 +1470,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     abreJuntadas(): void {
         this.isJuntadas = true;
-        // this.reloadJuntadas();
+        const stepHandle = this.routerState.params['stepHandle'];
+        this._store.dispatch(new fromStore.SetCurrentStep({
+            step: parseInt(stepHandle.split('-')[0], 10),
+            subStep: parseInt(stepHandle.split('-')[1], 10)
+        }));
     }
 
     reloadBookmarks(): void {
@@ -1471,7 +1498,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._router.navigate([
                 this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + bookmark.componenteDigital.id
+                this.routerState.params.processoHandle + '/visualizar/' + bookmark.juntada.id + '-' + bookmark.componenteDigital.id
             ], {queryParams: {pagina: pagina}}
         ).then(() => {
             this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
@@ -1504,8 +1531,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
         }
     }
-    doCopyNumDoc(numDoc:string): void
-    {
+
+    doCopyNumDoc(numDoc: string): void {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (numDoc));
             e.preventDefault();
@@ -1513,17 +1540,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
         document.execCommand('copy');
     }
-    doCopyBookmark(bookmarks: any[] = []): void
-    {
+
+    doCopyBookmark(bookmarks: any[] = []): void {
         let copyBookmark = '';
-        bookmarks.forEach((book) =>{
+        bookmarks.forEach((book) => {
             book.value.forEach((b) => {
                 copyBookmark += '- ' + JSON.stringify(b.nome)
                     + ' (Sequencial:' + JSON.stringify(book.key)
                     + ', Página:' + JSON.stringify(b.pagina)
-                    + ',' + JSON.stringify(b.componenteDigital.fileName)+ ')\r\n\n';
-                if(b.descricao){
-                    copyBookmark += '     ' + JSON.stringify((b.descricao))+ '\r\n\n';
+                    + ',' + JSON.stringify(b.componenteDigital.fileName) + ')\r\n\n';
+                if (b.descricao) {
+                    copyBookmark += '     ' + JSON.stringify((b.descricao)) + '\r\n\n';
                 }
             })
         });
@@ -1533,5 +1560,21 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             document.removeEventListener('copy', null);
         });
         document.execCommand('copy');
+    }
+
+    isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
+        if (!componenteDigitalId) {
+            return !this.capa && juntadaId === this.currentStep.step;
+        }
+        return !this.capa && !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;
+    }
+
+    isCompleted(juntadaId: number): boolean {
+        const juntada = this.index.find(junt => junt.id === juntadaId);
+        const currentJuntada = this.index.find(junt => junt.id === this.currentStep.step);
+        if (this.sort === 'ASC') {
+            return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
+        }
+        return !this.capa && juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
     }
 }

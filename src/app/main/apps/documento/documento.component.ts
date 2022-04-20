@@ -141,8 +141,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
                 const steps = this.routerState.params['stepHandle'].split('-');
                 this._store.dispatch(new SetCurrentStep({
-                    step: steps[0],
-                    subStep: steps[1]
+                    step: parseInt(steps[0], 10),
+                    subStep: parseInt(steps[1], 10)
                 }));
             }
         }
@@ -177,8 +177,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.routerState.params['stepHandle']) {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                step: steps[0],
-                subStep: steps[1]
+                step: parseInt(steps[0], 10),
+                subStep: parseInt(steps[1], 10)
             }));
         }
     }
@@ -392,8 +392,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                             .then(() => {
                                 if (steps) {
                                     this._store.dispatch(new SetCurrentStep({
-                                        step: steps[0],
-                                        subStep: steps[1]
+                                        step: parseInt(steps[0], 10),
+                                        subStep: parseInt(steps[1], 10)
                                     }));
                                 }
                             });

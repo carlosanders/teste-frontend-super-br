@@ -52,6 +52,8 @@ export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
 export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
 export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
 
+export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
+
 
 /**
  * Expandir Processo
@@ -469,6 +471,17 @@ export class RemoveConteudoBinario implements Action {
     }
 }
 
+/**
+ * Atualiza Juntada Index
+ */
+export class AtualizaJuntadaIndex implements Action {
+    readonly type = ATUALIZA_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -506,4 +519,5 @@ export type ProcessoViewActionsAll
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
     | LimpaCacheDocumento
-    | RemoveConteudoBinario;
+    | RemoveConteudoBinario
+    | AtualizaJuntadaIndex;

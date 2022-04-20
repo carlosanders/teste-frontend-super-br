@@ -38,6 +38,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
     juntadaVinculada$: Observable<Juntada>;
     juntadaVinculada: Juntada;
     processo$: Observable<Processo>;
+    processo: Processo;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -113,6 +114,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
             filter(processo => !!processo),
             takeUntil(this._unsubscribeAll)
         ).subscribe((processo) => {
+            this.processo = processo;
             this.documentoVinculadoPagination.filter['juntadaAtual.volume.processo.id'] = 'eq:' + processo.id;
         });
 
@@ -172,6 +174,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.SaveVinculacaoDocumento({
             vinculacaoDocumento: vinculacaoDocumento,
             juntada: this.juntada,
+            processoId: this.processo.id,
             juntadaVinculadaId: juntadaVinculadaId,
             operacaoId: operacaoId
         }));

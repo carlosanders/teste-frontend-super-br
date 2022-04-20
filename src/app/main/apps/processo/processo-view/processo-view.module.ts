@@ -53,6 +53,7 @@ const routes: Routes = [
         path: ':stepHandle',
         component: ProcessoViewComponent,
         canActivate: [fromGuards.ResolveGuard],
+        canDeactivate: [fromGuards.DeactivateGuard],
         children: [
             {
                 path       : 'mostrar',
@@ -145,6 +146,7 @@ modulesConfig.forEach((module) => {
         JuntadaService,
         VinculacaoDocumentoService,
         fromGuards.ResolveGuard,
+        fromGuards.DeactivateGuard,
         BookmarkService,
         AssinaturaService
     ],

@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
+        return this.getProcesso().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);

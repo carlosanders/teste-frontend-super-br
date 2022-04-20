@@ -16,7 +16,7 @@ import {
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -38,17 +38,20 @@ export class ProcessoEffect {
             } : {};
 
             contexto['compartilhamentoUsuario'] = 'processo';
+            contexto['juntadaIndex'] = true;
 
             let populate = action.payload.populate ? [...action.payload.populate] : [];
             populate = [
                 ...populate,
                 'origemDados',
+                'modalidadeMeio',
                 'especieProcesso',
                 'especieProcesso.generoProcesso',
                 'setorAtual',
                 'setorAtual.especieSetor',
                 'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta'
+                'vinculacoesEtiquetas.etiqueta',
+                'documentoAvulsoOrigem',
             ];
             return this._processoService.get(
                 action.payload.id,
@@ -60,7 +63,8 @@ export class ProcessoEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
-                            acessoNegado: response.acessoNegado
+                            acessoNegado: response.acessoNegado,
+                            juntadaIndex: response.juntadaIndex
                         },
                         processoId: response.id
                     })
@@ -336,7 +340,7 @@ export class ProcessoEffect {
                     const erroString = CdkUtils.errorsToString(err);
                     console.log(err);
                     this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId, 
+                        id: action.payload.operacaoId,
                         type: 'acompanhamento',
                         content: 'Erro ao salvar o acompanhamento: ' + erroString,
                         status: 2, // erro
@@ -417,6 +421,22 @@ export class ProcessoEffect {
             })
         ))
     ));
+    /**
+     * Atualiza index de juntadas
+     *
+     * @type {Observable<any>}
+     */
+    getJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoActions.GetJuntadaIndex>(ProcessoActions.GET_JUNTADA_INDEX),
+        switchMap(action => this._processoService.getJuntadaIndex(action.payload.processoId).pipe(
+            mergeMap((response: any) => [
+                new ProcessoActions.AtualizaJuntadaIndex({
+                    juntadaIndex: response,
+                    reload: !!action.payload.reload
+                }),
+            ])
+        ))
+    ));
 
     private _profile: any;
 
@@ -427,6 +447,7 @@ export class ProcessoEffect {
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _acompanhamentoService: AcompanhamentoService,
         private _statusBarramentoService: StatusBarramentoService,
         private _snackBar: MatSnackBar
