@@ -3,7 +3,6 @@ import {Action} from '@ngrx/store';
 export const GET_VINCULACOES_PROCESSOS = '[VINCULACAO PROCESSO LIST] GET VINCULACOES PROCESSOS';
 export const GET_VINCULACOES_PROCESSOS_SUCCESS = '[VINCULACAO PROCESSO LIST] GET VINCULACOES PROCESSOS SUCCESS';
 export const GET_VINCULACOES_PROCESSOS_FAILED = '[VINCULACAO PROCESSO LIST] GET VINCULACOES PROCESSOS FAILED';
-export const GET_VINCULACOES_PROCESSOS_PRINCIPAL = '[VINCULACAO PROCESSO LIST] GET VINCULACOES PROCESSOS PRINCIPAL';
 
 export const RELOAD_VINCULACOES_PROCESSOS = '[VINCULACAO PROCESSO LIST] RELOAD VINCULACOES PROCESSOS';
 
@@ -95,18 +94,6 @@ export class DeleteVinculacaoProcessoFailed implements Action
     }
 }
 
-/**
- * Get VinculacoesProcessosPrincipal
- */
-export class GetVinculacoesProcessosPrincipal implements Action
-{
-    readonly type = GET_VINCULACOES_PROCESSOS_PRINCIPAL;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type VinculacaoProcessoListActionsAll
     = GetVinculacoesProcessos
     | GetVinculacoesProcessosSuccess
@@ -114,6 +101,5 @@ export type VinculacaoProcessoListActionsAll
     | ReloadVinculacoesProcessos
     | DeleteVinculacaoProcesso
     | DeleteVinculacaoProcessoSuccess
-    | DeleteVinculacaoProcessoFailed
-    | GetVinculacoesProcessosPrincipal;
+    | DeleteVinculacaoProcessoFailed;
 

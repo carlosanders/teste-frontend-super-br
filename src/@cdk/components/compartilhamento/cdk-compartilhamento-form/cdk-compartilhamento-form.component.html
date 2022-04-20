@@ -1,6 +1,23 @@
 <form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-form-field>
+    <mat-card>
+        <label id="compartilhamento-rg">Selecione para quem será o Compartilhamento</label>
+        <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
+                         formControlName="modalidadeCompartilhamento" aria-labelledby="compartilhamento-rg" required
+                         fxFlex>
+            <mat-radio-button [value]="'usuario'" style="margin-left: 5px">
+                Usuário
+            </mat-radio-button>
+            <mat-radio-button [value]="'setor'" style="margin-left: 5px">
+                Setor
+            </mat-radio-button>
+            <mat-radio-button [value]="'grupoContato'" style="margin-left: 5px">
+                Grupo de Contato
+            </mat-radio-button>
+        </mat-radio-group>
+    </mat-card>
+
+    <mat-form-field *ngIf="form.get('modalidadeCompartilhamento').value === 'usuario'">
         <input matInput placeholder="Nome do Usuário"
                formControlName="usuario"
                [matAutocomplete]="usuario.autocomplete"
@@ -19,11 +36,55 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-form-field *ngIf="form.get('modalidadeCompartilhamento').value === 'setor'">
+        <input matInput placeholder="Nome do Setor"
+               formControlName="setor"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()" required>
+        <cdk-setor-autocomplete
+            #setor="setorAutocomplete"
+            [control]="form.get('setor')"
+            [pagination]="setoresPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setor').hasError('formError')">
+            {{form.get('setor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="form.get('modalidadeCompartilhamento').value === 'grupoContato'">
+        <input matInput placeholder="Nome do Grupo de Contato"
+               formControlName="grupoContato"
+               [matAutocomplete]="grupoContato.autocomplete"
+               (blur)="checkGrupoContato()" required>
+        <cdk-grupo-contato-autocomplete
+            #grupoContato="grupoContatoAutocomplete"
+            [control]="form.get('grupoContato')"
+            [pagination]="grupoContatoPagination">
+        </cdk-grupo-contato-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showGrupoContatoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setor').hasError('formError')">
+            {{form.get('grupo_contato').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+    <div class="mat-icon-button" *ngIf="form.get('modalidadeCompartilhamento').value === 'grupoContato'"
+            aria-label="O compartilhamento acontece apenas para Contatos do tipo Usuário"
+            matTooltip="O compartilhamento acontece apenas para Contatos do tipo Usuário">
+        <mat-icon>help_outline</mat-icon>
+    </div>
+
+
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid || !selected" *ngIf="!saving">
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
@@ -40,3 +101,18 @@
     [pagination]="usuarioPagination"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
+
+<cdk-setor-gridsearch
+    *ngIf="activeCard === 'setor-gridsearch'"
+    (selected)="selectSetor($event)"
+    [pagination]="setoresPagination"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-grupo-contato-gridsearch
+    *ngIf="activeCard === 'grupo-contato-gridsearch'"
+    (selected)="selectGrupoContato($event)"
+    [pagination]="grupoContatoPagination"
+    (cancel)="cancel()">
+</cdk-grupo-contato-gridsearch>
+

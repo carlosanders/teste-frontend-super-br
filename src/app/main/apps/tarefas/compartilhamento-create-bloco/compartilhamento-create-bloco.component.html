@@ -9,6 +9,9 @@
             [compartilhamento]="compartilhamento"
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
+            [usuarioPagination]="usuarioPagination"
+            [setoresPagination]="setorPagination"
+            [grupoContatoPagination]="grupoContatoPagination"
             (save)="submit($event)"
             (abort)="doAbort()">
     </cdk-compartilhamento-form>

@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Compartilhamento, Pagination, Usuario} from '@cdk/models';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Compartilhamento, Pagination, Usuario, Setor, GrupoContato} from '@cdk/models';
 
 @Component({
     selector: 'cdk-compartilhamento-form',
@@ -36,11 +36,27 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
 
     selected = false;
 
+    selectedSetor = false;
+
+    selectedGrupoContato = false;
+
     @Input()
     errors: any;
 
     @Input()
     usuarioPagination: Pagination;
+
+    @Input()
+    setoresPagination: Pagination;
+
+    @Input()
+    grupoContatoPagination: Pagination;
+
+    @Input()
+    mode = 'vertical';
+
+    @Input()
+    modalidadeCompartilhamento = 'usuario';
 
     @Output()
     save = new EventEmitter<Compartilhamento>();
@@ -64,13 +80,26 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
             id: [null],
             processo: [null],
             tarefa: [null],
-            usuario: [null, [Validators.required]]
+            usuario: [null],
+            setor: [null],
+            grupoContato: [null],
+            modalidadeCompartilhamento: [null]
         });
         this.usuarioPagination = new Pagination();
+        this.setoresPagination = new Pagination();
+        this.grupoContatoPagination = new Pagination();
 
         this.form.get('usuario').valueChanges.subscribe((valor) => {
             this.selected = typeof valor === 'object';
         });
+        this.form.get('setor').valueChanges.subscribe((valor) => {
+            this.selectedSetor = typeof valor === 'object';
+        });
+        this.form.get('grupoContato').valueChanges.subscribe((valor) => {
+            this.selectedGrupoContato = typeof valor === 'object';
+        });
+
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -78,11 +107,21 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     /**
+     * On init
+     */
+    ngOnInit(): void {
+
+        this.form.get('modalidadeCompartilhamento').setValue(this.modalidadeCompartilhamento);
+
+    }
+    /**
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['compartilhamento'] && this.compartilhamento && ((!this.compartilhamento.id && !this.form.dirty) || (this.compartilhamento.id !== this.form.get('id').value))) {
+            this.form.reset();
             this.form.patchValue({...this.compartilhamento});
+            this.form.get('modalidadeCompartilhamento').setValue(this.modalidadeCompartilhamento);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -144,6 +183,42 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
 
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
+    }
+
+    checkSetor(): void {
+        const value = this.form.get('setor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setor').setValue(null);
+        }
+    }
+
+    selectSetor(setor: Setor): void {
+        if (setor) {
+            this.form.get('setor').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorGrid(): void {
+        this.activeCard = 'setor-gridsearch';
+    }
+
+    checkGrupoContato(): void {
+        const value = this.form.get('grupoContato').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('grupo_contato').setValue(null);
+        }
+    }
+
+    selectGrupoContato(grupoContato: GrupoContato): void {
+        if (grupoContato) {
+            this.form.get('grupoContato').setValue(grupoContato);
+        }
+        this.activeCard = 'form';
+    }
+
+    showGrupoContatoGrid(): void {
+        this.activeCard = 'grupo-contato-gridsearch';
     }
 
     cancel(): void {
