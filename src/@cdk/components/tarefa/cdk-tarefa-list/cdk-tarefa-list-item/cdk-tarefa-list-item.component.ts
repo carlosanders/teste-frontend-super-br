@@ -16,13 +16,13 @@ import {
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {DynamicService} from '../../../../../modules/dynamic.service';
-import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {ComponenteDigital, Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {HasTarefa} from './has-tarefa';
-import {CdkUtils} from '../../../../utils';
-import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {CdkUtils} from '@cdk/utils';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import * as moment from 'moment';
@@ -133,7 +133,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     removeTarefa = new EventEmitter<Tarefa>();
 
     @Output()
-    editarObservacao = new EventEmitter<any>();
+    editarObservacao: EventEmitter<number> = new EventEmitter<number>();
 
     @Output()
     salvarObservacao = new EventEmitter<any>();
@@ -443,7 +443,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         setTimeout(()=> { // this will make the execution after the above boolean has changed
             this.observacaoConteudo.nativeElement.focus();
         },0);
-        this.editarObservacao.emit();
+        this.editarObservacao.emit(this.tarefa.id);
     }
 
     doSalvarObservacao(tarefa, conteudo): void {

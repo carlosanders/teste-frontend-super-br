@@ -654,6 +654,13 @@
                     routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
                 <mat-icon>assessment</mat-icon>
             </button>
+            <button mat-icon-button
+                    class="secondary-text"
+                    (click)="doToogleViewMode()"
+                    matTooltip="Alterar Visualização das Tarefas">
+                <mat-icon *ngIf="viewMode == 'list'">view_comfy</mat-icon>
+                <mat-icon *ngIf="viewMode == 'grid'">view_list</mat-icon>
+            </button>
         </mat-toolbar>
     </div>
 </div>
