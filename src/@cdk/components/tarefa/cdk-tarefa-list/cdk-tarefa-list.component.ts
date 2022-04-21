@@ -2,13 +2,13 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentFactory, ComponentRef,
     EventEmitter, HostBinding,
     Input,
     OnChanges,
     OnInit,
-    Output, QueryList,
-    SimpleChange,
+    Output, QueryList, Renderer2,
+    SimpleChange, TemplateRef,
     ViewChild, ViewChildren,
     ViewContainerRef,
     ViewEncapsulation
@@ -22,7 +22,7 @@ import {CdkTarefaListService, ViewMode} from './cdk-tarefa-list.service';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {from, of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
@@ -36,6 +36,7 @@ import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {CdkUtils} from '@cdk/utils';
 import {MatSortable} from '@angular/material/sort';
+import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -100,6 +101,18 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             this.sort = sort;
         }
     };
+
+    @ViewChildren('tdTarefaContainer', {read: ViewContainerRef}) set _dynamicComponent(list: QueryList<ViewContainerRef>) {
+        list.forEach((viewContainerRef: ViewContainerRef) => {
+            const td = this._render.parentNode(viewContainerRef.element.nativeElement);
+            if (td) {
+                const columns = this.dynamicColumnInstancesList.filter((col) => col.getMatColumnDef() == td.getAttribute('column-ref') && col.tarefa.id == td.getAttribute('tarefa-id'));
+                columns.forEach((column) => {
+                    viewContainerRef.createEmbeddedView(column.tdTemplateRef());
+                });
+            }
+        });
+    }
 
     @Input()
     loading: boolean;
@@ -485,16 +498,21 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     paginator: MatPaginator;
     sort: MatSort;
 
+    dynamicColumnList: CdkTarefaListGridColumn[] = [];
+    dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
+
     /**
      * Constructor
      */
     constructor(
         private _dynamicService: DynamicService,
+        private _viewContainerRef: ViewContainerRef,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTarefaListService: CdkTarefaListService,
         private _formBuilder: FormBuilder,
-        public loginService: LoginService
+        public loginService: LoginService,
+        private _render: Renderer2
     ) {
         this.listFilter = {};
         this.formTipoDocumento = this._formBuilder.group({
@@ -545,6 +563,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
                 }));
             }
         });
+
+        this._changeDetectorRef.markForCheck();
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
@@ -570,6 +590,37 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
                 this.paginator.pageSize = this.pagination.limit;
                 this.paginator.pageIndex = this.pagination.offset / this.pagination.limit;
                 this._changeDetectorRef.detectChanges();
+            }
+
+            if (this.viewMode == 'grid' && !this.dynamicColumnList.length) {
+                this.dynamicColumnList = this.dynamicColumnInstancesList = [];
+                const gridColumnPath = '@cdk/components/tarefa/cdk-tarefa-list#gridcolumn';
+                modulesConfig.forEach((module) => {
+                    if (module.components.hasOwnProperty(gridColumnPath)) {
+                        module.components[gridColumnPath].forEach(((c) => {
+                            this._dynamicService.loadComponent(c)
+                                .then(componentFactory => {
+                                    this.tarefas.forEach((tarefa) => {
+                                        const component: ComponentRef<CdkTarefaListGridColumn> = this._viewContainerRef.createComponent(componentFactory);
+                                        component.instance.tarefa = tarefa;
+                                        if (component.instance.isVisible()) {
+                                            this.dynamicColumnList = [
+                                                ...this.dynamicColumnList.filter((column) => column.getMatColumnDef() !== component.instance.getMatColumnDef()),
+                                                component.instance
+                                            ];
+                                            this.dynamicColumnInstancesList.push(component.instance);
+                                            this.displayedCampos = [
+                                                ...this.displayedCampos.filter((campo) => campo !== component.instance.getMatColumnDef()),
+                                                component.instance.getMatColumnDef()
+                                            ];
+                                        }
+                                    });
+                                });
+                        }));
+                    }
+                });
+            } else if (this.viewMode != 'grid') {
+                this.dynamicColumnList = this.dynamicColumnInstancesList = [];
             }
         }
 

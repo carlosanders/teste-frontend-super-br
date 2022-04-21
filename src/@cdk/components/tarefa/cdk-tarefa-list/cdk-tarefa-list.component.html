@@ -576,6 +576,15 @@
                     </td>
                 </ng-container>
 
+                <ng-container *ngFor="let dynamicColumn of dynamicColumnList" matColumnDef="{{dynamicColumn.getMatColumnDef()}}">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span [innerHTML]="dynamicColumn.headerLabel()"></span>
+                    </th>
+                    <td mat-cell *matCellDef="let tarefa" [attr.column-ref]="dynamicColumn.getMatColumnDef()" [attr.tarefa-id]="tarefa.id" class='has_label_on_mobile' data-label='{{dynamicColumn.headerLabel()}}: '>
+                        <ng-container #tdTarefaContainer></ng-container>
+                    </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedCampos; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let tarefa; columns: displayedCampos;"
                     class="drag-tarefa"
