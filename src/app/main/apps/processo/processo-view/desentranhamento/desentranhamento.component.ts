@@ -20,6 +20,7 @@ import {distinctUntilKeyChanged, filter} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {SetCurrentStep} from '../store';
 
 @Component({
     selector: 'desentranhamento',
@@ -101,7 +102,15 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
     }
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')]).then();
+        this._router.navigate([this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')])
+            .then(() => {
+                const stepHandle = this.routerState.params['stepHandle'].split('-');
+                const currentStep = {
+                    step: parseInt(stepHandle[0], 10),
+                    subStep: parseInt(stepHandle[1], 10)
+                };
+                this._store.dispatch(new SetCurrentStep(currentStep));
+            });
     }
 
     /**
