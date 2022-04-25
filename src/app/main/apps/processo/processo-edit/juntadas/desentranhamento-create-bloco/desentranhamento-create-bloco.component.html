@@ -29,7 +29,8 @@
             <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
                                        [selecionadas]="(juntadasSelecionadas$ | async)"
                                        [processoDestinoPagination]="processoDestinoPagination"
-                                       (save)="submit($event)">
+                                       (save)="submit($event)"
+                                       (abort)="back()">
             </cdk-desentranhamento-form>
             <div>
                 <button matStepperPrevious mat-raised-button color="accent" class="mr-sm-12">Retornar</button>
