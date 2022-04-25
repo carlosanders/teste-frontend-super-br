@@ -248,7 +248,7 @@ export class ResolveGuard implements CanActivate {
                         }
                     }
                 }),
-                filter((loaded: any) => this.downloadingBinary),
+                filter((loaded: any) => this.downloadingBinary || this.routerState.params[loaded.id] === loaded.value),
                 take(1)
             );
         }

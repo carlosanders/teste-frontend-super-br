@@ -373,7 +373,9 @@
                                     PENDENTE DE CIÊNCIA
                                 </div>
                             </div>
-                            <ng-container *ngIf="!this.loadingComponentesDigitaisIds.includes(juntada.id)">
+                            <ng-container
+                                *ngIf="!loadingComponentesDigitaisIds.includes(juntada.id) ||
+                                (juntada.documento?.componentesDigitais.length !== 0 && paginadoresComponentesDigitais[juntada.id]?.pagination.offset !== 0)">
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
@@ -392,7 +394,9 @@
                             <ng-container *ngIf="this.loadingComponentesDigitaisIds.includes(juntada.id)">
                                 <mat-spinner diameter="16"></mat-spinner>
                             </ng-container>
-                            <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
+                            <ng-container *ngIf="juntada.documento?.temAnexos &&
+                            (!paginadores[juntada.documento.id]?.loading ||
+                            (juntada.documento.vinculacoesDocumentos?.length !== 0 && paginadores[juntada.documento.id]?.pagination.offset !== 0))">
                                 {{contadorVinculacoes.reset()}}
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
@@ -421,7 +425,8 @@
                                     <mat-spinner diameter="16"></mat-spinner>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="juntada.documento.temAnexos && loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1 && juntada.documento.vinculacoesDocumentos?.length === 0">
+                            <ng-container *ngIf="(!this.loadingComponentesDigitaisIds.includes(juntada.id) || paginadoresComponentesDigitais[juntada.id]?.pagination.offset !== 0) && juntada.documento.temAnexos &&
+                                (loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1)">
                                 <mat-spinner diameter="16"></mat-spinner>
                             </ng-container>
                             <div fxFlex fxLayout="row"

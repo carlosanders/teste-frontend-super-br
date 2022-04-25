@@ -239,6 +239,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     loadingVinculacoesDocumentosIds$: Observable<number[]>;
     loadingVinculacoesDocumentosIds: number[] = [];
     paginadores: any = {};
+    paginadoresComponentesDigitais: any = {};
     loadingComponentesDigitaisIds$: Observable<number[]>;
     loadingComponentesDigitaisIds: number[] = [];
 
@@ -626,6 +627,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((paginadores) => {
             this.paginadores = paginadores;
+        });
+        this._store.pipe(
+            select(fromStore.getPaginadoresComponentesDigitais),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((paginadores) => {
+            this.paginadoresComponentesDigitais = paginadores;
         });
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));

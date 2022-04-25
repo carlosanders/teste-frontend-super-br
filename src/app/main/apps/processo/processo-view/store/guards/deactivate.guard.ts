@@ -37,7 +37,7 @@ export class DeactivateGuard implements CanDeactivate<ProcessoViewComponent> {
     }
 
     canDeactivate(target: ProcessoViewComponent): Observable<boolean> {
-        if (!this.routerState.url.includes('/processo/' + this.processoId + '/visualizar')) {
+        if (!this.routerState.url.includes('/processo/' + this.processoId + '/visualizar') || this.routerState.url.includes('/processo/' + this.processoId + '/visualizar/default')) {
             this._processoViewService.guardaAtivado.next(false);
         }
         return of(true);
