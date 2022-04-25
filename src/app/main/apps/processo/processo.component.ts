@@ -261,7 +261,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        if (this.routerState.url.indexOf('/processo') === -1) {
+        if (this.routerState.url.indexOf('/processo/' + this.processo.id) === -1) {
             this._store.dispatch(new fromStore.UnloadProcesso());
         }
         this._unsubscribeAll.next(true);
