@@ -30,7 +30,7 @@ const routes: Routes = [
             {
                 path: 'documentos',
                 loadChildren: () => import('./componentes-digitais/pesquisa-componentes-digitais.module').then(m => m.PesquisaComponentesDigitaisModule),
-                data: {roles: ['ROLE_COORDENADOR']},
+                data: {roles: ['ROLE_COLABORADOR']},
                 canActivate: [RoleGuard],
             },
             {

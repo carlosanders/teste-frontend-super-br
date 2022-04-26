@@ -107,6 +107,7 @@
             <div class="search-wrapper" (click)="$event.stopPropagation();" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'">
                 <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
+                    [placeholder]="'Adicionar etiquetas...'"
                     [pagination]="vinculacaoEtiquetaPagination"
                     [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                     (create)="doVinculacaoEtiquetaCreate($event)"
