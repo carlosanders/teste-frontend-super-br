@@ -390,7 +390,7 @@
                                     <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="juntada.documento?.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
+                            <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
                                 {{contadorVinculacoes.reset()}}
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"

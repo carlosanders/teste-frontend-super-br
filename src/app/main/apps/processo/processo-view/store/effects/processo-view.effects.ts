@@ -8,26 +8,14 @@ import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatest
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
-import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital, Juntada, VinculacaoDocumento, VinculacaoEtiqueta} from '@cdk/models';
-import {
-    componenteDigital as componenteDigitalSchema,
-    documento as documentoSchema,
-    juntada as juntadaSchema,
-    vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
-    vinculacaoDocumento as vinculacaoDocumentoSchema
-} from '@cdk/normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {ComponenteDigital, Juntada} from '@cdk/models';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {
-    getBinary
-} from '../selectors';
+import {getBinary} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
-import {
-    GetJuntadasEtiquetas,
-    GetJuntadasEtiquetasSuccess
-} from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
@@ -166,9 +154,6 @@ export class ProcessoViewEffect {
                 offset: 0,
                 sort: {
                     'numeracaoSequencial': 'DESC',
-                    'documento.componentesDigitais.numeracaoSequencial': 'ASC',
-                    'documento.vinculacoesDocumentos.id': 'ASC',
-                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
                 },
                 populate: [
                     'volume',

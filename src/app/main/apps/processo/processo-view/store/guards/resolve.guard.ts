@@ -286,9 +286,6 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {
                             'numeracaoSequencial': 'DESC',
-                            'documento.componentesDigitais.numeracaoSequencial': 'ASC',
-                            'documento.vinculacoesDocumentos.id': 'ASC',
-                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
                         },
                         populate: [
                             'volume',

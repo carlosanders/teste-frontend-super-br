@@ -425,7 +425,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     disabledBack(): boolean {
-        if (this.juntadas.length) {
+        if (this.juntadas.length && this.index.length) {
             const firstJuntada = this.index.find(juntadaIndex => juntadaIndex.id === this.juntadas[0].id);
             return this.currentStep.step === firstJuntada.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
         }
@@ -433,7 +433,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     disabledNext(): boolean {
-        if (this.juntadas.length) {
+        if (this.juntadas.length && this.index.length) {
             const lastJuntada = this.index.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas.length - 1].id);
             return this.currentStep.step === lastJuntada.id && this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1];
         }

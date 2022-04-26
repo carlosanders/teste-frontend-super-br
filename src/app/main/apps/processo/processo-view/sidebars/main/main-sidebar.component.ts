@@ -824,10 +824,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     doSort(sort: string): void {
         this.sort = sort;
         this.listSort = {
-            'numeracaoSequencial': sort,
-            'documento.componentesDigitais.numeracaoSequencial': 'ASC',
-            'documento.vinculacoesDocumentos.id': 'ASC',
-            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+            'numeracaoSequencial': sort
         };
         this.reload({listFilter: this.listFilter, listSort: this.listSort});
         this.sorted.emit(sort);
