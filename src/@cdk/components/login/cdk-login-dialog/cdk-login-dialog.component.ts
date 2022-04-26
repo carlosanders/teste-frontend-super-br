@@ -67,13 +67,25 @@ export class CdkLoginDialogComponent implements OnInit {
         });
         this.config$.subscribe((value) => {
             this.config = value;
+            this.initByAtivos();
         });
         this.loadingConfig$.subscribe((value) => {
             this.loadingConfig = value;
+            this.initByAtivos();
         });
         this.errorMessage$.subscribe((value) => {
             this.errorMessage = value;
         });
+    }
+
+    initByAtivos() {
+        if(this.config.tiposLogin.includes('login_interno_ativo')) {
+            this.tipoLogin = this._loginService.getLoginType()?? 'interno';
+        } else if(this.config.tiposLogin.includes('login_ldap_ativo')) {
+            this.tipoLogin = this._loginService.getLoginType()?? 'ldap';
+        } else if(this.config.tiposLogin.includes('login_govbr_ativo')) {
+            this.tipoLogin = this._loginService.getLoginType()?? 'govBr';
+        }
     }
 
     onSubmit(values): void {
