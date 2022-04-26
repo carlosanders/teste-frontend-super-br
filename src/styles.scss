@@ -220,6 +220,10 @@ div.menu-sort {
     background-color: rgba(204, 204, 204, 0.5);
 }
 
+.mat-chip-list-wrapper input.mat-input-element, .mat-chip-list-wrapper .mat-standard-chip {
+    margin: 2px !important;
+}
+
 .datasValidateBackdrop {
     background: repeating-linear-gradient(
             45deg,
@@ -229,4 +233,10 @@ div.menu-sort {
             rgba(94, 0, 0, 0.521) 20px
     );
     opacity: 0.1 !important;
+}
+
+.mat-standard-chip .mat-chip-remove.mat-icon, .mat-standard-chip .mat-chip-remove .mat-icon {
+    height: 16px !important;
+    width: 16px !important;
+    font-size: 16px !important;
 }
