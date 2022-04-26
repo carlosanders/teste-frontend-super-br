@@ -1526,11 +1526,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     isCompleted(juntadaId: number): boolean {
-        const juntada = this.index.find(junt => junt.id === juntadaId);
-        const currentJuntada = this.index.find(junt => junt.id === this.currentStep.step);
-        if (this.sort === 'ASC') {
-            return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
+        if (this.index) {
+            const juntada = this.index.find(junt => junt.id === juntadaId);
+            const currentJuntada = this.index.find(junt => junt.id === this.currentStep.step);
+            if (this.sort === 'ASC') {
+                return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
+            }
+            return !this.capa && juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
         }
-        return !this.capa && juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
     }
 }
