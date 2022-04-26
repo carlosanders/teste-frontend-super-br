@@ -113,8 +113,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     loadingJuntadas$: Observable<boolean>;
     loadingJuntadas: boolean;
-    loadingComponentesDigitais$: Observable<number[]>;
-    loadingComponentesDigitais: number[] = [];
 
     pagination$: any;
     pagination: any;
@@ -190,7 +188,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
         this.loadingJuntadas$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.loadingComponentesDigitais$ = this._store.pipe(select(fromStore.getLoadingComponentesDigitaisIds));
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));

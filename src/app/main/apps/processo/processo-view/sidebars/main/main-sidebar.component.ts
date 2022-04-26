@@ -236,12 +236,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
     isJuntadas = true;
-    loadingVinculacoesDocumentosIds$: Observable<number[]>;
-    loadingVinculacoesDocumentosIds: number[] = [];
-    paginadores: any = {};
-    paginadoresComponentesDigitais: any = {};
-    loadingComponentesDigitaisIds$: Observable<number[]>;
-    loadingComponentesDigitaisIds: number[] = [];
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -320,8 +314,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
-        this.loadingVinculacoesDocumentosIds$ = this._store.pipe(select(fromStore.getLoadingVinculacoesDocumentosIds));
-        this.loadingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getLoadingComponentesDigitaisIds));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -371,7 +363,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.form.get('numeracaoSequencial').setValue(null);
             }
-            if (sort['volume.numeracaoSequencial'] === 'ASC' && sort['numeracaoSequencial'] === 'ASC') {
+            if (sort['numeracaoSequencial'] === 'ASC') {
                 this.sort = 'ASC';
             } else {
                 this.sort = 'DESC';
@@ -395,13 +387,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             volumes => this.volumes = volumes
         );
-
-        this.loadingVinculacoesDocumentosIds$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((loading) => {
-            this.loadingVinculacoesDocumentosIds = loading;
-            this._changeDetectorRef.markForCheck();
-        });
 
         this.formEditor.get('modelo').valueChanges.subscribe((value) => {
             this.formEditorValid = value && typeof value === 'object';
@@ -481,13 +466,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             pagination => this.paginationBookmark = pagination
         );
-
-        this.loadingComponentesDigitaisIds$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((loading) => {
-            this.loadingComponentesDigitaisIds = loading;
-            this._changeDetectorRef.markForCheck();
-        });
     }
 
     /**
@@ -621,18 +599,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
-        });
-        this._store.pipe(
-            select(fromStore.getPaginadores),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((paginadores) => {
-            this.paginadores = paginadores;
-        });
-        this._store.pipe(
-            select(fromStore.getPaginadoresComponentesDigitais),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((paginadores) => {
-            this.paginadoresComponentesDigitais = paginadores;
         });
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
@@ -857,7 +823,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doSort(sort: string): void {
         this.sort = sort;
-        this.listSort = {'volume.numeracaoSequencial': sort, 'numeracaoSequencial': sort};
+        this.listSort = {
+            'numeracaoSequencial': sort,
+            'documento.componentesDigitais.numeracaoSequencial': 'ASC',
+            'documento.vinculacoesDocumentos.id': 'ASC',
+            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+        };
         this.reload({listFilter: this.listFilter, listSort: this.listSort});
         this.sorted.emit(sort);
     }
@@ -1518,25 +1489,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             bookmarkId: bookmarkId,
             operacaoId: operacaoId,
         }));
-    }
-
-    doGetMoreVinculacoes(documentoId: number): void {
-        const paginador = this.paginadores[documentoId];
-        const pagination = paginador.pagination;
-        const vinculacoes = paginador.vinculacoes;
-        if (vinculacoes.length >= pagination.total) {
-            return;
-        }
-        if (!this.paginadores[documentoId].loading) {
-            const nparams = {
-                ...pagination,
-                offset: pagination.offset + pagination.limit,
-                processoId: this.processo.id,
-                documentoId: paginador.documentoId,
-                juntadaIndice: paginador.indice
-            };
-            this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
-        }
     }
 
     doCopyNumDoc(numDoc: string): void {

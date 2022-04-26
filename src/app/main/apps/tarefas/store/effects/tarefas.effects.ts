@@ -106,7 +106,6 @@ export class TarefasEffect {
                 }),
                 new TarefasActions.GetTarefasSuccess({
                     entitiesId: response['entities'].map(tarefa => tarefa.id),
-                    temEtiquetas: response['entities'].map(tarefa => !!tarefa.temEtiquetas),
                     loaded: {
                         id: 'generoHandle_typeHandle_targetHandle',
                         value: this.routerState.params.generoHandle + '_' +
@@ -147,6 +146,8 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
                 'vinculacaoWorkflow'
             ];
             let context = {};
@@ -173,9 +174,6 @@ export class TarefasEffect {
                         data: [response],
                         schema: tarefaSchema
                     }));
-                    if (response.temEtiquetas) {
-                        this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(response.id));
-                    }
                     return new TarefasActions.GetTarefaSuccess(response);
                 }),
                 catchError((err) => {
@@ -185,16 +183,6 @@ export class TarefasEffect {
             );
         }, 25)
     ));
-    getTarefasSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<TarefasActions.GetTarefasSuccess>(TarefasActions.GET_TAREFAS_SUCCESS),
-        tap((action) => {
-            action.payload.entitiesId.forEach((tarefaId, tarefaIndice) => {
-                if (action.payload.temEtiquetas[tarefaIndice]) {
-                    this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(tarefaId));
-                }
-            });
-        })
-    ), {dispatch: false});
     getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
         mergeMap(action => this._vinculacaoEtiquetaService.query(

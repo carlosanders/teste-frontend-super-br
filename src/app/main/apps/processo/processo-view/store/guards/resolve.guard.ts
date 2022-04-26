@@ -284,15 +284,28 @@ export class ResolveGuard implements CanActivate {
                         listFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                        sort: {
+                            'numeracaoSequencial': 'DESC',
+                            'documento.componentesDigitais.numeracaoSequencial': 'ASC',
+                            'documento.vinculacoesDocumentos.id': 'ASC',
+                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                        },
                         populate: [
                             'volume',
                             'documento',
+                            'documento.componentesDigitais',
                             'documento.origemDados',
                             'documento.tipoDocumento',
                             'documento.criadoPor',
                             'documento.setorOrigem',
-                            'documento.setorOrigem.unidade'
+                            'documento.setorOrigem.unidade',
+                            'documento.vinculacoesDocumentos',
+                            'documento.vinculacoesDocumentos.documentoVinculado',
+                            'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
+                            'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                            'documento.vinculacoesEtiquetas',
+                            'documento.vinculacoesEtiquetas.etiqueta'
                         ]
                     };
 

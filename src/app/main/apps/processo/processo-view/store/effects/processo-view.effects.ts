@@ -116,9 +116,6 @@ export class ProcessoViewEffect {
                     new ProcessoViewActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
-                        documentosVinculacoesId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temAnexos ? juntada.documento.id : null),
-                        documentosEtiquetasId: response['entities'].map(juntada => juntada.ativo && juntada.documento.temEtiquetas ? juntada.documento.id : null),
-                        temComponentesDigitais: response['entities'].map(juntada => !!juntada.documento.temComponentesDigitais),
                         ativo: response['entities'].map(juntada => juntada.ativo),
                         processoId: action.payload.processoId,
                         loaded: {
@@ -167,15 +164,28 @@ export class ProcessoViewEffect {
                 listFilter: {},
                 limit: 10,
                 offset: 0,
-                sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                sort: {
+                    'numeracaoSequencial': 'DESC',
+                    'documento.componentesDigitais.numeracaoSequencial': 'ASC',
+                    'documento.vinculacoesDocumentos.id': 'ASC',
+                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
+                },
                 populate: [
                     'volume',
                     'documento',
+                    'documento.componentesDigitais',
                     'documento.origemDados',
                     'documento.tipoDocumento',
                     'documento.criadoPor',
                     'documento.setorOrigem',
-                    'documento.setorOrigem.unidade'
+                    'documento.setorOrigem.unidade',
+                    'documento.vinculacoesDocumentos',
+                    'documento.vinculacoesDocumentos.documentoVinculado',
+                    'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
+                    'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                    'documento.vinculacoesEtiquetas',
+                    'documento.vinculacoesEtiquetas.etiqueta'
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
@@ -255,38 +265,6 @@ export class ProcessoViewEffect {
             return of(null);
         })
     ));
-
-    /**
-     * Reload Juntadas with router parameters
-     *
-     * @type {any}
-     */
-    getJuntadasEtiquetas: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetJuntadasEtiquetas>(ProcessoViewActions.GET_JUNTADAS_ETIQUETAS),
-        mergeMap(action => this._vinculacaoEtiquetaService.query(
-                JSON.stringify({
-                    'documento.id': 'eq:' + action.payload,
-                }),
-                25,
-                0,
-                JSON.stringify({}),
-                JSON.stringify(['etiqueta'])).pipe(
-                mergeMap(response => [
-                    new GetJuntadasEtiquetasSuccess(response),
-                    new AddChildData<VinculacaoEtiqueta>({
-                        data: response['entities'],
-                        childSchema: vinculacaoEtiquetaSchema,
-                        parentSchema: documentoSchema,
-                        parentId: action.payload
-                    })
-                ]),
-            ), 25
-        ),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewActions.GetJuntadasEtiquetasFailed(err));
-        })
-    ));
     /**
      * Get Juntadas Success
      */
@@ -322,214 +300,8 @@ export class ProcessoViewEffect {
                     }));
                 }
             }
-            action.payload.entitiesId.forEach((juntadaId, juntadaIndice) => {
-                // Não pede componentes digitais de juntadas desentranhadas
-                if (action.payload.ativo[juntadaIndice] && action.payload.temComponentesDigitais[juntadaIndice]) {
-                    this._store.dispatch(new fromStore.GetComponentesDigitaisJuntada({
-                        juntadaId: juntadaId,
-                        documentoId: action.payload.documentosId[juntadaIndice],
-                        documentoVinculacao: !!action.payload.documentosVinculacoesId[juntadaIndice],
-                        processoId: action.payload.processoId,
-                        filter: {
-                            'documento.id': 'eq:' + action.payload.documentosId[juntadaIndice]
-                        },
-                        limit: 25,
-                        offset: 0,
-                        sort: {
-                            'numeracaoSequencial': 'ASC'
-                        },
-                        populate: []
-                    }));
-                }
-                if (action.payload.ativo[juntadaIndice] && !!action.payload.documentosVinculacoesId[juntadaIndice] && action.payload.documentosId[juntadaIndice]) {
-                    this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada({
-                        juntadaId: juntadaId,
-                        documentoId: action.payload.documentosId[juntadaIndice],
-                        processoId: action.payload.processoId,
-                        filter: {
-                            'documento.id': 'eq:' + action.payload.documentosId[juntadaIndice]
-                        },
-                        limit: 25,
-                        offset: 0,
-                        sort: {
-                            'id': 'ASC',
-                            'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
-                        },
-                        populate: [
-                            'documentoVinculado',
-                            'documentoVinculado.juntadaAtual',
-                            'documentoVinculado.tipoDocumento',
-                            'documentoVinculado.componentesDigitais',
-                        ]
-                    }));
-                }
-            });
-            action.payload.documentosEtiquetasId.forEach((documentoId) => {
-                if (documentoId) {
-                    this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
-                }
-            });
         })
     ), {dispatch: false});
-    getComponentesDigitaisJuntada: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetComponentesDigitaisJuntada>(ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA),
-        mergeMap(action => this._componenteDigitalService.query(
-            JSON.stringify(action.payload.filter),
-            action.payload.limit,
-            action.payload.offset,
-            JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate)).pipe(
-            mergeMap(response => [
-                new AddChildData<ComponenteDigital>({
-                    data: response['entities'],
-                    childSchema: componenteDigitalSchema,
-                    parentSchema: documentoSchema,
-                    parentId: action.payload.documentoId
-                }),
-                new ProcessoViewActions.GetComponentesDigitaisJuntadaSuccess({
-                    juntadaId: action.payload.juntadaId,
-                    processoId: action.payload.processoId,
-                    documentoId: action.payload.documentoId,
-                    documentoVinculacao: action.payload.documentoVinculacao,
-                    entitiesId: response['entities'].map(cd => cd.id),
-                    total: response['total']
-                })
-            ]),
-            catchError((err) => {
-                console.log(err);
-                const payload = {
-                    id: action.payload.juntadaId,
-                    processoId: action.payload.processoId,
-                    error: err
-                };
-                return of(new ProcessoViewActions.GetComponentesDigitaisJuntadaFailed(payload));
-            })
-        ), 25)
-    ));
-    /**
-     * GetComponentesDigitaisJuntadaSuccess
-     *
-     * @type {any}
-     */
-    getComponentesDigitaisJuntadaSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetComponentesDigitaisJuntadaSuccess>(ProcessoViewActions.GET_COMPONENTES_DIGITAIS_JUNTADA_SUCCESS),
-        map(action => action),
-        mergeMap(action => of(action).pipe(
-            withLatestFrom(this._store.pipe(select(fromStore.getPaginadoresComponentesStateByJuntadaId(action.payload.juntadaId))).pipe(
-                map(paginadores => paginadores)
-            ))
-        ), 25),
-        tap(([action, paginadoresComponentesDigitais]) => {
-            const entitiesId = [...paginadoresComponentesDigitais.entitiesId];
-            if (action.payload.total > entitiesId.length) {
-                const paginationComponentesDigitais = paginadoresComponentesDigitais.pagination;
-                this._store.dispatch(new fromStore.GetComponentesDigitaisJuntada({
-                    juntadaId: action.payload.juntadaId,
-                    documentoId: action.payload.documentoId,
-                    processoId: action.payload.processoId,
-                    filter: {
-                        'documento.id': 'eq:' + action.payload.documentoId
-                    },
-                    limit: paginationComponentesDigitais.limit,
-                    offset: paginationComponentesDigitais.offset + paginationComponentesDigitais.limit,
-                    sort: {
-                        'numeracaoSequencial': 'ASC'
-                    },
-                    populate: []
-                }));
-            }
-        })
-    ), {dispatch: false});
-
-    /**
-     * GetDocumentosVinculadosJuntada
-     *
-     * @type {any}
-     */
-    getDocumentosVinculadosJuntada: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetDocumentosVinculadosJuntada>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA),
-        mergeMap((action) => {
-            let vinculacoesDocumentos = [];
-            let total = 0;
-            return this._vinculacaoDocumentoService.query(
-                JSON.stringify(action.payload.filter),
-                action.payload.limit,
-                action.payload.offset,
-                JSON.stringify(action.payload.sort),
-                JSON.stringify(action.payload.populate)).pipe(
-                map((response) => {
-                    vinculacoesDocumentos = response['entities'].map((vinculacao) => {
-                        vinculacao.documentoVinculado.vinculacaoDocumentoPrincipal.documento = null;
-                        return vinculacao;
-                    });
-                    total = response.total;
-                    return vinculacoesDocumentos;
-                }),
-                mergeMap(() => [
-                    new AddChildData<VinculacaoDocumento>({
-                        data: vinculacoesDocumentos,
-                        childSchema: vinculacaoDocumentoSchema,
-                        parentSchema: documentoSchema,
-                        parentId: action.payload.documentoId
-                    }),
-                    new ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess({
-                        juntadaId: action.payload.juntadaId,
-                        documentoId: action.payload.documentoId,
-                        processoId: action.payload.processoId,
-                        entitiesId: vinculacoesDocumentos.map(vinculacao => vinculacao.id),
-                        total: total
-                    })
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    const payload = {
-                        id: action.payload.documentoId,
-                        processoId: action.payload.processoId,
-                        error: err
-                    };
-                    return of(new ProcessoViewActions.GetDocumentosVinculadosJuntadaFailed(payload));
-                })
-            );
-        }, 25)
-    ));
-    /**
-     * GetDocumentosVinculadosJuntadaSuccess
-     *
-     * @type {any}
-     */
-    getDocumentosVinculadosJuntadaSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetDocumentosVinculadosJuntadaSuccess>(ProcessoViewActions.GET_DOCUMENTOS_VINCULADOS_JUNTADA_SUCCESS),
-        withLatestFrom(this._store.pipe(select(fromStore.getPaginadores))),
-        tap(([action, paginadoresDocumentosVinculados]) => {
-            const paginadoresJuntada = paginadoresDocumentosVinculados[action.payload.documentoId];
-            const pagination = paginadoresJuntada.pagination;
-            const vinculacoes = paginadoresJuntada.vinculacoes;
-            if (pagination.total > vinculacoes.length && !paginadoresJuntada.loading) {
-                const nparams = {
-                    juntadaId: action.payload.juntadaId,
-                    documentoId: action.payload.documentoId,
-                    processoId: action.payload.processoId,
-                    filter: {
-                        'documento.id': 'eq:' + action.payload.documentoId
-                    },
-                    limit: 25,
-                    offset: pagination.offset + pagination.limit,
-                    sort: {
-                        'id': 'ASC',
-                        'documentoVinculado.componentesDigitais.numeracaoSequencial': 'ASC'
-                    },
-                    populate: [
-                        'documentoVinculado',
-                        'documentoVinculado.juntadaAtual',
-                        'documentoVinculado.tipoDocumento',
-                        'documentoVinculado.componentesDigitais',
-                    ]
-                };
-                this._store.dispatch(new fromStore.GetDocumentosVinculadosJuntada(nparams));
-            }
-        })
-    ), {dispatch: false});
-
     /**
      * Get Capa Processo
      *

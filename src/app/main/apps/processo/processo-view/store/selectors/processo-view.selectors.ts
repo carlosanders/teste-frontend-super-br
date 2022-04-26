@@ -68,31 +68,6 @@ export const getIsLoadingBinary: any = createSelector(
     (state: ProcessoViewState) => state.binary.loading
 );
 
-export const getLoadingVinculacoesDocumentosIds: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.loadingVinculacoesDocumentosId
-);
-
-export const getPaginadores: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.paginadoresDocumentosVinculados
-);
-
-export const getPaginadoresComponentesDigitais: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.paginadoresComponentes
-);
-
-export const getPaginadoresStateByDocumentoId = (documentoId: number): MemoizedSelector<any, any> => createSelector(
-    getPaginadores,
-    paginadores => paginadores[documentoId]
-);
-
-export const getPaginadoresComponentesStateByJuntadaId = (juntadaId: number): MemoizedSelector<any, any> => createSelector(
-    getPaginadoresComponentesDigitais,
-    paginadores => paginadores[juntadaId]
-);
-
 export const getDocumentoById = (documentoId: number): any => createSelector(
     schemaSelectorsDocumento.getNormalizedEntities,
     (() => documentoId),
@@ -102,11 +77,6 @@ export const getDocumentoById = (documentoId: number): any => createSelector(
 export const getComponentesDigitaisByDocumentoId = (documentoId: number): any => createSelector(
     getDocumentoById(documentoId),
     ((documento: Documento) => documento?.componentesDigitais)
-);
-
-export const getLoadingComponentesDigitaisIds: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.loadingComponentesId
 );
 
 export const getProcessoId: any = createSelector(

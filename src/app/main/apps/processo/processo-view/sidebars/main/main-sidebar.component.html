@@ -374,8 +374,7 @@
                                 </div>
                             </div>
                             <ng-container
-                                *ngIf="!loadingComponentesDigitaisIds.includes(juntada.id) ||
-                                (juntada.documento?.componentesDigitais.length !== 0 && paginadoresComponentesDigitais[juntada.id]?.pagination.offset !== 0)">
+                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0)">
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
@@ -391,12 +390,7 @@
                                     <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="this.loadingComponentesDigitaisIds.includes(juntada.id)">
-                                <mat-spinner diameter="16"></mat-spinner>
-                            </ng-container>
-                            <ng-container *ngIf="juntada.documento?.temAnexos &&
-                            (!paginadores[juntada.documento.id]?.loading ||
-                            (juntada.documento.vinculacoesDocumentos?.length !== 0 && paginadores[juntada.documento.id]?.pagination.offset !== 0))">
+                            <ng-container *ngIf="juntada.documento?.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
                                 {{contadorVinculacoes.reset()}}
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
@@ -421,16 +415,9 @@
                                         <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
-                                <ng-container *ngIf="this.paginadores[juntada.documento.id]?.loading">
-                                    <mat-spinner diameter="16"></mat-spinner>
-                                </ng-container>
-                            </ng-container>
-                            <ng-container *ngIf="(!this.loadingComponentesDigitaisIds.includes(juntada.id) || paginadoresComponentesDigitais[juntada.id]?.pagination.offset !== 0) && juntada.documento.temAnexos &&
-                                (loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1)">
-                                <mat-spinner diameter="16"></mat-spinner>
                             </ng-container>
                             <div fxFlex fxLayout="row"
-                                 *ngIf="juntada.documento.numeroUnicoDocumentoFormatado && !this.loadingComponentesDigitaisIds.includes(juntada.id)">
+                                 *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
                                 <div class="numero" fxFlex="1 1 auto" fxLayoutAlign="space-between center">
                                     <div>
                                         {{juntada.documento.numeroUnicoDocumentoFormatado}}
