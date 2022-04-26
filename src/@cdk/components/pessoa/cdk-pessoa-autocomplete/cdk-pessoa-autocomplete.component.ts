@@ -66,20 +66,21 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
+                const valor = value.replace(/[~`!@#$%^&*()+={}\[\];:'"<>.,\/\\?-_]/g, '');
                     const termFilterNome = [];
                     const termFilterNumeroDocumentoPrincipal = [];
                     const context = {};
-                    if (this.isCpfValid(value)) {
-                        context['cpf'] = value;
+                    if (this.isCpfValid(valor)) {
+                        context['cpf'] = valor;
                     }
-                    if (this.isCnpjValid(value)) {
-                        context['cnpj'] = value;
+                    if (this.isCnpjValid(valor)) {
+                        context['cnpj'] = valor;
                     }
                     termFilterNome.push({
-                        nome: `like:%${value}%`
+                        nome: `like:%${valor}%`
                     });
                     termFilterNumeroDocumentoPrincipal.push({
-                        numeroDocumentoPrincipal: `like:%${value}%`
+                        numeroDocumentoPrincipal: `like:%${valor}%`
                     });
                     const termFilter = {
                         orX: [
@@ -87,7 +88,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                             {andX: termFilterNumeroDocumentoPrincipal}
                         ]
                     };
-                    if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
+                    if (typeof valor === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
                         this.pessoaListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {

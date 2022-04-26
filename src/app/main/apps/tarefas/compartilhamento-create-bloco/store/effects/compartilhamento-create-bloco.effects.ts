@@ -77,7 +77,7 @@ export class CompartilhamentoCreateBlocoEffect {
             type: 'compartilhamento',
             content: 'Salvando o compartilhamento ...',
             status: 0, // carregando
-            lote: action.payload.loteId
+            lote: action.payload.lote
         }))),
         mergeMap(action => this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -85,10 +85,10 @@ export class CompartilhamentoCreateBlocoEffect {
                 type: 'compartilhamento',
                 content: 'Compartilhamento id ' + response.id + ' salvo com sucesso.',
                 status: 1, // sucesso
-                lote: action.payload.loteId
+                lote: action.payload.lote
             }))),
             mergeMap((response: Compartilhamento) => [
-                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSetorBlocoSuccess(),
+                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSetorBlocoSuccess(action.payload),
                 new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
             ]),
             catchError((err) => {
@@ -127,6 +127,7 @@ export class CompartilhamentoCreateBlocoEffect {
                 new CompartilhamentoCreateBlocoActions.GetLotacoesCompartilhamentoBlocoSuccess({
                     response: response,
                     compartilhamento: action.payload.compartilhamento,
+                    operacaoId: action.payload.operacaoIdSetor,
                     lote: action.payload.loteId
                 }),
                 new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
@@ -157,7 +158,7 @@ export class CompartilhamentoCreateBlocoEffect {
                     this._store.dispatch(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSetorBloco({
                         compartilhamento: compartilhamento,
                         operacaoId: operacaoIdSetor,
-                        lote: action.payload.loteId
+                        lote: action.payload.lote
                     }));
                 });
         })

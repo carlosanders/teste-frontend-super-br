@@ -95,7 +95,7 @@ export class SaveCompartilhamentoSetorBlocoSuccess implements Action
 {
     readonly type = SAVE_COMPARTILHAMENTO_SETOR_BLOCO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

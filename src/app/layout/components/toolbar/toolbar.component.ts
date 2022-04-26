@@ -14,7 +14,7 @@ import * as fromStore from 'app/store';
 import {
     ButtonTodasNotificacoesLidas,
     getCounterState,
-    getMercureState,
+    getMercureState, ReloadNotificacoes,
     RemoveAllNotificacao,
     RemoveNotificacao
 } from 'app/store';
@@ -516,5 +516,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
 
         this.checkedNotifications = this.checkedNotifications.filter(item => item.id !== notification.id);
+    }
+
+    reload() {
+        this._store.dispatch(new ReloadNotificacoes());
     }
 }

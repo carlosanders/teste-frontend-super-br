@@ -97,7 +97,8 @@
                     <mat-spinner diameter="20"></mat-spinner>
                 </mat-icon>
                 <mat-icon *ngIf="!carregandoNotificacao" [matBadge]="notificacoesCount" matBadgePosition="above after"
-                          [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text">
+                          [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text"
+                          (click)="reload()">
                     notifications
                 </mat-icon>
             </button>
