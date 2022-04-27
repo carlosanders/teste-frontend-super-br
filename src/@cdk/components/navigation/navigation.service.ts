@@ -387,6 +387,18 @@ export class CdkNavigationService
             return;
         }
 
+        if (!!properties.badge) {
+            const parent = this.getNavigationItemParent(id);
+            if (parent && !!parent.badge) {
+                let totalParent = parseInt(parent.badge.title, 10);
+                const oldTotalItem = parseInt(navigationItem.badge.title, 10);
+                const newTotalItem = parseInt(properties.badge.title, 10);
+                totalParent = totalParent - oldTotalItem + newTotalItem;
+                const newBadge = {badge: {title: totalParent}};
+                _.merge(parent, newBadge);
+            }
+        }
+
         // Merge the navigation properties
         _.merge(navigationItem, properties);
 

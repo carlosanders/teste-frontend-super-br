@@ -210,7 +210,7 @@
                         'current-tarefa': currentTarefaId  || mostraCriar,
                         'no-current-tarefa': !currentTarefaId && !mostraCriar,
                         'maximizado': (maximizado$ | async)
-                     }" *ngIf="tarefaListViewMode == 'list' || componentRootUrl">
+                     }" *ngIf="tarefaListViewMode === 'list' || componentRootUrl">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>

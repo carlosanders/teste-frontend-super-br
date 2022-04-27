@@ -76,8 +76,8 @@ import {ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.s
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
-    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
+    @ViewChild('tarefaListElement', {read: ElementRef, static: false}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: false}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
         this.tarefasList = tarefasList;
         if (tarefasList) {
             this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
@@ -309,7 +309,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(select(fromStore.getViewMode)).subscribe((viewMode) => {
             this.tarefaListViewMode = <ViewMode> viewMode;
 
-            if (this.tarefaListViewMode == 'grid') {
+            if (this.tarefaListViewMode === 'grid') {
                 this.tarefaListSize = 100;
             } else {
                 this.tarefaListSize = 30;

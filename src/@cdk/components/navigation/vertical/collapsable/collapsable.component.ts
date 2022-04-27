@@ -113,6 +113,13 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
             this._cdkNavigationService.onNavigationItemRemoved
         ).pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
+                const badge = this.item.badge;
+
+                if (badge) {
+                    delete this.item['badge'];
+                    this._changeDetectorRef.detectChanges();
+                    this.item['badge'] = badge;
+                }
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
