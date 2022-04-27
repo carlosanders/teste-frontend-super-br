@@ -84,62 +84,12 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
      */
     ngOnInit(): void {
         this.form.get('checkAntes').valueChanges.subscribe((value) => {
-            if (this.interval === null) {
-                if (value) {
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                }
-            } else {
-                if (value) {
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    this.form.get('checkDepois').setValue(true,{emitEvent: false});
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                    this.form.get('checkDepois').setValue(false, {emitEvent: false});
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                }
-            }
+            this.checkAntes(value);
             this._changeDetectorRef.markForCheck();
         });
 
         this.form.get('checkDepois').valueChanges.subscribe((value) => {
-            if (this.interval === null) {
-                if (value) {
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                }
-            } else {
-                if (value) {
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    this.form.get('checkAntes').setValue(true,{emitEvent: false});
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                    this.form.get('checkAntes').setValue(false, {emitEvent: false});
-                }
-            }
+            this.checkDepois(value);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -191,9 +141,11 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
 
         if (changes['interval']) {
             if (this.interval !== null) {
-                this.form.get('checkAntes').setValue(true);
+                this.form.get('checkAntes').setValue(true, {emitEvent: false});
+                this.checkAntes(true);
             } else {
-                this.form.get('checkAntes').setValue(false);
+                this.form.get('checkAntes').setValue(false, {emitEvent: false});
+                this.checkAntes(false);
                 this.maxDateAntes = null;
                 this.minDateDepois = null;
             }
@@ -209,6 +161,64 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    checkAntes(valor: boolean): void {
+        if (this.interval === null) {
+            if (valor) {
+                this.form.get('filterAntes').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+            }
+        } else {
+            if (valor) {
+                this.form.get('filterAntes').enable({emitEvent: false});
+                this.form.get('checkDepois').setValue(true,{emitEvent: false});
+                this.form.get('filterDepois').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+                this.form.get('checkDepois').setValue(false, {emitEvent: false});
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+            }
+        }
+    }
+
+    checkDepois(valor: boolean): void {
+        if (this.interval === null) {
+            if (valor) {
+                this.form.get('filterDepois').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+            }
+        } else {
+            if (valor) {
+                this.form.get('filterDepois').enable({emitEvent: false});
+                this.form.get('checkAntes').setValue(true,{emitEvent: false});
+                this.form.get('filterAntes').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+                this.form.get('checkAntes').setValue(false, {emitEvent: false});
+            }
+        }
+    }
 
     atualizaFiltros(): void {
         this.montaFiltroAntes();
