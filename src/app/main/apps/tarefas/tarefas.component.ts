@@ -712,7 +712,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     'folder.nome': folderFilter
                 };
                 nparams.context = {modulo: generoParam};
-                nparams.context['push'] = 'vinculacoesEtiquetas.etiqueta';
             } else {
                 nparams.context = {
                     modulo: generoParam,
