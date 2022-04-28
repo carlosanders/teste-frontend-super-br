@@ -861,3 +861,4 @@
 
 * Melhoria Compartilhar Tarefa para Setor e Grupo de Contato
 * Correção ordenação das últimas operações
+* Correção erro ao complementar resposta ofício usuário externo - #786

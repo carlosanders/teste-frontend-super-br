@@ -213,7 +213,7 @@ export class CdkComponenteDigitalCardListComponent {
                 componenteDigital.canRetry = false;
                 componenteDigital.errorMsg = null;
                 componenteDigital.inProgress = false;
-
+console.log(componenteDigital);
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
             }
