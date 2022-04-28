@@ -146,8 +146,6 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta',
                 'vinculacaoWorkflow'
             ];
             let context = {};
@@ -157,7 +155,10 @@ export class TarefasEffect {
                 generoParam = navigationConverter[this.routerState.params['generoHandle']];
             }
             if (paramUrl !== 'lixeira') {
-                context = {modulo: generoParam};
+                context = {
+                    modulo: generoParam,
+                    push: 'vinculacoesEtiquetas.etiqueta'
+                };
             } else {
                 context = {
                     modulo: generoParam,

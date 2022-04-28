@@ -76,8 +76,8 @@ import {ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.s
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
-    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
+    @ViewChild('tarefaListElement', {read: ElementRef, static: false}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: false}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
         this.tarefasList = tarefasList;
         if (tarefasList) {
             this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
@@ -222,7 +222,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
-    tarefaListViewMode: ViewMode = 'grid';
+    tarefaListViewMode: ViewMode = 'list';
     componentRootUrl: boolean = true;
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -712,6 +712,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     'folder.nome': folderFilter
                 };
                 nparams.context = {modulo: generoParam};
+                nparams.context['push'] = 'vinculacoesEtiquetas.etiqueta';
             } else {
                 nparams.context = {
                     modulo: generoParam,

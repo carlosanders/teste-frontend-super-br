@@ -141,12 +141,12 @@ export class ResolveGuard implements CanActivate {
                             'setorOrigem',
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
                             'vinculacaoWorkflow',
                             'vinculacaoWorkflow.workflow',
                         ],
-                        context: {}
+                        context: {
+                            'push': 'vinculacoesEtiquetas.etiqueta'
+                        }
                     };
 
                     const routeTypeParam = of('typeHandle');
@@ -228,12 +228,10 @@ export class ResolveGuard implements CanActivate {
                                 params['folderFilter'] = {
                                     'folder.nome': folderFilter
                                 };
-                                params.context = {modulo: generoParam};
+                                params.context['modulo'] = generoParam;
                             } else {
-                                params.context = {
-                                    modulo: generoParam,
-                                    mostrarApagadas: true
-                                };
+                                params.context['modulo'] = generoParam;
+                                params.context['mostrarApagadas'] = true;
                             }
                         }
 
