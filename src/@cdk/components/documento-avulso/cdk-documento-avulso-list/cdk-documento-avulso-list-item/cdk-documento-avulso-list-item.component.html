@@ -6,15 +6,14 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex [ngClass]="{'nao-lido': !documentoAvulso.dataHoraLeitura}">
+        <div class="info" [ngClass]="{'nao-lido': !documentoAvulso.dataHoraLeitura}">
 
-            <div class="title" fxLayout="row">
+            <div class="title">
                 <mat-icon *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">mail</mat-icon>
                 <span>PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
+                <mat-icon class="s-12 mt-4" (click)="copiarParaAreaTrabalho(documentoAvulso.processo?.NUP); $event.stopPropagation();">file_copy
+                </mat-icon>
             </div>
-
-            <mat-icon (click)="copiarParaAreaTrabalho(documentoAvulso.processo?.NUP); $event.stopPropagation();">file_copy
-            </mat-icon>
 
             <div class="subtitle">
                 <span>{{documentoAvulso.processo?.modalidadeMeio?.valor }}

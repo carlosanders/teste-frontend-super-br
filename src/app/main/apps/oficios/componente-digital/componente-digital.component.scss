@@ -1,10 +1,24 @@
 componente-digital {
-    height: 98%;
-    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
-    .documento-content {
-        position: relative;
-        height: 75vh;
-        width: 100%;
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        border-bottom: 1px solid;
+
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
     }
 }
