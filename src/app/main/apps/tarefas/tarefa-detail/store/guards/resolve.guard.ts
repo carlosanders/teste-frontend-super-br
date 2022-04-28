@@ -114,10 +114,7 @@ export class ResolveGuard implements CanActivate {
                 } else {
                     if (this.routerState.params['stepHandle'] === 'default' && !this.loadedProcesso) {
                         // Tentando carregar a rota default de um processo que está no estado da aplicação mas não passou pelo GetJuntadasSuccess
-                        console.log(loaded.juntadaIndex);
-                        const firstJuntada = loaded.juntadaIndex.findIndex(indice => indice.componentesDigitais.length > 0);
-                        console.log(firstJuntada);
-
+                        const firstJuntada = loaded?.juntadaIndex?.findIndex(indice => indice.componentesDigitais.length > 0);
                     }
                 }
             }),
