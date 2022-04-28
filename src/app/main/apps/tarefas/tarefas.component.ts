@@ -309,7 +309,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(select(fromStore.getViewMode)).subscribe((viewMode) => {
             this.tarefaListViewMode = <ViewMode> viewMode;
 
-            if (this.tarefaListViewMode == 'grid') {
+            if (this.tarefaListViewMode === 'grid') {
                 this.tarefaListSize = 100;
             } else {
                 this.tarefaListSize = 30;

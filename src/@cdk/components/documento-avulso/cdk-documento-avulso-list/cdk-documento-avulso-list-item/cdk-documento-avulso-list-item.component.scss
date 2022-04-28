@@ -25,6 +25,17 @@ cdk-documento-avulso-list-item {
         .title {
             font-size: 15px;
             font-weight: 600;
+
+            > mat-icon {
+                margin-left: 4px;
+                font-size: 12px;
+                align-items: center;
+                line-height: 12px;
+                min-width: 12px;
+                min-height: 12px;
+                width: 12px;
+                height: 12px;
+            }
         }
 
         .subtitle {

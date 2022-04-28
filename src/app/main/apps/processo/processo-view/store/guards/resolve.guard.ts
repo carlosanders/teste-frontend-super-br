@@ -127,7 +127,7 @@ export class ResolveGuard implements CanActivate {
                         const currentStep = {};
                         if (stepHandle === 'default') {
                             this.filtered = null;
-                            const firstJuntada = loaded.juntadaIndex.find(indice => indice.componentesDigitais.length > 0);
+                            const firstJuntada = loaded?.juntadaIndex?.find(indice => indice.componentesDigitais.length > 0);
                             if (firstJuntada !== undefined) {
                                 currentStep['step'] = firstJuntada.id;
                                 currentStep['subStep'] = firstJuntada.componentesDigitais[0];

@@ -165,7 +165,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 let modulesLink = [];
                 module.sidebars[path].forEach((s => modulesLink.push(s)));
                 modulesLink = CdkUtils.sortArraySideBar(modulesLink);
-                this.links[module['label'] ?? module['name']] = modulesLink;
+                this.links[module['label'] ? module['label'].toLowerCase() : module['name'].toLowerCase()] = modulesLink;
             }
         });
     }

@@ -75,9 +75,7 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['config'] && this.config) {
-            if (!this.config.ldap) {
-                this.form.get('tipoLogin').setValue('interno');
-            }
+            this.initByAtivos();
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -102,6 +100,16 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
         }
 
         this._changeDetectorRef.markForCheck();
+    }
+
+    initByAtivos() {
+        if(this.config.tiposLogin.includes('login_interno_ativo')) {
+            this.form.get('tipoLogin').setValue('interno');
+        } else if(this.config.tiposLogin.includes('login_ldap_ativo')) {
+            this.form.get('tipoLogin').setValue('ldap');
+        } else if(this.config.tiposLogin.includes('login_govbr_ativo')) {
+            this.form.get('tipoLogin').setValue('govBr');
+        }
     }
 
     /**

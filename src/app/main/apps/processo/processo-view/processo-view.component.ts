@@ -426,8 +426,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     disabledBack(): boolean {
         if (this.juntadas.length && this.index.length) {
-            const firstJuntada = this.index.find(juntadaIndex => juntadaIndex.id === this.juntadas[0].id);
-            return this.currentStep.step === firstJuntada.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
+            const firstJuntada = this.index.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
+            return this.currentStep.step === firstJuntada?.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
         }
         return true;
     }
