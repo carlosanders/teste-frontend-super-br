@@ -49,6 +49,9 @@
                     <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas (click)="doLoadAssinaturas()">
                         <mat-icon class="mat-18">lock</mat-icon>
                     </button>
+                    <button mat-mini-fab (click)="print()" *ngIf="isHtml(fileName)">
+                        <mat-icon class="mat-18">print</mat-icon>
+                    </button>
                     <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
                         <mat-icon class="mat-18">zoom_out</mat-icon>
                     </button>
@@ -110,7 +113,7 @@
 
                 <div class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
                      [ngStyle]="{'display': loading === true || processo?.juntadaIndex?.length === 0 ? 'none' : 'flex'}">
-                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
+                    <iframe id="iframe-juntadas" name="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
                     <div class="pdf-viewer"

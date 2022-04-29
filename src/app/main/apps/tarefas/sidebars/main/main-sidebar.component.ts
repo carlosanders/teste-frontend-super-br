@@ -829,7 +829,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Verifica se é permitido arrastar tarefas e soltar nas pastas
      * Caso esteja listando tarefas que não sejam minhas, desabilitar
      */
-    dropzoneEnabledFolders(folder = 'entrada'): boolean {
+    dropzoneEnabledFolders(folder: any = 'entrada'): boolean {
         return this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] !== folder;
     }
 

@@ -286,27 +286,25 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        if (!this.disabledIds.includes(documento.id)) {
-            this.podeNavegarDoEditor().subscribe((result) => {
-                if (result) {
-                    const sidebar = 'editar/' + this.routeAtividadeDocumento;
-                    this._componenteDigitalService.trocandoDocumento.next(true);
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                const sidebar = 'editar/' + this.routeAtividadeDocumento;
+                this._componenteDigitalService.trocandoDocumento.next(true);
 
-                    this._router.navigate([
-                            this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
-                            '/documento/' + documento.id,
-                            {
-                                outlets: {
-                                    sidebar: sidebar
-                                }
-                            }],
+                this._router.navigate([
+                        this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                        '/documento/' + documento.id,
                         {
-                            relativeTo: this._activatedRoute.parent,
-                            queryParams: {lixeira: null}
-                        }).then();
-                }
-            });
-        }
+                            outlets: {
+                                sidebar: sidebar
+                            }
+                        }],
+                    {
+                        relativeTo: this._activatedRoute.parent,
+                        queryParams: {lixeira: null}
+                    }).then();
+            }
+        });
     }
 
     changeEncerramentoTarefa(value: boolean): void {

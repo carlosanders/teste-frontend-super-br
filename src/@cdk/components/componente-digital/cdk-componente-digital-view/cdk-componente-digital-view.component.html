@@ -1,18 +1,44 @@
-<div class="src">
-    <iframe [src]="src" *ngIf="this.src && this.componenteDigital?.mimetype !== 'application/pdf'">
-    </iframe>
-    <div class="div-about-blank" *ngIf="downloadUrl">
-        <button mat-raised-button color="accent" (click)="doDownload()">
-            DOWNLOAD
-        </button>
+<div class="header" *ngIf="this.src && this.componenteDigital?.mimetype !== 'application/pdf'">
+    <div class="html-actions" *ngIf="this.src && this.componenteDigital?.mimetype !== 'application/pdf'">
+        <div>
+        </div>
+        <div class="right">
+            <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas
+                    (click)="doLoadAssinaturas()">
+                <mat-icon class="mat-18">lock</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="print()" *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">print</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">zoom_out</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="zoomIn()" *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">zoom_in</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
-<ng2-pdfjs-viewer #pdfViewerDocumentoEdit
-                  *ngIf="this.componenteDigital?.mimetype === 'application/pdf'"
-                  [viewerId]="'documento-edit'"
-                  [pdfSrc]="null"
-                  [zoom]="'auto'"
-                  [openFile]="false"
-                  [viewBookmark]="false"
-                  [download]="true">
-</ng2-pdfjs-viewer>
+<div class="content">
+    <div class="documento-view-content">
+        <div class="src {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
+            <iframe id="documento-html" name="documento-html" [src]="src"
+                    *ngIf="this.src && this.componenteDigital?.mimetype !== 'application/pdf'">
+            </iframe>
+            <div class="div-about-blank" *ngIf="downloadUrl">
+                <button mat-raised-button color="accent" (click)="doDownload()">
+                    DOWNLOAD
+                </button>
+            </div>
+        </div>
+        <ng2-pdfjs-viewer #pdfViewerDocumentoEdit
+                          *ngIf="this.componenteDigital?.mimetype === 'application/pdf'"
+                          [viewerId]="'documento-edit'"
+                          [pdfSrc]="null"
+                          [zoom]="'auto'"
+                          [openFile]="false"
+                          [viewBookmark]="false"
+                          [download]="true">
+        </ng2-pdfjs-viewer>
+    </div>
+</div>

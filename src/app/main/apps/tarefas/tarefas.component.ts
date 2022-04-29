@@ -693,8 +693,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.routerState.params[targetParam] !== 'entrada' &&
                     this.routerState.params[targetParam] !== 'lixeira'
                 ) {
-                    const folderName = this.routerState.params[targetParam];
-                    folderFilter = `eq:${decodeURI(folderName.toUpperCase())}`;
+                    const folderId = this.routerState.params[targetParam];
+                    folderFilter = `eq:${folderId}`;
                 }
 
                 paramUrl = this.routerState.params[targetParam];
@@ -709,7 +709,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (paramUrl !== 'lixeira') {
                 nparams['folderFilter'] = {
-                    'folder.nome': folderFilter
+                    'folder.id': folderFilter
                 };
                 nparams.context = {modulo: generoParam};
             } else {

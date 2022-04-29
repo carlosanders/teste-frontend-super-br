@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getBinary} from '../selectors';
+import {getBinary, getCurrentJuntada} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
@@ -380,8 +380,8 @@ export class ProcessoViewEffect {
                 map(componentesDigitais => componentesDigitais)
             ))
         ), 25),
-        withLatestFrom(this._store.pipe(select(fromStore.getBinary))),
-        mergeMap(([[, componentesDigitais], binary]) => {
+        withLatestFrom(this._store.pipe(select(fromStore.getBinary)), this._store.pipe(select(getCurrentJuntada))),
+        mergeMap(([[documentoId, componentesDigitais], binary, juntada]) => {
             if (componentesDigitais?.length > 0) {
                 componentesDigitais.forEach((componenteDigital) => {
                     if (binary && binary.src && binary.src.conteudo && binary.src.id === componenteDigital.id) {
@@ -392,6 +392,14 @@ export class ProcessoViewEffect {
                     // limpa o cache do componente digital do repositório de cache de componentes digitais
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
+                if (documentoId === juntada.documento.id) {
+                    const stepHandle = this.routerState.params['stepHandle'].split('-');
+                    const currentStep = {
+                        step: parseInt(stepHandle[0], 10),
+                        subStep: parseInt(stepHandle[1], 10)
+                    }
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                }
             }
             return of(null);
         }, 25),

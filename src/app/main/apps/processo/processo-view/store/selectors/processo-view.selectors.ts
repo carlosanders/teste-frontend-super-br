@@ -1,4 +1,4 @@
-import {createSelector, MemoizedSelector} from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import {
     getProcessoViewAppState,
     ProcessoViewAppState,
@@ -8,6 +8,7 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema, juntada as juntadaSchema} from '@cdk/normalizr';
 import {Documento, Juntada} from '@cdk/models';
+import {getRouterState} from '../../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 const schemaSelectorsDocumento = createSchemaSelectors<Documento>(documentoSchema);
@@ -20,6 +21,12 @@ export const getProcessoViewState: any = createSelector(
 export const getJuntadasIds: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.entitiesId
+);
+
+export const getCurrentJuntadaHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['stepHandle'] && router?.state.params['stepHandle'] !== 'default' && router?.state.params['stepHandle'] !== 'capa' ?
+        router?.state.params['stepHandle'].split('-')[0] : null
 );
 
 export const expandirTela: any = createSelector(
@@ -82,4 +89,10 @@ export const getComponentesDigitaisByDocumentoId = (documentoId: number): any =>
 export const getProcessoId: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.processoId
+);
+
+export const getCurrentJuntada: any = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getCurrentJuntadaHandle,
+    schemaSelectors.entityProjector
 );

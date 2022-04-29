@@ -210,8 +210,8 @@ export class ResolveGuard implements CanActivate {
                                     this.routerState.params[targetParam] !== 'entrada' &&
                                     this.routerState.params[targetParam] !== 'lixeira'
                                 ) {
-                                    const folderName = this.routerState.params[targetParam];
-                                    folderFilter = `eq:${decodeURI(folderName.toUpperCase())}`;
+                                    const folderId = this.routerState.params[targetParam];
+                                    folderFilter = `eq:${folderId}`;
                                 }
 
                                 paramUrl = this.routerState.params[targetParam];
@@ -226,7 +226,7 @@ export class ResolveGuard implements CanActivate {
 
                             if (paramUrl !== 'lixeira') {
                                 params['folderFilter'] = {
-                                    'folder.nome': folderFilter
+                                    'folder.id': folderFilter
                                 };
                                 params.context['modulo'] = generoParam;
                             } else {

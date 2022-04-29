@@ -9,8 +9,7 @@
         </mat-checkbox>
     </div>
 
-    <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)"
-         [ngClass]="{'grey-100':disabledSelect, 'disabled':disabledSelect && mode === 'editor'}">
+    <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)">
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>

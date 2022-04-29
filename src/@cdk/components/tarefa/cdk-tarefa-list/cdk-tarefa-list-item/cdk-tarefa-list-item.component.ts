@@ -292,6 +292,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.ciencia = false;
         this.selected = false;
         this.undeleting = false;
+        this.formTipoDocumento.get('tipoDocumentoMinutas').valueChanges.subscribe((value) => {
+            this.formTipoDocumentoValid = value && typeof value === 'object';
+        });
     }
 
     /**

@@ -768,4 +768,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             populate: this.assinaturasPagination.populate
         }));
     }
+
+    print(): void {
+        window.frames['iframe-juntadas'].focus();
+        window.frames['iframe-juntadas'].print();
+    }
 }

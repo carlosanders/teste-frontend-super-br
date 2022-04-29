@@ -251,7 +251,7 @@
                                     {{formTipoDocumento.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent" [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
+                            <button mat-raised-button color="accent" [disabled]="!formTipoDocumentoValid" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
                                 SALVAR
                             </button>
                         </form>

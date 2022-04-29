@@ -102,13 +102,13 @@
         <div class="nav-item" *ngFor="let folder of folders">
             <section dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled"
                      dndDragoverClass="custom-drag-over"
-                     id="folder_{{folder.nome.toLowerCase()}}"
+                     id="folder_{{folder.id}}"
                      #elementFolder
-                     (dndDragover)="dragOver($event, elementFolder, dropzoneEnabledFolders(folder.nome.toLowerCase()))"
-                     (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.nome.toLowerCase()))">
+                     (dndDragover)="dragOver($event, elementFolder, dropzoneEnabledFolders(folder.id))"
+                     (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.id))">
 
                 <div class="menu_content nav-link"
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.id"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
