@@ -137,7 +137,7 @@ export class ResolveGuard implements CanActivate {
                                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                                     let sidebar;
                                     const arrPrimary = [];
-                                    const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                                    let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
                                     if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                                         arrPrimary.push('anexar-copia');
                                         arrPrimary.push(this.routerState.params.processoCopiaHandle);
@@ -159,6 +159,7 @@ export class ResolveGuard implements CanActivate {
                                         arrPrimary.push(stepHandle);
                                         sidebar = 'empty';
                                     } else {
+                                        url = url.replace('/default/', '/' + stepHandle + '/');
                                         if (this.routerState.params['componenteDigitalHandle']) {
                                             arrPrimary.push('componente-digital');
                                             arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
