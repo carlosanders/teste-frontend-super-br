@@ -487,7 +487,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     listFilter: any;
     listSort: Record<string, string> = {};
     sortField: string = 'dataHoraFinalPrazo';
-    sortOrder: string = 'DESC';
+    sortOrder: string = 'ASC';
     isIndeterminate = false;
     etiquetasList: any[] = [];
     etiquetasMinutaList: any[] = [];
