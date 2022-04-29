@@ -1219,7 +1219,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento, juntada:Juntada): void {
-        console.log(documento);
         if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
             juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
                 this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));

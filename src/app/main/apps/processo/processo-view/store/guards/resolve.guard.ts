@@ -238,7 +238,7 @@ export class ResolveGuard implements CanActivate {
                             this.downloadingBinary = true;
                             if (loaded.juntadaIndex.length > 10) {
                                 const juntada = loaded.juntadaIndex.find(junt => junt.id === currentStep['step']);
-                                this.filtered = juntada.numeracaoSequencial;
+                                this.filtered = juntada?.numeracaoSequencial;
                             }
 
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
