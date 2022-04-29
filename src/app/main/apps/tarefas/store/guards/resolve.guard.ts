@@ -211,7 +211,7 @@ export class ResolveGuard implements CanActivate {
                                     this.routerState.params[targetParam] !== 'lixeira'
                                 ) {
                                     const folderName = this.routerState.params[targetParam];
-                                    folderFilter = `eq:${folderName.toUpperCase()}`;
+                                    folderFilter = `eq:${decodeURI(folderName.toUpperCase())}`;
                                 }
 
                                 paramUrl = this.routerState.params[targetParam];
