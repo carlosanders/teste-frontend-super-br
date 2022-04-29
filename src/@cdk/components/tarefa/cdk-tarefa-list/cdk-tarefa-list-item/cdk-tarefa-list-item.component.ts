@@ -248,7 +248,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'especieTarefa.nome',
         'setorResponsavel.nome',
         'dataHoraDistribuicao',
-        'dataHoraPrazo',
+        'dataHoraFinalPrazo',
         'observacao'
     ];
 
