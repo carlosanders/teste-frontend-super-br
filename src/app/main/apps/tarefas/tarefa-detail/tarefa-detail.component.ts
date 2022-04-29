@@ -180,7 +180,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                 this.iniciaModulos();
             }
             this.tarefa = tarefa;
-            this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
+            this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas?.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
 
         this.documentos$.pipe(

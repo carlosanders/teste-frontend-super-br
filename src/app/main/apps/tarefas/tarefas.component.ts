@@ -510,7 +510,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentTarefa$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
-            if (currentTarefa) {
+            if (currentTarefa && currentTarefa.processo) {
                 if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
                     this._store.dispatch(new fromStore.SyncCurrentTarefaId({
                         tarefaId: currentTarefa.id,
