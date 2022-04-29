@@ -227,7 +227,6 @@ export class ResolveGuard implements CanActivate {
                                     'folder.nome': folderFilter
                                 };
                                 params.context['modulo'] = generoParam;
-                                params.context['push'] = 'vinculacoesEtiquetas.etiqueta';
                             } else {
                                 params.context['modulo'] = generoParam;
                                 params.context['mostrarApagadas'] = true;
