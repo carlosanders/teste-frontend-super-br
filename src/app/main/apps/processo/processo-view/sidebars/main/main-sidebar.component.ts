@@ -635,7 +635,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         if (event?.ctrlKey && componenteDigitalId) {
             this._store.dispatch(new fromStore.VisualizarJuntada(componenteDigitalId));
         } else {
-            const juntada = this.index.find(junt => junt.id === juntadaId);
+            const juntada = this.index?.find(junt => junt.id === juntadaId);
             if (juntada === undefined) {
                 this._store.dispatch(new fromStore.GetCapaProcesso());
                 return;
@@ -771,7 +771,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropzoneEnabledJuntada(event: DragEvent, juntada: Juntada): boolean {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
-        const juntadaArrastada = this.juntadas.find(aJuntada => aJuntada.id == tmpJuntadaArrastada.id);
+        const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == tmpJuntadaArrastada.id);
         // eslint-disable-next-line max-len
         return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
@@ -784,7 +784,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropEnabledJuntada(event: DndDropEvent, juntada: Juntada): boolean {
         const juntadaArrastadaId = event.data;
-        const juntadaArrastada = this.juntadas.find(aJuntada => aJuntada.id == juntadaArrastadaId);
+        const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == juntadaArrastadaId);
         // eslint-disable-next-line max-len
         return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
@@ -1516,8 +1516,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     isCompleted(juntadaId: number): boolean {
         if (this.index) {
-            const juntada = this.index.find(junt => junt.id === juntadaId);
-            const currentJuntada = this.index.find(junt => junt.id === this.currentStep.step);
+            const juntada = this.index?.find(junt => junt.id === juntadaId);
+            const currentJuntada = this.index?.find(junt => junt.id === this.currentStep.step);
             if (this.sort === 'ASC') {
                 return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
             }
