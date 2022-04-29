@@ -1,5 +1,5 @@
 <div class="content">
-    <h2>Encaminhamento do NUP {{tarefa.processo.NUPFormatado}}</h2>
+    <h2>Encaminhamento do NUP {{tarefa?.processo?.NUPFormatado}}</h2>
     <cdk-encaminhamento-form
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
