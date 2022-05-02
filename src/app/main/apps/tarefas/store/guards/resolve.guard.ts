@@ -122,7 +122,7 @@ export class ResolveGuard implements CanActivate {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraDistribuicao: 'DESC'},
+                        sort: {dataHoraFinalPrazo: 'ASC'},
                         populate: [
                             'processo',
                             'colaborador.usuario',
