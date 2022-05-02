@@ -154,6 +154,11 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/desentranhar')]).then();
     }
 
+    removerVisibilidades(): void {
+        // Percorrer todas as juntadas selecionadas e, uma por uma, remover as visibilidades
+
+    }
+
     copiar(juntadaId: number[]): void {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
     }
@@ -207,6 +212,14 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
 
     removerVinculacoes(juntada: Juntada): void {
         juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+    }
+
+    removerRestricoes(juntada: Juntada): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.RemoveRestricoesDocumento({
+            documentoId: juntada.documento.id,
+            operacaoId: operacaoId
+        }));
     }
 
     adicionarVinculacao(juntadaId: number): void {
