@@ -219,7 +219,7 @@ export class ProcessoViewEffect {
 
                                 return this._componenteDigitalService.download(currentStep.subStep, context)
                                     .pipe(tap((componenteDigital) => {
-                                        if (componenteDigital?.mimetype != 'text/html') {
+                                        if (componenteDigital?.mimetype !== 'text/html') {
                                             this._cacheComponenteDigitalModelService.set(componenteDigital, currentStep.subStep)
                                                 .subscribe();
                                         }
@@ -267,8 +267,8 @@ export class ProcessoViewEffect {
                 // Foi feito pedido de alteração de ordenação, a primeira juntada será o novo default
                 const step = action.payload.entitiesId[0];
                 const currentStep: {
-                    step: number,
-                    subStep: number
+                    step: number;
+                    subStep: number;
                 } = {
                     step: undefined,
                     subStep: undefined
@@ -315,7 +315,7 @@ export class ProcessoViewEffect {
                         return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')
                             .pipe(
                                 tap((componenteDigital) => {
-                                    if (componenteDigital?.mimetype != 'text/html') {
+                                    if (componenteDigital?.mimetype !== 'text/html') {
                                         this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload.componenteDigitalId).subscribe();
                                     }
                                 })
@@ -403,13 +403,15 @@ export class ProcessoViewEffect {
     back: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<RouterActions.BackSuccess>(RouterActions.BACK_SUCCESS),
         tap(() => {
-            const stepHandle = this.routerState.params['stepHandle'];
-            const steps = stepHandle.split('-');
-            const currentStep = {
-                step: parseInt(steps[0], 10),
-                subStep: parseInt(steps[1], 10)
-            };
-            this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
+            if (this.routerState.params['stepHandle']) {
+                const stepHandle = this.routerState.params['stepHandle'];
+                const steps = stepHandle.split('-');
+                const currentStep = {
+                    step: parseInt(steps[0], 10),
+                    subStep: parseInt(steps[1], 10)
+                };
+                this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
+            }
         })
     ), {dispatch: false});
 

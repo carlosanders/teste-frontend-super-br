@@ -64,13 +64,3 @@ export const getCopiandoJuntadas: any = createSelector(
     getCopiandoIds,
     schemaSelectors.entitiesProjector
 );
-
-export const getAssinandoDocumentosId: any = createSelector(
-    getJuntadaListState,
-    (state: JuntadaListState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getJuntadaListState,
-    (state: JuntadaListState) => state.removendoAssinaturaDocumentoIds
-);
