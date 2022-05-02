@@ -200,19 +200,19 @@
             <mat-menu fxHide #selectMenu="matMenu" class="menu-sort">
                 <button mat-menu-item class="sort-button"
                         [ngClass]="{'selected': sortField === 'dataHoraFinalPrazo'}"
-                        (click)="doSort({'dataHoraFinalPrazo': sortField === 'dataHoraFinalPrazo' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                        (click)="doSort({'dataHoraFinalPrazo': sortField === 'dataHoraFinalPrazo' && sortOrder === 'ASC' ? 'ASC' : 'DESC'})">
                     <span>Final do Prazo</span>
                     <mat-icon color="accent" *ngIf="sortField === 'dataHoraFinalPrazo'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
                 <button mat-menu-item class="sort-button"
                         [ngClass]="{'selected': sortField === 'dataHoraDistribuicao'}"
-                        (click)="doSort({'dataHoraDistribuicao': sortField === 'dataHoraDistribuicao' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                        (click)="doSort({'dataHoraDistribuicao': sortField === 'dataHoraDistribuicao' && sortOrder === 'ASC' ? 'ASC' : 'DESC'})">
                     <span>Data da Distribuição</span>
                     <mat-icon color="accent" *ngIf="sortField === 'dataHoraDistribuicao'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
                 <button mat-menu-item class="sort-button"
                         [ngClass]="{'selected': sortField === 'atualizadoEm'}"
-                        (click)="doSort({'atualizadoEm': sortField === 'atualizadoEm' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                        (click)="doSort({'atualizadoEm': sortField === 'atualizadoEm' && sortOrder === 'ASC' ? 'ASC' : 'DESC'})">
                     <span>Última atualização</span>
                     <mat-icon color="accent" *ngIf="sortField === 'atualizadoEm'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
@@ -603,7 +603,7 @@
                 </tr>
             </table>
         </div>
-        <div class="footer" *ngIf="tarefas?.length > 0 && viewMode == 'grid'">
+        <div class="footer" *ngIf="tarefas?.length > 0 && viewMode === 'grid'">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 

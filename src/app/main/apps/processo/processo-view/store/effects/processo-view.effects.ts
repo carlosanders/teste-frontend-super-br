@@ -392,7 +392,7 @@ export class ProcessoViewEffect {
                     // limpa o cache do componente digital do repositório de cache de componentes digitais
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
-                if (documentoId === juntada.documento.id) {
+                if (documentoId === juntada?.documento.id) {
                     const stepHandle = this.routerState.params['stepHandle'].split('-');
                     const currentStep = {
                         step: parseInt(stepHandle[0], 10),
