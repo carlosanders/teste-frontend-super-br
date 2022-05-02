@@ -448,6 +448,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                } else {
+                    this.routeAtividade = "atividades/criar";
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&

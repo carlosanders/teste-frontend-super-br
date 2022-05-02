@@ -817,7 +817,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+        const diffDays = dataHoraFinalPrazo?.diff(dataHoraInicioPrazo, 'days');
 
         if (dataHoraFinalPrazo < dataHoraInicioPrazo) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'A data final do prazo não pode ser anterior a do início!'});
