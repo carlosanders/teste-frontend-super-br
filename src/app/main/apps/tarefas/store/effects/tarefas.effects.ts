@@ -1021,6 +1021,12 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.documento.tarefaOrigem.id));
         })
     ), {dispatch: false});
+    alteraTipoDocumentoAtividadeEditor: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoEditAtividadeDocumentosActions.UpdateDocumentoSuccess>(DocumentoEditAtividadeDocumentosActions.UPDATE_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
     deleteDocumentoAtividadeBloco: any = createEffect(() => this._actions.pipe(
         ofType<AtividadeBlocoCreateActions.DeleteDocumentoSuccess>(AtividadeBlocoCreateActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),
         tap((action) => {

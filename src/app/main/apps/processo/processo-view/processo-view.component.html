@@ -3,7 +3,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
         <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa"
-                                    (scrolled)="onScroll()" (sorted)="onSort($event)"></processo-view-main-sidebar>
+                                    (scrolled)="onScroll()" (sorted)="onSort($event)" [name]="sidebarName"></processo-view-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

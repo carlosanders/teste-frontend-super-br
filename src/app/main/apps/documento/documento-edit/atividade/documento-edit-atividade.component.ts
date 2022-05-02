@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
+import {Assinatura, Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
@@ -22,6 +22,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import * as AssinaturaStore from '../../../../../store';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -53,6 +54,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     selectedMinutas: Documento[] = [];
     selectedIds$: Observable<number[]>;
     disabledIds: number[] = [];
+    assinandoDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
 
     especieAtividadePagination: Pagination;
     unidadeAprovacaoPagination: Pagination;
@@ -132,6 +135,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.setorAprovacaoPagination.populate = ['unidade', 'parent'];
 
         this.usuarioAprovacaoPagination = new Pagination();
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -305,6 +310,33 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                     }).then();
             }
         });
+    }
+
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    documento: result.documento,
+                    operacaoId: operacaoId
+                }));
+            });
+        }
+    }
+
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
     changeEncerramentoTarefa(value: boolean): void {

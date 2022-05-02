@@ -1,10 +1,14 @@
 <div class="atividade" *ngIf="this.atividade && this.tarefa">
     <cdk-minutas-atividade-card-list
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        [alterandoId]="(alterandoDocumentosId$ | async)"
         [documentos]="minutas"
         [selectedIds]="(selectedIds$ | async)"
         [mode]="'editor'"
         [disabledSelects]="disabledIds"
         (clicked)="onClicked($event)"
+        (assinatura)="doAssinatura($event)"
+        (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
         (changedSelectedIds)="changedSelectedIds($event)">
     </cdk-minutas-atividade-card-list>
 

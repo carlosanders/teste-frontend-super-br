@@ -79,6 +79,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     @Input()
     capa: boolean = true;
 
+    @Input()
+    name: string = 'juntadas-left-sidebar-1';
+
     @Output()
     scrolled = new EventEmitter<any>();
 
@@ -682,6 +685,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     }
                 ).then(() => {
                     this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                    this.fecharSidebar();
                 });
             } else {
                 let url = this.routerState.url.split('/processo/')[0] +
@@ -693,6 +697,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 url += '/visualizar/' + step + '-' + substep;
                 this._router.navigateByUrl(url).then(() => {
                     this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                    this.fecharSidebar();
                 });
             }
         }
@@ -1170,6 +1175,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     goToCapaProcesso(): void {
         this._store.dispatch(new fromStore.GetCapaProcesso());
+        this.fecharSidebar();
     }
 
     enviarDocumentoEmail(juntadaId): void {
@@ -1521,6 +1527,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
             }
             return !this.capa && juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
+        }
+    }
+
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar(this.name).isLockedOpen) {
+            this._cdkSidebarService.getSidebar(this.name).close();
         }
     }
 }

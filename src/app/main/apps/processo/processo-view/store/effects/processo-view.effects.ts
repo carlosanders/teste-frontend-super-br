@@ -7,6 +7,7 @@ import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatest
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
+import * as RouterActions from 'app/store/actions/router.action';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Juntada} from '@cdk/models';
@@ -259,9 +260,7 @@ export class ProcessoViewEffect {
         tap(([action, processoLoaded]) => {
             const stepHandle = this.routerState.params['stepHandle'];
             if (stepHandle === 'default' && action.payload.entitiesId.length === 0) {
-                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                    step: 'capa'
-                }));
+                this.navegaParaStepSubstep({step: 0, subStep: 0}, false, true);
                 return;
             }
             if (!!action.payload.default) {
@@ -280,9 +279,7 @@ export class ProcessoViewEffect {
                     currentStep.subStep = firstJuntada.componentesDigitais[0];
                     this.navegaParaStepSubstep(currentStep);
                 } else {
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: 'capa'
-                    }));
+                    this.navegaParaStepSubstep({step: 0, subStep: 0}, false, true);
                 }
             }
         })
@@ -295,46 +292,11 @@ export class ProcessoViewEffect {
     getCapaProcesso: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
         map(() => {
-            if (this.routerState.url.indexOf('/documento/') !== -1) {
-                const arrPrimary = [];
-                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                    'visualizar-processo' : 'anexar-copia');
-                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push('capa');
-                arrPrimary.push('mostrar');
-
-                // Navegação do processo deve ocorrer por outlet
-                this._router.navigate(
-                    [
-                        this.routerState.url.split('/documento/')[0] + '/documento/' +
-                        this.routerState.params.documentoHandle,
-                        {
-                            outlets: {
-                                primary: arrPrimary
-                            }
-                        }
-                    ],
-                    {
-                        relativeTo: this._activatedRoute.parent
-                    }
-                ).then();
-            } else {
-                let url = this.routerState.url.split('/processo/' +
-                        this.routerState.params.processoHandle)[0] + '/processo/' +
-                    this.routerState.params.processoHandle;
-                if (this.routerState.params.chaveAcessoHandle) {
-                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
-                }
-                url += '/visualizar/capa/mostrar';
-
-                this._router.navigateByUrl(url).then();
-            }
+            const currentStep = {
+                step: 0,
+                subStep: 0
+            };
+            this.navegaParaStepSubstep(currentStep, false, true);
         })
     ), {dispatch: false});
     /**
@@ -438,6 +400,18 @@ export class ProcessoViewEffect {
             }
         })
     ), {dispatch: false});
+    back: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<RouterActions.BackSuccess>(RouterActions.BACK_SUCCESS),
+        tap(() => {
+            const stepHandle = this.routerState.params['stepHandle'];
+            const steps = stepHandle.split('-');
+            const currentStep = {
+                step: parseInt(steps[0], 10),
+                subStep: parseInt(steps[1], 10)
+            };
+            this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -461,12 +435,19 @@ export class ProcessoViewEffect {
         this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 
-    navegaParaStepSubstep = (currentStep: {step: number, subStep: number}, reset: boolean = false): void => {
-        const stepHandle = currentStep['step'] + '-' + currentStep['subStep'];
+    navegaParaStepSubstep = (currentStep: {step: number, subStep: number}, reset: boolean = false, capa: boolean = false): void => {
+        let stepHandle;
+        if (!capa) {
+            stepHandle = currentStep['step'] + '-' + currentStep['subStep'];
+        } else {
+            stepHandle = 'capa';
+        }
+
         if (this.routerState.url.indexOf('/documento/') !== -1) {
             let sidebar;
             const arrPrimary = [];
-            const url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+            let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+            url = url.replace('/default/', '/' + stepHandle + '/');
             if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                 arrPrimary.push('anexar-copia');
                 arrPrimary.push(this.routerState.params.processoCopiaHandle);
@@ -514,7 +495,7 @@ export class ProcessoViewEffect {
                         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
                         this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                         this._store.dispatch(new fromStore.ReloadJuntadas());
-                    } else {
+                    } else if (!capa) {
                         this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                     }
                 });
@@ -536,7 +517,7 @@ export class ProcessoViewEffect {
                         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
                         this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                         this._store.dispatch(new fromStore.ReloadJuntadas());
-                    } else {
+                    } else if (!capa) {
                         this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                     }
                 });
@@ -548,7 +529,12 @@ export class ProcessoViewEffect {
             if (this.routerState.params.chaveAcessoHandle) {
                 url += '/chave/' + this.routerState.params.chaveAcessoHandle;
             }
-            url += '/visualizar/' + stepHandle;
+            url += '/visualizar/';
+            if (capa) {
+                url += 'capa/mostrar';
+            } else {
+                url += stepHandle;
+            }
             const extras = {
                 queryParams: {
                     novaAba: this.routerState.queryParams.novaAba
@@ -559,7 +545,7 @@ export class ProcessoViewEffect {
                     this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
                     this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                     this._store.dispatch(new fromStore.ReloadJuntadas());
-                } else {
+                } else if (!capa) {
                     this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 }
             });

@@ -3,12 +3,14 @@ import * as DocumentosActions from '../actions/documentos.actions';
 export interface DocumentosState {
     documentosId: number[];
     selectedDocumentosId: number[];
+    alterandoDocumentoIds: number[];
     loaded: any;
 }
 
 export const DocumentosInitialState: DocumentosState = {
     documentosId: [],
     selectedDocumentosId: [],
+    alterandoDocumentoIds: [],
     loaded: false
 };
 
@@ -35,6 +37,30 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             return {
                 ...state,
                 selectedDocumentosId: action.payload
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                loaded: true,
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                loaded: false,
             };
         }
 
