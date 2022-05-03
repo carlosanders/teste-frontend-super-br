@@ -14,6 +14,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Compartilhamento, Pagination, Usuario, Setor, GrupoContato} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-compartilhamento-form',
@@ -112,6 +114,29 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     ngOnInit(): void {
 
         this.form.get('modalidadeCompartilhamento').setValue(this.modalidadeCompartilhamento);
+
+        this.form.get('modalidadeCompartilhamento').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value === 'setor') {
+                        this.form.get('setor').enable();
+                        this.form.get('usuario').disable();
+                        this.form.get('grupoContato').disable();
+                    } else if (value === 'usuario'){
+                        this.form.get('usuario').enable();
+                        this.form.get('setor').disable();
+                        this.form.get('grupoContato').disable();
+                    } else if (value === 'grupoContato'){
+                        this.form.get('grupoContato').enable();
+                        this.form.get('setor').disable();
+                        this.form.get('usuario').disable();
+                    }
+                this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
     }
     /**
