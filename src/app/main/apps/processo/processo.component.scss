@@ -66,6 +66,23 @@ processo {
                                 background: #3949AB;
                             }
                         }
+
+                        > .more-user {
+                            > .more-button {
+                                width: 35px;
+                                height: 35px;
+                                color: #FFFFFF;
+                                margin: 0 8px 0 0;
+                                > .mat-button-wrapper {
+                                    display: inline;
+                                }
+                            }
+
+                            > .more-tarefa {
+                                max-width: 261px !important;
+                                max-height: 261px !important;
+                            }
+                        }
                     }
 
                     > .actions {
@@ -103,4 +120,8 @@ processo {
     > * {
         color: black;
     }
+}
+
+.mat-menu-content:not(:empty) {
+    max-height: 550px !important;
 }

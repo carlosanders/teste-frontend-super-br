@@ -459,9 +459,9 @@ export class ProcessoEffect {
                 'processo.id': `eq:${action.payload.processoId}`,
                 'dataHoraConclusaoPrazo': 'isNull'
             }),
-            5,
+            30,
             0,
-            JSON.stringify({}),
+            JSON.stringify({id: 'ASC'}),
             JSON.stringify(
                 [
                     'usuarioResponsavel',
@@ -473,12 +473,7 @@ export class ProcessoEffect {
         mergeMap(response => [
             new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
             new ProcessoActions.GetTarefasProcessoSuccess({
-                entitiesId: response['entities'].map(tarefa => tarefa.id),
-                loaded: {
-                    id: 'processoHandle',
-                    value: this.routerState.params.processoHandle
-                },
-                total: response['total']
+                entitiesId: response['entities'].map(tarefa => tarefa.id)
             })
         ]),
         catchError((err) => {

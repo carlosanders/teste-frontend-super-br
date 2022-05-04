@@ -19,6 +19,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '../../../../@cdk/services/status-barramento';
 import {MatCardModule} from "@angular/material/card";
+import {TarefaService} from "../../../../@cdk/services/tarefa.service";
 
 const routes: Routes = [
     {
@@ -117,6 +118,7 @@ routes[0].children.push({
         VinculacaoEtiquetaService,
         AcompanhamentoService,
         StatusBarramentoService,
+        TarefaService,
         fromGuards.ResolveGuard
     ],
 })

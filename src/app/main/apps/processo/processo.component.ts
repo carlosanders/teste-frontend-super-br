@@ -405,6 +405,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     mouseLeave(trigger) {
         this.timedOutCloser = setTimeout(() => {
             trigger.closeMenu();
-        }, 2);
+        }, 1);
     }
 }
