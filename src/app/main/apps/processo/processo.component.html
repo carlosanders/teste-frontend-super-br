@@ -34,7 +34,7 @@
                              #menuTrigger="matMenuTrigger"
                              (click)="$event.stopPropagation()"
                              (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
-                             {{tarefa?.usuarioResponsavel?.nome.charAt(0)}}
+                             {{tarefa?.usuarioResponsavel?.nome | slice:0:2 }}
                         </div>
                         <mat-menu #moreMenuTarefa="matMenu" [hasBackdrop]="false">
                             <mat-card
