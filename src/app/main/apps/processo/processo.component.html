@@ -62,17 +62,12 @@
                         <button mat-mini-fab fxHide.xs
                                 class="active accent more-button"
                                 [matMenuTriggerFor]="moreMenuTarefas"
-                                #menuTriggerTarefas="matMenuTrigger"
-                                (click)="$event.stopPropagation()"
-                                (mouseenter)="mouseEnter(menuTriggerTarefas)" (mouseleave)="mouseLeave(menuTriggerTarefas)">
+                                (click)="$event.stopPropagation()">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <div class="more-tarefa" fxHide.xs cdkPerfectScrollbar>
-                            <mat-menu #moreMenuTarefas="matMenu" [hasBackdrop]="false">
-                                <mat-card *ngFor="let tarefa of tarefasProcesso | slice:3"
-                                          (click)="$event.stopPropagation()"
-                                          (mouseenter)="mouseEnter(menuTriggerTarefas)"
-                                          (mouseleave)="mouseLeave(menuTriggerTarefas)">
+                            <mat-menu #moreMenuTarefas="matMenu">
+                                <mat-card *ngFor="let tarefa of tarefasProcesso | slice:3">
                                     <mat-card-content>
                                         <div><b>{{tarefa?.usuarioResponsavel?.nome}}</b></div>
                                         <div>
