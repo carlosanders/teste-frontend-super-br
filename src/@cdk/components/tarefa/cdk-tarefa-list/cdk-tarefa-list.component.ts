@@ -286,7 +286,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     criaRelatorio = new EventEmitter<boolean>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa, event: any}>();
 
     @Output()
     outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();

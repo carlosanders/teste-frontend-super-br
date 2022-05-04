@@ -290,24 +290,42 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         }
     }
 
-    onClicked(documento): void {
+    onClicked(event): void {
+        const documento = event.documento;
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
                 const sidebar = 'editar/' + this.routeAtividadeDocumento;
-                this._componenteDigitalService.trocandoDocumento.next(true);
-
-                this._router.navigate([
+                if (event.event.ctrlKey) {
+                    const extras = {
+                        queryParams: {
+                            novaAba: true
+                        }
+                    };
+                    const url = this._router.createUrlTree([
                         this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
                         '/documento/' + documento.id,
                         {
                             outlets: {
                                 sidebar: sidebar
                             }
-                        }],
-                    {
-                        relativeTo: this._activatedRoute.parent,
-                        queryParams: {lixeira: null}
-                    }).then();
+                        }
+                    ], extras);
+                    window.open(url.toString(), '_blank');
+                } else {
+                    this._componenteDigitalService.trocandoDocumento.next(true);
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                            '/documento/' + documento.id,
+                            {
+                                outlets: {
+                                    sidebar: sidebar
+                                }
+                            }],
+                        {
+                            relativeTo: this._activatedRoute.parent,
+                            queryParams: {lixeira: null}
+                        }).then();
+                }
             }
         });
     }

@@ -1381,7 +1381,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const tarefa = event.tarefa;
         const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
         if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
-            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa, event.event.ctrlKey);
         }
     }
 
@@ -1481,16 +1481,30 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._changeDetectorRef.markForCheck();
     }
 
-    abreEditor(documentoId: number, tarefa: Tarefa): void {
+    abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'default';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
-        this._router.navigate([
-            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-            + stepHandle + '/documento/' + documentoId
-        ]).then();
+        if(outraAba){
+            const extras = {
+                queryParams: {
+                    novaAba: true
+                }
+            };
+            const url = this._router.createUrlTree([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ], extras);
+            window.open(url.toString(), '_blank');
+        } else{
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ]).then();
+        }
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {

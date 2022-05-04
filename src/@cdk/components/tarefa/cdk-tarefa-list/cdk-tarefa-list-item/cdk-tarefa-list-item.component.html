@@ -122,7 +122,7 @@
 
             <div class="etiquetas-minutas">
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
-                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa, $event); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
                     <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
                     <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>

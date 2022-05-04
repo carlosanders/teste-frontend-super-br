@@ -129,7 +129,7 @@
                                 (converteHtml)="doConverteHtml($event)"
                                 (downloadP7s)="doDownloadP7S($event)"
                                 (restaurar)="doRestaurar($event)"
-                                (clicked)="onClick($event)"
+                                (click)="onClick(documento, $event)"
                                 (changedSelected)="toggleInSelected($event)">
     </cdk-minutas-atividade-card>
     <div class="loading" *ngIf="saving">

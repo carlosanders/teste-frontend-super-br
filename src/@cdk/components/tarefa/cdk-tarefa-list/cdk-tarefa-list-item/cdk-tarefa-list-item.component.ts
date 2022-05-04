@@ -139,7 +139,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa; event: any}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -463,8 +463,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.isOpen = !this.isOpen;
     }
 
-    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
-        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
+    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa, event: any): void {
+        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa, event});
     }
 
     copiarParaAreaTrabalho(nup): void {
