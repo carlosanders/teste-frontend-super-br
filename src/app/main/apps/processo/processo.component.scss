@@ -36,10 +36,36 @@ processo {
 
                     > .info {
                         margin-left: 4px;
+                        margin-right: 8px;
                         display: flex;
                         flex: 1 1 auto;
                         flex-direction: column;
                         justify-content: center;
+                    }
+
+                    > .tarefas {
+                        display: flex;
+
+                        > .user {
+                            flex: 0 1 auto;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: center;
+
+                            > .profileImage {
+                                width: 35px;
+                                min-width: 35px;
+                                height: 35px;
+                                line-height: 35px;
+                                margin: 0 8px 0 0;
+                                border-radius: 50%;
+                                font-weight: bold;
+                                color: #FFFFFF;
+                                text-align: center;
+                                background: #3949AB;
+                            }
+                        }
                     }
 
                     > .actions {

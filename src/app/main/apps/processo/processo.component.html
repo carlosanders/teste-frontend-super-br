@@ -25,15 +25,48 @@
                     <mat-icon>menu</mat-icon>
                 </button>
                 <div class="info">
-                    <div style="font-weight: bold">{{label}} {{nup}}</div>
+                    <div style="font-weight: bold">{{label}} {{nup}} ({{ processo?.setorAtual?.sigla }} / {{ processo?.setorAtual?.unidade?.sigla }})</div>
                     <div style="font-style: italic">{{processo.titulo|titleCasePipe}}</div>
                 </div>
-                <div>
+                <div class="tarefas">
+                    <div class="user" *ngFor="let tarefa of tarefasProcesso">
+
+                        <div class="profileImage" [matMenuTriggerFor]="moreMenuTarefa"
+                             #menuTrigger="matMenuTrigger"
+                             (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
+                             {{tarefa?.usuarioResponsavel?.nome.charAt(0)}}
+                        </div>
+                        <mat-menu #moreMenuTarefa="matMenu" [hasBackdrop]="false">
+                            <mat-card
+                                (click)="$event.stopPropagation()"
+                                (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
+                                <mat-card-header>
+                                    <mat-card-title>{{tarefa?.usuarioResponsavel?.nome}}</mat-card-title>
+                                    <mat-card-subtitle>
+                                        {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+                                    </mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div>{{tarefa.especieTarefa?.nome | titleCasePipe}}</div>
+                                    <div *ngIf="tarefa?.dataHoraDistribuicao">
+                                        Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
+                                    </div>
+                                    <div>Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                        até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-menu>
+
+                    </div>
                     <div class="spinner-container m-8"
-                         *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
+                         *ngIf="(loadingTarefasProcesso$ | async) ||
+                             (togglingAcompanharProcesso$ | async) ||
+                             (pluginLoading$ | async)?.length">
                         <mat-spinner diameter="20"></mat-spinner>
                     </div>
-
+                </div>
+                <div>
                     <div class="actions" [hidden]="processo === null || (togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
 
                         <button mat-icon-button aria-label="arquivar processo" matTooltip="Arquivar Processo" fxHide.xs
