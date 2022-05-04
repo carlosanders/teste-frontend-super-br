@@ -39,7 +39,7 @@ export class DadosBasicosEffect {
                 'especieProcesso.vinculacoesEspecieProcessoWorkflow',
                 'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
             ]),
-            JSON.stringify({'especieProcessoWorkflow': true, 'juntadaIndex': true})
+            JSON.stringify({'especieProcessoWorkflow': true, 'latestJuntadaIndex': true})
         )),
         switchMap(response => [
             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -67,7 +67,7 @@ export class DadosBasicosEffect {
             content: 'Salvando o processo ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._processoService.save(action.payload.processo, JSON.stringify({'juntadaIndex': true})).pipe(
+        switchMap(action => this._processoService.save(action.payload.processo, JSON.stringify({'latestJuntadaIndex': true})).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'processo',

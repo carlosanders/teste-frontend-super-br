@@ -5,27 +5,52 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AnexarCopiaComponent} from './anexar-copia.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
+import {
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
 import {AnexarCopiaStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSearchBarModule} from '@cdk/components';
+import {CdkSearchBarModule, CdkSidebarModule} from '@cdk/components';
 import {CdkProcessoSearchAutocompleteModule} from '@cdk/components/processo/cdk-processo-search-autocomplete/cdk-processo-search-autocomplete.module';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
 import {ProcessoService} from '@cdk/services/processo.service';
+import {AnexarCopiaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {
+    CdkAssinaturaGridModule
+} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
+import {BookmarkService} from '@cdk/services/bookmark.service';
+import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
+import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {CdkVolumeAutocompleteModule} from '@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
+import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {JuntadaService} from '@cdk/services/juntada.service';
+
 
 const routes: Routes = [
     {
         path: ':processoCopiaHandle',
         component: AnexarCopiaComponent,
         canActivate: [fromGuards.ResolveGuard],
-        children: [
-            {
-                path: 'visualizar',
-                loadChildren: () => import('app/main/apps/processo/processo-view/processo-view.module').then(m => m.ProcessoViewModule)
-            }
-        ]
+        canDeactivate: [fromGuards.DeactivateGuard]
     }
 ];
 
@@ -39,28 +64,53 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        AnexarCopiaComponent
+        AnexarCopiaComponent,
+        AnexarCopiaMainSidebarComponent
     ],
     imports: [
         RouterModule.forChild(routes),
 
         MatIconModule,
         MatButtonModule,
-        TranslateModule,
-        CdkSharedModule,
+        MatProgressSpinnerModule,
+        MatMenuModule,
         MatAutocompleteModule,
+        MatInputModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatDialogModule,
+        InfiniteScrollModule,
+        TranslateModule,
 
         AnexarCopiaStoreModule,
 
-        MatTooltipModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatRippleModule,
+        CdkVolumeAutocompleteModule,
+
         MatProgressSpinnerModule,
         CdkSearchBarModule,
-        CdkProcessoSearchAutocompleteModule
-
+        CdkProcessoSearchAutocompleteModule,
+        CdkTipoDocumentoAutocompleteModule,
+        MatProgressBarModule,
+        MatExpansionModule,
+        MatChipsModule,
+        MatCardModule,
+        CdkUsuarioAutocompleteModule,
+        CdkSetorAutocompleteModule,
+        MatSelectModule,
+        CdkBookmarkEditDialogModule,
+        PdfJsViewerModule,
+        CdkAssinaturaGridModule
     ],
     providers: [
         ProcessoService,
+        JuntadaService,
         fromGuards.ResolveGuard,
+        fromGuards.DeactivateGuard,
+        BookmarkService,
+        AssinaturaService
     ],
     exports: [
         AnexarCopiaComponent

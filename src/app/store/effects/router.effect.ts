@@ -5,8 +5,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, tap} from 'rxjs/operators';
 
 import * as RouterActions from 'app/store/actions/router.action';
-import {Store} from "@ngrx/store";
-import {State} from "../reducers";
+import {Store} from '@ngrx/store';
+import {State} from '../reducers';
 
 @Injectable()
 export class RouterEffects {
@@ -27,7 +27,6 @@ export class RouterEffects {
         ofType(RouterActions.BACK),
         tap(() => {
             this.location.back();
-            this._store.dispatch(new RouterActions.BackSuccess());
         })
     ), {dispatch: false});
     /**

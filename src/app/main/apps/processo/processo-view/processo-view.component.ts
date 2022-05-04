@@ -7,8 +7,11 @@ import {
     OnInit,
     Output,
     QueryList,
-    SecurityContext, TemplateRef, ViewChild,
-    ViewChildren, ViewContainerRef,
+    SecurityContext,
+    TemplateRef,
+    ViewChild,
+    ViewChildren,
+    ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
@@ -118,7 +121,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     pagination: any;
 
     routerState: any;
-    routerState$: Observable<any>;
 
     chaveAcesso: string;
     capaProcesso: boolean;
@@ -192,14 +194,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-        this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.processo$ = this._store.pipe(select(getProcesso));
-
-        this._store.pipe(
-            select(getProcessoLoaded),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(loaded => this.index = loaded.juntadaIndex);
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -216,10 +212,34 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas)
+            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
+
+            if (juntadas.length !== this.index.length) {
+                this.index = [];
+                juntadas.forEach((juntada) => {
+                    let componentesDigitaisIds = [];
+                    if (juntada.documento?.componentesDigitais) {
+                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                    }
+                    if (juntada.documento?.vinculacoesDocumentos) {
+                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                componentesDigitaisIds.push(dvcd.id);
+                            })
+                        })
+                    }
+                    const tmpJuntada = {
+                        id: juntada.id,
+                        numeracaoSequencial: juntada.numeracaoSequencial,
+                        componentesDigitais: componentesDigitaisIds
+                    };
+                    this.index.push(tmpJuntada);
+                })
+            }
+
             if (this.currentStep) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === this.currentStep.step);
                 this._changeDetectorRef.markForCheck();
@@ -367,10 +387,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
-            if (this.routerState.url.indexOf('/documento/') !== -1 &&
-                (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
-                const processoId = this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle;
+            if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('visualizar-processo') !== -1)) {
+                const processoId = this.routerState.params.processoHandle;
 
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
@@ -411,9 +429,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.routerState.url.indexOf('anexar-copia') === -1 &&
             this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle'] + '/visualizar') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
-        }
-        if (this.tarefa) {
-            this._store.dispatch(new fromStore.UnloadDocumentos());
         }
         if (this.processo?.origemDados) {
             this._mercureService.unsubscribe(this.processo.origemDados['@id']);
@@ -527,10 +542,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (index !== undefined && index.componentesDigitais.indexOf(currentStep.subStep) !== -1) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 const arrPrimary = [];
-                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                    'visualizar-processo' : 'anexar-copia');
-                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
+                arrPrimary.push('visualizar-processo');
+                arrPrimary.push(this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);

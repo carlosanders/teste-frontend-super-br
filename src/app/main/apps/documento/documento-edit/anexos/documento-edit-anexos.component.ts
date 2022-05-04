@@ -25,7 +25,6 @@ import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {SetCurrentStep} from '../../../processo/processo-view/store';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -345,34 +344,26 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     anexarCopia(): void {
         if (this.documento.vinculacaoDocumentoPrincipal) {
-            const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/default';
+            const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [
                     this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                     {outlets: {primary: rota}}
                 ],
-                {relativeTo: this._activatedRoute.parent}).then(() => {
-                this._store.dispatch(new SetCurrentStep({
-                    step: 'default',
-                    subStep: 0
-                }));
-            });
+                {relativeTo: this._activatedRoute.parent}
+            ).then(() => {});
             return;
         }
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
-                const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/default';
+                const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
                 this._router.navigate(
                     [
                         this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                         {outlets: {primary: rota}}
                     ],
-                    {relativeTo: this._activatedRoute.parent}).then(() => {
-                    this._store.dispatch(new SetCurrentStep({
-                        step: 'default',
-                        subStep: 0
-                    }));
-                });
+                    {relativeTo: this._activatedRoute.parent}
+                ).then(() => {});
             }
         });
     }

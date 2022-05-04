@@ -6,13 +6,13 @@ import {Observable, of} from 'rxjs';
 import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as VolumesActions from 'app/main/apps/processo/processo-view/store/actions/volumes.actions';
+import * as VolumesActions from '../actions/volumes.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Volume} from '@cdk/models';
 import {volume as volumeSchema} from '@cdk/normalizr';
 import {VolumeService} from '@cdk/services/volume.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class VolumesEffects {
@@ -37,8 +37,8 @@ export class VolumesEffects {
             new VolumesActions.GetVolumesSuccess({
                 entitiesId: response['entities'].map(volume => volume.id),
                 loaded: {
-                    id: 'processoHandle',
-                    value: this.routerState.params.processoHandle
+                    id: 'processoCopiaHandle',
+                    value: this.routerState.params.processoCopiaHandle
                 },
                 total: response['total']
             })
@@ -53,8 +53,7 @@ export class VolumesEffects {
         private _actions: Actions,
         private _volumeService: VolumeService,
         private _store: Store<State>,
-        private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _router: Router
     ) {
         this._store.pipe(
             select(getRouterState),

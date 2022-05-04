@@ -74,6 +74,7 @@ import {
     VinculacaoEspecieProcessoWorkflowService
 } from '@cdk/services/vinculacao-especie-processo-workflow.service';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';
+import {UnloadProcesso} from '../../../processo/store';
 
 @Injectable()
 export class TarefasEffect {
@@ -316,8 +317,10 @@ export class TarefasEffect {
             }
 
             if (!action.payload.static && !action.payload.acessoNegado) {
-                this._store.dispatch(new UnloadJuntadas({reset: true}));
-                this._store.dispatch(new UnloadDocumentos());
+                if (parseInt(this.routerState.params['processoHandle'], 10) !== action.payload.processoId) {
+                    this._store.dispatch(new UnloadProcesso());
+                    this._store.dispatch(new UnloadJuntadas({reset: true}));
+                }
 
                 const extras = {
                     queryParams: {

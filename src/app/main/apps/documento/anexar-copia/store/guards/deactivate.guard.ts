@@ -1,27 +1,27 @@
 import {Injectable} from '@angular/core';
 import {CanDeactivate} from '@angular/router';
-import {ProcessoViewComponent} from '../../processo-view.component';
-import {ProcessoViewService} from '../../processo-view.service';
+import {AnexarCopiaComponent} from '../../anexar-copia.component';
+import {AnexarCopiaService} from '../../anexar-copia.service';
 import {Observable, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {ProcessoViewAppState} from '../reducers';
+import {AnexarCopiaAppState} from '../reducers';
 import {getRouterState} from '../../../../../../store';
 import {filter} from 'rxjs/operators';
-import {getProcessoLoaded} from '../../../store';
+import {getProcessoLoaded} from '../../store';
 
 @Injectable()
-export class DeactivateGuard implements CanDeactivate<ProcessoViewComponent> {
+export class DeactivateGuard implements CanDeactivate<AnexarCopiaComponent> {
     routerState: any;
     processoId: number = null;
 
     /**
      *
      * @param _store
-     * @param _processoViewService
+     * @param _anexarCopiaService
      */
     constructor(
-        private _store: Store<ProcessoViewAppState>,
-        private _processoViewService: ProcessoViewService
+        private _store: Store<AnexarCopiaAppState>,
+        private _anexarCopiaService: AnexarCopiaService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -36,9 +36,9 @@ export class DeactivateGuard implements CanDeactivate<ProcessoViewComponent> {
         });
     }
 
-    canDeactivate(target: ProcessoViewComponent): Observable<boolean> {
-        if (!this.routerState.url.includes('/processo/' + this.processoId + '/visualizar') || this.routerState.url.includes('/processo/' + this.processoId + '/visualizar/default')) {
-            this._processoViewService.guardaAtivado.next(false);
+    canDeactivate(target: AnexarCopiaComponent): Observable<boolean> {
+        if (!this.routerState.url.includes('anexar-copia/' + this.processoId)) {
+            this._anexarCopiaService.guardaAtivado.next(false);
         }
         return of(true);
     }

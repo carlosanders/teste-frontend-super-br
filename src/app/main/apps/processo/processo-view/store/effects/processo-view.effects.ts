@@ -7,7 +7,6 @@ import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatest
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
-import * as RouterActions from 'app/store/actions/router.action';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Juntada} from '@cdk/models';
@@ -108,12 +107,13 @@ export class ProcessoViewEffect {
                         ativo: response['entities'].map(juntada => juntada.ativo),
                         processoId: action.payload.processoId,
                         loaded: {
-                            id: this.routerState.params['processoCopiaHandle'] ?
-                                'processoCopiaHandle' : 'processoHandle',
-                            value: this.routerState.params['processoCopiaHandle'] ?
-                                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle
                         },
-                        default: !!action.payload.default,
+                        default: !!action.payload.default ? {
+                            step: response['entities'][0].id,
+                            subStep: response['entities'][0].documento.componentesDigitais[0]?.id
+                        } : false,
                         total: response['total']
                     })
                 ]),
@@ -137,7 +137,7 @@ export class ProcessoViewEffect {
             let processoFilter = null;
             let processoId = null;
 
-            const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+            const routeParams = of('processoHandle');
             routeParams.subscribe((param) => {
                 processoFilter = `eq:${this.routerState.params[param]}`;
                 processoId = parseInt(this.routerState.params[param], 10);
@@ -190,17 +190,16 @@ export class ProcessoViewEffect {
                 subStep: action.payload.subStep
             };
             const index = processo.juntadaIndex;
-            const juntada = index.find(indice => indice.id === currentStep.step);
-            if (juntada === undefined) {
+            if (!index || index['status'] === 'sem_juntadas') {
                 // não tem essa juntada, vamos para capa
                 return of(new ProcessoViewActions.GetCapaProcesso());
             } else {
-                if (juntada.acessoNegado || !juntada.ativo) {
+                if (index['status'] === 'desentranhada') {
                     // temos documento com acesso negado ou desentranhado
                     return of(new ProcessoViewActions.SetCurrentStepFailed(null));
                 }
-                if (juntada.componentesDigitais.indexOf(currentStep.subStep) === -1) {
-                    // componente digital solicitado no subStep não faz parte do índice da juntada atual
+                if (currentStep.subStep === null || index['status'] === 'sem_componentes_digitais') {
+                    // nenhum componente digital solicitado ou juntada sem componentes digitais
                     return of(new ProcessoViewActions.SetCurrentStepFailed(null));
                 }
                 // temos componente digital, vamos pega-lo
@@ -238,7 +237,7 @@ export class ProcessoViewEffect {
                         })
                     );
                 } else {
-                    // Já efetuou o download deste binário no download_latest
+                    // Já efetuou o download deste binário em algum momento e ainda encontra-se no estado da aplicação
                     return of(new ProcessoViewActions.SetCurrentStepSuccess({
                         binary: binary.src,
                         loaded: this.routerState.params.stepHandle
@@ -256,8 +255,7 @@ export class ProcessoViewEffect {
      */
     getJuntadasSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getProcessoLoaded))),
-        tap(([action, processoLoaded]) => {
+        tap((action) => {
             const stepHandle = this.routerState.params['stepHandle'];
             if (stepHandle === 'default' && action.payload.entitiesId.length === 0) {
                 this.navegaParaStepSubstep({step: 0, subStep: 0}, false, true);
@@ -265,22 +263,11 @@ export class ProcessoViewEffect {
             }
             if (!!action.payload.default) {
                 // Foi feito pedido de alteração de ordenação, a primeira juntada será o novo default
-                const step = action.payload.entitiesId[0];
                 const currentStep: {
                     step: number;
                     subStep: number;
-                } = {
-                    step: undefined,
-                    subStep: undefined
-                };
-                const firstJuntada = processoLoaded.juntadaIndex.find(juntada => juntada.id === step);
-                if (firstJuntada !== undefined) {
-                    currentStep.step = step;
-                    currentStep.subStep = firstJuntada.componentesDigitais[0];
-                    this.navegaParaStepSubstep(currentStep);
-                } else {
-                    this.navegaParaStepSubstep({step: 0, subStep: 0}, false, true);
-                }
+                } = action.payload.default;
+                this.navegaParaStepSubstep(currentStep);
             }
         })
     ), {dispatch: false});
@@ -359,7 +346,7 @@ export class ProcessoViewEffect {
                     const currentStep = {
                         step: parseInt(stepHandle[0], 10),
                         subStep: parseInt(stepHandle[1], 10)
-                    }
+                    };
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
                 }
             }
@@ -374,41 +361,27 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.AtualizaJuntadaIndex>(ProcessoViewActions.ATUALIZA_JUNTADA_INDEX),
         tap((action) => {
             if (action.payload.reload) {
-                const firstJuntada = action.payload.juntadaIndex.find(indice => indice.componentesDigitais.length > 0);
-                const currentStep: {
-                    step: number,
-                    subStep: number
-                } = {
-                    step: undefined,
-                    subStep: undefined
-                };
-                if (firstJuntada !== undefined) {
-                    currentStep.step = firstJuntada.id;
-                    currentStep.subStep = firstJuntada.componentesDigitais[0];
+                if (action.payload.juntadaIndex['status'] !== 'sem_juntadas') {
+                    const firstJuntadaId = action.payload.juntadaIndex['id'];
+                    const firstComponenteDigitalId = action.payload.juntadaIndex['componenteDigitalId'];
+                    const currentStep: {
+                        step: number;
+                        subStep: number;
+                    } = {
+                        step: firstJuntadaId,
+                        subStep: firstComponenteDigitalId ?? null
+                    };
                     // Chamada para o método que redireciona url para uma posição específica
                     this.navegaParaStepSubstep(currentStep, true);
                 } else {
+                    // Redireciona para a capa pois não tem juntadas
                     this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                 }
             } else {
                 const stepHandle = this.routerState.params['stepHandle'];
                 const currentStep = {
                     step: parseInt(stepHandle.split('-')[0], 10),
-                    subStep: parseInt(stepHandle.split('-')[1], 10)
-                };
-                this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
-            }
-        })
-    ), {dispatch: false});
-    back: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<RouterActions.BackSuccess>(RouterActions.BACK_SUCCESS),
-        tap(() => {
-            if (this.routerState.params['stepHandle']) {
-                const stepHandle = this.routerState.params['stepHandle'];
-                const steps = stepHandle.split('-');
-                const currentStep = {
-                    step: parseInt(steps[0], 10),
-                    subStep: parseInt(steps[1], 10)
+                    subStep: stepHandle.split('-')[1] ? parseInt(stepHandle.split('-')[1], 10) : null
                 };
                 this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
             }
@@ -437,7 +410,7 @@ export class ProcessoViewEffect {
         this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 
-    navegaParaStepSubstep = (currentStep: {step: number, subStep: number}, reset: boolean = false, capa: boolean = false): void => {
+    navegaParaStepSubstep = (currentStep: {step: number; subStep: number}, reset: boolean = false, capa: boolean = false): void => {
         let stepHandle;
         if (!capa) {
             stepHandle = currentStep['step'] + '-' + currentStep['subStep'];
@@ -450,17 +423,7 @@ export class ProcessoViewEffect {
             const arrPrimary = [];
             let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
             url = url.replace('/default/', '/' + stepHandle + '/');
-            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
-                arrPrimary.push('anexar-copia');
-                arrPrimary.push(this.routerState.params.processoCopiaHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(stepHandle);
-                sidebar = 'empty';
-            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+            if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
                 arrPrimary.push('visualizar-processo');
                 arrPrimary.push(this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
@@ -552,5 +515,5 @@ export class ProcessoViewEffect {
                 }
             });
         }
-    }
+    };
 }

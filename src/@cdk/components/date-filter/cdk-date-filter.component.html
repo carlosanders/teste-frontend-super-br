@@ -1,46 +1,11 @@
 <form fxLayoutGap="2px" name="form" [formGroup]="form" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
     <div class="grupo" (click)="$event.stopPropagation()">
-        <mat-slide-toggle formControlName="checkAntes" *ngIf="this.mode === 'period'" (click)="$event.stopPropagation()">
-            Antes
-        </mat-slide-toggle>
-
-        <mat-form-field *ngIf="this.mode === 'period'">
-            <ng-container *ngIf="this.datetime">
-                <input matInput formControlName="filterAntes"
-                       [min]="minDateAntes"
-                       [max]="maxDateAntes"
-                       [matDatetimepicker]="filterAntes"
-                       (focus)="filterAntes.open()"
-                       (dateChange)="alteraDataAntes($event)"
-                       (click)="$event.stopPropagation(); filterAntes.open();">
-                <mat-datetimepicker-toggle matSuffix [for]="filterAntes"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #filterAntes type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </ng-container>
-            <ng-container *ngIf="!this.datetime">
-                <input matInput formControlName="filterAntes"
-                       [min]="minDateAntes"
-                       [max]="maxDateAntes"
-                       [matDatepicker]="filterAntes"
-                       (focus)="filterAntes.open()"
-                       (dateChange)="alteraDataAntes($event)"
-                       (click)="$event.stopPropagation(); filterAntes.open();">
-                <mat-datepicker-toggle matSuffix [for]="filterAntes"></mat-datepicker-toggle>
-                <mat-datepicker #filterAntes></mat-datepicker>
-            </ng-container>
-            <mat-error *ngIf="form.get('filterAntes').hasError('formError')">
-                {{form.get('filterAntes').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-    </div>
-
-    <div class="grupo" (click)="$event.stopPropagation()">
         <mat-slide-toggle formControlName="checkDepois" *ngIf="this.mode === 'period'" (click)="$event.stopPropagation()">
-            Depois
+            De
         </mat-slide-toggle>
 
         <mat-form-field *ngIf="this.mode === 'period'">
-            <ng-container *ngIf="this.datetime">
+            <ng-container *ngIf="this.datetime && this.exibeDatetime">
                 <input matInput formControlName="filterDepois"
                        [min]="minDateDepois"
                        [max]="maxDateDepois"
@@ -49,10 +14,10 @@
                        (dateChange)="alteraDataDepois($event)"
                        (click)="$event.stopPropagation(); filterDepois.open();">
                 <mat-datetimepicker-toggle matSuffix [for]="filterDepois"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #filterDepois type="datetime" openOnFocus="true" timeInterval="5">
+                <mat-datetimepicker [startView]="'multi-year'" #filterDepois type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </ng-container>
-            <ng-container *ngIf="!this.datetime">
+            <ng-container *ngIf="!this.datetime || (this.datetime && !this.exibeDatetime)">
                 <input matInput formControlName="filterDepois"
                        [min]="minDateDepois"
                        [max]="maxDateDepois"
@@ -61,10 +26,45 @@
                        (dateChange)="alteraDataDepois($event)"
                        (click)="$event.stopPropagation(); filterDepois.open();">
                 <mat-datepicker-toggle matSuffix [for]="filterDepois"></mat-datepicker-toggle>
-                <mat-datepicker #filterDepois></mat-datepicker>
+                <mat-datepicker [startView]="'multi-year'" #filterDepois></mat-datepicker>
             </ng-container>
             <mat-error *ngIf="form.get('filterDepois').hasError('formError')">
                 {{form.get('filterDepois').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="grupo" (click)="$event.stopPropagation()">
+        <mat-slide-toggle formControlName="checkAntes" *ngIf="this.mode === 'period'" (click)="$event.stopPropagation()">
+            Até
+        </mat-slide-toggle>
+
+        <mat-form-field *ngIf="this.mode === 'period'">
+            <ng-container *ngIf="this.datetime && this.exibeDatetime">
+                <input matInput formControlName="filterAntes"
+                       [min]="minDateAntes"
+                       [max]="maxDateAntes"
+                       [matDatetimepicker]="filterAntes"
+                       (focus)="filterAntes.open()"
+                       (dateChange)="alteraDataAntes($event)"
+                       (click)="$event.stopPropagation(); filterAntes.open();">
+                <mat-datetimepicker-toggle matSuffix [for]="filterAntes"></mat-datetimepicker-toggle>
+                <mat-datetimepicker [startView]="'multi-year'" #filterAntes type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </ng-container>
+            <ng-container *ngIf="!this.datetime || (this.datetime && !this.exibeDatetime)">
+                <input matInput formControlName="filterAntes"
+                       [min]="minDateAntes"
+                       [max]="maxDateAntes"
+                       [matDatepicker]="filterAntes"
+                       (focus)="filterAntes.open()"
+                       (dateChange)="alteraDataAntes($event)"
+                       (click)="$event.stopPropagation(); filterAntes.open();">
+                <mat-datepicker-toggle matSuffix [for]="filterAntes"></mat-datepicker-toggle>
+                <mat-datepicker [startView]="'multi-year'" #filterAntes></mat-datepicker>
+            </ng-container>
+            <mat-error *ngIf="form.get('filterAntes').hasError('formError')">
+                {{form.get('filterAntes').errors.formError}}
             </mat-error>
         </mat-form-field>
     </div>
@@ -78,7 +78,7 @@
             <ng-container>
                 <input matInput formControlName="filterEm" [matDatepicker]="filterEm" (focus)="filterEm.open()" (click)="$event.stopPropagation(); filterEm.open();">
                 <mat-datepicker-toggle matSuffix [for]="filterEm"></mat-datepicker-toggle>
-                <mat-datepicker #filterEm></mat-datepicker>
+                <mat-datepicker [startView]="'multi-year'" #filterEm></mat-datepicker>
             </ng-container>
             <mat-error *ngIf="form.get('filterEm').hasError('formError')">
                 {{form.get('filterEm').errors.formError}}

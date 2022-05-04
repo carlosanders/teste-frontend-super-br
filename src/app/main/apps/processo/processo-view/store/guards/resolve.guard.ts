@@ -115,7 +115,7 @@ export class ResolveGuard implements CanActivate {
 
     getStep(): Observable<any> {
         if (this.routerState.url.includes('capa/mostrar')) {
-            this.loadingProcesso = parseInt(this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'], 10);
+            this.loadingProcesso = parseInt(this.routerState.params['processoHandle'], 10);
             return of(true);
         } else {
             return this._store.pipe(
@@ -124,32 +124,25 @@ export class ResolveGuard implements CanActivate {
                     if (!this.downloadingBinary && !this.guardaAtivado && this.routerState.params[loaded.id] === loaded.value) {
                         this._processoViewService.guardaAtivado.next(true);
                         let stepHandle = this.routerState.params['stepHandle'];
+                        const index = loaded?.juntadaIndex;
                         const currentStep = {};
                         if (stepHandle === 'default') {
                             this.filtered = null;
-                            const firstJuntada = loaded?.juntadaIndex?.find(indice => indice.componentesDigitais.length > 0);
-                            if (firstJuntada !== undefined) {
-                                currentStep['step'] = firstJuntada.id;
-                                currentStep['subStep'] = firstJuntada.componentesDigitais[0];
-                                stepHandle = currentStep['step'] + '-' + currentStep['subStep'];
-                                // temos componente digital, vamos pega-lo
+                            if (index && index['juntadaId']) {
+                                currentStep['step'] = index['juntadaId'];
+                                currentStep['subStep'] = null;
+                                stepHandle = currentStep['step']
+                                if (index['componenteDigitalId']) {
+                                    currentStep['subStep'] = index['componenteDigitalId'];
+                                    stepHandle += '-' + currentStep['subStep'];
+                                }
                                 this.downloadingBinary = true;
                                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                                     let sidebar;
                                     const arrPrimary = [];
                                     let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
                                     url = url.replace('/default/', '/' + stepHandle + '/');
-                                    if (this.routerState.url.indexOf('anexar-copia') !== -1) {
-                                        arrPrimary.push('anexar-copia');
-                                        arrPrimary.push(this.routerState.params.processoCopiaHandle);
-                                        if (this.routerState.params.chaveAcessoHandle) {
-                                            arrPrimary.push('chave');
-                                            arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                                        }
-                                        arrPrimary.push('visualizar');
-                                        arrPrimary.push(stepHandle);
-                                        sidebar = 'empty';
-                                    } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                    if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
                                         arrPrimary.push('visualizar-processo');
                                         arrPrimary.push(this.routerState.params.processoHandle);
                                         if (this.routerState.params.chaveAcessoHandle) {
@@ -234,13 +227,11 @@ export class ResolveGuard implements CanActivate {
                             }
                         } else {
                             // temos componente digital, vamos pega-lo
-                            currentStep['step'] = parseInt(stepHandle.split('-')[0], 10);
-                            currentStep['subStep'] = parseInt(stepHandle.split('-')[1], 10);
+                            const stepHandleArr = stepHandle.split('-');
+                            currentStep['step'] = parseInt(stepHandleArr[0], 10);
+                            currentStep['subStep'] = stepHandleArr[1] ? parseInt(stepHandleArr[1], 10) : null;
                             this.downloadingBinary = true;
-                            if (loaded.juntadaIndex.length > 10) {
-                                const juntada = loaded.juntadaIndex.find(junt => junt.id === currentStep['step']);
-                                this.filtered = juntada?.numeracaoSequencial;
-                            }
+                            this.filtered = currentStep['step'];
 
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                 step: currentStep['step'],
@@ -270,7 +261,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = null;
                     let processoId = null;
 
-                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    const routeParams = of('processoHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                         processoId = parseInt(this.routerState.params[param], 10);
@@ -309,7 +300,7 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.filtered !== null) {
                         // Juntada deve ser filtrada, para garantir que a juntada pesquisada originalmente pela url apareça para o usuário
-                        params.listFilter['numeracaoSequencial'] = 'eq:' + this.filtered;
+                        params.listFilter['id'] = 'eq:' + this.filtered;
                     }
 
                     this._store.dispatch(new fromStore.GetJuntadas(params));
@@ -335,7 +326,7 @@ export class ResolveGuard implements CanActivate {
 
                     let processoFilter = null;
 
-                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    const routeParams = of('processoHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });

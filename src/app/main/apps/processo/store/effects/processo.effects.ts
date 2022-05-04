@@ -41,7 +41,7 @@ export class ProcessoEffect {
             } : {};
 
             contexto['compartilhamentoUsuario'] = 'processo';
-            contexto['juntadaIndex'] = true;
+            contexto['latestJuntadaIndex'] = true;
 
             let populate = action.payload.populate ? [...action.payload.populate] : [];
             populate = [
@@ -53,8 +53,7 @@ export class ProcessoEffect {
                 'setorAtual',
                 'setorAtual.especieSetor',
                 'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta',
-                'documentoAvulsoOrigem',
+                'vinculacoesEtiquetas.etiqueta'
             ];
             return this._processoService.get(
                 action.payload.id,
@@ -65,7 +64,7 @@ export class ProcessoEffect {
                     new ProcessoActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
+                            value: this.routerState.params['processoHandle'],
                             acessoNegado: response.acessoNegado,
                             juntadaIndex: response.juntadaIndex
                         },
@@ -299,10 +298,8 @@ export class ProcessoEffect {
             new ProcessoActions.GetAcompanhamentoSuccess({
                 entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })
