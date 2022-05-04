@@ -8,7 +8,8 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Processo, VinculacaoEtiqueta} from '@cdk/models';
+import {Compartilhamento, Processo, VinculacaoEtiqueta, Tarefa} from '@cdk/models';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {
     compartilhamento as acompanhamentoSchema,
     processo as processoSchema,
@@ -21,6 +22,8 @@ import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
+import {TarefaService} from "../../../../../../@cdk/services/tarefa.service";
+import * as fromStore from "../index";
 
 @Injectable()
 export class ProcessoEffect {
@@ -69,6 +72,12 @@ export class ProcessoEffect {
                         processoId: response.id
                     })
                 ]),
+                tap(() => {
+                    this._store.dispatch(new fromStore.UnloadTarefasProcesso());
+                    this._store.dispatch(new ProcessoActions.GetTarefasProcesso({
+                        processoId: this.routerState.params.processoHandle
+                    }));
+                }),
                 catchError((err) => {
                     console.log(err);
                     return of(new ProcessoActions.GetProcessoFailed(err));
@@ -438,6 +447,46 @@ export class ProcessoEffect {
         ))
     ));
 
+    /**
+     * Get Tarefas Processo with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getTarefas: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoActions.GetTarefasProcesso>(ProcessoActions.GET_TAREFAS_PROCESSO),
+        switchMap(action => this._tarefaService.query(
+            JSON.stringify({
+                'processo.id': `eq:${action.payload.processoId}`,
+                'dataHoraConclusaoPrazo': 'isNull'
+            }),
+            5,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(
+                [
+                    'usuarioResponsavel',
+                    'setorResponsavel',
+                    'setorResponsavel.unidade',
+                    'especieTarefa'
+                ])
+        )),
+        mergeMap(response => [
+            new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+            new ProcessoActions.GetTarefasProcessoSuccess({
+                entitiesId: response['entities'].map(tarefa => tarefa.id),
+                loaded: {
+                    id: 'processoHandle',
+                    value: this.routerState.params.processoHandle
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoActions.GetTarefasProcessoFailed(err));
+        })
+    ));
+
     private _profile: any;
 
     constructor(
@@ -450,7 +499,8 @@ export class ProcessoEffect {
         private _activatedRoute: ActivatedRoute,
         private _acompanhamentoService: AcompanhamentoService,
         private _statusBarramentoService: StatusBarramentoService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _tarefaService: TarefaService,
     ) {
         this._store.pipe(
             select(getRouterState),
