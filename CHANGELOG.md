@@ -865,3 +865,4 @@
 * Melhoria exibir tarefas abertas no título do processo
 * Correção de bug ao clicar na lupa do snackbar após download processo
 * Correção de bug ao editar tarefa inativa módulo do coordenador
+* Melhoria abrir Documentos em outra Aba com CTRL
