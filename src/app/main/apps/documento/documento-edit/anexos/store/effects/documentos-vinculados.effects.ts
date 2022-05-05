@@ -261,7 +261,7 @@ export class DocumentosVinculadosEffects {
                 'tipoDocumento',
                 'atualizadoPor'
             ]);
-            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento?.id}, populate).pipe(
                 mergeMap((response: Documento) => [
                     new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
                     new UpdateData<Documento>({
