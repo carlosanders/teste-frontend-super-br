@@ -26,7 +26,7 @@ export class EtiquetaEffect {
     getEtiqueta: any = createEffect(() => this._actions.pipe(
         ofType<EtiquetaActions.GetEtiqueta>(EtiquetaActions.GET_ETIQUETA),
         switchMap(action => this._etiquetaService.query(
-            JSON.stringify(action.payload),
+            JSON.stringify(action.payload.filter),
             1,
             0,
             JSON.stringify({}),
@@ -36,7 +36,9 @@ export class EtiquetaEffect {
                 'vinculacoesEtiquetas.setor',
                 'vinculacoesEtiquetas.usuario',
                 'vinculacoesEtiquetas.modalidadeOrgaoCentral',
-            ]))),
+            ]),
+            JSON.stringify(action.payload.context)
+        )),
         switchMap(response => [
             new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
             new EtiquetaActions.GetEtiquetaSuccess({
