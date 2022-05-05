@@ -1,0 +1,50 @@
+.cdk-table-resizable {
+    width: 100%;
+    &.resizing {
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: col-resize;
+
+        th {
+            pointer-events: none;
+        }
+    }
+
+    th {
+        position: relative;
+        &:hover {
+            .resize-holder {
+                opacity: 1;
+                transition: .3s ease-in-out;
+            }
+        }
+    }
+
+    .mat-cell {
+        word-wrap: anywhere;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .resize-holder {
+        display: inline-block;
+        border-right: 2px solid lightgray;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        cursor: col-resize;
+        opacity: 0;
+        width: 20px;
+
+        //&:hover {
+        //    width: 20px;
+        //}
+    }
+}
