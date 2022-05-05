@@ -322,14 +322,15 @@ export class TarefasEffect {
                 const extras = {
                     queryParams: {
                         documentoEdit: action.payload.documentoUuidEdit
-                    }
+                    },
+                    skipLocationChange: true
                 };
 
                 this._router.navigate([
                         'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                         this.routerState.params.typeHandle + '/' +
                         this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                        '/processo/' + action.payload.processoId + '/visualizar'],
+                        '/processo/' + action.payload.processoId + '/visualizar/default'],
                     extras
                 ).then();
             }
