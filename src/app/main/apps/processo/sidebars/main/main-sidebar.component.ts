@@ -221,6 +221,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                         role: 'ROLE_COLABORADOR'
                     }
                 );
+                this.linksEdit = this.linksEdit.sort((a, b) => a.index - b.index);
             } else {
                 this.linksEdit.push(
                     {
