@@ -12,6 +12,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [mode]="'search'"
+        [type]="'individual'"
         [actions]="['create', 'edit', 'editConteudo', 'delete', 'showInatived']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
