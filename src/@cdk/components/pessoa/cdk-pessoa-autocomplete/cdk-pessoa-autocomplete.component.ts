@@ -66,7 +66,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                const valor = value.replace(/[~`!@#$%^&()+={}\[\];:<>,\/\\?-_]/g, '');
+                const valor = value.replace(/[!@#$%&()+={}\[\];:<>,?]/g, '');
                     const termFilterNome = [];
                     const termFilterNumeroDocumentoPrincipal = [];
                     const context = {};

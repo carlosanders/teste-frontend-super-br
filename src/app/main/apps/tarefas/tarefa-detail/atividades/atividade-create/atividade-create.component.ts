@@ -520,8 +520,28 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
-    onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    onClicked(event): void {
+        const documento = event.documento;
+        const sidebar = 'editar/atividade';
+        if (event.event.ctrlKey) {
+            const extras = {
+                queryParams: {
+                    novaAba: true
+                }
+            };
+            const url = this._router.createUrlTree([
+                this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                '/documento/' + documento.id,
+                {
+                    outlets: {
+                        sidebar: sidebar
+                    }
+                }
+            ], extras);
+            window.open(url.toString(), '_blank');
+        } else {
+            this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        }
     }
 
     onComplete(): void {

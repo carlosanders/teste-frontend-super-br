@@ -2,7 +2,7 @@
     <div class="actions mb-8">
         <button mat-raised-button color="accent" class="mr-sm-12"
                 mat-icon-button (click)="remeterDocumentoAvulso()"
-                [disabled]="(documento$ | async)?.documentoAvulsoRemessa.dataHoraRemessa !== null || (isRemetendo$ | async) || remeterDocAvulso"
+                [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || (isRemetendo$ | async) || remeterDocAvulso"
                 aria-label="remeter ofício"
                 matTooltip="Remeter Ofício">
             <mat-icon class="black-fg">send</mat-icon>
@@ -11,11 +11,11 @@
 
     <mat-error *ngIf="errorsRemetendo">{{errorsRemetendo}}</mat-error>
 
-    <div class="status-remessa" [hidden]="!(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa">
-        <span *ngIf="(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa !== null">
+    <div class="status-remessa" [hidden]="!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa">
+        <span *ngIf="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null">
             Objeto remetido em: {{(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
         </span>
-        <span *ngIf="(documento$ | async).documentoAvulsoRemessa.usuarioRemessa !== null">
+        <span *ngIf="(documento$ | async)?.documentoAvulsoRemessa?.usuarioRemessa !== null">
             Remetido por: {{(documento$ | async).documentoAvulsoRemessa.usuarioRemessa.nome}}
         </span>
         <ng-template #dynamicStatus></ng-template>
@@ -25,7 +25,7 @@
     </div>
     <div *ngIf="!(isRemetendo$ | async)" class="formulario">
         <div>
-            <mat-slide-toggle [checked]="!!!(documento$ | async).documentoAvulsoRemessa.dataHoraEncerramento"
+            <mat-slide-toggle [checked]="!!!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraEncerramento"
                               (change)="toggleEncerramento()"
                               class="mt-8 mr-8 mb-8">
                 Acompanhar a resposta

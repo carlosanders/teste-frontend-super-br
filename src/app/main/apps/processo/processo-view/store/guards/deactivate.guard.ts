@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {ProcessoViewAppState} from '../reducers';
 import {getRouterState} from '../../../../../../store';
 import {filter} from 'rxjs/operators';
-import {getProcessoLoaded} from "../../../store";
+import {getProcessoLoaded} from '../../../store';
 
 @Injectable()
 export class DeactivateGuard implements CanDeactivate<ProcessoViewComponent> {
@@ -31,7 +31,7 @@ export class DeactivateGuard implements CanDeactivate<ProcessoViewComponent> {
         });
         this._store.pipe(
             select(getProcessoLoaded)
-        ).subscribe(loaded => {
+        ).subscribe((loaded) => {
             this.processoId = loaded.value;
         });
     }

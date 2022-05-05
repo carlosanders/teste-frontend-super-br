@@ -37,6 +37,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    type = 'setor';
 
     actions: string[];
     colunas: string[];
@@ -70,15 +71,18 @@ export class ModelosListComponent implements OnInit, OnDestroy {
             if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
                 this.actions = ['edit', 'create', 'editConteudo', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
+                this.type = 'setor';
             }
             if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
                 (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
                 this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
+                this.type = 'unidade';
             }
             if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
                 this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
+                this.type = 'nacional';
             }
         });
     }
@@ -92,9 +96,11 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next(true);
-        this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadModelos());
+        if (!this.routerState.url.includes('modelos/listar')) {
+            this._unsubscribeAll.next(true);
+            this._unsubscribeAll.complete();
+            this._store.dispatch(new fromStore.UnloadModelos());
+        }
     }
 
     reload(params): void {

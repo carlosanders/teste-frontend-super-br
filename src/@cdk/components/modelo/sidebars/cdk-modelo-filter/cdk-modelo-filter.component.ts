@@ -3,7 +3,8 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output,
+    OnChanges,
+    Output, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
@@ -20,18 +21,21 @@ import {LoginService} from '../../../../../app/main/auth/login/login.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkModeloFilterComponent {
+export class CdkModeloFilterComponent implements OnChanges {
 
     @Output()
     selected = new EventEmitter<any>();
-
-    form: FormGroup;
 
     @Input()
     mode = 'list';
 
     @Input()
+    type = null;
+
+    @Input()
     hasInatived = false;
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -59,6 +63,13 @@ export class CdkModeloFilterComponent {
         this.form.controls.ativo.setValue("todos");
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['type'] && this.type !== null) {
+            this.form.get('modalidadeModelo').setValue(this.type, {emitEvent: false});
+            this.form.get('modalidadeModelo').disable();
+        }
+    }
+
     emite(): void {
         if (!this.form.valid) {
             return;
@@ -82,7 +93,7 @@ export class CdkModeloFilterComponent {
             });
         }
 
-        if (this.form.get('modalidadeModelo').value) {
+        if (this.type === null && this.form.get('modalidadeModelo').value) {
             if (this.form.get('modalidadeModelo').value === 'nacional') {
                 // Modelos nacionais
                 andXFilter.push({
@@ -203,7 +214,11 @@ export class CdkModeloFilterComponent {
     resetarFormulario(): void {
         this.form.reset();
         this.form.controls.ativo.setValue("todos");
-        this.form.controls.modalidadeModelo.setValue('nacional');
+        if (this.type === null) {
+            this.form.controls.modalidadeModelo.setValue('nacional');
+        } else {
+            this.form.controls.modalidadeModelo.setValue(this.type);
+        }
     }
 }
 

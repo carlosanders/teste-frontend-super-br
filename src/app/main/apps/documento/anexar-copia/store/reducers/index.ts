@@ -1,9 +1,13 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {anexarCopiaReducer, AnexarCopiaState} from './anexar-copia.reducer';
+import {assinaturasReducer, AssinaturasState} from './assinaturas.reducer';
+import {volumesReducer, VolumesState} from './volumes.reducer';
 
 export interface AnexarCopiaAppState
 {
     anexarCopia: AnexarCopiaState;
+    assinaturas: AssinaturasState;
+    volumes: VolumesState;
 }
 
 export const getAnexarCopiaAppState = createFeatureSelector<AnexarCopiaAppState>(
@@ -16,7 +20,11 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<AnexarCopiaAppState> = {
-    anexarCopia: anexarCopiaReducer
+    anexarCopia: anexarCopiaReducer,
+    assinaturas: assinaturasReducer,
+    volumes: volumesReducer
 };
 
 export * from './anexar-copia.reducer';
+export * from './assinaturas.reducer';
+export * from './volumes.reducer';

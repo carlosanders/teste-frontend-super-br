@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {TarefaDetailAppState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
 import * as fromStoreProcesso from 'app/main/apps/processo/store';
@@ -43,34 +43,13 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
+        return this.getTarefa().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
                 return of(false);
             })
         );
-    }
-
-    /**
-     * Check store
-     *
-     * @returns
-     */
-    checkStore(): Observable<any> {
-        if (this.routerState.params['processoHandle'] &&
-            this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1) {
-            return forkJoin([
-                this.getTarefa(),
-                this.getProcesso()
-            ]).pipe(
-                take(1),
-            );
-        } else {
-            return this.getTarefa().pipe(
-                take(1),
-            );
-        }
     }
 
     /**

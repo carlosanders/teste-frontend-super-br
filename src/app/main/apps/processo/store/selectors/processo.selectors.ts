@@ -1,12 +1,17 @@
 import {createSelector} from '@ngrx/store';
 import {getProcessoAppState, ProcessoAppState, ProcessoState} from 'app/main/apps/processo/store/reducers';
-import {Compartilhamento, Processo} from '@cdk/models';
-import {compartilhamento as acompanhamentoSchema, processo as processoSchema} from '@cdk/normalizr';
+import {Compartilhamento, Processo, Tarefa} from '@cdk/models';
+import {
+        compartilhamento as acompanhamentoSchema,
+        processo as processoSchema,
+        tarefa as tarefaSchema
+} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {AcompanhamentoState} from '../../processo-capa/store';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
+const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 
 export const getProcessoState: any = createSelector(
     getProcessoAppState,
@@ -98,5 +103,21 @@ export const getIsAcompanhamentoLoading: any = createSelector(
 export const getTogglingAcompanharProcesso: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loadingAcompanhamento
+);
+
+export const getLoadingTarefasProcesso: any = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.loadingTarefas
+);
+
+export const getTarefaListIds: any = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.entitiesTarefasId
+);
+
+export const getTarefaList: any = createSelector(
+    schemaTarefaSelectors.getNormalizedEntities,
+    getTarefaListIds,
+    schemaTarefaSelectors.entitiesProjector
 );
 

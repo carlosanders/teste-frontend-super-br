@@ -96,7 +96,7 @@
             </button>
         </div>
         <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="criadoEm"
+            <cdk-date-filter [exibeDatetime]="false" [datetime]="true" campo="criadoEm"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraCriadoEm($event)">
             </cdk-date-filter>
@@ -110,7 +110,7 @@
             </button>
         </div>
         <mat-menu #filtroJuntadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="documento.juntadaAtual.criadoEm"
+            <cdk-date-filter [exibeDatetime]="false" [datetime]="true" campo="documento.juntadaAtual.criadoEm"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraJuntadoEm($event)">
             </cdk-date-filter>

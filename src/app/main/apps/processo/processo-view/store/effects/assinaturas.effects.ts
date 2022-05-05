@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
@@ -12,7 +12,6 @@ import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import {Assinatura} from '@cdk/models';
 import {of} from 'rxjs';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {getCurrentJuntada} from '../index';
 
 @Injectable()
 export class AssinaturasEffects {

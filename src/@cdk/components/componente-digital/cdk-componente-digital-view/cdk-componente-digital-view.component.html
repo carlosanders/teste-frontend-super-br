@@ -3,10 +3,6 @@
         <div>
         </div>
         <div class="right">
-            <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas
-                    (click)="doLoadAssinaturas()">
-                <mat-icon class="mat-18">lock</mat-icon>
-            </button>
             <button mat-mini-fab (click)="print()" *ngIf="isHtml(fileName)">
                 <mat-icon class="mat-18">print</mat-icon>
             </button>

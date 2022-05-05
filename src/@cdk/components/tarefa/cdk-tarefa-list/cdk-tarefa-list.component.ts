@@ -286,7 +286,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     criaRelatorio = new EventEmitter<boolean>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa, event: any}>();
 
     @Output()
     outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
@@ -575,12 +575,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
             this.tarefas.forEach((tarefa) => {
                 this.etiquetasList[tarefa.id] = tarefa.vinculacoesEtiquetas ? tarefa.vinculacoesEtiquetas.filter(
-                    vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                    vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
                 ) : [];
 
                 this.etiquetasMinutaList[tarefa.id] = tarefa.vinculacoesEtiquetas ? tarefa.vinculacoesEtiquetas.filter(
                     // eslint-disable-next-line max-len
-                    vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                    vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
                 ) : [];
             });
             this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
@@ -950,14 +950,14 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     getTarefaVinculacoesEtiquetas(tarefa: Tarefa): VinculacaoEtiqueta[] {
         return tarefa.vinculacoesEtiquetas ? tarefa.vinculacoesEtiquetas.filter(
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
     }
 
     getTarefaVinculacoesEtiquetasMinuta(tarefa: Tarefa): VinculacaoEtiqueta[] {
         return tarefa.vinculacoesEtiquetas ? tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
     }
 

@@ -327,22 +327,44 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         });
 
-        this._store.pipe(
-            select(getProcessoLoaded),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((loaded) => {
-            this.index = loaded.juntadaIndex;
-            this._changeDetectorRef.markForCheck();
-        });
-
         this.tipoDocumentoPagination = new Pagination();
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas)
+            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
+            if (this.listFilter?.id && this.juntadas?.length === 1) {
+                delete this.listFilter.id;
+                const numeracaoSequencial = this.juntadas[0].numeracaoSequencial;
+                this.listFilter['numeracaoSequencial'] = ':eq:' + numeracaoSequencial;
+                this.form.get('numeracaoSequencial').setValue(numeracaoSequencial);
+            } else {
+                this.form.get('numeracaoSequencial').setValue(null);
+            }
+            if (juntadas.length !== this.index.length) {
+                this.index = [];
+                juntadas.forEach((juntada) => {
+                    let componentesDigitaisIds = [];
+                    if (juntada.documento?.componentesDigitais) {
+                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                    }
+                    if (juntada.documento?.vinculacoesDocumentos) {
+                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                componentesDigitaisIds.push(dvcd.id);
+                            })
+                        })
+                    }
+                    const tmpJuntada = {
+                        id: juntada.id,
+                        numeracaoSequencial: juntada.numeracaoSequencial,
+                        componentesDigitais: componentesDigitaisIds
+                    };
+                    this.index.push(tmpJuntada);
+                })
+            }
 
             this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada.volume.numeracaoSequencial);
             this._changeDetectorRef.markForCheck();
@@ -360,8 +382,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.pagination = pagination;
             this.listFilter = {...this.pagination.listFilter};
             const sort = {...this.pagination.sort};
-            if (this.listFilter.numeracaoSequencial) {
-                const numeracaoSequencial = this.listFilter.numeracaoSequencial.split('eq:')[1];
+            if (this.listFilter.id && this.juntadas?.length) {
+                delete this.listFilter.id;
+                const numeracaoSequencial = this.juntadas[0].numeracaoSequencial;
+                this.listFilter['numeracaoSequencial'] = ':eq:' + numeracaoSequencial;
                 this.form.get('numeracaoSequencial').setValue(numeracaoSequencial);
             } else {
                 this.form.get('numeracaoSequencial').setValue(null);
@@ -659,10 +683,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 const arrPrimary = [];
-                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                    'visualizar-processo' : 'anexar-copia');
-                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
+                arrPrimary.push('visualizar-processo');
+                arrPrimary.push(this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);

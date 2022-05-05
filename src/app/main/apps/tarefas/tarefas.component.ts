@@ -453,6 +453,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                } else {
+                    this.routeAtividade = "atividades/criar";
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&
@@ -1024,7 +1026,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {replaceUrl: false}).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {skipLocationChange: true}).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1373,7 +1375,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel(
-                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds})
+                    {idTarefasSelecionadas: this.selectedIds?.length === this.pagination?.total ? [] : this.selectedIds})
                 );
             }
             this.confirmDialogRef = null;
@@ -1384,7 +1386,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const tarefa = event.tarefa;
         const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
         if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
-            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa, event.event.ctrlKey);
         }
     }
 
@@ -1484,17 +1486,30 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._changeDetectorRef.markForCheck();
     }
 
-    abreEditor(documentoId: number, tarefa: Tarefa): void {
+    abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'default';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
-
-        this._router.navigate([
-            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-            + stepHandle + '/documento/' + documentoId
-        ], {skipLocationChange: true}).then();
+        if(outraAba){
+            const extras = {
+                queryParams: {
+                    novaAba: true
+                }
+            };
+            const url = this._router.createUrlTree([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ], extras);
+            window.open(url.toString(), '_blank');
+        } else{
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ], {skipLocationChange: true}).then();
+        }
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {

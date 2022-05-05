@@ -139,7 +139,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa; event: any}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -320,12 +320,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         });
 
         this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
 
         this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
     }
 
@@ -377,10 +377,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this._cdkTarefaListItemService.tarefa = this.tarefa;
             this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
-                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
-                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
             this._changeDetectorRef.detectChanges();
         }
@@ -463,8 +463,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.isOpen = !this.isOpen;
     }
 
-    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
-        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
+    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa, event: any): void {
+        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa, event});
     }
 
     copiarParaAreaTrabalho(nup): void {
