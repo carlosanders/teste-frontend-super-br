@@ -862,3 +862,6 @@
 * Melhoria Compartilhar Tarefa para Setor e Grupo de Contato
 * Correção ordenação das últimas operações
 * Correção erro ao complementar resposta ofício usuário externo - #786
+* Melhoria exibir tarefas abertas no título do processo
+* Correção de bug ao clicar na lupa do snackbar após download processo
+* Correção de bug ao editar tarefa inativa módulo do coordenador
