@@ -446,7 +446,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
-                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
                 } else {
                     this.routeAtividade = "atividades/criar";
@@ -454,7 +455,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                    module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
                 }
             });
@@ -462,12 +464,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
                 }
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
-                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
                 }
             });
