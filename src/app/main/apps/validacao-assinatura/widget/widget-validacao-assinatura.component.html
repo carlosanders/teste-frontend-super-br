@@ -1,0 +1,32 @@
+<mat-card class="scrollable-content">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>insert_drive_file</mat-icon>
+        <mat-card-title>Validação de Assinatura</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form fxLayoutGap="8px" name="form" [formGroup]="form">
+            <mat-form-field>
+                <input matInput type="text"
+                       formControlName="id" placeholder="Código">
+                <mat-error *ngIf="form.get('id').hasError('formError')">
+                    {{form.get('id').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="text"
+                       formControlName="chaveAcesso" placeholder="Chave de Acesso">
+                <mat-error *ngIf="form.get('chaveAcesso').hasError('formError')">
+                    {{form.get('chaveAcesso').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+            <div class="actions mb-8">
+                <button type="submit" mat-raised-button color="accent" (click)="doSubmit()"
+                        [disabled]="form.invalid">
+                    CONSULTAR
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+<!--    <mat-card-footer>-->
+<!--    </mat-card-footer>-->
+</mat-card>

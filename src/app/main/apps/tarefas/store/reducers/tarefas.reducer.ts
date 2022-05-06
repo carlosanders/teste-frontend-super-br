@@ -46,7 +46,9 @@ export interface TarefasState {
     errorRedistribuir: number[];
     clearForm: boolean;
     errorDistribuir: number[];
-    savingObservacao: boolean;
+    savingObservacaoIds: number[];
+    observacaoEditIds: number[];
+    viewMode: string;
 }
 
 export const tarefasInitialState: TarefasState = {
@@ -93,7 +95,9 @@ export const tarefasInitialState: TarefasState = {
     errorRedistribuir: [],
     errorDistribuir: [],
     clearForm: false,
-    savingObservacao: false,
+    savingObservacaoIds: [],
+    observacaoEditIds: [],
+    viewMode: 'list'
 };
 
 export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
@@ -109,6 +113,7 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
                     ...state,
                     loading: false,
                     entitiesId: [],
+                    selectedTarefaIds: [],
                     pagination: {
                         ...state.pagination,
                         limit: 10,
@@ -123,6 +128,9 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 loading: true,
+                viewMode: action.payload.viewMode || state.viewMode,
+                selectedTarefaIds: (action.payload.viewMode && action.payload.viewMode == state.viewMode ? state.selectedTarefaIds : []),
+                entitiesId: (action.payload.viewMode && action.payload.viewMode == state.viewMode ? state.entitiesId : []),
                 pagination: {
                     limit: action.payload.limit,
                     offset: action.payload.offset,
@@ -369,7 +377,7 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
                 ...state,
                 errorDelete: [...state.errorDelete, action.payload.id],
                 deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.id),
-                entitiesId: [...state.entitiesId, action.payload.id],
+                entitiesId: [...state.entitiesId.filter((id) => id !== action.payload.id), action.payload.id],
                 error: action.payload.error
             };
         }
@@ -697,7 +705,10 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
         case TarefasActions.SAVE_OBSERVACAO: {
             return {
                 ...state,
-                savingObservacao: true,
+                savingObservacaoIds: [
+                    ...state.savingObservacaoIds.filter((id) => id !== action.payload.tarefa.id),
+                    action.payload.tarefa.id
+                ],
                 error: null
             };
         }
@@ -705,16 +716,40 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
         case TarefasActions.SAVE_OBSERVACAO_SUCCESS: {
             return {
                 ...state,
-                savingObservacao: false,
-                error: null
+                savingObservacaoIds: [
+                    ...state.savingObservacaoIds.filter((id) => id !== action.payload)
+                ],
+                error: null,
+                observacaoEditIds: [
+                    ...state.observacaoEditIds.filter((id) => id !== action?.payload)
+                ]
             };
         }
 
         case TarefasActions.SAVE_OBSERVACAO_FAILED: {
             return {
                 ...state,
-                savingObservacao: false,
-                error: {statusText: action.payload.error.message},
+                savingObservacaoIds: [
+                    ...state.savingObservacaoIds.filter((id) => id !== action.payload.tarefaId)
+                ],
+                error: {statusText: action.payload.error.error.message},
+            };
+        }
+
+        case TarefasActions.EDITAR_OBSERVACAO: {
+            return {
+                ...state,
+                observacaoEditIds: [
+                    ...state.observacaoEditIds.filter((id) => id !== action.payload),
+                    action.payload
+                ]
+            };
+        }
+
+        case TarefasActions.CHANGE_VIEW_MODE: {
+            return {
+                ...state,
+                viewMode: action.payload
             };
         }
 

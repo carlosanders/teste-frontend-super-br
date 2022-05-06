@@ -18,6 +18,7 @@ import {
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
+import {GetJuntadaIndex} from '../../../../store';
 
 @Injectable()
 export class JuntadaEffects {
@@ -72,6 +73,7 @@ export class JuntadaEffects {
             switchMap(action => this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
                 mergeMap((response: Desentranhamento) => [
                     new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
+                    new GetJuntadaIndex({processoId: action.payload.desentranhamento.juntada.volume.processo.id}),
                     new UpdateData<Juntada>({
                         id: action.payload.desentranhamento.juntada.id,
                         schema: juntadaSchema,
@@ -98,8 +100,8 @@ export class JuntadaEffects {
                     ]).then(() => {
                         const steps = this.routerState.params['stepHandle'].split('-');
                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                            step: steps[0],
-                            subStep: steps[1]
+                            step: parseInt(steps[0], 10),
+                            subStep: parseInt(steps[1], 10)
                         }));
                     });
                 })

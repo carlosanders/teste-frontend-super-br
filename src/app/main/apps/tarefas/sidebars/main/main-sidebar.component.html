@@ -46,7 +46,8 @@
                      (dndDragover)="dragOver($event, element, dropzoneEnabledFolders())"
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
-                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                     [state]="{'viewMode': viewMode}"
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -102,13 +103,14 @@
         <div class="nav-item" *ngFor="let folder of folders">
             <section dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled"
                      dndDragoverClass="custom-drag-over"
-                     id="folder_{{folder.nome.toLowerCase()}}"
+                     id="folder_{{folder.id}}"
                      #elementFolder
-                     (dndDragover)="dragOver($event, elementFolder, dropzoneEnabledFolders(folder.nome.toLowerCase()))"
-                     (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.nome.toLowerCase()))">
+                     (dndDragover)="dragOver($event, elementFolder, dropzoneEnabledFolders(folder.id))"
+                     (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.id))">
 
                 <div class="menu_content nav-link"
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.id"
+                     [state]="{'viewMode': viewMode}"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
@@ -148,6 +150,7 @@
                      (dndDragover)="dragOver($event, elementLixeira, dropzoneEnabledFolders('lixeira'))"
                      (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
+                     [state]="{'viewMode': viewMode}"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
@@ -641,10 +644,19 @@
     <mat-divider></mat-divider>
     <div class="actions">
         <mat-toolbar>
-            <button disabled mat-icon-button class="secondary-text"
-                    [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'" routerLinkActive="mat-accent"
-                    matTooltip="Tarefas">
+            <button mat-icon-button
+                    [disabled]="viewMode == 'list'"
+                    class="secondary-text"
+                    (click)="doToogleViewMode()"
+                    matTooltip="Listas de Tarefas">
                 <mat-icon>check_box</mat-icon>
+            </button>
+            <button mat-icon-button
+                    [disabled]="viewMode == 'grid' || isXSmallScreen"
+                    class="secondary-text"
+                    (click)="doToogleViewMode()"
+                    matTooltip="Grid de Tarefas">
+                <mat-icon>view_list</mat-icon>
             </button>
             <button mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas"
                     routerLinkActive="mat-accent" matTooltip="Calendário">

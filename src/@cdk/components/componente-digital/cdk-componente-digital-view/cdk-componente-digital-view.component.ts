@@ -54,6 +54,7 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
     downloadUrl = null;
     unsafe = false;
     fileName = '';
+    zoom: number = 0;
 
     private pdfViewer: PdfJsViewerComponent;
 
@@ -72,6 +73,35 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
 
     ngOnChanges(): void {
         this.fetch();
+    }
+
+    isHtml(filename): boolean {
+        const name = filename.split('.');
+        return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
+    }
+
+    zoomIn(): void {
+        if (this.zoom < 10) {
+            this.zoom++;
+        }
+    }
+
+    zoomOut(): void {
+        if (this.zoom > 0) {
+            this.zoom--;
+        }
+    }
+
+    getZoomClass(filename): string {
+        return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
+    }
+
+    getLayoutClass(filename): string {
+        if (!this.isHtml(filename)) {
+            return;
+        }
+
+        return 'compact-panel';
     }
 
     fetch(): void {
@@ -142,5 +172,10 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
             }
         });
         this.downloadUrl = null;
+    }
+
+    print(): void {
+        window.frames['documento-html'].focus();
+        window.frames['documento-html'].print();
     }
 }

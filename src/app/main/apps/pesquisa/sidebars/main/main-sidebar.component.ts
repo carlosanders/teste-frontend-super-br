@@ -37,7 +37,7 @@ export class PesquisaMainSidebarComponent
                 nome: 'Documentos',
                 icon: 'insert_drive_file',
                 link: 'documentos',
-                role: 'ROLE_USER'
+                role: 'ROLE_COLABORADOR'
             }
         ];
 

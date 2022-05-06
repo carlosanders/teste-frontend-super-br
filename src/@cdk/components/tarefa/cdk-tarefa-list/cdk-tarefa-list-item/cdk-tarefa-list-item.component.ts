@@ -16,13 +16,13 @@ import {
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {DynamicService} from '../../../../../modules/dynamic.service';
-import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {ComponenteDigital, Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {HasTarefa} from './has-tarefa';
-import {CdkUtils} from '../../../../utils';
-import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {CdkUtils} from '@cdk/utils';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import * as moment from 'moment';
@@ -133,13 +133,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     removeTarefa = new EventEmitter<Tarefa>();
 
     @Output()
-    editarObservacao = new EventEmitter<any>();
+    editarObservacao: EventEmitter<number> = new EventEmitter<number>();
 
     @Output()
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa; event: any}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -248,7 +248,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'especieTarefa.nome',
         'setorResponsavel.nome',
         'dataHoraDistribuicao',
-        'dataHoraPrazo',
+        'dataHoraFinalPrazo',
         'observacao'
     ];
 
@@ -292,6 +292,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.ciencia = false;
         this.selected = false;
         this.undeleting = false;
+        this.formTipoDocumento.get('tipoDocumentoMinutas').valueChanges.subscribe((value) => {
+            this.formTipoDocumentoValid = value && typeof value === 'object';
+        });
     }
 
     /**
@@ -317,12 +320,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         });
 
         this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
 
         this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
-            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
     }
 
@@ -374,10 +377,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this._cdkTarefaListItemService.tarefa = this.tarefa;
             this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
-                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
-                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
             this._changeDetectorRef.detectChanges();
         }
@@ -443,7 +446,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         setTimeout(()=> { // this will make the execution after the above boolean has changed
             this.observacaoConteudo.nativeElement.focus();
         },0);
-        this.editarObservacao.emit();
+        this.editarObservacao.emit(this.tarefa.id);
     }
 
     doSalvarObservacao(tarefa, conteudo): void {
@@ -460,8 +463,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.isOpen = !this.isOpen;
     }
 
-    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
-        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
+    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa, event: any): void {
+        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa, event});
     }
 
     copiarParaAreaTrabalho(nup): void {

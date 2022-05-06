@@ -9,6 +9,31 @@
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <label class="mb-8" id="tipo-rg">Pesquisar por</label>
+
+            <div class="target" fxLayout="column">
+                <mat-radio-group class="tipo-rg" formControlName="modalidadeModelo" aria-labelledby="modalidade-modelo" fxLayout="column" (change)="this.emite()">
+                    <mat-radio-button class="ml-8 mb-4" [value]="'nacional'">
+                        Nacional
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-8 mb-4" [value]="'unidade'">
+                        Unidade
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-8 mb-4" [value]="'setor'">
+                        Setor
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-8 mb-4" [value]="'individual'">
+                        Individual
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-8 mb-4" [value]="'emBranco'">
+                        Em Branco
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+
         <mat-form-field>
             <mat-label>Id</mat-label>
             <input matInput #id
@@ -35,16 +60,6 @@
             <input matInput #descricao
                    name="descricao"
                    formControlName="descricao">
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Modalidade de Modelo"
-                   formControlName="modalidadeModelo"
-                   [matAutocomplete]="modalidadeModelo.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-modalidade-modelo-autocomplete #modalidadeModelo="modalidadeModeloAutocomplete"
-                                                [control]="form.get('modalidadeModelo')">
-            </cdk-modalidade-modelo-autocomplete>
         </mat-form-field>
 
         <mat-form-field>

@@ -64,9 +64,11 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params['etiquetaHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateEtiqueta());
                     } else {
-                        this._store.dispatch(new fromStore.GetEtiqueta({
-                            id: 'eq:' + this.routerState.params['etiquetaHandle']
-                        }));
+                        const params: any = {
+                            filter: {id: 'eq:' + this.routerState.params['etiquetaHandle']},
+                            context: {isAdmin: true}
+                        };
+                        this._store.dispatch(new fromStore.GetEtiqueta(params));
                     }
                 }
 

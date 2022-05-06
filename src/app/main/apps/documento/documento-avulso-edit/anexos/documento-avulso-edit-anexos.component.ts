@@ -319,12 +319,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                     this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                     {outlets: {primary: rota}}
                 ],
-                {relativeTo: this._activatedRoute.parent}).then(() => {
-                    this._store.dispatch(new SetCurrentStep({
-                        step: 'default',
-                        subStep: 0
-                    }));
-            });
+                {relativeTo: this._activatedRoute.parent}).then(() => {});
             return;
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -335,12 +330,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                         this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                         {outlets: {primary: rota}}
                     ],
-                    {relativeTo: this._activatedRoute.parent}).then(() => {
-                    this._store.dispatch(new SetCurrentStep({
-                        step: 'default',
-                        subStep: 0
-                    }));
-                });
+                    {relativeTo: this._activatedRoute.parent}).then(() => {});
             }
         });
     }

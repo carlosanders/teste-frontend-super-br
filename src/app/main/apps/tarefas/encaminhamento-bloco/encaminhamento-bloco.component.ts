@@ -135,6 +135,6 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/entrada']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/' + this.routerState.params['targetHandle']]).then();
     }
 }

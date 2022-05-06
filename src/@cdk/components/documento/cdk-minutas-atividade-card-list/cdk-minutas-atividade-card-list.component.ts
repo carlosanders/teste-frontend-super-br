@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination} from '@cdk/models';
+import {Documento, Pagination, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
@@ -78,7 +78,7 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     sairLixeira = new EventEmitter<boolean>();
 
     @Output()
-    clicked = new EventEmitter<number>();
+    clicked = new EventEmitter<{documento: Documento; event: any}>();
 
     @Output()
     verResposta = new EventEmitter<Documento>();
@@ -130,10 +130,13 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     @Input()
     selectedIds: number[] = [];
 
-    hasSelected = false;
-
     @Input()
     isIndeterminate = false;
+
+    @Input()
+    currentDocumentoId = null;
+
+    hasSelected = false;
 
     form: FormGroup;
 
@@ -209,8 +212,8 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
         this.alterarTipoDocumento.emit({documento: documentoTipoDocumento.documento, tipoDocumento: documentoTipoDocumento.tipoDocumento});
     }
 
-    onClick(documento): void {
-        this.clicked.emit(documento);
+    onClick(documento, event): void {
+        this.clicked.emit({documento, event});
     }
 
     doDeleteDocumentoBloco(): void {

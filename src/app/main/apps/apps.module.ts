@@ -101,6 +101,12 @@ const routes = [
         loadChildren: () => import('./caixa-email/caixa-email.module').then(m => m.CaixaEmailModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_COLABORADOR']}
+    },
+    {
+        path        : 'validacao-assinatura',
+        loadChildren: () => import('./validacao-assinatura/validacao-assinatura.module').then(m => m.ValidacaoAssinaturaModule),
+        canActivate: [RoleGuard],
+        data: {roles: ['ROLE_USER']}
     }
 ];
 

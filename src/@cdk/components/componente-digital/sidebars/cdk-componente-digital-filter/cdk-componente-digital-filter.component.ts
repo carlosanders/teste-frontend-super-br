@@ -57,7 +57,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             tamanho: [null],
             extensao: [null],
             processo: [null],
-            editavel: [null],
+            editavel: ['todos'],
             criadoPor: [null],
             criadoEm: [null],
             tipoDocumento: [null],
@@ -66,7 +66,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         if (this.isColaborador) {
             this.form.get('conteudo').enable();
         } else {
@@ -144,10 +144,9 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         }
 
         if (this.form.get('editavel').value) {
-            if(this.form.get('editavel').value !== 'todos') {
+            if (this.form.get('editavel').value !== 'todos') {
                 andXFilter.push({'editavel': `eq:${this.form.get('editavel').value}`});
-            }
-            else {
+            } else {
                 delete andXFilter['editavel'];
             }
         }
@@ -193,6 +192,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
 
     limpar(): void {
         this.form.reset();
+        this.form.get('editavel').setValue('todos');
         this.limparFormFiltroDatas$.next(true);
     }
 }

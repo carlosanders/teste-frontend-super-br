@@ -88,7 +88,8 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
-                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeTarefa = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
             }
         });
@@ -96,7 +97,8 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                 module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
         });

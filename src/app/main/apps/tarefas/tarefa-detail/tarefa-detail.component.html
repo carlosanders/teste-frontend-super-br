@@ -1,17 +1,21 @@
-<div class="header" *ngIf="!(expandir$ | async)">
+<div class="header" *ngIf="maximizado || mobileMode || isGridMode">
+    <div class="painel">
+        <div class="info">
+            <div style="font-weight: bold">
+                Tarefa  {{tarefa.id}}
+                <mat-icon *ngIf="expandState === 'minimum'" (click)="expandState = 'maximized'" class="s-16 cursor-pointer">expand_more</mat-icon>
+            </div>
+            <div style="font-style: italic">{{tarefa.especieTarefa?.nome | titleCasePipe}} {{tarefa.vinculacaoWorkflow ? ' (Tarefa de Workflow)' : ''}}</div>
+            <div style="font-style: italic"> {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})</div>
+            <div style="font-style: italic" *ngIf="expandState === 'maximized'"> Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}</div>
+            <div style="font-style: italic" *ngIf="expandState === 'maximized'">
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+        </div>
+    </div>
     <div class="actions">
-        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentTarefa()">
-            <mat-icon class="secondary-text">arrow_back</mat-icon>
-        </button>
-
-        <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado(true)">
-            <mat-icon class="secondary-text">fullscreen</mat-icon>
-        </button>
-
-        <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado(false)">
-            <mat-icon class="secondary-text">fullscreen_exit</mat-icon>
-        </button>
-
+        <mat-icon class="secondary-text mr-8">label</mat-icon>
         <cdk-vinculacao-etiqueta-chips
             [placeholder]="placeholderEtiq"
             [vinculacoesEtiquetas]="vinculacoesEtiquetas"
@@ -25,91 +29,6 @@
             (addEtiqueta)="addEtiqueta($event)"
             [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta">
         </cdk-vinculacao-etiqueta-chips>
-
-        <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                [routerLink]="['processo', (tarefa$ | async)?.processo?.id]"
-                [routerLinkActive]="['active', 'accent']">
-            <mat-icon class="black-fg">book</mat-icon>
-        </button>
-
-        <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
-                fxHide.xs
-                [routerLink]="'editar'"
-                [routerLinkActive]="['active', 'accent']">
-            <mat-icon class="black-fg">edit</mat-icon>
-        </button>
-
-        <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                fxHide.xs
-                [routerLink]="routeAtividade" [routerLinkActive]="['active', 'accent']">
-            <mat-icon>send</mat-icon>
-        </button>
-
-        <div class="spinner-container m-8" *ngIf="(pluginLoading$ | async)?.length">
-            <mat-spinner diameter="20"></mat-spinner>
-        </div>
-
-        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                (click)="$event.stopPropagation()"
-                *ngIf="(pluginLoading$ | async)?.length === 0">
-            <mat-icon class="secondary-text">more_vert</mat-icon>
-        </button>
-
-        <mat-menu #moreMenu="matMenu">
-
-            <button mat-menu-item aria-label="Editar"
-                    fxShow.xs fxHide.gt-xs
-                    [routerLink]="'editar'">
-                <ng-container>
-                    <mat-icon>edit</mat-icon>
-                    <span>Editar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="toggle done"
-                    (click)="doCreateTarefa()">
-                <ng-container>
-                    <mat-icon>check_box</mat-icon>
-                    <span>Criar Tarefa</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="Dar ciência"
-                    (click)="doCiencia()">
-                <ng-container>
-                    <mat-icon>check</mat-icon>
-                    <span>Dar Ciência</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="Compartilhamento"
-                    [routerLink]="'compartilhamentos/criar'">
-                <ng-container>
-                    <mat-icon>share</mat-icon>
-                    <span>Compartilhar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="Movimentar"
-                    fxShow.xs fxHide.gt-xs
-                    [routerLink]="routeAtividade">
-                <ng-container>
-                    <mat-icon>send</mat-icon>
-                    <span>Movimentar</span>
-                </ng-container>
-            </button>
-
-
-            <button mat-menu-item aria-label="Ofícios"
-                    [routerLink]="'oficios'">
-                <ng-container>
-                    <mat-icon>chrome_reader_mode</mat-icon>
-                    <span>Ofícios</span>
-                </ng-container>
-            </button>
-
-            <ng-template #dynamicComponent></ng-template>
-        </mat-menu>
     </div>
 </div>
 

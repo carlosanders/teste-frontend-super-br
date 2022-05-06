@@ -2,15 +2,14 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/actions';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assinatura, Juntada} from '@cdk/models';
-import {assinatura as assinaturaSchema, juntada as juntadaSchema} from '@cdk/normalizr';
+import {Documento, Juntada} from '@cdk/models';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import {environment} from '../../../../../../../../../environments/environment';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
@@ -64,68 +63,6 @@ export class JuntadaListEffect {
             this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/copiar')]).then();
         })
     ), {dispatch: false});
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<JuntadaListActions.AssinaDocumento>(JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
-            .pipe(
-                map(response => new JuntadaListActions.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new JuntadaListActions.AssinaDocumentoFailed(payload));
-                })
-            ), 25)
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<JuntadaListActions.AssinaDocumentoEletronicamente>(JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new JuntadaListActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new JuntadaListActions.ReloadJuntadas(),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                }));
-                return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
     removeVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<JuntadaListActions.RemoveVinculacaoDocumento>(JuntadaListActions.REMOVE_VINCULACAO_DOCUMENTO),
         mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload)
@@ -141,8 +78,45 @@ export class JuntadaListEffect {
             )
         )
     ));
+    removeRestricoesDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<JuntadaListActions.RemoveRestricoesDocumento>(JuntadaListActions.REMOVE_RESTRICOES_DOCUMENTO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'juntada',
+            content: 'Removendo restrições de juntada ...',
+            status: 0, // carregando
+        }))),
+        mergeMap(action => this._documentoService.deleteVisibilidades(action.payload.documentoId)
+            .pipe(
+                mergeMap((response: Documento) => [
+                    new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'juntada',
+                        content: 'Restrições de juntada de documento id ' + action.payload.documentoId + ' removidas com sucesso.',
+                        status: 1, // sucesso
+                    }),
+                    new JuntadaListActions.RemoveRestricoesDocumentoSuccess(action.payload.documentoId)
+                ]),
+                catchError((err) => {
+                    const payload = {
+                        documentoId: action.payload.documentoId,
+                        error: err
+                    };
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'juntada',
+                        content: 'Erro ao remover restrições de juntada!',
+                        status: 2, // erro
+                    }));
+                    return of(new JuntadaListActions.RemoveRestricoesDocumentoFailed(payload));
+                })
+            )
+        )
+    ));
+
     /**
-     * Reload DocumentosAvulso
+     * Reload Juntadas
      */
     reloadJuntadas: any = createEffect(() => this._actions.pipe(
         ofType<JuntadaListActions.ReloadJuntadas>(JuntadaListActions.RELOAD_JUNTADAS),

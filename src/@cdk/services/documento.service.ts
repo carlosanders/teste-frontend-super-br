@@ -64,6 +64,15 @@ export class DocumentoService extends ParentGenericService<Documento> {
         );
     }
 
+    deleteVisibilidades(documentoId: number, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.delete(
+            `${environment.api_url}${'administrativo/documento'}/${'deletevisibilidade'}/${documentoId}` + environment.xdebug,
+            {params}
+        );
+    }
+
     downloadP7S(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams().set('context', context);
         return this.http.get(`${environment.api_url}administrativo/documento/${id}/download_p7s` + environment.xdebug, {params});

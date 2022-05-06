@@ -32,9 +32,15 @@
     <div class="actions">
         <mat-toolbar>
             <button mat-icon-button class="secondary-text"
-                    [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'" routerLinkActive="mat-accent"
-                    matTooltip="Tarefas">
+                    (click)="navigateToTarefas('list')"
+                    matTooltip="Lista de Tarefas">
                 <mat-icon>check_box</mat-icon>
+            </button>
+            <button mat-icon-button class="secondary-text"
+                    [disabled]="isXSmallScreen"
+                    (click)="navigateToTarefas('grid')"
+                    matTooltip="Grid de Tarefas">
+                <mat-icon>view_list</mat-icon>
             </button>
             <button mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas"
                     routerLinkActive="mat-accent" matTooltip="Calendário">

@@ -1,4 +1,4 @@
-import {createSelector, MemoizedSelector} from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import {
     getProcessoViewAppState,
     ProcessoViewAppState,
@@ -8,6 +8,7 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema, juntada as juntadaSchema} from '@cdk/normalizr';
 import {Documento, Juntada} from '@cdk/models';
+import {getRouterState} from '../../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 const schemaSelectorsDocumento = createSchemaSelectors<Documento>(documentoSchema);
@@ -20,6 +21,12 @@ export const getProcessoViewState: any = createSelector(
 export const getJuntadasIds: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.entitiesId
+);
+
+export const getCurrentJuntadaHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['stepHandle'] && router?.state.params['stepHandle'] !== 'default' && router?.state.params['stepHandle'] !== 'capa' ?
+        router?.state.params['stepHandle'].split('-')[0] : null
 );
 
 export const expandirTela: any = createSelector(
@@ -53,11 +60,6 @@ export const getBinary: any = createSelector(
     (state: ProcessoViewState) => state.binary
 );
 
-export const getIndex: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.index
-);
-
 export const getCurrentStep: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.currentStep
@@ -73,31 +75,6 @@ export const getIsLoadingBinary: any = createSelector(
     (state: ProcessoViewState) => state.binary.loading
 );
 
-export const getLoadingVinculacoesDocumentosIds: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.loadingVinculacoesDocumentosId
-);
-
-export const getPaginadores: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.paginadoresDocumentosVinculados
-);
-
-export const getPaginadoresComponentesDigitais: any = createSelector(
-    getProcessoViewState,
-    (state: ProcessoViewState) => state.paginadoresComponentes
-);
-
-export const getPaginadoresStateByDocumentoId = (documentoId: number): MemoizedSelector<any, any> => createSelector(
-    getPaginadores,
-    paginadores => paginadores[documentoId]
-);
-
-export const getPaginadoresComponentesStateByJuntadaId = (juntadaId: number): MemoizedSelector<any, any> => createSelector(
-    getPaginadoresComponentesDigitais,
-    paginadores => paginadores[juntadaId]
-);
-
 export const getDocumentoById = (documentoId: number): any => createSelector(
     schemaSelectorsDocumento.getNormalizedEntities,
     (() => documentoId),
@@ -106,30 +83,16 @@ export const getDocumentoById = (documentoId: number): any => createSelector(
 
 export const getComponentesDigitaisByDocumentoId = (documentoId: number): any => createSelector(
     getDocumentoById(documentoId),
-    ((documento: Documento) => documento.componentesDigitais)
+    ((documento: Documento) => documento?.componentesDigitais)
 );
 
-export const getLowestIndexNull: any = createSelector(
-    getPaginadoresComponentesDigitais,
-    (paginadores: any) => {
-        if (!!paginadores) {
-            const arrayPaginadores = [];
-            Object.entries(paginadores).forEach(([, paginador]) => arrayPaginadores.push(paginador));
-            if (arrayPaginadores.findIndex(paginador => paginador.firstJuntada === true) !== -1) {
-                return true;
-            }
-            const orderedPaginadores = arrayPaginadores.filter(paginador => paginador.firstJuntada === null).sort((a, b) => a.indice < b.indice ? -1 : 1);
-            if (orderedPaginadores.length) {
-                return orderedPaginadores[0]?.indice;
-            } else {
-                return false;
-            }
-        }
-        return null;
-    }
-);
-
-export const getLoadingComponentesDigitaisIds: any = createSelector(
+export const getProcessoId: any = createSelector(
     getProcessoViewState,
-    (state: ProcessoViewState) => state.loadingComponentesId
+    (state: ProcessoViewState) => state.processoId
+);
+
+export const getCurrentJuntada: any = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getCurrentJuntadaHandle,
+    schemaSelectors.entityProjector
 );

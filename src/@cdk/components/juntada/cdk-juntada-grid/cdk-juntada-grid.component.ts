@@ -209,6 +209,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     removerVinculacoes = new EventEmitter<Juntada>();
 
     @Output()
+    removerRestricoes = new EventEmitter<Juntada>();
+
+    @Output()
     selected = new EventEmitter<Juntada>();
 
     @Output()
@@ -505,5 +508,12 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doRemoveAssinatura(documentoId): void {
         this.removeAssinatura.emit(documentoId);
+    }
+
+    doRemoverRestricoes(selectedIds: number[]): void {
+        const juntadasSelecionadas = this.juntadas.filter(juntada => selectedIds.includes(juntada.id));
+        juntadasSelecionadas.forEach((juntada) => {
+            this.removerRestricoes.emit(juntada);
+        });
     }
 }

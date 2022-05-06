@@ -32,7 +32,7 @@ export class DownloadProcessoComponent {
     view() {
         const data = JSON.parse(this.data.contexto);
         this._router
-            .navigate([`/apps/processo/${data.processo_id}/visualizar/capa/mostrar`])
+            .navigate([`/apps/processo/${data.id}/visualizar/capa/mostrar`])
             .then(() => this._snackbar.dismiss());
     }
 

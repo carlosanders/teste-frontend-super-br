@@ -8,7 +8,7 @@
     <mat-spinner *ngIf="saving" diameter="16"></mat-spinner>
     <mat-icon class="icon" *ngIf="!saving && iconeVisibilidade">{{iconeVisibilidade}}</mat-icon>
     <mat-icon *ngIf="conteudo" class="icon">subject</mat-icon>
-    {{etiqueta.nome}}
+    {{etiqueta.nome | titleCasePipe}}
     <mat-icon matChipRemove
               *ngIf="deletable">cancel
     </mat-icon>

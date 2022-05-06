@@ -70,7 +70,7 @@ export class AtividadeCreateEffect {
                 this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
                 if (action.payload?.tarefa?.vinculacaoWorkflow) {
                     this._router.navigate([
-                        'apps/tarefas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada'
+                        'apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/' + this.routerState.params['targetHandle']
                     ]).then();
                 } else {
                     this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();

@@ -16,6 +16,6 @@ export class TitleCasePipe implements PipeTransform {
             }
             values[i] = values[i].charAt(0).toUpperCase() + values[i].slice(1);
         }
-        return values.join(' ');
+        return values.join(' ')?.replace(/-([a-z])/g, (_, char) => '-' + char.toUpperCase());
     }
 }

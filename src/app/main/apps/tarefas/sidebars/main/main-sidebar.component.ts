@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
+    EventEmitter, Input,
     OnDestroy,
     OnInit,
     Output,
@@ -40,6 +40,10 @@ import {DndDropEvent} from 'ngx-drag-drop';
 import {navigationConverter} from '../../../../../navigation/navigation';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {
+    ViewMode
+} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -53,6 +57,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     @Output()
     reload = new EventEmitter<any>();
+
+    @Output()
+    changeViewMode: EventEmitter<ViewMode> = new EventEmitter<ViewMode>();
+
+    @Input()
+    viewMode: ViewMode;
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
@@ -133,19 +143,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     selectedTarefas: Tarefa[] = [];
 
     loaded: any;
+    isXSmallScreen: boolean = false;
 
     private counterState: CounterState;
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    /**
-     *
-     * @param _store
-     * @param _changeDetectorRef
-     * @param _loginService
-     * @param router
-     * @param _snackBar
-     * @param _cdkSidebarService
-     */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -153,6 +155,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private router: Router,
         private _snackBar: MatSnackBar,
         private _cdkSidebarService: CdkSidebarService,
+        private _breakpointObserver: BreakpointObserver
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -216,6 +219,15 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.typeHandle = routerState.state.params['typeHandle'];
             this.preencherContador();
         });
+
+
+        this._breakpointObserver
+            .observe([Breakpoints.XSmall])
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged()
+            )
+            .subscribe((state: BreakpointState) => this.isXSmallScreen = state.matches);
     }
 
     /**
@@ -812,7 +824,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Verifica se é permitido arrastar tarefas e soltar nas pastas
      * Caso esteja listando tarefas que não sejam minhas, desabilitar
      */
-    dropzoneEnabledFolders(folder = 'entrada'): boolean {
+    dropzoneEnabledFolders(folder: any = 'entrada'): boolean {
         return this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] !== folder;
     }
 
@@ -892,5 +904,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         if (!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('tarefas-main-sidebar').close();
         }
+    }
+
+    doToogleViewMode(): void {
+        this.changeViewMode.emit(this.viewMode == 'list' ? 'grid' : 'list');
+        this.router.navigate(['/apps/tarefas/' + this.generoHandle + '/minhas-tarefas/' + this.routerState.params['targetHandle']], {state: {'viewMode': this.viewMode == 'list' ? 'grid' : 'list'}}).then();
+
     }
 }

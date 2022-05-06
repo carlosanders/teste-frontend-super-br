@@ -65,11 +65,14 @@ export class MercureService
 
     connect(): void {
         let params = '';
+        const aParams = [];
         this.topics.forEach((t: string, i: number) => {
-            if (i === 0) {
-                params += '?topic=' + t;
-            } else {
-                params += '&topic=' + t;
+            if (aParams.indexOf(t) === -1) {
+                if (i === 0) {
+                    params += '?topic=' + t;
+                } else {
+                    params += '&topic=' + t;
+                }
             }
         });
 

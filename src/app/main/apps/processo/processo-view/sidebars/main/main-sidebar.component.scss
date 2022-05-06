@@ -169,7 +169,7 @@ processo-view-main-sidebar {
         }
 
         > .documentos-juntados-title {
-            font-size: 15px;
+            font-size: 13px;
             height: 48px;
         }
 
@@ -781,7 +781,7 @@ processo-view-main-sidebar {
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        min-width: 20px;
+                        min-width: 22px;
                         max-width: 30px;
                         height: 20px;
                         border-radius: 100%;
@@ -829,7 +829,7 @@ processo-view-main-sidebar {
                 display: flex;
                 flex: 1 1 auto;
                 flex-wrap: wrap;
-                font-size: 15px;
+                font-size: 13px;
                 height: 48px;
             }
         }
@@ -837,7 +837,7 @@ processo-view-main-sidebar {
         .actions {
             flex: 0 1 auto;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
         }

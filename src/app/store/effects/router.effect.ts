@@ -5,6 +5,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, tap} from 'rxjs/operators';
 
 import * as RouterActions from 'app/store/actions/router.action';
+import {Store} from '@ngrx/store';
+import {State} from '../reducers';
 
 @Injectable()
 export class RouterEffects {
@@ -23,7 +25,9 @@ export class RouterEffects {
      */
     navigateBack$ = createEffect(() => this._actions.pipe(
         ofType(RouterActions.BACK),
-        tap(() => this.location.back())
+        tap(() => {
+            this.location.back();
+        })
     ), {dispatch: false});
     /**
      * Navigate forward
@@ -39,11 +43,13 @@ export class RouterEffects {
      * @param _actions
      * @param router
      * @param location
+     * @param _store
      */
     constructor(
         private _actions: Actions,
         private router: Router,
-        private location: Location
+        private location: Location,
+        private _store: Store<State>
     ) {
     }
 }

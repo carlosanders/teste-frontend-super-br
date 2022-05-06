@@ -24,7 +24,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkCompartilhamentoFormModule} from '@cdk/components/compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module';
 import {CompartilhamentoCreateStoreModule} from './store/store.module';
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [

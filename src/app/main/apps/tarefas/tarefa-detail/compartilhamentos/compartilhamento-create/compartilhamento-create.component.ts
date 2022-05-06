@@ -19,7 +19,7 @@ import {getTarefa} from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models/colaborador.model';
-import {Back} from '../../../../../../store';
+import {Back, getOperacoes} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
@@ -39,10 +39,15 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     compartilhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
+    lote: string;
 
     routerState: any;
 
     usuarioPagination: Pagination;
+    setorPagination: Pagination;
+    grupoContatoPagination: Pagination;
 
     private _profile: Colaborador;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -71,6 +76,23 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             'colaborador.id': 'isNotNull'
         };
 
+        this.setorPagination = new Pagination();
+        this.setorPagination.filter['parent'] = 'isNotNull';
+        this.setorPagination.populate = ['unidade', 'parent'];
+
+        this.grupoContatoPagination = new Pagination();
+        this.grupoContatoPagination.populate = [
+            'contatos',
+            'contatos.tipoContato',
+            'contatos.setor',
+            'contatos.setor.unidade',
+            'contatos.usuario',
+            'contatos.usuario.colaborador',
+            'contatos.usuario.colaborador.lotacoes',
+            'contatos.usuario.colaborador.lotacoes.setor',
+            'contatos.usuario.colaborador.lotacoes.setor.unidade',
+        ];
+        this.grupoContatoPagination.filter = {'usuario.id': 'eq:' + this._loginService.getUserProfile().id};
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
@@ -93,6 +115,24 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             filter(tarefa => !!tarefa)
         ).subscribe((tarefa) => {
             this.compartilhamento.tarefa = tarefa;
+        });
+
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'compartilhamento' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'compartilhamento' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 
@@ -122,10 +162,52 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveCompartilhamento({
-            compartilhamento: compartilhamento,
-            operacaoId: operacaoId
-        }));
+
+        switch (values.modalidadeCompartilhamento){
+            case "usuario":
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveCompartilhamento({
+                    compartilhamento: compartilhamento,
+                    operacaoId: operacaoId
+                }));
+                break;
+            case "setor":
+                const params = {
+                    filter: {
+                        'setor.id': 'eq:' + compartilhamento.setor.id
+                    },
+                    gridFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {id: 'DESC'},
+                    populate: [
+                        'populateAll',
+                        'setor.unidade'
+                    ]
+                };
+                this._store.dispatch(new fromStore.GetLotacoesCompartilhamento({
+                    compartilhamento,
+                    params
+                }));
+                break;
+            case "grupoContato":
+                compartilhamento.grupoContato.contatos.forEach(contato =>{
+                    const operacaoIdGrupo = CdkUtils.makeId();
+                    if(contato.usuario){
+                        const compartilhamentoGrupo  = new Compartilhamento();
+                        Object.entries(values).forEach(
+                            ([key, value]) => {
+                                compartilhamentoGrupo[key] = value;
+                            }
+                        );
+                        compartilhamentoGrupo['usuario'] = contato.usuario;
+                        this._store.dispatch(new fromStore.SaveCompartilhamentoSetor({
+                            compartilhamento: compartilhamentoGrupo,
+                            operacaoId: operacaoIdGrupo,
+                        }));
+                    }
+                });
+                break;
+        }
     }
 }

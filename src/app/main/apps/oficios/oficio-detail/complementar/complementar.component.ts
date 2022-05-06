@@ -122,7 +122,9 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.mode = routerState.state.params['oficioTargetHandle'];
-            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
+            const documentoAvulso = new DocumentoAvulso();
+            documentoAvulso.id = parseInt(routerState.state.params['documentoAvulsoHandle']);
+            this.documentoAvulsoOrigem = documentoAvulso;
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 

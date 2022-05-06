@@ -204,6 +204,24 @@
         }
     }
 
+    table {
+        tr {
+            &.selected {
+                @if ($is-dark) {
+                    background: map-get($background, background);
+                } @else {
+                    background: map-get($accent, 50);
+                }
+            }
+            &.error {
+
+                td {
+                    color: map-get($warn, 400);
+                }
+            }
+        }
+    }
+
     // Todo edit
     tarefa-detail {
         > .header {

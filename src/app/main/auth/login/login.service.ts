@@ -222,7 +222,7 @@ export class LoginService {
         const browserExpiration = this.getLocalBrowserExp();
         const duracaoRestante = browserExpiration - moment().unix();
         if (renovacao) {
-            const timeout = ((duracaoRestante - renovacao) < 30 ? 1 : (duracaoRestante - renovacao)) * 1000;
+            const timeout = ((duracaoRestante - renovacao) < 25 ? 1 : (duracaoRestante - renovacao)) * 1000;
             this.removeTimeout();
             this._timeout = setTimeout(() => {
                 this._store.dispatch(new fromLoginStore.LoginRefreshToken());

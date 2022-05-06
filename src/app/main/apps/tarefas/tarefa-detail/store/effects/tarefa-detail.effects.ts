@@ -45,11 +45,7 @@ export class TarefaDetailEffect {
         ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
         switchMap((action) => {
             this.populate = action.payload.populate ?? [
-                'processo',
-                'processo.especieProcesso',
-                'processo.especieProcesso.generoProcesso',
-                'processo.modalidadeMeio',
-                'processo.documentoAvulsoOrigem',
+                'folder',
                 'especieTarefa',
                 'usuarioResponsavel',
                 'setorResponsavel',
@@ -59,8 +55,6 @@ export class TarefaDetailEffect {
                 'especieTarefa.generoTarefa',
                 'vinculacaoWorkflow',
                 'vinculacaoWorkflow.workflow',
-                'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta'
             ];
             let generoParam = this.routerState.params['generoHandle'];
             if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {

@@ -4,12 +4,14 @@ export interface AssinaturaState {
     assinandoDocumentosId: number[];
     removendoAssinaturaDocumentosId: number[];
     errors: any;
+    redirectRevalidaGovBr: boolean,
 }
 
 export const assinaturaInitialState: AssinaturaState = {
     assinandoDocumentosId: [],
     removendoAssinaturaDocumentosId: [],
-    errors: false
+    errors: false,
+    redirectRevalidaGovBr: false,
 };
 
 export const assinaturaReducer = (
@@ -69,6 +71,13 @@ export const assinaturaReducer = (
                 ...state,
                 assinandoDocumentosId: state.assinandoDocumentosId.filter(id => id !== action.payload.documentoId),
                 errors: action.payload.error
+            };
+        }
+
+        case AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_GOVBR: {
+            return {
+                ...state,
+                redirectRevalidaGovBr: true
             };
         }
 

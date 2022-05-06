@@ -35,8 +35,8 @@ import {getMercureState, getRouterState, getScreenState} from 'app/store/reducer
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -54,16 +54,18 @@ import {
     CdkAssinaturaEletronicaPluginComponent
 } from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
-import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
-import {HasTarefa} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
-import {Back} from "app/store";
-import {navigationConverter} from "../../../navigation/navigation";
-import * as moment from "moment";
+import {HasTarefa} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
+import {Back} from 'app/store';
+import {navigationConverter} from 'app/navigation/navigation';
+import * as moment from 'moment';
+import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 
 @Component({
     selector: 'tarefas',
@@ -75,14 +77,21 @@ import * as moment from "moment";
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
-    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) tarefasList: CdkTarefaListComponent;
+    @ViewChild('tarefaListElement', {read: ElementRef, static: false}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: false}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
+        this.tarefasList = tarefasList;
+        if (tarefasList) {
+            this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+        }
+    }
+
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
     @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
     @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
+    tarefasList: CdkTarefaListComponent
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     routerState: any;
@@ -112,7 +121,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     loading: boolean;
 
     togglingUrgenteIds$: Observable<number[]>;
-    savingObservacao$: Observable<boolean>;
+    savingObservacaoIds$: Observable<number[]>;
+    editObservacaoIds$: Observable<number[]>;
     assinandoTarefasIds$: Observable<number[]>;
 
     deletingIds$: Observable<number[]>;
@@ -213,24 +223,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
+    tarefaListViewMode: ViewMode;
+    componentRootUrl: boolean = true;
+    isSmallScreen: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
-    /**
-     *
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
-     * @param _cdkTranslationLoaderService
-     * @param _tarefaService
-     * @param _formBuilder
-     * @param _router
-     * @param _store
-     * @param _loginService
-     * @param _dynamicService
-     * @param _snackBar
-     * @param _matDialog
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
@@ -242,7 +241,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _loginService: LoginService,
         private _dynamicService: DynamicService,
         private _snackBar: MatSnackBar,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _breakpointObserver: BreakpointObserver,
+        private _activatedRoute: ActivatedRoute,
+        private _cdkTarefaListService: CdkTarefaListService
     ) {
         // Set the defaults
         this.formEditor = this._formBuilder.group({
@@ -258,7 +260,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentTarefa$ = this._store.pipe(select(fromStore.getCurrentTarefa));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
-        this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
+        this.savingObservacaoIds$ = this._store.pipe(select(fromStore.getSavingObservacaoIds));
+        this.editObservacaoIds$ = this._store.pipe(select(fromStore.getEditObservacaoIds));
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
@@ -294,6 +297,31 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
+        this._store
+            .pipe(
+                select(fromStore.getViewMode),
+                distinctUntilChanged()
+            )
+            .subscribe((viewMode) => {
+                const lastViewMode = this.tarefaListViewMode;
+                this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
+
+            if (lastViewMode && lastViewMode !== viewMode) {
+                this.reload({
+                    listFilter: this.pagination.listFilter,
+                    listSort: this.pagination.listSort,
+                    tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                    offset: 0
+                });
+            }
+
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._breakpointObserver
+            .observe([Breakpoints.Small])
+            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches)
+
         const vinculacaoEtiquetaPagination = new Pagination();
         vinculacaoEtiquetaPagination.filter = {
             orX: [
@@ -423,13 +451,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
-                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                } else {
+                    this.routeAtividade = "atividades/criar";
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                    module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
                 }
             });
@@ -437,12 +469,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
                 }
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
-                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                    (module.name === this.routerState.params.generoHandle)) {
                     this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
                 }
             });
@@ -452,6 +486,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             } else {
                 this.hiddenFilters = []
             }
+
+            const componentRootUrl = '/apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle;
+
+            this.componentRootUrl = this.routerState?.url === componentRootUrl;
         });
 
         this._store.pipe(
@@ -482,7 +521,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentTarefa$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
-            if (currentTarefa) {
+            if (currentTarefa && currentTarefa.processo) {
                 if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
                     this._store.dispatch(new fromStore.SyncCurrentTarefaId({
                         tarefaId: currentTarefa.id,
@@ -518,6 +557,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
+            this._changeDetectorRef.markForCheck();
         });
 
         this.loading$.pipe(
@@ -530,6 +570,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
+                if (this.tarefaListViewMode == 'grid') {
+                    this.doTarefaListViewModeChange('list');
+                }
                 this.mobileMode = true;
                 if (this.maximizado && !this.novaAba) {
                     this._store.dispatch(new ToggleMaximizado(false));
@@ -577,8 +620,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
-
         const path = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -628,7 +669,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         let nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
-            sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
+            sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
+            limit: params.limit || this.pagination.limit,
+            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : this.pagination.offset),
+            viewMode: this.tarefaListViewMode
         };
 
         let generoParam = this.routerState.params['generoHandle'];
@@ -659,8 +703,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.routerState.params[targetParam] !== 'entrada' &&
                     this.routerState.params[targetParam] !== 'lixeira'
                 ) {
-                    const folderName = this.routerState.params[targetParam];
-                    folderFilter = `eq:${folderName.toUpperCase()}`;
+                    const folderId = this.routerState.params[targetParam];
+                    folderFilter = `eq:${folderId}`;
                 }
 
                 paramUrl = this.routerState.params[targetParam];
@@ -675,7 +719,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (paramUrl !== 'lixeira') {
                 nparams['folderFilter'] = {
-                    'folder.nome': folderFilter
+                    'folder.id': folderFilter
                 };
                 nparams.context = {modulo: generoParam};
             } else {
@@ -741,7 +785,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            offset: this.pagination.offset + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit,
+            viewMode: this.tarefaListViewMode
         };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -920,7 +965,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (potencialTarefaListSize < 30) {
             this.tarefaListSize = 30;
             setTimeout(() => {
-                this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                if (this.tarefaListElement) {
+                    this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                }
             }, 500);
             return;
         }
@@ -983,7 +1030,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {skipLocationChange: true}).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1125,8 +1172,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doUpload(): void {
-        const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
-        selectedTarefa.upload();
+        if (this.tarefaListViewMode == 'list') {
+            const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
+            selectedTarefa.upload();
+        } else {
+            const selectedTarefa = this.tarefasList.componenteDigitalListItems.find((componenteDigitalListItem) => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
+            selectedTarefa.upload();
+        }
     }
 
     doEditorBloco(): void {
@@ -1327,7 +1379,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel(
-                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds})
+                    {idTarefasSelecionadas: this.selectedIds?.length === this.pagination?.total ? [] : this.selectedIds})
                 );
             }
             this.confirmDialogRef = null;
@@ -1338,8 +1390,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const tarefa = event.tarefa;
         const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
         if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
-            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa, event.event.ctrlKey);
         }
+    }
+
+    doEditarObservacao(tarefaId: number): void {
+        this._store.dispatch(new fromStore.EditarObservacao(tarefaId));
     }
 
     doAbrirMinutaEmOutraAba(event): void {
@@ -1434,16 +1490,30 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._changeDetectorRef.markForCheck();
     }
 
-    abreEditor(documentoId: number, tarefa: Tarefa): void {
+    abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'default';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
-        this._router.navigate([
-            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-            + stepHandle + '/documento/' + documentoId
-        ]).then();
+        if(outraAba){
+            const extras = {
+                queryParams: {
+                    novaAba: true
+                }
+            };
+            const url = this._router.createUrlTree([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ], extras);
+            window.open(url.toString(), '_blank');
+        } else{
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId
+            ], {skipLocationChange: true}).then();
+        }
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
@@ -1838,5 +1908,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const tarefa = event.tarefa;
         const documentoRespostaId = event.documentoRespostaId;
         this.abreEditor(documentoRespostaId, tarefa);
+    }
+
+    doTarefaListViewModeChange(viewMode: ViewMode): void {
+        this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
     }
 }

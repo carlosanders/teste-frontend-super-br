@@ -189,11 +189,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     private _lastContent: string;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param dialog
      * @param el
      * @param _componenteDigitalService
      * @param snackBar
+     * @param _loginService
      */
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog,
@@ -236,9 +238,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
-        if (this.mode === 'documento') {
-            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
-        } else {
+        this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        if (this.mode === 'modelo' || this.mode === 'repositorio' || this.mode === 'template') {
             this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
         }
     }

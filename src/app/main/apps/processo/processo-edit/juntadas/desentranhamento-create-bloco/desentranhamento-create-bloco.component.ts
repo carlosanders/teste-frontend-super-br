@@ -122,7 +122,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
-            this.juntadas = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
+            this.juntadas = this.juntadas?.filter(x => !this.juntadasSelecionadas.includes(x));
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {

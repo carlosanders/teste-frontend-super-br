@@ -250,7 +250,9 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         }
 
         if (this.form.get('interessado').value) {
-            andXFilter.push({'processo.interessados.pessoa.id': `eq:${this.form.get('interessado').value.id}`});
+            this.form.get('interessado').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'processo.interessados.pessoa.nome': `like:%${bit}%`});
+            });
         }
 
         if (this.form.get('assunto').value) {
@@ -400,7 +402,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter')?.close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-grid')?.close();
     }
 
     filtraDataHoraLeitura(value: any): void {

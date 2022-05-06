@@ -247,6 +247,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPaginationTree = new Pagination();
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade'];
         this.setorOrigemPaginationTree = new Pagination();
         this.grupoContatoPagination = new Pagination();
         this.grupoContatoPagination.populate = [
@@ -816,7 +817,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+        const diffDays = dataHoraFinalPrazo?.diff(dataHoraInicioPrazo, 'days');
 
         if (dataHoraFinalPrazo < dataHoraInicioPrazo) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'A data final do prazo não pode ser anterior a do início!'});

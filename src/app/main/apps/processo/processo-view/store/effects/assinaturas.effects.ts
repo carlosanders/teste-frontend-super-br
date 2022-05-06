@@ -21,14 +21,18 @@ export class AssinaturasEffects {
      */
     assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.AssinaDocumentoSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_SUCCESS),
-        tap(action => this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload)))
+        tap((action) => {
+            this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload));
+        })
     ), {dispatch: false});
     /**
      * Ações referentes a sucesso na assinatura eletrônica de componente digital
      */
     assinaDocumentoEletronicamenteSuccess: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.AssinaDocumentoEletronicamenteSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
-        tap(action => this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload)))
+        tap((action) => {
+            this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload));
+        })
     ), {dispatch: false});
 
     getAssinaturas: any = createEffect(() => this._actions.pipe(

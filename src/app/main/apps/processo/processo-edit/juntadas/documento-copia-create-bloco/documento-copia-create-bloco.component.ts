@@ -108,7 +108,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
         this.operacoes = [];
         this.lote = CdkUtils.makeId();
 
-        this.juntadas.forEach((juntada) => {
+        this.juntadas?.forEach((juntada) => {
             const documento = new Documento();
 
             Object.entries(values).forEach(

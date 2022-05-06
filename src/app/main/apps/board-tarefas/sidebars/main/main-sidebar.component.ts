@@ -6,9 +6,12 @@ import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/calendario/store';
 import {getRouterState} from 'app/store/reducers';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {ViewMode} from '../../../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {Router} from '@angular/router';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
     selector: 'board-tarefas-main-sidebar',
@@ -20,17 +23,27 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 })
 export class BoardTarefasMainSidebarComponent implements OnInit, OnDestroy {
 
-    generoHandle = '';
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    generoHandle: string = '';
+    isXSmallScreen: boolean = false;
     routerState: any;
 
     constructor(
         private _store: Store<fromStore.CalendarioAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _router: Router,
         public _loginService: LoginService,
         private _cdkSidebarService: CdkSidebarService,
+        private _breakpointObserver: BreakpointObserver
     ) {
+        this._breakpointObserver
+            .observe([Breakpoints.XSmall])
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged()
+            )
+            .subscribe((state: BreakpointState) => this.isXSmallScreen = state.matches);
     }
 
     /**
@@ -64,5 +77,9 @@ export class BoardTarefasMainSidebarComponent implements OnInit, OnDestroy {
         if(!this._cdkSidebarService.getSidebar('boar-tarefas-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('boar-tarefas-main-sidebar').close();
         }
+    }
+
+    navigateToTarefas(viewMode: ViewMode): void {
+        this._router.navigate(['/apps/tarefas/' + this.generoHandle + '/minhas-tarefas/entrada'], {state: {'viewMode': viewMode}})
     }
 }

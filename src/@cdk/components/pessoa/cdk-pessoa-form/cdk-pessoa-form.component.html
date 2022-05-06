@@ -4,14 +4,16 @@
         <input matInput placeholder="Tipo"
                formControlName="modalidadeQualificacaoPessoa"
                [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete"
-               (blur)="checkModalidadeQualificacaoPessoa()" required>
+               (blur)="checkModalidadeQualificacaoPessoa()"
+               [readonly]="form.get('id').value"
+               required>
         <cdk-modalidade-qualificacao-pessoa-autocomplete
             #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
             [control]="form.get('modalidadeQualificacaoPessoa')"
             [pagination]="modalidadeQualificacaoPessoaPagination">
         </cdk-modalidade-qualificacao-pessoa-autocomplete>
         <button matSuffix mat-button mat-icon-button
-                (click)="showModalidadeQualificacaoPessoaGrid()">
+                (click)="showModalidadeQualificacaoPessoaGrid()" *ngIf="!form.get('id').value">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('modalidadeQualificacaoPessoa').hasError('formError')">

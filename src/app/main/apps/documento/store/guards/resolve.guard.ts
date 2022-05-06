@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -23,7 +23,8 @@ export class ResolveGuard implements CanActivate {
      */
     constructor(
         private _store: Store<DocumentoAppState>,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _router: Router
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -64,7 +65,8 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetDocumento());
                 }
             }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value && Object.keys(this._router.getCurrentNavigation()
+                .extractedUrl.root.children.primary.children).length > 1),
             take(1)
         );
     }

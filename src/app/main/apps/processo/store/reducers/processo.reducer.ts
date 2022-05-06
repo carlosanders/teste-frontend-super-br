@@ -16,6 +16,8 @@ export interface ProcessoState {
     deletingIds: number[];
     deletedIds: number[];
     loadingAcompanhamento: boolean;
+    entitiesTarefasId: number[];
+    loadingTarefas: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -34,7 +36,8 @@ export const ProcessoInitialState: ProcessoState = {
     deletingIds: [],
     deletedIds: [],
     loadingAcompanhamento: false,
-
+    entitiesTarefasId: [],
+    loadingTarefas: false
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -70,7 +73,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: {
                     id: undefined,
                     value: undefined,
-                    acessoNegado: false
+                    acessoNegado: false,
+                    juntadaIndex: {}
                 },
                 loading: false,
                 errors: false,
@@ -300,6 +304,47 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 errors: action.payload
+            };
+        }
+
+        case ProcessoActions.ATUALIZA_JUNTADA_INDEX: {
+            return {
+                ...state,
+                loaded: {
+                    ...state.loaded,
+                    juntadaIndex: action.payload.juntadaIndex
+                }
+            }
+        }
+
+        case ProcessoActions.GET_TAREFAS_PROCESSO: {
+            return {
+                ...state,
+                loadingTarefas: true,
+                errors: false
+            };
+        }
+
+        case ProcessoActions.GET_TAREFAS_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                entitiesTarefasId: action.payload.entitiesId,
+                loadingTarefas: false
+            };
+        }
+
+        case ProcessoActions.GET_TAREFAS_PROCESSO_FAILED: {
+            return {
+                ...state,
+                loadingTarefas: false
+            };
+        }
+
+        case ProcessoActions.UNLOAD_TAREFAS_PROCESSO: {
+            return {
+                ...state,
+                entitiesTarefasId: [],
+                loadingTarefas: false
             };
         }
 

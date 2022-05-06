@@ -17,7 +17,7 @@
                 Tipo:
             </div>
             <div class="valor">
-                {{ (processo.unidadeArquivistica === 1) ? 'PROCESSO' : ((processo.unidadeArquivistica === 2) ? 'DOCUMENTO AVULSO' : 'UA DOSSIE') }}
+                {{ (processo.unidadeArquivistica === 1) ? 'Processo' : ((processo.unidadeArquivistica === 2) ? 'Documento Avulso' : 'Dossiê') }}
             </div>
         </div>
         <div class="linha">
@@ -25,7 +25,7 @@
                 Workflow:
             </div>
             <div class="valor">
-                {{estaNumProcessoWorkflow}}
+                {{estaNumProcessoWorkflow | titleCasePipe}}
             </div>
         </div>
         <div class="linha">
@@ -42,10 +42,10 @@
             </div>
             <div class="valor">
                 <div>
-                    {{ processo.modalidadeFase.valor }}
+                    {{ processo.modalidadeFase.valor | titleCasePipe }}
                 </div>
                 <div *ngIf="processo.modalidadeFase.valor !== 'CORRENTE'" style="color:red;" >
-                     (ENCERRADO)
+                     (Encerrado)
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 Classificação:
             </div>
             <div class="valor" [matTooltip]="processo.classificacao.nomeCompleto">
-                {{ processo.classificacao.codigo }} - {{ processo.classificacao.nome }}
+                {{ processo.classificacao.codigo }} - {{ processo.classificacao.nome | titleCasePipe }}
             </div>
         </div>
         <div class="linha">
@@ -65,7 +65,7 @@
                 Procedência:
             </div>
             <div class="valor">
-                {{ processo.procedencia.nome }}
+                {{ processo.procedencia.nome | titleCasePipe }}
             </div>
         </div>
         <div class="linha">
@@ -73,7 +73,7 @@
                 Meio:
             </div>
             <div class="valor">
-                {{ processo.modalidadeMeio.descricao }}
+                {{ processo.modalidadeMeio.descricao | titleCasePipe }}
             </div>
         </div>
         <div class="linha">
@@ -92,7 +92,7 @@
                 Título:
             </div>
             <div class="valor">
-                {{ processo.titulo }}
+                {{ processo.titulo |titleCasePipe }}
             </div>
         </div>
         <div class="linha">
@@ -100,7 +100,7 @@
                 Descrição:
             </div>
             <div class="valor">
-                {{ processo.descricao }}
+                {{ processo.descricao | titleCasePipe }}
             </div>
         </div>
         <div class="linha">
@@ -119,7 +119,7 @@
                 Setor Atual:
             </div>
             <div class="valor">
-                {{ processo.setorAtual.nome }} - {{ processo.setorAtual.unidade.sigla }}
+                {{ processo.setorAtual.nome | titleCasePipe }} - {{ processo.setorAtual.unidade.sigla }}
             </div>
         </div>
         <div class="linha">
@@ -127,7 +127,7 @@
                 Localizador:
             </div>
             <div class="valor">
-                {{ processo.localizador }}
+                {{ processo.localizador?.nome | titleCasePipe }}
             </div>
         </div>
     </mat-card>
@@ -168,7 +168,7 @@
                 Criado Por:
             </div>
             <div class="valor">
-                {{ processo.criadoPor?.nome }}
+                {{ processo.criadoPor?.nome | titleCasePipe}}
             </div>
         </div>
         <div class="linha" *ngIf="processo.atualizadoPor">
@@ -176,7 +176,7 @@
                 Atualizador Por:
             </div>
             <div class="valor">
-                {{ processo.atualizadoPor?.nome }}
+                {{ processo.atualizadoPor?.nome | titleCasePipe }}
             </div>
         </div>
     </mat-card>

@@ -10,7 +10,7 @@
 
         <form name="form" [formGroup]="form" novalidate>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" *ngIf="config.tiposLogin.includes('login_ldap_ativo') || config.tiposLogin.includes('login_interno_ativo')" >
                 <mat-label>{{form.get('tipoLogin').value === 'ldap' ? 'E-mail' : 'CPF'}}</mat-label>
                 <input matInput ui-mask="999.999.999-99" formControlName="username">
                 <mat-icon matSuffix class="secondary-text">person</mat-icon>
@@ -24,7 +24,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" *ngIf="config.tiposLogin.includes('login_ldap_ativo') || config.tiposLogin.includes('login_interno_ativo')" >
                 <mat-label>Senha</mat-label>
                 <input matInput type="password" formControlName="password">
                 <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
@@ -40,7 +40,7 @@
                 </mat-error>
             </div>
 
-            <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+            <div *ngIf="config.tiposLogin.includes('login_interno_ativo')" class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
                  fxLayoutAlign="space-between center">
 
                 <a class="forgot-password" [routerLink]="'/auth/esqueci-senha'">
@@ -48,7 +48,7 @@
                 </a>
             </div>
 
-            <div *ngIf="!!config.ldap" class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+            <div *ngIf="config.tiposLogin.includes('login_ldap_ativo') && config.tiposLogin.includes('login_interno_ativo') && !!config.ldap" class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
                  fxLayoutAlign="space-between center">
 
                 <a class="forgot-password" (click)="onChangeTipoLogin(form.get('tipoLogin').value === 'ldap' ? 'interno' : 'ldap')">
@@ -56,15 +56,15 @@
                 </a>
             </div>
 
-            <button (click)="submit()" mat-raised-button color="accent" class="submit-button" aria-label="login"
+            <button *ngIf="config.tiposLogin.includes('login_ldap_ativo') || config.tiposLogin.includes('login_interno_ativo')" (click)="submit()" mat-raised-button color="accent" class="submit-button" aria-label="login"
                     [disabled]="form.invalid">
                 Login {{!!config.ldap && form.get('tipoLogin').value === 'ldap' ? config.ldap : ''}}
             </button>
 
-            <a *ngIf="config.govBR?.client_id" mat-raised-button
+            <a *ngIf="config.tiposLogin.includes('login_govbr_ativo') && config.govBR?.client_id" mat-raised-button
                [href]="config.govBR?.sso_url+'/authorize?response_type=code&client_id='+config.govBR?.client_id+'&scope=openid+email+phone+profile+govbr_confiabilidades&redirect_uri='+config.govBR?.redirect_uri"
                class="submit-button gov-br" aria-label="entrar com gov.br">
-               Entrar com <strong>gov.br</strong>
+               Entrar com <strong style="color: #1351b4">gov.br</strong>
             </a>
 
             <div fxLayout="row" fxLayout.xs="column"
@@ -73,11 +73,11 @@
             </div>
         </form>
 
-        <div class="separator">
+        <div *ngIf="config.tiposLogin.includes('login_interno_ativo')" class="separator">
             <span class="text">OU</span>
         </div>
 
-        <div class="register mb-8" fxLayout="column" fxLayoutAlign="center center">
+        <div *ngIf="config.tiposLogin.includes('login_interno_ativo')" class="register mb-8" fxLayout="column" fxLayoutAlign="center center">
             <span class="text">Ainda não tem uma conta?</span>
             <a class="link" [routerLink]="'/auth/register'">Criar uma conta</a>
         </div>
