@@ -44,7 +44,7 @@ processo {
 
                     > .tarefas {
                         display: flex;
-                        flex: 1 0 auto;
+                        flex: 0 1 auto;
 
                         > .user {
                             display: flex;
@@ -85,7 +85,7 @@ processo {
                     }
 
                     >.menu_processo {
-                        flex: 1 0 auto;
+                        flex: 0 1 auto;
                         display: flex;
 
                         > .actions {
