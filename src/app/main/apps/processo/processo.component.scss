@@ -40,14 +40,13 @@ processo {
                         display: flex;
                         flex: 1 1 auto;
                         flex-direction: column;
-                        justify-content: center;
                     }
 
                     > .tarefas {
                         display: flex;
+                        flex: 1 0 auto;
 
                         > .user {
-                            flex: 0 1 auto;
                             display: flex;
                             flex-direction: column;
                             justify-content: flex-start;
@@ -85,12 +84,17 @@ processo {
                         }
                     }
 
-                    > .actions {
-                        flex: 0 1 auto;
+                    >.menu_processo {
+                        flex: 1 0 auto;
                         display: flex;
-                        flex-direction: row;
-                        justify-content: flex-start;
-                        align-items: center;
+
+                        > .actions {
+                            flex: 1 0 auto;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: flex-start;
+                            align-items: center;
+                        }
                     }
                 }
 
