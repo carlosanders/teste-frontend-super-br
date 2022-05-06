@@ -130,10 +130,13 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     @Input()
     selectedIds: number[] = [];
 
-    hasSelected = false;
-
     @Input()
     isIndeterminate = false;
+
+    @Input()
+    currentDocumentoId = null;
+
+    hasSelected = false;
 
     form: FormGroup;
 

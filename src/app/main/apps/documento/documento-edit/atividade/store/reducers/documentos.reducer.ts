@@ -7,14 +7,17 @@ export interface DocumentosState {
     loaded: any;
 }
 
-export const DocumentosInitialState: DocumentosState = {
+export const documentosInitialState: DocumentosState = {
     documentosId: [],
     selectedDocumentosId: [],
     alterandoDocumentoIds: [],
     loaded: false
 };
 
-export function DocumentosReducer(state = DocumentosInitialState, action: DocumentosActions.DocumentosActionsAll): DocumentosState {
+export const documentosReducer = (
+    state = documentosInitialState,
+    action: DocumentosActions.DocumentosActionsAll
+): DocumentosState => {
     switch (action.type) {
 
         case DocumentosActions.GET_DOCUMENTOS: {
@@ -66,7 +69,7 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
 
         case DocumentosActions.UNLOAD_DOCUMENTOS: {
             return {
-                ...DocumentosInitialState
+                ...documentosInitialState
             };
         }
 
@@ -74,4 +77,4 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             return state;
 
     }
-}
+};

@@ -21,7 +21,7 @@ export interface ComponenteDigitalState {
     repositorio: string;
 }
 
-export const ComponenteDigitalInitialState: ComponenteDigitalState = {
+export const componenteDigitalInitialState: ComponenteDigitalState = {
     entitiesId: [],
     pagination: {
         limit: 10,
@@ -42,7 +42,10 @@ export const ComponenteDigitalInitialState: ComponenteDigitalState = {
     deletingIds: []
 };
 
-export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
+export const componenteDigitalReducer = (
+    state = componenteDigitalInitialState,
+    action: ComponenteDigitalActions.ComponenteDigitalActionsAll
+): ComponenteDigitalState => {
     switch (action.type) {
 
         case ComponenteDigitalActions.RELOAD_COMPONENTES_DIGITAIS: {
@@ -171,4 +174,4 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         default:
             return state;
     }
-}
+};

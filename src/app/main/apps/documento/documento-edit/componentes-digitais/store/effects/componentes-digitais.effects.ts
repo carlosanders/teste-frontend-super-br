@@ -16,7 +16,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as fromStore from '../../../anexos/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getDocumento} from "../selectors";
 import {SetCurrentStep} from "../../../../store";
@@ -301,7 +300,7 @@ export class ComponenteDigitalEffects {
 
             return this._componenteDigitalService.aprovar(componenteDigital).pipe(
                 mergeMap((response: ComponenteDigital) => [
-                    new ComponenteDigitalActions.ApproveComponenteDigitalSuccess(response),
+                    new ComponenteDigitalActions.ApproveComponenteDigitalSuccess(componenteDigital),
                     new AddData<ComponenteDigital>({
                         data: [{...action.payload, ...response}],
                         schema: componenteDigitalSchema
@@ -311,8 +310,7 @@ export class ComponenteDigitalEffects {
                         type: 'componente digital',
                         content: `Aprovação id ${response.id} criada com sucesso!`,
                         status: 1, // carregando
-                    }),
-                    new fromStore.ReloadDocumentosVinculados()
+                    })
                 ]),
                 catchError((err) => {
                     console.log(err);

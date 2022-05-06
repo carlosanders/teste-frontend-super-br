@@ -929,3 +929,7 @@
 * Correção em guarda de rota de processo component travando a funcionalidade de protocolo
 * Correção nas telas de modelos dentro do painel de coordenador
 * Correção nas telas de modelos individuais dentro do painel de configuração do perfil do usuário
+* Correção em que clique no botão de mais ações de uma minuta dentro do editor, além de abrir o menu, alterava a minuta
+* Melhoria borda vermelha ao redor da minuta atualmente exibida no editor
+* Melhoria removido a sidebar de anexos do editor de minutas, exibindo anexos na sidebar de movimentação
+* Correção em redirecionamento incorreto dentro do componente de movimentar do administrativo

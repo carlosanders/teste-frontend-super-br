@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {ComponenteDigitalState, DocumentoEditAnexosAppState, getDocumentoEditAnexosAppState} from '../reducers';
+import {ComponenteDigitalState, DocumentoEditAtividadeAppState, getDocumentoEditAtividadeAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
@@ -7,8 +7,8 @@ import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
 
 export const getComponenteDigitalState: any = createSelector(
-    getDocumentoEditAnexosAppState,
-    (state: DocumentoEditAnexosAppState) => state.componentesDigitais
+    getDocumentoEditAtividadeAppState,
+    (state: DocumentoEditAtividadeAppState) => state.componentesDigitais
 );
 
 export const getComponenteDigitalIsSaving: any = createSelector(

@@ -22,10 +22,6 @@ const routes: Routes = [
                 loadChildren: () => import('./visibilidade/documento-edit-visibilidade.module').then(m => m.DocumentoEditVisibilidadeModule)
             },
             {
-                path: 'anexos',
-                loadChildren: () => import('./anexos/documento-edit-anexos.module').then(m => m.DocumentoEditAnexosModule)
-            },
-            {
                 path: 'assinaturas',
                 loadChildren: () => import('./assinaturas/documento-edit-assinaturas.module').then(m => m.DocumentoEditAssinaturasModule)
             },
