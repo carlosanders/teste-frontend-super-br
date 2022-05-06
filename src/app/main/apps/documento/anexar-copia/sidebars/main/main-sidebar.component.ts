@@ -318,10 +318,12 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            if (!componenteDigitalId) {
+            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
             } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
+            } else {
+                substep = null;
             }
 
             // Decide the animation direction

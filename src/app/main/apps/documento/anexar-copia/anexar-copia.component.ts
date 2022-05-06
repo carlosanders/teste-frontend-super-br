@@ -31,12 +31,10 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getCurrentComponenteDigitalId} from '../store';
-import {getProcessoLoaded} from './store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {
     CdkBookmarkEditDialogComponent
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
-import {Bookmark} from '@cdk/models/bookmark.model';
 import {CdkUtils} from '@cdk/utils';
 import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
@@ -315,6 +313,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
                     this.srcMessage = 'Acesso negado';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
                     this.srcMessage = 'Não há componentes digitais';
+                } else if (this.currentStep && !this.currentStep.subStep) {
+                    this.srcMessage = 'Não há componentes digitais';
                 }
             }
 
@@ -450,7 +450,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
             if (firstJuntada) {
-                return this.currentStep.step === firstJuntada.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
+                return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
             }
         }
         return true;
@@ -460,7 +460,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
             if (lastJuntada) {
-                return this.currentStep.step === lastJuntada.id && this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1];
+                return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
             }
         }
         return true;
@@ -506,7 +506,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detectChanges();
 
         let step;
-        let subStep;
+        let subStep = null;
         const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
         const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
@@ -517,9 +517,11 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             if (currentJuntadaPosition > 0) {
                 step = this.juntadas[currentJuntadaPosition - 1].id;
                 const newIndex = this.index?.find(juntada => juntada.id === step);
-                subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
-                    newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
-                    newIndex.componentesDigitais[0];
+                if (newIndex.componentesDigitais.length > 0) {
+                    subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
+                        newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
+                        newIndex.componentesDigitais[0];
+                }
             }
         }
 
@@ -542,7 +544,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detectChanges();
 
         let step;
-        let subStep;
+        let subStep = null;
         const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
         const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
@@ -557,19 +559,21 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             nextComponenteDigitalPosition = 0;
             step = this.juntadas[newJuntadaPosition].id;
             const newIndex = this.index?.find(juntada => juntada.id === step);
-            subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
+            if (newIndex.componentesDigitais.length > 0) {
+                subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
+            }
         }
 
         this.navigateToStep(step, subStep);
     }
 
-    navigateToStep(step: number, subStep: number): void {
+    navigateToStep(step: number, subStep: number = null): void {
         const currentStep = {
             step: step,
             subStep: subStep
         };
         const index = this.index?.find(juntadaIndex => juntadaIndex.id === currentStep.step);
-        if (index !== undefined && index.componentesDigitais.indexOf(currentStep.subStep) !== -1) {
+        if (index !== undefined && (!subStep || index.componentesDigitais.indexOf(subStep) !== -1)) {
             this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
         }
     }

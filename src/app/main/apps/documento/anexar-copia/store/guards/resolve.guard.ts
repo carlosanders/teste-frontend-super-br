@@ -11,7 +11,7 @@ import * as fromStore from '../index';
 import {getRouterState} from 'app/store/reducers';
 import {Processo} from '@cdk/models';
 import {AnexarCopiaService} from '../../anexar-copia.service';
-import {getProcesso, getProcessoLoaded, getJuntadasLoaded, getIsLoading, getIsLoadingVolumes, getVolumesLoaded} from '../../store';
+import {getProcesso, getJuntadasLoaded, getIsLoading, getIsLoadingVolumes, getVolumesLoaded} from '../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
