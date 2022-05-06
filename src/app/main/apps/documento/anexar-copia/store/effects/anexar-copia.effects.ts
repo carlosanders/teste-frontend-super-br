@@ -190,7 +190,7 @@ export class AnexarCopiaEffects {
                 return of(new ProcessoViewActions.SetCurrentStepFailed(null));
             }
             // temos componente digital, vamos pega-lo
-            const context = {};
+            const context = '{}';
 
             if (!binary.src || !binary.src.conteudo || binary.src.id !== currentStep.subStep) {
                 this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
