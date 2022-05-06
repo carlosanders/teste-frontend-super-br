@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -9,9 +9,9 @@ export class CdkTarefaListService {
 
     private _tarefas: any = [];
 
-    private _viewMode: ViewMode = '';
+    private _viewMode: ViewMode;
 
-    private _viewModeSubject: Subject<ViewMode> = new Subject<ViewMode>();
+    private _viewModeSubject: BehaviorSubject<ViewMode> = new BehaviorSubject<ViewMode>(null);
 
     viewModeObservable(): Observable<ViewMode> {
         return this._viewModeSubject.asObservable();
@@ -39,8 +39,8 @@ export class CdkTarefaListService {
     }
 
     get viewMode(): ViewMode {
-        return this.viewMode;
+        return this._viewMode;
     }
 }
 
-export type ViewMode = 'grid'|'list'|'';
+export type ViewMode = 'grid'|'list';

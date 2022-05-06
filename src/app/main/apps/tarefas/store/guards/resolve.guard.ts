@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -15,12 +15,14 @@ import {Usuario} from '@cdk/models';
 
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
+import {ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
     loadingTarefas: boolean = false;
+    viewMode: ViewMode;
     private _profile: Usuario;
     /**
      *
@@ -30,12 +32,14 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<TarefasAppState>,
         public _loginService: LoginService,
+        private _router: Router
     ) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.viewMode = this._router.getCurrentNavigation()?.extras?.state?.viewMode || null;
         });
 
 
@@ -251,6 +255,10 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
                         };
                     });
+
+                    if (this.viewMode) {
+                        params['viewMode'] = this.viewMode;
+                    }
 
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     if (!tarefaHandle) {

@@ -6,8 +6,12 @@ tarefa-detail {
 
     > .header {
         flex: 0 1 auto;
-        display: none;
         border-bottom: 1px solid;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        display: flex;
+        flex-direction: column;
 
         > .actions {
             flex: 1 1 auto;

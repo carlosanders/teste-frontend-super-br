@@ -113,6 +113,7 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
                     ...state,
                     loading: false,
                     entitiesId: [],
+                    selectedTarefaIds: [],
                     pagination: {
                         ...state.pagination,
                         limit: 10,
@@ -127,6 +128,9 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 loading: true,
+                viewMode: action.payload.viewMode || state.viewMode,
+                selectedTarefaIds: (action.payload.viewMode && action.payload.viewMode == state.viewMode ? state.selectedTarefaIds : []),
+                entitiesId: (action.payload.viewMode && action.payload.viewMode == state.viewMode ? state.entitiesId : []),
                 pagination: {
                     limit: action.payload.limit,
                     offset: action.payload.offset,

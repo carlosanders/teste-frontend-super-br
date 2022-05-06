@@ -4,7 +4,7 @@
     <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
         <tarefas-main-sidebar
-            (reload)="reload($event)" (changeViewMode)="doTarefaListViewModeChange()">
+            (reload)="reload($event)" (changeViewMode)="doTarefaListViewModeChange($event)" [viewMode]="tarefaListViewMode">
         </tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -15,7 +15,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <button mat-icon-button (click)="retornar()" fxHide.gt-sm *ngIf="routerState.params['processoHandle']">
+            <button mat-icon-button (click)="retornar()" *ngIf="routerState.params['processoHandle'] && (tarefaListViewMode == 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
@@ -206,11 +206,11 @@
                      (resizeEnd)="onResizeEndTarefaList($event)"
                      [fxFlex]="tarefaListSize"
                      [ngClass]="{
-                        'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId  || mostraCriar,
-                        'no-current-tarefa': !currentTarefaId && !mostraCriar,
+                        'mobile-mode': mobileMode || tarefaListViewMode == 'grid',
+                        'current-tarefa': currentTarefaId  || !componentRootUrl,
+                        'no-current-tarefa': !currentTarefaId && componentRootUrl,
                         'maximizado': (maximizado$ | async)
-                     }" *ngIf="tarefaListViewMode === 'list' || componentRootUrl">
+                     }">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
@@ -311,13 +311,12 @@
                 </div>
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
-                     *ngIf="tarefaListViewMode === 'list' || !this.componentRootUrl"
                      [fxFlex]="100"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
-                        'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId || mostraCriar,
-                        'no-current-tarefa': !currentTarefaId && !mostraCriar
+                        'mobile-mode': mobileMode || tarefaListViewMode == 'grid',
+                        'current-tarefa': currentTarefaId || !componentRootUrl,
+                        'no-current-tarefa': !currentTarefaId && componentRootUrl
                      }">
                     <router-outlet></router-outlet>
                 </div>

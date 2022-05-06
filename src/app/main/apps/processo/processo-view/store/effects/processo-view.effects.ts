@@ -453,7 +453,8 @@ export class ProcessoViewEffect {
                         }
                     ],
                     {
-                        relativeTo: this._activatedRoute.parent
+                        relativeTo: this._activatedRoute.parent,
+                        skipLocationChange: false
                     }
                 ).then(() => {
                     if (reset) {
@@ -475,7 +476,8 @@ export class ProcessoViewEffect {
                         }
                     ],
                     {
-                        relativeTo: this._activatedRoute.parent
+                        relativeTo: this._activatedRoute.parent,
+                        skipLocationChange: false
                     }
                 ).then(() => {
                     if (reset) {

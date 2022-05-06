@@ -35,8 +35,8 @@ import {getMercureState, getRouterState, getScreenState} from 'app/store/reducer
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -54,7 +54,6 @@ import {
     CdkAssinaturaEletronicaPluginComponent
 } from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
-import {CdkTarefaListComponent} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {
@@ -64,7 +63,9 @@ import {HasTarefa} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-
 import {Back} from 'app/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
-import {ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 
 @Component({
     selector: 'tarefas',
@@ -222,26 +223,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
-    tarefaListViewMode: ViewMode = 'list';
+    tarefaListViewMode: ViewMode;
     componentRootUrl: boolean = true;
+    isSmallScreen: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
-    /**
-     *
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
-     * @param _cdkTranslationLoaderService
-     * @param _tarefaService
-     * @param _formBuilder
-     * @param _router
-     * @param _store
-     * @param _loginService
-     * @param _dynamicService
-     * @param _snackBar
-     * @param _matDialog
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
@@ -253,7 +241,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _loginService: LoginService,
         private _dynamicService: DynamicService,
         private _snackBar: MatSnackBar,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _breakpointObserver: BreakpointObserver,
+        private _activatedRoute: ActivatedRoute,
+        private _cdkTarefaListService: CdkTarefaListService
     ) {
         // Set the defaults
         this.formEditor = this._formBuilder.group({
@@ -306,17 +297,31 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
-        this._store.pipe(select(fromStore.getViewMode)).subscribe((viewMode) => {
-            this.tarefaListViewMode = <ViewMode> viewMode;
+        this._store
+            .pipe(
+                select(fromStore.getViewMode),
+                distinctUntilChanged()
+            )
+            .subscribe((viewMode) => {
+                const lastViewMode = this.tarefaListViewMode;
+                this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
 
-            if (this.tarefaListViewMode === 'grid') {
-                this.tarefaListSize = 100;
-            } else {
-                this.tarefaListSize = 30;
+            if (lastViewMode && lastViewMode !== viewMode) {
+                this.reload({
+                    listFilter: this.pagination.listFilter,
+                    listSort: this.pagination.listSort,
+                    tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                    offset: 0
+                });
             }
 
             this._changeDetectorRef.markForCheck();
         });
+
+        this._breakpointObserver
+            .observe([Breakpoints.Small])
+            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches)
+
         const vinculacaoEtiquetaPagination = new Pagination();
         vinculacaoEtiquetaPagination.filter = {
             orX: [
@@ -552,6 +557,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
+            this._changeDetectorRef.markForCheck();
         });
 
         this.loading$.pipe(
@@ -564,6 +570,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
+                if (this.tarefaListViewMode == 'grid') {
+                    this.doTarefaListViewModeChange('list');
+                }
                 this.mobileMode = true;
                 if (this.maximizado && !this.novaAba) {
                     this._store.dispatch(new ToggleMaximizado(false));
@@ -608,12 +617,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe(documentosVinculados => this.documentosVinculados = documentosVinculados);
 
         this.pesquisaTarefa = 'tarefa';
-
-        if (this.tarefaListViewMode == 'grid') {
-            this.tarefaListSize = 100;
-        } else {
-            this.tarefaListSize = 30;
-        }
     }
 
     ngAfterViewInit(): void {
@@ -668,7 +671,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
             limit: params.limit || this.pagination.limit,
-            offset: params.offset || this.pagination.offset
+            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : this.pagination.offset),
+            viewMode: this.tarefaListViewMode
         };
 
         let generoParam = this.routerState.params['generoHandle'];
@@ -781,7 +785,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            offset: this.pagination.offset + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit,
+            viewMode: this.tarefaListViewMode
         };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -1025,7 +1030,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {skipLocationChange: true}).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1507,7 +1512,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
                 + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
                 + stepHandle + '/documento/' + documentoId
-            ]).then();
+            ], {skipLocationChange: true}).then();
         }
     }
 
@@ -1905,7 +1910,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.abreEditor(documentoRespostaId, tarefa);
     }
 
-    doTarefaListViewModeChange(): void {
-        this._store.dispatch(new fromStore.ChangeViewMode(this.tarefaListViewMode == 'list' ? 'grid' : 'list'))
+    doTarefaListViewModeChange(viewMode: ViewMode): void {
+        this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
     }
 }

@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
+    EventEmitter, Input,
     OnDestroy,
     OnInit,
     Output,
@@ -41,9 +41,9 @@ import {navigationConverter} from '../../../../../navigation/navigation';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
-    CdkTarefaListService,
     ViewMode
 } from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -59,7 +59,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     reload = new EventEmitter<any>();
 
     @Output()
-    changeViewMode: EventEmitter<void> = new EventEmitter<void>();
+    changeViewMode: EventEmitter<ViewMode> = new EventEmitter<ViewMode>();
+
+    @Input()
+    viewMode: ViewMode;
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
@@ -140,20 +143,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     selectedTarefas: Tarefa[] = [];
 
     loaded: any;
-    viewMode: ViewMode = 'list';
+    isXSmallScreen: boolean = false;
 
     private counterState: CounterState;
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    /**
-     *
-     * @param _store
-     * @param _changeDetectorRef
-     * @param _loginService
-     * @param router
-     * @param _snackBar
-     * @param _cdkSidebarService
-     */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -161,7 +155,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private router: Router,
         private _snackBar: MatSnackBar,
         private _cdkSidebarService: CdkSidebarService,
-        private _cdkTarefaListService: CdkTarefaListService
+        private _breakpointObserver: BreakpointObserver
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -172,14 +166,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.unidades$ = this._store.pipe(select(fromStore.getUnidades));
         this.setores$ = this._store.pipe(select(fromStore.getSetores));
         this.isSavingFolder$ = this._store.pipe(select(fromStore.getIsSaving));
-        this._cdkTarefaListService
-            .viewModeObservable()
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((viewMode) => {
-                this.viewMode = viewMode;
-                this._changeDetectorRef.detectChanges();
-            });
-
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -233,6 +219,15 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.typeHandle = routerState.state.params['typeHandle'];
             this.preencherContador();
         });
+
+
+        this._breakpointObserver
+            .observe([Breakpoints.XSmall])
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged()
+            )
+            .subscribe((state: BreakpointState) => this.isXSmallScreen = state.matches);
     }
 
     /**
@@ -912,7 +907,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doToogleViewMode(): void {
-        this._cdkTarefaListService.viewMode = this.viewMode == 'list' ? 'grid' : 'list';
-        this.changeViewMode.emit();
+        this.changeViewMode.emit(this.viewMode == 'list' ? 'grid' : 'list');
+        this.router.navigate(['/apps/tarefas/' + this.generoHandle + '/minhas-tarefas/entrada'], {state: {'viewMode': this.viewMode == 'list' ? 'grid' : 'list'}})
+
     }
 }

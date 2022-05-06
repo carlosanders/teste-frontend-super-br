@@ -624,10 +624,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             }
         }
 
-        if (changes['viewMode']) {
-            this.loadPage();
-        }
-
         this.classes = `view-mode-${this.viewMode}`;
     }
 

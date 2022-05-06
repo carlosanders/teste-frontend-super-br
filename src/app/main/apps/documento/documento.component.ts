@@ -36,6 +36,7 @@ import {CdkUtils} from '@cdk/utils';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTabGroup} from '@angular/material/tabs';
+import {RouterHistoryService} from '../../../../@cdk/utils/router-history.service';
 
 @Component({
     selector: 'documento',
@@ -71,18 +72,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     getDocumentosAvulsos: boolean = false;
     getDocumentosProcesso: boolean = false;
     lote: string;
+    private _backUrl: string;
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    /**
-     *
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
-     * @param _cdkTranslationLoaderService
-     * @param _store
-     * @param _router
-     * @param _activatedRoute
-     * @param _matDialog
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
@@ -90,7 +82,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _routerHistoryService: RouterHistoryService
     ) {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -113,6 +106,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
+        this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
 
@@ -227,7 +221,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this._router.navigate(['apps/pesquisa/documentos/']).then();
             return;
         }
-        this._router.navigate([url]).then();
+
+        this._router.navigate([this._backUrl || url]).then();
     }
 
     public destroyEditor(): void {
