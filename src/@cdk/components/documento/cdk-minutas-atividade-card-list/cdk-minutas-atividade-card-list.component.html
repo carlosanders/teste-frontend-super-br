@@ -105,6 +105,7 @@
     </div>
 
     <cdk-minutas-atividade-card class="ml-8 mb-8"
+                                [ngClass]="{'current': currentDocumentoId === documento.id}"
                                 *ngFor="let documento of documentos"
                                 [documento]="documento"
                                 [selected]="selectedIds?.indexOf(documento.id) > -1"

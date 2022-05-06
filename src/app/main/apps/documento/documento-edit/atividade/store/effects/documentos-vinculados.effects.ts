@@ -9,16 +9,14 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     documento as documentoSchema,
     vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 
@@ -140,93 +138,6 @@ export class DocumentosVinculadosEffects {
         ), 25)
     ));
     /**
-     * Assina Documento Vinculado
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoVinculado: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.AssinaDocumentoVinculado>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new DocumentosVinculadosActions.PreparaAssinaturaVinculadoSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new DocumentosVinculadosActions.PreparaAssinaturaVinculadoFailed(payload));
-                })
-            ), 25)
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoVinculadoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamente>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                }));
-                return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Remove Assinatura de Documento
-     */
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculado>(DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(response => [
-                    new DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculadoSuccess(action.payload),
-                    new UpdateData<Documento>({
-                        id: action.payload,
-                        schema: documentoSchema,
-                        changes: {assinado: false}
-                    })
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculadoFailed(action.payload));
-                })
-            ), 25)
-    ));
-    /**
      * Clicked Documento Vinculado
      *
      * @type {Observable<any>}
@@ -245,7 +156,7 @@ export class DocumentosVinculadosEffects {
                     }
                 }],
                 {
-                    relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
+                    relativeTo: this._activatedRoute.parent
                 }).then();
         })
     ), {dispatch: false});
@@ -255,15 +166,15 @@ export class DocumentosVinculadosEffects {
      * @type {Observable<any>}
      */
     updateDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
+        ofType<DocumentosVinculadosActions.UpdateDocumentoVinculado>(DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO),
         mergeMap((action) => {
             const populate = JSON.stringify([
                 'tipoDocumento',
                 'atualizadoPor'
             ]);
-            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento?.id}, populate).pipe(
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
                 mergeMap((response: Documento) => [
-                    new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                    new DocumentosVinculadosActions.UpdateDocumentoVinculadoSuccess(response.id),
                     new UpdateData<Documento>({
                         id: response.id,
                         schema: documentoSchema,
@@ -276,7 +187,7 @@ export class DocumentosVinculadosEffects {
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                    return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
                 })
             );
         }, 25)
@@ -288,7 +199,7 @@ export class DocumentosVinculadosEffects {
      *
      * */
     downloadP7S: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.DownloadP7S>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S),
+        ofType<DocumentosVinculadosActions.DownloadP7SVinculado>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_VINCULADO_P7S),
         mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload.id)
             .pipe(
                 map((response) => {
@@ -315,11 +226,11 @@ export class DocumentosVinculadosEffects {
                             link.remove();
                         }, 100);
                     }
-                    return new DocumentosVinculadosActions.DownloadP7SSuccess(action.payload);
+                    return new DocumentosVinculadosActions.DownloadP7SVinculadoSuccess(action.payload);
                 }),
                 catchError((err) => {
                     console.log(err);
-                    return of(new DocumentosVinculadosActions.DownloadP7SFailed(action.payload));
+                    return of(new DocumentosVinculadosActions.DownloadP7SVinculadoFailed(action.payload));
                 })
             ), 25)
     ));
@@ -367,11 +278,21 @@ export class DocumentosVinculadosEffects {
             })
         ))
     ));
+    /**
+     * Criar anexo por aprovação deve atualizar lista de documentos vinculados
+     */
+    aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
+        tap((action) => {
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+                this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
+            }
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
-        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
         private _activatedRoute: ActivatedRoute,

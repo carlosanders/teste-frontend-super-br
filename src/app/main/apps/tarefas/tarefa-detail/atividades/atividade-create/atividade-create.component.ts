@@ -523,7 +523,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     onClicked(event): void {
         const documento = event.documento;
-        const sidebar = 'editar/atividade';
+        const sidebar = 'editar/' + this.routeAtividadeDocumento;
         if (event.event.ctrlKey) {
             const extras = {
                 queryParams: {

@@ -16,14 +16,17 @@
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
             <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa"
-                      class="ml-8 mr-8">edit
+                      class="ml-8 mr-8">
+                edit
             </mat-icon>
             <mat-icon
                 *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraRemessa && !documento.documentoAvulsoRemessa.dataHoraResposta"
-                class="ml-8 mr-8">screen_share
+                class="ml-8 mr-8">
+                screen_share
             </mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
-                      class="ml-8 mr-8">reply
+                      class="ml-8 mr-8">
+                reply
             </mat-icon>
             <mat-icon *ngIf="documento.assinado" class="ml-8 mr-8">lock</mat-icon>
             <mat-icon *ngIf="documento.apagadoEm" class="ml-8 mr-8">delete</mat-icon>
@@ -35,7 +38,7 @@
     </div>
 
     <div class="more-vert"
-         [ngClass]="{'grey-100':disabledSelect}">
+         [ngClass]="{'grey-100':disabledSelect}" (click)="$event.stopPropagation();">
         <button
             *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !undeleting"
             mat-icon-button

@@ -190,7 +190,6 @@ export class AnexarCopiaEffects {
                 return of(new ProcessoViewActions.SetCurrentStepFailed(null));
             }
             // temos componente digital, vamos pega-lo
-            const context = {};
 
             if (!binary.src || !binary.src.conteudo || binary.src.id !== currentStep.subStep) {
                 this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
@@ -201,7 +200,7 @@ export class AnexarCopiaEffects {
                                 return of(cachedValue);
                             }
 
-                            return this._componenteDigitalService.download(currentStep.subStep, context)
+                            return this._componenteDigitalService.download(currentStep.subStep)
                                 .pipe(
                                     tap((componenteDigital) => {
                                         if (componenteDigital?.mimetype !== 'text/html') {

@@ -15,7 +15,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
-import {ReloadDocumentosVinculados as GetDocumentosVinculadosMinuta} from '../../documento-edit/anexos/store';
+
 import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/anexos/store';
 
 @Injectable()
@@ -129,9 +129,6 @@ export class ComponenteDigitalEffect {
         }))),
         switchMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
             tap((response) => {
-                if (this.routerState.url.indexOf('editar/') !== -1) {
-                    this._store.dispatch(new GetDocumentosVinculadosMinuta());
-                }
                 if (this.routerState.url.indexOf('oficio/') !== -1) {
                     this._store.dispatch(new GetDocumentosVinculadosOficio());
                 }

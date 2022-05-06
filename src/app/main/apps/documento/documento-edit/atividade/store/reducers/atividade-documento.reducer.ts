@@ -5,12 +5,15 @@ export interface AtividadeDocumentoState {
     errors: any;
 }
 
-export const AtividadeDocumentoInitialState: AtividadeDocumentoState = {
+export const atividadeDocumentoInitialState: AtividadeDocumentoState = {
     saving: false,
     errors: false,
 };
 
-export function AtividadeDocumentoReducer(state = AtividadeDocumentoInitialState, action: AtividadeDocumentoActions.AtividadeDocumentoActionsAll): AtividadeDocumentoState {
+export const atividadeDocumentoReducer = (
+    state = atividadeDocumentoInitialState,
+    action: AtividadeDocumentoActions.AtividadeDocumentoActionsAll
+): AtividadeDocumentoState => {
     switch (action.type) {
 
         case AtividadeDocumentoActions.CREATE_ATIVIDADE: {
@@ -47,4 +50,4 @@ export function AtividadeDocumentoReducer(state = AtividadeDocumentoInitialState
         default:
             return state;
     }
-}
+};
