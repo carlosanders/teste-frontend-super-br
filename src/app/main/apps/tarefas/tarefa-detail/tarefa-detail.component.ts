@@ -20,7 +20,7 @@ import {
     SaveConteudoVinculacaoEtiqueta,
     SaveEtiqueta
 } from './store';
-import {getMaximizado} from '../store';
+import {getMaximizado, ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -56,6 +56,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     placeholderEtiq = 'Adicionar etiquetas na tarefa';
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
+    expandir$: Observable<boolean>;
     screen$: Observable<any>;
     routerState: any;
     maximizado$: Observable<boolean>;
@@ -64,6 +65,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     routeAtividade: string = 'atividades/criar';
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    novaAba = false;
     expandState: 'minimum' | 'maximized' | 'collapsed' = 'minimum';
     isGridMode: boolean = false;
 
@@ -82,6 +84,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.expandir$ = this._store.pipe(select(expandirTela));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -128,6 +131,11 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
                 this.sheetRef.dismiss();
             }
+
+            if (routerState.state.queryParams['novaAba']) {
+                this.novaAba = true;
+                this.doToggleMaximizado(this.novaAba);
+            }
             this.routerState = routerState.state;
         });
 
@@ -138,7 +146,15 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             this.tarefa = tarefa;
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas?.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
-
+        this.expandir$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            (expandir) => {
+                if (expandir || !this.novaAba) {
+                    this.doToggleMaximizado(expandir);
+                }
+            }
+        );
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -200,5 +216,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         }));
         this.etiqueta = null;
         this.showEtiqueta = false;
+    }
+
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
 }
