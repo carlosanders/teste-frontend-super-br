@@ -635,13 +635,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
-                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
             }
 
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
             }
         });
