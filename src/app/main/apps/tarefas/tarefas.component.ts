@@ -37,9 +37,9 @@ import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {LoginService} from '../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
-import {modulesConfig} from '../../../../modules/modules-config';
+import {modulesConfig} from 'modules/modules-config';
 import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
@@ -60,12 +60,11 @@ import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {HasTarefa} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
-import {Back} from 'app/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {CdkTarefaListComponent} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 
 @Component({
     selector: 'tarefas',
@@ -424,7 +423,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-
         this.novaTarefa = false;
 
         this._store.pipe(
@@ -455,7 +453,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
                 } else {
-                    this.routeAtividade = "atividades/criar";
+                    this.routeAtividade = 'atividades/criar';
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&
@@ -1357,7 +1355,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     retornar(): void {
         this.mostraCriar = false;
-        this._store.dispatch(new Back());
+        const url = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle;
+
+        this._router.navigate([url], {state: {viewMode: this.tarefaListViewMode}}).then();
     }
 
     doSalvarObservacao(params: any): void {
