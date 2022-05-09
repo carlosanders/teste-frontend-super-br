@@ -8,7 +8,7 @@
         </mat-icon>
     </mat-card-header>
     <mat-card-content>
-        <div class="24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.tarefasCount === false" diameter="64"></mat-spinner>
             <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-64 line-height-64">
                 {{this.tarefasCount}}
