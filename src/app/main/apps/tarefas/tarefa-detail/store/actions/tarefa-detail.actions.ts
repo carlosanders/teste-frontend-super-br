@@ -57,6 +57,16 @@ export const REMOVE_PLUGIN_LOADING = '[TAREFA DETAIL] REMOVE PLUGIN LOADING';
 
 export const TAREFA_PROCESO_RESTRITO_VALIDADA_SUCCESS = '[TAREFA DETAIL] TAREFA PROCESSO RESTRITO VALIDADA SUCCESS';
 
+export const UPLOAD_CONCLUIDO = '[TAREFA DETAIL] UPLOAD CONCLUIDO';
+
+export const GET_ETIQUETAS_TAREFAS = '[TAREFA DETAIL] GET ETIQUETAS TAREFA';
+export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFA DETAIL] GET ETIQUETAS TAREFA SUCCESS';
+export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFA DETAIL] GET ETIQUETAS TAREFA FAILED';
+
+export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA MINUTA TAREFA';
+export const REMOVE_ETIQUETA_OFICIO_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA OFICIO TAREFA';
+export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFA DETAIL] ATUALIZA ETIQUETA MINUTA';
+
 /**
  * Get Tarefa
  */
@@ -547,6 +557,60 @@ export class TarefaProcessoRestritoValidadaSuccess implements Action
     }
 }
 
+export class UploadConcluido implements Action
+{
+    readonly type = UPLOAD_CONCLUIDO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetEtiquetasTarefas implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class GetEtiquetasTarefasSuccess implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class GetEtiquetasTarefasFailed implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class RemoveEtiquetaMinutaTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_MINUTA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class RemoveEtiquetaOficioTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_OFICIO_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AtualizaEtiquetaMinuta implements Action {
+    readonly type = ATUALIZA_ETIQUETA_MINUTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -588,4 +652,12 @@ export type TarefaDetailActionsAll
     | GetDocumentosFailed
     | AddPluginLoading
     | RemovePluginLoading
-    | TarefaProcessoRestritoValidadaSuccess;
+    | TarefaProcessoRestritoValidadaSuccess
+    | UploadConcluido
+    | GetEtiquetasTarefas
+    | GetEtiquetasTarefasSuccess
+    | GetEtiquetasTarefasFailed
+    | RemoveEtiquetaMinutaTarefa
+    | RemoveEtiquetaOficioTarefa
+    | AtualizaEtiquetaMinuta
+    ;
