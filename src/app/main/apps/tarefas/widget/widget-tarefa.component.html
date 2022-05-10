@@ -17,7 +17,7 @@
                 Todas as espécies
             </div>
         </div>
-        <div class="card-tarefa" *ngIf="!isContadorPrincipal" [@popOverState]="contagemTarefas.length">
+        <div class="card-tarefa" *ngIf="!isContadorPrincipal">
             <div *ngFor="let item of contagemTarefas | keyvalue">
                 <button class="botao-link" mat-button
                         [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/entrada'">
