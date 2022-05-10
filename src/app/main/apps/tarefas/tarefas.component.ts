@@ -448,14 +448,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             const path = 'app/main/apps/tarefas';
+            this.routeAtividade = 'atividades/criar';
+            this.routeAtividadeBloco = 'atividade-bloco';
+            this.routeAtividadeDocumento = 'atividade';
+            this.routeOficioDocumento = 'oficio';
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
                     (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
-                } else {
-                    this.routeAtividade = "atividades/criar";
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&
@@ -621,6 +623,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         const path = 'app/main/apps/tarefas';
+        this.routeAtividade = 'atividades/criar';
+        this.routeAtividadeBloco = 'atividade-bloco';
+        this.routeAtividadeDocumento = 'atividade';
+        this.routeOficioDocumento = 'oficio';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
