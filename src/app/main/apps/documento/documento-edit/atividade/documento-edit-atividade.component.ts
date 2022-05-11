@@ -476,7 +476,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                     ], extras);
                     window.open(url.toString(), '_blank');
                 } else {
-                    this._componenteDigitalService.trocandoDocumento.next(true);
+                    // this._componenteDigitalService.trocandoDocumento.next(true);
                     this._router.navigate([
                             this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
                             '/documento/' + documento.id,

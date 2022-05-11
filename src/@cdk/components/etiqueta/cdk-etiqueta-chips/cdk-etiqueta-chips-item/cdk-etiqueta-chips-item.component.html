@@ -1,5 +1,5 @@
 <mat-chip
-        [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
+        [ngStyle]="{'background-color': etiqueta.corHexadecimal, 'color': corHexadecimalFonte()}"
         [selectable]="selectable"
         [removable]="deletable"
         matTooltip="{{getTooltip()}}"
@@ -7,7 +7,8 @@
         (removed)="remove()">
     <mat-spinner *ngIf="saving" diameter="16"></mat-spinner>
     <mat-icon class="icon" *ngIf="!saving && iconeVisibilidade">{{iconeVisibilidade}}</mat-icon>
-    <mat-icon *ngIf="conteudo" class="icon">subject</mat-icon>
+    <mat-icon *ngIf="conteudo" class="icon"
+              [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">subject</mat-icon>
     {{etiqueta.nome | titleCasePipe}}
     <mat-icon matChipRemove
               *ngIf="deletable">cancel
