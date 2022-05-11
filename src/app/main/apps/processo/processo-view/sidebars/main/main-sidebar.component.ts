@@ -618,12 +618,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                 module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                 module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
-                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
@@ -658,6 +660,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     goToJuntada(juntadaId, restrito, componenteDigitalId = null, event = null): void {
         const step = juntadaId;
         let substep = 0;
+        let stepHandle = juntadaId;
 
         if (event?.ctrlKey && componenteDigitalId) {
             this._store.dispatch(new fromStore.VisualizarJuntada(componenteDigitalId));
@@ -668,10 +671,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            if (!componenteDigitalId) {
+            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
+                stepHandle += '-' + substep;
             } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
+                stepHandle += '-' + substep;
+            } else {
+                substep = null;
             }
 
             // Decide the animation direction
@@ -690,7 +697,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
                 arrPrimary.push('visualizar');
-                arrPrimary.push(step + '-' + substep);
+                arrPrimary.push(stepHandle);
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -716,7 +723,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 if (this.routerState.params.chaveAcessoHandle) {
                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                 }
-                url += '/visualizar/' + step + '-' + substep;
+                url += '/visualizar/' + stepHandle;
                 this._router.navigateByUrl(url).then(() => {
                     this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
                     this.fecharSidebar();

@@ -112,7 +112,11 @@ export class ProcessoViewEffect {
                         },
                         default: !!action.payload.default ? {
                             step: response['entities'][0].id,
-                            subStep: response['entities'][0].documento.componentesDigitais[0]?.id
+                            subStep: (response['entities'][0].documento?.componentesDigitais.length > 0 ?
+                                response['entities'][0].documento.componentesDigitais[0]?.id :
+                                response['entities'][0].documento?.vinculacoesDocumentos.length > 0 ?
+                                    response['entities'][0].documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id :
+                                    null)
                         } : false,
                         total: response['total']
                     })
@@ -194,12 +198,12 @@ export class ProcessoViewEffect {
                 // não tem essa juntada, vamos para capa
                 return of(new ProcessoViewActions.GetCapaProcesso());
             } else {
-                if (index['status'] === 'desentranhada') {
-                    // temos documento com acesso negado ou desentranhado
+                if (currentStep.subStep === null || (currentStep.step === index['juntadaId'] && index['status'] === 'sem_componentes_digitais')) {
+                    // nenhum componente digital solicitado ou juntada sem componentes digitais
                     return of(new ProcessoViewActions.SetCurrentStepFailed(null));
                 }
-                if (currentStep.subStep === null || index['status'] === 'sem_componentes_digitais') {
-                    // nenhum componente digital solicitado ou juntada sem componentes digitais
+                if (currentStep.step === index['juntadaId'] && index['status'] === 'desentranhada') {
+                    // temos documento com acesso negado ou desentranhado
                     return of(new ProcessoViewActions.SetCurrentStepFailed(null));
                 }
                 // temos componente digital, vamos pega-lo
@@ -265,7 +269,7 @@ export class ProcessoViewEffect {
                 // Foi feito pedido de alteração de ordenação, a primeira juntada será o novo default
                 const currentStep: {
                     step: number;
-                    subStep: number;
+                    subStep: any;
                 } = action.payload.default;
                 this.navegaParaStepSubstep(currentStep);
             }
@@ -366,7 +370,7 @@ export class ProcessoViewEffect {
                     const firstComponenteDigitalId = action.payload.juntadaIndex['componenteDigitalId'];
                     const currentStep: {
                         step: number;
-                        subStep: number;
+                        subStep: any;
                     } = {
                         step: firstJuntadaId,
                         subStep: firstComponenteDigitalId ?? null
@@ -379,11 +383,13 @@ export class ProcessoViewEffect {
                 }
             } else {
                 const stepHandle = this.routerState.params['stepHandle'];
-                const currentStep = {
-                    step: parseInt(stepHandle.split('-')[0], 10),
-                    subStep: stepHandle.split('-')[1] ? parseInt(stepHandle.split('-')[1], 10) : null
-                };
-                this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
+                if (stepHandle && stepHandle !== 'capa' && stepHandle !== 'default') {
+                    const currentStep = {
+                        step: parseInt(stepHandle.split('-')[0], 10),
+                        subStep: stepHandle.split('-')[1] ? parseInt(stepHandle.split('-')[1], 10) : null
+                    };
+                    this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
+                }
             }
         })
     ), {dispatch: false});
@@ -413,7 +419,10 @@ export class ProcessoViewEffect {
     navegaParaStepSubstep = (currentStep: {step: number; subStep: number}, reset: boolean = false, capa: boolean = false): void => {
         let stepHandle;
         if (!capa) {
-            stepHandle = currentStep['step'] + '-' + currentStep['subStep'];
+            stepHandle = currentStep['step'];
+            if (currentStep['subStep']) {
+                stepHandle += '-' + currentStep['subStep'];
+            }
         } else {
             stepHandle = 'capa';
         }

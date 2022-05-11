@@ -10,13 +10,6 @@
                 <mat-icon class="black-fg">send</mat-icon>
             </button>
 
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && !(documento$ | async)?.apagadoEm" mat-icon-button
-                    aria-label="gerir anexos"
-                    matTooltip="Gerir Anexos" routerLink="anexos"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">attachment</mat-icon>
-            </button>
-
             <button mat-icon-button aria-label="editar o documento"
                     *ngIf="!(documento$ | async)?.apagadoEm"
                     matTooltip="Editar o Documento" routerLink="dados-basicos"

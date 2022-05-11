@@ -16,7 +16,7 @@ export interface ProcessoViewState {
     loaded: any;
     currentStep: {
         step: number;
-        subStep: number;
+        subStep: any;
     };
     currentStepLoaded: any;
     binary: {

@@ -307,6 +307,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.fileName = '';
                 this.src = false;
                 this.pdfSrc = null;
+                this.componenteDigital = null;
                 if (this.currentJuntada && !this.currentJuntada.ativo) {
                     this.srcMessage = 'Juntada desentranhada do processo';
                 } else if (this.currentJuntada && !this.currentJuntada.documento) {
@@ -314,6 +315,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
                     this.srcMessage = 'Acesso negado';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
+                    this.srcMessage = 'Não há componentes digitais';
+                } else if (this.currentStep && !this.currentStep.subStep) {
                     this.srcMessage = 'Não há componentes digitais';
                 }
             }
@@ -443,7 +446,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
             if (firstJuntada) {
-                return this.currentStep.step === firstJuntada.id && this.currentStep.subStep === firstJuntada.componentesDigitais[0];
+                return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
             }
         }
         return true;
@@ -453,7 +456,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
             if (lastJuntada) {
-                return this.currentStep.step === lastJuntada.id && this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1];
+                return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
             }
         }
         return true;
@@ -475,7 +478,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detectChanges();
 
         let step;
-        let subStep;
+        let subStep = null;
         const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
         const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
@@ -486,13 +489,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             if (currentJuntadaPosition > 0) {
                 step = this.juntadas[currentJuntadaPosition - 1].id;
                 const newIndex = this.index?.find(juntada => juntada.id === step);
-                subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
-                    newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
-                    newIndex.componentesDigitais[0];
+                if (newIndex.componentesDigitais.length > 0) {
+                    subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
+                        newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
+                        newIndex.componentesDigitais[0];
+                }
             }
         }
 
-        this.navigateToStep(step + '-' + subStep);
+        this.navigateToStep(step, subStep);
     }
 
     /**
@@ -511,7 +516,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detectChanges();
 
         let step;
-        let subStep;
+        let subStep = null;
         const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
         const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
@@ -526,20 +531,26 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             nextComponenteDigitalPosition = 0;
             step = this.juntadas[newJuntadaPosition].id;
             const newIndex = this.index?.find(juntada => juntada.id === step);
-            subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
+            if (newIndex.componentesDigitais.length > 0) {
+                subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
+            }
         }
 
-        this.navigateToStep(step + '-' + subStep);
+        this.navigateToStep(step, subStep);
     }
 
-    navigateToStep(step: string): void {
-        const newSteps = step.split('-');
+    navigateToStep(step: number, subStep: number = null): void {
         const currentStep = {
-            step: parseInt(newSteps[0], 10),
-            subStep: parseInt(newSteps[1], 10)
+            step: step,
+            subStep: subStep
         };
-        const index = this.index?.find(juntadaIndex => juntadaIndex.id === currentStep.step);
-        if (index !== undefined && index.componentesDigitais.indexOf(currentStep.subStep) !== -1) {
+        let stepHandle: string = step.toString();
+        if (subStep) {
+            stepHandle += '-' + subStep;
+        }
+
+        const index = this.index?.find(juntadaIndex => juntadaIndex.id === step);
+        if (index !== undefined && (!subStep || index.componentesDigitais.indexOf(subStep) !== -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 const arrPrimary = [];
                 arrPrimary.push('visualizar-processo');
@@ -549,7 +560,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
                 arrPrimary.push('visualizar');
-                arrPrimary.push(step);
+                arrPrimary.push(stepHandle);
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -574,7 +585,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 if (this.routerState.params.chaveAcessoHandle) {
                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                 }
-                url += '/visualizar/' + step;
+                url += '/visualizar/' + stepHandle;
                 this._router.navigateByUrl(url).then(() => {
                     this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 });

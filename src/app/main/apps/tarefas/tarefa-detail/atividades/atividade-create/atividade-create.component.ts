@@ -306,7 +306,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                 module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
         });
@@ -522,7 +523,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     onClicked(event): void {
         const documento = event.documento;
-        const sidebar = 'editar/atividade';
+        const sidebar = 'editar/' + this.routeAtividadeDocumento;
         if (event.event.ctrlKey) {
             const extras = {
                 queryParams: {

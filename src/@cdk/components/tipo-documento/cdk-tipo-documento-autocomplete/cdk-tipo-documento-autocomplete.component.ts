@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
+    Input, OnDestroy,
     OnInit,
     ViewChild,
     ViewEncapsulation
@@ -12,8 +12,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {Pagination, TipoDocumento} from '@cdk/models';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {AbstractControl} from '@angular/forms';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, takeUntil} from 'rxjs/operators';
+import {of, Subject} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 
 @Component({
@@ -25,7 +25,7 @@ import {MatAutocomplete} from '@cdk/angular/material';
     animations: cdkAnimations,
     exportAs: 'tipoDocumentoAutocomplete',
 })
-export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
+export class CdkTipoDocumentoAutocompleteComponent implements OnInit, OnDestroy {
 
     @Input()
     pagination: Pagination;
@@ -37,6 +37,7 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
     tipoDocumentoList: TipoDocumento[];
 
     tipoDocumentoListIsLoading: boolean;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -56,6 +57,7 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
 
     ngOnInit(): void {
         this.control.valueChanges.pipe(
+            takeUntil(this._unsubscribeAll),
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
@@ -95,6 +97,11 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
             this.tipoDocumentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(true);
+        this._unsubscribeAll.complete();
     }
 
     displayTipoDocumentoFn(tipoDocumento): string {

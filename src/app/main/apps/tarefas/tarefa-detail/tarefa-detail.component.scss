@@ -24,6 +24,26 @@ tarefa-detail {
                 margin-right: 8px;
             }
         }
+
+        .etiquetas-minutas {
+            display: flex;
+            flex-wrap: wrap;
+
+            .etiqueta {
+                display: flex;
+                align-items: center;
+                font-size: 11px;
+                border: 1px solid;
+                margin-right: 2px;
+                padding: 3px 8px;
+                cursor: pointer;
+                max-height: 32px;
+                align-self: center;
+                margin-bottom: 2px;
+                min-width: 90px;
+                border-radius: 3px;
+            }
+        }
     }
 
     > .content {

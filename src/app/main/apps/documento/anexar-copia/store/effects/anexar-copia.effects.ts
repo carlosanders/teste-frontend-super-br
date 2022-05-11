@@ -104,7 +104,11 @@ export class AnexarCopiaEffects {
                         },
                         default: !!action.payload.default ? {
                             step: response['entities'][0].id,
-                            subStep: response['entities'][0].documento.componentesDigitais[0]?.id
+                            subStep: (response['entities'][0].documento?.componentesDigitais.length > 0 ?
+                                response['entities'][0].documento.componentesDigitais[0]?.id :
+                                response['entities'][0].documento?.vinculacoesDocumentos.length > 0 ?
+                                    response['entities'][0].documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id :
+                                    null)
                         } : false,
                         total: response['total']
                     })
@@ -181,17 +185,15 @@ export class AnexarCopiaEffects {
                 subStep: action.payload.subStep
             };
             const index = processo.juntadaIndex;
-            if (index['status'] === 'desentranhada') {
-                // temos juntada desentranhada
-                return of(new ProcessoViewActions.SetCurrentStepFailed(null));
-            }
-            if (currentStep.subStep === null || index['status'] === 'sem_componentes_digitais') {
+            if (currentStep.subStep === null || (currentStep.step === index['juntadaId'] && index['status'] === 'sem_componentes_digitais')) {
                 // nenhum componente digital solicitado ou juntada sem componentes digitais
                 return of(new ProcessoViewActions.SetCurrentStepFailed(null));
             }
+            if (currentStep.step === index['juntadaId'] && index['status'] === 'desentranhada') {
+                // temos juntada desentranhada
+                return of(new ProcessoViewActions.SetCurrentStepFailed(null));
+            }
             // temos componente digital, vamos pega-lo
-            const context = {};
-
             if (!binary.src || !binary.src.conteudo || binary.src.id !== currentStep.subStep) {
                 this._store.dispatch(new ProcessoViewActions.StartLoadingBinary());
                 const download$ = this._cacheComponenteDigitalModelService.get(currentStep.subStep)
@@ -201,7 +203,7 @@ export class AnexarCopiaEffects {
                                 return of(cachedValue);
                             }
 
-                            return this._componenteDigitalService.download(currentStep.subStep, context)
+                            return this._componenteDigitalService.download(currentStep.subStep)
                                 .pipe(
                                     tap((componenteDigital) => {
                                         if (componenteDigital?.mimetype !== 'text/html') {
@@ -246,7 +248,7 @@ export class AnexarCopiaEffects {
                 // Foi feito pedido de alteração de ordenação, a primeira juntada será o novo default
                 const currentStep: {
                     step: number;
-                    subStep: number;
+                    subStep: any;
                 } = action.payload.default;
                 this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
             }
@@ -311,7 +313,7 @@ export class AnexarCopiaEffects {
                 if (action.payload.juntadaIndex['status'] !== 'sem_juntadas') {
                     const currentStep: {
                         step: number;
-                        subStep: number;
+                        subStep: any;
                     } = {
                         step: action.payload.juntadaIndex['id'],
                         subStep: action.payload.juntadaIndex['componenteDigitalId'] ?? null

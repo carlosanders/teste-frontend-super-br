@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoEditAnexosAppState, DocumentosVinculadosState, getDocumentoEditAnexosAppState} from '../reducers';
+import * as fromStore from '../';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -7,13 +7,13 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getDocumentosVinculadosState: any = createSelector(
-    getDocumentoEditAnexosAppState,
-    (state: DocumentoEditAnexosAppState) => state.documentosVinculados
+    fromStore.getTarefaDetailAppState,
+    (state: fromStore.TarefaDetailAppState) => state.documentosVinculados
 );
 
 export const getDocumentosVinculadosId: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.documentosId
+    (state: fromStore.DocumentosVinculadosState) => state.documentosId
 );
 
 export const getDocumentosVinculados: any = createSelector(
@@ -24,52 +24,37 @@ export const getDocumentosVinculados: any = createSelector(
 
 export const getIsLoadingDocumentosVinculados: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.loading
+    (state: fromStore.DocumentosVinculadosState) => state.loading
 );
 
 export const getIsSavingDocumentosVinculados: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.saving
+    (state: fromStore.DocumentosVinculadosState) => state.saving
 );
 
 export const getDocumentosVinculadosHasLoaded: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.documentosLoaded
+    (state: fromStore.DocumentosVinculadosState) => state.documentosLoaded
 );
 
 export const getDeletingDocumentosVinculadosId: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.deletingDocumentoIds
-);
-
-export const getAssinandoDocumentosVinculadosId: any = createSelector(
-    getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.removendoAssinaturaDocumentoIds
+    (state: fromStore.DocumentosVinculadosState) => state.deletingDocumentoIds
 );
 
 export const getSelectedDocumentosVinculadosIds: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.selectedDocumentosId
+    (state: fromStore.DocumentosVinculadosState) => state.selectedDocumentosId
 );
 
-export const getAlterandoDocumentosId: any = createSelector(
+export const getAlterandoDocumentosVinculadosId: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.alterandoDocumentoIds
-);
-
-export const getDownloadDocumentosP7SId: any = createSelector(
-    getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.downloadDocumentosP7SIds
+    (state: fromStore.DocumentosVinculadosState) => state.alterandoDocumentoIds
 );
 
 export const getDocumentosVinculadosPagination: any = createSelector(
     getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.pagination
+    (state: fromStore.DocumentosVinculadosState) => state.pagination
 );
 
 export const getSelectedDocumentosVinculados: any = createSelector(
