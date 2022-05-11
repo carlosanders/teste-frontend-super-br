@@ -1,4 +1,5 @@
 @import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-table-resizable";
 
 cdk-usuario-grid {
     display: flex;
@@ -37,7 +38,6 @@ cdk-usuario-grid {
         .content {
 
             flex: 1 1 auto;
-            display: flex;
             overflow-y: auto;
             padding: 8px;
 
@@ -46,32 +46,26 @@ cdk-usuario-grid {
             }
 
             table {
-                display: block;
+                flex: 1 1 auto;
                 width: 100%;
-                height: 100%;
-
-                thead, tbody {
-                    display: block;
-                }
-
-                tr {
-                    display: flex;
-                    flex-direction: row;
-                }
-
                 th {
-                    flex: 1 1;
+                    position: relative;
                 }
-
                 td {
-                    flex: 1 1;
-                    word-break: break-word;
+                    position: relative;
                     &.deleted {
                         text-decoration: line-through;
                     }
                     &.error {
                         color: red;
                     }
+                }
+
+                .table-column-drag-over {
+                    background-color:  rgba(0, 0, 0, 0.3) !important;
+                }
+
+                .table-column-drag-over-disabled {
                 }
             }
         }
@@ -104,6 +98,15 @@ cdk-usuario-grid {
 
             > .content {
                 height: 100%;
+            }
+
+            .mat-table {
+                .mat-row {
+                    .mat-cell {
+                        word-wrap: break-word;
+                        white-space: nowrap;
+                    }
+                }
             }
         }
 
@@ -157,6 +160,7 @@ cdk-usuario-grid {
                     padding: 0 8px;
                     margin: 8px 0;
                     border: 0 none;
+                    word-wrap: break-word;
 
                     &:first-child {
                         padding: 0 48px 0 8px;
