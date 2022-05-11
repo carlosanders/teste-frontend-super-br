@@ -70,4 +70,12 @@ export class CdkEtiquetaChipsItemComponent {
 
         return "";
     }
+
+    corHexadecimalFonte() {
+        if (this.etiqueta.corHexadecimal === '#FFFFF0' ||
+            this.etiqueta.corHexadecimal === '#FFEB3B') {
+            return 'black';
+        }
+        return 'white';
+    }
 }
