@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
@@ -18,6 +18,14 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkUtils} from '@cdk/utils';
+import {
+    CdkUsuarioGridComponent
+} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.component';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {TableColumn} from '@cdk/components/table-definitions/table-column';
+import {CdkUsuarioGridColumns} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.columns';
+import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
+import {TableDefinitions} from '@cdk/components/table-definitions/table-definitions';
 
 @Component({
     selector: 'usuarios-list',
@@ -29,6 +37,9 @@ import {CdkUtils} from '@cdk/utils';
 })
 export class UsuariosListComponent implements OnInit, OnDestroy {
 
+    @ViewChild(CdkUsuarioGridComponent, {static: true}) cdkUsuarioGrid: CdkUsuarioGridComponent;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
     routerState: any;
     usuarios$: Observable<Usuario[]>;
     loading$: Observable<boolean>;
@@ -39,18 +50,14 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
-    private _unsubscribeAll: Subject<any> = new Subject();
+    parentIdentifier: string;
 
-    /**
-     * @param _changeDetectorRef
-     * @param _router
-     * @param _store
-     * @param dialog
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.UsuariosListAppState>,
+        private _tableDefinitionsService: TableDefinitionsService,
+        private _loginService: LoginService,
         public dialog: MatDialog,
     ) {
         this.usuarios$ = this._store.pipe(select(fromStore.getUsuariosList));
@@ -59,6 +66,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.parentIdentifier = this.constructor.name;
 
         this._store.pipe(
             select(getRouterState),
@@ -70,7 +78,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.pagination$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });

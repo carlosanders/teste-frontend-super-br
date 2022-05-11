@@ -14,6 +14,7 @@ import {CdkInputAutoFocusDirective} from './cdk-input-auto-focus-drective/cdk-in
 import {CdkScrollToDirective} from './cdk-scroll-to/cdk-scroll-to.directive';
 import {CdkHoverClassDirective} from './cdk-hover-class/cdk-hover-class.directive';
 import {CdkAutocompleteMultipleDirective} from './cdk-autocomplete-multiple/cdk-autocomplete-multiple.directive';
+import {CdkTableColumnResizableDirective} from './cdk-header-cell-resizable/cdk-table-column-resizable.directive';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import {CdkAutocompleteMultipleDirective} from './cdk-autocomplete-multiple/cdk-
         CdkInputAutoFocusDirective,
         CdkHoverClassDirective,
         CdkAutocompleteMultipleDirective,
+        CdkTableColumnResizableDirective
     ],
     imports: [],
     exports: [
@@ -44,7 +46,9 @@ import {CdkAutocompleteMultipleDirective} from './cdk-autocomplete-multiple/cdk-
         CdkInputAutoFocusDirective,
         CdkHoverClassDirective,
         CdkAutocompleteMultipleDirective,
+        CdkTableColumnResizableDirective
     ]
 })
+
 export class DirectivesModule {
 }
