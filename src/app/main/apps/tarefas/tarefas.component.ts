@@ -64,8 +64,8 @@ import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {CdkTarefaListComponent} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {CdkTarefaListComponent} from "../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component";
 
 @Component({
     selector: 'tarefas',
