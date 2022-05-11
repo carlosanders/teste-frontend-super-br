@@ -200,7 +200,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     back(): void {
         // eslint-disable-next-line max-len
         this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
-        let url = this.routerState.url.split('/visualizar/')[0];
+        let url = this.routerState.url.split('/documento/')[0];
         this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
         && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
