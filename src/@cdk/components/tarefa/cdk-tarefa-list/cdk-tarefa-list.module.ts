@@ -41,6 +41,8 @@ import {
     CdkComponenteDigitalCardListModule
 } from '../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
+import {DirectivesModule} from '../../../directives/directives';
 
 @NgModule({
     declarations: [
@@ -76,12 +78,14 @@ import {MatPaginatorModule} from '@angular/material/paginator';
         CdkVinculacaoEtiquetaChipsModule,
         CdkTipoDocumentoAutocompleteModule,
         CdkComponenteDigitalCardListModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        DirectivesModule
     ],
     providers: [
         EspecieTarefaService,
         ProcessoService,
-        AssuntoService
+        AssuntoService,
+        TableDefinitionsService,
     ],
     exports: [
         CdkTarefaListComponent

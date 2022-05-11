@@ -15,7 +15,7 @@ import {CdkUsuarioGridColumns} from '../usuario/cdk-usuario-grid/cdk-usuario-gri
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {TableDefinitions} from './table-definitions';
 import {ColumnWidthChangeEvent} from '../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive';
-import {of} from 'rxjs';
+import {of, Subscription} from 'rxjs';
 import {FormControl} from '@angular/forms';
 
 
@@ -49,6 +49,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
     protected _tableColumns: TableColumn[] = []
     protected _tableColumnsOriginal: TableColumn[] = [];
     protected _resizing: boolean = false;
+    protected _columnsSubscriber: Subscription;
     columns = new FormControl();
 
     protected constructor(
@@ -81,7 +82,10 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
     }
 
     ngOnInit(): void {
-        this.columns.valueChanges.pipe(
+        if (this._columnsSubscriber) {
+            this._columnsSubscriber.unsubscribe();
+        }
+        this._columnsSubscriber = this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values: string[]) => {
