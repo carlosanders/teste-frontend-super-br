@@ -36,8 +36,8 @@ export const getJuntada: any = createSelector(
     getJuntadaFromStore,
     (juntada: Juntada) => {
         const novaJuntada = new Juntada();
-        novaJuntada.id = juntada.id;
-        novaJuntada.numeracaoSequencial = juntada.numeracaoSequencial;
+        novaJuntada.id = juntada?.id;
+        novaJuntada.numeracaoSequencial = juntada?.numeracaoSequencial;
         juntada.documento.juntadaAtual = {...novaJuntada};
         return juntada;
     }

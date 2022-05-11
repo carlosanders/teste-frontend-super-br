@@ -1180,10 +1180,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     doUpload(): void {
         if (this.tarefaListViewMode == 'list') {
             const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
-            selectedTarefa.upload();
+            if (selectedTarefa) {
+                selectedTarefa.upload();
+            }
         } else {
             const selectedTarefa = this.tarefasList.componenteDigitalListItems.find((componenteDigitalListItem) => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
-            selectedTarefa.upload();
+            if (selectedTarefa) {
+                selectedTarefa.upload();
+            }
         }
     }
 
