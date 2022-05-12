@@ -47,7 +47,7 @@ export class TarefaListEffect {
                 total: response['total']
             }),
             new ProcessoActions.GetTarefasProcessoSuccess({
-                entitiesId: response['entities'].map(tarefa => tarefa.id),
+                entitiesId: response['entities'].filter(tarefa => !tarefa.dataHoraConclusaoPrazo).map(tarefa => tarefa.id),
             }),
         ]),
         catchError((err) => {
