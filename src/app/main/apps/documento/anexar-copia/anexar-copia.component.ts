@@ -427,7 +427,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     anexarCopia(): void {
         const componenteDigital = new ComponenteDigital();
 
-        componenteDigital.documentoOrigem = this.documento;
+        componenteDigital.documentoOrigem = this.currentJuntada.documento;
 
         componenteDigital.fileName = this.componenteDigital.fileName;
         componenteDigital.hash = this.componenteDigital.hash;
