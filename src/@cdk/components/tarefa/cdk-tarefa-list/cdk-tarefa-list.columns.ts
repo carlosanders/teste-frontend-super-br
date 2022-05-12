@@ -218,8 +218,8 @@ export const CdkTarefaListColumns: TableDefinitions = {
         },
         <TableColumn> {
             id: 'vinculacoesEtiquetasMinutas',
-            headerLabel: 'Etiquetas de Minutas',
-            dataLabel: 'Etiquetas de Minutas: ',
+            headerLabel: 'Minutas',
+            dataLabel: 'Minutas: ',
             positionFixed: false,
             definitions: <TableColumnDefinitions>{
                 fixed: true,
