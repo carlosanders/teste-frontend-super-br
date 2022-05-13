@@ -57,6 +57,7 @@ export class CdkImprimirRelatorioFormComponent implements OnChanges, OnDestroy, 
             interessados: [null],
             assuntos: [null],
             sequenciais: [null],
+            extrato: [null]
         });
     }
 
