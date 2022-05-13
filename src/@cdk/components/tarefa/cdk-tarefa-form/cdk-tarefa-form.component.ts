@@ -741,7 +741,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
 
-        if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
+        if (dataHoraInicioPrazo && dataHoraFinalPrazo) {
             let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days', true);
 
             if (this.form.get('diasUteis').value) {
