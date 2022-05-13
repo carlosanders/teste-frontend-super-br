@@ -97,6 +97,6 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._store.dispatch(new Back());
+        this._router.navigate([this.routerState.url.split('envia-email/')[0]]).then();
     }
 }
