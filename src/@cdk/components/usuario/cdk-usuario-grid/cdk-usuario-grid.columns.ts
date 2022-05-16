@@ -85,7 +85,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'email',
             headerLabel: 'Email',
             dataLabel: 'Email: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario.assinaturaHTML,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario.email,
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },
