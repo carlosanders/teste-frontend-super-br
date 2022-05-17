@@ -546,7 +546,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');
         }
-console.log(processo);
+
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveProcesso({
             processo: processo,

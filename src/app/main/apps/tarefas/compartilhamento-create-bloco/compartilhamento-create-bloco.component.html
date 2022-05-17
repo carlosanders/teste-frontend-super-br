@@ -5,7 +5,7 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <cdk-compartilhamento-form
+    <cdk-compartilhamento-form *ngIf="operacoes.length === 0"
             [compartilhamento]="compartilhamento"
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
