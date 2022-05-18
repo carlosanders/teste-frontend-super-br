@@ -8,6 +8,7 @@ import {widgetConfig as tramitacoesWidgetConfig} from 'app/main/apps/processo/wi
 import {widgetConfig as acompanhamentosWidgetConfig} from 'app/main/apps/configuracoes/widget/widget-config';
 import {widgetConfig as alertaWidgetConfig} from './widget-alerta/widget-config';
 import {widgetConfig as historicoWidgetConfig} from './widget-historico/widget-config';
+import {widgetConfig as validacaoAssinaturaWidgetConfig} from 'app/main/apps/validacao-assinatura/widget/widget-config';
 
 export let widgetConfig = [
     ...coordenadorWidgetConfig,
@@ -17,7 +18,8 @@ export let widgetConfig = [
     ...tramitacoesWidgetConfig,
     ...acompanhamentosWidgetConfig,
     ...alertaWidgetConfig,
-    ...historicoWidgetConfig
+    ...historicoWidgetConfig,
+    ...validacaoAssinaturaWidgetConfig
 ];
 
 modulesConfig.forEach((modulo) => {

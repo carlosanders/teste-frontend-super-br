@@ -65,6 +65,7 @@ export class CdkRelacionamentoPessoalFormComponent implements OnChanges, OnDestr
             modalidadeRelacionamentoPessoal: [null, [Validators.required]]
         });
         this.modalidadeRelacionamentoPessoalPagination = new Pagination();
+        this.pessoaPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

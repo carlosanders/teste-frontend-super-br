@@ -119,6 +119,7 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
 
     activeCard = 'form';
 
+    formTipoDocumentoValid = false;
     habilitarTipoDocumentoSalvar = false;
 
     /**
@@ -132,6 +133,9 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             tipoDocumento: [null],
+        });
+        this.form.get('tipoDocumento').valueChanges.subscribe((value) => {
+            this.formTipoDocumentoValid = value && typeof value === 'object';
         });
         this.tipoDocumentoPagination = new Pagination();
     }

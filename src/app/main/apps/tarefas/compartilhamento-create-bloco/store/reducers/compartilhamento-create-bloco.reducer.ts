@@ -44,6 +44,28 @@ export function CompartilhamentoCreateBlocoReducer(
             };
         }
 
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_SETOR_BLOCO: {
+            return {
+                ...state,
+                savingTarefasId: [...state.savingTarefasId, action.payload.compartilhamento.tarefa.id]
+            };
+        }
+
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_SETOR_BLOCO_SUCCESS: {
+            return {
+                ...state,
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.compartilhamento.tarefa.id)
+            };
+        }
+
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_SETOR_BLOCO_FAILED: {
+            return {
+                ...state,
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors
+            };
+        }
+
         default:
             return state;
     }

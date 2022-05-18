@@ -3,13 +3,15 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output,
+    OnChanges,
+    Output, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-modelo-filter',
@@ -19,18 +21,21 @@ import {Subject} from 'rxjs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkModeloFilterComponent {
+export class CdkModeloFilterComponent implements OnChanges {
 
     @Output()
     selected = new EventEmitter<any>();
-
-    form: FormGroup;
 
     @Input()
     mode = 'list';
 
     @Input()
+    type = null;
+
+    @Input()
     hasInatived = false;
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -40,11 +45,12 @@ export class CdkModeloFilterComponent {
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _loginService: LoginService
     ) {
         this.form = this._formBuilder.group({
+            modalidadeModelo: ['nacional'],
             id: [null],
             conteudo: [null],
-            modalidadeModelo: [null],
             nome: [null],
             descricao: [null],
             tipoDocumento: [null],
@@ -55,6 +61,13 @@ export class CdkModeloFilterComponent {
             atualizadoEm: [null],
         });
         this.form.controls.ativo.setValue("todos");
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['type'] && this.type !== null) {
+            this.form.get('modalidadeModelo').setValue(this.type, {emitEvent: false});
+            this.form.get('modalidadeModelo').disable();
+        }
     }
 
     emite(): void {
@@ -80,8 +93,47 @@ export class CdkModeloFilterComponent {
             });
         }
 
-        if (this.form.get('modalidadeModelo').value) {
-            andXFilter.push({'modalidadeModelo.id': `eq:${this.form.get('modalidadeModelo').value.id}`});
+        if (this.type === null && this.form.get('modalidadeModelo').value) {
+            if (this.form.get('modalidadeModelo').value === 'nacional') {
+                // Modelos nacionais
+                andXFilter.push({
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                });
+            }
+            if (this.form.get('modalidadeModelo').value === 'unidade') {
+                // Modelos da unidade por especie de setor
+                andXFilter.push({
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                });
+            }
+            if (this.form.get('modalidadeModelo').value === 'setor') {
+                // Modelos do setor
+                andXFilter.push({
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                });
+            }
+            if (this.form.get('modalidadeModelo').value === 'individual') {
+                // Modelos individuais
+                andXFilter.push({
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                });
+            }
+            if (this.form.get('modalidadeModelo').value === 'emBranco') {
+                // Modelos em branco
+                andXFilter.push({
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                });
+            }
         }
 
         if (this.form.get('tipoDocumento').value) {
@@ -162,6 +214,11 @@ export class CdkModeloFilterComponent {
     resetarFormulario(): void {
         this.form.reset();
         this.form.controls.ativo.setValue("todos");
+        if (this.type === null) {
+            this.form.controls.modalidadeModelo.setValue('nacional');
+        } else {
+            this.form.controls.modalidadeModelo.setValue(this.type);
+        }
     }
 }
 

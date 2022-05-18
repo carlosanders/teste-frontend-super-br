@@ -219,6 +219,13 @@ export class CdkComponenteDigitalCardListComponent {
             }
             this.file.nativeElement.value = '';
 
+            if (this.uploadMode === 'linear') {
+                // Ordenar os arquivos em ordem alfabética
+                this.files.sort((a, b) => a.data.name.localeCompare(b.data.name));
+                this.pending.sort((a, b) => a.data.name.localeCompare(b.data.name));
+                this.componentesDigitais.sort((a, b) => a.fileName.localeCompare(b.fileName));
+                this._changeDetectorRef.markForCheck();
+            }
             if (this.uploadMode !== 'linear') {
                 this.start();
             }

@@ -3,19 +3,31 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
-import {MatIconModule} from '@cdk/angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {DocumentoEditAtividadeComponent} from './documento-edit-atividade.component';
 import {DocumentoEditAtividadeStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {CdkMinutasAtividadeCardListModule} from '@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {
+    CdkDocumentoCardListModule
+} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {
+    CdkComponenteDigitalCardListModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {
+    CdkModeloAutocompleteModule
+} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {VinculacaoDocumentoService} from "../../../../../../@cdk/services/vinculacao-documento.service";
 
 const routes: Routes = [
     {
@@ -45,10 +57,16 @@ const routes: Routes = [
         MatSlideToggleModule,
         CdkAtividadeFormModule,
         CdkMinutasAtividadeCardListModule,
+        CdkDocumentoCardListModule,
+        CdkComponenteDigitalCardListModule,
+        MatFormFieldModule,
+        CdkModeloAutocompleteModule,
+        MatAutocompleteModule,
     ],
     providers: [
         AtividadeService,
         DocumentoService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard
     ],
     exports: [

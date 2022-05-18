@@ -46,6 +46,9 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     format: string = 'YYYY-MM-DD';
 
     @Input()
+    exibeDatetime: boolean = null;
+
+    @Input()
     interval: string = null;
 
     form: FormGroup;
@@ -84,62 +87,12 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
      */
     ngOnInit(): void {
         this.form.get('checkAntes').valueChanges.subscribe((value) => {
-            if (this.interval === null) {
-                if (value) {
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                }
-            } else {
-                if (value) {
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    this.form.get('checkDepois').setValue(true,{emitEvent: false});
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                    this.form.get('checkDepois').setValue(false, {emitEvent: false});
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                }
-            }
+            this.checkAntes(value);
             this._changeDetectorRef.markForCheck();
         });
 
         this.form.get('checkDepois').valueChanges.subscribe((value) => {
-            if (this.interval === null) {
-                if (value) {
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                }
-            } else {
-                if (value) {
-                    this.form.get('filterDepois').enable({emitEvent: false});
-                    this.form.get('checkAntes').setValue(true,{emitEvent: false});
-                    this.form.get('filterAntes').enable({emitEvent: false});
-                    if (this.form.get('checkEm').value === true) {
-                        this.form.get('checkEm').setValue(false);
-                    }
-                } else {
-                    this.form.get('filterDepois').setValue('');
-                    this.form.get('filterDepois').disable({emitEvent: false});
-                    this.form.get('filterAntes').setValue('');
-                    this.form.get('filterAntes').disable({emitEvent: false});
-                    this.form.get('checkAntes').setValue(false, {emitEvent: false});
-                }
-            }
+            this.checkDepois(value);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -191,9 +144,11 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
 
         if (changes['interval']) {
             if (this.interval !== null) {
-                this.form.get('checkAntes').setValue(true);
+                this.form.get('checkAntes').setValue(true, {emitEvent: false});
+                this.checkAntes(true);
             } else {
-                this.form.get('checkAntes').setValue(false);
+                this.form.get('checkAntes').setValue(false, {emitEvent: false});
+                this.checkAntes(false);
                 this.maxDateAntes = null;
                 this.minDateDepois = null;
             }
@@ -202,6 +157,9 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
         if (changes['datetime']) {
             if (this.datetime) {
                 this.format = 'YYYY-MM-DDTHH:mm:ss';
+                if (this.exibeDatetime === null) {
+                    this.exibeDatetime = true;
+                }
             }
         }
     }
@@ -209,6 +167,64 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    checkAntes(valor: boolean): void {
+        if (this.interval === null) {
+            if (valor) {
+                this.form.get('filterAntes').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+            }
+        } else {
+            if (valor) {
+                this.form.get('filterAntes').enable({emitEvent: false});
+                this.form.get('checkDepois').setValue(true,{emitEvent: false});
+                this.form.get('filterDepois').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+                this.form.get('checkDepois').setValue(false, {emitEvent: false});
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+            }
+        }
+    }
+
+    checkDepois(valor: boolean): void {
+        if (this.interval === null) {
+            if (valor) {
+                this.form.get('filterDepois').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+            }
+        } else {
+            if (valor) {
+                this.form.get('filterDepois').enable({emitEvent: false});
+                this.form.get('checkAntes').setValue(true,{emitEvent: false});
+                this.form.get('filterAntes').enable({emitEvent: false});
+                if (this.form.get('checkEm').value === true) {
+                    this.form.get('checkEm').setValue(false);
+                }
+            } else {
+                this.form.get('filterDepois').setValue('');
+                this.form.get('filterDepois').disable({emitEvent: false});
+                this.form.get('filterAntes').setValue('');
+                this.form.get('filterAntes').disable({emitEvent: false});
+                this.form.get('checkAntes').setValue(false, {emitEvent: false});
+            }
+        }
+    }
 
     atualizaFiltros(): void {
         this.montaFiltroAntes();
@@ -219,8 +235,18 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     montaFiltro(valor: any, condicao: string, format: string = this.format): any {
         const filters = [];
         if (valor) {
+            let data;
             const filtro = {};
-            filtro[this.campo] = `${condicao}:${valor.format(format)}`;
+            if (this.datetime && !this.exibeDatetime) {
+                if (condicao === 'gte') {
+                    data = moment(valor).startOf('day');
+                } else {
+                    data = moment(valor).endOf('day');
+                }
+            } else {
+                data = moment(valor);
+            }
+            filtro[this.campo] = `${condicao}:${data.format(format)}`;
             filters.push(filtro);
         }
         return filters;
@@ -264,12 +290,17 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     alteraDataAntes(event): void {
         if (this.interval !== null) {
             // Adicionar validações de intervalo
-            const intervalo = this.interval.split(' ');
-            const objetoIntervalo = {};
-            objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
-            const duration = moment.duration(objetoIntervalo);
-            this.minDateDepois = moment(event.value).subtract(duration);
-            this.maxDateDepois = moment(event.value);
+            if (this.interval.includes(' ')) {
+                const intervalo = this.interval.split(' ');
+                const objetoIntervalo = {};
+                objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
+                const duration = moment.duration(objetoIntervalo);
+                this.minDateDepois = moment(event.value).subtract(duration);
+                this.maxDateDepois = moment(event.value);
+            } else if (this.interval === 'year') {
+                this.minDateDepois = moment(event.value).startOf('year');
+                this.maxDateDepois = moment(event.value);
+            }
         } else {
             this.minDateDepois = null;
             this.maxDateDepois = null;
@@ -279,12 +310,17 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     alteraDataDepois(event): void {
         if (this.interval !== null) {
             // Adicionar validações de intervalo
-            const intervalo = this.interval.split(' ');
-            const objetoIntervalo = {};
-            objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
-            const duration = moment.duration(objetoIntervalo);
-            this.maxDateAntes = moment(event.value).add(duration);
-            this.minDateAntes = moment(event.value);
+            if (this.interval.includes(' ')) {
+                const intervalo = this.interval.split(' ');
+                const objetoIntervalo = {};
+                objetoIntervalo[intervalo[1]] = parseInt(intervalo[0], 10);
+                const duration = moment.duration(objetoIntervalo);
+                this.maxDateAntes = moment(event.value).add(duration);
+                this.minDateAntes = moment(event.value);
+            } else if (this.interval === 'year') {
+                this.maxDateAntes = moment(event.value).endOf('year');
+                this.minDateAntes = moment(event.value);
+            }
         } else {
             this.maxDateAntes = null;
             this.minDateAntes = null;
@@ -298,6 +334,14 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
 
     limpar(): void {
         this.form.reset({emitEvent: false});
+        this.minDateDepois = null;
+        this.maxDateDepois = null;
+        this.minDateAntes = null;
+        this.maxDateAntes = null;
+        if (this.interval !== null) {
+            this.form.get('checkAntes').setValue(true, {emitEvent: false});
+            this.checkAntes(true);
+        }
         this.limparForm.next(false);
         this._changeDetectorRef.markForCheck();
     }

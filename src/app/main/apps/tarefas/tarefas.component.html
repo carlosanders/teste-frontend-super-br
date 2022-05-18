@@ -3,7 +3,12 @@
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
-        <tarefas-main-sidebar (reload)="reload($event)"></tarefas-main-sidebar>
+        <tarefas-main-sidebar
+            (reload)="reload($event)"
+            (changeViewMode)="doTarefaListViewModeChange($event)"
+            [viewMode]="tarefaListViewMode"
+            [draggingIds]="draggingIds$ | async">
+        </tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -13,7 +18,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <button mat-icon-button (click)="retornar()" fxHide.gt-sm *ngIf="routerState.params['processoHandle']">
+            <button mat-icon-button (click)="retornar()" *ngIf="routerState.params['processoHandle'] && (tarefaListViewMode == 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
@@ -204,9 +209,9 @@
                      (resizeEnd)="onResizeEndTarefaList($event)"
                      [fxFlex]="tarefaListSize"
                      [ngClass]="{
-                        'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId  || mostraCriar,
-                        'no-current-tarefa': !currentTarefaId && !mostraCriar,
+                        'mobile-mode': mobileMode || tarefaListViewMode == 'grid',
+                        'current-tarefa': currentTarefaId  || !componentRootUrl,
+                        'no-current-tarefa': !currentTarefaId && componentRootUrl,
                         'maximizado': (maximizado$ | async)
                      }">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
@@ -279,7 +284,8 @@
                                      (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
                                      (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
                                      (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
-                                     [savingObservacao]="savingObservacao$ | async"
+                                     [savingObservacaoIds]="savingObservacaoIds$ | async"
+                                     [editandoObservacaoIds]="editObservacaoIds$ | async"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
                                      [totalInteressadosProcessosId]="(totalInteressadosProcessosId$ | async)"
@@ -301,7 +307,12 @@
                                      (verResposta)="doVerResposta($event)"
                                      (completed)="onComplete($event)"
                                      (completedAll)="onCompleteAll($event)"
-                                     (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)">
+                                     (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)"
+                                     (editarObservacao)="doEditarObservacao($event)"
+                                     [viewMode]="tarefaListViewMode"
+                                     [parentIdentifier]="parentIdentifier"
+                                     [resizableColumns]="['allTableColumns']"
+                                     [ordableColumns]="['allTableColumns']">
                     </cdk-tarefa-list>
                 </div>
 
@@ -309,9 +320,9 @@
                      [fxFlex]="100"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
-                        'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId || mostraCriar,
-                        'no-current-tarefa': !currentTarefaId && !mostraCriar
+                        'mobile-mode': mobileMode || tarefaListViewMode == 'grid',
+                        'current-tarefa': currentTarefaId || !componentRootUrl,
+                        'no-current-tarefa': !currentTarefaId && componentRootUrl
                      }">
                     <router-outlet></router-outlet>
                 </div>

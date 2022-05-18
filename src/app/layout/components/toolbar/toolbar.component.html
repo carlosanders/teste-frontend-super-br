@@ -97,7 +97,8 @@
                     <mat-spinner diameter="20"></mat-spinner>
                 </mat-icon>
                 <mat-icon *ngIf="!carregandoNotificacao" [matBadge]="notificacoesCount" matBadgePosition="above after"
-                          [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text">
+                          [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text"
+                          (click)="reload()">
                     notifications
                 </mat-icon>
             </button>
@@ -136,7 +137,10 @@
                         <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
                             <div class="notification-item" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
-                                <p [innerHTML]="notificacao.conteudo">
+                                <div class="data-hora">
+                                    <div>{{notificacao.criadoEm?.toDate() | date: 'dd/MM/yy HH:mm':'-0300'}}</div>
+                                </div>
+                                <p [innerHTML]="notificacao.conteudo | titleCasePipe">
                                 </p>
                                 <div class="actions">
                                     <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">search</mat-icon>

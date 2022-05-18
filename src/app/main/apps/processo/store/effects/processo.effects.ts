@@ -8,7 +8,8 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Processo, VinculacaoEtiqueta} from '@cdk/models';
+import {Compartilhamento, Processo, VinculacaoEtiqueta, Tarefa} from '@cdk/models';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {
     compartilhamento as acompanhamentoSchema,
     processo as processoSchema,
@@ -16,11 +17,13 @@ import {
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
+import {TarefaService} from "../../../../../../@cdk/services/tarefa.service";
+import * as fromStore from "../index";
 
 @Injectable()
 export class ProcessoEffect {
@@ -38,11 +41,13 @@ export class ProcessoEffect {
             } : {};
 
             contexto['compartilhamentoUsuario'] = 'processo';
+            contexto['latestJuntadaIndex'] = true;
 
             let populate = action.payload.populate ? [...action.payload.populate] : [];
             populate = [
                 ...populate,
                 'origemDados',
+                'modalidadeMeio',
                 'especieProcesso',
                 'especieProcesso.generoProcesso',
                 'setorAtual',
@@ -59,12 +64,21 @@ export class ProcessoEffect {
                     new ProcessoActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
-                            acessoNegado: response.acessoNegado
+                            value: this.routerState.params['processoHandle'],
+                            acessoNegado: response.acessoNegado,
+                            juntadaIndex: response.juntadaIndex
                         },
                         processoId: response.id
                     })
                 ]),
+                tap(() => {
+                    this._store.dispatch(new fromStore.UnloadTarefasProcesso());
+                    if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+                        this._store.dispatch(new ProcessoActions.GetTarefasProcesso({
+                            processoId: this.routerState.params.processoHandle
+                        }));
+                    }
+                }),
                 catchError((err) => {
                     console.log(err);
                     return of(new ProcessoActions.GetProcessoFailed(err));
@@ -286,10 +300,8 @@ export class ProcessoEffect {
             new ProcessoActions.GetAcompanhamentoSuccess({
                 entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })
@@ -316,7 +328,7 @@ export class ProcessoEffect {
             const acompanhamento = new Compartilhamento();
             acompanhamento.usuario = this._loginService.getUserProfile();
             acompanhamento.processo = action.payload.processo;
-            return this._acompanhamentoService.save(acompanhamento).pipe(
+            return this._acompanhamentoService.save(acompanhamento, JSON.stringify({}), JSON.stringify(['populateAll'])).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'acompanhamento',
@@ -417,6 +429,57 @@ export class ProcessoEffect {
             })
         ))
     ));
+    /**
+     * Atualiza index de juntadas
+     *
+     * @type {Observable<any>}
+     */
+    getJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoActions.GetJuntadaIndex>(ProcessoActions.GET_JUNTADA_INDEX),
+        switchMap(action => this._processoService.getJuntadaIndex(action.payload.processoId).pipe(
+            mergeMap((response: any) => [
+                new ProcessoActions.AtualizaJuntadaIndex({
+                    juntadaIndex: response,
+                    reload: !!action.payload.reload
+                }),
+            ])
+        ))
+    ));
+
+    /**
+     * Get Tarefas Processo with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getTarefas: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoActions.GetTarefasProcesso>(ProcessoActions.GET_TAREFAS_PROCESSO),
+        switchMap(action => this._tarefaService.query(
+            JSON.stringify({
+                'processo.id': `eq:${action.payload.processoId}`,
+                'dataHoraConclusaoPrazo': 'isNull'
+            }),
+            30,
+            0,
+            JSON.stringify({id: 'ASC'}),
+            JSON.stringify(
+                [
+                    'usuarioResponsavel',
+                    'setorResponsavel',
+                    'setorResponsavel.unidade',
+                    'especieTarefa'
+                ])
+        )),
+        mergeMap(response => [
+            new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+            new ProcessoActions.GetTarefasProcessoSuccess({
+                entitiesId: response['entities'].map(tarefa => tarefa.id)
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoActions.GetTarefasProcessoFailed(err));
+        })
+    ));
 
     private _profile: any;
 
@@ -427,9 +490,11 @@ export class ProcessoEffect {
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _acompanhamentoService: AcompanhamentoService,
         private _statusBarramentoService: StatusBarramentoService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _tarefaService: TarefaService,
     ) {
         this._store.pipe(
             select(getRouterState),

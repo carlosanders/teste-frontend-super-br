@@ -13,6 +13,7 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import * as ProcessoActions from "../../../../../store/actions/processo.actions";
 
 @Injectable()
 export class TarefaListEffect {
@@ -44,7 +45,10 @@ export class TarefaListEffect {
                     value: this.routerState.params.processoHandle
                 },
                 total: response['total']
-            })
+            }),
+            new ProcessoActions.GetTarefasProcessoSuccess({
+                entitiesId: response['entities'].filter(tarefa => !tarefa.dataHoraConclusaoPrazo).map(tarefa => tarefa.id),
+            }),
         ]),
         catchError((err) => {
             console.log(err);

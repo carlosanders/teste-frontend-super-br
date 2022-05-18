@@ -15,7 +15,7 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Pagination, Processo, Tarefa, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
@@ -81,6 +81,11 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     nup = '';
     generoProcesso = '';
 
+    loadingTarefasProcesso$: Observable<boolean>;
+    tarefasProcesso$: Observable<Tarefa[]>;
+    tarefasProcesso: Tarefa[];
+    timedOutCloser: any;
+
     private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -123,16 +128,16 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     },
                     {
-                        'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                        'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.id).join(','),
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     },
                     {
-                        'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                        'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     },
                     {
                         // eslint-disable-next-line max-len
-                        'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                        'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     }
                 ]
@@ -144,6 +149,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.steps$ = this._store.pipe(select(fromStore.getSteps));
         this.expandir$ = this._store.pipe(select(fromStore.getExpandirTela));
         this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoadingProcesso));
+        this.loadingTarefasProcesso$ = this._store.pipe(select(fromStore.getLoadingTarefasProcesso));
+        this.tarefasProcesso$ = this._store.pipe(select(fromStore.getTarefaList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -210,6 +217,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 panelClass: ['danger-snackbar']
             });
         });
+
+        this.tarefasProcesso$.pipe(
+            filter(tarefas => !!tarefas)
+        ).subscribe((tarefas) => {
+            this.tarefasProcesso = tarefas;
+        });
     }
 
     ngAfterViewInit(): void {
@@ -261,7 +274,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        if (this.routerState.url.indexOf('/processo') === -1) {
+        if (this.processo && this.routerState.url.indexOf('/processo/' + this.processo.id) === -1) {
             this._store.dispatch(new fromStore.UnloadProcesso());
         }
         this._unsubscribeAll.next(true);
@@ -380,5 +393,18 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     sincronizarBarramento(processo: Processo): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SincronizaBarramento({processo: processo, operacaoId: operacaoId}));
+    }
+
+    mouseEnter(trigger) {
+        if (this.timedOutCloser) {
+            clearTimeout(this.timedOutCloser);
+        }
+        trigger.openMenu();
+    }
+
+    mouseLeave(trigger) {
+        this.timedOutCloser = setTimeout(() => {
+            trigger.closeMenu();
+        }, 1);
     }
 }

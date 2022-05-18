@@ -29,7 +29,20 @@ import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-fi
 import {MatSelectModule} from '@angular/material/select';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {RouterModule} from '@angular/router';
-import {CdkTarefaListItemModule} from "./cdk-tarefa-list-item/cdk-tarefa-list-item.module";
+import {CdkTarefaListItemModule} from './cdk-tarefa-list-item/cdk-tarefa-list-item.module';
+import {MatTableModule} from '@angular/material/table';
+import {
+    CdkVinculacaoEtiquetaChipsModule
+} from '../../vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {
+    CdkTipoDocumentoAutocompleteModule
+} from '../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {
+    CdkComponenteDigitalCardListModule
+} from '../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
+import {DirectivesModule} from '../../../directives/directives';
 
 @NgModule({
     declarations: [
@@ -60,12 +73,19 @@ import {CdkTarefaListItemModule} from "./cdk-tarefa-list-item/cdk-tarefa-list-it
         NgxUpperCaseDirectiveModule,
         MatSelectModule,
         RouterModule,
-        CdkTarefaListItemModule
+        CdkTarefaListItemModule,
+        MatTableModule,
+        CdkVinculacaoEtiquetaChipsModule,
+        CdkTipoDocumentoAutocompleteModule,
+        CdkComponenteDigitalCardListModule,
+        MatPaginatorModule,
+        DirectivesModule
     ],
     providers: [
         EspecieTarefaService,
         ProcessoService,
-        AssuntoService
+        AssuntoService,
+        TableDefinitionsService,
     ],
     exports: [
         CdkTarefaListComponent

@@ -108,10 +108,14 @@ mat-option.mat-option {
 }
 
 .mat-card-title {
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 .mat-card-content {
+    font-size: 13px !important;
+}
+
+.mat-cell, .mat-footer-cell {
     font-size: 13px !important;
 }
 
@@ -133,7 +137,7 @@ div.menu-busca {
 }
 
 div.menuNotificacao {
-    max-width: 880px !important;
+    max-width: 900px !important;
     padding-bottom: 0 !important;
     padding-top: 0 !important;
     top: 64px !important;
@@ -216,6 +220,10 @@ div.menu-sort {
     background-color: rgba(204, 204, 204, 0.5);
 }
 
+.mat-chip-list-wrapper input.mat-input-element, .mat-chip-list-wrapper .mat-standard-chip {
+    margin: 2px !important;
+}
+
 .datasValidateBackdrop {
     background: repeating-linear-gradient(
             45deg,
@@ -225,4 +233,19 @@ div.menu-sort {
             rgba(94, 0, 0, 0.521) 20px
     );
     opacity: 0.1 !important;
+}
+
+.mat-standard-chip .mat-chip-remove.mat-icon, .mat-standard-chip .mat-chip-remove .mat-icon {
+    height: 16px !important;
+    width: 16px !important;
+    font-size: 16px !important;
+}
+
+.mat-option.multiline {
+    line-height: 24px !important;
+}
+
+.mat-menu-item {
+    height: 36px !important;
+    line-height: 36px !important;
 }

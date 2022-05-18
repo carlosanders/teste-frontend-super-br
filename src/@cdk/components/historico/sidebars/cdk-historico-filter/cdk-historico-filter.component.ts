@@ -55,7 +55,7 @@ export class CdkHistoricoFilterComponent implements OnChanges {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.form = this._formBuilder.group({
-            tipoPesquisa: [null],
+            tipoPesquisa: ['processo'],
             descricao: [null],
             processo: [null],
             criadoPor: [null],
@@ -247,6 +247,7 @@ export class CdkHistoricoFilterComponent implements OnChanges {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this.form.controls.tipoPesquisa.setValue('processo');
         this.emite();
     }
 }

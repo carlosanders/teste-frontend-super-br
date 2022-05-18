@@ -15,17 +15,13 @@ export const COPIA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA';
 export const COPIA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA SUCCESS';
 export const COPIA_DOCUMENTO_JUNTADA_FAILED = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA FAILED';
 
-export const ASSINA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] ASSINA DOCUMENTO';
-export const ASSINA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] ASSINA DOCUMENTO SUCCESS';
-export const ASSINA_DOCUMENTO_JUNTADA_FAILED = '[JUNTADA LIST] ASSINA DOCUMENTO FAILED';
-
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
-
 export const REMOVE_VINCULACAO_DOCUMENTO = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO';
 export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO SUCCESS';
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO FAILED';
+
+export const REMOVE_RESTRICOES_DOCUMENTO = '[JUNTADA LIST] REMOVE RESTRICOES DOCUMENTO';
+export const REMOVE_RESTRICOES_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE RESTRICOES DOCUMENTO SUCCESS';
+export const REMOVE_RESTRICOES_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE RESTRICOES DOCUMENTO FAILED';
 
 
 /**
@@ -148,79 +144,6 @@ export class CopiarDocumentoJuntadaFailed implements Action
     }
 }
 
-
-/**
- * Assina Documento
- */
-export class AssinaDocumento implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_JUNTADA;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Success
- */
-export class AssinaDocumentoSuccess implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_JUNTADA_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Failed
- */
-export class AssinaDocumentoFailed implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_JUNTADA_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente
- */
-export class AssinaDocumentoEletronicamente implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente Success
- */
-export class AssinaDocumentoEletronicamenteSuccess implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Assina Documento Eletronicamente Failed
- */
-export class AssinaDocumentoEletronicamenteFailed implements Action
-{
-    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 /**
  * Remove Vinculacao Documento
  */
@@ -257,6 +180,42 @@ export class RemoveVinculacaoDocumentoFailed implements Action
     }
 }
 
+/**
+ * Remove Restricoes Documento
+ */
+export class RemoveRestricoesDocumento implements Action
+{
+    readonly type = REMOVE_RESTRICOES_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Restricoes Documento Success
+ */
+export class RemoveRestricoesDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_RESTRICOES_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Restricoes Documento Failed
+ */
+export class RemoveRestricoesDocumentoFailed implements Action
+{
+    readonly type = REMOVE_RESTRICOES_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type JuntadaListActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -268,13 +227,10 @@ export type JuntadaListActionsAll
     | CopiarDocumentoJuntada
     | CopiarDocumentoJuntadaSuccess
     | CopiarDocumentoJuntadaFailed
-    | AssinaDocumento
-    | AssinaDocumentoSuccess
-    | AssinaDocumentoFailed
-    | AssinaDocumentoEletronicamente
-    | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed
     | RemoveVinculacaoDocumento
     | RemoveVinculacaoDocumentoSuccess
-    | RemoveVinculacaoDocumentoFailed;
+    | RemoveVinculacaoDocumentoFailed
+    | RemoveRestricoesDocumento
+    | RemoveRestricoesDocumentoSuccess
+    | RemoveRestricoesDocumentoFailed;
 

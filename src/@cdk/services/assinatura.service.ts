@@ -4,19 +4,28 @@ import {ParentGenericService} from './parent-generic.service';
 import {ModelService} from '@cdk/services/model.service';
 import {Assinatura} from '@cdk/models';
 import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 import {classToPlain, plainToClass} from 'class-transformer';
 import {map} from 'rxjs/operators';
 import {LoginService} from '../../app/main/auth/login/login.service';
+import {CdkConfigService} from "./config.service";
 
 @Injectable()
 export class AssinaturaService extends ParentGenericService<Assinatura> {
+
+    config: any;
 
     constructor(
         protected modelService: ModelService,
         private _loginService: LoginService,
         protected http: HttpClient,
+        private cdkConfigService: CdkConfigService,
     ) {
         super(modelService, 'administrativo/assinatura', Assinatura);
+        this._loginService.getConfig().
+            subscribe(cfg => {
+                this.config = cfg;
+            });
     }
 
     save(t: Assinatura, context: any = '{}', populate: any = '[]'): Observable<Assinatura> {
@@ -47,4 +56,29 @@ export class AssinaturaService extends ParentGenericService<Assinatura> {
                 );
         }
     }
+
+    getTokenRevalidaLoginGovBr(code: string, state: string): Observable<any> {
+        const url = environment.api_url + this.path + '/govbr_token_revalida' + environment.xdebug;
+        return this.http.post(url, {code: code, state: state});
+    }
+
+    geraUrlRedirect() {
+
+        return this.config.govBR.revalida_oauth_url+'/authorize?response_type=code'
+            +'&client_id='+this.config.govBR.revalida_client_id
+            +'&scope=password-validation'
+            +'&redirect_uri='+this.config.govBR?.revalida_redirect_uri
+            +'&state='+this.generateState();
+    }
+
+    generateState(length: number = 128): string {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
 }

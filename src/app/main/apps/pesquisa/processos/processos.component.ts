@@ -80,17 +80,17 @@ export class ProcessosComponent implements OnInit, OnDestroy {
                     'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
-                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
-                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
                     // tslint:disable-next-line:max-line-length
                     // eslint-disable-next-line max-len
-                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador?.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {

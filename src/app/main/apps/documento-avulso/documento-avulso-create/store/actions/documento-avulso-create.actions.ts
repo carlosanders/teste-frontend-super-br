@@ -30,7 +30,7 @@ export class SaveDocumentoAvulsoSuccess implements Action
 {
     readonly type = SAVE_DOCUMENTO_AVULSO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

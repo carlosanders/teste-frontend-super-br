@@ -91,12 +91,12 @@
                 Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
-            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraFinalPrazo') > -1">
                 Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
                 até <span [ngClass]="{'prazo-vence-hoje': prazoVenceHoje || prazoVenceu, 'prazo-venceu': prazoVenceu}">{{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
             </div>
 
-            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraFinalPrazo') > -1">
                 Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss')}}
                 até
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
@@ -107,6 +107,7 @@
             <div class="search-wrapper" (click)="$event.stopPropagation();" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'">
                 <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
+                    [placeholder]="'Adicionar etiquetas...'"
                     [pagination]="vinculacaoEtiquetaPagination"
                     [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                     (create)="doVinculacaoEtiquetaCreate($event)"
@@ -121,7 +122,7 @@
 
             <div class="etiquetas-minutas">
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
-                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa, $event); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
                     <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
                     <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
@@ -250,7 +251,7 @@
                                     {{formTipoDocumento.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent" [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
+                            <button mat-raised-button color="accent" [disabled]="!formTipoDocumentoValid" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
                                 SALVAR
                             </button>
                         </form>
@@ -280,14 +281,12 @@
             </div>
             <div *ngIf="editandoObservacao === true" class="mt-8 edit-observacao">
                 <mat-form-field (click)="$event.stopPropagation()">
-                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
-                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
-                              upperCase>{{tarefa.observacao}}</textarea>
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus upperCase>{{tarefa.observacao}}</textarea>
                 </mat-form-field>
                 <div class="actions">
                     <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação"
                             matTooltip="Salvar Observação" class="accent"
-                            (click)="$event.stopPropagation();">
+                            (click)="doSalvarObservacao(tarefa, observacaoConteudo.value); $event.stopPropagation();">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <div class="spinner-container m-8" *ngIf="savingObservacao">

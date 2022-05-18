@@ -27,7 +27,7 @@ import {
 } from '@cdk/models';
 import * as moment from 'moment';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
+import {catchError, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
@@ -36,6 +36,9 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkUtils} from '@cdk/utils';
+import {
+    Filter
+} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete-filter/filters/filter';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -188,6 +191,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     lote: string;
 
+    filterProcessoAutocomplete: Filter;
+
     /**
      * Constructor
      */
@@ -242,6 +247,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPaginationTree = new Pagination();
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade'];
         this.setorOrigemPaginationTree = new Pagination();
         this.grupoContatoPagination = new Pagination();
         this.grupoContatoPagination.populate = [
@@ -359,7 +365,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('distribuicaoAutomatica').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value) {
@@ -391,7 +396,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('unidadeResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object') {
@@ -425,7 +429,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('setorResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
@@ -479,7 +482,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('tarefaWorkflow').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                 if (this.tarefa?.id) {
@@ -501,7 +503,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('processo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (this.form.get('blocoProcessos').value && typeof value === 'object' && value) {
@@ -610,7 +611,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.form.get('usuarioResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
 
@@ -641,7 +641,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('dataHoraFinalPrazo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
                     this.clearValidators();
@@ -653,7 +652,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('dataHoraInicioPrazo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
                     this.clearValidators();
@@ -665,7 +663,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('prazoDias').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap(() => {
                     this.alteraPrazoFinal();
@@ -675,7 +672,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('diasUteis').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap(() => {
                     this.alteraDiasUteis();
@@ -685,7 +681,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('especieTarefa').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap((value) => {
                     this.especieTarefaPagination['context'] = {};
@@ -705,7 +700,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.form.get('grupoContato')) {
             this.form.get('grupoContato').valueChanges.pipe(
-                debounceTime(300),
                 distinctUntilChanged(),
                 switchMap((value) => {
 
@@ -721,7 +715,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.lotacaoControl.valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                 if (value && typeof value === 'object') {
@@ -748,7 +741,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
 
-        if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
+        if (dataHoraInicioPrazo && dataHoraFinalPrazo) {
             let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days', true);
 
             if (this.form.get('diasUteis').value) {
@@ -811,7 +804,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+        const diffDays = dataHoraFinalPrazo?.diff(dataHoraInicioPrazo, 'days');
 
         if (dataHoraFinalPrazo < dataHoraInicioPrazo) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'A data final do prazo não pode ser anterior a do início!'});
@@ -1491,5 +1484,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         return this.mode === 'regular' || this.mode === 'bloco-create' || this.blocoEdit.blocoEditEspecie;
+    }
+
+    setFilterProcessoAutocomplete(filter: Filter): void {
+        this.filterProcessoAutocomplete = filter;
     }
 }

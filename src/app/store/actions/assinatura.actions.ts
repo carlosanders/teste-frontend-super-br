@@ -12,6 +12,10 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[ASSINATURA] ASSINA DOCUMENTO E
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_GOVBR = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE GOVBR';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_GOVBR_SUCCESS = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE GOVBR SUCCESS';
+export const REVALIDA_LOGIN_GOVBR = '[ASSINATURA] REVALIDA LOGIN GOVBR';
+
 export const REMOVE_ASSINATURA_DOCUMENTO = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO';
 export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO SUCCESS';
 export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO FAILED';
@@ -113,6 +117,36 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
 }
 
 /**
+ * Assina Documento Eletronicamente Success
+ */
+ export class AssinaDocumentoEletronicamenteGovBrSuccess implements Action
+ {
+     readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_GOVBR_SUCCESS;
+
+     constructor(public payload: any)
+     {
+     }
+ }
+
+ /**
+ * Assina Documento Eletronicamente GovBr
+ */
+  export class AssinaDocumentoEletronicamenteGovBr implements Action
+  {
+      readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_GOVBR;
+
+      constructor(public payload: any)
+      {
+      }
+  }
+
+
+export class RevalidaLoginGovBR implements Action {
+    readonly type = REVALIDA_LOGIN_GOVBR;
+    constructor(public payload: any) {}
+}
+
+/**
  * Remove Assinatura Documento
  */
 export class RemoveAssinaturaDocumento implements Action
@@ -157,6 +191,9 @@ export type AssinaturaActionsAll
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
+    | AssinaDocumentoEletronicamenteGovBr
+    | AssinaDocumentoEletronicamenteGovBrSuccess
+    | RevalidaLoginGovBR
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
     | RemoveAssinaturaDocumentoFailed;

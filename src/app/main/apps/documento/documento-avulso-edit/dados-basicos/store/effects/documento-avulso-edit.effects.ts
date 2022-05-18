@@ -14,17 +14,10 @@ import {Router} from '@angular/router';
 import {Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {UnloadDocumento} from '../../../../store';
-import {
-    GetDocumentos as GetDocumentosProcesso,
-    GetJuntadas,
-    UnloadDocumentos,
-    UnloadJuntadas
-} from '../../../../../processo/processo-view/store';
 import {GetDocumentos as GetDocumentosAtividade} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {GetDocumentos as GetDocumentosAvulsos} from '../../../../../tarefas/tarefa-detail/oficios/store';
 import * as ProcessoViewActions from '../../../../../processo/processo-view/store/actions/processo-view.actions';
 import {UnloadComponenteDigital} from '../../../../componente-digital/store';
-import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
@@ -77,7 +70,7 @@ export class DocumentoAvulsoEditEffects {
      */
     remeterDocumentoAvulso: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentoAvulsoEditActions.RemeterDocumentoAvulso>(DocumentoAvulsoEditActions.REMETER_DOCUMENTO_AVULSO),
-        switchMap(action => this._documentoAvulsoService.remeter(action.payload).pipe(
+        switchMap(action => this._documentoAvulsoService.remeter(action.payload.documentoAvulsoRemessa).pipe(
             mergeMap((response: DocumentoAvulso) => [
                 new UpdateData<DocumentoAvulso>({
                     id: response.id, schema: documentoAvulsoSchema,
@@ -86,9 +79,11 @@ export class DocumentoAvulsoEditEffects {
                         usuarioRemessa: response.usuarioRemessa
                     }
                 }),
-                new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess(),
-                new GetTarefa({
-                    id: this.routerState.params['tarefaHandle']
+                new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess({
+                    documentoId: action.payload.documentoId,
+                    tarefaId: parseInt(this.routerState.params['tarefaHandle'], 10),
+                    documentoAvulsoUuid: response.uuid,
+                    uuid: action.payload.uuid
                 })
             ])
         )),
@@ -128,16 +123,8 @@ export class DocumentoAvulsoEditEffects {
         ofType<DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess>(DocumentoAvulsoEditActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
         tap(() => {
             this._store.dispatch(new UnloadDocumento());
-            let reloadJuntadas = false;
             this._store.dispatch(new UnloadComponenteDigital());
-            if (this.routerState.url.indexOf('/processo') !== -1) {
-                this._store.dispatch(new UnloadJuntadas({reset: false}));
-                reloadJuntadas = true;
-            }
             let url = this.routerState.url.split('/documento/')[0];
-            if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
-                this._store.dispatch(new UnloadDocumentos());
-            }
             if (url.indexOf('/capa') !== -1) {
                 url += '/mostrar';
             }
@@ -146,46 +133,12 @@ export class DocumentoAvulsoEditEffects {
                     this._store.dispatch(new GetDocumentosAtividade());
                 } else if (url.indexOf('/oficios') !== -1) {
                     this._store.dispatch(new GetDocumentosAvulsos());
-                } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
-                    this._store.dispatch(new GetDocumentosProcesso());
-                }
-                if (reloadJuntadas) {
-                    let processoFilter = null;
-
-                    const routeParams = of('processoHandle');
-                    routeParams.subscribe((param) => {
-                        processoFilter = `eq:${this.routerState.params[param]}`;
-                    });
-
-                    const params = {
-                        filter: {
-                            'volume.processo.id': processoFilter,
-                            'vinculada': 'eq:0'
-                        },
-                        listFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
-                        populate: [
-                            'volume',
-                            'documento',
-                            'documento.origemDados',
-                            'documento.tipoDocumento',
-                            'documento.componentesDigitais',
-                            'documento.criadoPor',
-                            'documento.setorOrigem',
-                            'documento.setorOrigem.unidade'
-                        ]
-                    };
-
-                    this._store.dispatch(new GetJuntadas(params));
-                    return;
                 }
                 if (this.routerState.params.stepHandle) {
                     const steps = this.routerState.params['stepHandle'].split('-');
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: steps[0],
-                        subStep: steps[1]
+                        step: parseInt(steps[0], 10),
+                        subStep: parseInt(steps[1], 10)
                     }));
                 }
             });

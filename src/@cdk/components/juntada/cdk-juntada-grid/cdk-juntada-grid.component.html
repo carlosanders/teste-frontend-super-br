@@ -39,6 +39,11 @@
                 </mat-select>
             </mat-form-field>
 
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('removerRestricoes') > -1"
+                    (click)="doRemoverRestricoes(selectedIds)" aria-label="remover restrições" matTooltip="Remover Restrições de Acesso">
+                <span class="material-icons-outlined">disabled_visible</span>
+            </button>
+
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('copiar') > -1"
                     (click)="copiarJuntadas(selectedIds)" aria-label="criar cópia" matTooltip="Criar cópia">
                 <mat-icon>file_copy</mat-icon>

@@ -240,7 +240,8 @@ compartilhamento.define({
     usuario: usuario,
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    processo: processo
 });
 
 componenteDigital.define({

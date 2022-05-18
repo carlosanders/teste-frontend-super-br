@@ -291,7 +291,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
     updateDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<AtividadeBlocoCreateDocumentosActionsAll.UpdateDocumentoBlocoSuccess>(AtividadeBlocoCreateDocumentosActionsAll.UPDATE_DOCUMENTO_BLOCO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
+        tap(([, tarefas]) => {
             this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
         }),
     ), {dispatch: false});

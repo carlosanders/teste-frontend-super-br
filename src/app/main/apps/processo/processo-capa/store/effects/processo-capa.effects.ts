@@ -23,6 +23,7 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as fromStore from '../index';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -63,13 +64,10 @@ export class ProcessoCapaEffect {
             new AddData<Processo>({data: [response], schema: processoSchema}),
             new ProcessoCapaActions.GetProcessoSuccess({
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
-                processoId: this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle'],
+                processoId: this.routerState.params['processoHandle'],
                 loadingAcompanhamento: false
             }),
         ]),
@@ -78,6 +76,51 @@ export class ProcessoCapaEffect {
             return of(new ProcessoCapaActions.GetProcessoFailed(err));
         })
     ));
+    /**
+     * Get Processo Success
+     */
+    getProcessoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoCapaActions.GetProcessoSuccess>(ProcessoCapaActions.GET_PROCESSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
+            const paramsAssuntos = {
+                filter: {'processo.id': `eq:${action.payload.processoId}`, 'principal': 'eq:true'},
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: ['populateAll']
+            };
+            this._store.dispatch(new fromStore.GetAssuntos(paramsAssuntos));
+            this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
+            const paramsInteressados = {
+                filter: {'processo.id': `eq:${action.payload.processoId}`},
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: ['populateAll', 'pessoa']
+            };
+            this._store.dispatch(new fromStore.GetInteressados(paramsInteressados));
+            this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
+            const paramsVinculacoes = {
+                filter: {
+                    orX: [
+                        {
+                            'processo.id': `eq:${action.payload.processoId}`
+                        },
+                        {
+                            'processoVinculado.id':
+                                `eq:${action.payload.processoId}`
+                        }
+                    ]
+                },
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: ['populateAll', 'modalidadeVinculacaoProcesso', 'processo', 'processoVinculado']
+            };
+            this._store.dispatch(new fromStore.GetVinculacoesProcessos(paramsVinculacoes));
+        })
+    ), {dispatch: false});
     /**
      * Get Assuntos Processo
      *
@@ -106,10 +149,8 @@ export class ProcessoCapaEffect {
             new ProcessoCapaActions.GetAssuntosSuccess({
                 entitiesId: response['entities'].map(assunto => assunto.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })
@@ -147,10 +188,8 @@ export class ProcessoCapaEffect {
             new ProcessoCapaActions.GetInteressadosSuccess({
                 entitiesId: response['entities'].map(interessado => interessado.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })
@@ -188,10 +227,8 @@ export class ProcessoCapaEffect {
             new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
                 entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })
@@ -223,10 +260,8 @@ export class ProcessoCapaEffect {
             new ProcessoCapaActions.GetAcompanhamentoSuccess({
                 entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
                 loaded: {
-                    id: this.routerState.params['processoCopiaHandle'] ?
-                        'processoCopiaHandle' : 'processoHandle',
-                    value: this.routerState.params['processoCopiaHandle'] ?
-                        this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
                 },
                 total: response['total']
             })

@@ -9,6 +9,13 @@ export const GET_JUNTADAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS SUCCESS';
 export const GET_JUNTADAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS FAILED';
 export const EXPANDIR_PROCESSO = '[PROCESSO VIEW] EXPANDIR PROCESSO';
 
+export const GET_COMPONENTES_DIGITAIS_JUNTADA = '[PROCESSO VIEW] GET COMPONENTES DIGITAIS JUNTADA';
+export const GET_COMPONENTES_DIGITAIS_JUNTADA_SUCCESS = '[PROCESSO VIEW] GET COMPONENTES DIGITAIS JUNTADA SUCCESS';
+export const GET_COMPONENTES_DIGITAIS_JUNTADA_FAILED = '[PROCESSO VIEW] GET COMPONENTES DIGITAIS JUNTADA FAILED';
+
+export const SET_FIRST_JUNTADA_TRUE = '[PROCESSO VIEW] SET FIRST JUNTADA TRUE';
+export const SET_FIRST_JUNTADA_FALSE = '[PROCESSO VIEW] SET FIRST JUNTADA FALSE';
+
 export const GET_JUNTADAS_ETIQUETAS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS';
 export const GET_JUNTADAS_ETIQUETAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS SUCCESS';
 export const GET_JUNTADAS_ETIQUETAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS FAILED';
@@ -44,6 +51,8 @@ export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
 
 export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
 export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
+
+export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
 
 
 /**
@@ -126,6 +135,66 @@ export class GetJuntadasFailed implements Action
     readonly type = GET_JUNTADAS_FAILED;
 
     constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Get Componentes Digitais Juntada
+ */
+export class GetComponentesDigitaisJuntada implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Componentes Digitais Juntada Success
+ */
+export class GetComponentesDigitaisJuntadaSuccess implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Componentes Digitais Juntada Failed
+ */
+export class GetComponentesDigitaisJuntadaFailed implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS_JUNTADA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Set First Juntada True
+ */
+export class SetFirstJuntadaTrue implements Action
+{
+    readonly type = SET_FIRST_JUNTADA_TRUE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Set First Juntada False
+ */
+export class SetFirstJuntadaFalse implements Action
+{
+    readonly type = SET_FIRST_JUNTADA_FALSE;
+
+    constructor(public payload: any)
     {
     }
 }
@@ -402,10 +471,26 @@ export class RemoveConteudoBinario implements Action {
     }
 }
 
+/**
+ * Atualiza Juntada Index
+ */
+export class AtualizaJuntadaIndex implements Action {
+    readonly type = ATUALIZA_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
+    | GetComponentesDigitaisJuntada
+    | GetComponentesDigitaisJuntadaSuccess
+    | GetComponentesDigitaisJuntadaFailed
+    | SetFirstJuntadaTrue
+    | SetFirstJuntadaFalse
     | GetJuntadasEtiquetas
     | GetJuntadasEtiquetasSuccess
     | GetJuntadasEtiquetasFailed
@@ -434,4 +519,5 @@ export type ProcessoViewActionsAll
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
     | LimpaCacheDocumento
-    | RemoveConteudoBinario;
+    | RemoveConteudoBinario
+    | AtualizaJuntadaIndex;

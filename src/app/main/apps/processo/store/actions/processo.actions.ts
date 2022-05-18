@@ -56,6 +56,14 @@ export const SINCRONIZA_BARRAMENTO_SUCCESS = '[PROCESSO] SINCRONIZACAO BARRAMENT
 
 export const PLUGIN_SET_ERROR = '[PROCESSO] PLUGIN SET ERROR';
 
+export const GET_JUNTADA_INDEX = '[PROCESSO] GET JUNTADA INDEX';
+export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
+
+export const GET_TAREFAS_PROCESSO = '[PROCESSO GET TAREFAS] GET TAREFAS';
+export const GET_TAREFAS_PROCESSO_SUCCESS = '[PROCESSO GET TAREFAS] GET TAREFAS SUCCESS';
+export const GET_TAREFAS_PROCESSO_FAILED = '[PROCESSO GET TAREFAS] GET TAREFAS FAILED';
+export const UNLOAD_TAREFAS_PROCESSO = '[PROCESSO UNLOAD TAREFAS] UNLOAD TAREFAS PROCESSO';
+
 /**
  * Expandir Processo
  */
@@ -517,6 +525,78 @@ export class PluginSetError implements Action
     }
 }
 
+/**
+ * Get Juntada Index
+ */
+export class GetJuntadaIndex implements Action
+{
+    readonly type = GET_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Atualiza Juntada Index
+ */
+export class AtualizaJuntadaIndex implements Action
+{
+    readonly type = ATUALIZA_JUNTADA_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Tarefas
+ */
+export class GetTarefasProcesso implements Action
+{
+    readonly type = GET_TAREFAS_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Tarefas Success
+ */
+export class GetTarefasProcessoSuccess implements Action
+{
+    readonly type = GET_TAREFAS_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Tarefas Failed
+ */
+export class GetTarefasProcessoFailed implements Action
+{
+    readonly type = GET_TAREFAS_PROCESSO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Unload Tarefas Processo
+ */
+export class UnloadTarefasProcesso implements Action
+{
+    readonly type = UNLOAD_TAREFAS_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -556,4 +636,10 @@ export type ProcessoActionsAll
     | RemovePluginLoading
     | SincronizaBarramento
     | SincronizaBarramentoSuccess
-    | PluginSetError;
+    | PluginSetError
+    | GetJuntadaIndex
+    | AtualizaJuntadaIndex
+    | GetTarefasProcesso
+    | GetTarefasProcessoSuccess
+    | GetTarefasProcessoFailed
+    | UnloadTarefasProcesso;

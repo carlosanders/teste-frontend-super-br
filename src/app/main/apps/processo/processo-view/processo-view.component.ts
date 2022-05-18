@@ -7,9 +7,12 @@ import {
     OnInit,
     Output,
     QueryList,
-    SecurityContext, ViewChild,
+    SecurityContext,
+    TemplateRef,
+    ViewChild,
     ViewChildren,
-    ViewEncapsulation
+    ViewContainerRef,
+    ViewEncapsulation,
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
@@ -18,7 +21,7 @@ import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollba
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Juntada, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {expandirTela} from './store';
@@ -27,7 +30,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getProcesso} from '../store';
+import {getProcesso, getProcessoLoaded} from '../store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
@@ -35,8 +38,11 @@ import {
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {CdkUtils} from '@cdk/utils';
-import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
+import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
+import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
+import {TemplatePortal} from '@angular/cdk/portal';
+import {MatButton} from '@angular/material/button';
 
 @Component({
     selector: 'processo-view',
@@ -70,6 +76,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
     }
 
+    @ViewChild('assinaturasTemplate', {static: false}) assinaturasTemplateRef: TemplateRef<any>;
+    @ViewChild('btnAssinaturas', {static: false}) btnAssinaturas: MatButton;
+
     processo$: Observable<Processo>;
     processo: Processo;
 
@@ -78,8 +87,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
 
-    index$: Observable<any>;
-    index = {};
+    index = [];
 
     totalSteps = 0;
 
@@ -113,7 +121,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     pagination: any;
 
     routerState: any;
-    routerState$: Observable<any>;
 
     chaveAcesso: string;
     capaProcesso: boolean;
@@ -137,11 +144,19 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
     isBookmark = false;
 
+    assinaturasIsLoading$: Observable<boolean>;
+    assinaturas$: Observable<Assinatura[]>;
+    assinaturasPagination$: Observable<Pagination>;
+    assinaturasPagination: Pagination;
+
+    sortOrder: string = 'DESC';
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private pdfViewer: PdfJsViewerComponent;
 
     /**
+     *
      * @param _juntadaService
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -152,6 +167,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _activatedRoute
      * @param _mercureService
      * @param _matDialog
+     * @param _overlay
+     * @param _viewContainerRef
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -163,7 +180,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _mercureService: MercureService,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _overlay: Overlay,
+        private _viewContainerRef: ViewContainerRef
     ) {
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
@@ -174,35 +193,68 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
-        this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-        this.routerState$ = this._store.pipe(select(getRouterState));
-        this.juntadas$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas)
-        ).subscribe((juntadas) => {
-            this.juntadas = juntadas;
-            this.totalSteps = juntadas.length;
-        });
 
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this.currentStep$.pipe(
+        this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe((currentStep) => {
-            this.currentStep = currentStep;
-            if (this.index && this.index[currentStep.step]) {
-                this.currentJuntada = this.juntadas[currentStep.step];
+        ).subscribe((processo) => {
+            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+            }
+            if (processo?.origemDados) {
+                this._mercureService.subscribe(processo.origemDados['@id']);
+            }
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
+        ).subscribe((juntadas) => {
+            this.juntadas = juntadas;
+            this.totalSteps = juntadas.length;
+
+            if (juntadas.length !== this.index.length) {
+                this.index = [];
+                juntadas.forEach((juntada) => {
+                    let componentesDigitaisIds = [];
+                    if (juntada.documento?.componentesDigitais) {
+                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                    }
+                    if (juntada.documento?.vinculacoesDocumentos) {
+                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                componentesDigitaisIds.push(dvcd.id);
+                            })
+                        })
+                    }
+                    const tmpJuntada = {
+                        id: juntada.id,
+                        numeracaoSequencial: juntada.numeracaoSequencial,
+                        componentesDigitais: componentesDigitaisIds
+                    };
+                    this.index.push(tmpJuntada);
+                })
+            }
+
+            if (this.currentStep) {
+                this.currentJuntada = this.juntadas?.find(juntada => juntada.id === this.currentStep.step);
+                this._changeDetectorRef.markForCheck();
             }
         });
 
-        this.index$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((index) => {
-            this.index = index;
-            if (this.currentStep && this.index[this.currentStep.step]) {
-                this.currentJuntada = this.juntadas[this.currentStep.step];
-                this._changeDetectorRef.markForCheck();
+        this.currentStep$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(currentStep => currentStep.step !== 0 && currentStep.subStep !== 0)
+        ).subscribe((currentStep) => {
+            this.currentStep = currentStep;
+            if (this.juntadas?.length > 0) {
+                this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
+            } else {
+                this.currentJuntada = this.index?.find(juntada => juntada.id === currentStep.step);
             }
         });
 
@@ -255,14 +307,17 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.fileName = '';
                 this.src = false;
                 this.pdfSrc = null;
-                if (this.currentJuntada && !this.currentJuntada.documento) {
+                this.componenteDigital = null;
+                if (this.currentJuntada && !this.currentJuntada.ativo) {
+                    this.srcMessage = 'Juntada desentranhada do processo';
+                } else if (this.currentJuntada && !this.currentJuntada.documento) {
                     this.srcMessage = 'Não há documento';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
                     this.srcMessage = 'Acesso negado';
                 } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
                     this.srcMessage = 'Não há componentes digitais';
-                } else if (this.currentJuntada && !this.currentJuntada.ativo) {
-                    this.srcMessage = 'Juntada desentranhada do processo';
+                } else if (this.currentStep && !this.currentStep.subStep) {
+                    this.srcMessage = 'Não há componentes digitais';
                 }
             }
 
@@ -292,6 +347,14 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         ).subscribe(pagination => this.pagination = pagination);
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+
+        this.assinaturasPagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
     }
 
     ngOnInit(): void {
@@ -324,26 +387,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.loadingJuntadas = loading;
         });
 
-        this.processo$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((processo) => {
-            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
-                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
-            }
-            if (processo?.origemDados) {
-                this._mercureService.subscribe(processo.origemDados['@id']);
-            }
-            this.processo = processo;
-            this._changeDetectorRef.markForCheck();
-        });
-
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
-            if (this.routerState.url.indexOf('/documento/') !== -1 &&
-                (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
-                const processoId = this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle;
+            if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('visualizar-processo') !== -1)) {
+                const processoId = this.routerState.params.processoHandle;
 
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
@@ -385,9 +433,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle'] + '/visualizar') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
-        if (this.tarefa) {
-            this._store.dispatch(new fromStore.UnloadDocumentos());
-        }
         if (this.processo?.origemDados) {
             this._mercureService.unsubscribe(this.processo.origemDados['@id']);
         }
@@ -397,43 +442,31 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    disabledNext(): boolean {
-        return this.currentStep.step === this.totalSteps - 1 && (this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1);
-    }
-
-    /**
-     * Go to next step
-     */
-    gotoNextStep(): void {
-        if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep >= this.index[this.currentStep.step]?.length - 1) {
-            return;
-        }
-
-        // Set the animation direction
-        this.animationDirection = 'left';
-
-        // Run change detection so the change
-        // in the animation direction registered
-        this._changeDetectorRef.detectChanges();
-
-        let step = (this.currentStep.step + 1) + '-0';
-
-        if ((this.currentStep.subStep + 1) <= this.index[this.currentStep.step].length - 1) {
-            step = this.currentStep.step + '-' + (this.currentStep.subStep + 1);
-        }
-
-        this.navigateToStep(step);
-    }
-
     disabledBack(): boolean {
-        return this.currentStep.step === 0 && this.currentStep.subStep === 0;
+        if (this.juntadas?.length && this.index?.length) {
+            const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
+            if (firstJuntada) {
+                return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
+            }
+        }
+        return true;
+    }
+
+    disabledNext(): boolean {
+        if (this.juntadas?.length && this.index?.length) {
+            const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
+            if (lastJuntada) {
+                return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
+            }
+        }
+        return true;
     }
 
     /**
      * Go to previous step
      */
     gotoPreviousStep(): void {
-        if (this.currentStep.step === 0 && this.currentStep.subStep === 0) {
+        if (this.disabledBack()) {
             return;
         }
 
@@ -444,37 +477,90 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // in the animation direction registered
         this._changeDetectorRef.detectChanges();
 
-        let step = 0;
-        let subStep = 0;
-
-        if ((this.currentStep.subStep - 1) >= 0) {
-            subStep = this.currentStep.subStep - 1;
+        let step;
+        let subStep = null;
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
+        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
+        if ((currentComponenteDigitalPosition - 1) >= 0) {
+            subStep = currentIndex.componentesDigitais[currentComponenteDigitalPosition - 1];
             step = this.currentStep.step;
         } else {
-            if (this.currentStep.step > 0) {
-                step = this.currentStep.step - 1;
-                subStep = (this.index[step].length - 1) >= 0 ? this.index[step].length - 1 : 0;
+            if (currentJuntadaPosition > 0) {
+                step = this.juntadas[currentJuntadaPosition - 1].id;
+                const newIndex = this.index?.find(juntada => juntada.id === step);
+                if (newIndex.componentesDigitais.length > 0) {
+                    subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
+                        newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
+                        newIndex.componentesDigitais[0];
+                }
             }
         }
 
-        this.navigateToStep(step + '-' + subStep);
+        this.navigateToStep(step, subStep);
     }
 
-    navigateToStep(step: string): void {
-        const newSteps = step.split('-');
-        if (this.index[newSteps[0]]) {
+    /**
+     * Go to next step
+     */
+    gotoNextStep(): void {
+        if (this.disabledNext()) {
+            return;
+        }
+
+        // Set the animation direction
+        this.animationDirection = 'left';
+
+        // Run change detection so the change
+        // in the animation direction registered
+        this._changeDetectorRef.detectChanges();
+
+        let step;
+        let subStep = null;
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
+        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
+        let newJuntadaPosition;
+        let nextComponenteDigitalPosition;
+        if (currentComponenteDigitalPosition + 1 <= currentIndex.componentesDigitais.length - 1) {
+            nextComponenteDigitalPosition = currentComponenteDigitalPosition + 1;
+            step = this.currentStep.step;
+            subStep = currentIndex.componentesDigitais[nextComponenteDigitalPosition];
+        } else {
+            newJuntadaPosition = currentJuntadaPosition + 1 <= this.juntadas?.length - 1 ? currentJuntadaPosition + 1 : this.juntadas?.length - 1;
+            nextComponenteDigitalPosition = 0;
+            step = this.juntadas[newJuntadaPosition].id;
+            const newIndex = this.index?.find(juntada => juntada.id === step);
+            if (newIndex.componentesDigitais.length > 0) {
+                subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
+            }
+        }
+
+        this.navigateToStep(step, subStep);
+    }
+
+    navigateToStep(step: number, subStep: number = null): void {
+        const currentStep = {
+            step: step,
+            subStep: subStep
+        };
+        let stepHandle: string = step.toString();
+        if (subStep) {
+            stepHandle += '-' + subStep;
+        }
+
+        const index = this.index?.find(juntadaIndex => juntadaIndex.id === step);
+        if (index !== undefined && (!subStep || index.componentesDigitais.indexOf(subStep) !== -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 const arrPrimary = [];
-                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                    'visualizar-processo' : 'anexar-copia');
-                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
-                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
+                arrPrimary.push('visualizar-processo');
+                arrPrimary.push(this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
                 arrPrimary.push('visualizar');
-                arrPrimary.push(step);
+                arrPrimary.push(stepHandle);
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -490,7 +576,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         relativeTo: this._activatedRoute.parent
                     }
                 ).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                    this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 });
             } else {
                 let url = this.routerState.url.split('/processo/')[0] +
@@ -499,9 +585,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 if (this.routerState.params.chaveAcessoHandle) {
                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                 }
-                url += '/visualizar/' + step;
+                url += '/visualizar/' + stepHandle;
                 this._router.navigateByUrl(url).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                    this._store.dispatch(new fromStore.SetCurrentStep(currentStep));
                 });
             }
         }
@@ -517,7 +603,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     onScroll(): void {
-        if (this.juntadas.length >= this.pagination.total) {
+        if (this.juntadas?.length >= this.pagination.total) {
             return;
         }
         if (this.loadingJuntadas) {
@@ -526,10 +612,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         const nparams = {
             ...this.pagination,
+            processoId: this.processo.id,
             offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
+    }
+
+    onSort(order: string): void {
+        this.sortOrder = order;
+        this._changeDetectorRef.detectChanges();
     }
 
     zoomIn(): void {
@@ -643,5 +735,66 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     public onPagesLoaded(s, event): void {
         this.page = event;
+    }
+
+    doLoadAssinaturas(): void {
+        const overlay = this._overlay.create({
+            panelClass: 'mat-menu-panel',
+            backdropClass: 'cdk-overlay-transparent-backdrop',
+            maxWidth: 340,
+            width: 340,
+            scrollStrategy: this._overlay.scrollStrategies.reposition(),
+            positionStrategy: (this._overlay
+                .position()
+                .flexibleConnectedTo(this.btnAssinaturas._elementRef.nativeElement)
+                .withPositions([
+                    new ConnectionPositionPair(
+                        {originX: 'end', originY: 'bottom'},
+                        {overlayX: 'end', overlayY: 'top'}
+                    )
+                ])
+                .withFlexibleDimensions(false)
+                .withPush(false)),
+            disposeOnNavigation: true,
+            hasBackdrop: true
+        });
+
+        overlay.attach(new TemplatePortal(this.assinaturasTemplateRef, this._viewContainerRef));
+        overlay.backdropClick()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => overlay.detach())
+
+        const params = {
+            filter: {
+                'componenteDigital.id': `eq:${this.componenteDigital.id}`
+            },
+            listFilter: {},
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: ['populateAll']
+        };
+        this._store.dispatch(new fromStore.GetAssinaturas(params))
+    }
+
+    doReloadAssinaturas(params: any): void {
+        this._store.dispatch(new fromStore.GetAssinaturas({
+            ...this.assinaturasPagination,
+            filter: {
+                ...this.assinaturasPagination.filter,
+            },
+            gridFilter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.assinaturasPagination.populate
+        }));
+    }
+
+    print(): void {
+        window.frames['iframe-juntadas'].focus();
+        window.frames['iframe-juntadas'].print();
     }
 }

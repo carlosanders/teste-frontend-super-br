@@ -43,7 +43,7 @@ export class AssinaturaEffects {
      *
      * @type {Observable<any>}
      */
-    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
+     assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.AssinaDocumentoEletronicamente>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
@@ -85,6 +85,36 @@ export class AssinaturaEffects {
                 return of(new AssinaturaActions.AssinaDocumentoEletronicamenteFailed(payload));
             })
         ))
+    ));
+
+    revalidaLoginGovBr: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.RevalidaLoginGovBR>(AssinaturaActions.REVALIDA_LOGIN_GOVBR),
+        mergeMap(action => {
+
+            return this._assinaturaService.getTokenRevalidaLoginGovBr(action.payload.code, action.payload.state).pipe(
+            map((data: any) => {
+                if(window.opener){
+                    localStorage.setItem('tokenRevalidaGovBr', data.jwt);
+                    window.opener.postMessage('closeRevalidaGovBrSuccess','*');
+                    window.close();
+                }
+                return new AssinaturaActions.AssinaDocumentoEletronicamenteGovBrSuccess(data);
+            }),
+            catchError((err) => {
+                const payload = {
+                    error: err
+                };
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Ocorreu um erro na assinatura do documento via govBr id ' + action.payload.documento.id + '.',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                return of(new AssinaturaActions.AssinaDocumentoEletronicamenteFailed(payload));
+            })
+        )})
     ));
 
     /**

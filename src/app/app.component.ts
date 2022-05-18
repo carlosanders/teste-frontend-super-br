@@ -22,6 +22,7 @@ import * as AssinaturaStore from 'app/store';
 import {UpdateData} from '../@cdk/ngrx-normalizr';
 import {Documento} from '../@cdk/models';
 import {documento as documentoSchema} from '../@cdk/normalizr';
+import {RouterHistoryService} from '../@cdk/utils/router-history.service';
 
 @Component({
     selector: 'app',
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param _platform
      * @param _store
      * @param _loginService
+     * @param _routerHistoryService
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -62,7 +64,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _platform: Platform,
         private _store: Store<State>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _routerHistoryService: RouterHistoryService
     ) {
         // Get default navigation
         this.navigation = navigation;

@@ -138,7 +138,12 @@ export const SAVE_OBSERVACAO = '[TAREFAS] SAVE OBSERVACAO';
 export const SAVE_OBSERVACAO_SUCCESS = '[TAREFAS] SAVE OBSERVACAO SUCCESS';
 export const SAVE_OBSERVACAO_FAILED = '[TAREFAS] SAVE OBSERVACAO FAILED';
 
+export const EDITAR_OBSERVACAO = '[TAREFAS] EDITAR OBSERVACAO';
+
 export const UPLOAD_CONCLUIDO = '[TAREFAS] UPLOAD CONCLUIDO';
+
+
+export const CHANGE_VIEW_MODE = '[TAREFAS] CHANGE VIEW MODE';
 
 /**
  * Unload Tarefas
@@ -1191,7 +1196,7 @@ export class SaveObservacaoSuccess implements Action
 {
     readonly type = SAVE_OBSERVACAO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -1214,6 +1219,24 @@ export class SaveObservacaoFailed implements Action
 export class UploadConcluido implements Action
 {
     readonly type = UPLOAD_CONCLUIDO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class EditarObservacao implements Action
+{
+    readonly type = EDITAR_OBSERVACAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ChangeViewMode implements Action
+{
+    readonly type = CHANGE_VIEW_MODE;
 
     constructor(public payload: any)
     {
@@ -1323,4 +1346,7 @@ export type TarefasActionsAll
     | SaveObservacao
     | SaveObservacaoSuccess
     | SaveObservacaoFailed
-    | UploadConcluido;
+    | UploadConcluido
+    | EditarObservacao
+    | ChangeViewMode
+    ;

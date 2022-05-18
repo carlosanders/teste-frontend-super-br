@@ -80,6 +80,7 @@ export class ComponenteDigitalEffect {
         withLatestFrom(this._store.select(getDocumento), this._store.select(getComponenteDigitalLoaded)),
         tap(([action, documento, loaded]) => {
             if (loaded.exibido !== action.payload.componenteDigitalId) {
+                this._componenteDigitalService.trocandoDocumento.next(true);
                 let primary: string;
                 primary = 'componente-digital/';
                 const componenteDigital = action.payload.componenteDigital;
@@ -305,7 +306,7 @@ export class ComponenteDigitalEffect {
                 new UpdateData<ComponenteDigital>({
                     id: response.id,
                     schema: componenteDigitalSchema,
-                    changes: {conteudo: response.conteudo, hash: response.hash}
+                    changes: {conteudo: response.conteudo, hash: response.hash, atualizadoEm: response.atualizadoEm}
                 })
             ]),
             catchError((err) => {
@@ -386,6 +387,64 @@ export class ComponenteDigitalEffect {
             if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload && this.routerState.url.includes('editor/ckeditor')) {
                 this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
             }
+        })
+    ), {dispatch: false});
+
+    visualizarHtmlComponenteDigital: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.VisualizarHTMLComponenteDigital>(ComponenteDigitalActions.VISUALIZAR_HTML_COMPONENTE_DIGITAL),
+        switchMap((action) => this._componenteDigitalService.renderHtmlContent(action.payload)),
+        tap((response: any) => {
+            if (response && response.conteudo) {
+                const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob(['\ufeff', byteArray], {type: response.mimetype});
+                const URL = window.URL;
+                const data = URL.createObjectURL(blob);
+                window.open(data, '_blank');
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(data);
+                }, 100);
+
+                this._store.dispatch(new ComponenteDigitalActions.VisualizarHTMLComponenteDigitalSuccess(response));
+            }
+        }),
+        catchError((err) => {
+            console.log(err);
+            return of(new ComponenteDigitalActions.VisualizarHTMLComponenteDigitalFailed(err));
+        })
+    ), {dispatch: false});
+
+    compararComponenteDigitalComHtml: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.CompararComponenteDigitalComHtml>(ComponenteDigitalActions.COMPARAR_COMPONENTE_DIGITAL_COM_HTML),
+        switchMap((action) => this._componenteDigitalService.comparaComponenteDigitalComHtml(this.routerState.params['componenteDigitalHandle'], action.payload)),
+        tap((response: any) => {
+            if (response && response.conteudo) {
+                const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], {type: response.mimetype});
+                const URL = window.URL;
+                const data = URL.createObjectURL(blob);
+                window.open(data, '_blank');
+
+                setTimeout(() => {
+                    // For Firefox it is necessary to delay revoking the ObjectURL
+                    window.URL.revokeObjectURL(data);
+                }, 100);
+
+                this._store.dispatch(new ComponenteDigitalActions.CompararComponenteDigitalComHtmlSuccess(response));
+            }
+        }),
+        catchError((err) => {
+            console.log(err);
+            return of(new ComponenteDigitalActions.CompararComponenteDigitalComHtmlFailed(err));
         })
     ), {dispatch: false});
 

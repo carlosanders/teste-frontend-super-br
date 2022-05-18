@@ -1,3 +1,5 @@
+@import "../../../scss/partials/cdk-table-resizable";
+
 cdk-tarefa-list {
 
     flex: 1 1 auto;
@@ -102,6 +104,163 @@ cdk-tarefa-list {
                     font-size: 13px;
                     font-weight: 300;
                 }
+            }
+
+            .view-mode-grid {
+                flex: 1 1 auto;
+            }
+
+            table {
+
+                tr {
+                    cursor: pointer;
+
+                    &.nao-lido {
+                        font-weight: bold;
+                    }
+
+                    td {
+                        .prazo-vence-hoje {
+                            color: red;
+                        }
+
+                        .prazo-venceu {
+                            font-weight: bold;
+                        }
+
+                        .etiquetas {
+                            flex: 1 1 auto;
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            margin-top: 2px;
+                            //vertical-align: baseline;
+
+                            .etiqueta-minuta {
+                                display: flex;
+                                align-items: center;
+                                font-size: 11px;
+                                border: 1px solid;
+                                margin-right: 2px;
+                                padding: 3px 8px;
+                                cursor: pointer;
+                                max-height: 32px;
+                                align-self: center;
+                                margin-bottom: 2px;
+                                min-width: 90px;
+                                border-radius: 3px;
+
+                                > mat-icon.small {
+                                    font-size: 16px;
+                                    height: 16px;
+                                    width: 16px;
+                                    line-height: 22px;
+                                    min-width: 16px;
+                                }
+
+                                > .mat-icon-button {
+                                    width: 16px;
+                                    max-width: 16px;
+                                    font-size: 16px;
+
+                                    mat-icon.small {
+                                        font-size: 16px;
+                                        height: 16px;
+                                        width: 16px;
+                                        line-height: 22px;
+                                        min-width: 16px;
+                                    }
+                                }
+
+                                .etiqueta-color {
+                                    width: 8px;
+                                    height: 8px;
+                                    margin-right: 8px;
+                                    border-radius: 50%;
+                                }
+                            }
+                        }
+
+                        &.observacao {
+                            margin-left: 10px;
+                            align-items: center;
+
+                            > span {
+                                white-space: pre-wrap;
+                            }
+
+                            > mat-icon {
+                                margin-left: 4px;
+                                font-size: 18px;
+                                align-items: center;
+                                line-height: 18px;
+                                min-width: 18px;
+                                min-height: 18px;
+                                width: 18px;
+                                height: 18px;
+                            }
+
+                            > mat-form-field {
+                                display: flex;
+                                flex: 1 1 auto;
+
+                                > div.mat-form-field-wrapper {
+                                    display: flex;
+                                    flex: 1 1 auto;
+                                }
+                            }
+
+                            > .actions {
+                                margin-left: 4px;
+                            }
+
+                            .edit-observacao {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+
+                                > span {
+                                    font-style: italic;
+                                    font-size: smaller;
+                                    white-space: pre-wrap;
+                                }
+
+                                > mat-icon {
+                                    margin-left: 4px;
+                                    font-size: 18px;
+                                    align-items: center;
+                                    line-height: 18px;
+                                    min-width: 18px;
+                                    min-height: 18px;
+                                    width: 18px;
+                                    height: 18px;
+                                }
+
+                                > mat-form-field {
+                                    display: flex;
+                                    flex: 1 1 auto;
+
+                                    > div.mat-form-field-wrapper {
+                                        display: flex;
+                                        flex: 1 1 auto;
+                                    }
+                                }
+
+                                > .actions {
+                                    margin-left: 4px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .footer {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
             }
         }
     }

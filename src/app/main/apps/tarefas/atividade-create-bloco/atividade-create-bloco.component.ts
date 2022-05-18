@@ -19,9 +19,8 @@ import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getOperacoes, getRouterState} from 'app/store';
+import {Back, getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {Back} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
 import {CdkUtils} from '@cdk/utils';
@@ -411,8 +410,29 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         }
     }
 
-    onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    onClicked(event): void {
+        const documento = event.documento;
+
+        const sidebar = 'editar/atividade';
+        if (event.event.ctrlKey) {
+            const extras = {
+                queryParams: {
+                    novaAba: true
+                }
+            };
+            const url = this._router.createUrlTree([
+                this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                '/documento/' + documento.id,
+                {
+                    outlets: {
+                        sidebar: sidebar
+                    }
+                }
+            ], extras);
+            window.open(url.toString(), '_blank');
+        } else {
+            this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        }
     }
 
     doConverte(documentoId): void {

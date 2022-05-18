@@ -28,6 +28,8 @@ import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plug
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 import {Subject} from 'rxjs';
+import * as moment from 'moment';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 declare var CKEDITOR: any;
 
@@ -76,6 +78,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Output()
     comparar = new EventEmitter<any>();
+
+    @Output()
+    backupComponenteDigital: EventEmitter<any> = new EventEmitter<any>();
 
     @Input()
     config = {
@@ -180,19 +185,24 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     id: string;
 
     private _unsubscribeAll: Subject<any> = new Subject();
+    private _firstChange: boolean = true;
+    private _lastContent: string;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param dialog
      * @param el
      * @param _componenteDigitalService
      * @param snackBar
+     * @param _loginService
      */
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog,
                 private el: ElementRef,
                 private _componenteDigitalService: ComponenteDigitalService,
-                private snackBar: MatSnackBar) {
+                private snackBar: MatSnackBar,
+                private _loginService: LoginService) {
 
         this._componenteDigitalService.doEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (value) => {
@@ -228,9 +238,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
-        if (this.mode === 'documento') {
-            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
-        } else {
+        this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        if (this.mode === 'modelo' || this.mode === 'repositorio' || this.mode === 'template') {
             this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
         }
     }
@@ -266,6 +275,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         if (changes['componenteDigital']) {
             if (changes['componenteDigital'].firstChange) {
+                this._firstChange = true;
                 this.fetch();
             }
 
@@ -348,6 +358,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 }
             }
         } else {
+            this._lastContent = null;
             this.src = null;
         }
         this._changeDetectorRef.detectChanges();
@@ -503,6 +514,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doSave(): void {
+        this.doBackupLocalstorage();
         this.editor.getCommand('saveCmd').disable();
         this.editor.getCommand('assinarCmd').disable();
         this.editor.getCommand('pdfCmd').disable();
@@ -529,6 +541,35 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         } else {
             console.log('sem hash antigo!');
             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
+        }
+    }
+
+    doBackupLocalstorage(): void {
+        if (this.src) {
+            window['bbb'] = this.src;
+            this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
+                (conteudo) => {
+                    if (this.src !== this._lastContent) {
+                        this.backupComponenteDigital.emit({
+                            id: this.componenteDigital.id,
+                            fileName: this.componenteDigital.fileName,
+                            mimetype: this.componenteDigital.mimetype,
+                            hash: this.componenteDigital.hash,
+                            atualizadoEm: +moment(this.componenteDigital.atualizadoEm).add(1, 's'),
+                            usuario: this._loginService.getUserProfile()?.nome,
+                            conteudo: conteudo
+                        });
+                    }
+                    this._lastContent = this.src;
+                }
+            );
+        }
+    }
+
+    onChangeContent(content: any): void {
+        if (this._firstChange) {
+            this._lastContent = content;
+            this._firstChange = false;
         }
     }
 

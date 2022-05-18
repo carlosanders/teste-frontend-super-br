@@ -107,7 +107,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            filter(routerState => !!routerState.state),
+            filter(routerState => !!routerState),
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;

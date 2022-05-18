@@ -50,6 +50,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
+    type = null;
+
+    @Input()
     documento = false;
 
     @Output()

@@ -150,6 +150,13 @@
             </button>
 
             <button mat-icon-button
+                    (click)="doCopyBookmark(bookmarksBySequencial)"
+                    aria-label="copiar Bookmark"
+                    matTooltip="Copiar Bookmark para o clipboard">
+                <mat-icon>file_copy</mat-icon>
+            </button>
+
+            <button mat-icon-button
                     (click)="abreJuntadas()"
                     aria-label="abrir juntadas"
                     matTooltip="Juntadas do processo">
@@ -298,12 +305,12 @@
                     </span>
                 </div>
                 <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
-                    <div class="descricao">CAPA</div>
-                    <div class="criado-em">{{processo ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
+                    <div class="descricao">Capa</div>
+                    <div class="criado-em">{{processo?.dataHoraAbertura ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
                     <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="s-14">picture_as_pdf</mat-icon>
                         <span class="ml-4"
-                              [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso?.nome}}</span>
+                              [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso?.nome | titleCasePipe}}</span>
                     </div>
                 </div>
             </div>
@@ -315,8 +322,8 @@
                  (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
                 {{contador.reset()}}
                 <div class="juntada drag-juntada" matRipple
-                     (click)="gotoStep(i,juntada.documento.acessoNegado,null, $event)"
-                     [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
+                     (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, $event)"
+                     [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}"
                      [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                      [dndDragImageOffsetFunction]="this.offsetFunction"
                      [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
@@ -326,113 +333,17 @@
                     <div class="index">
                         <span dndDragImageRef>{{juntada.numeracaoSequencial}}</span>
                     </div>
-                    <div fxFlex fxLayout="column">
-                        <div *ngIf="!juntada.ativo">
-                            <div class="desentranhado">DESENTRANHADO</div>
-                        </div>
-                        <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
-                            <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
-                            </mat-icon>
-                        </div>
+                    <div *ngIf="!juntada.ativo">
+                        <div class="desentranhado">DESENTRANHADO</div>
+                    </div>
+                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
+                        </mat-icon>
+                    </div>
+                    <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
-                            <div fxFlex fxLayout="row">
-                                <div class="descricao">
-                                    {{juntada.descricao.split('/').join(' ')}}
-                                    <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
-                                              *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
-                                    </mat-icon>
-                                    <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
-                                              *ngIf="isOpen[juntada.id]">keyboard_arrow_up
-                                    </mat-icon>
-                                </div>
-                                <div class="actions">
-                                    <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
-                                    </mat-icon>
-                                    <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
-                                    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
-                                !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
-                                        <mat-icon class="secondary-text">more_vert</mat-icon>
-                                    </button>
-
-                                    <div
-                                        *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                                        class="spinner-container m-8">
-                                        <mat-spinner diameter="24"></mat-spinner>
-                                    </div>
-
-                                    <mat-menu #moreMenu="matMenu">
-                                        <button mat-menu-item aria-label="enviar por email"
-                                                (click)="enviarDocumentoEmail(juntada.id)">
-                                            <ng-container>
-                                                <mat-icon>send</mat-icon>
-                                                <span>Enviar por email</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="editar"
-                                                *ngIf="!juntada.documento.acessoNegado && !_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
-                                                (click)="onClickedMinuta(juntada.documento)">
-                                            <ng-container>
-                                                <mat-icon>edit</mat-icon>
-                                                <span>Editar</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="assinar juntada"
-                                                (click)="doAssinaturaJuntada(juntada.documento, i)">
-                                            <ng-container>
-                                                <mat-icon>lock</mat-icon>
-                                                <span>Assinar</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="abrir em outra aba"
-                                                *ngIf="!juntada.documento.acessoNegado"
-                                                (click)="doJuntadaOutraAba(juntada.documento)">
-                                            <ng-container>
-                                                <mat-icon>open_in_new</mat-icon>
-                                                <span>Abrir em outra aba</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button fxLayout="row" fxLayoutAlign="start center"
-                                                *ngIf="juntada.documento.assinado && !juntada.documento.acessoNegado"
-                                                (click)="doDownloadP7S(juntada.documento)"
-                                                mat-menu-item>
-                                            <mat-icon>get_app</mat-icon>
-                                            <span>Exportar como P7S</span>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="adicionar vinculação"
-                                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                                                (click)="doAdicionarVinculacao(juntada.id)">
-                                            <ng-container>
-                                                <mat-icon>link</mat-icon>
-                                                <span>Adicionar vinculação</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="remover vinculações"
-                                                (click)="doRemoverVinculacoes(juntada)"
-                                                *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
-                                            <ng-container>
-                                                <mat-icon>lock</mat-icon>
-                                                <span>Desvincular</span>
-                                            </ng-container>
-                                        </button>
-
-                                        <button mat-menu-item aria-label="desentranhar"
-                                                (click)="doDesentranharSimples(juntada.id)"
-                                                *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
-                                            <ng-container>
-                                                <mat-icon>low_priority</mat-icon>
-                                                <span>Desentranhar</span>
-                                            </ng-container>
-                                        </button>
-                                    </mat-menu>
-                                </div>
+                            <div class="descricao">
+                                {{juntada.descricao.split('/').join(' ') | titleCasePipe}}
                             </div>
                             <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>
                             <div class="criado-em" *ngIf="juntada.criadoPor?.nome && isOpen[juntada.id]" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
@@ -462,26 +373,24 @@
                                     PENDENTE DE CIÊNCIA
                                 </div>
                             </div>
-                            <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
-                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon class="s-14">picture_as_pdf</mat-icon>
-                                <a class="ml-4"
-                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                   [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                    {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
-                                </a>
-                                <mat-icon class="ml-4 s-24"
-                                          *ngIf="!capa && !!index &&
-                                           index[currentStep.step] &&
-                                           index[currentStep.step][currentStep.subStep] === componenteDigital.id">
-                                    arrow_left
-                                </mat-icon>
-                                <mat-spinner *ngIf="!capa && !!index &&
-                                 index[currentStep.step] &&
-                                 index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
-                                 (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
-                            </div>
-                            <ng-container *ngIf="juntada.documento.temAnexos && juntada.documento.vinculacoesDocumentos?.length !== 0">
+                            <ng-container
+                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0)">
+                                <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
+                                     class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                                    <a class="ml-4"
+                                       (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                       [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
+                                        {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
+                                    </a>
+                                    <mat-icon class="ml-4 s-24"
+                                              *ngIf="isCurrent(juntada.id, componenteDigital.id)">
+                                        arrow_left
+                                    </mat-icon>
+                                    <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
                                 {{contadorVinculacoes.reset()}}
                                 <div
                                     *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
@@ -495,36 +404,30 @@
                                     </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                         <a class="ml-4"
-                                           (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                           [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                           (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                           [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                             {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
                                         <mat-icon class="ml-4 s-24"
-                                                  *ngIf="!capa && !!index &&
-                                               index[currentStep.step] &&
-                                               index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                                  *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
                                         </mat-icon>
-                                        <mat-spinner *ngIf="!capa && !!index &&
-                                     index[currentStep.step] &&
-                                     index[currentStep.step][currentStep.subStep] === componenteDigital.id &&
-                                     (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
+                                        <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
-                                <div class="load-more" (click)="$event.stopPropagation(); doGetMoreVinculacoes(juntada.documento.id)" matTooltip="Carregar mais"
-                                     *ngIf="this.paginadores !== null && juntada.documento.vinculacoesDocumentos && juntada.documento.vinculacoesDocumentos.length < this.paginadores[juntada.documento.id]?.pagination?.total && !this.paginadores[juntada.documento.id].loading">
-                                    <span>+</span>
-                                </div>
-                                <ng-container *ngIf="this.paginadores[juntada.documento.id].loading">
-                                    <mat-spinner diameter="16"></mat-spinner>
-                                </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="juntada.documento.temAnexos && loadingVinculacoesDocumentosIds.indexOf(juntada.documento.id) !== -1 && juntada.documento.vinculacoesDocumentos?.length === 0">
-                                <mat-spinner diameter="16"></mat-spinner>
-                            </ng-container>
-                            <div class="numero"
+                            <div fxFlex fxLayout="row"
                                  *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
-                                {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                <div class="numero" fxFlex="1 1 auto" fxLayoutAlign="space-between center">
+                                    <div>
+                                        {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                    </div>
+                                    <mat-icon class="s-10" fxFlex="1 1 auto" fxLayoutAlign="center"
+                                              [matTooltip]="'Copiar Número do Documento'"
+                                              (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado); $event.stopPropagation();">
+                                        file_copy
+                                    </mat-icon>
+                                </div>
                             </div>
                             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                                 <div class="etiqueta"
@@ -535,6 +438,99 @@
                                     <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="actions" *ngIf="juntada.ativo">
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
+                            </mat-icon>
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="isOpen[juntada.id]">keyboard_arrow_up
+                            </mat-icon>
+                            <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                                    *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                                !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                    aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                            </mat-icon>
+                            <div
+                                *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                class="spinner-container m-8">
+                                <mat-spinner diameter="24"></mat-spinner>
+                            </div>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="enviar por email"
+                                        (click)="enviarDocumentoEmail(juntada.id)">
+                                    <ng-container>
+                                        <mat-icon>send</mat-icon>
+                                        <span>Enviar por email</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="editar"
+                                        *ngIf="!juntada.documento.acessoNegado && !_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
+                                        (click)="onClickedMinuta(juntada.documento)">
+                                    <ng-container>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Editar</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="assinar juntada"
+                                        (click)="doAssinaturaJuntada(juntada.documento, juntada.id)">
+                                    <ng-container>
+                                        <mat-icon>lock</mat-icon>
+                                        <span>Assinar</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="abrir em outra aba"
+                                        *ngIf="!juntada.documento.acessoNegado"
+                                        (click)="doJuntadaOutraAba(juntada.documento, juntada)">
+                                    <ng-container>
+                                        <mat-icon>open_in_new</mat-icon>
+                                        <span>Abrir em outra aba</span>
+                                    </ng-container>
+                                </button>
+
+                                <button fxLayout="row" fxLayoutAlign="start center"
+                                        *ngIf="juntada.documento.assinado && !juntada.documento.acessoNegado"
+                                        (click)="doDownloadP7S(juntada.documento)"
+                                        mat-menu-item>
+                                    <mat-icon>get_app</mat-icon>
+                                    <span>Exportar como P7S</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="adicionar vinculação"
+                                        *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                        (click)="doAdicionarVinculacao(juntada.id)">
+                                    <ng-container>
+                                        <mat-icon>link</mat-icon>
+                                        <span>Adicionar vinculação</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="remover vinculações"
+                                        (click)="doRemoverVinculacoes(juntada)"
+                                        *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
+                                    <ng-container>
+                                        <mat-icon>lock</mat-icon>
+                                        <span>Desvincular</span>
+                                    </ng-container>
+                                </button>
+
+                                <button mat-menu-item aria-label="desentranhar"
+                                        (click)="doDesentranharSimples(juntada.id)"
+                                        *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
+                                    <ng-container>
+                                        <mat-icon>low_priority</mat-icon>
+                                        <span>Desentranhar</span>
+                                    </ng-container>
+                                </button>
+                            </mat-menu>
                         </div>
                     </div>
                 </div>

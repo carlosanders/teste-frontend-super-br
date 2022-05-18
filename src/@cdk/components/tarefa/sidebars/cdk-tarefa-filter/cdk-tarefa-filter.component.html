@@ -54,13 +54,10 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput placeholder="Interessado"
-                       formControlName="interessado"
-                       [matAutocomplete]="interessado.autocomplete"
-                       (change)="verificarValor($event)">
-                <cdk-pessoa-autocomplete #interessado="pessoaAutocomplete"
-                                         [control]="form.get('interessado')">
-                </cdk-pessoa-autocomplete>
+                <input matInput #interessado
+                       placeholder="Interessado"
+                       name="interessado"
+                       formControlName="interessado">
             </mat-form-field>
 
             <mat-form-field>

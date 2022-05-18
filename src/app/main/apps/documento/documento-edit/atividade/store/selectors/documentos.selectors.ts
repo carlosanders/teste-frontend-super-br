@@ -32,6 +32,11 @@ export const getSelectedDocumentoIds: any = createSelector(
     (state: DocumentosState) => state.selectedDocumentosId
 );
 
+export const getAlterandoDocumentosId: any = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.alterandoDocumentoIds
+);
+
 export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,

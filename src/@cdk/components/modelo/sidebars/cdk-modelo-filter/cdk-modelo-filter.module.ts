@@ -19,6 +19,7 @@ import {CdkModalidadeModeloAutocompleteModule} from '@cdk/components/modalidade-
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         MatButtonToggleModule,
         MatMenuModule,
         CdkDateFilterModule,
+        MatRadioModule,
     ],
     providers: [
         ModeloService,

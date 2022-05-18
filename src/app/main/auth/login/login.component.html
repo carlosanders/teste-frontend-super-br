@@ -26,14 +26,30 @@
                 <img [src]="config.logo">
             </div>
 
-            <div class="subtitle">Realizando o login através do Gov.Br</div>
+            <div class="subtitle" *ngIf="this.routerState.queryParams['code'] &&
+                    !this.routerState.queryParams['state'] ">
+                Realizando o login através do <strong style="color: #1351b4">gov.br</strong>
+            </div>
+            <div class="subtitle" *ngIf="this.routerState.queryParams['state'] &&
+                    this.routerState.queryParams['code']">
+                Efetuando assinatura dos documentos, por favor aguarde...
+            </div>
+            <div  *ngIf="this.routerState.queryParams['error']" class="title">
+                {{this.routerState.queryParams['error']}}
+            </div>
             <div class="loading-gov-br">
-                <mat-spinner color="accent" diameter="36"></mat-spinner>
+                <mat-icon ngclass  *ngIf="this.routerState.queryParams['state'] && this.routerState.queryParams['code'] " class="s-60 mb-12 select-processo-icon hint-text"
+                        [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">lock
+                </mat-icon>
+                <mat-icon  *ngIf="this.routerState.queryParams['error']" class="s-60 mb-12 red-fg select-processo-icon hint-text"
+                        [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">block
+                </mat-icon>
+                <mat-spinner *ngIf="!this.routerState.queryParams['error']"  color="accent" diameter="36"></mat-spinner>
             </div>
         </div>
     </div>
 
-    <cdk-login-form *ngIf="!this.routerState.queryParams['code']"
+    <cdk-login-form *ngIf="!this.routerState.queryParams['code'] && !this.routerState.queryParams['error']"
                     (save)="this.onSubmit($event)"
                     [config]="(config$ | async)"
                     [version]="version"

@@ -35,6 +35,11 @@ export const getAssinaturaErrors: any = createSelector(
     (state: AssinaturaState) => state.errors
 );
 
+export const getAssinaturaRedirectRevalidaGovBr: any = createSelector(
+    getAssinaturaState,
+    (state: AssinaturaState) => state.redirectRevalidaGovBr
+);
+
 export const getAllDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     schemaDocumentoSelectors.entitiesProjector

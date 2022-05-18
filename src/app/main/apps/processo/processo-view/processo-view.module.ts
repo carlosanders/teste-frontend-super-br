@@ -37,18 +37,23 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 import {MatCardModule} from '@angular/material/card';
 import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
-import {CdkUsuarioAutocompleteModule} from '../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkSetorAutocompleteModule} from '../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatSelectModule} from '@angular/material/select';
 import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
 import {BookmarkService} from '@cdk/services/bookmark.service';
 import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {
+    CdkAssinaturaGridModule
+} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
 
 const routes: Routes = [
     {
         path: ':stepHandle',
         component: ProcessoViewComponent,
         canActivate: [fromGuards.ResolveGuard],
+        canDeactivate: [fromGuards.DeactivateGuard],
         children: [
             {
                 path       : 'mostrar',
@@ -134,13 +139,16 @@ modulesConfig.forEach((module) => {
         CdkSetorAutocompleteModule,
         MatSelectModule,
         CdkBookmarkEditDialogModule,
-        PdfJsViewerModule
+        PdfJsViewerModule,
+        CdkAssinaturaGridModule
     ],
     providers: [
         JuntadaService,
         VinculacaoDocumentoService,
         fromGuards.ResolveGuard,
-        BookmarkService
+        fromGuards.DeactivateGuard,
+        BookmarkService,
+        AssinaturaService
     ],
     entryComponents: [
         CdkAssinaturaEletronicaPluginComponent

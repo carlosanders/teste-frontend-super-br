@@ -9,14 +9,14 @@ import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
+import {getProcessoIsLoading} from '../';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
-    processoId: number;
 
     usuario: Usuario;
+    loadedProcesso: boolean;
 
     /**
      *
@@ -35,8 +35,14 @@ export class ResolveGuard implements CanActivate {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
-            this.processoId = this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'];
         });
+        this._store.pipe(
+            select(getProcessoIsLoading)
+        ).subscribe((loading) => {
+            this.loadedProcesso = loading;
+        });
+
+        this.loadedProcesso = false;
     }
 
     /**
@@ -68,10 +74,11 @@ export class ResolveGuard implements CanActivate {
                 if (loaded.acessoNegado) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (!this.loadedProcesso && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                         if (this.routerState.params['processoHandle'] === 'criar') {
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
+                            this.loadedProcesso = true;
                             this._store.dispatch(new fromStore.GetProcesso({
                                 id: this.routerState.params['processoHandle']
                             }));
@@ -79,7 +86,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            filter((loaded: any) => (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

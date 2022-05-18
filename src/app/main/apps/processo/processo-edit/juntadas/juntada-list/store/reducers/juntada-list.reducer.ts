@@ -17,8 +17,6 @@ export interface JuntadaListState {
     desentranhadoIds: number[];
     copiandoIds: number[];
     copiadoIds: number[];
-    assinandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
 }
 
 export const JuntadaListInitialState: JuntadaListState = {
@@ -38,8 +36,6 @@ export const JuntadaListInitialState: JuntadaListState = {
     desentranhandoIds: [],
     copiandoIds: [],
     copiadoIds: [],
-    assinandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
 };
 
 export function JuntadaListReducer(state = JuntadaListInitialState, action: JuntadaListActions.JuntadaListActionsAll): JuntadaListState {
@@ -132,58 +128,6 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             return {
                 ...state,
                 copiandoIds: state.copiandoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            const newState = [...state.assinandoDocumentoIds];
-            const index = newState.indexOf(action.payload);
-            if (index > -1) {
-                newState.splice(index, 1);
-            }
-            return {
-                ...state,
-                assinandoDocumentoIds: newState
-            };
-        }
-
-        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            const newState = [...state.assinandoDocumentoIds];
-            const index = newState.indexOf(action.payload.documentoId);
-            if (index > -1) {
-                newState.splice(index, 1);
-            }
-            return {
-                ...state,
-                assinandoDocumentoIds: newState
             };
         }
 

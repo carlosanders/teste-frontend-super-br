@@ -843,3 +843,114 @@
 * Melhoria alterado funcionamento de filtro de histórico de usuário, possibilitando pesquisar por processo ou por janela de tempo de criação do histórico
 * Correção no componente de histórico de usuário, impedindo alterar o campo 'criadoPor' caso esteja no modo search
 * Melhoria no componente de filtro de datas, permitindo informar um intervalo de tempo e, caso informado, alterando o comportamento do mesmo e validando que um período ou data exata foram informados
+
+1.8.4
+
+* Correção no historico completo
+* Correção nos acompanhamentos
+* Melhoria implementado carregamento parcial das juntadas, carregando os componentes digitais posteriormente, para melhoria de performance
+* Correção em chamadas de query ao backend que poderiam ser getOne, para melhoria de performance
+
+1.8.5
+
+* Correção para buscar o provider de processo com 15 dígitos
+* Melhoria inclusão do Copiar Bookmark para clipboard
+* Melhoria inclusão do Copiar número do documento juntado para o clipboard
+
+1.8.6
+
+* Melhoria Compartilhar Tarefa para Setor e Grupo de Contato
+* Correção ordenação das últimas operações
+* Correção erro ao complementar resposta ofício usuário externo - #786
+* Melhoria exibir tarefas abertas no título do processo
+* Correção de bug ao clicar na lupa do snackbar após download processo
+* Correção de bug ao editar tarefa inativa módulo do coordenador
+* Melhoria abrir Documentos em outra Aba com CTRL
+* Correção ordenação de componentes digitais no momento do upload linear para ser por ordem alfabética de arquivos, como no sapiens 1
+* Melhoria filtro por interessado na listagem de tarefas deixa de ser autocomplete
+* Correção em erro de não atualização de etiquetas ao remeter ofícios
+* Correção em erro ao carregar ofícios tentando popular a tarefaOrigem em ofícios com tarefa origem removida
+* Correção em erro ao tentar carregar componentes digitais quando componentes digitais já se encontram carregados
+* Correção em lentidão de carregamento de componentes digitais detectado em produção
+* Correção upload de minutas em componente de atividade passa a ser linear
+* Correção de erro de validação em formulário no momento de editar tarefas em bloco
+* Correção de erro de css na tela do visualizador de processos
+* Melhoria refatoramento completo do carregamento de juntadas no componente de visualização de processo
+* Melhoria alteração na url para que a mesma seja imutável
+* Melhoria carregamento de juntada default é ativada antes mesmo de chamar as juntadas
+* Melhoria filtrando juntadas para trazer apenas a informada na url caso processo tenha mais de 10 juntadas
+* Correção comportamento de ordenação/filtro de juntadas agora redireciona para a primeira da lista
+* Melhoria redução na complexidade do componente
+* Correção em comportamento incorreto dos loadings na sidebar de juntadas do processo-view
+* Correção em falha do componente de pesquisa de processos no topo do sistema quando acessando o mesmo processo aberto atualmente no visualizador de processos
+* Correção em erro de loading infinito em guarda de rota de processo-view
+* Correção em erro de acesso negado preso no estado da aplicação ao tentar acessar um processo com restrição de acesso, o que bloqueava acesso a processos sem restrição de acesso
+* Correção em botão cancelar do formulário de desentranhamento de juntada dentro do processo-view
+* Correção em botão cancelar do formulário de desentranhamento em bloco de juntadas dentro do processo-edit
+* Melhoria rollback da funcionalidade de multistep/lazy loading de componentes digitais, vinculações documentos e etiquetas em juntadas e etiquetas em tarefas, em virtude da sobrecarga do servidor web do backend
+* Correção passando a ordenação dos componentes digitais de juntadas a ser atribuição do backend
+* Correção em erro de javascript quando juntadas e index não estão carregados ao tentar verificar se alguma juntada é o último ou o primeiro passo do index
+* Melhoria alteração na forma de filtrar modelos para exibir um radio com as opções disponíveis
+* Melhoria ao alterar a modalidade de modelo, realizar consulta
+* Correção em tela de histórico, onde não havia filtro selecionado por padrão
+* Melhoria alteração na forma de filtrar modelos para exibir um radio com as opções disponíveis
+* Melhoria ao alterar a modalidade de modelo, realizar consulta
+* Correção em tela de histórico, onde não havia filtro selecionado por padrão
+* Correção de bug na tela de protocolo ao desistir de cadastrar um processo
+* Correção de componente de date filter
+* Melhoria permitindo badge nos menus collapsable de tarefas de módulos
+* Melhoria implementada contagem totalizadora de todos os filhos de um menu collapsable que tenha badge
+* Correção de ordenação de menus na sidebar do painel administrativo
+* Correção de erros de console no painel de tarefas
+* Melhoria para permitir clicar para abrir documentos diferentes na tela de atividade-edit do editor mesmo com encerrar tarefa marcado
+* Melhoria Botão de impressão no topo do conteúdo de juntadas não PDF dentro do processo-view
+* Melhoria Botão de impressão no topo do conteúdo de documentos não PDF e não editáveis dentro do documento-edit
+* Melhoria Botão de zoom conforme o processo-view dentro do documento-view
+* Correção Exibir componente digital corretamente após assinatura da juntada
+* Correção no comportamento do botão salvar ao tentar alterar o tipo de um documento na listagem de tarefas
+* Melhoria trocadas todas as navegações de pasta para ocorrer por id da pasta no lugar do nome
+* Correção de erro crítico de loop infinito de redirects quebrando a aplicação
+* Melhoria assinatura de minutas dentro do painel de atividades do editor
+* Melhoria alterar tipo de documentos dentro do painel de atividades do editor
+* Correção fechamento automático da barra lateral de juntadas no modo mobile
+* Correção em navegação de processo-view em modo mobile pelo botão voltar
+* Correção em bug na abertura de documento/ofício em processos sem juntadas
+* Correção de loop de guarda de rota em casos específicos de tarefas abertas diretamente pela etiqueta da minuta
+* Melhoria botão para excluir todas as restrições de acesso das juntadas selecionadas na tela de listagem de juntadas
+* Correção bug em navegação do botão back dentro de processo-view no modo mobile
+* Melhoria implementada versão separada do processo-view apenas com propósito de anexar-copia, simplificada e sem compartilhamento de estado da aplicação
+* Melhoria removida lógica relacionada ao anexar-copia de dentro do processo-view, simplificando assim a lógica do componente
+* Correção removido botão de listar assinaturas de dentro do componente de visualização de componentes digitais
+* Melhoria implementada lógica de poder selecionar um campo em modo data, mas enviar a seleção ao backend em formato dateTime
+* Correção de bug de chamada múltipla no guarda de rotas de processo
+* Correção removida chamada a getProcesso do guarda de rota de tarefas
+* Correção em bug onde as juntadas desapareciam ao tentar abrir a mesma tarefa/uma outra tarefa do mesmo processo
+* Correção em bug de chamadas múltiplas ao GetProcessoCapa no guarda de rota
+* Correção em guarda de rota de processo component travando a funcionalidade de protocolo
+* Correção nas telas de modelos dentro do painel de coordenador
+* Correção nas telas de modelos individuais dentro do painel de configuração do perfil do usuário
+* Correção em que clique no botão de mais ações de uma minuta dentro do editor, além de abrir o menu, alterava a minuta
+* Melhoria borda vermelha ao redor da minuta atualmente exibida no editor
+* Melhoria removido a sidebar de anexos do editor de minutas, exibindo anexos na sidebar de movimentação
+* Correção em redirecionamento incorreto dentro do componente de movimentar do administrativo
+* Correção na navegação de juntadas por sidebar, para ser capaz de navegar corretamente para juntadas sem componentes digitais
+* Correção em bug envolvendo processos cuja juntada mais recente não possui componentes digitais
+* Correção de erro no console na navegação em processos sem juntadas
+* Correção para exibir mensagem sobre ausência de componentes digitais corretamente em tela no caso em questão
+* Correção na navegação de juntadas pelas setas de anterior/próximo quando existem juntadas sem componentes digitais no processo
+* Correção nas navegações do componente de anexar-copia em casos com juntadas sem componentes digitais
+
+1.8.7
+
+* Correção para lançamento de atividades dos módulos
+* Correção de css para edição de documento e lançamento de minutas
+* Melhorias de css para minutas
+* Melhoria criação de visualização das tarefas em grid
+* Melhoria para exibição de dados em grids redimensionáveis e ordenaveis
+* Correção abertura de minutas por dentro do editor
+* Correção de bug para anexar cópia de documentos
+* Correção de erro para exibição de processo com acesso negado
+* Correção da rota de retorno ao enviar por email documento
+* Correção erro de exibição de arquivo após upload
+* Correção de validação tarefa form
+
