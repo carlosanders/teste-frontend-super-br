@@ -66,7 +66,7 @@ import * as DocumentoOficioActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documento-avulso-edit.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
-import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
+import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
@@ -75,10 +75,14 @@ import {
 } from '@cdk/services/vinculacao-especie-processo-workflow.service';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';
 import {UnloadProcesso} from '../../../processo/store';
+import {TarefasComponent} from '../../tarefas.component';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 
 @Injectable()
 export class TarefasEffect {
     routerState: any;
+    generoHandle: any;
+    typeHandle: string;
     /**
      * Get Tarefas with router parameters
      *
@@ -100,24 +104,57 @@ export class TarefasEffect {
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context),
             'app/main/apps/tarefas#lista').pipe(
-            concatMap(response => [
-                new AddData<Tarefa>({
-                    data: response['entities'],
-                    schema: tarefaSchema
-                }),
-                new TarefasActions.GetTarefasSuccess({
-                    entitiesId: response['entities'].map(tarefa => tarefa.id),
-                    loaded: {
-                        id: 'generoHandle_typeHandle_targetHandle',
-                        value: this.routerState.params.generoHandle + '_' +
-                            this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
-                    },
-                    total: response['total']
-                })
-            ])
+            concatMap(response => {
+                this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                    .pipe(
+                        take(1),
+                        switchMap((configs) => of(configs || {}))
+                    )
+                    .subscribe((configs) => {
+                        const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                        const updatedConfigs = {...configs};
+                        updatedConfigs[scopeKey] = {
+                            ...(updatedConfigs[scopeKey] ?? {}),
+                            tarefaSort: (action.payload.sort)
+                        };
+
+                        this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                    });
+
+                return [
+                    new AddData<Tarefa>({
+                        data: response['entities'],
+                        schema: tarefaSchema
+                    }),
+                    new TarefasActions.GetTarefasSuccess({
+                        entitiesId: response['entities'].map(tarefa => tarefa.id),
+                        loaded: {
+                            id: 'generoHandle_typeHandle_targetHandle',
+                            value: this.routerState.params.generoHandle + '_' +
+                                this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                        },
+                        total: response['total']
+                    })
+                ];
+            })
         )),
         catchError((err) => {
             console.log(err);
+            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                .pipe(
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    updatedConfigs[scopeKey] = {
+                        ...(updatedConfigs[scopeKey] ?? {}),
+                        listSort: null
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                });
             return of(new TarefasActions.GetTarefasFailed(err));
         })
     ));
@@ -1239,12 +1276,15 @@ export class TarefasEffect {
         private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
         private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.generoHandle = routerState.state.params['generoHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
         });
     }
 }

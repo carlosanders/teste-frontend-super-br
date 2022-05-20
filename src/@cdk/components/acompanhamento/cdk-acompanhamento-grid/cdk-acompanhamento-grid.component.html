@@ -126,6 +126,16 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.processo?.NUP}} </td>
                 </ng-container>
 
+                <!-- Processo Título Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('processo.titulo') > -1"
+                              matColumnDef="processo.titulo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Título
+                    </th>
+                    <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Título: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.processo?.titulo}} </td>
+                </ng-container>
+
                 <!-- Etiquetas Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('etiquetas_processo') > -1"
                               matColumnDef="etiquetas_processo">

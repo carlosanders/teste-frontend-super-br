@@ -90,7 +90,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     novaAba = false;
-    expandState: 'minimum' | 'maximized' | 'collapsed' = 'minimum';
+    showDetail: boolean = false;
     isGridMode: boolean = false;
     typeHandle: string;
     formTipoDocumento: FormGroup;
@@ -197,6 +197,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.errorComponentesDigitais$ = this._store.pipe(select(fromStore.getErrorsComponentesDigitais));
+
+        this._store.pipe(select(fromStore.getShowDetail))
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((showDetail: boolean) => this.showDetail = showDetail);
     }
 
     ngOnInit(): void {
@@ -237,12 +241,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            maximizado => this.maximizado = maximizado
+            (maximizado) => {
+                this.maximizado = maximizado;
+
+                if (maximizado && this.showDetail) {
+                    this.doToggleShowDetail();
+                }
+            }
         );
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
+            if (!this.mobileMode && screen.size !== 'desktop') {
+                this.doToggleShowDetail();
+            }
+
             this.mobileMode = screen.size !== 'desktop';
         });
 
@@ -757,5 +771,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     doToggleMaximizado(valor: boolean): void {
         this._store.dispatch(new ToggleMaximizado(valor));
+    }
+
+    doToggleShowDetail(): void {
+        this._store.dispatch(new fromStore.ToggleShowDetail(!this.showDetail));
     }
 }

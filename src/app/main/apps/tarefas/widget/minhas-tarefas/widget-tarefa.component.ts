@@ -17,10 +17,9 @@ import {catchError, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import * as moment from 'moment';
 import {select, Store} from '@ngrx/store';
-import {getCounterState} from '../../../../store';
 import * as fromStore from 'app/store';
-import {CounterState} from '../../../../store/reducers/counter.reducer';
-import {CdkNavigationItem} from '../../../../../@cdk/types';
+import {CounterState} from 'app/store/reducers/counter.reducer';
+import {CdkNavigationItem} from '@cdk/types';
 
 @Component({
     selector: 'widget-tarefa',
@@ -101,7 +100,7 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
-                select(getCounterState),
+                select(fromStore.getCounterState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe((value) => {
             this.counterState = value;

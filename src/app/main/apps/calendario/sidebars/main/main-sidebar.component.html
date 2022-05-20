@@ -57,12 +57,26 @@
 
 <!-- SIDEBAR FOOT -->
 <div class="footer">
+    <mat-divider></mat-divider>
     <div class="actions">
-        <mat-toolbar class="class-toolbar">
-            <button mat-icon-button class="secondary-text"
-                    routerLinkActive="mat-accent" matTooltip="Voltar"
-                    (click)="cancel()">
-                <mat-icon>arrow_back</mat-icon>
+        <mat-toolbar>
+            <button mat-icon-button class="secondary-text" [routerLink]="'/apps/tarefas/administrativo/minhas-tarefas/entrada'"
+                    [state]="{'viewMode': 'list'}"
+                    routerLinkActive="mat-accent" matTooltip="Lista de Tarefas">
+                <mat-icon>check_box</mat-icon>
+            </button>
+            <button mat-icon-button class="secondary-text" [routerLink]="'/apps/tarefas/administrativo/minhas-tarefas/entrada'"
+                    [state]="{'viewMode': 'grid'}"
+                    routerLinkActive="mat-accent" matTooltip="Grid de Tarefas">
+                <mat-icon>view_list</mat-icon>
+            </button>
+            <button disabled mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas"
+                    routerLinkActive="mat-accent" matTooltip="Calendário">
+                <mat-icon>calendar_today</mat-icon>
+            </button>
+            <button mat-icon-button class="secondary-text" [routerLink]="'/apps/board-tarefas/administrativo'"
+                    routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
+                <mat-icon>assessment</mat-icon>
             </button>
         </mat-toolbar>
     </div>

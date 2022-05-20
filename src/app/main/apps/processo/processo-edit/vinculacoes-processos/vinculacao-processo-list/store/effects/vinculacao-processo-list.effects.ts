@@ -12,7 +12,7 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
-import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoProcessoListEffect {
@@ -24,16 +24,11 @@ export class VinculacaoProcessoListEffect {
      */
     getVinculacoesProcessos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<VinculacaoProcessoListActions.GetVinculacoesProcessos>(VinculacaoProcessoListActions.GET_VINCULACOES_PROCESSOS),
-        switchMap(action => this._vinculacaoProcessoService.query(
-            JSON.stringify({
-                ...action.payload.filter,
-                ...action.payload.gridFilter,
-            }),
-            action.payload.limit,
-            action.payload.offset,
-            JSON.stringify(action.payload.sort),
+        switchMap(action => this._vinculacaoProcessoService.findAllVinculacoes(
+            action.payload.processoId,
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context))),
+            JSON.stringify(action.payload.context)
+        )),
         mergeMap(response => [
             new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
             new VinculacaoProcessoListActions.GetVinculacoesProcessosSuccess({

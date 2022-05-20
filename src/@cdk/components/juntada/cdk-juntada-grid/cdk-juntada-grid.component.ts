@@ -220,6 +220,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     @Output()
     assinar = new EventEmitter<number[]>();
 
+    @Output()
+    view: EventEmitter<Juntada> = new EventEmitter<Juntada>();
+
     dataSource: JuntadaDataSource;
 
     showFilter = false;
@@ -388,6 +391,10 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     copiarJuntadas(juntadasId: number[]): void {
         this.copiar.emit(juntadasId);
+    }
+
+    viewJuntada(juntada: Juntada): void {
+        this.view.emit(juntada);
     }
 
     /**

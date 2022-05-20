@@ -133,7 +133,7 @@ routes[0].children.push({
         CdkTipoDocumentoAutocompleteModule,
         MatAutocompleteModule,
         MatProgressBarModule,
-        CdkComponenteDigitalCardListModule
+        CdkComponenteDigitalCardListModule,
     ],
     providers: [
         AcompanhamentoService,

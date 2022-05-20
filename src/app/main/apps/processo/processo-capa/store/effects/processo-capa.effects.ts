@@ -9,11 +9,11 @@ import * as ProcessoCapaActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
-import {Assunto, Compartilhamento, Interessado, Processo, Usuario, VinculacaoProcesso} from '@cdk/models';
+import {Assunto, Compartilhamento, Interessado, Juntada, Processo, Usuario, VinculacaoProcesso} from '@cdk/models';
 import {
     assunto as assuntoSchema,
     compartilhamento as acompanhamentoSchema,
-    interessado as interessadoSchema,
+    interessado as interessadoSchema, juntada as juntadaSchema,
     processo as processoSchema,
     vinculacaoProcesso as vinculacaoProcessoSchema
 } from '@cdk/normalizr';
@@ -24,6 +24,7 @@ import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
+import {JuntadaService} from '@cdk/services/juntada.service';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -100,25 +101,37 @@ export class ProcessoCapaEffect {
                 populate: ['populateAll', 'pessoa']
             };
             this._store.dispatch(new fromStore.GetInteressados(paramsInteressados));
-            this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
-            const paramsVinculacoes = {
-                filter: {
-                    orX: [
-                        {
-                            'processo.id': `eq:${action.payload.processoId}`
-                        },
-                        {
-                            'processoVinculado.id':
-                                `eq:${action.payload.processoId}`
-                        }
-                    ]
-                },
-                sort: {},
+            this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+            const paramsJuntadas = {
+                filter: {'volume.processo.id': `eq:${action.payload.processoId}`},
+                sort: {numeracaoSequencial: 'DESC'},
+                gridFilter: {},
                 limit: 10,
                 offset: 0,
-                populate: ['populateAll', 'modalidadeVinculacaoProcesso', 'processo', 'processoVinculado']
+                populate: [
+                    'populateAll',
+                    'documento',
+                    'documento.componentesDigitais',
+                    'documento.tipoDocumento',
+                    'documento.vinculacoesDocumentos',
+                    'documento.vinculacaoDocumentoPrincipal',
+                    'documento.criadoPor',
+                    'documento.origemDados',
+                    'documento.setorOrigem',
+                    'documento.setorOrigem.unidade',
+                    'documento.pasta',
+                    'documento.procedencia',
+                    'documento.componentesDigitais.assinaturas',
+                ]
             };
-            this._store.dispatch(new fromStore.GetVinculacoesProcessos(paramsVinculacoes));
+            this._store.dispatch(new fromStore.GetJuntadas(paramsJuntadas));
+            this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
+            const paramsVinculacoesProcessos = {
+                processoId: action.payload.processoId,
+                populate: ['populateAll']
+            };
+            this._store.dispatch(new fromStore.GetVinculacoesProcessos(paramsVinculacoesProcessos));
+
         })
     ), {dispatch: false});
     /**
@@ -138,7 +151,7 @@ export class ProcessoCapaEffect {
                     ...action.payload.listFilter,
                     ...action.payload.gridFilter,
                 }),
-                action.payload.imit,
+                action.payload.limit,
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
@@ -177,7 +190,7 @@ export class ProcessoCapaEffect {
                     ...action.payload.listFilter,
                     ...action.payload.gridFilter,
                 }),
-                action.payload.imit,
+                action.payload.limit,
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
@@ -210,21 +223,15 @@ export class ProcessoCapaEffect {
             const contexto = this.routerState.params.chaveAcessoHandle ? {
                 chaveAcesso: this.routerState.params.chaveAcessoHandle
             } : {};
-            return this._vinculacaoProcessoService.query(
-                JSON.stringify({
-                    ...action.payload.filter,
-                    ...action.payload.listFilter,
-                    ...action.payload.gridFilter,
-                }),
-                action.payload.limit,
-                action.payload.offset,
-                JSON.stringify(action.payload.sort),
+            return this._vinculacaoProcessoService.findAllVinculacoes(
+                action.payload.processoId,
                 JSON.stringify(action.payload.populate),
-                JSON.stringify(contexto));
+                JSON.stringify(contexto)
+            );
         }),
         mergeMap(response => [
             new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
-            new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
+            new ProcessoCapaActions.GetVinculacoesProcessosSuccess({//o-
                 entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
                 loaded: {
                     id: 'processoHandle',
@@ -238,6 +245,7 @@ export class ProcessoCapaEffect {
             return of(new ProcessoCapaActions.GetVinculacoesProcessosFailed(err));
         })
     ));
+
     /**
      * Get Acompanhamento do Processo
      *
@@ -251,7 +259,7 @@ export class ProcessoCapaEffect {
                 ...action.payload.listFilter,
                 ...action.payload.gridFilter,
             }),
-            action.payload.imit,
+            action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate))),
@@ -349,6 +357,35 @@ export class ProcessoCapaEffect {
         }, 25)
     ));
 
+    getJuntadas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoCapaActions.GetJuntadas>(ProcessoCapaActions.GET_JUNTADAS),
+        switchMap(action => this._juntadaService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
+        mergeMap(response => [
+            new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
+            new ProcessoCapaActions.GetJuntadasSuccess({
+                entitiesId: response['entities'].map(juntada => juntada.id),
+                loaded: {
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle']
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoCapaActions.GetJuntadasFailed(err));
+        })
+    ));
+
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
@@ -357,7 +394,8 @@ export class ProcessoCapaEffect {
         private _vinculacaoProcessoService: VinculacaoProcessoService,
         private _store: Store<State>,
         private _acompanhamentoService: AcompanhamentoService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _juntadaService: JuntadaService
     ) {
         this._store.pipe(
             select(getRouterState),

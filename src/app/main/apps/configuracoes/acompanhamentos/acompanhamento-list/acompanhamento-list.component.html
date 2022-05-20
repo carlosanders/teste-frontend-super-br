@@ -13,7 +13,7 @@
         [deletedIds]="(deletedIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted', 'view']"
-        [displayedColumns]="['select', 'id', 'processo', 'etiquetas_processo', 'actions']"
+        [displayedColumns]="['select', 'id', 'processo', 'processo.titulo', 'etiquetas_processo', 'actions']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"

@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="file_copy"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modelos">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-modelo-form
+        [modelo]="modelo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [templatePagination]="templatePagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-modelo-form>
+</div>

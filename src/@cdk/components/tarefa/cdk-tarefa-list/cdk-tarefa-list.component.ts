@@ -459,13 +459,11 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.displayedColumns = [
             'select',
             'id',
-            'processo.nup',
-            'processo.modalidadeEspecie',
+            'processo.NUP',
+            'processo.modalidadeMeio.valor',
             'especieTarefa.nome',
             'setorResponsavel.nome',
-            'dataHoraDistribuicao',
             'dataHoraFinalPrazo',
-            'observacao',
             'vinculacoesEtiquetas',
             'vinculacoesEtiquetasMinutas',
             'urgente',
@@ -525,6 +523,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 ) : [];
             });
             this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
+
+            if (changes['pagination'] && changes.pagination.currentValue) {
+                this.listSort = changes.pagination.currentValue.sort;
+                this.sortField = Object.keys(this.listSort)[0];
+                this.sortOrder = Object.values(this.listSort)[0];
+            }
 
             if (this.paginator) {
                 this.paginator.length = this.pagination.total;

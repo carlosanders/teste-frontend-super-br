@@ -1,0 +1,27 @@
+<div class="header">
+    <path icone="file_copy"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modelos">
+    </path>
+</div>
+<cdk-modelo-grid
+        [loading]="(loading$ | async)"
+        [modelos]="(modelos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [mode]="'search'"
+        [type]="'emBranco'"
+        [actions]="['create', 'edit', 'editConteudo', 'delete', 'showInatived']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (inatived)="inatived($event)"
+        (edit)="edit($event)"
+        (editConteudo)="editConteudo($event)"
+        (create)="create()"
+        (delete)="delete($event)"
+        (deleteBlocoEmmitter)="deleteBloco($event)">
+</cdk-modelo-grid>
+
+<router-outlet></router-outlet>
