@@ -139,7 +139,7 @@ export class WidgetCompartilhadasComponent implements OnInit, OnDestroy {
 
     contarTarefas(modulo: string): number {
         let valor = 0;
-        valor += this.counterState['caixa_entrada_' + modulo]
+        valor += this.counterState['tarefas_compartilhadas_' + modulo]
         for (const key of Object.keys(this.counterState)) {
             if (key.includes('folder_' + modulo)) {
                 valor += this.counterState[key]
