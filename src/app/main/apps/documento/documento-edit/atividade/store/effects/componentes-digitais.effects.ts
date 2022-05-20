@@ -135,7 +135,8 @@ export class ComponenteDigitalEffects {
                 new AddData<ComponenteDigital>({
                     data: [{...action.payload.componenteDigital, ...response}],
                     schema: componenteDigitalSchema
-                })
+                }),
+                new fromStore.ReloadDocumentosVinculados()
             ]),
             catchError((err) => {
                 console.log(err);

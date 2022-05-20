@@ -939,3 +939,18 @@
 * Correção para exibir mensagem sobre ausência de componentes digitais corretamente em tela no caso em questão
 * Correção na navegação de juntadas pelas setas de anterior/próximo quando existem juntadas sem componentes digitais no processo
 * Correção nas navegações do componente de anexar-copia em casos com juntadas sem componentes digitais
+
+1.8.7
+
+* Correção para lançamento de atividades dos módulos
+* Correção de css para edição de documento e lançamento de minutas
+* Melhorias de css para minutas
+* Melhoria criação de visualização das tarefas em grid
+* Melhoria para exibição de dados em grids redimensionáveis e ordenaveis
+* Correção abertura de minutas por dentro do editor
+* Correção de bug para anexar cópia de documentos
+* Correção de erro para exibição de processo com acesso negado
+* Correção da rota de retorno ao enviar por email documento
+* Correção erro de exibição de arquivo após upload
+* Correção de validação tarefa form
+
