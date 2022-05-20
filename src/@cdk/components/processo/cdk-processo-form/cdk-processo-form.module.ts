@@ -43,6 +43,7 @@ import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classific
 import {FavoritoService} from '../../../services/favorito.service';
 import {CdkConfiguracaoNupGridsearchModule} from '../../configuracao-nup/cdk-configuracao-nup-autocomplete/cdk-configuracao-nup-gridsearch/cdk-configuracao-nup-gridsearch.module';
 import {CdkConfiguracaoNupAutocompleteModule} from '../../configuracao-nup/cdk-configuracao-nup-autocomplete/cdk-configuracao-nup-autocomplete.module';
+import {NgxCurrencyModule} from "ngx-currency";
 
 @NgModule({
     declarations: [
@@ -89,7 +90,8 @@ import {CdkConfiguracaoNupAutocompleteModule} from '../../configuracao-nup/cdk-c
         CdkClassificacaoGridTreeModule,
 
         CdkConfiguracaoNupAutocompleteModule,
-        CdkConfiguracaoNupGridsearchModule
+        CdkConfiguracaoNupGridsearchModule,
+        NgxCurrencyModule
     ],
     providers: [
         CdkClassificacaoGridTreeService,

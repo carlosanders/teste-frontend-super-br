@@ -238,6 +238,14 @@
         </button>
     </mat-form-field>
 
+    <mat-form-field style="text-align: left" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-label>Valor Econômico</mat-label>
+        <input matInput #valorEconomico name="valorEconomico" formControlName="valorEconomico" maxlength="255" currencyMask [options] = "{align: 'left'}">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('valorEconomico')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+    </mat-form-field>
+
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <input matInput placeholder="Setor Responsável" formControlName="setorAtual" required [matAutocomplete]="setor.autocomplete" (blur)="checkSetorAtual()">
         <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')" [setorList]="setorAtualList" [setorListIsLoading]="setorAtualListIsLoading" [pagination]="setorAtualPagination">
