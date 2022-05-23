@@ -16,15 +16,15 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule
-} from '../../../../../../../../@cdk/angular/material';
+} from '../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
 import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSharedModule} from '../../../../../../../../@cdk/shared.module';
-import {CdkSidebarModule} from '../../../../../../../../@cdk/components';
-import {BreadcrumbsModule} from '../../../../../../../../@cdk/components/breadcrumbs/breadcrumbs.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSidebarModule} from '../../../../../../@cdk/components';
+import {BreadcrumbsModule} from '../../../../../../@cdk/components/breadcrumbs/breadcrumbs.module';
 import {ConfigModuloService} from '../../../../../../@cdk/services/config-modulo.service';
 import {
     CdkConfigModuloFormModule

@@ -15,21 +15,21 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../../../@cdk/angular/material';
+} from '../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSharedModule} from '../../../../../../../../@cdk/shared.module';
-import {BreadcrumbsModule} from '../../../../../../../../@cdk/components/breadcrumbs/breadcrumbs.module';
 import {ConfigModuloService} from '../../../../../../@cdk/services/config-modulo.service';
 import {
     CdkConfigModuloGridModule
 } from '../../../../../../@cdk/components/config-modulo/cdk-config-modulo-grid/cdk-config-modulo-grid.module';
 import {ConfigModuleListStoreModule} from './store/store.module';
 import {ModuloService} from '../../../../../../@cdk/services/modulo.service';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {BreadcrumbsModule} from '../../../../../../@cdk/components/breadcrumbs/breadcrumbs.module';
 
 const routes: Routes = [
     {

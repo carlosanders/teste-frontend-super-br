@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import {ConfigModuloModel} from '../../../../../../../../@cdk/models';
 
 export const CREATE_CONFIG_MODULE = '[ADMIN CONFIG_MODULE EDIT] CREATE CONFIG_MODULE';
 export const CREATE_CONFIG_MODULE_SUCCESS = '[ADMIN CONFIG_MODULE EDIT] CREATE CONFIG_MODULE SUCCESS';
@@ -17,7 +16,7 @@ export const GET_CONFIG_MODULE_SUCCESS = '[ADMIN CONFIG_MODULE EDIT] GET CONFIG_
 export const GET_CONFIG_MODULE_FAILED = '[ADMIN CONFIG_MODULE EDIT] GET CONFIG_MODULE FAILED';
 
 /**
- * Get ConfigModuloModel
+ * Get ConfigModulo
  */
 export class GetConfigModule implements Action
 {
@@ -29,7 +28,7 @@ export class GetConfigModule implements Action
 }
 
 /**
- * Get ConfigModuloModel Success
+ * Get ConfigModulo Success
  */
 export class GetConfigModuleSuccess implements Action
 {
@@ -41,7 +40,7 @@ export class GetConfigModuleSuccess implements Action
 }
 
 /**
- * Get ConfigModuloModel Failed
+ * Get ConfigModulo Failed
  */
 export class GetConfigModuleFailed implements Action
 {
@@ -53,7 +52,7 @@ export class GetConfigModuleFailed implements Action
 }
 
 /**
- * Save ConfigModuloModel
+ * Save ConfigModulo
  */
 export class SaveConfigModule implements Action
 {
@@ -65,7 +64,7 @@ export class SaveConfigModule implements Action
 }
 
 /**
- * Update ConfigModuloModel
+ * Update ConfigModulo
  */
 export class UpdateConfigModule implements Action
 {
@@ -77,7 +76,7 @@ export class UpdateConfigModule implements Action
 }
 
 /**
- * Save ConfigModuloModel Success
+ * Save ConfigModulo Success
  */
 export class SaveConfigModuleSuccess implements Action
 {
@@ -89,7 +88,7 @@ export class SaveConfigModuleSuccess implements Action
 }
 
 /**
- * Save ConfigModuloModel Failed
+ * Save ConfigModulo Failed
  */
 export class SaveConfigModuleFailed implements Action
 {
@@ -101,7 +100,7 @@ export class SaveConfigModuleFailed implements Action
 }
 
 /**
- * Update ConfigModuloModel Success
+ * Update ConfigModulo Success
  */
 export class UpdateConfigModuleSuccess implements Action
 {
@@ -113,7 +112,7 @@ export class UpdateConfigModuleSuccess implements Action
 }
 
 /**
- * Update ConfigModuloModel Failed
+ * Update ConfigModulo Failed
  */
 export class UpdateConfigModuleFailed implements Action
 {
@@ -125,7 +124,7 @@ export class UpdateConfigModuleFailed implements Action
 }
 
 /**
- * Create ConfigModuloModel
+ * Create ConfigModulo
  */
 export class CreateConfigModule implements Action
 {
@@ -137,7 +136,7 @@ export class CreateConfigModule implements Action
 }
 
 /**
- * Create ConfigModuloModel Success
+ * Create ConfigModulo Success
  */
 export class CreateConfigModuleSuccess implements Action
 {

@@ -9,8 +9,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {Back} from 'app/store/actions';
 import {getRouterState} from 'app/store/reducers';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
-import {ConfigModuloModel, Modulo} from '../../../../../../@cdk/models';
-import {Usuario} from '../../../../../../../../@cdk/models';
+import {ConfigModulo, Modulo} from '../../../../../../@cdk/models';
+import {Usuario} from '../../../../../../@cdk/models';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({
@@ -28,8 +28,8 @@ export class ConfigModuloEditAdminComponent implements OnInit {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    configModulo: ConfigModuloModel;
-    configModulo$: Observable<ConfigModuloModel>;
+    configModulo: ConfigModulo;
+    configModulo$: Observable<ConfigModulo>;
 
     form: FormGroup;
 
@@ -137,13 +137,13 @@ export class ConfigModuloEditAdminComponent implements OnInit {
         });
 
         if (!this.configModulo) {
-            this.configModulo = new ConfigModuloModel();
+            this.configModulo = new ConfigModulo();
             this.configModulo.mandatory = true;
         }
     }
 
     submit(values): void {
-        const configModule = new ConfigModuloModel();
+        const configModule = new ConfigModulo();
 
         Object.entries(values).forEach(
             ([key, value]) => {

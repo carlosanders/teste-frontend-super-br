@@ -5,12 +5,12 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
-import {getRouterState, State} from '../../../../../../../../../../app/store/reducers';
+import {getRouterState, State} from '../../../../../../../store';
 import * as ConfigModuleListActions from '../actions';
 import {Modulo} from '../../../../../../../../@cdk/models';
 import {modulo as moduloSchema} from '../../../../../../../../@cdk/normalizr';
-import {LoginService} from '../../../../../../../../../../app/main/auth/login/login.service';
-import {AddData} from '../../../../../../../../../../@cdk/ngrx-normalizr';
+import {LoginService} from '../../../../../../auth/login/login.service';
+import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {ModuloService} from '../../../../../../../../@cdk/services/modulo.service';
 
 

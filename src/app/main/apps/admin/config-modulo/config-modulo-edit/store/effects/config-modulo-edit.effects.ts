@@ -14,8 +14,9 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {ConfigModuloModel} from '../../../../../../../../@cdk/models';
+
 import {ConfigModuloService} from '../../../../../../../../@cdk/services/config-modulo.service';
+import {ConfigModulo} from '../../../../../../../../@cdk/models';
 
 @Injectable()
 export class ConfigModuloEditEffects {
@@ -38,7 +39,7 @@ export class ConfigModuloEditEffects {
     }
 
     /**
-     * Get ConfigModuloModel with router parameters
+     * Get ConfigModulo with router parameters
      * @type {Observable<any>}
      */
     getConfigModule: any = createEffect(() =>
@@ -57,7 +58,7 @@ export class ConfigModuloEditEffects {
                         JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
-                    new AddData<ConfigModuloModel>({data: response['entities'], schema: configModuleSchema}),
+                    new AddData<ConfigModulo>({data: response['entities'], schema: configModuleSchema}),
                     new ConfigModuleEditActions.GetConfigModuleSuccess({
                         loaded: {
                             id: 'configModuleHandle',
@@ -75,7 +76,7 @@ export class ConfigModuloEditEffects {
     );
 
     /**
-     * Save ConfigModuloModel
+     * Save ConfigModulo
      * @type {Observable<any>}
      */
     saveConfigModule: any = createEffect(() =>
@@ -85,9 +86,9 @@ export class ConfigModuloEditEffects {
                 switchMap((action) => {
                     const context = JSON.stringify({isAdmin: true});
                     return this._configModuleService.save(action.payload, context).pipe(
-                        mergeMap((response: ConfigModuloModel) => [
+                        mergeMap((response: ConfigModulo) => [
                             new ConfigModuleListActions.ReloadConfigModule(),
-                            new AddData<ConfigModuloModel>({data: [response], schema: configModuleSchema}),
+                            new AddData<ConfigModulo>({data: [response], schema: configModuleSchema}),
                             new ConfigModuleEditActions.SaveConfigModuleSuccess(response)
                         ])
                     );
@@ -101,7 +102,7 @@ export class ConfigModuloEditEffects {
     );
 
     /**
-     * Update ConfigModuloModel
+     * Update ConfigModulo
      * @type {Observable<any>}
      */
     updateConfigModule: any = createEffect(() =>
@@ -110,9 +111,9 @@ export class ConfigModuloEditEffects {
                 ofType<ConfigModuleEditActions.UpdateConfigModule>(ConfigModuleEditActions.UPDATE_CONFIG_MODULE),
                 switchMap((action) => {
                     return this._configModuleService.patch(action.payload.configModule, action.payload.changes).pipe(
-                        mergeMap((response: ConfigModuloModel) => [
+                        mergeMap((response: ConfigModulo) => [
                             new ConfigModuleListActions.ReloadConfigModule(),
-                            new AddData<ConfigModuloModel>({data: [response], schema: configModuleSchema}),
+                            new AddData<ConfigModulo>({data: [response], schema: configModuleSchema}),
                             new ConfigModuleEditActions.UpdateConfigModuleSuccess(response)
                         ])
                     );
@@ -126,7 +127,7 @@ export class ConfigModuloEditEffects {
     );
 
     /**
-     * Save ConfigModuloModel Success
+     * Save ConfigModulo Success
      */
     saveConfigModuleSuccess: any = createEffect(() =>
         this._actions

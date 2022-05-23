@@ -17,7 +17,7 @@ import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {ConfigModuloModel, Modulo} from '../../../models';
+import {ConfigModulo, Modulo} from '../../../models';
 import {ConfigModuloDataSource} from '../../../data-sources/config-modulo-data-source';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../app/main/apps/admin/config-modulo/config-modulo-list/store';
@@ -36,7 +36,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
     loading = false;
 
     @Input()
-    configModules: ConfigModuloModel[];
+    configModules: ConfigModulo[];
 
     @Input()
     modulos: Modulo[];
@@ -101,7 +101,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
     delete = new EventEmitter<number>();
 
     @Output()
-    selected = new EventEmitter<ConfigModuloModel>();
+    selected = new EventEmitter<ConfigModulo>();
 
     @Output()
     selectedIds: number[] = [];
@@ -306,7 +306,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         this.editAdmin.emit(configModuleId);
     }
 
-    selectConfigModule(configModule: ConfigModuloModel): void {
+    selectConfigModule(configModule: ConfigModulo): void {
         this.selected.emit(configModule);
     }
 

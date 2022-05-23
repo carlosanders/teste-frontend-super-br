@@ -12,7 +12,7 @@ import {
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {cdkAnimations} from '@cdk/animations';
-import {ConfigModuloModel, Modulo} from '../../../models';
+import {ConfigModulo, Modulo} from '../../../models';
 import {
     MonacoEditorComponent,
     MonacoEditorConstructionOptions,
@@ -25,7 +25,7 @@ import {
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
-import {environment} from '../../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import draft07Schema from '../../../../assets/draft-07.schema';
 import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 import {Pagination} from '@cdk/models/pagination';
@@ -54,7 +54,7 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
     monacoComponent: MonacoEditorComponent;
 
     @Input()
-    configModule: ConfigModuloModel;
+    configModule: ConfigModulo;
 
     @Input()
     saving: boolean;
@@ -417,7 +417,7 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
         }
     }
 
-    selectParadigma(paradigma: ConfigModuloModel): void {
+    selectParadigma(paradigma: ConfigModulo): void {
         if (paradigma) {
             this.form.get('paradigma').setValue(paradigma);
         }

@@ -5,14 +5,13 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
-import {getRouterState, State} from '../../../../../../../../../../app/store/reducers';
 import * as ConfigModuleListActions from '../actions';
-import {ConfigModuloModel} from '../../../../../../../../@cdk/models';
+import {ConfigModulo} from '../../../../../../../../@cdk/models';
 import {configModule as configModuleSchema} from '../../../../../../../../@cdk/normalizr';
-import {LoginService} from '../../../../../../../../../../app/main/auth/login/login.service';
-import {AddData} from '../../../../../../../../../../@cdk/ngrx-normalizr';
 import {ConfigModuloService} from '../../../../../../../../@cdk/services/config-modulo.service';
-
+import {getRouterState, State} from '../../../../../../../store';
+import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
+import {LoginService} from '../../../../../../auth/login/login.service';
 
 @Injectable()
 export class ConfigModuloListEffects {
@@ -35,7 +34,7 @@ export class ConfigModuloListEffects {
     }
 
     /**
-     * Get ConfigModuloModel with router parameters
+     * Get ConfigModulo with router parameters
      * @type {Observable<any>}
      */
     getConfigModule: any = createEffect(() => this._actions
@@ -53,7 +52,7 @@ export class ConfigModuloListEffects {
                     JSON.stringify(action.payload.populate),
                     JSON.stringify(action.payload.context)).pipe(
                     mergeMap((response) => [
-                        new AddData<ConfigModuloModel>({
+                        new AddData<ConfigModulo>({
                             data: response['entities'],
                             schema: configModuleSchema
                         }),

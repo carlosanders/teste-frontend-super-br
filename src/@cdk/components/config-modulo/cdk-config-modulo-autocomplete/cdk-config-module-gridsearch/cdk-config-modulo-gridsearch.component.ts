@@ -11,7 +11,7 @@ import {
 import {of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
-import {ConfigModuloModel} from '../../../../models'
+import {ConfigModulo} from '../../../../models'
 import {Pagination} from '@cdk/models/pagination';
 import {ConfigModuloService} from '../../../../services/config-modulo.service';
 
@@ -35,7 +35,7 @@ export class CdkConfigModuloGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    configModules: ConfigModuloModel[];
+    configModules: ConfigModulo[];
 
     total = 0;
 

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {ConfigModuloModel} from '../../../models';
+import {ConfigModulo} from '../../../models';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -26,7 +26,7 @@ export class CdkConfigModuloAutocompleteComponent implements OnInit {
     control: AbstractControl;
 
     @Input()
-    configModuleList: ConfigModuloModel[];
+    configModuleList: ConfigModulo[];
 
     @Input()
     configModuleListIsLoading: boolean;

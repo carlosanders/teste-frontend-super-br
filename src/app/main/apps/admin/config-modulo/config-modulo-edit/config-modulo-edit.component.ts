@@ -9,8 +9,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {Back} from 'app/store/actions';
 import {getRouterState} from 'app/store/reducers';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
-import {ConfigModuloModel, Modulo} from '../../../../../../@cdk/models';
-import {Usuario} from '../../../../../../../../@cdk/models';
+import {ConfigModulo, Modulo} from '../../../../../../@cdk/models';
+import {Usuario} from '../../../../../../@cdk/models';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({
@@ -28,8 +28,8 @@ export class ConfigModuloEditComponent implements OnInit {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    configModule: ConfigModuloModel;
-    configModule$: Observable<ConfigModuloModel>;
+    configModule: ConfigModulo;
+    configModule$: Observable<ConfigModulo>;
 
     form: FormGroup;
 
@@ -140,13 +140,13 @@ export class ConfigModuloEditComponent implements OnInit {
         ).subscribe((valor: any) => this.form.get('dataSchema').setValue(valor));
 
         if (!this.configModule) {
-            this.configModule = new ConfigModuloModel();
+            this.configModule = new ConfigModulo();
             this.configModule.mandatory = true;
         }
     }
 
     submit(values): void {
-        const configModule = new ConfigModuloModel();
+        const configModule = new ConfigModulo();
 
         Object.entries(values).forEach(
             ([key, value]) => {

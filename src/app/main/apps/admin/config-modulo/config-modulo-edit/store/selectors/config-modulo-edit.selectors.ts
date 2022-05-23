@@ -2,9 +2,9 @@ import {createSelector} from '@ngrx/store';
 import {getConfigModuleEditAppState, ConfigModuleEditAppState, ConfigModuleEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {configModule as configModuleSchema} from '../../../../../../../../@cdk/normalizr';
-import {ConfigModuloModel} from '../../../../../../../../@cdk/models';
+import {ConfigModulo} from '../../../../../../../../@cdk/models';
 
-const schemaConfigModuleSelectors = createSchemaSelectors<ConfigModuloModel>(configModuleSchema);
+const schemaConfigModuleSelectors = createSchemaSelectors<ConfigModulo>(configModuleSchema);
 
 export const getConfigModuleEditState : any = createSelector(
     getConfigModuleEditAppState,

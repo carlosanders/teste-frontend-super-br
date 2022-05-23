@@ -11,7 +11,7 @@ export const DELETE_CONFIG_MODULO_SUCCESS = '[ LIST] DELETE CONFIG_MODULO SUCCES
 export const DELETE_CONFIG_MODULO_FAILED = '[ LIST] DELETE CONFIG_MODULO FAILED';
 
 /**
- * Get ConfigModuloModel
+ * Get ConfigModulo
  */
 export class GetConfigModule implements Action
 {
@@ -23,7 +23,7 @@ export class GetConfigModule implements Action
 }
 
 /**
- * Get ConfigModuloModel Success
+ * Get ConfigModulo Success
  */
 export class GetConfigModuleSuccess implements Action
 {
@@ -35,7 +35,7 @@ export class GetConfigModuleSuccess implements Action
 }
 
 /**
- * Get ConfigModuloModel Failed
+ * Get ConfigModulo Failed
  */
 export class GetConfigModuleFailed implements Action
 {
@@ -47,7 +47,7 @@ export class GetConfigModuleFailed implements Action
 }
 
 /**
- * Reload ConfigModuloModel
+ * Reload ConfigModulo
  */
 export class ReloadConfigModule implements Action
 {
@@ -59,7 +59,7 @@ export class ReloadConfigModule implements Action
 }
 
 /**
- * Delete ConfigModuloModel
+ * Delete ConfigModulo
  */
 export class DeleteConfigModule implements Action
 {
@@ -71,7 +71,7 @@ export class DeleteConfigModule implements Action
 }
 
 /**
- * Delete ConfigModuloModel Success
+ * Delete ConfigModulo Success
  */
 export class DeleteConfigModuleSuccess implements Action
 {
@@ -83,7 +83,7 @@ export class DeleteConfigModuleSuccess implements Action
 }
 
 /**
- * Delete ConfigModuloModel Failed
+ * Delete ConfigModulo Failed
  */
 export class DeleteConfigModuleFailed implements Action
 {

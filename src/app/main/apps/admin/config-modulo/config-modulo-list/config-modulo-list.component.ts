@@ -6,7 +6,7 @@ import * as fromStore from './store';
 import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
-import {ConfigModuloModel, Modulo} from '../../../../../../@cdk/models';
+import {ConfigModulo, Modulo} from '../../../../../../@cdk/models';
 
 @Component({
     selector: 'config-modulo-list',
@@ -19,7 +19,7 @@ import {ConfigModuloModel, Modulo} from '../../../../../../@cdk/models';
 export class ConfigModuloListComponent implements OnInit {
 
     routerState: any;
-    configModules$: Observable<ConfigModuloModel[]>;
+    configModules$: Observable<ConfigModulo[]>;
     modulos$: Observable<Modulo[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;

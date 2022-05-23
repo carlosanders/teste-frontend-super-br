@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get ConfigModuloModel
+     * Get ConfigModulo
      *
      * @returns {Observable<any>}
      */
