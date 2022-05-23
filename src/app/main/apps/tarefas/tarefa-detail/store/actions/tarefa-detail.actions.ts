@@ -67,6 +67,8 @@ export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA MI
 export const REMOVE_ETIQUETA_OFICIO_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA OFICIO TAREFA';
 export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFA DETAIL] ATUALIZA ETIQUETA MINUTA';
 
+export const TOGGLE_SHOW_DETAIL = '[TAREFA DETAIL] TOOGLE SHOW DETAIL';
+
 /**
  * Get Tarefa
  */
@@ -611,6 +613,14 @@ export class AtualizaEtiquetaMinuta implements Action {
     }
 }
 
+export class ToggleShowDetail implements Action {
+    readonly type = TOGGLE_SHOW_DETAIL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -660,4 +670,5 @@ export type TarefaDetailActionsAll
     | RemoveEtiquetaMinutaTarefa
     | RemoveEtiquetaOficioTarefa
     | AtualizaEtiquetaMinuta
+    | ToggleShowDetail
     ;

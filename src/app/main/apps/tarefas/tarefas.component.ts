@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of, Subject, switchMap} from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
@@ -36,7 +36,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -176,6 +176,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changingFolderIds$: Observable<number[]>;
 
+    generoHandle: string;
     typeHandle: string;
     targetHandle: string;
 
@@ -227,6 +228,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
     parentIdentifier: string;
+
+    private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
+    private readonly _defaultSortOrder: string = 'ASC';
 
     static definitionsKey = 'tarefaListDefinitions';
 
@@ -446,6 +450,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
 
+            this.generoHandle = routerState.state.params['generoHandle'];
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
@@ -670,6 +675,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
+    }
+
+    static generateScopeKey(keys: string[]): string {
+        return keys.join('.');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -1932,7 +1941,33 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doTarefaListViewModeChange(viewMode: ViewMode): void {
-        this._cacheGenericUserDataService.set({viewMode: viewMode}, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+        this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                take(1),
+                switchMap((configs) => of(configs || {}))
+            )
+            .subscribe((configs) => {
+                const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                const updatedConfigs = {...configs};
+                updatedConfigs[scopeKey] = {
+                    ...(updatedConfigs[scopeKey] ?? {}),
+                    viewMode: viewMode
+                };
+
+                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+            });
         this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+    }
+
+    resetTableDefinitions(): void {
+        const sort = {...(this.pagination.sort ?? {})};
+        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase())  {
+            this.reload({
+                ...this.pagination,
+                listSort: {[this._defaultSortField]: this._defaultSortOrder},
+                offset: 0
+            });
+        }
     }
 }

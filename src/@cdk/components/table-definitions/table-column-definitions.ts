@@ -7,6 +7,7 @@ export class TableColumnDefinitions {
     fixed: boolean;
     slave: boolean;
     order: number;
+    sortable: boolean;
 
     constructor() {
         this.width = null;
@@ -17,5 +18,6 @@ export class TableColumnDefinitions {
         this.fixed = null;
         this.slave = null;
         this.ordable = null;
+        this.sortable = null;
     }
 }

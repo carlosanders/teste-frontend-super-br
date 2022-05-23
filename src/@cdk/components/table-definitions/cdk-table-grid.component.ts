@@ -45,6 +45,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
     @Input() ordableColumns: string[] = ['!allTableColumns'];
 
     @Output() columnsDefinitionsChange: EventEmitter<TableColumn[]> = new EventEmitter<TableColumn[]>();
+    @Output() resetTableDefinitions: EventEmitter<void> = new EventEmitter<void>();
 
     protected _tableColumns: TableColumn[] = []
     protected _tableColumnsOriginal: TableColumn[] = [];
@@ -124,7 +125,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
                     }
                     this._processResizableDefinitions();
                     this._processOrdableDefinitions();
-                    //no processo displayable columns...
                     this._processTableColumns();
                     this._processColumnsOrder();
                     this._changeDetectorRef.markForCheck();
@@ -221,7 +221,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
 
     getDisplayableTableColumns(): TableColumn[] {
         return this.getAllTableColumns()
-            .filter((column: TableColumn) => !column.definitions.slave && !column.definitions.fixed);
+            .filter((column: TableColumn) => !column.definitions.fixed);
     }
 
     getDisplayColumns(): string[] {
@@ -283,5 +283,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
         this._processColumnsOrder();
         this._columnsDefinitionsChange(this._tableColumns);
         this._changeDetectorRef.markForCheck();
+        this.resetTableDefinitions.emit();
     }
 }

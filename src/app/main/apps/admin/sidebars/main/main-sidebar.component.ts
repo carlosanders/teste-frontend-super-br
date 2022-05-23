@@ -154,6 +154,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'description',
                 link: 'especie-documento-avulso',
                 role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Modelos em Branco',
+                icon: 'file_copy',
+                link: 'modelos',
+                role: ['ROLE_ADMIN']
             }
         ];
 

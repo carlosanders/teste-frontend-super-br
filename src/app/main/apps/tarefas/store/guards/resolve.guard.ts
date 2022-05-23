@@ -25,6 +25,7 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
     loadingTarefas: boolean = false;
     viewMode: ViewMode;
+    tarefaSort: any;
     private _profile: Usuario;
 
     constructor(
@@ -36,14 +37,6 @@ export class ResolveGuard implements CanActivate {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState),
-            tap(() => {
-                this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
-                    .pipe(
-                        take(1),
-                        filter((definitions) => !!definitions)
-                    )
-                    .subscribe((definitions) => this.viewMode = definitions.viewMode)
-            })
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.viewMode = this._router.getCurrentNavigation()?.extras?.state?.viewMode ?? this.viewMode;
@@ -86,6 +79,23 @@ export class ResolveGuard implements CanActivate {
         ).pipe(
             filter(([foldersLoaded]) => !!(foldersLoaded)),
             take(1),
+            switchMap(() => {
+                return this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                    .pipe(
+                        tap((configs) => {
+                            const scopeKey = TarefasComponent.generateScopeKey([this.routerState?.params['generoHandle']]);
+                            if (configs) {
+                                const scopeConfigs = {
+                                    ...(configs[scopeKey] || {})
+                                };
+
+                                this.viewMode = scopeConfigs?.viewMode
+                                this.tarefaSort = scopeConfigs?.tarefaSort
+                            }
+                        })
+                    )
+            }),
+            catchError(() => of(true)),
             switchMap(() =>
                 this.getTarefas()
             )
@@ -132,7 +142,7 @@ export class ResolveGuard implements CanActivate {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraFinalPrazo: 'ASC'},
+                        sort: (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}),
                         populate: [
                             'processo',
                             'colaborador.usuario',

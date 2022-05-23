@@ -24,6 +24,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: false,
                 ordable: false,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -41,10 +42,11 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: true
             }
         },
         <TableColumn> {
-            id: 'processo.nup',
+            id: 'processo.NUP',
             headerLabel: 'NUP',
             dataLabel: 'NUP: ',
             positionFixed: false,
@@ -77,10 +79,11 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
-            id: 'processo.modalidadeEspecie',
+            id: 'processo.modalidadeMeio.valor',
             headerLabel: 'Modalidade / Espécie',
             dataLabel: 'Modalidade / Espécie: ',
             positionFixed: false,
@@ -94,6 +97,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -111,6 +115,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -128,6 +133,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -135,7 +141,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
             headerLabel: 'Data Distribuição',
             dataLabel: 'Data Distribuição: ',
             positionFixed: false,
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => `${tarefa.dataHoraDistribuicao?.format('DD/MM/YYYY')}`,
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => `${tarefa.dataHoraDistribuicao?.format('DD/MM/YYYY') ?? ''}`,
             definitions: <TableColumnDefinitions>{
                 fixed: false,
                 excluded: false,
@@ -145,6 +151,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: true
             }
         },
         <TableColumn> {
@@ -182,15 +189,16 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: true
             }
         },
         <TableColumn> {
             id: 'observacao',
             headerLabel: 'Observação',
             dataLabel: 'Observação: ',
-            positionFixed: false,
+            positionFixed: true,
             definitions: <TableColumnDefinitions>{
-                fixed: true,
+                fixed: false,
                 excluded: false,
                 selected: false,
                 order: 80,
@@ -198,6 +206,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -214,6 +223,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -230,6 +240,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -247,6 +258,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
+                sortable: false
             }
         },
         <TableColumn> {
@@ -263,6 +275,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: false,
                 ordable: true,
+                sortable: true
             }
         },
     ]

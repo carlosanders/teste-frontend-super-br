@@ -117,3 +117,9 @@ export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => 
     getAllVinculacoesEtiqueta,
     ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectId === documentoId))
 );
+
+
+export const getShowDetail: any = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.showDetail
+);

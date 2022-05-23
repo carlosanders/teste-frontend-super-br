@@ -958,7 +958,6 @@ vinculacaoPessoaUsuario.define({
 });
 
 vinculacaoProcesso.define({
-    processoVinculado: processo,
     modalidadeVinculacaoProcesso: modalidadeVinculacaoProcesso,
     criadoPor: usuario,
     atualizadoPor: usuario,

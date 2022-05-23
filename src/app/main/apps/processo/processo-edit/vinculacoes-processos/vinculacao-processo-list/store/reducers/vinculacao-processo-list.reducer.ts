@@ -103,6 +103,7 @@ export function VinculacaoProcessoListReducer(
         case VinculacaoProcessoListActions.DELETE_VINCULACAO_PROCESSO_SUCCESS: {
             return {
                 ...state,
+                entitiesId: state.entitiesId.filter((id) => id !== action.payload),
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
                 deletingErrors: _.omit(state.deletingErrors, [action.payload])

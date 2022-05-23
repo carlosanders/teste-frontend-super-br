@@ -65,25 +65,11 @@ export class ResolveGuard implements CanActivate {
 
                     const routeParams = of('processoHandle');
                     routeParams.subscribe((param) => {
-                        processoId = `eq:${this.routerState.params[param]}`;
+                        processoId = this.routerState.params[param];
                     });
 
                     const params = {
-                        filter: {
-                            orX: [
-                                {
-                                    'processo.id': processoId
-                                },
-                                {
-                                    'processoVinculado.id':
-                                        `${processoId}`
-                                }
-                            ]
-                        },
-                        gridFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {id: 'DESC'},
+                        processoId: processoId,
                         populate: [
                             'populateAll'
                         ]
