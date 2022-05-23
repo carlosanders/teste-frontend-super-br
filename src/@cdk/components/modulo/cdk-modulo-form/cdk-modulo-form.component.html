@@ -1,0 +1,41 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+        <mat-slide-toggle formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-slide-toggle>
+
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput #nome name="nome" formControlName="nome" maxlength="255" required upperCase>
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" required upperCase>
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Sigla</mat-label>
+            <input matInput #sigla name="sigla" formControlName="sigla" maxlength="255" required upperCase>
+            <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>

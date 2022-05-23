@@ -1,0 +1,12 @@
+@import "~@cdk/scss/partials/cdk-form";
+
+cdk-config-modulo-form {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  .pesquisa > mat-form-field {
+    display: inline !important;
+  }
+}
+

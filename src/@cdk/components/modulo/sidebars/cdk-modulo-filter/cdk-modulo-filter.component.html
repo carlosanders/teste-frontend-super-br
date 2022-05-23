@@ -1,0 +1,49 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
+
+<div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
+
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   maxlength="255"
+                   upperCase="true">
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <input matInput #descricao
+                   name="descricao"
+                   formControlName="descricao"
+                   maxlength="255"
+                   upperCase="true">
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="ativo" *ngIf="!form.value.id">
+            Ativo
+        </mat-checkbox>
+    </form>
+</div>
+
+<div class="footer">
+    <button mat-raised-button color="accent" (click)="buscar()">
+        Buscar
+    </button>
+    <button mat-raised-button color="warn" (click)="limpar()">
+        Limpar
+    </button>
+</div>
+
+
+
+
