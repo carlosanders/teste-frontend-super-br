@@ -79,7 +79,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: true
+                sortable: false
             }
         },
         <TableColumn> {
@@ -97,7 +97,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: true
+                sortable: false
             }
         },
         <TableColumn> {
@@ -115,7 +115,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: true
+                sortable: false
             }
         },
         <TableColumn> {
@@ -133,7 +133,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: true
+                sortable: false
             }
         },
         <TableColumn> {
@@ -258,7 +258,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: true
+                sortable: false
             }
         },
         <TableColumn> {
@@ -275,7 +275,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: false,
                 ordable: true,
-                sortable: false
+                sortable: true
             }
         },
     ]
