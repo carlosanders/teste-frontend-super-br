@@ -101,6 +101,12 @@ export function LoginReducers(state = LoginInicialState, action: LoginActions.Lo
                 versionChange: action.payload,
             }
         }
+        case LoginActions.PASSWORD_EXPIRED: {
+            return {
+                ...state,
+                token: action.payload,
+            }
+        }
         default: {
             return state;
         }
