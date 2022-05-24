@@ -109,7 +109,8 @@ export class ConfigModuloEditEffects {
             .pipe(
                 ofType<ConfigModuleEditActions.UpdateConfigModule>(ConfigModuleEditActions.UPDATE_CONFIG_MODULE),
                 switchMap((action) => {
-                    return this._configModuleService.patch(action.payload.configModule, action.payload.changes).pipe(
+                    const context = JSON.stringify({'edit-admin': true});
+                    return this._configModuleService.patch(action.payload.configModule, action.payload.changes, context).pipe(
                         mergeMap((response: ConfigModulo) => [
                             new ConfigModuleListActions.ReloadConfigModule(),
                             new AddData<ConfigModulo>({data: [response], schema: configModuleSchema}),

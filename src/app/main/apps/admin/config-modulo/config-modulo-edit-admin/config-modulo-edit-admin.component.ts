@@ -133,7 +133,6 @@ export class ConfigModuloEditAdminComponent implements OnInit {
         ).subscribe((valor: any) => {
             this.form.get('dataSchema').setValue(valor);
             this.form.get('dataValue').setValue(null);
-            this.form.get('paradigma').setValue(null);
         });
 
         if (!this.configModulo) {
