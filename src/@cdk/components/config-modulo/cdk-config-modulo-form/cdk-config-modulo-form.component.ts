@@ -396,7 +396,7 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
 
     submit(): void {
         if (this.form.valid && this.form['controls']?.dataSchema?.valid) {
-            if (this.form.get('dataType').value === 'datetime') {
+            if (this.form.get('dataValue').value && this.form.get('dataType').value === 'datetime') {
                 this.form.get('dataValue').setValue(this.form.get('dataValue').value.format('YYYY-MM-DDTHH:mm:ss'));
             }
             this.save.emit(this.form.getRawValue());

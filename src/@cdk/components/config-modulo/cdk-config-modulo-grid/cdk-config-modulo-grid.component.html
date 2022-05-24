@@ -11,7 +11,7 @@
 
         <div class="actions">
 
-            <div class="back" *showIfRole="'ROLE_ROOT'">
+            <div class="back" *showIfRole="'ROLE_ADMIN'">
                 <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
                         (click)="doCreate()"
                         aria-label="novo"
@@ -250,7 +250,7 @@
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
                         <button mat-icon-button
-                                *showIfRole="'ROLE_ROOT'"
+                                *showIfRole="'ROLE_ADMIN'"
                                 [disabled]="deletedIds?.indexOf(configModule.id) > -1"
                                 (click)="editAdminConfigModule(configModule.id)"
                                 aria-label="editar"
@@ -258,7 +258,7 @@
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button
-                                *showIfRole="'ROLE_ROOT'"
+                                *showIfRole="'ROLE_ADMIN'"
                                 [disabled]="deletedIds?.indexOf(configModule.id) > -1 && !hasExcluded"
                                 (click)="editConfigModule(configModule.id)"
                                 aria-label="inserir valor"
@@ -266,7 +266,7 @@
                             <mat-icon>notes icon</mat-icon>
                         </button>
                         <button mat-icon-button
-                                *showIfRole="'ROLE_ROOT'"
+                                *showIfRole="'ROLE_ADMIN'"
                                 [disabled]="deletedIds?.indexOf(configModule.id) > -1"
                                 (click)="deleteConfigModule(configModule.id)"
                                 aria-label="remover"

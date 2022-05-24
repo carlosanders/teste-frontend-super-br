@@ -91,10 +91,7 @@ export class ConfigModuloEditComponent implements OnInit {
             switchMap((modulo: Modulo) => {
                 if (modulo !== null) {
                     if (typeof modulo === 'object' && modulo) {
-                        if (modulo.prefixo) {
-                            return of(modulo.prefixo);
-                        }
-                        const moduloNormalizado = this.normalizedString(modulo.nome);
+                        const moduloNormalizado = modulo.prefixo ? this.normalizedString(modulo.nome) : modulo.prefixo;
                         const sistema = 'supp_core';
                         const moduloCompleto = `${moduloNormalizado}_backend`;
                         const nome = this.form.get('nome').value ? this.form.get('nome').value.split('.')[2] : '';
