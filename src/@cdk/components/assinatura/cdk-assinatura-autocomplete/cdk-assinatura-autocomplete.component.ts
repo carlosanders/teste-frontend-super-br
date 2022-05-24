@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-assinatura-autocomplete',
@@ -94,6 +95,6 @@ export class CdkAssinaturaAutocompleteComponent implements OnInit {
     }
 
     displayAssinaturaFn(assinatura): string {
-        return assinatura ? assinatura.assinaturaAdministrativo.nome : null;
+        return assinatura ? TitleCasePipe.format(assinatura.assinaturaAdministrativo.nome) : null;
     }
 }

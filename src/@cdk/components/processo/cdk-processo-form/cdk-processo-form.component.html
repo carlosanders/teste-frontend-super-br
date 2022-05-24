@@ -213,7 +213,7 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Título</mat-label>
-        <input matInput #titulo name="titulo" formControlName="titulo" required maxlength="255" titleCasePipe>
+        <input matInput #titulo name="titulo" formControlName="titulo" required maxlength="255" upperCase>
         <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
         <mat-error>Campo obrigatório!</mat-error>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('titulo')">
@@ -223,7 +223,7 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Descrição</mat-label>
-        <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" titleCasePipe>
+        <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
