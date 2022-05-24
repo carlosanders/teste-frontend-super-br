@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
@@ -21,7 +28,7 @@ import {Pagination} from '@cdk/models/pagination';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ConfigModuloEditAdminComponent implements OnInit {
+export class ConfigModuloEditAdminComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
@@ -161,5 +168,9 @@ export class ConfigModuloEditAdminComponent implements OnInit {
             .replace(/[\u0300-\u036f]/g, '') // Remove acentos
             .replace(/([^\w]+|\s+)/g, '-') // Substitui espaço e outros caracteres por hífen
             .replace(/(^-+|-+$)/, '').toLowerCase();
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.CleanErrors());
     }
 }

@@ -88,6 +88,13 @@ export function ConfigModuloEditReducer(
             };
         }
 
+        case ConfigModuleEditActions.CLEAN_ERRORS: {
+            return {
+                ...state,
+                errors: false
+            };
+        }
+
         default:
             return state;
     }

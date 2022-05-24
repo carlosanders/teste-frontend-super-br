@@ -15,6 +15,8 @@ export const GET_CONFIG_MODULE = '[ADMIN CONFIG_MODULE EDIT] GET CONFIG_MODULE';
 export const GET_CONFIG_MODULE_SUCCESS = '[ADMIN CONFIG_MODULE EDIT] GET CONFIG_MODULE SUCCESS';
 export const GET_CONFIG_MODULE_FAILED = '[ADMIN CONFIG_MODULE EDIT] GET CONFIG_MODULE FAILED';
 
+export const CLEAN_ERRORS = '[ADMIN CONFIG_MODULE EDIT] CLEAN ERRORS';
+
 /**
  * Get ConfigModulo
  */
@@ -147,6 +149,18 @@ export class CreateConfigModuleSuccess implements Action
     }
 }
 
+/**
+ * Clean ConfigModulo
+ */
+export class CleanErrors implements Action
+{
+    readonly type = CLEAN_ERRORS;
+
+    constructor()
+    {
+    }
+}
+
 export type ConfigModuleEditActionsAll
     = CreateConfigModule
     | CreateConfigModuleSuccess
@@ -158,4 +172,5 @@ export type ConfigModuleEditActionsAll
     | SaveConfigModuleFailed
     | UpdateConfigModule
     | UpdateConfigModuleSuccess
-    | UpdateConfigModuleFailed;
+    | UpdateConfigModuleFailed
+    | CleanErrors;
