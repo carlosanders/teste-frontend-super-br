@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-especie-documento-avulso-autocomplete',
@@ -97,6 +98,6 @@ export class CdkEspecieDocumentoAvulsoAutocompleteComponent implements OnInit {
     }
 
     displayEspecieDocumentoAvulsoFn(especieDocumentoAvulso): string {
-        return especieDocumentoAvulso ? especieDocumentoAvulso.nome : null;
+        return TitleCasePipe.format(especieDocumentoAvulso ? especieDocumentoAvulso.nome : null);
     }
 }

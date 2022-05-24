@@ -3,9 +3,9 @@
 
         <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
 
-        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 1">PROCESSO</h3>
-        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 2">DOCUMENTO AVULSO</h3>
-        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 3">PASTA/DOSSIÊ</h3>
+        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 1">Processo</h3>
+        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 2">Documento Avulso</h3>
+        <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 3">Pasta/Dossiê</h3>
 
         <div class="responsive-group" *ngIf="!form.value.id">
             <label id="processo-rg3"></label>
@@ -213,7 +213,7 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Título</mat-label>
-        <input matInput #titulo name="titulo" formControlName="titulo" required maxlength="255" upperCase>
+        <input matInput #titulo name="titulo" formControlName="titulo" required maxlength="255" titleCasePipe>
         <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
         <mat-error>Campo obrigatório!</mat-error>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('titulo')">
@@ -223,7 +223,7 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Descrição</mat-label>
-        <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase>
+        <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" titleCasePipe>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
             <mat-icon matTooltip="Histórico">history</mat-icon>

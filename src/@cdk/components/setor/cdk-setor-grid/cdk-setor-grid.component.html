@@ -111,7 +111,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Sigla Column -->
@@ -130,7 +130,7 @@
                         Espécie Setor
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Espécie Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.especieSetor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.especieSetor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- GeneroSetor Column -->
@@ -139,7 +139,7 @@
                         Gênero Setor
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Gênero Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.generoSetor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.generoSetor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -188,7 +188,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidade?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- UnidadePai Column -->
@@ -197,7 +197,7 @@
                         Unidade Pai
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Unidade Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidadePai?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidadePai?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Parent Column -->
@@ -206,7 +206,7 @@
                         Pai
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.parent?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.parent?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Municipio Column -->
@@ -215,7 +215,7 @@
                         Município
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Município: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.municipio?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.municipio?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrefixoNUP Column -->
@@ -312,7 +312,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -331,7 +331,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -349,7 +349,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

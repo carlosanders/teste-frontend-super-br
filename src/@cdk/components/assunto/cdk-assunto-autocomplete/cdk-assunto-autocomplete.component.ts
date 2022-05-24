@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-assunto-autocomplete',
@@ -94,6 +95,6 @@ export class CdkAssuntoAutocompleteComponent implements OnInit {
     }
 
     displayAssuntoFn(assunto): string {
-        return assunto ? assunto.assuntoAdministrativo.nome : null;
+        return TitleCasePipe.format(assunto ? assunto.assuntoAdministrativo.nome : null);
     }
 }
