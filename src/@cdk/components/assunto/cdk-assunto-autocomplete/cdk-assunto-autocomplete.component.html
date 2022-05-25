@@ -1,12 +1,12 @@
 <mat-autocomplete (closed)="fechado()" [displayWith]="displayAssuntoFn">
     <mat-option *ngFor="let assunto of assuntoList"
                 [value]="assunto">
-        <div *ngIf="assunto?.assuntoAdministrativo?.parent">{{ assunto.assuntoAdministrativo.parent.nome }}</div>
+        <div *ngIf="assunto?.assuntoAdministrativo?.parent">{{ assunto.assuntoAdministrativo.parent.nome | titleCasePipe }}</div>
         <div [ngClass]="{'strong':assunto.assuntoAdministrativo?.parent}">
             <span *ngIf="assunto.assuntoAdministrativo.parent">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            {{ assunto.assuntoAdministrativo.nome }}
+            {{ assunto.assuntoAdministrativo.nome | titleCasePipe }}
         </div>
     </mat-option>
     <mat-option *ngIf="assuntoListIsLoading">

@@ -2,12 +2,12 @@
     <mat-option [ngClass]="{'multiline':classificacao.parent}"
                 *ngFor="let classificacao of classificacaoList"
                 [value]="classificacao">
-        <div *ngIf="classificacao.parent">{{ classificacao.parent.codigo }} - {{ classificacao.parent.nome }}</div>
+        <div *ngIf="classificacao.parent">{{ classificacao.parent.codigo }} - {{ classificacao.parent.nome | titleCasePipe }}</div>
         <div [ngClass]="{'strong':classificacao.parent}">
             <span *ngIf="classificacao.parent">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            {{ classificacao.codigo }} - {{ classificacao.nome }}
+            {{ classificacao.codigo }} - {{ classificacao.nome | titleCasePipe }}
         </div>
     </mat-option>
     <mat-option *ngIf="classificacaoListIsLoading">

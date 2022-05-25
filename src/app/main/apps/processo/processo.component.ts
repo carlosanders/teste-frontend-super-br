@@ -332,8 +332,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     visualizarProcessoNovaAba(): void {
-        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.processo.id
-            + '/visualizar', '_blank');
+        const chaveAcesso = this.processo.chaveAcesso ? '/chave/' + this.processo.chaveAcesso : '';
+        window.open('apps/processo/' + this.processo.id + chaveAcesso + '/visualizar', '_blank');
     }
 
     imprimirEtiqueta(): void {

@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-documento-autocomplete',
@@ -105,6 +106,6 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit, OnDestroy 
     }
 
     displayTipoDocumentoFn(tipoDocumento): string {
-        return tipoDocumento ? tipoDocumento.nome : null;
+        return tipoDocumento ? TitleCasePipe.format(tipoDocumento.nome) : null;
     }
 }

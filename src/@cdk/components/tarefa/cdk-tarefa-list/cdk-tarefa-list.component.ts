@@ -466,6 +466,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             'dataHoraFinalPrazo',
             'vinculacoesEtiquetas',
             'vinculacoesEtiquetasMinutas',
+            'observacao',
             'urgente',
         ];
 

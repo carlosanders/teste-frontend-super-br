@@ -102,7 +102,7 @@ export class DocumentoEffect {
                 },
                 documentoId: response.id,
                 // tslint:disable-next-line:max-line-length
-                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa.dataHoraRemessa) || response.minuta,
+                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa?.dataHoraRemessa) || response.minuta,
                 currentComponenteDigitalId: response.componentesDigitais[0] ? response.componentesDigitais[0].id : null
             })
         ]),
