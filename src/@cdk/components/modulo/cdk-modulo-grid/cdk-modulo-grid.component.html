@@ -1,0 +1,176 @@
+<div class="page-layout left-sidebar">
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar name="cdk-modulo-filter" position="left">
+        <cdk-modulo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-modulo-filter>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+
+        <div class="actions">
+
+            <div class="back">
+                <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteFundamentoLegals(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+            <button class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}"
+                    *ngIf="selectedIds.length > 1 && actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
+        </div>
+
+        <div class="loading" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <div class="content" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let modulo">
+                        <mat-checkbox [checked]="selectedIds.indexOf(modulo.id) > -1"
+                                      (change)="toggleInSelected(modulo.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(modulo.id) > -1 || hasExcluded">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Id
+                    </th>
+                    <td mat-cell *matCellDef="let modulo" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modulo.id) > -1}"> {{modulo.id}} </td>
+                </ng-container>
+
+                <!-- Nome Column -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let modulo" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modulo.id) > -1}"> {{modulo.nome}} </td>
+                </ng-container>
+
+                <!-- Descricao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let modulo" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modulo.id) > -1}"> {{modulo.descricao}} </td>
+                </ng-container>
+
+                <!-- ModalidadeOrgaoCentral Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('sigla') > -1" matColumnDef="sigla">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Sigla
+                    </th>
+                    <td mat-cell *matCellDef="let modulo" class='has_label_on_mobile' data-label='Sigla: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modulo.id) > -1}"> {{modulo.sigla}} </td>
+                </ng-container>
+
+                <!-- Ativo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Ativo
+                    </th>
+                    <td mat-cell *matCellDef="let modulo" class='has_label_on_mobile' data-label='Ativo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modulo.id) > -1}">
+                        <mat-checkbox [disabled]="true" [checked]="modulo.ativo"></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let modulo">
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
+                                (click)="selectFundamentoLegal(modulo)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(modulo.id) > -1 && !hasExcluded"
+                                (click)="editFundamentoLegal(modulo.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modulo.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modulo.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(modulo.id) > -1"
+                                (click)="deleteFundamentoLegal(modulo.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let modulo; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
+
+    </div>
+</div>

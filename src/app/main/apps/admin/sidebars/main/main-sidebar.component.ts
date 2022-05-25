@@ -30,6 +30,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         const links = [
             {
+                nome: 'Configuração Módulos',
+                icon: 'extension',
+                link: 'config-modulo',
+                role: ['ROLE_ADMIN']
+            },
+            {
                 nome: 'Órgãos Centrais',
                 icon: 'business',
                 link: 'modalidade-orgao-central',

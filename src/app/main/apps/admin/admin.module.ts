@@ -112,6 +112,10 @@ const routes: Routes = [
             {
                 path: 'modelos',
                 loadChildren: () => import('./modelos/modelos.module').then(m => m.ModelosModule)
+            },
+            {
+                path: 'config-modulo',
+                loadChildren: () => import('./config-modulo/config-modulo.module').then(m => m.ConfigModuloModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
