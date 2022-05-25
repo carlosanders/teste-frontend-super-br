@@ -1560,7 +1560,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     fecharSidebar(): void {
-        if (!this._cdkSidebarService.getSidebar(this.name).isLockedOpen) {
+        if (!this._cdkSidebarService.getSidebar(this.name)?.isLockedOpen) {
             this._cdkSidebarService.getSidebar(this.name).close();
         }
     }
