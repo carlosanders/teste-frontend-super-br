@@ -140,6 +140,10 @@
                 </div>
             </mat-nested-tree-node>
         </mat-tree>
+        <div *ngIf="!dataSource?.data?.length && !isLoading" class="empty-vinculacao">
+            <mat-icon>book</mat-icon> <span>Não ha vinculações.</span>
+        </div>
+
 
     </div>
 </div>
