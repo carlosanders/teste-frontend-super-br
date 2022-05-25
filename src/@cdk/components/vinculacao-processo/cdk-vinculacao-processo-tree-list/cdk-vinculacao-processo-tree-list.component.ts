@@ -65,6 +65,7 @@ export class CdkVinculacaoProcessoTreeListComponent implements OnInit, OnChanges
     @Output() reload: EventEmitter<Pagination> = new EventEmitter<Pagination>();
     @Output('deleteBloco') deleteBlocoEmmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
     @Output('visualizarProcesso') visualizarProcessoEmmiter: EventEmitter<Processo> = new EventEmitter<Processo>();
+    @Output('visualizarProcessoNovaAba') visualizarProcessoNovaAbaEmmiter: EventEmitter<Processo> = new EventEmitter<Processo>();
     @Output() edit: EventEmitter<number> = new EventEmitter<number>();
     @Output() delete: EventEmitter<number> = new EventEmitter<number>();
     @Output() create: EventEmitter<void> = new EventEmitter<void>();
@@ -132,6 +133,10 @@ export class CdkVinculacaoProcessoTreeListComponent implements OnInit, OnChanges
 
     visualizarProcesso(processo: Processo): void {
         this.visualizarProcessoEmmiter.emit(processo);
+    }
+
+    visualizarProcessoNovaAba(processo: Processo): void {
+        this.visualizarProcessoNovaAbaEmmiter.emit(processo);
     }
 
     editVinculacaoProcesso(vinculacaoProcessoId: number): void {

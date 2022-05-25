@@ -55,7 +55,7 @@
                               [disabled]="deletedIds?.indexOf(node.data.id) > -1 || hasExcluded">
                 </mat-checkbox>
                 <span>{{node.name}}</span>
-                <div class="actions">
+                <div style="margin-left: auto;" class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenuChild"
                             aria-label="Ferramentas" (click)="$event.stopPropagation()"
                             *ngIf="(actions.indexOf('view') > -1 || actions.indexOf('edit') > -1 || actions.indexOf('delete') > -1) && !isLoading && !(deletedIds?.indexOf(node.data.id) > -1) && !(deletingIds?.indexOf(node.data.id) > -1)">
@@ -76,6 +76,17 @@
                             <ng-container>
                                 <mat-icon>pageview</mat-icon>
                                 <span>Visualizar</span>
+                            </ng-container>
+                        </button>
+                        <button mat-menu-item
+                                *ngIf="actions.indexOf('view') > -1"
+                                [disabled]="hasExcluded || deletedIds?.indexOf(node.data.id) > -1"
+                                (click)="visualizarProcessoNovaAba(node.data.processoVinculado)"
+                                aria-label="abrir em nova aba"
+                                matTooltip="Abrir em nova aba">
+                            <ng-container>
+                                <mat-icon>pageview</mat-icon>
+                                <span>Abrir nova aba</span>
                             </ng-container>
                         </button>
                         <button mat-menu-item
@@ -115,7 +126,7 @@
                     </mat-icon>
                     </button>
                     <span>{{node.name}}</span>
-                    <div class="actions">
+                    <div style="margin-left: auto;" class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="moreMenuParent"
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
                                 *ngIf="(actions.indexOf('view') > -1)">
@@ -134,6 +145,16 @@
                             <span>Visualizar</span>
                         </ng-container>
                     </button>
+                    <button mat-menu-item
+                            *ngIf="actions.indexOf('view') > -1"
+                            (click)="visualizarProcessoNovaAba(node.data.processo)"
+                            aria-label="visualizar em nova aba"
+                            matTooltip="Visualizar em nova aba">
+                        <ng-container>
+                            <mat-icon>pageview</mat-icon>
+                            <span>Abrir nova aba</span>
+                        </ng-container>
+                    </button>
                 </mat-menu>
                 <div role="group" class="node-children" [ngClass]="{'node-expanded': treeControl.isExpanded(node)}">
                     <ng-container *ngIf="treeControl.isExpanded(node)" matTreeNodeOutlet></ng-container>
@@ -141,7 +162,7 @@
             </mat-nested-tree-node>
         </mat-tree>
         <div *ngIf="!dataSource?.data?.length && !isLoading" class="empty-vinculacao">
-            <mat-icon>book</mat-icon> <span>Não ha vinculações.</span>
+            <span>Não há vinculações</span>
         </div>
 
 

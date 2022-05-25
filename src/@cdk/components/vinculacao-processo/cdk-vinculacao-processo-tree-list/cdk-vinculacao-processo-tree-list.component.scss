@@ -38,11 +38,7 @@ cdk-vinculacao-processo-tree-list {
             .empty-vinculacao {
                 display: flex;
                 justify-content: center;
-                border: dashed 1px #9EA1A9;
-                padding: 20px;
-                margin: 10px;
-                color: #9EA1A9;
-                font-size: 16px;
+                padding: 8px;
 
                 span {
                     display: flex;
@@ -54,7 +50,7 @@ cdk-vinculacao-processo-tree-list {
             }
 
             mat-tree {
-                margin: 0px 15px;
+                margin: 0 15px;
 
                 mat-nested-tree-node {
                     display: flex;

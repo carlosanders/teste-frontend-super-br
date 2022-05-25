@@ -124,4 +124,8 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
         this._router.navigate(['apps/processo/' + processo.id + chaveAcesso + '/visualizar']).then();
     }
 
+    visualizarProcessoNovaAba(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        window.open('apps/processo/' + processo.id + chaveAcesso + '/visualizar', '_blank');
+    }
 }
