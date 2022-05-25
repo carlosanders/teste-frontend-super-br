@@ -190,7 +190,8 @@
             [disableExpand]="true"
             [currentProcessoId]="processo?.id"
             (reload)="reloadVinculacoesProcessos($event)"
-            (visualizarProcesso)="view($event)">
+            (visualizarProcesso)="visualizarProcesso($event)"
+            (visualizarProcessoNovaAba)="visualizarProcessoNovaAba($event)">
         </cdk-vinculacao-processo-tree-list>
     </mat-card>
 

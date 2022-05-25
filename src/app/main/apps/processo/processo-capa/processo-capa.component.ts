@@ -257,9 +257,14 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     }
 
-    view(processo: Processo): void {
+    visualizarProcesso(processo: Processo): void {
         const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
         this._router.navigate(['apps/processo/' + processo.id + chaveAcesso + '/visualizar']).then();
+    }
+
+    visualizarProcessoNovaAba(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        window.open('apps/processo/' + processo.id + chaveAcesso + '/visualizar', '_blank');
     }
 
     abrirJuntadaNovaAba(juntada: Juntada): void {
