@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Glossario Column -->
@@ -119,7 +119,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Glossário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.glossario}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.glossario | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DispositivoLegal Column -->
@@ -149,7 +149,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Assunto Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.parent?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.parent?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -171,7 +171,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -192,7 +192,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -212,7 +212,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

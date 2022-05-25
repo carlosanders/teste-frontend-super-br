@@ -16,6 +16,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Filter} from './cdk-processo-autocomplete-filter/filters/filter';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-processo-autocomplete',
@@ -106,7 +107,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
 
     displayProcessoFn(processo): string {
         let displayed = processo ? processo.NUP : '';
-        displayed += (processo?.especieProcesso?.generoProcesso) ? (' (' + processo.especieProcesso.generoProcesso.nome + ')') : '';
+        displayed += (processo?.especieProcesso?.generoProcesso) ? (' (' + TitleCasePipe.format(processo.especieProcesso.generoProcesso.nome) + ')') : '';
         return displayed;
     }
 

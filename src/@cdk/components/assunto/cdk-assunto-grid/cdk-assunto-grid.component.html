@@ -102,7 +102,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let assunto" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.assuntoAdministrativo?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.assuntoAdministrativo?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Principal Column -->
@@ -138,7 +138,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let assunto" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -157,7 +157,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let assunto" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -175,7 +175,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let assunto" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1 || assunto.apagadoEm}"> {{assunto.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

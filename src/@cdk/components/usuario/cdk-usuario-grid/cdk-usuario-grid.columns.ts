@@ -3,6 +3,7 @@ import {TableColumnDefinitions} from '../../table-definitions/table-column-defin
 import {Usuario} from '../../../models';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
 import {TableDefinitions} from "../../table-definitions/table-definitions";
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 export const CdkUsuarioGridColumns: TableDefinitions = {
     identifier: 'CdkUsuarioGridComponent',
@@ -47,7 +48,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'nome',
             headerLabel: 'Nome',
             dataLabel: 'Nome: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario.nome,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario.nome),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },
@@ -104,7 +105,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'colaborador.cargo.nome',
             headerLabel: 'Cargo',
             dataLabel: 'Cargo: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario?.colaborador?.cargo?.nome,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario?.colaborador?.cargo?.nome),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },
@@ -201,7 +202,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'criadoPor.nome',
             headerLabel: 'Criado Por',
             dataLabel: 'Criado Por: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario?.criadoPor?.nome,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario?.criadoPor?.nome),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },
@@ -239,7 +240,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'atualizadoPor.nome',
             headerLabel: 'Atualizado Por',
             dataLabel: 'Atualizado Por: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario?.atualizadoPor?.nome,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario?.atualizadoPor?.nome),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {
                     'deleted': scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false),
@@ -280,7 +281,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'apagadoPor.nome',
             headerLabel: 'Apagado Por',
             dataLabel: 'Apagado Por: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario?.apagadoPor?.nome,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario?.apagadoPor?.nome),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },

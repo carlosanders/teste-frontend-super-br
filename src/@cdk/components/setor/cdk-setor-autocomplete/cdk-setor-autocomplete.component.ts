@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-setor-autocomplete',
@@ -113,7 +114,7 @@ export class CdkSetorAutocompleteComponent implements OnInit {
     }
 
     displaySetorFn(setor): string {
-        let displayed = setor ? setor.nome : '';
+        let displayed = setor ? TitleCasePipe.format(setor.nome) : '';
         displayed += (setor && setor.unidade) ? (' (' + setor.unidade.sigla + ')') : '';
         return displayed;
     }

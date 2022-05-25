@@ -37,7 +37,6 @@ export class CdkAtividadeFilterComponent {
         this.form = this._formBuilder.group({
             dataHoraConclusao: [null],
             observacao: [null],
-            destinacaoMinutas: [null],
             especieAtividade: [null],
             setor: [null],
             usuario: [null],
@@ -64,12 +63,6 @@ export class CdkAtividadeFilterComponent {
         if (this.form.get('observacao').value) {
             this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('destinacaoMinutas').value) {
-            this.form.get('destinacaoMinutas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'destinacaoMinutas': `like:%${bit}%`});
             });
         }
 
@@ -124,7 +117,7 @@ export class CdkAtividadeFilterComponent {
                 andXFilter.push(filter);
             });
         }
-        
+
         if (this.form.get('apagadoPor').value) {
             andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
@@ -144,7 +137,7 @@ export class CdkAtividadeFilterComponent {
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
         }
-        
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-atividade-filter').close();
     }

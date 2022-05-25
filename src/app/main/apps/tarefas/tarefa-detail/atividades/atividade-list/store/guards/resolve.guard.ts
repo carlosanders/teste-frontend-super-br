@@ -77,7 +77,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {id: 'DESC'},
                         populate: [
                             'especieAtividade',
-                            'usuario'
+                            'usuario',
+                            'setor'
                         ]
                     };
 

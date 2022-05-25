@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-especie-setor-autocomplete',
@@ -94,6 +95,6 @@ export class CdkEspecieSetorAutocompleteComponent implements OnInit {
     }
 
     displayEspecieSetorFn(especieSetor): string {
-        return especieSetor ? especieSetor.nome : null;
+        return TitleCasePipe.format(especieSetor ? especieSetor.nome : null);
     }
 }
