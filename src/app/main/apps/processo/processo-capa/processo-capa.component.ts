@@ -265,7 +265,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     abrirJuntadaNovaAba(juntada: Juntada): void {
         window.open(
             this.routerState.url.split('/')[1] +
-            `/processo/${this.processo.id}/visualizar/${juntada.numeracaoSequencial}-${juntada.documento.id}`
+            `/processo/${this.processo.id}`
         );
     }
 }
