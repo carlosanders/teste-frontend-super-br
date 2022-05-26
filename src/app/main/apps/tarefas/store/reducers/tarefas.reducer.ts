@@ -49,6 +49,8 @@ export interface TarefasState {
     savingObservacaoIds: number[];
     observacaoEditIds: number[];
     viewMode: string;
+    loadingAcoes: boolean;
+    acoesId: number[];
 }
 
 export const tarefasInitialState: TarefasState = {
@@ -97,7 +99,9 @@ export const tarefasInitialState: TarefasState = {
     clearForm: false,
     savingObservacaoIds: [],
     observacaoEditIds: [],
-    viewMode: 'list'
+    viewMode: 'list',
+    loadingAcoes: false,
+    acoesId: []
 };
 
 export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
@@ -750,6 +754,53 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 viewMode: action.payload
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: true
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                acoesId: action.payload,
+                loadingAcoes: false
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: false,
+                error: action.payload
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: action.payload
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO_SUCCESS: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO_FAILED: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null,
+                error: action.payload
             };
         }
 

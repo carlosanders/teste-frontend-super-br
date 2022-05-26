@@ -935,7 +935,8 @@ vinculacaoEtiqueta.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     usuario: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    usuarioAprovacaoSugestao: usuario
 });
 
 vinculacaoModelo.define({

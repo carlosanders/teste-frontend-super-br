@@ -12,20 +12,20 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 
-import {Pagination, VinculacaoEtiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-    selector: 'cdk-vinculacao-etiqueta-edit-dialog',
-    templateUrl: './cdk-vinculacao-etiqueta-edit-dialog.component.html',
-    styleUrls: ['./cdk-vinculacao-etiqueta-edit-dialog.component.scss'],
+    selector: 'cdk-vinculacao-etiqueta-sugestao-edit-dialog',
+    templateUrl: './cdk-vinculacao-etiqueta-sugestao-edit-dialog.component.html',
+    styleUrls: ['./cdk-vinculacao-etiqueta-sugestao-edit-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
+export class CdkVinculacaoEtiquetaSugestaoEditDialogComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
@@ -36,7 +36,6 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
     editVinc = new EventEmitter<any>();
 
     form: FormGroup;
-    vinculacaoEtiqueta: VinculacaoEtiqueta;
 
     /**
      * @param _changeDetectorRef
@@ -47,20 +46,19 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
     constructor(
         public _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent>,
+        public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaSugestaoEditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.loading = false;
-        this.vinculacaoEtiqueta = data.vinculacaoEtiqueta;
 
         this.form = this._formBuilder.group({
-            id: [this.vinculacaoEtiqueta.id],
-            privada: [this.vinculacaoEtiqueta.privada],
-            conteudo: [this.vinculacaoEtiqueta.conteudo],
-            podeAlterarConteudo: [this.vinculacaoEtiqueta.podeAlterarConteudo]
+            id: [data.id],
+            privada: [data.privada],
+            conteudo: [data.conteudo],
+            podeAlterarConteudo: [data.podeAlterarConteudo]
         });
 
-        if (!this.vinculacaoEtiqueta.podeAlterarConteudo) {
+        if (!data.podeAlterarConteudo) {
             this.form.controls['conteudo'].disable();
         }
     }

@@ -388,12 +388,13 @@
                                     (create)="doVinculacaoEtiquetaCreate({tarefa: tarefa, etiqueta: $event, operacaoId: cdkUtils.makeId()})"
                                     (delete)="doVinculacaoEtiquetaDelete({vinculacaoEtiquetaId: $event.id, tarefaId: tarefa.id})"
                                     (edit)="doVinculacaoEtiquetaEdit({
-                                vinculacaoEtiqueta: {id: $event.id},
-                                changes: {conteudo: $event.conteudo, privada: $event.privada}
-                            })"
+                                        vinculacaoEtiqueta: {id: $event.id},
+                                        changes: {conteudo: $event.conteudo, privada: $event.privada}
+                                    })"
                                     (addEtiqueta)="doAddEtiqueta({tarefa: tarefa, etiqueta: $event})"
                                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                                     [habilitarOpcaoBtnAddEtiqueta]="true"
+                                    (pendencies)="doPendencies({vinculacaoEtiqueta: $event, tarefa: tarefa})"
                                     [placeholder]="'Adicionar Etiquetas'">
                                 </cdk-vinculacao-etiqueta-chips>
                             </div>
@@ -705,7 +706,8 @@
                     (completed)="onComplete($event)"
                     (completedAll)="onCompleteAll($event)"
                     (outraAbaHandler)="doAbrirOutraAba($event)"
-                    (editarObservacao)="doEditarObservacao($event)">
+                    (editarObservacao)="doEditarObservacao($event)"
+                    (pencencies)="doPendencies($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

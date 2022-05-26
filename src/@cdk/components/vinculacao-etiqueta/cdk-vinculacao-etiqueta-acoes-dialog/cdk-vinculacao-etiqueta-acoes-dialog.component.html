@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>
+    Ações Pendentes
+</h1>
+
+<form name="form" [formGroup]="form" (submit)="submit()">
+    <div mat-dialog-content fxLayout="column">
+        <cdk-acao-list
+            [loading]="(isLoading$ | async)"
+            [acoes]="(acoesEtiquetaList$ | async)"
+            [actions]="[]">
+        </cdk-acao-list>
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div mat-dialog-actions align="end">
+        <mat-spinner *ngIf="(isSaving$|async) === true" diameter="24"></mat-spinner>
+        <ng-container *ngIf="(isSaving$|async) !== true">
+            <button mat-button mat-dialog-close (click)="doCloseModal()">FECHAR</button>
+            <button *ngIf="vinculacaoEtiqueta.podeAlterarConteudo" (click)="submit()"
+                    mat-raised-button color="accent">EXECUTAR</button>
+        </ng-container>
+    </div>
+</form>
+
+

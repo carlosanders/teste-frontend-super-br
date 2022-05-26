@@ -270,6 +270,28 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
+        case TarefaDetailActions.APROVAR_SUGESTAO: {
+            return {
+                ...state,
+                saving: true
+            };
+        }
+
+        case TarefaDetailActions.APROVAR_SUGESTAO_SUCCESS: {
+            return {
+                ...state,
+                saving: false
+            };
+        }
+
+        case TarefaDetailActions.APROVAR_SUGESTAO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
         default:
             return state;
     }

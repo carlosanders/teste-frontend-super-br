@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkVinculacaoEtiquetaEditDialogComponent} from './cdk-vinculacao-etiqueta-edit-dialog.component';
+import {CdkVinculacaoEtiquetaSugestaoEditDialogComponent} from './cdk-vinculacao-etiqueta-sugestao-edit-dialog.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -10,13 +10,10 @@ import {
     MatProgressSpinnerModule
 } from '@cdk/angular/material';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {
-    CdkEtiquetaChipsItemModule
-} from '../../etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips-item/cdk-etiqueta-chips-item.module';
 
 @NgModule({
     declarations: [
-        CdkVinculacaoEtiquetaEditDialogComponent
+        CdkVinculacaoEtiquetaSugestaoEditDialogComponent
     ],
     imports: [
 
@@ -29,14 +26,13 @@ import {
 
         CdkSharedModule,
         MatCheckboxModule,
-        CdkEtiquetaChipsItemModule,
     ],
     entryComponents: [
-        CdkVinculacaoEtiquetaEditDialogComponent
+        CdkVinculacaoEtiquetaSugestaoEditDialogComponent
     ],
     exports: [
-        CdkVinculacaoEtiquetaEditDialogComponent
+        CdkVinculacaoEtiquetaSugestaoEditDialogComponent
     ]
 })
-export class CdkVinculacaoEtiquetaEditDialogModule {
+export class CdkVinculacaoEtiquetaSugestaoEditDialogModule {
 }

@@ -1,10 +1,11 @@
 import {createSelector} from '@ngrx/store';
 import {EtiquetaState, getTarefaDetailAppState, TarefaDetailAppState} from '../reducers';
-import {Etiqueta} from '@cdk/models';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
+import {Acao, Etiqueta} from '@cdk/models';
+import {etiqueta as etiquetaSchema, acao as acaoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
 const schemaEtiquetaSelectors = createSchemaSelectors<Etiqueta>(etiquetaSchema);
+const schemaAcaoSelectors = createSchemaSelectors<Acao>(acaoSchema);
 
 export const getEtiquetaState: any = createSelector(
     getTarefaDetailAppState,
@@ -35,4 +36,20 @@ export const getEtiquetaLoaded: any = createSelector(
 export const getEtiquetaIsLoading: any = createSelector(
     getEtiquetaState,
     (state: EtiquetaState) => state.loading
+);
+
+export const getAcoesEtiquetaIsLoading: any = createSelector(
+    getEtiquetaState,
+    (state: EtiquetaState) => state.loadingAcoes
+);
+
+export const getAcoesEtiquetaId: any = createSelector(
+    getEtiquetaState,
+    (state: EtiquetaState) => state.acoesId
+);
+
+export const getAcoesEtiqueta: any = createSelector(
+    schemaAcaoSelectors.getNormalizedEntities,
+    getAcoesEtiquetaId,
+    schemaAcaoSelectors.entitiesProjector
 );

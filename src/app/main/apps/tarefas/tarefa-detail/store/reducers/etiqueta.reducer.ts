@@ -5,6 +5,8 @@ export interface EtiquetaState {
     loading: boolean;
     loaded: any;
     errors: any;
+    loadingAcoes: boolean;
+    acoesId: number[];
 }
 
 export const EtiquetaInitialState: EtiquetaState = {
@@ -12,6 +14,8 @@ export const EtiquetaInitialState: EtiquetaState = {
     loading: false,
     loaded: false,
     errors: null,
+    loadingAcoes: false,
+    acoesId: []
 };
 
 export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaActions.EtiquetaActionsAll): EtiquetaState {
@@ -19,6 +23,7 @@ export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaAc
 
         case EtiquetaActions.CREATE_ETIQUETA: {
             return {
+                ...state,
                 etiquetaId: null,
                 loaded: {
                     id: 'etiquetaHandle',
@@ -31,6 +36,7 @@ export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaAc
 
         case EtiquetaActions.GET_ETIQUETA: {
             return {
+                ...state,
                 etiquetaId: null,
                 loaded: false,
                 loading: true,
@@ -40,6 +46,7 @@ export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaAc
 
         case EtiquetaActions.GET_ETIQUETA_SUCCESS: {
             return {
+                ...state,
                 etiquetaId: action.payload.etiquetaId,
                 loading: false,
                 loaded: action.payload.loaded,
@@ -49,6 +56,7 @@ export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaAc
 
         case EtiquetaActions.GET_ETIQUETA_FAILED: {
             return {
+                ...state,
                 etiquetaId: null,
                 loading: false,
                 loaded: false,
@@ -82,6 +90,31 @@ export function EtiquetaReducer(state = EtiquetaInitialState, action: EtiquetaAc
                 etiquetaId: action.payload.etiquetaId,
                 loading: false,
                 loaded: false,
+                errors: action.payload
+            };
+        }
+
+        case EtiquetaActions.GET_ACOES_ETIQUETA: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: true
+            };
+        }
+
+        case EtiquetaActions.GET_ACOES_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                acoesId: action.payload,
+                loadingAcoes: false
+            };
+        }
+
+        case EtiquetaActions.GET_ACOES_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: false,
                 errors: action.payload
             };
         }

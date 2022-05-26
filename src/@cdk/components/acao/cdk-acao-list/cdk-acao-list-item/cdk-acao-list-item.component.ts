@@ -29,6 +29,9 @@ export class CdkAcaoListItemComponent implements OnInit {
     @Input()
     total: number;
 
+    @Input()
+    actions: string[] = ['delete'];
+
     @Output()
     delete = new EventEmitter<number>();
 

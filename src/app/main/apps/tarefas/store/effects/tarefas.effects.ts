@@ -6,6 +6,7 @@ import {
     processo as processoSchema,
     tarefa as tarefaSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
+    acao as acaoSchema,
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -30,7 +31,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Acao, Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -77,6 +78,7 @@ import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/act
 import {UnloadProcesso} from '../../../processo/store';
 import {TarefasComponent} from '../../tarefas.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {AcaoService} from '@cdk/services/acao.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -1265,6 +1267,70 @@ export class TarefasEffect {
         ))
     ));
 
+    aprovarSugestao: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.AprovarSugestao>(fromStore.APROVAR_SUGESTAO),
+        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(action.payload.vinculacaoEtiqueta, JSON.stringify(['populateAll'])).pipe(
+            mergeMap(response => [
+                new fromStore.AprovarSugestaoSuccess(response.id),
+                new UpdateData<VinculacaoEtiqueta>({
+                    id: response.id,
+                    schema: vinculacaoEtiquetaSchema,
+                    changes: {
+                        dataHoraAprovacaoSugestao: response.dataHoraAprovacaoSugestao,
+                        usuarioAprovacaoSugestao: response.usuarioAprovacaoSugestao,
+                        objectContext: response.objectContext
+                    }
+                }),
+                new fromStore.ReloadVinculacaoEtiqueta(action.payload.tarefa)
+            ]),
+            catchError((err) => of(new fromStore.AprovarSugestaoFailed(err)))
+        ))
+    ));
+
+        reloadVinculacoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+            ofType<fromStore.ReloadVinculacaoEtiqueta>(fromStore.RELOAD_VINCULACAO_ETIQUETA),
+            switchMap(action => this._vinculacaoEtiquetaService.query(
+                JSON.stringify({'tarefa.id': `eq:${action.payload.id}`}),
+                25,
+                0,
+                JSON.stringify({}),
+                JSON.stringify([
+                    'populateAll',
+                    'etiqueta',
+                    'tarefa',
+            ])).pipe(
+                mergeMap(response => [
+                    new UpdateData<Tarefa>({
+                        id: action.payload.id,
+                        schema: tarefaSchema,
+                        changes: {
+                            vinculacoesEtiquetas: response['entities'].filter((entity => !(action.payload?.vinculacoesEtiquetas ?? []).find((vinculacaoEtiqueta) => vinculacaoEtiqueta.id === entity.id)))
+                        }
+                    })
+                ])
+            ))
+        ));
+
+        getAcoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+            ofType<fromStore.GetAcoesEtiqueta>(fromStore.GET_ACOES_ETIQUETA),
+            switchMap(action => this._acaoService.query(
+                JSON.stringify({'etiqueta.id': `eq:${action.payload}`}),
+                1000,
+                0,
+                JSON.stringify({}),
+                JSON.stringify([
+                    'populateAll'
+                ])).pipe(
+                    mergeMap(response => [
+                        new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
+                        new fromStore.GetAcoesEtiquetaSuccess(
+                            response['entities'].map((acao) => acao.id)
+                        )
+                    ]),
+                    catchError(err => of(new fromStore.GetAcoesEtiquetaFailed(err)))
+                ))
+        ));
+
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
@@ -1274,6 +1340,7 @@ export class TarefasEffect {
         private _assuntoService: AssuntoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
+        private _acaoService: AcaoService,
         private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService,
         private _cacheGenericUserDataService: CacheGenericUserDataService
