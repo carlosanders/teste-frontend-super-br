@@ -163,7 +163,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
                     filter(processo => !!processo),
                     switchMap((processo) => {
-                        if (processo.acessoNegado || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                        if (processo.acessoNegado || processo.modalidadeMeio?.valor === 'ELETRÔNICO') {
                             return of(false);
                         }
                         return of(true);
