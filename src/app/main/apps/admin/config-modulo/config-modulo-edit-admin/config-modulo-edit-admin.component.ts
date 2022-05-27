@@ -73,6 +73,7 @@ export class ConfigModuloEditAdminComponent implements OnInit, OnDestroy {
             dataValue: [null],
             modulo: [null, [Validators.required]],
             mandatory: [true, [Validators.required]],
+            invalid: [false, [Validators.required]],
             paradigma: [null]
         });
 
@@ -139,24 +140,25 @@ export class ConfigModuloEditAdminComponent implements OnInit, OnDestroy {
             })
         ).subscribe((valor: any) => {
             this.form.get('dataSchema').setValue(valor);
-            this.form.get('dataValue').setValue(null);
         });
 
         if (!this.configModulo) {
             this.configModulo = new ConfigModulo();
             this.configModulo.mandatory = true;
+            this.configModulo.invalid = false;
         }
     }
 
     submit(values): void {
-        const configModule = new ConfigModulo();
+        const novoConfigModulo = new ConfigModulo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                configModule[key] = value;
+                novoConfigModulo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveConfigModule(configModule));
+        novoConfigModulo.invalid = false;
+        this._store.dispatch(new fromStore.SaveConfigModule(novoConfigModulo));
     }
 
     doAbort(): void {

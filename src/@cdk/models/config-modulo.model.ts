@@ -29,6 +29,8 @@ export class ConfigModulo {
 
     mandatory: boolean;
 
+    invalid: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -39,5 +41,6 @@ export class ConfigModulo {
         this.dataValue = null;
         this.modulo = null;
         this.mandatory = null;
+        this.invalid = null;
     }
 }

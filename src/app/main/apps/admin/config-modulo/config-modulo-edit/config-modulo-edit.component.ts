@@ -79,6 +79,7 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
             dataValue: [null],
             modulo: [null, [Validators.required]],
             mandatory: [true, [Validators.required]],
+            invalid: [false, [Validators.required]],
             paradigma: [null]
         });
 
@@ -146,18 +147,20 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
         if (!this.configModule) {
             this.configModule = new ConfigModulo();
             this.configModule.mandatory = true;
+            this.configModule.invalid = false;
         }
     }
 
     submit(values): void {
-        const configModule = new ConfigModulo();
+        const novoConfigModulo = new ConfigModulo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                configModule[key] = value;
+                novoConfigModulo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveConfigModule(configModule));
+        novoConfigModulo.invalid = false;
+        this._store.dispatch(new fromStore.SaveConfigModule(novoConfigModulo));
     }
 
     doAbort(): void {

@@ -7,7 +7,7 @@ export interface ConfigModuleEditAppState
 }
 
 export const getConfigModuleEditAppState = createFeatureSelector<ConfigModuleEditAppState>(
-    'config-modulo-edit-app'
+    'config-modulo-edit-admin-app'
 );
 
 export const getAppState : any = createSelector(
