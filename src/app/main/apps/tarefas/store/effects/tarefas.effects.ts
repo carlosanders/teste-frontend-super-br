@@ -93,19 +93,19 @@ export class TarefasEffect {
     getTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
         switchMap(action => this._tarefaService.query(
-            JSON.stringify({
-                ...action.payload.filter,
-                ...action.payload.folderFilter,
-                ...action.payload.listFilter,
-                ...action.payload.etiquetaFilter,
-                ...action.payload.gridFilter,
-            }),
-            action.payload.limit,
-            action.payload.offset,
-            JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context),
-            'app/main/apps/tarefas#lista').pipe(
+                JSON.stringify({
+                    ...action.payload.filter,
+                    ...action.payload.folderFilter,
+                    ...action.payload.listFilter,
+                    ...action.payload.etiquetaFilter,
+                    ...action.payload.gridFilter,
+                }),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate),
+                JSON.stringify(action.payload.context),
+            ).pipe(
             concatMap(response => {
                 this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
                     .pipe(

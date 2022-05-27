@@ -425,22 +425,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store
             .pipe(
                 select(fromStore.getViewMode),
-                distinctUntilChanged(),
                 filter((viewMode) => !!viewMode)
             )
             .subscribe((viewMode) => {
-                const lastViewMode = this.tarefaListViewMode;
                 this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
-
-                if (lastViewMode && lastViewMode !== viewMode) {
-                    this.reload({
-                        listFilter: this.pagination.listFilter,
-                        listSort: this.pagination.listSort,
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
-                        offset: 0
-                    });
-                }
-
                 this._changeDetectorRef.markForCheck();
             });
 
@@ -1966,7 +1954,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
             });
+
+        this.tarefaListViewMode = viewMode;
         this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+
+        this.reload({
+            listFilter: this.pagination.listFilter,
+            listSort: this.pagination.listSort,
+            tipoBusca: this.pagination?.listFilter?.tipoBusca,
+            offset: 0
+        });
     }
 
     resetTableDefinitions(): void {
