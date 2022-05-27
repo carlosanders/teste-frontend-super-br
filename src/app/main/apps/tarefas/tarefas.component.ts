@@ -762,7 +762,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             nparams['filter'] = {
                 ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
         }
 
