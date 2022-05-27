@@ -130,7 +130,6 @@ export class ResolveGuard implements CanActivate {
             ]
         ).pipe(
             tap(([loaded, tarefaHandle, loading]) => {
-                    this.routerState.params['targetHandle'])
                 if (!loading && loaded && this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                     this.routerState.params['targetHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
