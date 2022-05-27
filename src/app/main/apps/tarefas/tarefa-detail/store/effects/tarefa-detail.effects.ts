@@ -801,6 +801,50 @@ export class TarefaDetailEffect {
         })
     ), {dispatch: false});
 
+    aprovarSugestao: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.AprovarSugestao>(fromStore.APROVAR_SUGESTAO),
+        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(action.payload.vinculacaoEtiqueta, JSON.stringify(['populateAll'])).pipe(
+            mergeMap(response => [
+                new fromStore.AprovarSugestaoSuccess(response.id),
+                new UpdateData<VinculacaoEtiqueta>({
+                    id: response.id,
+                    schema: vinculacaoEtiquetaSchema,
+                    changes: {
+                        dataHoraAprovacaoSugestao: response.dataHoraAprovacaoSugestao,
+                        usuarioAprovacaoSugestao: response.usuarioAprovacaoSugestao,
+                        objectContext: response.objectContext
+                    }
+                }),
+                new fromStore.ReloadVinculacaoEtiqueta(action.payload.tarefa)
+            ]),
+            catchError((err) => of(new fromStore.AprovarSugestaoFailed(err)))
+        ))
+    ));
+
+    reloadVinculacoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.ReloadVinculacaoEtiqueta>(fromStore.RELOAD_VINCULACAO_ETIQUETA),
+        switchMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({'tarefa.id': `eq:${action.payload.id}`}),
+            25,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll',
+                'etiqueta',
+                'tarefa',
+        ])).pipe(
+            mergeMap(response => [
+                new UpdateData<Tarefa>({
+                    id: action.payload.id,
+                    schema: tarefaSchema,
+                    changes: {
+                        vinculacoesEtiquetas: response['entities'].filter((entity => !(action.payload?.vinculacoesEtiquetas ?? []).find((vinculacaoEtiqueta) => vinculacaoEtiqueta.id === entity.id)))
+                    }
+                })
+            ])
+        ))
+    ));
+
     private _profile: Usuario;
 
     constructor(

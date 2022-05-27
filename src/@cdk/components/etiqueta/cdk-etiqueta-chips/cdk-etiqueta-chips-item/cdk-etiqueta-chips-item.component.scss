@@ -1,7 +1,32 @@
+@import 'src/@cdk/scss/cdk';
+
 cdk-etiqueta-chips-item {
     .mat-chip {
         height: auto !important;
-        padding: 2px !important;
+        padding: 0px !important;
+        cursor: pointer;
+
+        .pendencia {
+            padding-left: 7px;
+            border-right: solid white 1px;
+            margin: 0px !important;
+            height: 100%;
+            display: flex;
+            min-height: 100%;
+            position: absolute;
+            align-items: center;
+            width: 30px;
+        }
+
+        .content {
+            padding: 5px !important;
+            display: flex;
+            align-items: center;
+        }
+
+        mat-spinner {
+            margin: 4px;
+        }
 
         .icon {
             margin-right: 6px !important;

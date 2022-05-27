@@ -58,6 +58,11 @@ import {
 import {
     VinculacaoEspecieProcessoWorkflowService
 } from '@cdk/services/vinculacao-especie-processo-workflow.service';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogModule
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.module';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {AcaoService} from '@cdk/services/acao.service';
 
 const routes: Routes = [
     {
@@ -185,6 +190,7 @@ modulesConfig.forEach((module) => {
         CdkAssinaturaEletronicaPluginModule,
         CdkSearchBarEtiquetasModule,
         CdkModeloAutocompleteModule,
+        CdkVinculacaoEtiquetaAcoesDialogModule
     ],
     providers: [
         TarefaService,
@@ -200,6 +206,8 @@ modulesConfig.forEach((module) => {
         InteressadoService,
         DocumentoService,
         VinculacaoEspecieProcessoWorkflowService,
+        VinculacaoEtiquetaService,
+        AcaoService
     ],
     entryComponents: [
         SnackBarDesfazerComponent,

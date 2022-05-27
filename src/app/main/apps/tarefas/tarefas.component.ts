@@ -17,6 +17,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {
+    Acao,
     Assinatura,
     ComponenteDigital,
     Documento,
@@ -66,6 +67,9 @@ import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogComponent
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
 
 @Component({
     selector: 'tarefas',
@@ -222,6 +226,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     documentosVinculadosPagination$: Observable<any>;
     documentosVinculadosPagination: any;
 
+    loadingAcoesEtiqueta$: Observable<boolean>;
+    acoesEtiquetaList$: Observable<Acao[]>;
+
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
     tarefaListViewMode: ViewMode;
@@ -288,6 +295,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
+        this.loadingAcoesEtiqueta$ = this._store.pipe(select(fromStore.getLoadingAcoesEtiquetas));
+        this.acoesEtiquetaList$ = this._store.pipe(select(fromStore.getAcoesEtiqueta));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -416,22 +425,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store
             .pipe(
                 select(fromStore.getViewMode),
-                distinctUntilChanged(),
                 filter((viewMode) => !!viewMode)
             )
             .subscribe((viewMode) => {
-                const lastViewMode = this.tarefaListViewMode;
                 this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
-
-                if (lastViewMode && lastViewMode !== viewMode) {
-                    this.reload({
-                        listFilter: this.pagination.listFilter,
-                        listSort: this.pagination.listSort,
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
-                        offset: 0
-                    });
-                }
-
                 this._changeDetectorRef.markForCheck();
             });
 
@@ -753,7 +750,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             nparams['filter'] = {
                 ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
         }
 
@@ -1957,7 +1954,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
             });
+
+        this.tarefaListViewMode = viewMode;
         this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+
+        this.reload({
+            listFilter: this.pagination.listFilter,
+            listSort: this.pagination.listSort,
+            tipoBusca: this.pagination?.listFilter?.tipoBusca,
+            offset: 0
+        });
     }
 
     resetTableDefinitions(): void {
@@ -1969,5 +1975,29 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 offset: 0
             });
         }
+    }
+
+    doPendencies({vinculacaoEtiqueta, tarefa}): void {
+        this._store.dispatch(new fromStore.GetAcoesEtiqueta(vinculacaoEtiqueta.etiqueta.id));
+        const dialogRef = this._matDialog
+            .open(CdkVinculacaoEtiquetaAcoesDialogComponent, {
+                data: {
+                    vinculacaoEtiqueta: vinculacaoEtiqueta,
+                    acoesEtiquetaList$: this.acoesEtiquetaList$,
+                    isSaving$: this.savingVinculacaoEtiquetaId$
+                        .pipe(switchMap((vinculacaoEtiquetaId: number) => of(vinculacaoEtiquetaId === vinculacaoEtiqueta.id))),
+                    isLoading$: this.loadingAcoesEtiqueta$
+                },
+                width: '600px',
+                height: '300px',
+            });
+
+        dialogRef.afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((option) => {
+                if (option === true) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}));
+                }
+            });
     }
 }

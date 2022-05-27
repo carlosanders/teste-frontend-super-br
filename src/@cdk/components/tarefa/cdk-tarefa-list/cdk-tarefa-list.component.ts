@@ -361,6 +361,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @Output()
     erroUpload = new EventEmitter<string>();
 
+    @Output()
+    pencencies: EventEmitter<{tarefa: Tarefa, vinculacaoEtiqueta: VinculacaoEtiqueta}> = new EventEmitter<{tarefa: Tarefa; vinculacaoEtiqueta: VinculacaoEtiqueta}>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -1010,5 +1013,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             this.habilitarTipoDocumentoSalvar = true;
         }
         this._changeDetectorRef.detectChanges();
+    }
+
+    doPendencies(event: {vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}): void {
+        this.pencencies.emit(event);
     }
 }

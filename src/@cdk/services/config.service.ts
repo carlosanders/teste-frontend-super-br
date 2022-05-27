@@ -21,6 +21,7 @@ export class CdkConfigService
     public ldap = '';
     public assinadorVersion = localStorage.getItem('assinadorVersion');
     public barramento = localStorage.getItem('barramento');
+    public govBR:any = JSON.parse(localStorage.getItem('govBR'));
 
     // Private
     private _configSubject: BehaviorSubject<any>;

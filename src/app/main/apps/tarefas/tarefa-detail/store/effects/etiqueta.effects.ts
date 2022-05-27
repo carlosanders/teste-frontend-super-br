@@ -11,10 +11,11 @@ import * as EtiquetaActions from '../actions/etiqueta.actions';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Etiqueta, Tarefa} from '@cdk/models';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
+import {Acao, Etiqueta, Tarefa} from '@cdk/models';
+import {etiqueta as etiquetaSchema, acao as acaoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as TarefaDetailActions from '../actions/tarefa-detail.actions';
+import {AcaoService} from '@cdk/services/acao.service';
 
 @Injectable()
 export class EtiquetaEffect {
@@ -79,10 +80,31 @@ export class EtiquetaEffect {
         })
     ), {dispatch: false});
 
+    getAcoesEtiqueta: any = createEffect(() => this._actions.pipe(
+        ofType<EtiquetaActions.GetAcoesEtiqueta>(EtiquetaActions.GET_ACOES_ETIQUETA),
+        switchMap(action => this._acaoService.query(
+            JSON.stringify({'etiqueta.id': `eq:${action.payload}`}),
+            1000,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ])).pipe(
+                mergeMap(response => [
+                    new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
+                    new EtiquetaActions.GetAcoesEtiquetaSuccess(
+                        response['entities'].map((acao) => acao.id)
+                    )
+                ]),
+                catchError(err => of(new EtiquetaActions.GetAcoesEtiquetaFailed(err)))
+            ))
+    ));
+
     private _profile: any;
     constructor(
         private _actions: Actions,
         private _etiquetaService: EtiquetaService,
+        private _acaoService: AcaoService,
         public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router
