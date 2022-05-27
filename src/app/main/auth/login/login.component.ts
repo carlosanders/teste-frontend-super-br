@@ -146,11 +146,13 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.nome = config.name;
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
+            this.cdkConfigService.govBR = config.govBR;
             this.cdkConfigService.assinadorVersion = config.assinador;
             this.cdkConfigService.email = config.email;
             this.cdkConfigService.ldap = config.ldap;
             localStorage.setItem('barramento', config.barramento);
             localStorage.setItem('assinadorVersion', config.assinador);
+            localStorage.setItem('govBR', JSON.stringify(config.govBR));
         });
 
         if (this.routerState.queryParams['token'] &&
