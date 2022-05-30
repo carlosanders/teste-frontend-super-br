@@ -140,9 +140,9 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         listFilter: {},
                         etiquetaFilter: {},
-                        limit: (this.tarefaLimit || 10),
+                        limit: (this.viewMode === 'grid' ? (this.tarefaLimit || 10) : 10),
                         offset: 0,
-                        sort: (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}),
+                        sort: (this.viewMode === 'grid' ? (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}) : {dataHoraFinalPrazo: 'ASC'}),
                         populate: [
                             'processo',
                             'colaborador.usuario',

@@ -752,7 +752,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             };
         }
 
-        if (nparams.limit !== this.pagination.limit) {
+        if (this.tarefaListViewMode === 'grid' && nparams.limit !== this.pagination.limit) {
             this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
                 .pipe(
                     takeUntil(this._unsubscribeAll),
