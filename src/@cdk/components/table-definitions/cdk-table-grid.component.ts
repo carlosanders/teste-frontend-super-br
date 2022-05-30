@@ -92,7 +92,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
             switchMap((values: string[]) => {
                 this.getAllTableColumns().forEach((tableColumn: TableColumn) => {
                     tableColumn.definitions.selected = values
-                        .includes(tableColumn.id) || (tableColumn.definitions.selected && (tableColumn.definitions.fixed || tableColumn.definitions.slave));
+                        .includes(tableColumn.id) || (tableColumn.definitions.selected && tableColumn.definitions.fixed);
                 });
                 this._columnsDefinitionsChange(this._tableColumns);
                 this._changeDetectorRef.markForCheck();
