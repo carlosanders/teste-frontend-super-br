@@ -148,7 +148,7 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCh
             }
         });
 
-        if (width && widthSum > this._renderer.parentNode(this._table).offsetWidth) {
+        if (widthSum > this._renderer.parentNode(this._table).offsetWidth) {
             this._renderer.setStyle(this._table, 'width', `${widthSum}px`);
         } else {
             this._renderer.removeStyle(this._table, 'width');
