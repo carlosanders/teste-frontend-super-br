@@ -3,17 +3,16 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {DocumentoAvulsoEditAnexosAppState} from '../reducers';
+import {DocumentoAvulsoEditDadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getDocumentosVinculadosHasLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
 
     /**
@@ -22,7 +21,7 @@ export class ResolveGuard implements CanActivate {
      * @param _store
      */
     constructor(
-        private _store: Store<DocumentoAvulsoEditAnexosAppState>
+        private _store: Store<DocumentoAvulsoEditDadosBasicosAppState>
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -30,7 +29,6 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
     }
 
     /**
@@ -71,8 +69,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'vinculacaoDocumentoPrincipal.documento.id': documentoId,
-                            'juntadaAtual': 'isNull'
+                            'vinculacaoDocumentoPrincipal.documento.id': documentoId
                         },
                         limit: 10,
                         offset: 0,

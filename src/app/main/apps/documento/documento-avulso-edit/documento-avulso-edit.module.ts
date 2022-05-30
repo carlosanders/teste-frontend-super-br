@@ -27,10 +27,6 @@ const routes: Routes = [
         component: DocumentoAvulsoEditComponent,
         children: [
             {
-                path: 'anexos',
-                loadChildren: () => import('./anexos/documento-avulso-edit-anexos.module').then(m => m.DocumentoAvulsoEditAnexosModule)
-            },
-            {
                 path: 'dados-basicos',
                 loadChildren: () => import('./dados-basicos/documento-avulso-edit-dados-basicos.module').then(m => m.DocumentoAvulsoEditDadosBasicosModule)
             },

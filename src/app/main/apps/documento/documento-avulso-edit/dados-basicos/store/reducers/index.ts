@@ -1,12 +1,16 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {
-    DocumentoAvulsoEditDadosBasicosReducer,
+    documentoAvulsoEditDadosBasicosReducer,
     DocumentoAvulsoEditDadosBasicosState
 } from './documento-avulso-edit.reducer';
+import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
+import {documentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
 
 export interface DocumentoAvulsoEditDadosBasicosAppState
 {
     documentoAvulso: DocumentoAvulsoEditDadosBasicosState;
+    componentesDigitais: ComponenteDigitalState;
+    documentosVinculados: DocumentosVinculadosState;
 }
 
 export const getDocumentoAvulsoEditDadosBasicosAppState = createFeatureSelector<DocumentoAvulsoEditDadosBasicosAppState>(
@@ -19,7 +23,11 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<DocumentoAvulsoEditDadosBasicosAppState> = {
-    documentoAvulso: DocumentoAvulsoEditDadosBasicosReducer
+    documentoAvulso: documentoAvulsoEditDadosBasicosReducer,
+    componentesDigitais: componenteDigitalReducer,
+    documentosVinculados: documentosVinculadosReducer
 };
 
+export * from './componentes-digitais.reducer';
 export * from './documento-avulso-edit.reducer';
+export * from './documentos-vinculados.reducer';

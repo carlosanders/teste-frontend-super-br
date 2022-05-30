@@ -347,19 +347,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -671,10 +674,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
+            if (!componenteDigitalId && juntada.ativo && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
                 stepHandle += '-' + substep;
-            } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
+            } else if (componenteDigitalId && juntada.ativo && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
                 stepHandle += '-' + substep;
             } else {

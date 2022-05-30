@@ -16,13 +16,10 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
 
-import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/dados-basicos/store';
-
 @Injectable()
-export class ComponenteDigitalEffect {
+export class ComponenteDigitalEffects {
     routerState: any;
     componenteDigitalId: number;
-    lixeira = false;
     /**
      * Get ComponentesDigitais with router parameters
      *
@@ -52,7 +49,6 @@ export class ComponenteDigitalEffect {
                 JSON.stringify(params.populate));
         }),
         mergeMap(response => [
-            // new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
             new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                 entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
                 loaded: {
@@ -128,30 +124,26 @@ export class ComponenteDigitalEffect {
             status: 0, // carregando
         }))),
         switchMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
-            tap((response) => {
-                if (this.routerState.url.indexOf('oficio/') !== -1) {
-                    this._store.dispatch(new GetDocumentosVinculadosOficio());
-                }
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: 'Componente digital id ' + response.id + ' salvo com sucesso.',
-                    status: 1, // sucesso
-                }));
-            }),
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'componente digital',
+                content: 'Componente digital id ' + response.id + ' salvo com sucesso.',
+                status: 1, // carregando
+            }))),
             mergeMap((response: ComponenteDigital) => [
                 new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                 new AddData<ComponenteDigital>({
                     data: [{...action.payload.componenteDigital, ...response}],
                     schema: componenteDigitalSchema
                 }),
+                new fromStore.ReloadDocumentosVinculados()
             ]),
             catchError((err) => {
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'componente digital',
-                    content: 'Erro ao salvar o componente digital!',
+                    content: 'Erro ao salvar componente digital!',
                     status: 2, // erro
                 }));
                 return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
@@ -159,7 +151,7 @@ export class ComponenteDigitalEffect {
         ))
     ));
     /**
-     * DownloadComponenteDigital
+     * Set Current Step
      *
      * @type {Observable<any>}
      */
@@ -194,36 +186,35 @@ export class ComponenteDigitalEffect {
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'componente digital',
-            content: 'Salvando componente digital ...',
+            content: 'Criando componente digital de aprovação ...',
             status: 0, // carregando
         }))),
         switchMap((action) => {
+
             const componenteDigital = new ComponenteDigital();
             componenteDigital.documentoOrigem = action.payload.documentoOrigem;
 
             return this._componenteDigitalService.aprovar(componenteDigital).pipe(
-                tap(response =>
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'componente digital',
-                        content: `Componente Digital id ${response.id} criado com sucesso!`,
-                        status: 1, // sucesso
-                    }))
-                ),
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Componente digital de aprovação id ' + response.id + ' salvo com sucesso.',
+                    status: 1, // carregando
+                }))),
                 mergeMap((response: ComponenteDigital) => [
                     new ComponenteDigitalActions.ApproveComponenteDigitalSuccess(response),
                     new AddData<ComponenteDigital>({
-                        data: [response],
+                        data: [{...action.payload, ...response}],
                         schema: componenteDigitalSchema
                     }),
-                    new fromStore.GetDocumentosVinculados()
+                    new fromStore.ReloadDocumentosVinculados()
                 ]),
                 catchError((err) => {
                     console.log(err);
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'componente digital',
-                        content: 'Erro ao salvar o componente digital!',
+                        content: 'Erro ao salvar componente digital!',
                         status: 2, // erro
                     }));
                     return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
@@ -243,7 +234,6 @@ export class ComponenteDigitalEffect {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
-            this.lixeira = !!routerState.state.queryParams.lixeira;
         });
     }
 }

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    DocumentoAvulsoEditAnexosAppState,
-    DocumentosVinculadosState,
-    getDocumentoAvulsoEditAnexosAppState
-} from '../reducers';
+import {DocumentoAvulsoEditDadosBasicosAppState, DocumentosVinculadosState, getDocumentoAvulsoEditDadosBasicosAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -11,8 +7,8 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getDocumentosVinculadosState: any = createSelector(
-    getDocumentoAvulsoEditAnexosAppState,
-    (state: DocumentoAvulsoEditAnexosAppState) => state.documentosVinculados
+    getDocumentoAvulsoEditDadosBasicosAppState,
+    (state: DocumentoAvulsoEditDadosBasicosAppState) => state.documentosVinculados
 );
 
 export const getDocumentosVinculadosId: any = createSelector(
@@ -46,27 +42,17 @@ export const getDeletingDocumentosVinculadosId: any = createSelector(
     (state: DocumentosVinculadosState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosVinculadosId: any = createSelector(
-    getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getDocumentosVinculadosState,
-    (state: DocumentosVinculadosState) => state.removendoAssinaturaDocumentoIds
-);
-
 export const getSelectedDocumentosVinculadosIds: any = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.selectedDocumentosId
 );
 
-export const getAlterandoDocumentosId: any = createSelector(
+export const getAlterandoDocumentosVinculadosId: any = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.alterandoDocumentoIds
 );
 
-export const getDownloadDocumentosP7SId: any = createSelector(
+export const getDownloadDocumentosVinculadosP7SId: any = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.downloadDocumentosP7SIds
 );
