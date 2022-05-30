@@ -442,7 +442,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                             // inteligencia
                             if (me.strip_tags(node.getPrevious().getHtml())) {
                                 query = node.getPrevious().getText();
-                                words = query.match(/\b\w+\b/g).length;
+                                words = query.match(/\b\w+\b/g)?.length;
                                 if (words && words >= 3) {
                                     me.query.emit(me.strip_tags(query));
                                 }
@@ -494,7 +494,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
 
         e.editor.on("paste", function (ev) {
-            const filter = new CKEDITOR.filter('p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; img[!src];p span{display,color,background-color}[data-service,data-method,data-options];table[*]{*}; tbody; th; td[*](*){width}; tr[*](*); hr; blockquote; h1; h2; h3; h4; section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]'),
+            const filter = new CKEDITOR.filter( 'p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; img[!src];p span{display,color,background-color}[data-service,data-method,data-options];table[*]{*}; tbody; th; td[*](*){width}; tr[*](*); hr; blockquote; h1; h2; h3; h4; section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]' ),
                 fragment = CKEDITOR.htmlParser.fragment.fromHtml(ev.data.dataValue),
                 writer = new CKEDITOR.htmlParser.basicWriter();
             fragment.forEach((node): void => {
@@ -505,7 +505,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             });
             filter.applyTo(fragment);
             fragment.writeHtml(writer);
-            ev.data.dataValue = writer.getHtml(false);
+            ev.data.dataValue = writer.getHtml()?.replaceAll('<span style="color:transparent">', '<span>');
         });
 
         this.autoSave = setInterval(() => {

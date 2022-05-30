@@ -313,7 +313,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
     anexarCopia(): void {
         if (this.documento.vinculacaoDocumentoPrincipal) {
-            const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/default';
+            const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [
                     this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
@@ -324,7 +324,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         }
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
-                const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/default';
+                const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
                 this._router.navigate(
                     [
                         this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
