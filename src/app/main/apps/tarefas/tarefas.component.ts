@@ -89,9 +89,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
     @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -752,6 +750,25 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 ...nparams['filter'],
                 'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
+        }
+
+        if (this.tarefaListViewMode === 'grid' && nparams.limit !== this.pagination.limit) {
+            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                .pipe(
+                    takeUntil(this._unsubscribeAll),
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    updatedConfigs[scopeKey] = {
+                        ...(updatedConfigs[scopeKey] ?? {}),
+                        tarefaLimit: nparams.limit
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                });
         }
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -1972,6 +1989,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.reload({
                 ...this.pagination,
                 listSort: {[this._defaultSortField]: this._defaultSortOrder},
+                limit: 10,
                 offset: 0
             });
         }

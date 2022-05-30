@@ -25,6 +25,7 @@ export class ResolveGuard implements CanActivate {
     loadingTarefas: boolean = false;
     viewMode: ViewMode;
     tarefaSort: any;
+    tarefaLimit: number;
     private _profile: Usuario;
 
     constructor(
@@ -85,7 +86,8 @@ export class ResolveGuard implements CanActivate {
                                 if (!this.viewMode) {
                                     this.viewMode = scopeConfigs?.viewMode
                                 }
-                                this.tarefaSort = scopeConfigs?.tarefaSort
+                                this.tarefaSort = scopeConfigs?.tarefaSort;
+                                this.tarefaLimit = scopeConfigs?.tarefaLimit;
                             }
                         })
                     )
@@ -138,9 +140,9 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         listFilter: {},
                         etiquetaFilter: {},
-                        limit: 10,
+                        limit: (this.viewMode === 'grid' ? (this.tarefaLimit || 10) : 10),
                         offset: 0,
-                        sort: (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}),
+                        sort: (this.viewMode === 'grid' ? (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}) : {dataHoraFinalPrazo: 'ASC'}),
                         populate: [
                             'processo',
                             'colaborador.usuario',

@@ -18,10 +18,18 @@ cdk-etiqueta-chips-item {
             width: 30px;
         }
 
+        .mat-icon {
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 19px;
+        }
+
         .content {
-            padding: 5px !important;
             display: flex;
             align-items: center;
+            font-size: 12px;
         }
 
         mat-spinner {
@@ -29,10 +37,10 @@ cdk-etiqueta-chips-item {
         }
 
         .icon {
-            margin-right: 6px !important;
             height: 16px !important;
             width: 16px !important;
-            font-size: 16px !important;
+            font-size: 14px !important;
+            margin-left: 4px;
         }
     }
 }
