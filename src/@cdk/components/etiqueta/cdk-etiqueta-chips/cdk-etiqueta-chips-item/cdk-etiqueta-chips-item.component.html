@@ -6,7 +6,7 @@
     <div class="content">
         <mat-icon class="icon" *ngIf="iconeVisibilidade"
                   [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">{{iconeVisibilidade}}</mat-icon>
-        <mat-icon *ngIf="conteudo" class="icon"
+        <mat-icon *ngIf="conteudo"
                   [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">subject</mat-icon>
 
         <span (click)="doSelect()">
