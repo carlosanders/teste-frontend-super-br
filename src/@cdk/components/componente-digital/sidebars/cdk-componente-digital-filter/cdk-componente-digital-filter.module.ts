@@ -19,6 +19,10 @@ import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {CdkSetorAutocompleteModule} from "../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
+import {
+    CdkModalidadeOrgaoCentralAutocompleteModule
+} from "../../../modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -44,6 +48,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkDateFilterModule,
         CdkTipoDocumentoAutocompleteModule,
         MatButtonToggleModule,
+        CdkSetorAutocompleteModule,
+        CdkModalidadeOrgaoCentralAutocompleteModule,
     ],
     providers: [
     ],
