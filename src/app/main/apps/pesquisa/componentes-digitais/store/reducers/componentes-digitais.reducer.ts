@@ -22,7 +22,7 @@ export const ComponentesDigitaisInitialState: ComponentesDigitaisState = {
         offset: 0,
         filter: {},
         gridFilter: {},
-        populate: ['populateAll', 'documento', 'documento.tipoDocumento', 'documento.juntadaAtual', 'documento.juntadaAtual.volume', 'documento.juntadaAtual.volume.processo', 'documento.juntadaAtual.criadoPor'],
+        populate: ['populateAll', 'documento', 'documento.tipoDocumento', 'documento.juntadaAtual', 'documento.juntadaAtual.volume', 'documento.juntadaAtual.volume.processo', 'documento.juntadaAtual.criadoPor', 'documento.setorOrigem', 'documento.setorOrigem.unidade'],
         sort: {},
         total: 0,
     },

@@ -16,7 +16,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {Documento, Modelo} from '@cdk/models';
+import {Documento, Modelo, Pagination} from '@cdk/models';
 import {ModeloDataSource} from '@cdk/data-sources/modelo-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkModeloFilterComponent} from '../sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
@@ -81,6 +81,15 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Input()
     checkboxSelection = true;
+
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
