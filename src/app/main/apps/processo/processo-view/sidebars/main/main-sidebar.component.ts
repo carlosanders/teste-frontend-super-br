@@ -62,6 +62,7 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
+import arrayCompare = CKEDITOR.tools.arrayCompare;
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -331,7 +332,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
+            filter(juntadas => !!juntadas && (juntadas.length !== this.juntadas?.length || juntadas !== this.juntadas))
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
@@ -343,7 +344,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.form.get('numeracaoSequencial').setValue(null);
             }
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
@@ -472,8 +473,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         panelClass: ['danger-snackbar']
                     });
                 }
-            }
-        );
+            });
 
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -733,6 +733,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         }
+    }
+
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            console.log(juntada);
+            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+                houveMudanca = true;
+            }
+        });
+        return houveMudanca;
     }
 
     reload(params): void {
