@@ -84,15 +84,19 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             this.form.get('conteudo').disable();
         }
 
+        this.form.get('setor').disable();
+
         this.form.get('unidade').valueChanges.pipe(
             debounceTime(100),
             distinctUntilChanged(),
             switchMap((value) => {
                 if (value && typeof value === 'object') {
+                    this.form.get('setor').enable();
                     this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value?.id}`;
                     this.setorPagination.filter['parent'] = 'isNotNull';
                 } else {
-                    this.setorPagination.filter = {parent: 'isNotNull'};
+                    this.form.get('setor').setValue(null);
+                    this.form.get('setor').disable();
                 }
                 this._changeDetectorRef.markForCheck();
                 return of([]);

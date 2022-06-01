@@ -100,7 +100,7 @@
             </cdk-setor-autocomplete>
         </mat-form-field>
 
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+        <mat-form-field *ngIf="this.form.get('setor').enabled">
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete"

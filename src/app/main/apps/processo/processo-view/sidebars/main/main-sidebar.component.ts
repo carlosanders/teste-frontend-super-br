@@ -62,7 +62,6 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
-import arrayCompare = CKEDITOR.tools.arrayCompare;
 
 @Component({
     selector: 'processo-view-main-sidebar',
