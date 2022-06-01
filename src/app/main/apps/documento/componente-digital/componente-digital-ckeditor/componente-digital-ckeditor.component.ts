@@ -56,7 +56,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     btVersoes = true;
     logEntryPagination: Pagination;
     mode = 'documento';
-    localStorageBackupKey: string = 'componenteDigitalBakcup';
+    static LocalStorageBackupKey: string = 'componenteDigitalBakcup';
     componenteDigitalReady: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -114,7 +114,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             filter(cd => !!cd)
         ).subscribe((cd) => {
             this._cacheGenericUserDataService
-                .get(this.localStorageBackupKey)
+                .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
                 .subscribe((cachedComponenteDigitalBackupList) => {
                     const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
                     const componenteDigitalBackup = componenteDigitalBackupList
@@ -135,15 +135,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         dialogRef.afterClosed()
                             .pipe(
                                 tap(
-                                    (conteudo) => {
-                                        if (conteudo) {
-                                            this._cacheGenericUserDataService.set(
-                                                componenteDigitalBackupList
-                                                    .filter((backup) => backup.id != componenteDigitalBackup.id),
-                                                this.localStorageBackupKey,
-                                                (60*60*24*30) //30 dias
-                                            );
-                                            this.componenteDigital = {...cd, conteudo: conteudo};
+                                    (componenteDigital) => {
+                                        if (componenteDigital) {
+                                            this.componenteDigital = {...cd, conteudo: componenteDigital.conteudo};
                                             this.componenteDigitalReady = true;
                                             this.logEntryPagination = new Pagination();
                                             this.logEntryPagination.filter = {
@@ -151,6 +145,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                                 target: 'hash',
                                                 id: +this.componenteDigital.id
                                             };
+                                            this.doSave({
+                                                conteudo: componenteDigital.conteudo,
+                                                hashAntigo: componenteDigital.hash
+                                            });
                                             this._changeDetectorRef.detectChanges();
                                         }
                                     }
@@ -279,7 +277,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     doBackupComponenteDigital(componenteDigitalBackup: any): void {
         this._cacheGenericUserDataService
-            .get(this.localStorageBackupKey)
+            .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((cachedComponenteDigitalBackupList: any) => {
                 const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
@@ -288,7 +286,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         ...componenteDigitalBackupList.filter((backup) => backup.id !== componenteDigitalBackup.id),
                         componenteDigitalBackup
                     ],
-                    this.localStorageBackupKey,
+                    ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
                     (60*60*24*30) //30 dias
                 ).subscribe();
             });

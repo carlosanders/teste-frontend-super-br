@@ -17,6 +17,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {getDocumento} from '../../../store';
 import {getComponenteDigitalLoaded} from '../selectors';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
+import {CacheGenericUserDataService} from "../../../../../../../@cdk/services/cache.service";
+import {
+    ComponenteDigitalCkeditorComponent
+} from "../../componente-digital-ckeditor/componente-digital-ckeditor.component";
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -295,12 +299,24 @@ export class ComponenteDigitalEffect {
             conteudo: action.payload.data,
             hashAntigo: action.payload.hashAntigo
         }).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'componente digital',
-                content: `Componente Digital id ${response.id} salvo com sucesso!`,
-                status: 1, // sucesso
-            }))),
+            tap(response => {
+                this._cacheGenericUserDataService
+                    .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
+                    .subscribe((cachedComponenteDigitalBackupList) => {
+                        const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                        this._cacheGenericUserDataService.set(
+                            componenteDigitalBackupList.filter((backup) => backup.id !== action.payload.componenteDigital.id),
+                            ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
+                            (60*60*24*30) //30 dias
+                        ).subscribe();
+                    });
+                return this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: `Componente Digital id ${response.id} salvo com sucesso!`,
+                    status: 1, // sucesso
+                }))
+            }),
             mergeMap((response: ComponenteDigital) => [
                 new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                 new UpdateData<ComponenteDigital>({
@@ -455,6 +471,7 @@ export class ComponenteDigitalEffect {
         private _componenteDigitalService: ComponenteDigitalService,
         private _activatedRoute: ActivatedRoute,
         private _sanitizer: DomSanitizer,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
         this._store.pipe(
             select(getRouterState),

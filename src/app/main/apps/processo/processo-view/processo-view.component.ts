@@ -448,7 +448,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     compareAtivo(juntadas, index): boolean {
         let houveMudanca = false;
         juntadas.forEach((juntada) => {
-            console.log(juntada);
             if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
                 houveMudanca = true;
             }

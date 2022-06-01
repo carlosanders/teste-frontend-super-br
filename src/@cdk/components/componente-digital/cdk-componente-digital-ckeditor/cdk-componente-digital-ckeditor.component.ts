@@ -546,7 +546,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     doBackupLocalstorage(): void {
         if (this.src) {
-            window['bbb'] = this.src;
             this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
                 (conteudo) => {
                     if (this.src !== this._lastContent) {
