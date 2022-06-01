@@ -21,7 +21,6 @@ export class CdkConfigService
     public ldap = '';
     public assinadorVersion = localStorage.getItem('assinadorVersion');
     public barramento = localStorage.getItem('barramento');
-    public govBR:any = JSON.parse(localStorage.getItem('govBR'));
 
     // Private
     private _configSubject: BehaviorSubject<any>;
@@ -165,6 +164,20 @@ export class CdkConfigService
     {
         // Set the config from the default config
         this._configSubject.next(_.cloneDeep(this._defaultConfig));
+    }
+
+    set govBR(value)
+    {
+        localStorage.setItem('govBR', value);
+    }
+
+    get govBR(): any | Observable<any>
+    {
+        try{
+            return JSON.parse(localStorage.getItem('govBR'));
+        } catch(err) {
+            return null;
+        }
     }
 }
 
