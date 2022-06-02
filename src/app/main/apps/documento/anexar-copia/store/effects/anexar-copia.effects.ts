@@ -350,5 +350,6 @@ export class AnexarCopiaEffects {
         });
 
         this._profile = _loginService.getUserProfile();
+        this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
     }
 }
