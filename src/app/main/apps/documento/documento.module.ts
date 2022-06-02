@@ -20,6 +20,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {DocumentoModeloEditModule} from './modelo-edit/documento-modelo-edit.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 
 const routes: Routes = [
     {
@@ -112,6 +113,7 @@ modulesConfig.forEach((module) => {
         SigiloService,
         JuntadaService,
         RepositorioService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard,
         fromGuards.DeactivateGuard
     ],

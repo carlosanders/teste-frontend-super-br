@@ -289,6 +289,17 @@ export class DocumentosVinculadosEffects {
             }
         })
     ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados do ofício atualmente aberto
+     */
+    saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+                this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
+            }
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

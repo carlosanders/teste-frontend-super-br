@@ -24,7 +24,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {Assinatura, ComponenteDigital, Documento, Juntada, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import * as fromStoreDocumento from '../documento-edit/atividade/store';
+import * as fromStoreDocumento from '../../documento/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
