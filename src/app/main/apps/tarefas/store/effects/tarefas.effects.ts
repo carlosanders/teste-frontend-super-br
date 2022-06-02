@@ -93,19 +93,19 @@ export class TarefasEffect {
     getTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
         switchMap(action => this._tarefaService.query(
-                JSON.stringify({
-                    ...action.payload.filter,
-                    ...action.payload.folderFilter,
-                    ...action.payload.listFilter,
-                    ...action.payload.etiquetaFilter,
-                    ...action.payload.gridFilter,
-                }),
-                action.payload.limit,
-                action.payload.offset,
-                JSON.stringify(action.payload.sort),
-                JSON.stringify(action.payload.populate),
-                JSON.stringify(action.payload.context),
-            ).pipe(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.folderFilter,
+                ...action.payload.listFilter,
+                ...action.payload.etiquetaFilter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context),
+        ).pipe(
             concatMap(response => {
                 this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
                     .pipe(
@@ -120,7 +120,7 @@ export class TarefasEffect {
                             tarefaSort: (action.payload.sort)
                         };
 
-                        this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                        this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
                     });
 
                 return [
@@ -155,7 +155,7 @@ export class TarefasEffect {
                         listSort: null
                     };
 
-                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
                 });
             return of(new TarefasActions.GetTarefasFailed(err));
         })
@@ -1287,49 +1287,49 @@ export class TarefasEffect {
         ))
     ));
 
-        reloadVinculacoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
-            ofType<fromStore.ReloadVinculacaoEtiqueta>(fromStore.RELOAD_VINCULACAO_ETIQUETA),
-            switchMap(action => this._vinculacaoEtiquetaService.query(
-                JSON.stringify({'tarefa.id': `eq:${action.payload.id}`}),
-                25,
-                0,
-                JSON.stringify({}),
-                JSON.stringify([
-                    'populateAll',
-                    'etiqueta',
-                    'tarefa',
+    reloadVinculacoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.ReloadVinculacaoEtiqueta>(fromStore.RELOAD_VINCULACAO_ETIQUETA),
+        switchMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({'tarefa.id': `eq:${action.payload.id}`}),
+            25,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll',
+                'etiqueta',
+                'tarefa',
             ])).pipe(
-                mergeMap(response => [
-                    new UpdateData<Tarefa>({
-                        id: action.payload.id,
-                        schema: tarefaSchema,
-                        changes: {
-                            vinculacoesEtiquetas: response['entities'].filter((entity => !(action.payload?.vinculacoesEtiquetas ?? []).find((vinculacaoEtiqueta) => vinculacaoEtiqueta.id === entity.id)))
-                        }
-                    })
-                ])
-            ))
-        ));
+            mergeMap(response => [
+                new UpdateData<Tarefa>({
+                    id: action.payload.id,
+                    schema: tarefaSchema,
+                    changes: {
+                        vinculacoesEtiquetas: response['entities'].filter((entity => !(action.payload?.vinculacoesEtiquetas ?? []).find((vinculacaoEtiqueta) => vinculacaoEtiqueta.id === entity.id)))
+                    }
+                })
+            ])
+        ))
+    ));
 
-        getAcoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
-            ofType<fromStore.GetAcoesEtiqueta>(fromStore.GET_ACOES_ETIQUETA),
-            switchMap(action => this._acaoService.query(
-                JSON.stringify({'etiqueta.id': `eq:${action.payload}`}),
-                1000,
-                0,
-                JSON.stringify({}),
-                JSON.stringify([
-                    'populateAll'
-                ])).pipe(
-                    mergeMap(response => [
-                        new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
-                        new fromStore.GetAcoesEtiquetaSuccess(
-                            response['entities'].map((acao) => acao.id)
-                        )
-                    ]),
-                    catchError(err => of(new fromStore.GetAcoesEtiquetaFailed(err)))
-                ))
-        ));
+    getAcoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.GetAcoesEtiqueta>(fromStore.GET_ACOES_ETIQUETA),
+        switchMap(action => this._acaoService.query(
+            JSON.stringify({'etiqueta.id': `eq:${action.payload}`}),
+            1000,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ])).pipe(
+            mergeMap(response => [
+                new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
+                new fromStore.GetAcoesEtiquetaSuccess(
+                    response['entities'].map((acao) => acao.id)
+                )
+            ]),
+            catchError(err => of(new fromStore.GetAcoesEtiquetaFailed(err)))
+        ))
+    ));
 
     constructor(
         private _actions: Actions,

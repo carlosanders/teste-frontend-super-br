@@ -17,10 +17,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {getDocumento} from '../../../store';
 import {getComponenteDigitalLoaded} from '../selectors';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
-import {CacheGenericUserDataService} from "../../../../../../../@cdk/services/cache.service";
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {
     ComponenteDigitalCkeditorComponent
-} from "../../componente-digital-ckeditor/componente-digital-ckeditor.component";
+} from '../../componente-digital-ckeditor/componente-digital-ckeditor.component';
 
 @Injectable()
 export class ComponenteDigitalEffect {
