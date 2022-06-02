@@ -3,15 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ConfigModuleListActions from '../actions';
 import {ConfigModulo} from '../../../../../../../../@cdk/models';
 import {configModule as configModuleSchema} from '../../../../../../../../@cdk/normalizr';
 import {ConfigModuloService} from '../../../../../../../../@cdk/services/config-modulo.service';
 import {getRouterState, State} from '../../../../../../../store';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {LoginService} from '../../../../../../auth/login/login.service';
+import * as OperacoesActions from "../../../../../../../store/actions/operacoes.actions";
 
 @Injectable()
 export class ConfigModuloListEffects {
@@ -73,4 +74,52 @@ export class ConfigModuloListEffects {
             })
         )
     );
+
+    /**
+     * Delete ConfigModulo
+     *
+     * @type {Observable<any>}
+     */
+    deleteConfigModulo = createEffect(() => this._actions.pipe(
+        ofType<ConfigModuleListActions.DeleteConfigModule>(ConfigModuleListActions.DELETE_CONFIG_MODULO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'configModulo',
+            content: 'Apagando a configModulo id ' + action.payload.configModuloId + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._configModuleService.destroy(action.payload.configModuloId).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'configModulo',
+                    content: 'ConfigModulo id ' + action.payload.configModuloId + ' deletada com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId
+                }));
+                this._store.dispatch(new UpdateData<ConfigModulo>({
+                    id: response.id,
+                    schema: configModuleSchema,
+                    changes: {apagadoEm: response.apagadoEm}
+                }));
+                return new ConfigModuleListActions.DeleteConfigModuleSuccess(response.id);
+            }),
+            catchError((err) => {
+                const payload = {
+                    id: action.payload.ConfigModuloId,
+                    error: err
+                };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'configModulo',
+                    content: 'Erro ao apagar a configModulo id ' + action.payload.configModuloId + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                console.log(err);
+                return of(new ConfigModuleListActions.DeleteConfigModuleFailed(payload));
+            })
+        ), 25)
+    ));
 }
