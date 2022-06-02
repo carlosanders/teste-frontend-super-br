@@ -2,18 +2,18 @@
 //import {modulesConfigConsultivo} from './consultivo/modules-config';
 //import {modulesConfigDisciplinar} from './disciplinar/modules-config';
 //import {modulesConfigEcarta} from './ecarta/modules-config';
-import {modulesConfigDivida} from './divida/modules-config';
+//import {modulesConfigDivida} from './divida/modules-config';
 //import {modulesConfigCalculo} from './calculo/modules-config';
-import {modulesConfigGestaoDevedor} from './gestao-devedor/modules-config';
+//import {modulesConfigGestaoDevedor} from './gestao-devedor/modules-config';
 
 export const modulesConfig: any = [
     // modulesConfigJudicial,
     //modulesConfigConsultivo,
     //modulesConfigDisciplinar,
     //modulesConfigEcarta,
-    modulesConfigDivida,
+    //modulesConfigDivida,
     //modulesConfigCalculo,
-    modulesConfigGestaoDevedor,
+    //modulesConfigGestaoDevedor,
 ];
 
 
