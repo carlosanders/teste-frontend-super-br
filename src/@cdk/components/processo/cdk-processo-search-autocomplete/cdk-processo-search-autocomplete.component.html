@@ -5,9 +5,9 @@
                 [value]="processo"
                 [ngClass]="{'multiline-auto-complete-options-responsive': mobileMode, 'multiline-auto-complete-options': !mobileMode}">
         <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}"></span>
-        <span *ngIf="processo.titulo" [innerHTML]="'Título: ' + processo.titulo | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
-        <span *ngIf="processo.especieProcesso && processo.especieProcesso.nome" [innerHTML]="'Espécie: ' + processo.especieProcesso.nome | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
-        <span *ngIf="processo.especieProcesso && processo.especieProcesso.generoProcesso && processo.especieProcesso.generoProcesso.nome" [innerHTML]="'Gênero Processo: ' + processo.especieProcesso.generoProcesso.nome | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
+        <span *ngIf="processo.titulo" [innerHTML]="'Título: ' + processo.titulo | titleCasePipe | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
+        <span *ngIf="processo.especieProcesso && processo.especieProcesso.nome" [innerHTML]="'Espécie: ' + processo.especieProcesso.nome | titleCasePipe | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
+        <span *ngIf="processo.especieProcesso && processo.especieProcesso.generoProcesso && processo.especieProcesso.generoProcesso.nome" [innerHTML]="'Gênero Processo: ' + processo.especieProcesso.generoProcesso.nome | titleCasePipe | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span>
         <span *ngIf="processo.outroNumero" [innerHTML]="'Outro Número: ' + processo.outroNumero | highlightOption: this.control.value" [ngClass]="{'span-block-responsive': mobileMode, 'span-block': !mobileMode}">{{processo.titulo}}</span><br>
         <mat-divider *ngIf="mobileMode"></mat-divider>
     </mat-option>

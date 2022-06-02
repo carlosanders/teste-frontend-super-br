@@ -12,12 +12,14 @@ import {TableColumn} from '@cdk/components/table-definitions/table-column';
 export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCheck {
     @Input('cdkTableColumnResizable') tableColumn: TableColumn;
     @Output() columnChageWidth: EventEmitter<ColumnWidthChangeEvent> = new EventEmitter<ColumnWidthChangeEvent>();
-    @Output() resizing: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() resizing: EventEmitter<ColumnWidthChangeEvent|null> = new EventEmitter<ColumnWidthChangeEvent|null>();
     @HostBinding('class') elementClass = '';
 
     private _startX: number;
     private _startWidth: number;
+    private _tableStartWidth: number;
     private _column: HTMLElement;
+    private _nextColumn: HTMLElement;
     private _table: HTMLElement;
     private _pressed: boolean;
     private _index: number;
@@ -31,11 +33,17 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCh
     private _initialize(): void {
         if (!this._initialized) {
             this._initialized = true;
-            const row = this._renderer.parentNode(this._column);
-            this._index = Array.from(this._column.parentNode.childNodes).indexOf(this._column);
+            const row: HTMLElement = <HTMLElement> this._renderer.parentNode(this._column);
+            this._index = Array.from(row.childNodes).indexOf(this._column);
+            if (row.childNodes[this._index+1] instanceof HTMLElement) {
+                this._nextColumn = <HTMLElement> row.childNodes[this._index+1];
+            } else {
+                this._nextColumn = null;
+            }
             const thead = this._renderer.parentNode(row);
             this._table = this._renderer.parentNode(thead);
             this._startWidth = this._column.offsetWidth;
+            this._tableStartWidth = this._table.offsetWidth;
             if (!this._table.classList.contains('cdk-table-resizable')) {
                 this._renderer.addClass(this._table, 'cdk-table-resizable');
             }
@@ -75,35 +83,28 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCh
     }
 
     onMouseDown = (event: MouseEvent) => {
-        if (event.buttons == 1) {
+        if (event.buttons == 1 && this.tableColumn.definitions.resizable) {
             this._pressed = true;
             this._startX = event.pageX;
             this._startWidth = this._column.offsetWidth;
+            this._tableStartWidth = this._table.offsetWidth;
+            this._renderer.addClass(this._table, 'resizing');
         }
     }
 
     onRightClick = (event: MouseEvent) => {
         event.preventDefault();
         if (this.tableColumn.definitions.resizable) {
-            const oldWidth = this._column.offsetWidth;
-            this.resizeColumnTo(0);
             this.tableColumn.definitions.width = 0;
-            this.columnChageWidth.emit({
-                oldWidth: oldWidth,
-                newWidth: this.tableColumn.definitions.width,
-                tableColumn: this.tableColumn
-            })
+            this.columnChageWidth.emit(this.resizeColumnTo(this.tableColumn.definitions.width));
         }
     }
 
     onMouseMove = (event: MouseEvent) => {
-        const offset = 35;
         if (this._pressed && event.buttons) {
-            this._renderer.addClass(this._table, 'resizing');
-            this.resizing.emit(true);
-            // Calculate width of column
-            let width = this._startWidth + (event.pageX - this._startX - offset);
-            this.resizeColumnTo(width)
+            const offset = 0;
+            const width = this._startWidth + (event.pageX - this._startX-offset);
+            this.resizing.emit(this.resizeColumnTo(width));
         }
     }
 
@@ -111,53 +112,50 @@ export class CdkTableColumnResizableDirective implements OnInit, OnChanges, DoCh
         if (this._pressed) {
             this._pressed = false;
             this._renderer.removeClass(this._table, 'resizing');
-            this.resizing.emit(false);
+            this.resizing.emit(null);
             this.tableColumn.definitions.width = this._column.offsetWidth;
             this.columnChageWidth.emit({
+                tableColumn: this.tableColumn,
                 oldWidth: this._startWidth,
                 newWidth: this._column.offsetWidth,
-                tableColumn: this.tableColumn
+                tableOldWidth: this._tableStartWidth,
+                tableNewWitdh: this._table.offsetWidth,
+                scope: this
             });
         }
     }
 
-    resizeColumnTo(width: number): void {
+    resizeColumnTo(width: number): ColumnWidthChangeEvent {
         this._initialize();
-        const tableCells = Array.from(this._table.querySelectorAll('.mat-row')).map(
-            (row: any) => row.querySelectorAll('.mat-cell').item(this._index)
-        );
-
+        if (!this._nextColumn || width <= 40) {
+            width = 0;
+        }
         if (width) {
-            this._renderer.setStyle(this._column, 'width', `${width}px`);
+            this._renderer.setStyle(this._column, 'min-width', `${width}px`);
         } else {
-            this._renderer.removeStyle(this._column, 'width');
+            this._renderer.removeStyle(this._column, 'min-width');
         }
 
-        for (const cell of tableCells) {
-            if (width) {
-                this._renderer.setStyle(cell, 'width', `${width}px`);
-            } else {
-                this._renderer.removeStyle(cell, 'width');
-            }
-        }
-        //table width
-        let widthSum = 0;
-        Array.from(this._column.parentNode.childNodes).forEach((column: HTMLElement) => {
-            if (column.offsetWidth) {
-                widthSum += parseInt(column?.style?.width?.replace('px', '')) || column.offsetWidth;
-            }
-        });
+        return {
+            tableColumn: this.tableColumn,
+            oldWidth: this._startWidth,
+            newWidth: width,
+            tableOldWidth: this._tableStartWidth,
+            tableNewWitdh: this._table.offsetWidth,
+            scope: this
+        };
+    }
 
-        if (width && widthSum > this._renderer.parentNode(this._table).offsetWidth) {
-            this._renderer.setStyle(this._table, 'width', `${widthSum}px`);
-        } else {
-            this._renderer.removeStyle(this._table, 'width');
-        }
+    getTableWidth(): number {
+        return this._table?.offsetWidth;
     }
 }
 
 export interface ColumnWidthChangeEvent {
+    tableColumn: TableColumn;
     oldWidth: number;
     newWidth: number;
-    tableColumn: TableColumn;
+    tableOldWidth: number;
+    tableNewWitdh: number;
+    scope: CdkTableColumnResizableDirective;
 }

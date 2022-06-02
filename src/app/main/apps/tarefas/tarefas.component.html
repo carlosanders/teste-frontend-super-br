@@ -313,7 +313,8 @@
                                      [parentIdentifier]="parentIdentifier"
                                      [resizableColumns]="['allTableColumns']"
                                      [ordableColumns]="['allTableColumns']"
-                                     (resetTableDefinitions)="resetTableDefinitions()">
+                                     (resetTableDefinitions)="resetTableDefinitions()"
+                                     (pencencies)="doPendencies($event)">
                     </cdk-tarefa-list>
                 </div>
 

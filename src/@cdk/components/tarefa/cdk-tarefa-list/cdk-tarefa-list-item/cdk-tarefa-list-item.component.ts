@@ -147,6 +147,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     loadInteressados = new EventEmitter<any>();
 
+    @Output()
+    pencencies: EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}> = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>()
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -593,5 +596,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     doAbrirMinutaEmOutraAba(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
         this.menuTriggerMinutas.closeMenu();
         this.outraAbaHandler.emit({vinculacaoEtiqueta, tarefa});
+    }
+
+    doPendencies(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.pencencies.emit({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa})
     }
 }

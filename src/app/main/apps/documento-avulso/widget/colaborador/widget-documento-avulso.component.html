@@ -1,7 +1,7 @@
 <mat-card class="scrollable-content" (click)="trocarVisualizacao()">
     <mat-card-header>
         <mat-icon class="s-52" mat-card-avatar>insert_drive_file</mat-icon>
-        <mat-card-title>Meus Ofícios</mat-card-title>
+        <mat-card-title>Ofícios Enviados</mat-card-title>
         <mat-card-subtitle>Pendentes de resposta</mat-card-subtitle>
         <mat-icon class="icone-documento-avulso" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}"
                   >swap_horiz
@@ -10,7 +10,7 @@
     <mat-card-content>
         <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.documentosAvulsosCount === false" diameter="64"></mat-spinner>
-            <div *ngIf="this.documentosAvulsosCount !== false" class="light-blue-fg font-size-64 line-height-64">
+            <div *ngIf="this.documentosAvulsosCount !== false" class="light-blue-fg font-size-64 line-height-64 count-clickable">
                 {{this.documentosAvulsosCount}}
             </div>
             <div class="h3 font-weight-500">
@@ -40,7 +40,7 @@
             </span>
             <mat-spinner class="ml-8" *ngIf="documentosAvulsosVencidosCount === false"
                          diameter="15"></mat-spinner>
-            <span *ngIf="documentosAvulsosVencidosCount !== false" class="h4 ml-8 warn-500-fg">
+            <span *ngIf="documentosAvulsosVencidosCount !== false" class="h4 ml-8 warn-500-fg count-clickable">
                 {{documentosAvulsosVencidosCount}}
             </span>
         </div>

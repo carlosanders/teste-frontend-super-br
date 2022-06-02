@@ -14,7 +14,7 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button mat-icon-button *ngIf="!deleting" aria-label="remover"
+        <button mat-icon-button *ngIf="!deleting && actions.indexOf('delete') > -1" aria-label="remover"
                 (click)="doDelete()">
             <mat-icon>delete</mat-icon>
         </button>

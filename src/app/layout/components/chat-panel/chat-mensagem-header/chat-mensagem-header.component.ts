@@ -10,7 +10,7 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
-import {Chat, ChatParticipante} from "@cdk/models";
+import {Chat, ChatParticipante} from '@cdk/models';
 
 @Component({
     selector: 'chat-mensagem-header',
@@ -25,19 +25,19 @@ export class ChatMensagemHeaderComponent implements OnInit, OnChanges
     chat: Chat = null;
 
     @Output()
-    fecharChatHandler = new EventEmitter();
+    fecharChatHandler: EventEmitter<void> = new EventEmitter<void>();
 
     @Output()
-    chatFormHandler = new EventEmitter<Chat>();
+    chatFormHandler: EventEmitter<Chat> = new EventEmitter<Chat>();
 
     @Output()
-    excluirChatHandler = new EventEmitter<Chat>();
+    excluirChatHandler: EventEmitter<Chat> = new EventEmitter<Chat>();
 
     @Output()
-    chatParticipantesHandler = new EventEmitter<Chat>();
+    chatParticipantesHandler: EventEmitter<Chat> = new EventEmitter<Chat>();
 
     @Output()
-    sairChatHandler = new EventEmitter<ChatParticipante>();
+    sairChatHandler: EventEmitter<ChatParticipante> = new EventEmitter<ChatParticipante>();
 
     constructor(private _changeDetectorRef:ChangeDetectorRef)
     {

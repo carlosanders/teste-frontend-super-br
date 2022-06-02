@@ -16,7 +16,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
 
-import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/anexos/store';
+import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/dados-basicos/store';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -129,9 +129,6 @@ export class ComponenteDigitalEffect {
         }))),
         switchMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
             tap((response) => {
-                if (this.routerState.url.indexOf('oficio/') !== -1) {
-                    this._store.dispatch(new GetDocumentosVinculadosOficio());
-                }
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'componente digital',
@@ -140,7 +137,7 @@ export class ComponenteDigitalEffect {
                 }));
             }),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(action.payload.componenteDigital),
                 new AddData<ComponenteDigital>({
                     data: [{...action.payload.componenteDigital, ...response}],
                     schema: componenteDigitalSchema

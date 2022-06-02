@@ -12,7 +12,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 
-import {Pagination} from '@cdk/models';
+import {Pagination, VinculacaoEtiqueta} from '@cdk/models';
 
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -36,6 +36,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
     editVinc = new EventEmitter<any>();
 
     form: FormGroup;
+    vinculacaoEtiqueta: VinculacaoEtiqueta;
 
     /**
      * @param _changeDetectorRef
@@ -50,15 +51,16 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.loading = false;
+        this.vinculacaoEtiqueta = data.vinculacaoEtiqueta;
 
         this.form = this._formBuilder.group({
-            id: [data.id],
-            privada: [data.privada],
-            conteudo: [data.conteudo],
-            podeAlterarConteudo: [data.podeAlterarConteudo]
+            id: [this.vinculacaoEtiqueta.id],
+            privada: [this.vinculacaoEtiqueta.privada],
+            conteudo: [this.vinculacaoEtiqueta.conteudo],
+            podeAlterarConteudo: [this.vinculacaoEtiqueta.podeAlterarConteudo]
         });
 
-        if (!data.podeAlterarConteudo) {
+        if (!this.vinculacaoEtiqueta.podeAlterarConteudo) {
             this.form.controls['conteudo'].disable();
         }
     }

@@ -1,9 +1,10 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
@@ -12,6 +13,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from 'rxjs';
+import {Pagination} from "../../../../models";
 
 @Component({
     selector: 'cdk-modelo-filter',
@@ -21,7 +25,7 @@ import {LoginService} from '../../../../../app/main/auth/login/login.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkModeloFilterComponent implements OnChanges {
+export class CdkModeloFilterComponent implements OnInit, OnChanges {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -35,6 +39,15 @@ export class CdkModeloFilterComponent implements OnChanges {
     @Input()
     hasInatived = false;
 
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
     form: FormGroup;
 
     filterCriadoEm = [];
@@ -45,7 +58,8 @@ export class CdkModeloFilterComponent implements OnChanges {
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.form = this._formBuilder.group({
             modalidadeModelo: ['nacional'],
@@ -59,14 +73,66 @@ export class CdkModeloFilterComponent implements OnChanges {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            modalidadeOrgaoCentral: [null],
+            unidade: [null],
+            setor: [null]
         });
         this.form.controls.ativo.setValue("todos");
+    }
+
+    ngOnInit() {
+        this.form.get('modalidadeModelo').valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    switch (value) {
+                        case 'nacional':
+                            this.form.get('modalidadeOrgaoCentral').enable();
+                            this.form.get('unidade').setValue(null);
+                            this.form.get('unidade').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                        case 'unidade':
+                            this.form.get('unidade').enable();
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                        case 'setor':
+                            this.form.get('setor').enable();
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
+                            this.form.get('unidade').setValue(null);
+                            this.form.get('unidade').disable();
+                            break;
+                        default:
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
+                            this.form.get('unidade').setValue(null);
+                            this.form.get('unidade').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['type'] && this.type !== null) {
             this.form.get('modalidadeModelo').setValue(this.type, {emitEvent: false});
             this.form.get('modalidadeModelo').disable();
+            this.form.get('modalidadeOrgaoCentral').setValue(null);
+            this.form.get('modalidadeOrgaoCentral').disable();
+            this.form.get('unidade').setValue(null);
+            this.form.get('unidade').disable();
+            this.form.get('setor').setValue(null);
+            this.form.get('setor').disable();
         }
     }
 
@@ -167,6 +233,18 @@ export class CdkModeloFilterComponent implements OnChanges {
 
         if (this.form.get('atualizadoPor').value) {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        if (this.form.get('modalidadeOrgaoCentral').value) {
+            andXFilter.push({'vinculacoesModelos.modalidadeOrgaoCentral.id': `eq:${this.form.get('modalidadeOrgaoCentral').value.id}`});
+        }
+
+        if (this.form.get('unidade').value) {
+            andXFilter.push({'vinculacoesModelos.unidade.id': `eq:${this.form.get('unidade').value.id}`});
+        }
+
+        if (this.form.get('setor').value) {
+            andXFilter.push({'vinculacoesModelos.setor.id': `eq:${this.form.get('setor').value.id}`});
         }
 
         const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};

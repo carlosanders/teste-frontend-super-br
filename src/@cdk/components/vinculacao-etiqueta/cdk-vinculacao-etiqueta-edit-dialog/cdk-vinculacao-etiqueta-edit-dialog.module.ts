@@ -10,6 +10,9 @@ import {
     MatProgressSpinnerModule
 } from '@cdk/angular/material';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {
+    CdkEtiquetaChipsItemModule
+} from '../../etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips-item/cdk-etiqueta-chips-item.module';
 
 @NgModule({
     declarations: [
@@ -26,6 +29,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
         CdkSharedModule,
         MatCheckboxModule,
+        CdkEtiquetaChipsItemModule,
     ],
     entryComponents: [
         CdkVinculacaoEtiquetaEditDialogComponent

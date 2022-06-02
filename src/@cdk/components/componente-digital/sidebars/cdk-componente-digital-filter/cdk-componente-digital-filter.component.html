@@ -88,6 +88,30 @@
                    formControlName="destinatario">
         </mat-form-field>
 
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <input matInput placeholder="Unidade"
+                   formControlName="unidade"
+                   [matAutocomplete]="unidade.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-setor-autocomplete
+                #unidade="setorAutocomplete"
+                [control]="form.get('unidade')"
+                [pagination]="unidadePagination">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.form.get('setor').enabled">
+            <input matInput placeholder="Setor"
+                   formControlName="setor"
+                   [matAutocomplete]="setor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [control]="form.get('setor')"
+                [pagination]="setorPagination">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
+
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"

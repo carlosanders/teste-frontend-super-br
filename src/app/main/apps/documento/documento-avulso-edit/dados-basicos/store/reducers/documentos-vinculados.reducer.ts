@@ -14,9 +14,7 @@ export interface DocumentosVinculadosState {
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
-    assinandoDocumentoIds: number[];
     alterandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
     downloadDocumentosP7SIds: number[];
     saving: boolean;
     loading: boolean;
@@ -38,9 +36,7 @@ export const documentosVinculadosInitialState: DocumentosVinculadosState = {
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: [],
     alterandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
     downloadDocumentosP7SIds: [],
     saving: false,
     loading: false,
@@ -110,7 +106,11 @@ export const documentosVinculadosReducer = (
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total - 1
+                }
             };
         }
 
@@ -121,80 +121,6 @@ export const documentosVinculadosReducer = (
             };
         }
 
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
-            };
-        }
-
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case DocumentosVinculadosActions.PREPARA_ASSINATURA_VINCULADO_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
-                error: action.payload.error
-            };
-        }
-
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
-                error: false
-            };
-        }
-
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
-                error: false
-            };
-        }
-
-        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
-                error: action.payload.error
-            };
-        }
-
-        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload.documentoId]
-            };
-        }
-
-        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload.documentoId)
-            };
-        }
-
         case DocumentosVinculadosActions.CHANGE_SELECTED_DOCUMENTOS_VINCULADOS: {
             return {
                 ...state,
@@ -202,7 +128,7 @@ export const documentosVinculadosReducer = (
             };
         }
 
-        case DocumentosVinculadosActions.UPDATE_DOCUMENTO: {
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
                 alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
@@ -211,39 +137,37 @@ export const documentosVinculadosReducer = (
             };
         }
 
-        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_SUCCESS: {
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO_SUCCESS: {
             return {
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload),
                 loaded: true,
                 loading: false,
             };
         }
 
-        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_FAILED: {
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO_FAILED: {
             return {
                 ...state,
                 loading: false,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S: {
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_VINCULADO_P7S: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
             };
         }
-        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_VINCULADO_P7S_SUCCESS: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
-        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_VINCULADO_P7S_FAILED: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),

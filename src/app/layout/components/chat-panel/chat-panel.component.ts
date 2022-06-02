@@ -87,11 +87,17 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     lastScrollMensagemHeight: number;
 
     @ViewChild('mensagem')
-    mensagemElementRef: ElementRef;
+    set _mensagemElementRef(el: ElementRef) {
+        this.mensagemElementRef = el;
+        if (el && this.chatOpen) {
+            setTimeout(() => this.mensagemElementRef.nativeElement.focus(), 400);
+        }
+    };
 
     @ViewChild('chatMensagemScroll', {static: false})
     chatMensagemScrollElRef: ElementRef;
 
+    mensagemElementRef: ElementRef;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -232,6 +238,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     {
         this.chatOpen$.subscribe((chat) => {
 
+            if (!this.usuarioAutenticado && this._loginService.getUserProfile()) {
+                this.getChatsUsuario();
+            }
+
             if (!!this.chatOpen && this.chatOpen?.id != chat?.id) {
                 this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
             }
@@ -269,9 +279,6 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                     },
                     sort: {'criadoEm':'DESC'}
                 });
-
-                setTimeout(() => this.mensagemElementRef.nativeElement.focus());
-
                 // this.toogleChatHandler.emit(true);
             } else if (chat?.id === this.chatOpen?.id) {
                 this.chatOpen = chat;
@@ -553,8 +560,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     criarGrupo(): void
     {
+        if (this.chatOpen) {
+            this._store.dispatch(new fromStore.CloseChat(this.chatOpen));
+        }
         this._store.dispatch(new fromStore.SetChatActiveCard('chat-grupo-form'));
-        this.chatOpen = null;
     }
 
     salvarChat(chat: Chat): void

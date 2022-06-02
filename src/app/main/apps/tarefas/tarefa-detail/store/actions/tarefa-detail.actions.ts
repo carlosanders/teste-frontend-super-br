@@ -69,6 +69,11 @@ export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFA DETAIL] ATUALIZA ETIQUETA MINUT
 
 export const TOGGLE_SHOW_DETAIL = '[TAREFA DETAIL] TOOGLE SHOW DETAIL';
 
+export const APROVAR_SUGESTAO = '[TAREFA DETAIL] APROVAR SUGESTAO';
+export const APROVAR_SUGESTAO_SUCCESS = '[TAREFA DETAIL] APROVAR SUGESTAO SUCCESS';
+export const APROVAR_SUGESTAO_FAILED = '[TAREFA DETAIL] APROVAR SUGESTAO FAILED';
+export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFA DETAIL] RELOAD VINCULACAO_ETIQUETA';
+
 /**
  * Get Tarefa
  */
@@ -621,6 +626,38 @@ export class ToggleShowDetail implements Action {
     }
 }
 
+export class AprovarSugestao implements Action {
+    readonly type = APROVAR_SUGESTAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoSuccess implements Action {
+    readonly type = APROVAR_SUGESTAO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoFailed implements Action {
+    readonly type = APROVAR_SUGESTAO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ReloadVinculacaoEtiqueta implements Action {
+    readonly type = RELOAD_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -671,4 +708,8 @@ export type TarefaDetailActionsAll
     | RemoveEtiquetaOficioTarefa
     | AtualizaEtiquetaMinuta
     | ToggleShowDetail
+    | AprovarSugestao
+    | AprovarSugestaoSuccess
+    | AprovarSugestaoFailed
+    | ReloadVinculacaoEtiqueta
     ;

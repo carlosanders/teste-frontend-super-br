@@ -22,7 +22,10 @@
         (especie)="especieSetores($event)"
         (editConteudo)="editConteudo($event)"
         (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+        (deleteBlocoEmmitter)="deleteBloco($event)"
+        [orgaoCentralPagination]="orgaoCentralPagination"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination">
 </cdk-modelo-grid>
 
 <router-outlet></router-outlet>

@@ -8,7 +8,7 @@ export interface DocumentoAvulsoEditDadosBasicosState {
     errorsRemetendo: any;
 }
 
-export const DocumentoAvulsoInitialState: DocumentoAvulsoEditDadosBasicosState = {
+export const documentoAvulsoInitialState: DocumentoAvulsoEditDadosBasicosState = {
     saving: false,
     remetendo: false,
     encerrando: false,
@@ -16,13 +16,16 @@ export const DocumentoAvulsoInitialState: DocumentoAvulsoEditDadosBasicosState =
     errorsRemetendo: false
 };
 
-export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoInitialState, action: DocumentoAvulsoEditActions.DocumentoAvulsoEditActionsAll): DocumentoAvulsoEditDadosBasicosState {
+export const documentoAvulsoEditDadosBasicosReducer = (
+    state = documentoAvulsoInitialState,
+    action: DocumentoAvulsoEditActions.DocumentoAvulsoEditActionsAll
+): DocumentoAvulsoEditDadosBasicosState => {
 
     switch (action.type) {
 
         case DocumentoAvulsoEditActions.UNLOAD_DOCUMENTO_AVULSO: {
             return {
-                ...DocumentoAvulsoInitialState
+                ...documentoAvulsoInitialState
             };
         }
 
@@ -105,4 +108,4 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
         default:
             return state;
     }
-}
+};

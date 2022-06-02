@@ -10,7 +10,7 @@
     <mat-card-content>
         <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.tramitacoesCount === false" diameter="64"></mat-spinner>
-            <div *ngIf="this.tramitacoesCount !== false" class="light-blue-fg font-size-64 line-height-64">
+            <div *ngIf="this.tramitacoesCount !== false" class="light-blue-fg font-size-64 line-height-64 count-clickable">
                 {{this.tramitacoesCount}}
             </div>
             <div class="h3 font-weight-500">
