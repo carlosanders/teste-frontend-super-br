@@ -17,7 +17,7 @@ export class VerticalLayout2Component implements OnInit, OnDestroy {
     navigation: any;
     chatOpen: boolean = false;
     mobileMode: boolean;
-    isAutenticated$: Observable<boolean>;
+    isAutenticated: boolean = false;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -27,11 +27,6 @@ export class VerticalLayout2Component implements OnInit, OnDestroy {
         private _cdkConfigService: CdkConfigService,
         private _loginService: LoginService
     ) {
-        this.isAutenticated$ = this._loginService
-            .getUserProfileChanges()
-            .pipe(
-                switchMap((profile) => of(!!profile))
-            );
         // Set the defaults
         this.navigation = navigation;
         // Set the private defaults
@@ -58,6 +53,11 @@ export class VerticalLayout2Component implements OnInit, OnDestroy {
             .subscribe((config) => {
                 this.cdkConfig = config;
             });
+        this._loginService
+            .getUserProfileChanges()
+            .pipe(
+                switchMap((profile) => of(!!profile)),
+            ).subscribe((autenticated)=> this.isAutenticated = autenticated);
         this.innerWidth = window.innerWidth;
         this.mobileMode = innerWidth <= 600;
     }

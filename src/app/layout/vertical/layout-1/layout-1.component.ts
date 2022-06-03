@@ -1,6 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable, of, Subject, switchMap} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {of, Subject, switchMap} from 'rxjs';
+import {takeUntil, } from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {navigation} from 'app/navigation/navigation';
@@ -16,7 +16,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
     chatOpen: boolean = false;
-    isAutenticated$: Observable<boolean>;
+    isAutenticated: boolean = false;
 
     mobileMode: boolean;
     // Private
@@ -27,11 +27,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
         private _cdkConfigService: CdkConfigService,
         private _loginService: LoginService
     ) {
-        this.isAutenticated$ = this._loginService
-            .getUserProfileChanges()
-            .pipe(
-                switchMap((profile) => of(!!profile))
-            );
         // Set the defaults
         this.navigation = navigation;
         // Set the private defaults
@@ -58,6 +53,11 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
             .subscribe((config) => {
                 this.cdkConfig = config;
             });
+        this._loginService
+            .getUserProfileChanges()
+            .pipe(
+                switchMap((profile) => of(!!profile)),
+            ).subscribe((autenticated)=> this.isAutenticated = autenticated);
 
         this.innerWidth = window.innerWidth;
         this.mobileMode = innerWidth <= 600;
