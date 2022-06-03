@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -13,6 +13,7 @@ import {
 import {Router} from '@angular/router';
 import * as DocumentosActionsAll from '../actions/documentos.actions';
 import {getDocumento} from '../../../../store';
+import * as fromStore from '../../store';
 
 @Injectable()
 export class DocumentosEffects {
@@ -25,7 +26,7 @@ export class DocumentosEffects {
     getDocumentos: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.GetDocumentos>(DocumentosActionsAll.GET_DOCUMENTOS),
         withLatestFrom(this._store.pipe(select(getDocumento))),
-        switchMap(([, documento]) => {
+        mergeMap(([action, documento]) => {
             const tarefaId = this.routerState.params['tarefaHandle'] ?? documento.tarefaOrigem.id;
             const params = {
                 filter: {
@@ -33,8 +34,8 @@ export class DocumentosEffects {
                     'documentoAvulsoRemessa.id': 'isNull',
                     'juntadaAtual': 'isNull'
                 },
-                limit: 10,
-                offset: 0,
+                limit: action.payload.limit,
+                offset: action.payload.offset,
                 sort: {
                     criadoEm: 'DESC'
                 },
@@ -60,6 +61,7 @@ export class DocumentosEffects {
                     value: this.routerState.params['tarefaHandle'] ?? this.routerState.params['documentoHandle']
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             })
         ]),
         catchError((err) => {
@@ -67,6 +69,18 @@ export class DocumentosEffects {
             return of(new DocumentosActionsAll.GetDocumentosFailed(err));
         })
     ));
+    getDocumentosSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentosActionsAll.GetDocumentosSuccess>(DocumentosActionsAll.GET_DOCUMENTOS_SUCCESS),
+        withLatestFrom(this._store.select(fromStore.getDocumentosPagination), this._store.select(fromStore.getDocumentosIds)),
+        tap(([action, pagination, documentosIds]) => {
+            if (action.payload.total > documentosIds.length) {
+                this._store.dispatch(new DocumentosActionsAll.GetDocumentos({
+                    limit: pagination.limit,
+                    offset: pagination.offset + pagination.limit
+                }));
+            }
+        })
+    ), {dispatch: false});
     /**
      * Update Documento
      *
@@ -74,11 +88,10 @@ export class DocumentosEffects {
      */
     updateDocumento: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.UpdateDocumento>(DocumentosActionsAll.UPDATE_DOCUMENTO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, ['tipoDocumento']).pipe(
             mergeMap((response: Documento) => [
                 new DocumentosActionsAll.UpdateDocumentoSuccess(response.id),
                 new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new DocumentosActionsAll.GetDocumentos()
             ]),
             catchError((err) => {
                 console.log(err);

@@ -20,6 +20,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {MatRadioModule} from "@angular/material/radio";
+import {
+    CdkModalidadeOrgaoCentralAutocompleteModule
+} from "../../../modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module";
+import {CdkSetorAutocompleteModule} from "../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -46,6 +50,8 @@ import {MatRadioModule} from "@angular/material/radio";
         MatMenuModule,
         CdkDateFilterModule,
         MatRadioModule,
+        CdkModalidadeOrgaoCentralAutocompleteModule,
+        CdkSetorAutocompleteModule,
     ],
     providers: [
         ModeloService,

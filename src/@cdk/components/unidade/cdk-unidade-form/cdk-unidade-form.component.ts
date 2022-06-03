@@ -72,7 +72,7 @@ export class CdkUnidadeFormComponent implements OnChanges, OnDestroy {
             ativo: [true],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.maxLength(255)]],
-            prefixoNUP: [null, [Validators.required, Validators.maxLength(255)]],
+            prefixoNUP: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern('[0-9]{1,5}')]],
             sequenciaInicialNUP: [null],
             endereco: [null],
             email: [null, [Validators.email, Validators.maxLength(255)]],

@@ -5,7 +5,10 @@
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
                            [arrayFiltrosEtiquetas]="arraySearchTypes"
                            [targetHandle]="targetHandle"
-                           [typeHandle]="typeHandle"></cdk-tarefa-filter>
+                           [typeHandle]="typeHandle"
+                           [filterProcesso]="filterProcesso"
+                           [etiquetas]="filterEtiquetas"
+        ></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -218,13 +221,21 @@
                 </button>
             </mat-menu>
 
-            <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
-                <mat-select [formControl]="campos" multiple>
-                    <div *ngFor="let campo of allCampos">
-                        <mat-option *ngIf="!campo.fixed" [value]="campo.id">{{ campo.label }}</mat-option>
+            <mat-form-field class="colunas mr-8" aria-label="columns" matTooltip="Campos">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let tableColumn of getDisplayableTableColumns()">
+                        <mat-option [value]="tableColumn.id">{{ tableColumn.headerLabel }}</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    *ngIf="parentIdentifier && viewMode == 'grid'"
+                    (click)="resetTableColumns()"
+                    aria-label="redefinir_tabela"
+                    matTooltip="Redefinir Tabela">
+                <mat-icon>grid_off</mat-icon>
+            </button>
 
             <div class="toolbar-separator"></div>
 
@@ -235,7 +246,7 @@
     </div>
 
     <div class="content"
-         cdkPerfectScrollbar
+         cdkPerfectScrollbar="viewMode !== 'grid'"
          infiniteScroll
          [scrollWindow]="false"
          [infiniteScrollDistance]="3"
@@ -254,11 +265,25 @@
             <span class="hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
-        <div *ngIf="!loading && tarefas?.length > 0 && viewMode === 'grid'" class="view-mode-grid">
+        <div *ngIf="!loading && tarefas?.length > 0 && viewMode === 'grid'" class="view-mode-grid" cdkPerfectScrollbar>
             <table mat-table [dataSource]="tarefaDataSource" matSort>
 
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('select').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('select')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('select'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('select')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('select'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('select'))">
+                        {{getColumnTableColumn('select').headerLabel}}
                     </th>
                     <td mat-cell *matCellDef="let tarefa">
                         <mat-checkbox class="mr-8" [checked]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1" (change)="toggleInSelected(tarefa.id)"
@@ -267,26 +292,30 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Id
+                <ng-container matColumnDef="urgente">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('urgente').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('urgente')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('urgente'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('urgente')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('urgente'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('urgente'))">
+                        {{getColumnTableColumn('urgente').headerLabel}}
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Id: '>
-                        {{tarefa.id}}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="urgente" *ngIf="displayedCampos.indexOf('urgente') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Urgência
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Id: '>
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('urgente').dataLabel}}">
                         <button *ngIf="! (togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1)
-                    && ! (deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1)
-                    && ! (cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1)
-                    && ! (unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1)
-                    && ! (assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1)
-                    && ! tarefa.apagadoEm" mat-icon-button
+                                        && ! (deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1)
+                                        && ! (cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1)
+                                        && ! (unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1)
+                                        && ! (assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1)
+                                        && ! tarefa.apagadoEm" mat-icon-button
                                 (click)="doToggleUrgente(tarefa); $event.stopPropagation();"
                                 aria-label="Alterar urgência" fxHide.xs matTooltip="Alterar urgência">
                             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
@@ -295,85 +324,24 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="processo.nup" *ngIf="displayedCampos.indexOf('processo.nup') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        NUP
+                <ng-container matColumnDef="observacao">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('observacao').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('observacao')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('observacao'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('observacao')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('observacao'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('observacao'))">
+                        {{getColumnTableColumn('observacao').headerLabel}}
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Id: '>
-                        {{tarefa.processo?.NUP | formatNup}}
-                        <div class="nup-icons">
-                            <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg s-16">block</mat-icon>
-                            <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg s-16">lock</mat-icon>
-                            <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem" matTooltip="Com documento avulso" class=" s-16">mail</mat-icon>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="processo.modalidadeEspecie" *ngIf="displayedCampos.indexOf('processo.modalidadeEspecie') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Modalidade / Espécie
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Modalidade / Espécie: '>
-                        {{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="especieTarefa.nome" *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Espécie Tarefa
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Espécie Tarefa: '>
-                        {{tarefa.especieTarefa?.nome | titleCasePipe}} {{tarefa.vinculacaoWorkflow ? ' (Tarefa de Workflow)' : ''}}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="setorResponsavel.nome" *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Setor Responsável
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Setor Responsável: '>
-                        {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="usuarioResponsavel.nome" *ngIf="displayedCampos.indexOf('usuarioResponsavel.nome') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Usuário Responsável
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Usuário Responsável: '>
-                        {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="dataHoraDistribuicao" *ngIf="displayedCampos.indexOf('dataHoraDistribuicao') > -1">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data Distribuição
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data Distribuição: '>
-                        {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="dataHoraFinalPrazo" *ngIf="displayedCampos.indexOf('dataHoraFinalPrazo') > -1">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Prazo: '>
-
-                        Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                        até
-                        <span [ngClass]="{'prazo-vence-hoje': prazoVenceHoje(tarefa) || prazoVenceu(tarefa), 'prazo-venceu': prazoVenceu(tarefa)}" *ngIf="tarefa.dataHoraFinalPrazo">{{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
-                        <mat-icon *ngIf="!tarefa.dataHoraFinalPrazo" class="secondary-text" matTooltip="Prazo fechado">
-                            lock
-                        </mat-icon>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="observacao" *ngIf="displayedCampos.indexOf('observacao') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Observação
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile observacao' data-label='Observação: '>
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile observacao' data-label="{{getColumnTableColumn('observacao').dataLabel}}">
                         <span *ngIf="editandoObservacaoIds.indexOf(tarefa.id) === -1">{{tarefa.observacao}}</span>
                         <mat-icon *ngIf="editandoObservacaoIds.indexOf(tarefa.id) === -1" class="secondary-text" matTooltip="Editar observação"
                                   (click)="doEditarObservacao(tarefa.id); $event.stopPropagation();">
@@ -397,11 +365,24 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="vinculacoesEtiquetas" *ngIf="displayedCampos.indexOf('vinculacoesEtiquetas') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Etiquetas
+                <ng-container matColumnDef="vinculacoesEtiquetas">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('vinculacoesEtiquetas').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetas')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('vinculacoesEtiquetas'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('vinculacoesEtiquetas')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetas'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetas'))">
+                        {{getColumnTableColumn('vinculacoesEtiquetas').headerLabel}}
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Etiquetas: '>
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('vinculacoesEtiquetas').dataLabel}}">
                         <div class="etiquetas">
                             <div class="search-wrapper" (click)="$event.stopPropagation();" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas'">
                                 <cdk-vinculacao-etiqueta-chips
@@ -410,26 +391,41 @@
                                     (create)="doVinculacaoEtiquetaCreate({tarefa: tarefa, etiqueta: $event, operacaoId: cdkUtils.makeId()})"
                                     (delete)="doVinculacaoEtiquetaDelete({vinculacaoEtiquetaId: $event.id, tarefaId: tarefa.id})"
                                     (edit)="doVinculacaoEtiquetaEdit({
-                                vinculacaoEtiqueta: {id: $event.id},
-                                changes: {conteudo: $event.conteudo, privada: $event.privada}
-                            })"
+                                        vinculacaoEtiqueta: {id: $event.id},
+                                        changes: {conteudo: $event.conteudo, privada: $event.privada}
+                                    })"
                                     (addEtiqueta)="doAddEtiqueta({tarefa: tarefa, etiqueta: $event})"
                                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                                     [habilitarOpcaoBtnAddEtiqueta]="true"
+                                    (pendencies)="doPendencies({vinculacaoEtiqueta: $event, tarefa: tarefa})"
                                     [placeholder]="'Adicionar Etiquetas'">
                                 </cdk-vinculacao-etiqueta-chips>
                             </div>
                         </div>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="vinculacoesEtiquetasMinutas" *ngIf="displayedCampos.indexOf('vinculacoesEtiquetasMinutas') > -1">
-                    <th mat-header-cell *matHeaderCellDef>
-                        Etiquetas de Minutas
+
+                <ng-container matColumnDef="vinculacoesEtiquetasMinutas">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('vinculacoesEtiquetasMinutas').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetasMinutas')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('vinculacoesEtiquetasMinutas'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('vinculacoesEtiquetasMinutas')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetasMinutas'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetasMinutas'))">
+                        {{getColumnTableColumn('vinculacoesEtiquetasMinutas').headerLabel}}
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Etiquetas de Minutas: '>
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('vinculacoesEtiquetasMinutas').dataLabel}}">
                         <div class="etiquetas">
                             <div class="etiqueta-minuta" *ngFor="let vinculacaoEtiqueta of etiquetasMinutaList[tarefa.id]"
-                                 (click)="doClickEtiqueta({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}); $event.stopPropagation();"
+                                 (click)="doClickEtiqueta({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa, event: $event}); $event.stopPropagation();"
                                  [matTooltip]="'Clique para abrir o documento'">
                                 <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
                                 <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
@@ -576,6 +572,34 @@
                     </td>
                 </ng-container>
 
+
+                <ng-container *ngFor="let tableColumn of getTableColumnsList()" matColumnDef="{{tableColumn.id}}">
+                    <th mat-header-cell
+                        mat-sort-header
+                        [disabled]="tableColumn.definitions.sortable === false"
+                        *matHeaderCellDef
+                        [cdkTableColumnResizable]="tableColumn"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(tableColumn, $event.data)"
+                        [dndDraggable]="tableColumn"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(tableColumn)"
+                        [dndDisableDropIf]="dndDisable(tableColumn)">
+                        <span [innerHTML]="tableColumn.headerLabel | safeHtml"></span>
+                    </th>
+                    <td mat-cell
+                        *matCellDef="let usuario"
+                        class='has_label_on_mobile'
+                        [attr.data-label]="tableColumn.dataLabel"
+                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(usuario, this, tableColumn) : ''">
+                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(usuario, this) : '') | safeHtml"></span>
+                    </td>
+                </ng-container>
+
                 <ng-container *ngFor="let dynamicColumn of dynamicColumnList" matColumnDef="{{dynamicColumn.getMatColumnDef()}}">
                     <th mat-header-cell *matHeaderCellDef>
                         <span [innerHTML]="dynamicColumn.headerLabel()"></span>
@@ -585,15 +609,16 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedCampos; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let tarefa; columns: displayedCampos;"
+                <tr mat-header-row *matHeaderRowDef="getDisplayColumns(); sticky: true;"></tr>
+                <tr mat-row *matRowDef="let tarefa; columns: getDisplayColumns();"
                     class="drag-tarefa"
                     [ngClass]="{
                         'nao-lido': !tarefa.dataHoraLeitura,
                         'selected':tarefa.id === currentTarefaId,
                         'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
                     }"
-                    [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
+                    [dndDraggable]="tarefa"
+                    [dndEffectAllowed]="'copy'"
                     [dndDragImageOffsetFunction]="this.offsetFunction"
                     [dndDisableIf]="typeHandle === 'concluidas' || typeHandle === 'enviadas'"
                     (dndEnd)="onCancelDrag($event)"
@@ -621,7 +646,7 @@
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
                     [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
-                    [displayedCampos]="displayedCampos"
+                    [displayedCampos]="getDisplayColumns()"
                     (click)="selectTarefa($event, tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
@@ -684,7 +709,10 @@
                     (completed)="onComplete($event)"
                     (completedAll)="onCompleteAll($event)"
                     (outraAbaHandler)="doAbrirOutraAba($event)"
-                    (editarObservacao)="doEditarObservacao($event)">
+                    (editarObservacao)="doEditarObservacao($event)"
+                    (pencencies)="doPendencies($event)"
+                    (filterNup)="doFilterNup($event)"
+                    (filterEtiqueta)="doFilterEtiqueta($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

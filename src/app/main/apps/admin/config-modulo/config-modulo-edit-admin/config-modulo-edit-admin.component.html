@@ -1,0 +1,22 @@
+<div class="header">
+    <button mat-icon-button
+            (click)="doAbort()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <breadcrumb module="admin"></breadcrumb>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-config-modulo-form
+        [roles]="usuario.roles"
+        [mode]="mode"
+        [configModule]="configModulo"
+        [moduloPagination]="moduloPagination"
+        [form]="form"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (aborting)="doAbort()">
+    </cdk-config-modulo-form>
+</div>

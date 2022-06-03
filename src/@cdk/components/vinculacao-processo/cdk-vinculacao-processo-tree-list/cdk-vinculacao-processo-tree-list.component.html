@@ -1,0 +1,173 @@
+<div class="page-layout">
+    <div class="header">
+        <div class="actions">
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteBloco(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div cdkPerfectScrollbar class="content">
+        <div *ngIf="isLoading" class="loading">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+        <mat-tree *ngIf="!isLoading" [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node; when: hasNoChild" matTreeNodeToggle
+                [ngClass]="{'deleted': !!node.data.apagadoEm, 'current-node': currentProcessoId == node.data.processoVinculado.id}">
+                <mat-checkbox class="m-0 mr-10"
+                              *ngIf="actions.indexOf('select') > -1"
+                              [checked]="selectedIds.indexOf(node.data.id) > -1"
+                              (change)="toggleInSelected(node.data.id)"
+                              (click)="$event.stopPropagation();"
+                              [disabled]="deletedIds?.indexOf(node.data.id) > -1 || hasExcluded">
+                </mat-checkbox>
+                <span>{{node.name}}</span>
+                <div style="margin-left: auto;" class="actions">
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenuChild"
+                            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                            *ngIf="(actions.indexOf('view') > -1 || actions.indexOf('edit') > -1 || actions.indexOf('delete') > -1) && !isLoading && !(deletedIds?.indexOf(node.data.id) > -1) && !(deletingIds?.indexOf(node.data.id) > -1)">
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(node.data.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <mat-menu #moreMenuChild="matMenu" class="cdk-vinculacao-processo-tree-list-mat-menu">
+                        <button mat-menu-item
+                                *ngIf="actions.indexOf('view') > -1"
+                                [disabled]="hasExcluded || deletedIds?.indexOf(node.data.id) > -1"
+                                (click)="visualizarProcesso(node.data.processoVinculado)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <ng-container>
+                                <mat-icon>pageview</mat-icon>
+                                <span>Visualizar</span>
+                            </ng-container>
+                        </button>
+                        <button mat-menu-item
+                                *ngIf="actions.indexOf('view') > -1"
+                                [disabled]="hasExcluded || deletedIds?.indexOf(node.data.id) > -1"
+                                (click)="visualizarProcessoNovaAba(node.data.processoVinculado)"
+                                aria-label="abrir em nova aba"
+                                matTooltip="Abrir em nova aba">
+                            <ng-container>
+                                <mat-icon>pageview</mat-icon>
+                                <span>Abrir nova aba</span>
+                            </ng-container>
+                        </button>
+                        <button mat-menu-item
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(node.data.id) > -1 || hasExcluded"
+                                (click)="editVinculacaoProcesso(node.data.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <ng-container>
+                                <mat-icon>edit</mat-icon>
+                                <span>Editar</span>
+                            </ng-container>
+                        </button>
+                        <button mat-menu-item
+                                *ngIf="actions.indexOf('delete') > -1"
+                                [disabled]="deletedIds?.indexOf(node.data.id) > -1 || hasExcluded"
+                                (click)="deleteVinculacaoProcesso(node.data.id)"
+                                aria-label="delete"
+                                matTooltip="Remover">
+                            <ng-container>
+                                <mat-icon>delete</mat-icon>
+                                <span>Remover</span>
+                            </ng-container>
+                        </button>
+                    </mat-menu>
+                </div>
+                <mat-error *ngIf="getError(node.data.id)">
+                    {{ getMessageError(getError(node.data.id)) }}
+                </mat-error>
+            </mat-tree-node>
+            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                <div class="mat-tree-node node-parent" [ngClass]="{'current-node': currentProcessoId == node.data.processo.id}">
+                    <button mat-icon-button matTreeNodeToggle [disabled]="disableExpand" *ngIf="hideExpandIcon === false"
+                                          [attr.aria-label]="node.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                    </button>
+                    <span>{{node.name}}</span>
+                    <div style="margin-left: auto;" class="actions">
+                        <button mat-icon-button [matMenuTriggerFor]="moreMenuParent"
+                                aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                                *ngIf="(actions.indexOf('view') > -1)">
+                            <mat-icon class="secondary-text">more_vert</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <mat-menu #moreMenuParent="matMenu" class="cdk-vinculacao-processo-tree-list-mat-menu">
+                    <button mat-menu-item
+                            *ngIf="actions.indexOf('view') > -1"
+                            (click)="visualizarProcesso(node.data.processo)"
+                            aria-label="visualizar"
+                            matTooltip="Visualizar">
+                        <ng-container>
+                            <mat-icon>pageview</mat-icon>
+                            <span>Visualizar</span>
+                        </ng-container>
+                    </button>
+                    <button mat-menu-item
+                            *ngIf="actions.indexOf('view') > -1"
+                            (click)="visualizarProcessoNovaAba(node.data.processo)"
+                            aria-label="visualizar em nova aba"
+                            matTooltip="Visualizar em nova aba">
+                        <ng-container>
+                            <mat-icon>pageview</mat-icon>
+                            <span>Abrir nova aba</span>
+                        </ng-container>
+                    </button>
+                </mat-menu>
+                <div role="group" class="node-children" [ngClass]="{'node-expanded': treeControl.isExpanded(node)}">
+                    <ng-container *ngIf="treeControl.isExpanded(node)" matTreeNodeOutlet></ng-container>
+                </div>
+            </mat-nested-tree-node>
+        </mat-tree>
+        <div *ngIf="!dataSource?.data?.length && !isLoading" class="empty-vinculacao">
+            <span>Não há vinculações</span>
+        </div>
+
+
+    </div>
+</div>
+
+
+

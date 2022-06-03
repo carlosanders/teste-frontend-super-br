@@ -140,17 +140,22 @@ export class LoginComponent implements OnInit {
             filter(config => !!config)
         ).subscribe((config) => {
             this.config = config;
+
             window.document.title = config.sigla;
+            this.initFavicon(config);
+
             this.cdkConfigService.logo = config.logo;
             this.cdkConfigService.icone = config.icone;
             this.cdkConfigService.nome = config.name;
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
+            this.cdkConfigService.govBR = config.govBR;
             this.cdkConfigService.assinadorVersion = config.assinador;
             this.cdkConfigService.email = config.email;
             this.cdkConfigService.ldap = config.ldap;
             localStorage.setItem('barramento', config.barramento);
             localStorage.setItem('assinadorVersion', config.assinador);
+            localStorage.setItem('govBR', JSON.stringify(config.govBR));
         });
 
         if (this.routerState.queryParams['token'] &&
@@ -167,6 +172,12 @@ export class LoginComponent implements OnInit {
         // BC
         if (!['interno','ldap','govBr'].includes(this._loginService.getLoginType())) {
             this._loginService.setLoginType('interno');
+        }
+    }
+
+    private initFavicon(config: any) {
+        if (config.sigla && config.sigla !== 'SUPP' && config.sigla !== 'SAPIENS') {
+            document.querySelector("link[rel=icon]")['href'] = "assets/icons/favicon-alt.ico";
         }
     }
 

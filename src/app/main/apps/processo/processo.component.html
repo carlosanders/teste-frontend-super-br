@@ -12,7 +12,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header-processo" *ngIf="(expandir$ | async) === false">
+        <div class="header-processo" *ngIf="!processo?.somenteLeitura && !processo?.acessoNegado && (expandir$ | async) === false">
             <div class="painel" *ngIf="processo?.id && routerState?.url.indexOf('editar/dados-basicos-steps') === -1">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         matTooltip="Menu do processo"

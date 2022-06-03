@@ -29,6 +29,18 @@ import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {ProcessoStoreModule} from '../../processo/store/store.module';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
+import {
+    CdkTipoDocumentoAutocompleteModule
+} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {
+    CdkComponenteDigitalCardListModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogModule
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.module';
+import {AcaoService} from '@cdk/services/acao.service';
 
 const routes: Routes = [
     {
@@ -121,7 +133,12 @@ routes[0].children.push({
         ProcessoStoreModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        CdkTipoDocumentoAutocompleteModule,
+        MatAutocompleteModule,
+        MatProgressBarModule,
+        CdkComponenteDigitalCardListModule,
+        CdkVinculacaoEtiquetaAcoesDialogModule
     ],
     providers: [
         AcompanhamentoService,
@@ -131,7 +148,8 @@ routes[0].children.push({
         fromGuards.ResolveGuard,
         ModalidadeEtiquetaService,
         EtiquetaService,
-        StatusBarramentoService
+        StatusBarramentoService,
+        AcaoService
     ]
 })
 export class TarefaDetailModule {

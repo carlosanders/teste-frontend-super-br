@@ -26,7 +26,6 @@ import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
 import {CdkUtils} from '@cdk/utils';
-import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
@@ -303,17 +302,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }

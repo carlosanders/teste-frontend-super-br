@@ -5,11 +5,16 @@ import {
     TarefaDetailState
 } from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
-import {Documento, Tarefa} from '@cdk/models';
+import {
+    documento as documentoSchema,
+    tarefa as tarefaSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+} from '@cdk/normalizr';
+import {Documento, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
+const schemaSelectorsVinculacoesEtiqueta = createSchemaSelectors<VinculacaoEtiqueta>(vinculacaoEtiquetaSchema);
 
 export const getTarefaState: any = createSelector(
     getTarefaDetailAppState,
@@ -96,4 +101,25 @@ export const getCienciaId: any = createSelector(
 export const getTarefaProcessoRestritoValidada: any = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.tarefaProcessoRestritoValidada
+);
+
+export const getAllVinculacoesEtiqueta: any = createSelector(
+    schemaSelectorsVinculacoesEtiqueta.getNormalizedEntities,
+    schemaSelectorsVinculacoesEtiqueta.entitiesProjector
+);
+
+export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectUuid === uuid))
+);
+
+export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta?.find(vinculacao => vinculacao.objectId === documentoId))
+);
+
+
+export const getShowDetail: any = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.showDetail
 );

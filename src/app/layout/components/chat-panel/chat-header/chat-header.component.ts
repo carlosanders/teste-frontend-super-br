@@ -9,11 +9,11 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {Pagination} from "@cdk/models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Store} from "@ngrx/store";
-import * as fromStore from "../store";
-import {LoginService} from "../../../../main/auth/login/login.service";
+import {Pagination} from '@cdk/models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Store} from '@ngrx/store';
+import * as fromStore from '../store';
+import {LoginService} from '../../../../main/auth/login/login.service';
 
 @Component({
     selector: 'chat-header',
@@ -26,13 +26,13 @@ export class ChatHeaderComponent implements OnInit
 {
 
     @Output()
-    novaConversaHandler = new EventEmitter();
+    novaConversaHandler: EventEmitter<void> = new EventEmitter<void>();
 
     @Output()
-    pesquisaChatHandler = new EventEmitter<string>();
+    pesquisaChatHandler: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
-    criarGrupoHandler = new EventEmitter();
+    criarGrupoHandler: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild('usuarioInput', {static: false})
     usuarioElementRef: ElementRef;

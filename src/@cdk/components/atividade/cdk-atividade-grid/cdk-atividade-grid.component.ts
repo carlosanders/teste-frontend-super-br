@@ -81,28 +81,13 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
-            id: 'destinacaoMinutas',
-            label: 'Destinação das Minutas',
-            fixed: false
-        },
-        {
-            id: 'setor.nome',
+            id: 'setor',
             label: 'Setor',
             fixed: false
         },
         {
             id: 'usuario.nome',
             label: 'Usuário',
-            fixed: false
-        },
-        {
-            id: 'usuarioAprovacao.nome',
-            label: 'Usuário Aprovação',
-            fixed: false
-        },
-        {
-            id: 'setorAprovacao.nome',
-            label: 'Setor da Aprovação',
             fixed: false
         },
         {

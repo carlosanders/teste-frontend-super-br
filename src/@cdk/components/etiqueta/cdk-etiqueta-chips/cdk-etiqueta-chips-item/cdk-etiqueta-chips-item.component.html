@@ -1,15 +1,43 @@
 <mat-chip
-        [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
+        [ngStyle]="{'background-color': etiqueta.corHexadecimal, 'color': corHexadecimalFonte()}"
         [selectable]="selectable"
         [removable]="deletable"
-        matTooltip="{{getTooltip()}}"
-        (click)="openDialogEdit()"
-        (removed)="remove()">
-    <mat-spinner *ngIf="saving" diameter="16"></mat-spinner>
-    <mat-icon class="icon" *ngIf="!saving && iconeVisibilidade">{{iconeVisibilidade}}</mat-icon>
-    <mat-icon *ngIf="conteudo" class="icon">subject</mat-icon>
-    {{etiqueta.nome | titleCasePipe}}
-    <mat-icon matChipRemove
-              *ngIf="deletable">cancel
-    </mat-icon>
+        (removed)="doRemove()">
+    <div class="content">
+        <mat-icon class="icon" *ngIf="iconeVisibilidade" (click)="doFiltro()"
+                  [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">{{iconeVisibilidade}}</mat-icon>
+        <mat-icon *ngIf="conteudo"
+                  [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">subject</mat-icon>
+
+        <span (click)="doSelect()">
+            {{etiqueta.nome | titleCasePipe}}
+        </span>
+
+        <mat-spinner *ngIf="saving" diameter="16"></mat-spinner>
+        <mat-icon *ngIf="canOpenMenu()" class="small cursor-pointer"[matMenuTriggerFor]="etiquetaMenu"
+                  #menuTriggerMinutas="matMenuTrigger"
+                  matBadgePosition="above after"
+                  [matBadge]="'!'"
+                  [matBadgeColor]="'warn'"
+                  [matBadgeHidden]="!hasPendencies"
+                  [matBadgeSize]="'small'"
+                  aria-label="Ações">keyboard_arrow_down</mat-icon>
+    </div>
 </mat-chip>
+<mat-menu #etiquetaMenu="matMenu">
+    <button *ngIf="editable"
+            fxLayout="row" fxLayoutAlign="start center" (click)="doEdit();" mat-menu-item>
+        <mat-icon color="accent">edit</mat-icon>
+        <span>Editar Conteúdo</span>
+    </button>
+    <button *ngIf="deletable"
+            fxLayout="row" fxLayoutAlign="start center" (click)="doRemove();" mat-menu-item>
+        <mat-icon color="accent">delete</mat-icon>
+        <span>Remover Etiqueta</span>
+    </button>
+    <button *ngIf="hasPendencies"
+            fxLayout="row" fxLayoutAlign="start center" (click)="doPendencias();" mat-menu-item>
+        <mat-icon color="warn">error</mat-icon>
+        <span>Ações Pendentes</span>
+    </button>
+</mat-menu>

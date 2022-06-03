@@ -64,6 +64,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     @Input()
     viewMode: ViewMode;
 
+    @Input()
+    draggingIds: number[];
+
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
@@ -825,7 +828,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso esteja listando tarefas que não sejam minhas, desabilitar
      */
     dropzoneEnabledFolders(folder: any = 'entrada'): boolean {
-        return this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] !== folder;
+        return this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] !== folder && this.draggingIds.length > 0;
     }
 
     /**
@@ -834,6 +837,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso a tarefa já esteja no setor, não permitir
      */
     dropzoneEnabledSetor(event: DragEvent, setor: Setor): boolean {
+        if (!this.draggingIds.length) {
+            return false;
+        }
         if (this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] === 'lixeira') {
             // restauração de tarefas excluídas não pode ser para usuário/setor
             return false;
@@ -853,6 +859,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param setor: Setor
      */
     dropEnabledSetor(event: DndDropEvent, setor: Setor): boolean {
+        if (!this.draggingIds.length) {
+            return false;
+        }
         if (this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] === 'lixeira') {
             // restauração de tarefas excluídas não pode ser para usuário/setor
             return false;
@@ -871,6 +880,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso o usuário esteja indisponível, retorna falso
      */
     dropzoneEnabledUsuario(event: DragEvent, usuario: Usuario): boolean {
+        if (!this.draggingIds.length) {
+            return false;
+        }
         if (this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] === 'lixeira') {
             // restauração de tarefas excluídas não pode ser para usuário/setor
             return false;
@@ -889,6 +901,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso o usuário esteja indisponível, desabilitar o drop nele
      */
     dropEnabledUsuario(event: DndDropEvent, usuario: Usuario): boolean {
+        if (!this.draggingIds.length) {
+            return false;
+        }
         if (this.routerState.params['typeHandle'] === 'minhas-tarefas' && this.routerState.params['targetHandle'] === 'lixeira') {
             // restauração de tarefas excluídas não pode ser para usuário/setor
             return false;

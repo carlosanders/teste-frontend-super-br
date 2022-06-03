@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-acompanhamento-autocomplete',
@@ -94,6 +95,6 @@ export class CdkAcompanhamentoAutocompleteComponent implements OnInit {
     }
 
     displayAcompanhamentoFn(acompanhamento): string {
-        return acompanhamento ? acompanhamento.usuario.nome : null;
+        return acompanhamento ? TitleCasePipe.format(acompanhamento.usuario.nome) : null;
     }
 }

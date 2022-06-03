@@ -71,7 +71,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
-            this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
+            this.tarefa.unidadeResponsavel = tarefa.setorResponsavel?.unidade;
             this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
         });
     }

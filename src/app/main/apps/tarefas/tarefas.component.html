@@ -4,7 +4,10 @@
     <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
         <tarefas-main-sidebar
-            (reload)="reload($event)" (changeViewMode)="doTarefaListViewModeChange($event)" [viewMode]="tarefaListViewMode">
+            (reload)="reload($event)"
+            (changeViewMode)="doTarefaListViewModeChange($event)"
+            [viewMode]="tarefaListViewMode"
+            [draggingIds]="draggingIds$ | async">
         </tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -15,7 +18,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <button mat-icon-button (click)="retornar()" *ngIf="routerState.params['processoHandle'] && (tarefaListViewMode == 'grid' || isSmallScreen)">
+            <button mat-icon-button (click)="retornar()" *ngIf="!componentRootUrl && (tarefaListViewMode == 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
@@ -306,7 +309,12 @@
                                      (completedAll)="onCompleteAll($event)"
                                      (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)"
                                      (editarObservacao)="doEditarObservacao($event)"
-                                     [viewMode]="tarefaListViewMode">
+                                     [viewMode]="tarefaListViewMode"
+                                     [parentIdentifier]="parentIdentifier"
+                                     [resizableColumns]="['allTableColumns']"
+                                     [ordableColumns]="['allTableColumns']"
+                                     (resetTableDefinitions)="resetTableDefinitions()"
+                                     (pencencies)="doPendencies($event)">
                     </cdk-tarefa-list>
                 </div>
 

@@ -27,6 +27,7 @@ import {
 import {
     CdkModeloAutocompleteModule
 } from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {VinculacaoDocumentoService} from "../../../../../../@cdk/services/vinculacao-documento.service";
 
 const routes: Routes = [
     {
@@ -65,6 +66,7 @@ const routes: Routes = [
     providers: [
         AtividadeService,
         DocumentoService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard
     ],
     exports: [

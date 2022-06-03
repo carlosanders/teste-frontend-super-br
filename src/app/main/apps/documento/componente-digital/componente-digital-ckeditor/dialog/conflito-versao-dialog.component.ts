@@ -40,11 +40,11 @@ export class ConflitoVersaoDialogComponent
     }
 
     doVersaoLocal(): void {
-        this._dialogRef.close(this.data.componenteDigitalBackup.conteudo);
+        this._dialogRef.close(this.data.componenteDigitalBackup);
     }
 
     doVersaoRemota(): void {
-        this._dialogRef.close(this.data.componenteDigital.conteudo);
+        this._dialogRef.close(this.data.componenteDigital);
     }
 
 }

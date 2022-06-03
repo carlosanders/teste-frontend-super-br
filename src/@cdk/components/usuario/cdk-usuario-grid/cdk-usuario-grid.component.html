@@ -1,10 +1,10 @@
 <div class="page-layout left-sidebar">
 
-    <!-- SIDEBAR -->
+<!--     SIDEBAR-->
     <cdk-sidebar name="cdk-usuario-filter" position="left">
         <cdk-usuario-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-usuario-filter>
     </cdk-sidebar>
-    <!-- / SIDEBAR -->
+<!--     / SIDEBAR-->
 
     <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
@@ -35,11 +35,19 @@
 
             <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
                 <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    <div *ngFor="let tableColumn of getDisplayableTableColumns()">
+                        <mat-option [value]="tableColumn.id">{{ tableColumn.headerLabel }}</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    *ngIf="parentIdentifier"
+                    (click)="resetTableColumns()"
+                    aria-label="redefinir_tabela"
+                    matTooltip="Redefinir Tabela">
+                <mat-icon>grid_off</mat-icon>
+            </button>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -73,7 +81,18 @@
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('select')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('select'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('select')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('select'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('select'))">
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
                                       [disabled]="hasExcluded"
@@ -81,196 +100,55 @@
                         </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let usuario">
-                        <mat-checkbox [checked]="selectedIds.indexOf(usuario.id) > -1"
+                        <mat-checkbox [checked]="selectedIds.includes(usuario.id)"
                                       (change)="toggleInSelected(usuario.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(usuario.id) > -1 || hasExcluded">
+                                      [disabled]="deletedIds?.includes(usuario.id) || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                <ng-container *ngFor="let tableColumn of getTableColumnsList()" matColumnDef="{{tableColumn.id}}">
+                    <th mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef
+
+                        [cdkTableColumnResizable]="tableColumn"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(tableColumn, $event.data)"
+                        [dndDraggable]="tableColumn"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(tableColumn)"
+                        [dndDisableDropIf]="dndDisable(tableColumn)">
+                        <span [innerHTML]="tableColumn.headerLabel | safeHtml"></span>
                     </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.id}}
+                    <td mat-cell
+                        *matCellDef="let usuario"
+                        class='has_label_on_mobile'
+                        [attr.data-label]="tableColumn.dataLabel"
+                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(usuario, this, tableColumn) : ''">
+                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(usuario, this) : '') | safeHtml"></span>
                     </td>
                 </ng-container>
-
-                <!-- Nome Column -->
-                <ng-container matColumnDef="nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Nome
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- Username Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('username') > -1 && !this.externo" matColumnDef="username">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        UserName
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Username: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.username}}
-                    </td>
-                </ng-container>
-
-                <!-- CPFColumn -->
-                <ng-container *ngIf="displayedColumns.indexOf('username') > -1 && this.externo" matColumnDef="username">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        CPF
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Username: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.username}}
-                    </td>
-                </ng-container>
-
-                <!-- AssinaturaHTML Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('assinaturaHTML') > -1" matColumnDef="assinaturaHTML">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Assinatura HTML
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Assinatura HTML: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.assinaturaHTML}}
-                    </td>
-                </ng-container>
-
-                <!-- Email Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('email') > -1" matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Email
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Email: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.email}}
-                    </td>
-                </ng-container>
-
-                <!-- Cargo Column -->
-                <ng-container matColumnDef="colaborador.cargo.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Cargo
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Cargo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.colaborador?.cargo.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- Modalidade Colaborador Column -->
-                <ng-container matColumnDef="colaborador.modalidadeColaborador.valor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Mod. Colaborador
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile'
-                        data-label='Modalidade Colaborador: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.colaborador?.modalidadeColaborador.valor}}
-                    </td>
-                </ng-container>
-
-                <!-- Enabled Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('enabled') > -1" matColumnDef="enabled">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Habilitado
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Habilitado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        <mat-checkbox [disabled]="true" [checked]="usuario.enabled"></mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <!-- NivelAcesso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('nivelAcesso') > -1" matColumnDef="nivelAcesso">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Nível de Acesso
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Nível de Acesso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.nivelAcesso}}
-                    </td>
-                </ng-container>
-
-                <!-- CriadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Por
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.criadoPor?.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- CriadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Em
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                    </td>
-                </ng-container>
-
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
-                              matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.atualizadoPor?.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                    </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.apagadoPor?.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': getProp(deletingErrors, usuario.id)}">
-                        {{usuario.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                    </td>
-                </ng-container>
-
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
+                    <th mat-header-cell *matHeaderCellDef
+                        [cdkTableColumnResizable]="getColumnTableColumn('actions')"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('actions'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('actions')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('actions'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('actions'))"></th>
                     <td mat-cell *matCellDef="let usuario">
-
                         <button mat-icon-button
                                 *ngIf="(actions.indexOf('select') > -1 && !hasExcluded &&
                                         (usuario.isDisponivel))"
@@ -282,7 +160,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="editUsuario(usuario.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -291,7 +169,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('lotacoes') > -1 && usuario.colaborador && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="lotacoesUsuario(usuario.id)"
                                 aria-label="lotações"
                                 matTooltip="Lotações">
@@ -300,7 +178,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('afastamentos') > -1 && usuario.colaborador && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="afastamentosUsuario(usuario.id)"
                                 aria-label="afastamentos"
                                 matTooltip="Afastamentos">
@@ -309,7 +187,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('resetaSenhaColaborador') > -1 && usuario.colaborador"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="redefineSenhaColaborador(usuario.id)"
                                 aria-label="reseta senha colaborador"
                                 matTooltip="Reseta Senha">
@@ -318,7 +196,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('resetaSenha') > -1"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="redefineSenha(usuario.id)"
                                 aria-label="reseta senha"
                                 matTooltip="Reseta Senha">
@@ -327,7 +205,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('coordenadores') > -1"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="coordenacoesUsuario(usuario.id)"
                                 aria-label="coordenações"
                                 matTooltip="Coordenações">
@@ -336,20 +214,20 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('distribuirTarefas') > -1"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="doDistribuirTarefas(usuario)"
                                 aria-label="distribuir tarefas"
                                 matTooltip="Distribuir Tarefas">
                             <mat-icon>swap_calls</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(usuario.id) > -1">
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.includes(usuario.id)">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(usuario.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && !deletingIds?.includes(usuario.id) && !hasExcluded"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="deleteUsuario(usuario.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">
@@ -357,12 +235,12 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, usuario.id)">
-                            {{ getMessageError(getProp(deletingErrors, usuarioid)) }}
+                            {{ getMessageError(getProp(deletingErrors, usuario.id)) }}
                         </mat-error>
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('vincularPessoa') > -1 && usuario.id"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="vincularPessoa(usuario.id)"
                                 aria-label="VincularPessoa"
                                 matTooltip="Vincular Pessoa">
@@ -371,7 +249,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('vincularRole') > -1 && usuario.id"
-                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                [disabled]="deletedIds?.includes(usuario.id)"
                                 (click)="vincularUsuarioRole(usuario.id)"
                                 aria-label="VincularRole"
                                 matTooltip="Vincular Role">
@@ -380,8 +258,8 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let usuario; columns: displayedColumns;">
+                <tr mat-header-row *matHeaderRowDef="getDisplayColumns(); sticky: true;"></tr>
+                <tr mat-row *matRowDef="let usuario; columns: getDisplayColumns();">
                 </tr>
             </table>
         </div>
@@ -389,7 +267,6 @@
         <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
-
     </div>
 
 </div>

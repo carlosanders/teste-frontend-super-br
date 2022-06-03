@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-especie-processo-autocomplete',
@@ -97,9 +98,9 @@ export class CdkEspecieProcessoAutocompleteComponent implements OnInit {
     }
 
     displayEspecieProcessoFn(especieProcesso): string {
-        let displayed = especieProcesso ? especieProcesso.nome : '';
-        displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + especieProcesso.generoProcesso.nome +')') : '';
-        displayed += (especieProcesso && especieProcesso?.workflow) ? (' - ' + 'WORKFLOW') : '';
+        let displayed = TitleCasePipe.format(especieProcesso ? especieProcesso.nome : '');
+        displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + TitleCasePipe.format(especieProcesso.generoProcesso.nome) +')') : '';
+        displayed += TitleCasePipe.format((especieProcesso && especieProcesso?.workflow) ? (' - ' + 'WORKFLOW') : '');
         return displayed;
     }
 }

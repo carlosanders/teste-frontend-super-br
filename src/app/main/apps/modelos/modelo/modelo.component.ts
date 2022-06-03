@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, Input,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -10,7 +10,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Modelo, Processo, Tarefa} from '@cdk/models';
+import {Modelo, Pagination, Processo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -19,6 +19,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
+import {LoginService} from "../../../auth/login/login.service";
 
 @Component({
     selector: 'modelo',
@@ -53,18 +54,24 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
     private screen$: Observable<any>;
 
+    orgaoCentralPagination: Pagination;
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+
     /**
      *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
      * @param _dynamicService
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ModelosAppState>,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _loginService: LoginService,
     ) {
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -81,6 +88,23 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.filter = {
+            id: 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor?.id).join(','),
+            parent: 'isNotNull'
+        };
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {
+            id: 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor?.unidade?.id).join(','),
+            parent: 'isNull'
+        };
+
+        this.orgaoCentralPagination = new Pagination();
+        this.orgaoCentralPagination.filter = {
+            id: 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor?.unidade?.modalidadeOrgaoCentral?.id).join(','),
+        };
     }
 
     ngAfterViewInit(): void {

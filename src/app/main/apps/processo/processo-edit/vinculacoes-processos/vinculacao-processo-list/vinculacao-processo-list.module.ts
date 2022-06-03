@@ -22,8 +22,10 @@ import {VinculacaoProcessoListStoreModule} from 'app/main/apps/processo/processo
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
 import * as fromGuards
     from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-list/store/guards';
-import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {
+    CdkVinculacaoProcessoTreeListModule
+} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-tree-list/cdk-vinculacao-processo-tree-list.module';
 
 const routes: Routes = [
     {
@@ -59,14 +61,10 @@ modulesConfig.forEach((module) => {
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-
         TranslateModule,
-
         CdkSharedModule,
-
-        CdkVinculacaoProcessoGridModule,
-
         VinculacaoProcessoListStoreModule,
+        CdkVinculacaoProcessoTreeListModule,
     ],
     providers: [
         VinculacaoProcessoService,

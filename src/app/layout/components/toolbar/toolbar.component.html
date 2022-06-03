@@ -56,7 +56,7 @@
                     class="mr-8 ml-8 quick-panel-toggle-button"
                     aria-label="Notificações"
                     [matMenuTriggerFor]="menuAssinadores">
-                <mat-icon [matBadge]="assinadores.length" matBadgePosition="above after"
+                <mat-icon matTooltip="Assinadores" [matBadge]="assinadores.length" matBadgePosition="above after"
                           [matBadgeColor]="assinadores.length ? 'accent' : 'warn'" class="secondary-text">
                     lock
                 </mat-icon>
@@ -96,7 +96,7 @@
                 <mat-icon *ngIf="carregandoNotificacao">
                     <mat-spinner diameter="20"></mat-spinner>
                 </mat-icon>
-                <mat-icon *ngIf="!carregandoNotificacao" [matBadge]="notificacoesCount" matBadgePosition="above after"
+                <mat-icon matTooltip="Notificações" *ngIf="!carregandoNotificacao" [matBadge]="notificacoesCount" matBadgePosition="above after"
                           [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text"
                           (click)="reload()">
                     notifications
@@ -137,7 +137,10 @@
                         <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
                             <div class="notification-item" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
-                                <p [innerHTML]="notificacao.conteudo">
+                                <div class="data-hora">
+                                    <div>{{notificacao.criadoEm?.toDate() | date: 'dd/MM/yy HH:mm':'-0300'}}</div>
+                                </div>
+                                <p [innerHTML]="notificacao.conteudo | titleCasePipe">
                                 </p>
                                 <div class="actions">
                                     <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">search</mat-icon>
@@ -164,7 +167,7 @@
                     class="mr-8 ml-8 quick-panel-toggle-button2"
                     (click)="toggleSidebarOpen('ajudaPanel')"
                     aria-label="Ajuda">
-                <mat-icon class="secondary-text">live_help</mat-icon>
+                <mat-icon  matTooltip="Ajuda" class="secondary-text">live_help</mat-icon>
             </button>
 
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
@@ -176,7 +179,7 @@
                 <mat-icon *ngIf="carregandoChat">
                     <mat-spinner diameter="20"></mat-spinner>
                 </mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!carregandoChat"
+                <mat-icon  matTooltip="Chat" class="secondary-text" *ngIf="!carregandoChat"
                           [matBadge]="totalChatMensagensNaoLidas" matBadgePosition="above after"
                           [matBadgeColor]="totalChatMensagensNaoLidas ? 'warn' : 'accent'">
                     chat
@@ -193,7 +196,7 @@
                      && operacoesProcessando === 0"
                     (click)="toggleQuickPanel()"
                     aria-label="Operações">
-                <mat-icon class="secondary-text">format_list_bulleted</mat-icon>
+                <mat-icon  matTooltip="Últimas Operações" class="secondary-text">format_list_bulleted</mat-icon>
             </button>
 
             <div style="min-width: 48px;" fxLayoutAlign="center center" class="quick-panel-toggle-button3 mat-icon-button"

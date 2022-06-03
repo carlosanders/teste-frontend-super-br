@@ -6,7 +6,9 @@ import {TemplateRef, ViewContainerRef} from "@angular/core";
  *
  * Exemplo de utilização:
  *
- * <modules-config.ts>
+ * ##modules-config.ts:
+ *
+ * ```typescript
  *     {
  *         ...
  *         components: [
@@ -15,7 +17,9 @@ import {TemplateRef, ViewContainerRef} from "@angular/core";
  *             ],
  *         ]
  *     }
- * <@cdk/components/tarefa/cdk-tarefa-list/plugins/exemplo/tarefa-grid-column-teste.module.ts>
+ * ```
+ * ##@cdk/components/tarefa/cdk-tarefa-list/plugins/exemplo/tarefa-grid-column-teste.module.ts
+ * ```typescript
  * @NgModule({
  *     imports: [
  *         MatIconModule,
@@ -37,8 +41,10 @@ import {TemplateRef, ViewContainerRef} from "@angular/core";
  *         return this.resolver.resolveComponentFactory(TarefaGridColumnTesteComponent);
  *     }
  * }
+ * ```
  *
- * <@cdk/components/tarefa/cdk-tarefa-list/plugins/exemplo/tarefa-grid-column-teste.component.ts>
+ * ##@cdk/components/tarefa/cdk-tarefa-list/plugins/exemplo/tarefa-grid-column-teste.component.ts
+ * ```typescript
  * @Component({
  *     template: `
  *         <ng-template #td>
@@ -56,6 +62,7 @@ import {TemplateRef, ViewContainerRef} from "@angular/core";
  *     protected _headerLabel: string = 'Teste';
  *     protected _isVisible: boolean = true;
  * }
+ * ```
  */
 export abstract class CdkTarefaListGridColumn {
 

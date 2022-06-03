@@ -23,7 +23,19 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255" [readonly]="!isAdmin">
+        <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" [readonly]="!isAdmin">
+        <mat-error *ngIf="(form.get('prefixoNUP').invalid && (form.get('prefixoNUP').dirty
+            || form.get('prefixoNUP').touched ))">
+            <div *ngIf="form.get('prefixoNUP').errors?.['required']">
+                Prefixo NUP é Obrigatório
+            </div>
+            <div *ngIf="form.get('prefixoNUP').errors?.['pattern']">
+                Prefixo NUP aceita apenas Números
+            </div>
+            <div *ngIf="form.get('prefixoNUP').errors?.['maxlength']">
+                Prefixo NUP deve ter até 5 dígitos
+            </div>
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>

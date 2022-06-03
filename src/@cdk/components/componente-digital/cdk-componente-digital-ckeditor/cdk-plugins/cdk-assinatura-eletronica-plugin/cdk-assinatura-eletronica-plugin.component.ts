@@ -22,7 +22,6 @@ import * as AssinaturaStore from 'app/store';
 })
 export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
 
-    config: any;
     form: FormGroup;
     temAssinador: boolean = false;
     urlAssinadorLinux = environment.base_url + 'AssinadorSUPP.deb';
@@ -73,11 +72,6 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
         } else {
             this.labelLoginType = '';
         }
-        this._loginService.getConfig().
-            subscribe(cfg => {
-                this.config = cfg;
-                this._changeDetectorRef.detectChanges();
-            });
 
         this._store.pipe(
             select(AssinaturaStore.getAssinaturaRedirectRevalidaGovBr),

@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChanges,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -16,11 +16,14 @@ import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
 import {Usuario} from '@cdk/models';
 import {UsuarioDataSource} from '@cdk/data-sources/usuario-data-source';
-import {FormControl} from '@angular/forms';
+import {CdkUsuarioGridColumns} from './cdk-usuario-grid.columns';
+import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
+import * as _ from 'lodash';
+import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
 
 @Component({
     selector: 'cdk-usuario-grid',
@@ -30,7 +33,7 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkUsuarioGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -47,105 +50,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     mode = 'list';
 
-    @Output()
-    create = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
-
-    allColumns: any[] = [
-        {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
-            id: 'id',
-            label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'nome',
-            label: 'Nome',
-            fixed: true
-        },
-        {
-            id: 'assinaturaHTML',
-            label: 'Assinatura HTML',
-            fixed: false
-        },
-        {
-            id: 'email',
-            label: 'Email',
-            fixed: false
-        },
-        {
-            id: 'colaborador.cargo.nome',
-            label: 'Cargo',
-            fixed: false
-        },
-        {
-            id: 'colaborador.modalidadeColaborador.valor',
-            label: 'Modalidade Colaborador',
-            fixed: false
-        },
-        {
-            id: 'enabled',
-            label: 'Habilitado',
-            fixed: false
-        },
-        {
-            id: 'nivelAcesso',
-            label: 'Nível de Acesso',
-            fixed: false
-        },
-        {
-            id: 'username',
-            label: 'Username',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
-            id: 'actions',
-            label: '',
-            fixed: true
-        }
-    ];
-
-    columns = new FormControl();
-
     @Input()
     deletingIds: number[] = [];
 
@@ -161,11 +65,11 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa', 'distribuirTarefas'];
 
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
+    @Output()
+    create = new EventEmitter<any>();
 
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
+    @Output()
+    excluded = new EventEmitter<any>();
 
     @Output()
     reload = new EventEmitter<any>();
@@ -212,37 +116,38 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     @Output()
     selectedIds: number[] = [];
 
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) sort: MatSort;
+
     dataSource: UsuarioDataSource;
-
     showFilter = false;
-
     gridFilter: any;
-
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
-
     temDistribuidor = false;
 
-    /**
-     *
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
-     */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        protected _changeDetectorRef: ChangeDetectorRef,
+        protected _cdkSidebarService: CdkSidebarService,
+        protected _tableDefinitionsService: TableDefinitionsService
     ) {
+        super(_tableDefinitionsService, _changeDetectorRef);
         this.gridFilter = {};
         this.usuarios = [];
+        this.displayedColumns = ['select', 'id', 'nome', 'actions'];
+        this._tableColumns = _.cloneDeep(CdkUsuarioGridColumns.columns);
+        this._tableColumnsOriginal = _.cloneDeep(CdkUsuarioGridColumns.columns);
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
         this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
@@ -256,31 +161,11 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
-
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
-
-        this.columns.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values) => {
-                this.displayedColumns = [];
-                this.allColumns.forEach((c) => {
-                    if (c.fixed || (values.indexOf(c.id) > -1)) {
-                        this.displayedColumns.push(c.id);
-                    }
-                });
-                this._changeDetectorRef.markForCheck();
-                return of([]);
-            })
-        ).subscribe();
     }
 
-
     ngAfterViewInit(): void {
-
         // reset the paginator after sorting
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
         merge(
             this.sort.sortChange,
             this.paginator.page
@@ -444,6 +329,4 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     doDistribuirTarefas(usuario: Usuario): void {
         this.distribuirTarefas.emit(usuario);
     }
-
-
 }

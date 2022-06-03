@@ -108,6 +108,14 @@ const routes: Routes = [
             {
                 path: 'especie-documento-avulso',
                 loadChildren: () => import('./especie-documento-avulso/especie-documento-avulso.module').then(m => m.EspecieDocumentoAvulsoModule)
+            },
+            {
+                path: 'modelos',
+                loadChildren: () => import('./modelos/modelos.module').then(m => m.ModelosModule)
+            },
+            {
+                path: 'config-modulo',
+                loadChildren: () => import('./config-modulo/config-modulo.module').then(m => m.ConfigModuloModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

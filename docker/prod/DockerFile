@@ -1,5 +1,5 @@
 # build
-FROM node:16.14.2-alpine AS build
+FROM node:16.15.0-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV CYPRESS_CACHE_FOLDER=./tmp/Cypress
@@ -12,13 +12,15 @@ RUN npm config set unsafe-perm true
 
 RUN apk add python3 make g++
 
-RUN npm install npm@8.6.0 -g
+RUN npm install npm@8.10.0 -g
 
-RUN npm install -g @angular/cli@13.3.4
+RUN npm install -g @angular/cli@13.3.7
 
 RUN npm install --legacy-peer-deps --package-lock=false
 
 COPY . /var/www/html
+
+COPY docker/pkg/pdf.worker.js /var/www/html/node_modules/ng2-pdfjs-viewer/pdfjs/build/pdf.worker.js
 
 RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --configuration production
 

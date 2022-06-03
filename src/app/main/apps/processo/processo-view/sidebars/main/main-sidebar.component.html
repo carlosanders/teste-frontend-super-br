@@ -306,7 +306,7 @@
                 </div>
                 <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
                     <div class="descricao">Capa</div>
-                    <div class="criado-em">{{processo ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
+                    <div class="criado-em">{{processo?.dataHoraAbertura ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
                     <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="s-14">picture_as_pdf</mat-icon>
                         <span class="ml-4"
@@ -448,7 +448,7 @@
                             </mat-icon>
                             <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                             <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                                    *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                                    *ngIf="!processo?.somenteLeitura && juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
                                 !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
                                     aria-label="Ferramentas" (click)="$event.stopPropagation()">
                                 <mat-icon class="secondary-text">more_vert</mat-icon>

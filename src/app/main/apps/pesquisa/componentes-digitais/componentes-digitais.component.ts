@@ -9,7 +9,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';
@@ -40,6 +40,9 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
 
     private _profile: any;
 
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+
     /**
      *
      * @param _changeDetectorRef
@@ -66,6 +69,14 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['unidade', 'parent'];
+        this.setorPagination.filter = {parent: 'isNotNull'};
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
+
     }
 
     ngOnInit(): void {

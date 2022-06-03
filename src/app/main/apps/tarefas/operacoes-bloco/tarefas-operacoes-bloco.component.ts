@@ -145,7 +145,8 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(path2) &&
                 module.routerLinks[path2].hasOwnProperty('atividade-bloco') &&
-                module.routerLinks[path2]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path2]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeBloco = module.routerLinks[path2]['atividade-bloco'][this.routerState.params.generoHandle];
             }
         });

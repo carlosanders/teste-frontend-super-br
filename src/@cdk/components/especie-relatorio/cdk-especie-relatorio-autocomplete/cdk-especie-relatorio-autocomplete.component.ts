@@ -16,6 +16,7 @@ import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
 import {EspecieRelatorioService} from '../../../services/especie-relatorio.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-especie-relatorio-autocomplete',
@@ -100,6 +101,6 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
     displayEspecieRelatorioFn(especieRelatorio): string {
         let displayed = especieRelatorio ? especieRelatorio.nome : '';
         displayed += (especieRelatorio && especieRelatorio.generoRelatorio) ? (' (' + especieRelatorio.generoRelatorio.nome + ')') : '';
-        return displayed;
+        return TitleCasePipe.format(displayed);
     }
 }

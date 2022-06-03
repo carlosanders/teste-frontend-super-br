@@ -16,10 +16,10 @@ import {Chat, ChatMensagem, ChatParticipante, ComponenteDigital, Usuario} from '
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import * as fromStore from './store';
-import {LoginService} from '../../../main/auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
-import {takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {MercureService} from '@cdk/services/mercure.service';
 import {IInfiniteScrollEvent} from 'ngx-infinite-scroll';
 
@@ -87,11 +87,17 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     lastScrollMensagemHeight: number;
 
     @ViewChild('mensagem')
-    mensagemElementRef: ElementRef;
+    set _mensagemElementRef(el: ElementRef) {
+        this.mensagemElementRef = el;
+        if (el && this.chatOpen) {
+            setTimeout(() => this.mensagemElementRef.nativeElement.focus(), 400);
+        }
+    };
 
     @ViewChild('chatMensagemScroll', {static: false})
     chatMensagemScrollElRef: ElementRef;
 
+    mensagemElementRef: ElementRef;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -113,6 +119,15 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         private _mercureService: MercureService
     )
     {
+        this._loginService.getUserProfileChanges()
+            .pipe(
+                filter((profile) => !!profile),
+                take(1),
+                takeUntil(this._unsubscribeAll),
+            ).subscribe((profile) => {
+                this.usuarioLogado = profile;
+                this.getChatsUsuario();
+            });
         this.chatList$ = this._store.pipe(
             select(fromStore.getChatList),
             takeUntil(this._unsubscribeAll)
@@ -147,20 +162,6 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             select(fromStore.getChatPagination),
             takeUntil(this._unsubscribeAll)
         );
-
-        this._loginService.getUserProfileChanges()
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-            ).subscribe((profile) => {
-                this.usuarioLogado = profile;
-                this.usuarioAutenticado = !!profile;
-                if (this.usuarioAutenticado === true) {
-                    this.getChatsUsuario();
-                }else {
-                    this.chatList = [];
-                    this.chatMensagens = [];
-                }
-        });
 
         this.chatMensagemForm = this._formBuilder.group({
             mensagem: [null, [Validators.required]]
@@ -269,9 +270,6 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                     },
                     sort: {'criadoEm':'DESC'}
                 });
-
-                setTimeout(() => this.mensagemElementRef.nativeElement.focus());
-
                 // this.toogleChatHandler.emit(true);
             } else if (chat?.id === this.chatOpen?.id) {
                 this.chatOpen = chat;
@@ -504,7 +502,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._store.dispatch(new fromStore.GetMensagensIncrement(nparams));
     }
 
-    onScrollChatMessageList(scrollEvent: IInfiniteScrollEvent): void
+    onScrollChatMessageList(scrollEvent: any): void
     {
         const scrollContainer = this.chatMensagemScrollElRef.nativeElement;
         const threshold = 150;
@@ -553,8 +551,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     criarGrupo(): void
     {
+        if (this.chatOpen) {
+            this._store.dispatch(new fromStore.CloseChat(this.chatOpen));
+        }
         this._store.dispatch(new fromStore.SetChatActiveCard('chat-grupo-form'));
-        this.chatOpen = null;
     }
 
     salvarChat(chat: Chat): void

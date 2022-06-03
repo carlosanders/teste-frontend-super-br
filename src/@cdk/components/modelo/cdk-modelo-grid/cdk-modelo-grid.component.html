@@ -10,7 +10,14 @@
         class="sidebar"
         name="cdk-modelo-filter"
         position="left">
-        <cdk-modelo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}" [mode]="this.mode" [type]="this.type" [hasInatived]="hasInatived"></cdk-modelo-filter>
+        <cdk-modelo-filter
+            (selected)="setFilter($event)"
+            [@animate]="{value:'*'}"
+            [mode]="this.mode" [type]="this.type"
+            [hasInatived]="hasInatived"
+            [orgaoCentralPagination]="orgaoCentralPagination"
+            [unidadePagination]="unidadePagination"
+            [setorPagination]="setorPagination"></cdk-modelo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -135,7 +142,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -144,7 +151,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -166,7 +173,7 @@
                         Modalidade
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.modalidadeModelo?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.modalidadeModelo?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Template Column -->
@@ -175,7 +182,7 @@
                         Template
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Template: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.template?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.template?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -184,7 +191,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.setor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -193,7 +200,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.unidade?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -202,7 +209,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->
@@ -212,7 +219,7 @@
                         Documento
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.documento?.tipoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.documento?.tipoDocumento?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -221,7 +228,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -240,7 +247,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -258,7 +265,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile no-line' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1, 'error': getProp(deletingErrors, modelo.id)}"> {{modelo.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

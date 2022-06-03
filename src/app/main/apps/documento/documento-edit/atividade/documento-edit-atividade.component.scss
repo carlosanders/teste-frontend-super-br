@@ -6,8 +6,7 @@ documento-edit-atividade {
     .atividade {
         display: flex;
         flex-direction: column;
-        flex: 1 1 auto;
-        overflow-y: auto;
+        flex: 0 1 auto;
         height: 0;
 
         > .documentos-vinculados {
@@ -22,7 +21,7 @@ documento-edit-atividade {
         }
 
         .responsive-grid .content {
-            height: 0 !important;
+            //height: 0 !important;
         }
     }
 }

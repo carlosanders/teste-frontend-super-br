@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-assunto-administrativo-autocomplete',
@@ -97,6 +98,6 @@ export class CdkAssuntoAdministrativoAutocompleteComponent implements OnInit {
     }
 
     displayAssuntoAdministrativoFn(assuntoAdministrativo): string {
-        return assuntoAdministrativo ? assuntoAdministrativo.nome + ' (' + assuntoAdministrativo.id + ')' : null;
+        return TitleCasePipe.format(assuntoAdministrativo ? assuntoAdministrativo.nome + ' (' + assuntoAdministrativo.id + ')' : null);
     }
 }

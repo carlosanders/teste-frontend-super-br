@@ -2,13 +2,13 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ComponentFactory, ComponentRef,
+    Component, ComponentRef,
     EventEmitter, HostBinding,
     Input,
     OnChanges,
     OnInit,
     Output, QueryList, Renderer2,
-    SimpleChange, TemplateRef,
+    SimpleChange,
     ViewChild, ViewChildren,
     ViewContainerRef,
     ViewEncapsulation
@@ -21,8 +21,8 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService, ViewMode} from './cdk-tarefa-list.service';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {from, of} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
@@ -37,6 +37,11 @@ import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {CdkUtils} from '@cdk/utils';
 import {MatSortable} from '@angular/material/sort';
 import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
+import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
+import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
+import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
+import * as _ from 'lodash';
+import {CdkTarefaFilterService} from "../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -47,7 +52,7 @@ import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges {
+export class CdkTarefaListComponent extends CdkTableGridComponent implements OnInit, AfterViewInit, OnChanges {
 
     @ViewChildren('tarefaListItems', {read: CdkTarefaListItemComponent}) tarefaListItems: QueryList<CdkTarefaListItemComponent>;
     @ViewChildren('cdkUpload', {read: CdkComponenteDigitalCardListComponent}) componenteDigitalListItems: QueryList<CdkComponenteDigitalCardListComponent>;
@@ -357,6 +362,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     erroUpload = new EventEmitter<string>();
 
+    @Output()
+    pencencies: EventEmitter<{tarefa: Tarefa, vinculacaoEtiqueta: VinculacaoEtiqueta}> = new EventEmitter<{tarefa: Tarefa; vinculacaoEtiqueta: VinculacaoEtiqueta}>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -400,22 +408,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     novaTarefa = false;
 
     @Input()
-    displayedCampos: string[] = [
-        'select',
-        'id',
-        'processo.nup',
-        'processo.modalidadeEspecie',
-        'especieTarefa.nome',
-        'setorResponsavel.nome',
-        'dataHoraDistribuicao',
-        'dataHoraFinalPrazo',
-        'observacao',
-        'vinculacoesEtiquetas',
-        'vinculacoesEtiquetasMinutas',
-        'urgente',
-    ];
-
-    @Input()
     mobileMode: boolean = false;
 
     @Input()
@@ -429,60 +421,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @HostBinding('class') classes = '';
 
-    allCampos: any[] = [
-        {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
-            id: 'processo.nup',
-            label: 'NUP',
-            fixed: true
-        },
-        {
-            id: 'processo.modalidadeEspecie',
-            label: 'Modalidade',
-            fixed: true
-        },
-        {
-            id: 'especieTarefa.nome',
-            label: 'Espécie Tarefa',
-            fixed: false
-        },
-        {
-            id: 'setorResponsavel.nome',
-            label: 'Setor Responsável',
-            fixed: false
-        },
-        {
-            id: 'dataHoraDistribuicao',
-            label: 'Data da Distribuição',
-            fixed: false
-        },
-        {
-            id: 'dataHoraFinalPrazo',
-            label: 'Prazo',
-            fixed: false
-        },
-        {
-            id: 'observacao',
-            label: 'Observação',
-            fixed: false
-        },
-        {
-            id: 'vinculacoesEtiquetas',
-            label: 'Etiquetas',
-            fixed: true
-        },
-        {
-            id: 'vinculacoesEtiquetasMinutas',
-            label: 'Etiquetas de Minutas',
-            fixed: true
-        }
-    ];
-
-    campos = new FormControl();
+    columns = new FormControl();
 
     listFilter: any;
     listSort: Record<string, string> = {};
@@ -501,23 +440,45 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     dynamicColumnList: CdkTarefaListGridColumn[] = [];
     dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
 
+    filterProcesso: any;
+    filterEtiquetas: Etiqueta[] = [];
+
     /**
      * Constructor
      */
     constructor(
         private _dynamicService: DynamicService,
         private _viewContainerRef: ViewContainerRef,
-        private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTarefaListService: CdkTarefaListService,
         private _formBuilder: FormBuilder,
         public loginService: LoginService,
-        private _render: Renderer2
+        private _render: Renderer2,
+        protected _changeDetectorRef: ChangeDetectorRef,
+        protected _tableDefinitionsService: TableDefinitionsService
     ) {
+        super(_tableDefinitionsService, _changeDetectorRef);
         this.listFilter = {};
         this.formTipoDocumento = this._formBuilder.group({
             tipoDocumentoMinutas: [null]
         });
+
+        this.displayedColumns = [
+            'select',
+            'id',
+            'processo.NUP',
+            'processo.modalidadeMeio.valor',
+            'especieTarefa.nome',
+            'setorResponsavel.nome',
+            'dataHoraFinalPrazo',
+            'vinculacoesEtiquetas',
+            'vinculacoesEtiquetasMinutas',
+            'observacao',
+            'urgente',
+        ];
+
+        this._tableColumns = _.cloneDeep(CdkTarefaListColumns.columns);
+        this._tableColumnsOriginal = _.cloneDeep(CdkTarefaListColumns.columns);
     }
 
     /**
@@ -525,22 +486,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
      */
     ngOnInit(): void {
         this.novaTarefa = false;
-        this.campos.setValue(this.allCampos.map(c => c.id).filter(c => this.displayedCampos.indexOf(c) > -1));
-        this.campos.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values) => {
-                this.displayedCampos = [];
-                this.allCampos.forEach((c) => {
-                    if (c.fixed || (values.indexOf(c.id) > -1)) {
-                        this.displayedCampos.push(c.id);
-                    }
-                });
-                this._changeDetectorRef.markForCheck();
-                return of([]);
-            })
-        ).subscribe();
-
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
@@ -549,6 +495,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     ngAfterViewInit(): void {
+        super.ngAfterViewInit();
         if (this.container !== undefined) {
             this.container.clear();
         }
@@ -568,6 +515,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        super.ngOnChanges(changes);
         if (changes['tarefas']) {
             this._cdkTarefaListService.tarefas = this.tarefas;
             this.etiquetasList = [];
@@ -584,6 +532,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
                 ) : [];
             });
             this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
+
+            if (changes['pagination'] && changes.pagination.currentValue) {
+                this.listSort = changes.pagination.currentValue.sort;
+                this.sortField = Object.keys(this.listSort)[0];
+                this.sortOrder = Object.values(this.listSort)[0];
+            }
 
             if (this.paginator) {
                 this.paginator.length = this.pagination.total;
@@ -609,8 +563,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
                                                 component.instance
                                             ];
                                             this.dynamicColumnInstancesList.push(component.instance);
-                                            this.displayedCampos = [
-                                                ...this.displayedCampos.filter((campo) => campo !== component.instance.getMatColumnDef()),
+                                            this.displayedColumns = [
+                                                ...this.displayedColumns.filter((campo) => campo !== component.instance.getMatColumnDef()),
                                                 component.instance.getMatColumnDef()
                                             ];
                                         }
@@ -1064,5 +1018,25 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             this.habilitarTipoDocumentoSalvar = true;
         }
         this._changeDetectorRef.detectChanges();
+    }
+
+    doPendencies(event: {vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}): void {
+        this.pencencies.emit(event);
+    }
+
+    doFilterNup(processo): void {
+        this.filterProcesso = null;
+        this.filterEtiquetas = [];
+        this.filterProcesso = processo;
+        this.listFilter.filters = {'processo.id': `eq:${processo.id}`};
+        this.loadPage();
+    }
+
+    doFilterEtiqueta(etiqueta): void {
+        this.filterEtiquetas = [];
+        this.filterProcesso = null;
+        this.listFilter.filters = { 'vinculacoesEtiquetas.etiqueta.id': `eq:${etiqueta.id}` };
+        this.filterEtiquetas.push(etiqueta);
+        this.loadPage();
     }
 }
