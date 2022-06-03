@@ -9,14 +9,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Assunto, Processo, Tarefa} from '@cdk/models';
+import {Assunto, Juntada, Pagination, Processo, Tarefa, VinculacaoProcesso} from '@cdk/models';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {getRouterState} from '../../../../store';
+import {getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 
 @Component({
@@ -56,11 +56,16 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     paginationInteressados: any;
     loadingInteressados$: Observable<boolean>;
 
-    vinculacoesProcessos$: Observable<Assunto[]>;
-    vinculacoesProcessos: Assunto[] = [];
+    vinculacoesProcessos$: Observable<VinculacaoProcesso[]>;
+    vinculacoesProcessos: VinculacaoProcesso[] = [];
     paginationVinculacoesProcessos$: Observable<any>;
     paginationVinculacoesProcessos: any;
     loadingVinculacoesProcessos$: Observable<boolean>;
+
+    juntadas$: Observable<Juntada[]>;
+    paginationJuntadas$: Observable<any>;
+    paginationJuntadas: Pagination;
+    loadingJuntadas$: Observable<boolean>;
 
     togglingAcompanharProcesso$: Observable<boolean>;
 
@@ -86,14 +91,17 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
         this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
+        this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
 
         this.loadingAssuntos$ = this._store.pipe(select(fromStore.getIsAssuntosLoading));
         this.loadingInteressados$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
         this.loadingVinculacoesProcessos$ = this._store.pipe(select(fromStore.getIsVinculacoesProcessosLoading));
+        this.loadingJuntadas$ = this._store.pipe(select(fromStore.getIsJuntadasLoading));
 
         this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
         this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
         this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
+        this.paginationJuntadas$ = this._store.pipe(select(fromStore.getPaginationJuntadas));
         this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
     }
 
@@ -161,6 +169,12 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         ).subscribe((pagination) => {
             this.paginationVinculacoesProcessos = pagination;
         });
+
+        this.paginationJuntadas$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((paginationJuntadas) => {
+            this.paginationJuntadas = paginationJuntadas;
+        });
     }
 
     ngOnDestroy(): void {
@@ -226,9 +240,38 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         }));
     }
 
-    view(emissao: { id: number; chaveAcesso?: string }): void {
-        const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']).then();
+    reloadJuntadas(params): void {
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
+
+        this._store.dispatch(new fromStore.GetJuntadas({
+            ...this.paginationJuntadas,
+            filter: {
+                ...this.paginationJuntadas.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationJuntadas.populate
+        }));
+
+    }
+
+    visualizarProcesso(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + processo.id + chaveAcesso + '/visualizar']).then();
+    }
+
+    visualizarProcessoNovaAba(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        window.open('apps/processo/' + processo.id + chaveAcesso + '/visualizar', '_blank');
+    }
+
+    abrirJuntadaNovaAba(juntada: Juntada): void {
+        window.open(
+            this.routerState.url.split('/')[1] +
+            `/processo/${this.processo.id}`
+        );
     }
 }
 

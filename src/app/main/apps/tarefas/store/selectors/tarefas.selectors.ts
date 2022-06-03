@@ -1,12 +1,13 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefasAppState, TarefasAppState, TarefasState} from 'app/main/apps/tarefas/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
+import {tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema, acao as acaoSchema} from '@cdk/normalizr';
 import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
-import {getRouterState} from '../../../../../store';
+import {getRouterState} from 'app/store';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaSelectorsVinculacoesEtiqueta = createSchemaSelectors<VinculacaoEtiqueta>(vinculacaoEtiquetaSchema);
+const schemaSelectorsAcao = createSchemaSelectors<VinculacaoEtiqueta>(acaoSchema);
 
 export const getTarefaHandle: any = createSelector(
     getRouterState,
@@ -220,4 +221,20 @@ export const getEditObservacaoIds: any = createSelector(
 export const getViewMode: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.viewMode
+);
+
+export const getLoadingAcoesEtiquetas: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.loadingAcoes
+);
+
+export const getAcoesEtiquetaIds: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.acoesId
+);
+
+export const getAcoesEtiqueta: any = createSelector(
+    schemaSelectorsAcao.getNormalizedEntities,
+    getAcoesEtiquetaIds,
+    schemaSelectorsAcao.entitiesProjector
 );

@@ -136,3 +136,6 @@ export * from './dossie.model';
 export * from './tipo-dossie.model';
 export * from './objeto-avaliado.model';
 export * from './avaliacao.model';
+export * from './config-modulo.model';
+export * from './modulo.model';
+export * from './relatorio.model';

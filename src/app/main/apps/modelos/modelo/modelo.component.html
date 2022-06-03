@@ -10,7 +10,10 @@
         (selected)="doSelect($event)"
         (view)="doVisualizar($event)"
         [saving]="(saving$ | async)"
-        (reload)="reload($event)">
+        (reload)="reload($event)"
+        [orgaoCentralPagination]="orgaoCentralPagination"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination">
     </cdk-modelo-grid>
 </div>
 <div class="footer">

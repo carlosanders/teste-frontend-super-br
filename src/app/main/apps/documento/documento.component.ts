@@ -33,10 +33,10 @@ import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/of
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
 import {CdkUtils} from '@cdk/utils';
-import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTabGroup} from '@angular/material/tabs';
 import {RouterHistoryService} from '../../../../@cdk/utils/router-history.service';
+import {ComponenteDigitalService} from '../../../../@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'documento',
@@ -79,6 +79,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
@@ -419,17 +420,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }

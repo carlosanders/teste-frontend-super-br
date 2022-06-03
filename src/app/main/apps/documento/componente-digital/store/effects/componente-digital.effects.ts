@@ -17,6 +17,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {getDocumento} from '../../../store';
 import {getComponenteDigitalLoaded} from '../selectors';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {
+    ComponenteDigitalCkeditorComponent
+} from '../../componente-digital-ckeditor/componente-digital-ckeditor.component';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -57,9 +61,12 @@ export class ComponenteDigitalEffect {
             new UpdateData<ComponenteDigital>({
                 id: response.id,
                 schema: componenteDigitalSchema,
-                changes: {conteudo: response.conteudo, mimetype: response.mimetype,
-                            fileName: response.fileName, unsafe: response.unsafe,
-                            extensao: response.extensao, convertidoPdf: response.convertidoPdf}
+                changes: {
+                    conteudo: response.conteudo, mimetype: response.mimetype,
+                    fileName: response.fileName, unsafe: response.unsafe,
+                    extensao: response.extensao, convertidoPdf: response.convertidoPdf,
+                    assinado: response.assinado, editavel: response.editavel
+                }
             }),
             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                 componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
@@ -295,12 +302,24 @@ export class ComponenteDigitalEffect {
             conteudo: action.payload.data,
             hashAntigo: action.payload.hashAntigo
         }).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'componente digital',
-                content: `Componente Digital id ${response.id} salvo com sucesso!`,
-                status: 1, // sucesso
-            }))),
+            tap(response => {
+                this._cacheGenericUserDataService
+                    .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
+                    .subscribe((cachedComponenteDigitalBackupList) => {
+                        const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                        this._cacheGenericUserDataService.set(
+                            componenteDigitalBackupList.filter((backup) => backup.id !== action.payload.componenteDigital.id),
+                            ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
+                            (60 * 60 * 24 * 30) //30 dias
+                        ).subscribe();
+                    });
+                return this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: `Componente Digital id ${response.id} salvo com sucesso!`,
+                    status: 1, // sucesso
+                }))
+            }),
             mergeMap((response: ComponenteDigital) => [
                 new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                 new UpdateData<ComponenteDigital>({
@@ -389,7 +408,28 @@ export class ComponenteDigitalEffect {
             }
         })
     ), {dispatch: false});
-
+    /**
+     * Ações relacionadas a remover assinatura de minutas com sucesso
+     */
+    removeAssinaturaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.RemoveAssinaturaDocumentoSuccess>(AssinaturaActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Ações relacionadas a deleção de assinatura pela listagem de assinaturas
+     */
+    deleteAssinaturaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.DeleteAssinaturaDocumentoSuccess>(ComponenteDigitalActions.DELETE_ASSINATURA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload.documentoId) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
+        })
+    ), {dispatch: false});
     visualizarHtmlComponenteDigital: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.VisualizarHTMLComponenteDigital>(ComponenteDigitalActions.VISUALIZAR_HTML_COMPONENTE_DIGITAL),
         switchMap((action) => this._componenteDigitalService.renderHtmlContent(action.payload)),
@@ -455,6 +495,7 @@ export class ComponenteDigitalEffect {
         private _componenteDigitalService: ComponenteDigitalService,
         private _activatedRoute: ActivatedRoute,
         private _sanitizer: DomSanitizer,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
         this._store.pipe(
             select(getRouterState),

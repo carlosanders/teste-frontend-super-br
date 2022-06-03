@@ -11,12 +11,13 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of, Subject, switchMap} from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {
+    Acao,
     Assinatura,
     ComponenteDigital,
     Documento,
@@ -36,7 +37,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -66,6 +67,9 @@ import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogComponent
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
 
 @Component({
     selector: 'tarefas',
@@ -85,9 +89,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
     @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -176,6 +178,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changingFolderIds$: Observable<number[]>;
 
+    generoHandle: string;
     typeHandle: string;
     targetHandle: string;
 
@@ -221,12 +224,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     documentosVinculadosPagination$: Observable<any>;
     documentosVinculadosPagination: any;
 
+    loadingAcoesEtiqueta$: Observable<boolean>;
+    acoesEtiquetaList$: Observable<Acao[]>;
+
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
     tarefaListViewMode: ViewMode;
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
     parentIdentifier: string;
+
+    private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
+    private readonly _defaultSortOrder: string = 'ASC';
 
     static definitionsKey = 'tarefaListDefinitions';
 
@@ -284,6 +293,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
+        this.loadingAcoesEtiqueta$ = this._store.pipe(select(fromStore.getLoadingAcoesEtiquetas));
+        this.acoesEtiquetaList$ = this._store.pipe(select(fromStore.getAcoesEtiqueta));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -412,22 +423,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store
             .pipe(
                 select(fromStore.getViewMode),
-                distinctUntilChanged(),
                 filter((viewMode) => !!viewMode)
             )
             .subscribe((viewMode) => {
-                const lastViewMode = this.tarefaListViewMode;
                 this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
-
-                if (lastViewMode && lastViewMode !== viewMode) {
-                    this.reload({
-                        listFilter: this.pagination.listFilter,
-                        listSort: this.pagination.listSort,
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
-                        offset: 0
-                    });
-                }
-
                 this._changeDetectorRef.markForCheck();
             });
 
@@ -446,6 +445,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
 
+            this.generoHandle = routerState.state.params['generoHandle'];
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
@@ -672,6 +672,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
     }
 
+    static generateScopeKey(keys: string[]): string {
+        return keys.join('.');
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -744,8 +748,27 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             nparams['filter'] = {
                 ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
+        }
+
+        if (this.tarefaListViewMode === 'grid' && nparams.limit !== this.pagination.limit) {
+            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                .pipe(
+                    takeUntil(this._unsubscribeAll),
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    updatedConfigs[scopeKey] = {
+                        ...(updatedConfigs[scopeKey] ?? {}),
+                        tarefaLimit: nparams.limit
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                });
         }
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -1932,7 +1955,67 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doTarefaListViewModeChange(viewMode: ViewMode): void {
-        this._cacheGenericUserDataService.set({viewMode: viewMode}, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+        this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                take(1),
+                switchMap((configs) => of(configs || {}))
+            )
+            .subscribe((configs) => {
+                const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                const updatedConfigs = {...configs};
+                updatedConfigs[scopeKey] = {
+                    ...(updatedConfigs[scopeKey] ?? {}),
+                    viewMode: viewMode
+                };
+
+                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+            });
+
+        this.tarefaListViewMode = viewMode;
         this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+
+        this.reload({
+            listFilter: this.pagination.listFilter,
+            listSort: this.pagination.listSort,
+            tipoBusca: this.pagination?.listFilter?.tipoBusca,
+            offset: 0
+        });
+    }
+
+    resetTableDefinitions(): void {
+        const sort = {...(this.pagination.sort ?? {})};
+        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase())  {
+            this.reload({
+                ...this.pagination,
+                listSort: {[this._defaultSortField]: this._defaultSortOrder},
+                limit: 10,
+                offset: 0
+            });
+        }
+    }
+
+    doPendencies({vinculacaoEtiqueta, tarefa}): void {
+        this._store.dispatch(new fromStore.GetAcoesEtiqueta(vinculacaoEtiqueta.etiqueta.id));
+        const dialogRef = this._matDialog
+            .open(CdkVinculacaoEtiquetaAcoesDialogComponent, {
+                data: {
+                    vinculacaoEtiqueta: vinculacaoEtiqueta,
+                    acoesEtiquetaList$: this.acoesEtiquetaList$,
+                    isSaving$: this.savingVinculacaoEtiquetaId$
+                        .pipe(switchMap((vinculacaoEtiquetaId: number) => of(vinculacaoEtiquetaId === vinculacaoEtiqueta.id))),
+                    isLoading$: this.loadingAcoesEtiqueta$
+                },
+                width: '600px',
+                height: '300px',
+            });
+
+        dialogRef.afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((option) => {
+                if (option === true) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}));
+                }
+            });
     }
 }

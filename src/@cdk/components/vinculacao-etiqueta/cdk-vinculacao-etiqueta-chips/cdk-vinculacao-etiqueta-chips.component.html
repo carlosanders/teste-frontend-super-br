@@ -7,11 +7,16 @@
                     [saving]="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id"
                     [etiqueta]="vinculacaoEtiqueta.etiqueta"
                     [deletable]="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir"
-                    [selectable]="selectable"
+                    [selectable]="true"
+                    [editable]="true"
                     [iconeVisibilidade]="vinculacaoEtiqueta.privada ? 'person' : 'public'"
                     [conteudo]="vinculacaoEtiqueta.conteudo"
-                    (select)="openDialogEdit($event, vinculacaoEtiqueta)"
-                    (delete)="remove($event, vinculacaoEtiqueta)">
+                    [hasPendencies]="vinculacaoEtiqueta.objectContext['pendencias']"
+                    (edit)="openDialogEdit($event, vinculacaoEtiqueta)"
+                    (select)="openMenu($event)"
+                    (delete)="doRemove($event, vinculacaoEtiqueta)"
+                    (pendencies)="doPendencies($event, vinculacaoEtiqueta)"
+                    (filter)="filtroEtiquetas($event)">
             </cdk-etiqueta-chips-item>
             <input #etiquetaInput
                    placeholder="{{placeholder}}"

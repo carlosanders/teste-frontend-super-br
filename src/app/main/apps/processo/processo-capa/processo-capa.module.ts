@@ -27,7 +27,10 @@ import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-proces
 import {MatCardModule} from '@angular/material/card';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {StatusBarramentoService} from '../../../../../@cdk/services/status-barramento';
+import {StatusBarramentoService} from '@cdk/services/status-barramento';
+import {
+    CdkVinculacaoProcessoTreeListModule
+} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-tree-list/cdk-vinculacao-processo-tree-list.module';
 
 const routes: Routes = [
     {
@@ -68,6 +71,7 @@ const routes: Routes = [
         CdkVinculacaoProcessoGridModule,
         MatCardModule,
         MatSlideToggleModule,
+        CdkVinculacaoProcessoTreeListModule,
     ],
     providers: [
         ProcessoService,

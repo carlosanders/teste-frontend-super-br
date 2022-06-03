@@ -8,6 +8,8 @@
         [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
         [actions]="['edit']"
         (reload)="reload($event)"
-        (edit)="edit($event)">
+        (edit)="edit($event)"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination">
 </cdk-componente-digital-grid>
 <router-outlet></router-outlet>

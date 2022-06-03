@@ -138,6 +138,15 @@ export const vinculacaoTransicaoWorkflow = new schema.Entity('vinculacao-transic
 export const vinculacaoWorkflow = new schema.Entity('vinculacao-workflow');
 export const objetoAvaliado = new schema.Entity('objeto-avaliado');
 export const avaliacao = new schema.Entity('avaliacao');
+export const configModule = new schema.Entity('config-modulo');
+export const modulo = new schema.Entity('modulo');
+
+modulo.define({});
+
+configModule.define({
+    modulo: modulo,
+    paradigma: configModule
+});
 
 acao.define({
     criadoPor: usuario,
@@ -926,7 +935,8 @@ vinculacaoEtiqueta.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     usuario: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    usuarioAprovacaoSugestao: usuario
 });
 
 vinculacaoModelo.define({
@@ -949,7 +959,6 @@ vinculacaoPessoaUsuario.define({
 });
 
 vinculacaoProcesso.define({
-    processoVinculado: processo,
     modalidadeVinculacaoProcesso: modalidadeVinculacaoProcesso,
     criadoPor: usuario,
     atualizadoPor: usuario,

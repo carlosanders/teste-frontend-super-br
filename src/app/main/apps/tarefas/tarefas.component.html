@@ -18,7 +18,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <button mat-icon-button (click)="retornar()" *ngIf="routerState.params['processoHandle'] && (tarefaListViewMode == 'grid' || isSmallScreen)">
+            <button mat-icon-button (click)="retornar()" *ngIf="!componentRootUrl && (tarefaListViewMode == 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
@@ -312,7 +312,9 @@
                                      [viewMode]="tarefaListViewMode"
                                      [parentIdentifier]="parentIdentifier"
                                      [resizableColumns]="['allTableColumns']"
-                                     [ordableColumns]="['allTableColumns']">
+                                     [ordableColumns]="['allTableColumns']"
+                                     (resetTableDefinitions)="resetTableDefinitions()"
+                                     (pencencies)="doPendencies($event)">
                     </cdk-tarefa-list>
                 </div>
 

@@ -3,52 +3,68 @@ documento-avulso-edit-dados-basicos {
     flex: 1 1 auto;
     flex-direction: column;
 
-    > .dados-basicos {
+    .dados-basicos-sidebar {
         display: flex;
         flex-direction: column;
-        flex: 1 0 auto;
+        flex: 0 1 auto;
+        height: 0;
 
-        > .actions {
-            display: flex;
-            flex-direction: row;
-            flex: 0 0 auto;
-        }
-
-        > .status-remessa {
+        > .documentos-vinculados {
             display: flex;
             flex-direction: column;
-            flex: 0 0 auto;
+            flex: 1 1 auto;
 
-            > ng-template {
+            ng-template {
                 display: flex;
                 flex: 1 1 auto;
             }
         }
 
-        > .remetendo {
-            display: flex;
-            flex: 0 0 auto;
-            justify-content: center;
-            align-items: center;
-        }
-
-        > .formulario {
+        > .dados-basicos {
             display: flex;
             flex-direction: column;
             flex: 1 0 auto;
-            overflow-y: auto;
-            height: 0;
 
-            .responsive-grid .content {
-                height: 0 !important;
+            > .actions {
+                display: flex;
+                flex-direction: row;
+                flex: 0 0 auto;
+            }
+
+            > .status-remessa {
+                display: flex;
+                flex-direction: column;
+                flex: 0 0 auto;
+
+                > ng-template {
+                    display: flex;
+                    flex: 1 1 auto;
+                }
+            }
+
+            > .remetendo {
+                display: flex;
+                flex: 0 0 auto;
+                justify-content: center;
+                align-items: center;
+            }
+
+            > .formulario {
+                display: flex;
+                flex-direction: column;
+                flex: 1 0 auto;
+
+                .responsive-grid .content {
+                    height: 0 !important;
+                }
             }
         }
-    }
 
-    .remetendo {
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex: 0 0 auto;
+        .remetendo {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            flex: 0 0 auto;
+        }
     }
 }

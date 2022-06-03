@@ -67,6 +67,13 @@ export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA MI
 export const REMOVE_ETIQUETA_OFICIO_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA OFICIO TAREFA';
 export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFA DETAIL] ATUALIZA ETIQUETA MINUTA';
 
+export const TOGGLE_SHOW_DETAIL = '[TAREFA DETAIL] TOOGLE SHOW DETAIL';
+
+export const APROVAR_SUGESTAO = '[TAREFA DETAIL] APROVAR SUGESTAO';
+export const APROVAR_SUGESTAO_SUCCESS = '[TAREFA DETAIL] APROVAR SUGESTAO SUCCESS';
+export const APROVAR_SUGESTAO_FAILED = '[TAREFA DETAIL] APROVAR SUGESTAO FAILED';
+export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFA DETAIL] RELOAD VINCULACAO_ETIQUETA';
+
 /**
  * Get Tarefa
  */
@@ -611,6 +618,46 @@ export class AtualizaEtiquetaMinuta implements Action {
     }
 }
 
+export class ToggleShowDetail implements Action {
+    readonly type = TOGGLE_SHOW_DETAIL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestao implements Action {
+    readonly type = APROVAR_SUGESTAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoSuccess implements Action {
+    readonly type = APROVAR_SUGESTAO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoFailed implements Action {
+    readonly type = APROVAR_SUGESTAO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ReloadVinculacaoEtiqueta implements Action {
+    readonly type = RELOAD_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -660,4 +707,9 @@ export type TarefaDetailActionsAll
     | RemoveEtiquetaMinutaTarefa
     | RemoveEtiquetaOficioTarefa
     | AtualizaEtiquetaMinuta
+    | ToggleShowDetail
+    | AprovarSugestao
+    | AprovarSugestaoSuccess
+    | AprovarSugestaoFailed
+    | ReloadVinculacaoEtiqueta
     ;

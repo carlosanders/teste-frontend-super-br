@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-meio-autocomplete',
@@ -97,6 +98,6 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeMeioFn(modalidadeMeio): string {
-        return modalidadeMeio ? modalidadeMeio.valor : '';
+        return TitleCasePipe.format(modalidadeMeio ? modalidadeMeio.valor : '');
     }
 }

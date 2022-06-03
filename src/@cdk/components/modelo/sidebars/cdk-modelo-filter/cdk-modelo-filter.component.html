@@ -72,6 +72,42 @@
             </cdk-tipo-documento-autocomplete>
         </mat-form-field>
 
+        <mat-form-field *ngIf="this.form.get('modalidadeModelo').value === 'nacional' && !this.type">
+            <input matInput placeholder="Órgão Central"
+                   formControlName="modalidadeOrgaoCentral"
+                   [matAutocomplete]="modalidadeOrgaoCentral.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-modalidade-orgao-central-autocomplete
+                #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                [control]="form.get('modalidadeOrgaoCentral')"
+                [pagination]="orgaoCentralPagination">
+            </cdk-modalidade-orgao-central-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.form.get('modalidadeModelo').value === 'setor' && !this.type">
+            <input matInput placeholder="Setor"
+                   formControlName="setor"
+                   [matAutocomplete]="setor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [control]="form.get('setor')"
+                [pagination]="setorPagination">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.form.get('modalidadeModelo').value === 'unidade' && !this.type">
+            <input matInput placeholder="Unidade"
+                   formControlName="unidade"
+                   [matAutocomplete]="unidade.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-setor-autocomplete
+                #unidade="setorAutocomplete"
+                [control]="form.get('unidade')"
+                [pagination]="unidadePagination">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
+
         <span class="botao-toggle" *ngIf="hasInatived">
             Ativo
             <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="ativo">

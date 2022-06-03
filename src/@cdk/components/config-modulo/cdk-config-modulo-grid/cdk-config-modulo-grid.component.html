@@ -1,0 +1,296 @@
+<div class="page-layout left-sidebar">
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar name="cdk-config-modulo-filter" position="left">
+        <cdk-config-modulo-filter (selected)="setFilter($event)"
+                                           [mode]="this.mode"></cdk-config-modulo-filter>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <div class="responsive-grid" [ngClass]="{'search': (mode == 'search')}">
+
+        <div class="actions">
+
+            <div class="back" *showIfRole="'ROLE_ADMIN'">
+                <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <mat-form-field class="colunas mr-8">
+                    <mat-select [formControl]="moduloControl" multiple>
+                        <div *ngFor="let modulo of modulos">
+                            <mat-option [value]="modulo.id">{{ modulo.nome }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteConfigModules(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+            <button class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}"
+                    *ngIf="selectedIds.length > 1 && actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
+        </div>
+
+        <div class="loading" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <div class="content" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let configModule">
+                        <mat-checkbox [checked]="selectedIds.indexOf(configModule.id) > -1"
+                                      (change)="toggleInSelected(configModule.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(configModule.id) > -1 || hasExcluded">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.id}} </td>
+                </ng-container>
+
+                <!-- Nome Column -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}">
+                        {{configModule?.nome}}
+                        <mat-icon
+                                *ngIf="configModule.mandatory && configModule.dataValue === null"
+                                [ngStyle]="{'color':'red'}"
+                                aria-label="Valor obrigatório para preenchimento"
+                                matTooltip="Valor obrigatório para preenchimento">
+                            report_problem
+                        </mat-icon>
+                        <mat-icon
+                                *ngIf="configModule.paradigma"
+                                aria-label="Configuração com schema de outra configuração"
+                                matTooltip="Configuração com schema de outra configuração">
+                            people
+                        </mat-icon>
+                        <mat-icon
+                            *ngIf="configModule.invalid"
+                            [ngStyle]="{'color':'red'}"
+                            aria-label="Valor inválido em relação ao schema de outra configuração"
+                            matTooltip="Valor inválido em relação ao schema de outra configuração">
+                            announcement
+                        </mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- Descrição Column -->
+                <ng-container matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.descricao}} </td>
+                </ng-container>
+
+                <!-- DataType Column -->
+                <ng-container matColumnDef="dataType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        DataType
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='DataType: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.dataType}} </td>
+                </ng-container>
+
+                <!-- DataSchema Column -->
+                <ng-container matColumnDef="dataSchema">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        DataSchema
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='DataSchema: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.dataSchema}} </td>
+                </ng-container>
+
+                <!-- DataValue Column -->
+                <ng-container matColumnDef="dataValue">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        DataValue
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='DataValue: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}">
+                        {{
+                            configModule?.dataType !== 'json'
+                                ? ((configModule?.dataType === 'datetime')
+                                    ? (configModule?.dataValue | date: 'dd/MM/yyyy HH:mm:ss')
+                                    : (configModule?.dataValue))
+                                : ''
+                        }}
+                        <span
+                                *ngIf="configModule?.dataType === 'json'"
+                                [ngStyle]="{'font-weight': 'bold'}"
+                                aria-label="Valor do tipo JSON"
+                                matTooltip="Valor do tipo JSON">&#123; .. &#125;
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Module Column -->
+                <ng-container matColumnDef="modulo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Módulo
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Módulo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.modulo.nome}} </td>
+                </ng-container>
+
+                <!-- Mandatory Column -->
+                <ng-container matColumnDef="mandatory">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Obrigatório
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Obrigatório: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}">
+                        <mat-slide-toggle
+                                disabled
+                                [checked]="configModule.mandatory"
+                                class="mr-16 mb-16 mt-24 flex-0-0-auto">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+                <!-- Criado Por Column -->
+                <ng-container matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.criadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- Atualizado Por Column -->
+                <ng-container matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.atualizadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- Deletado Por Column -->
+                <ng-container matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Deletado Por
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Deletado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.apagadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let configModule">
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
+                                (click)="selectConfigModule(configModule)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(configModule.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+                        <button mat-icon-button
+                                *showIfRole="'ROLE_ADMIN'"
+                                [disabled]="deletedIds?.indexOf(configModule.id) > -1"
+                                (click)="editAdminConfigModule(configModule.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                *showIfRole="'ROLE_ADMIN'"
+                                [disabled]="deletedIds?.indexOf(configModule.id) > -1 && !hasExcluded"
+                                (click)="editConfigModule(configModule.id)"
+                                aria-label="inserir valor"
+                                matTooltip="Inserir valor">
+                            <mat-icon>notes icon</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                *showIfRole="'ROLE_ADMIN'"
+                                [disabled]="deletedIds?.indexOf(configModule.id) > -1"
+                                (click)="deleteConfigModule(configModule.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let configModule; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+        </div>
+
+    </div>
+</div>

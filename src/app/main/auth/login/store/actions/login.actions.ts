@@ -19,6 +19,8 @@ export const GET_CONFIG_SUCCESS = '[Login] Get Config Success';
 export const GET_CONFIG_FAILURE = '[Login] Get Config Failure';
 export const VERSION_CHANGED = '[Login] Version Changed';
 
+export const PASSWORD_EXPIRED = '[Login] Password Expired';
+
 export class Login implements Action {
     readonly type = LOGIN;
     constructor(public payload: any) {}
@@ -108,6 +110,11 @@ export class VersionChanged implements Action {
     constructor(public payload: any) {}
 }
 
+export class PasswordExpired implements Action {
+    readonly type = PASSWORD_EXPIRED;
+    constructor(public payload: any) {}
+}
+
 export type LoginActionsAll =
     Login
     | LoginLdap
@@ -126,4 +133,6 @@ export type LoginActionsAll =
     | GetConfig
     | GetConfigSuccess
     | GetConfigFailure
-    | VersionChanged;
+    | VersionChanged
+    | PasswordExpired
+    ;

@@ -16,11 +16,23 @@ import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkConfirmDialogModule} from '@cdk/components';
 import {MatInputModule} from '@angular/material/input';
+import {
+    CdkDocumentoCardListModule
+} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {
+    CdkComponenteDigitalCardListModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import * as fromGuards from './store/guards';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {
+    CdkMinutasAtividadeCardListModule
+} from '@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoAvulsoEditDadosBasicosComponent
+        component: DocumentoAvulsoEditDadosBasicosComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -52,10 +64,15 @@ modulesConfig.forEach((module) => {
         MatSlideToggleModule,
         CdkDocumentoAvulsoFormModule,
         CdkConfirmDialogModule,
-        MatInputModule
+        MatInputModule,
+        CdkDocumentoCardListModule,
+        CdkComponenteDigitalCardListModule,
+        CdkMinutasAtividadeCardListModule
     ],
     providers: [
         DocumentoAvulsoService,
+        fromGuards.ResolveGuard,
+        VinculacaoDocumentoService
     ],
     exports: [
         DocumentoAvulsoEditDadosBasicosComponent

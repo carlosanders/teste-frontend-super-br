@@ -3,11 +3,12 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {
+    Acao,
     Assinatura,
     ComponenteDigital,
     Documento,
@@ -50,6 +51,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogComponent
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
 
 @Component({
     selector: 'tarefa-detail',
@@ -90,7 +94,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     novaAba = false;
-    expandState: 'minimum' | 'maximized' | 'collapsed' = 'minimum';
+    showDetail: boolean = false;
     isGridMode: boolean = false;
     typeHandle: string;
     formTipoDocumento: FormGroup;
@@ -126,6 +130,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     documentosVinculadosPagination$: Observable<any>;
     documentosVinculadosPagination: any;
+    isLoadingAcoesEtiqueta$: Observable<boolean>;
+    acoesEtiquetaList$: Observable<Acao[]>;
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
@@ -144,6 +150,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         private _cdkTarefaListService: CdkTarefaListService,
         private _formBuilder: FormBuilder,
         private _matDialog: MatDialog,
+        private _viewContainerRef: ViewContainerRef
     ) {
 
         this.formTipoDocumento = this._formBuilder.group({
@@ -182,6 +189,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errorsAddEtiqueta$ = this._store.pipe(select(fromStore.getEtiquetaError));
         this._cdkTarefaListService
             .viewModeObservable()
@@ -197,6 +205,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.errorComponentesDigitais$ = this._store.pipe(select(fromStore.getErrorsComponentesDigitais));
+        this.isLoadingAcoesEtiqueta$ = this._store.pipe(select(fromStore.getAcoesEtiquetaIsLoading));
+        this.acoesEtiquetaList$ = this._store.pipe(select(fromStore.getAcoesEtiqueta));
+
+        this._store.pipe(select(fromStore.getShowDetail))
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((showDetail: boolean) => this.showDetail = showDetail);
     }
 
     ngOnInit(): void {
@@ -237,12 +251,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            maximizado => this.maximizado = maximizado
+            (maximizado) => {
+                this.maximizado = maximizado;
+
+                if (maximizado && this.showDetail) {
+                    this.doToggleShowDetail();
+                }
+            }
         );
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
+            if (!this.mobileMode && screen.size !== 'desktop') {
+                this.doToggleShowDetail();
+            }
+
             this.mobileMode = screen.size !== 'desktop';
         });
 
@@ -757,5 +781,32 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     doToggleMaximizado(valor: boolean): void {
         this._store.dispatch(new ToggleMaximizado(valor));
+    }
+
+    doToggleShowDetail(): void {
+        this._store.dispatch(new fromStore.ToggleShowDetail(!this.showDetail));
+    }
+
+    onPendencies(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new fromStore.GetAcoesEtiqueta(vinculacaoEtiqueta.etiqueta.id));
+        const dialogRef = this._matDialog
+            .open(CdkVinculacaoEtiquetaAcoesDialogComponent, {
+                data: {
+                    vinculacaoEtiqueta: vinculacaoEtiqueta,
+                    acoesEtiquetaList$: this.acoesEtiquetaList$,
+                    isSaving$: this.isSaving$,
+                    isLoading$: this.isLoadingAcoesEtiqueta$
+                },
+                width: '600px',
+                height: '300px',
+            });
+
+        dialogRef.afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((option) => {
+                if (option === true) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa}));
+                }
+            });
     }
 }

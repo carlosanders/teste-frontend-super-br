@@ -235,7 +235,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                         this.form.get('setorDestino').disable();
                         this.form.get('pessoaDestino').enable();
                         this.pessoaDestinoPagination.filter = {};
-                        if(value === 'barramento') {
+                        if (value === 'barramento') {
                             this.pessoaDestinoPagination.filter['vinculacaoPessoaBarramento'] = 'isNotNull';
                         }
                     }
@@ -261,19 +261,38 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (!value) {
-                        this.selected = false;
-                    }
-                    if (value && typeof value === 'object') {
-                        this.selected = true;
-                    }
-                    if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
-                        this.destinatarios.push(value);
-                    }
-                    this._changeDetectorRef.markForCheck();
-                    return of([]);
+                if (!value) {
+                    this.selected = false;
                 }
-            )
+                if (value && typeof value === 'object') {
+                    this.selected = true;
+                }
+                if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
+                    this.destinatarios.push(value);
+                }
+
+                if (value && typeof value === 'object') {
+                    if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
+                        this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO'};
+                    } else {
+                        this.especieDocumentoAvulsoPagination.filter = {
+                            'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' +
+                                this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
+                        };
+                    }
+
+                    if (this.form.get('blocoProcessos').value && this.processos.length > 0) {
+                        this.especieDocumentoAvulsoPagination.filter = {
+                            'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' +
+                                this.generoProcessos[0].toUpperCase()
+                        };
+                    }
+                }
+
+                this._changeDetectorRef.markForCheck();
+
+                return of([]);
+            })
         ).subscribe();
 
         this.form.get('pessoaDestino').valueChanges.pipe(
@@ -294,6 +313,27 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 }
             )
         ).subscribe();
+
+        if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
+            if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
+                this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO'};
+            } else {
+                const path = '@cdk/components/documento-avulso/cdk-documento-avulso-form';
+                let generoAffinity = '';
+                modulesConfig.forEach((module) => {
+                    if (module.generoAffinity?.hasOwnProperty(path) &&
+                        module.generoAffinity[path].hasOwnProperty(this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase())
+                    ) {
+                        generoAffinity = ',' + module.generoAffinity[path][this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()].join(',');
+                    }
+                });
+                this.especieDocumentoAvulsoPagination.filter = {
+                    'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' +
+                        this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase() +
+                        generoAffinity
+                };
+            }
+        }
     }
 
     ngAfterViewInit(): void {

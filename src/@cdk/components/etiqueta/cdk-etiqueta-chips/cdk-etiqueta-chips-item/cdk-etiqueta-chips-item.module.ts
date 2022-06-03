@@ -10,6 +10,8 @@ import {
 import {NgModule} from '@angular/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkEtiquetaChipsItemComponent} from './cdk-etiqueta-chips-item.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
     declarations: [
@@ -24,6 +26,8 @@ import {CdkEtiquetaChipsItemComponent} from './cdk-etiqueta-chips-item.component
         MatTooltipModule,
         MatButtonModule,
         CdkSharedModule,
+        MatMenuModule,
+        MatBadgeModule,
     ],
     providers: [],
     exports: [

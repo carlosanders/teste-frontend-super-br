@@ -4,6 +4,7 @@ import {AssuntoReducer, AssuntoState} from './assunto.reducer';
 import {InteressadoReducer, InteressadoState} from './interessado.reducer';
 import {VinculacaoProcessoReducer, VinculacaoProcessoState} from './vinculacao-processo.reducer';
 import {AcompanhamentoReducer, AcompanhamentoState} from './acompanhamento.reducer';
+import {JuntadaReducer, JuntadaState} from './juntada.reducer';
 
 export interface ProcessoCapaAppState {
     processo: ProcessoCapaState;
@@ -11,6 +12,7 @@ export interface ProcessoCapaAppState {
     interessados: InteressadoState;
     vinculacoesProcessos: VinculacaoProcessoState;
     acompanhamento: AcompanhamentoState;
+    juntadas: JuntadaState;
 }
 
 export const getProcessoCapaAppState = createFeatureSelector<ProcessoCapaAppState>(
@@ -22,7 +24,8 @@ export const reducers: ActionReducerMap<ProcessoCapaAppState> = {
     assuntos: AssuntoReducer,
     interessados: InteressadoReducer,
     vinculacoesProcessos: VinculacaoProcessoReducer,
-    acompanhamento: AcompanhamentoReducer
+    acompanhamento: AcompanhamentoReducer,
+    juntadas: JuntadaReducer
 };
 
 export * from './processo-capa.reducer';
@@ -30,3 +33,4 @@ export * from './assunto.reducer';
 export * from './interessado.reducer';
 export * from './vinculacao-processo.reducer';
 export * from './acompanhamento.reducer';
+export * from './juntada.reducer';

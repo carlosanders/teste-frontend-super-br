@@ -331,7 +331,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
+            filter(juntadas => !!juntadas && (juntadas.length !== this.juntadas?.length || juntadas !== this.juntadas))
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
@@ -343,23 +343,26 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.form.get('numeracaoSequencial').setValue(null);
             }
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -469,8 +472,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         panelClass: ['danger-snackbar']
                     });
                 }
-            }
-        );
+            });
 
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -671,10 +673,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
+            if (!componenteDigitalId && juntada.ativo && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
                 stepHandle += '-' + substep;
-            } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
+            } else if (componenteDigitalId && juntada.ativo && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
                 stepHandle += '-' + substep;
             } else {
@@ -730,6 +732,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         }
+    }
+
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+                houveMudanca = true;
+            }
+        });
+        return houveMudanca;
     }
 
     reload(params): void {
@@ -1560,7 +1572,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     fecharSidebar(): void {
-        if (!this._cdkSidebarService.getSidebar(this.name).isLockedOpen) {
+        if (!this._cdkSidebarService.getSidebar(this.name)?.isLockedOpen) {
             this._cdkSidebarService.getSidebar(this.name).close();
         }
     }

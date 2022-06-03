@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store';
-import {environment} from '../../../../environments/environment';
+import {environment} from 'environments/environment';
 import * as fromLoginStore from 'app/main/auth/login/store';
 import * as moment from 'moment';
 
@@ -111,6 +111,14 @@ export class LoginService {
 
     getVersion(): string {
         return localStorage.getItem('version');
+    }
+
+    getTokenPayload(token?: string): any {
+        if (!token && !this.getToken()) {
+            return null;
+        }
+
+        return JSON.parse(atob((token ?? this.getToken()).split('.')[1]));
     }
 
     removeToken(): void {

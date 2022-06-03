@@ -125,7 +125,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
                             value: relatorio[campo].id,
                             type: 'entity',
                             class: nClass,
-                            getter: 'getId'
+                            getter: 'getNome'
                         };
                     }
 

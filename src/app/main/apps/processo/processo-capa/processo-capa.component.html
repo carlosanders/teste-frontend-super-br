@@ -183,16 +183,16 @@
 
     <mat-card>
         <mat-card-subtitle>Processos Vinculados</mat-card-subtitle>
-        <cdk-vinculacao-processo-grid
-            [loading]="(loadingVinculacoesProcessos$ | async)"
-            (reload)="reloadVinculacoesProcessos($event)"
+        <cdk-vinculacao-processo-tree-list
+            [vinculacaoProcesso]="(vinculacoesProcessos$ | async)"
+            [isLoading]="(loadingVinculacoesProcessos$ | async)"
             [actions]="['view']"
-            [processoRef]="processo"
-            [vinculacoesProcessos]="vinculacoesProcessos"
-            [displayedColumns]="['id', 'processo', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor', 'actions']"
-            (view)="view($event)"
-            [total]="(paginationVinculacoesProcessos$ | async)?.total">
-        </cdk-vinculacao-processo-grid>
+            [disableExpand]="true"
+            [currentProcessoId]="processo?.id"
+            (reload)="reloadVinculacoesProcessos($event)"
+            (visualizarProcesso)="visualizarProcesso($event)"
+            (visualizarProcessoNovaAba)="visualizarProcessoNovaAba($event)">
+        </cdk-vinculacao-processo-tree-list>
     </mat-card>
 
     <mat-card>
@@ -215,5 +215,17 @@
             [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
             [total]="(paginationAssuntos$ | async)?.total">
         </cdk-assunto-grid>
+    </mat-card>
+    <mat-card>
+        <mat-card-subtitle>Juntadas</mat-card-subtitle>
+        <cdk-juntada-grid
+            [loading]="(loadingJuntadas$ | async)"
+            [juntadas]="(juntadas$ | async)"
+            [total]="(paginationJuntadas$ | async)?.total"
+            [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
+            [actions]="['view']"
+            (view)="abrirJuntadaNovaAba($event)"
+            (reload)="reloadJuntadas($event)">
+        </cdk-juntada-grid>
     </mat-card>
 </div>

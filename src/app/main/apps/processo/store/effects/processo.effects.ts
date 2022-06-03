@@ -73,7 +73,8 @@ export class ProcessoEffect {
                 ]),
                 tap(() => {
                     this._store.dispatch(new fromStore.UnloadTarefasProcesso());
-                    if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+                    if (this.routerState.params['processoHandle'] &&
+                        this._loginService.isGranted('ROLE_COLABORADOR')) {
                         this._store.dispatch(new ProcessoActions.GetTarefasProcesso({
                             processoId: this.routerState.params.processoHandle
                         }));

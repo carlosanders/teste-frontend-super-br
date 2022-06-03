@@ -137,7 +137,7 @@ export class ChatParticipantesListComponent implements OnInit, OnChanges
     {
         this.errorMessage = null;
 
-        if (changes['chat'] && this.chat) {
+        if (changes['chat'] && this.chat && this.chat?.participantes?.length > 0) {
             this.usuarioPagination.filter = {
                 'id' : 'notIn:' + this.chat.participantes
                     .map(chatParticipante => chatParticipante.usuario.id)

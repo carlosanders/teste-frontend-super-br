@@ -14,6 +14,7 @@ import {getRouterState} from 'app/store/reducers';
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
+    loadingDocumentos: boolean = false;
 
     /**
      * Constructor
@@ -29,6 +30,11 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._store.pipe(
+            select(fromStore.getDocumentosLoading)
+        ).subscribe((loading) => {
+            this.loadingDocumentos = loading;
+        })
     }
 
     /**
@@ -71,11 +77,16 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getDocumentosHasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetDocumentos());
+                if (!this.loadingDocumentos && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                    this._store.dispatch(new fromStore.UnloadDocumentos());
+                    this.loadingDocumentos = true;
+                    this._store.dispatch(new fromStore.GetDocumentos({
+                        limit: 10,
+                        offset: 0
+                    }));
                 }
             }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            filter((loaded: any) => this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

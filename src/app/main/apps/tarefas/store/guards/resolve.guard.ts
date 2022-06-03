@@ -3,12 +3,11 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {combineLatest, forkJoin, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getFoldersLoaded, getIsLoading, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -25,6 +24,8 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
     loadingTarefas: boolean = false;
     viewMode: ViewMode;
+    tarefaSort: any;
+    tarefaLimit: number;
     private _profile: Usuario;
 
     constructor(
@@ -36,24 +37,10 @@ export class ResolveGuard implements CanActivate {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState),
-            tap(() => {
-                this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
-                    .pipe(
-                        take(1),
-                        filter((definitions) => !!definitions)
-                    )
-                    .subscribe((definitions) => this.viewMode = definitions.viewMode)
-            })
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.viewMode = this._router.getCurrentNavigation()?.extras?.state?.viewMode ?? this.viewMode;
         });
-
-        this._store
-            .pipe(select(getIsLoading))
-            .subscribe((loading) => {
-                this.loadingTarefas = loading;
-            });
 
         this._profile = _loginService.getUserProfile();
     }
@@ -86,6 +73,26 @@ export class ResolveGuard implements CanActivate {
         ).pipe(
             filter(([foldersLoaded]) => !!(foldersLoaded)),
             take(1),
+            switchMap(() => {
+                return this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                    .pipe(
+                        tap((configs) => {
+                            const scopeKey = TarefasComponent.generateScopeKey([this.routerState?.params['generoHandle']]);
+                            if (configs) {
+                                const scopeConfigs = {
+                                    ...(configs[scopeKey] || {})
+                                };
+                                // Usar sempre o que veio pelo router
+                                if (!this.viewMode) {
+                                    this.viewMode = scopeConfigs?.viewMode
+                                }
+                                this.tarefaSort = scopeConfigs?.tarefaSort;
+                                this.tarefaLimit = scopeConfigs?.tarefaLimit;
+                            }
+                        })
+                    )
+            }),
+            catchError(() => of(true)),
             switchMap(() =>
                 this.getTarefas()
             )
@@ -99,7 +106,7 @@ export class ResolveGuard implements CanActivate {
      */
     getFolders(): any {
         return this._store.pipe(
-            select(getFoldersLoaded),
+            select(fromStore.getFoldersLoaded),
             tap((loaded) => {
                 if (!loaded) {
                     this._store.dispatch(new fromStore.GetFolders([]));
@@ -116,23 +123,26 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     getTarefas(): any {
-        return this._store.pipe(
-            select(getTarefasLoaded),
-            withLatestFrom(this._store.pipe(select(fromStore.getTarefaHandle))),
-            tap(([loaded, tarefaHandle]) => {
-                if (!this.loadingTarefas && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
-                    !this.routerState.params['targetHandle'] ||
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                        '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
 
+        return combineLatest(
+            [
+                this._store.pipe(select(fromStore.getTarefasLoaded)),
+                this._store.pipe(select(fromStore.getTarefaHandle)),
+                this._store.pipe(select(fromStore.getIsLoading)),
+            ]
+        ).pipe(
+            tap(([loaded, tarefaHandle, loading]) => {
+                if (!loading && loaded && this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
+                    this.routerState.params['targetHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
 
+                } else if (!loading && !loaded) {
                     const params = {
                         listFilter: {},
                         etiquetaFilter: {},
-                        limit: 10,
+                        limit: (this.viewMode === 'grid' ? (this.tarefaLimit || 10) : 10),
                         offset: 0,
-                        sort: {dataHoraFinalPrazo: 'ASC'},
+                        sort: (this.viewMode === 'grid' ? (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}) : {dataHoraFinalPrazo: 'ASC'}),
                         populate: [
                             'processo',
                             'colaborador.usuario',
@@ -266,20 +276,17 @@ export class ResolveGuard implements CanActivate {
                         params['viewMode'] = this.viewMode;
                     }
 
+                    this.loadingTarefas = true;
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     if (!tarefaHandle) {
                         this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
                     } else {
                         this._store.dispatch(new fromStore.ChangeSelectedTarefas([parseInt(tarefaHandle, 10)]));
                     }
-                    this.loadingTarefas = true;
                 }
             }),
-            filter(([loaded,]) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
-                this.routerState.params['targetHandle'] &&
-                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
-                    this.routerState.params['targetHandle']) ===
-                loaded.value)),
+            filter(([loaded,,]) => loaded && this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
+                this.routerState.params['targetHandle'] === loaded.value),
             take(1)
         );
     }

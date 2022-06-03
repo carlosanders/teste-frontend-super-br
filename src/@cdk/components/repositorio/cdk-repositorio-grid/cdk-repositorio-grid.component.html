@@ -117,7 +117,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -128,7 +128,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.setor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -139,7 +139,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.unidade?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -151,7 +151,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -160,7 +160,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- highlights Column -->

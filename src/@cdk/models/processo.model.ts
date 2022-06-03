@@ -82,7 +82,6 @@ export class Processo {
     @Exclude({toPlainOnly: true})
     chaveAcesso?: string;
 
-    @Exclude({toPlainOnly: true})
     valorEconomico?: number;
 
     @Type(() => Classificacao)

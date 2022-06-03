@@ -18,6 +18,10 @@ const routes = [
     {
         path: 'esqueci-senha',
         loadChildren: () => import('./esqueci-senha/esqueci-senha.module').then(m => m.EsqueciSenhaModule)
+    },
+    {
+        path: 'update-password',
+        loadChildren: () => import('./update-password/update-password.module').then(m => m.UpdatePasswordModule)
     }
 ];
 

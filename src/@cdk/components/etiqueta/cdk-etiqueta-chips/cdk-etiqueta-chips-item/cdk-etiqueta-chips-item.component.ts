@@ -4,7 +4,7 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output,
+    Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@cdk/angular/material';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 
 @Component({
@@ -28,47 +29,58 @@ export class CdkEtiquetaChipsItemComponent {
     etiqueta: Etiqueta;
 
     @Input()
-    selectable:boolean;
+    selectable: boolean;
 
     @Input()
-    deletable:boolean;
+    editable: boolean;
 
     @Input()
-    saving:boolean;
+    deletable: boolean;
+
+    @Input()
+    saving: boolean;
 
     @Input()
     conteudo: string;
 
     @Input()
+    hasPendencies: boolean;
+
+    @Input()
     iconeVisibilidade: string;
 
     @Output()
-    delete:EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+    delete: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
 
     @Output()
-    select:EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+    select: EventEmitter<{etiqueta: Etiqueta, scope: CdkEtiquetaChipsItemComponent}> = new EventEmitter<{etiqueta: Etiqueta, scope: CdkEtiquetaChipsItemComponent}>();
+
+    @Output()
+    edit: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+
+    @Output()
+    pendencies: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+
+    @Output()
+    filter: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+
+    @ViewChild(MatMenuTrigger) matMenuTrigger: MatMenuTrigger;
 
 
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog) {
     }
 
-    remove(): void {
+    doRemove(): void {
+        this.matMenuTrigger.closeMenu();
         this.delete.emit(this.etiqueta);
     }
 
-    openDialogEdit(): void {
-        if (this.selectable) {
-            this.select.emit(this.etiqueta);
+    doEdit(): void {
+        if (this.editable) {
+            this.matMenuTrigger.closeMenu();
+            this.edit.emit(this.etiqueta);
         }
-    }
-
-    getTooltip(): string {
-        if (this.selectable) {
-            return "Clique para editar o conteúdo";
-        }
-
-        return "";
     }
 
     corHexadecimalFonte() {
@@ -77,5 +89,27 @@ export class CdkEtiquetaChipsItemComponent {
             return 'black';
         }
         return 'white';
+    }
+
+    doSelect(): void {
+        if (this.selectable) {
+            this.select.emit({etiqueta: this.etiqueta, scope: this});
+        }
+    }
+
+    doPendencias(): void {
+        if (this.hasPendencies) {
+            this.pendencies.emit(this.etiqueta);
+        }
+    }
+
+    canOpenMenu(): boolean {
+        return !this.saving && (this.hasPendencies || this.deletable || this.editable);
+    }
+
+    doFiltro(): void {
+        if (this.selectable) {
+            this.filter.emit(this.etiqueta);
+        }
     }
 }

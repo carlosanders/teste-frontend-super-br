@@ -106,7 +106,7 @@
                         Assinado Por
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Assinado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.assinadoPor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.assinadoPor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataHoraAssinatura Column -->
@@ -127,7 +127,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -146,7 +146,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -164,7 +164,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1, 'error': getProp(deletingErrors, assinatura.id)}"> {{assinatura.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

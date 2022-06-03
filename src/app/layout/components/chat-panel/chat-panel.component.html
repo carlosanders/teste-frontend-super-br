@@ -14,7 +14,7 @@
 
 </div>
 <div class="content-card" tabindex="-1"
-     *ngIf="usuarioAutenticado === true">
+     *ngIf="usuarioLogado">
 
     <mat-sidenav-container>
         <!-- LEFT SIDENAV-->
@@ -85,7 +85,7 @@
                             <textarea matInput placeholder="Escreva sua mensagem..."
                                       formControlName="mensagem"
                                       #mensagem
-                                      maxlength="150" [rows]="1" [matTextareaAutosize]="false"></textarea>
+                                      maxlength="150" [rows]="1" [cdkTextareaAutosize]="false"></textarea>
                         </mat-form-field>
 
                         <button class="send-message-button" mat-icon-button type="submit" aria-label="Enviar Mensagem">
@@ -103,7 +103,7 @@
                      *ngIf="activeCard === 'chat-grupo-form'">
             <chat-grupo-form
                 (cancelFormHandler)="cancelChatGrupoForm()"
-                (chatForm)="chatForm($event)"
+                (chatFormHandler)="chatForm($event)"
                 (chatParticipantesHandler)="chatParticipantes($event)"
                 (removerParticipanteHandler)="removerParticipante($event)"
                 (imagemCapaCroppedHandler)="uploadImgCapaChat($event)"
@@ -124,7 +124,6 @@
                 (fecharHandler)="fecharParticipantes()"
                 (chatParticipantesHandler)="chatParticipantes($event)"
                 (chatFormHandler)="chatForm($event)"
-                (imagemCapaCroppedHandler)="uploadImgCapaChat($event)"
                 (adicionarParticipanteHandler)="adicionarParticipante($event)"
                 (tornarAdministradorHandler)="tornarAdministrador($event)"
                 (removerParticipanteHandler)="removerParticipante($event)"
@@ -134,8 +133,7 @@
                 [chatParticipanteList]="chatParticipanteList"
                 [saving]="chatParticipanteSaving"
                 [loading]="chatParticipanteLoading"
-                [errors]="chatParticipanteErrors"
-            >
+                [errors]="chatParticipanteErrors">
             </chat-participantes-list>
         </mat-sidenav>
         <!-- /CHAT PARTICIPANTES SIDENAV-->
