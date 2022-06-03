@@ -85,6 +85,9 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
     @Output()
     pendencies: EventEmitter<VinculacaoEtiqueta> = new EventEmitter<VinculacaoEtiqueta>();
 
+    @Output()
+    filter = new EventEmitter<Etiqueta>();
+
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
@@ -261,5 +264,9 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
         this.addEtiqueta.emit(this.etiqueta);
         this.creating = true;
         this.showBtnAddEtiqueta = false;
+    }
+
+    filtroEtiquetas(etiqueta: Etiqueta): void {
+        this.filter.emit(etiqueta);
     }
 }

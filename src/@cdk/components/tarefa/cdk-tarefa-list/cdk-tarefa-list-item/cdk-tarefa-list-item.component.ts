@@ -235,6 +235,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     erroUpload = new EventEmitter<string>();
 
     @Output()
+    filterNup = new EventEmitter<any>();
+
+    @Output()
+    filterEtiqueta = new EventEmitter<any>();
+
+    @Output()
     outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
@@ -600,5 +606,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doPendencies(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.pencencies.emit({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa})
+    }
+
+    doFilterNup(processo: any): void {
+        this.filterNup.emit(processo);
+    }
+
+    doFilterEtiqueta(etiqueta: any): void {
+        this.filterEtiqueta.emit(etiqueta);
     }
 }

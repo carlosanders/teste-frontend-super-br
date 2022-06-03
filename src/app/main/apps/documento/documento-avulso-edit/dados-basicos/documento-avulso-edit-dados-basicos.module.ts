@@ -23,6 +23,7 @@ import {
     CdkComponenteDigitalCardListModule
 } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import * as fromGuards from './store/guards';
+import {VinculacaoDocumentoService} from "../../../../../../@cdk/services/vinculacao-documento.service";
 
 const routes: Routes = [
     {
@@ -66,7 +67,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoAvulsoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        VinculacaoDocumentoService
     ],
     exports: [
         DocumentoAvulsoEditDadosBasicosComponent

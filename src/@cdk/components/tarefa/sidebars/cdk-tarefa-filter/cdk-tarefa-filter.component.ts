@@ -61,6 +61,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     @Input()
     setorOrigemPagination: Pagination;
 
+    @Input()
+    filterProcesso = null;
+
+    @Input()
+    filterEtiquetas: any = [];
+
     filterCriadoEm = [];
     filterAtualizadoEm = [];
     filterApagadoEm = [];
@@ -71,7 +77,9 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     filterDataHoraFinalPrazo = [];
     filterDataHoraConclusaoPrazo = [];
 
+    @Input()
     etiquetas: Etiqueta[] = [];
+
     filtroEtiquetas: SearchBarEtiquetasFiltro;
     etiquetaFilter: any;
 
@@ -196,6 +204,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         if (this.typeHandle !== changes['typeHandle'] && this.targetHandle !== changes['targetHandle']) {
             this.form.get('redistribuida').setValue('todos');
             this.form.get('urgente').setValue('todos');
+        }
+
+        if (this.filterProcesso) {
+            this.form.get('processo').setValue(this.filterProcesso);
         }
     }
 
