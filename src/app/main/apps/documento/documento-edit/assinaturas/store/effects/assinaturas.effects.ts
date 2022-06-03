@@ -121,7 +121,7 @@ export class AssinaturasEffects {
                     schema: assinaturaSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new AssinaturaActions.DeleteAssinaturaSuccess(response.id);
+                return new AssinaturaActions.DeleteAssinaturaSuccess({assinaturaId: response.id, documentoId: action.payload.documentoId});
             }),
             catchError((err) => {
                 const payload = {

@@ -6,6 +6,7 @@ import {filter, tap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
 import * as TarefasActions from '../actions/tarefas.actions';
+import * as AssinaturaTarefaActions from '../actions/assinaturas.actions';
 
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {DocumentoService} from '@cdk/services/documento.service';
@@ -33,6 +34,13 @@ export class AssinaturasEffects {
     removeAssinaturaDocumento: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.RemoveAssinaturaDocumentoSuccess>(AssinaturaActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS),
         tap(action => this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload)))
+    ), {dispatch: false});
+    /**
+     * Ações relacionadas a deleção de assinatura de documento diretamente da listagem de assinaturas do editor
+     */
+    deleteAssinaturaDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaTarefaActions.DeleteAssinaturaDocumentoSuccess>(AssinaturaTarefaActions.DELETE_ASSINATURA_DOCUMENTO_SUCCESS),
+        tap(action => this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload.documentoId)))
     ), {dispatch: false});
 
     constructor(

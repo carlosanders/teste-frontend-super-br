@@ -32,6 +32,8 @@ export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] UNLOAD DOCU
 
 export const APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS = '[DOCUMENTO EDIT COMPONENTE DIGITAL] APPROVE COMPONENTE DIGITAL SUCCESS';
 
+export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL SUCCESS';
+
 /**
  * Get Documentos Vinculados
  */
@@ -270,6 +272,18 @@ export class ApproveComponenteDigitalVinculadoSuccess implements Action
     }
 }
 
+/**
+ * SaveComponenteDigitalSuccess do Documento
+ */
+export class SaveComponenteDigitalDocumentoSuccess implements Action
+{
+    readonly type = SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -292,4 +306,5 @@ export type DocumentosVinculadosActionsAll
     | RemoveVinculacaoDocumentoFailed
     | ReloadDocumentosVinculados
     | UnloadDocumentosVinculados
-    | ApproveComponenteDigitalVinculadoSuccess;
+    | ApproveComponenteDigitalVinculadoSuccess
+    | SaveComponenteDigitalDocumentoSuccess;

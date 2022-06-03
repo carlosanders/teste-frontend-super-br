@@ -27,6 +27,10 @@ cdk-processo-autocomplete-action-filter {
             &:hover {
                 background-color: #f4f4f4;
             }
+            &.selected {
+                cursor: default;
+                font-weight: bold;
+            }
         }
     }
 }

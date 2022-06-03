@@ -40,8 +40,8 @@ export class DeactivateGuard implements CanDeactivate<DocumentoComponent> {
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
                 data: {
                     title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
+                    confirmLabel: 'Não',
+                    cancelLabel: 'Sim',
                     message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
                 },
                 disableClose: false

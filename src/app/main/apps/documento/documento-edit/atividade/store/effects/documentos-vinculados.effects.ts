@@ -19,6 +19,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {CriadoAnexoDocumento, RemovidoAnexoDocumento} from '../../../../store';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -118,6 +119,7 @@ export class DocumentosVinculadosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
+                this._store.dispatch(new RemovidoAnexoDocumento(action.payload.documentoId));
                 return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
             }),
             catchError((err) => {
@@ -284,6 +286,19 @@ export class DocumentosVinculadosEffects {
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
         tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+                this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados da minuta atualmente aberta
+     */
+    saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
             if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }

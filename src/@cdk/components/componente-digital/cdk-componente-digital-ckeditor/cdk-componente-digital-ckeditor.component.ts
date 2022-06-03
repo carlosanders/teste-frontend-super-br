@@ -121,6 +121,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     name: 'paragraph',
                     items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
                 },
+                {name: 'formatacao', items: ['fastimage']},
                 {name: 'styles', items: ['paragrafo', 'paragrafonumerado', 'citacao', 'titulo', 'subtitulo']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
                 {name: 'insert', items: ['Table', 'SpecialChar', 'PageBreak', 'HorizontalRule', 'Footnotes']},

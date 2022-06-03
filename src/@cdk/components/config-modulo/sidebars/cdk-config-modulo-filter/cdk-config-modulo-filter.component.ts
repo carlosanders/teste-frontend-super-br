@@ -48,6 +48,7 @@ export class CdkConfigModuloFilterComponent implements OnInit {
             modulo: [null],
             configPendente: [false],
             configHerdada: [false],
+            configInvalida: [false],
         });
 
         this.moduloPagination = new Pagination();
@@ -108,6 +109,14 @@ export class CdkConfigModuloFilterComponent implements OnInit {
             andXFilter.push(
                 {
                     'paradigma': `isNotNull`
+                }
+            );
+        }
+
+        if (this.form.get('configInvalida').value) {
+            andXFilter.push(
+                {
+                    'invalid': `eq:1`
                 }
             );
         }

@@ -20,7 +20,6 @@ export const COMPARAR_VERSAO_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] COMPARAR
 export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL SUCCESS';
 export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL FAILED';
 
-
 export const SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL';
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL FAILED';
@@ -36,6 +35,8 @@ export const VISUALIZAR_HTML_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] V
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML';
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML SUCCESS';
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_FAILED = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML FAILED';
+
+export const DELETE_ASSINATURA_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT ASSINATURA] DELETE ASSINATURA SUCCESS';
 
 /**
  * Unload ComponenteDigital
@@ -280,6 +281,13 @@ export class CompararComponenteDigitalComHtmlFailed implements Action {
     }
 }
 
+export class DeleteAssinaturaDocumentoSuccess implements Action {
+    readonly type = DELETE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = UnloadComponenteDigital
     | VisualizarVersaoComponenteDigital
@@ -306,4 +314,5 @@ export type ComponenteDigitalActionsAll
     | VisualizarHTMLComponenteDigitalFailed
     | CompararComponenteDigitalComHtml
     | CompararComponenteDigitalComHtmlSuccess
-    | CompararComponenteDigitalComHtmlFailed;
+    | CompararComponenteDigitalComHtmlFailed
+    | DeleteAssinaturaDocumentoSuccess;

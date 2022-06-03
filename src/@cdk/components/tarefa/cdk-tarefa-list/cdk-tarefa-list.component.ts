@@ -495,6 +495,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     }
 
     ngAfterViewInit(): void {
+        super.ngAfterViewInit();
         if (this.container !== undefined) {
             this.container.clear();
         }

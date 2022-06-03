@@ -38,6 +38,9 @@ export const DELETE_VINCULACAO_ETIQUETA = '[DOCUMENTO] DELETE VINCULACAO_ETIQUET
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[DOCUMENTO] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[DOCUMENTO] DELETE VINCULACAO_ETIQUETA FAILED';
 
+export const CRIADO_ANEXO_DOCUMENTO = '[DOCUMENTO] CRIADO ANEXO EM DOCUMENTO';
+export const REMOVIDO_ANEXO_DOCUMENTO = '[DOCUMENTO] REMOVIDO ANEXO DE DOCUMENTO';
+
 /**
  * Get Documento
  */
@@ -369,6 +372,30 @@ export class CreateVinculacaoEtiquetaFailed implements Action
     }
 }
 
+/**
+ * Action disparada quando um anexo for criado em um documento
+ */
+export class CriadoAnexoDocumento implements Action
+{
+    readonly type = CRIADO_ANEXO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Action disparada quando um anexo for removido de um documento
+ */
+export class RemovidoAnexoDocumento implements Action
+{
+    readonly type = REMOVIDO_ANEXO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
@@ -397,4 +424,6 @@ export type DocumentoActionsAll
     | SaveConteudoVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
-    | DeleteVinculacaoEtiquetaFailed;
+    | DeleteVinculacaoEtiquetaFailed
+    | CriadoAnexoDocumento
+    | RemovidoAnexoDocumento;

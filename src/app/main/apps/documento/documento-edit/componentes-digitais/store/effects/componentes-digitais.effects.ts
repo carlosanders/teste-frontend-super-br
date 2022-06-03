@@ -41,7 +41,7 @@ export class ComponenteDigitalEffects {
                 limit: action.payload.limit ? action.payload.limit : 5,
                 offset: action.payload.offset ? action.payload.offset : 0,
                 sort: action.payload.sort ? action.payload.sort : {numeracaoSequencial: 'ASC'},
-                populate: ['populateAll']
+                populate: ['criadoPor']
             };
 
             return this._componenteDigitalService.query(
@@ -54,7 +54,7 @@ export class ComponenteDigitalEffects {
                 JSON.stringify(params.populate));
         }),
         mergeMap(response => [
-            new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+            new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema, populate: ['criadoPor']}),
             new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                 entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
                 loaded: {
