@@ -19,7 +19,7 @@
                 {{relatorio.observacao}}
             </div>
 
-            <div>
+            <div *ngIf="!!relatorio.criadoEm.toDate()">
                 Criado em: {{relatorio.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
             </div>
         </div>
