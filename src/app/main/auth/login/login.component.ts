@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
     }
 
     private initFavicon(config: any) {
-        if (config.sigla && !config.sigla.toLowerCase().includes(["sapiens","supp"])) {
+        if (config.sigla && config.sigla !== 'SUPP' && config.sigla !== 'SAPIENS') {
             document.querySelector("link[rel=icon]")['href'] = "assets/icons/favicon-alt.ico";
         }
     }
