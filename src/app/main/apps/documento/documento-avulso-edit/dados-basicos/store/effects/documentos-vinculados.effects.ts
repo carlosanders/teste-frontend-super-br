@@ -147,10 +147,7 @@ export class DocumentosVinculadosEffects {
     clickedDocumentoVinculado: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
-            let sidebar = 'editar/anexos';
-            if (action.payload.vinculacaoDocumentoPrincipal) {
-                sidebar = 'editar/dados-basicos';
-            }
+            let sidebar = 'editar/dados-basicos';
             this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {

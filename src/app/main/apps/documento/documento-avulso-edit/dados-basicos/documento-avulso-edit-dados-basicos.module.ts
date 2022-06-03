@@ -23,7 +23,10 @@ import {
     CdkComponenteDigitalCardListModule
 } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import * as fromGuards from './store/guards';
-import {VinculacaoDocumentoService} from "../../../../../../@cdk/services/vinculacao-documento.service";
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {
+    CdkMinutasAtividadeCardListModule
+} from '@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module';
 
 const routes: Routes = [
     {
@@ -63,7 +66,8 @@ modulesConfig.forEach((module) => {
         CdkConfirmDialogModule,
         MatInputModule,
         CdkDocumentoCardListModule,
-        CdkComponenteDigitalCardListModule
+        CdkComponenteDigitalCardListModule,
+        CdkMinutasAtividadeCardListModule
     ],
     providers: [
         DocumentoAvulsoService,

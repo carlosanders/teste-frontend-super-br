@@ -962,4 +962,6 @@
 * Correção de erro ao tentar abrir minuta ou ofício criados a partir de modelo posteriormente excluído
 * Correção de comportamento onde era possível excluir uma assinatura de minuta e editor não atualizava para modo de edição
 * Correção para atualizar etiqueta da minuta no painel de tarefas ao assinar/remover assinatura
-* Atualizar ícones das minutas/ofícios na listagem de tarefas para informar da existência de uploads sempre que um anexo for adicionado/removido
+* Correção para atualizar ícones das minutas/ofícios na listagem de tarefas para informar da existência de uploads sempre que um anexo for adicionado/removido
+* Melhoria implementada em editor de ofícios para permitir alternar entre outros ofícios da tarefa diretamente da aba de dados básicos
+* Correção para trazer todas as minutas/ofícios da tarefa, não limitando somente às 10 mais recentes

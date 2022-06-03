@@ -101,6 +101,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    loadingDocumentos$: Observable<boolean>;
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -187,6 +189,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------

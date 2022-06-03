@@ -45,9 +45,6 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
     @Input()
     tiposDocumentosNaoEditaveis = [];
 
-    podeAlterarTipoDocumento = true;
-    podeDeletar = true;
-
     @Input()
     selected = true;
 
@@ -114,6 +111,12 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    @Input()
+    oficio = false;
+
+    podeAlterarTipoDocumento = true;
+    podeDeletar = true;
 
     form: FormGroup;
 
