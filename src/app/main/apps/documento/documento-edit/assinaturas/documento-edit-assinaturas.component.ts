@@ -24,6 +24,7 @@ import {Assinatura, Documento} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {getDocumento} from '../../store';
 
 @Component({
     selector: 'documento-edit-assinaturas',
@@ -35,11 +36,11 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input() documento: Documento;
-
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    documento$: Observable<Documento>;
+    documento: Documento;
     pagination: any;
     formAssinaturas = false;
     assinatura: Assinatura;
@@ -72,6 +73,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         private _ref: ChangeDetectorRef
     ) {
         this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.documento$ = this._store.pipe(select(getDocumento));
         this.paginationAssinatura$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
         this.deletingAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletingAssinaturaIds));
         this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
@@ -102,6 +104,11 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
             } else {
                 this.pagination = pagination;
             }
+        });
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((documento) => {
+            this.documento = documento;
         });
     }
 
@@ -154,6 +161,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
             assinaturaId: assinaturaId,
             operacaoId: operacaoId,
             loteId: loteId,
+            documentoId: this.documento.id,
             componenteDigitalId: this.routerState.params.componenteDigitalHandle
         }));
     }

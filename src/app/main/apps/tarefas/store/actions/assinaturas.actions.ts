@@ -11,6 +11,8 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[TAREFAS] ASSINA DOCUMENTO ELET
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const DELETE_ASSINATURA_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT ASSINATURA] DELETE ASSINATURA SUCCESS';
+
 /**
  * AssinaDocumento
  */
@@ -107,6 +109,13 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
     }
 }
 
+export class DeleteAssinaturaDocumentoSuccess implements Action {
+    readonly type = DELETE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type AssinaturasActionsAll
     = AssinaDocumento
     | AssinaDocumentoSuccess
@@ -115,4 +124,5 @@ export type AssinaturasActionsAll
     | PreparaAssinaturaFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed;
+    | AssinaDocumentoEletronicamenteFailed
+    | DeleteAssinaturaDocumentoSuccess;

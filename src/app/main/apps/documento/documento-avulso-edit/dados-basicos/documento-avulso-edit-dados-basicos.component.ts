@@ -24,8 +24,9 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back, getRouterState} from '../../../../../store';
-import {ActivatedRoute, Router} from "@angular/router";
-import * as AssinaturaStore from "../../../../../store";
+import {ActivatedRoute, Router} from '@angular/router';
+import * as AssinaturaStore from '../../../../../store';
+import {CriadoAnexoDocumento} from '../../store';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -257,17 +258,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }
@@ -380,6 +372,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new CriadoAnexoDocumento(this.documento.id));
         this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
     }
 
@@ -404,6 +397,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoVinculadoId: documentoId,
+            documentoId: this.documento.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
