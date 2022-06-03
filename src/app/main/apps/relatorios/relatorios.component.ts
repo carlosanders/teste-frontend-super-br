@@ -173,16 +173,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             if (message && message.type && message.type === 'relatorio_create') {
                 this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
             }
-            if (message.type === 'addData') {
-                switch (message.content['@type']) {
-                    case 'Relatorio':
-                        this._store.dispatch(new AddData<Relatorio>({
-                            data: [plainToClass(Relatorio, message.content)],
-                            schema: relatorioSchema
-                        }));
-                        break;
-                }
-            }
         });
 
         this.loading$.pipe(

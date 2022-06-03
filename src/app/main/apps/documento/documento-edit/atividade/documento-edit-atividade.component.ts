@@ -35,6 +35,7 @@ import * as AssinaturaStore from '../../../../../store';
 import {Location} from '@angular/common';
 import {modulesConfig} from "../../../../../../modules/modules-config";
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {CriadoAnexoDocumento} from '../../store';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -357,6 +358,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoVinculadoId: documentoId,
+            documentoId: this.documento.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -533,6 +535,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new CriadoAnexoDocumento(this.documento.id));
         this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
     }
 

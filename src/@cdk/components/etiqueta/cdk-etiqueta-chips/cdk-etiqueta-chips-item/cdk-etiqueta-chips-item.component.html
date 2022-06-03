@@ -4,7 +4,7 @@
         [removable]="deletable"
         (removed)="doRemove()">
     <div class="content">
-        <mat-icon class="icon" *ngIf="iconeVisibilidade"
+        <mat-icon class="icon" *ngIf="iconeVisibilidade" (click)="doFiltro()"
                   [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">{{iconeVisibilidade}}</mat-icon>
         <mat-icon *ngIf="conteudo"
                   [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">subject</mat-icon>

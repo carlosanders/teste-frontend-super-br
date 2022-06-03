@@ -61,6 +61,9 @@ export class CdkEtiquetaChipsItemComponent {
     @Output()
     pendencies: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
 
+    @Output()
+    filter: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+
     @ViewChild(MatMenuTrigger) matMenuTrigger: MatMenuTrigger;
 
 
@@ -102,5 +105,11 @@ export class CdkEtiquetaChipsItemComponent {
 
     canOpenMenu(): boolean {
         return !this.saving && (this.hasPendencies || this.deletable || this.editable);
+    }
+
+    doFiltro(): void {
+        if (this.selectable) {
+            this.filter.emit(this.etiqueta);
+        }
     }
 }

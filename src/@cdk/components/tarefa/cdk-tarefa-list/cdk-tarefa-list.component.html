@@ -5,7 +5,10 @@
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
                            [arrayFiltrosEtiquetas]="arraySearchTypes"
                            [targetHandle]="targetHandle"
-                           [typeHandle]="typeHandle"></cdk-tarefa-filter>
+                           [typeHandle]="typeHandle"
+                           [filterProcesso]="filterProcesso"
+                           [etiquetas]="filterEtiquetas"
+        ></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -707,7 +710,9 @@
                     (completedAll)="onCompleteAll($event)"
                     (outraAbaHandler)="doAbrirOutraAba($event)"
                     (editarObservacao)="doEditarObservacao($event)"
-                    (pencencies)="doPendencies($event)">
+                    (pencencies)="doPendencies($event)"
+                    (filterNup)="doFilterNup($event)"
+                    (filterEtiqueta)="doFilterEtiqueta($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

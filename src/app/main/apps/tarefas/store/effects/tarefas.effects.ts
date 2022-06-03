@@ -67,6 +67,11 @@ import * as DocumentoOficioActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documento-avulso-edit.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
+import {
+    CRIADO_ANEXO_DOCUMENTO,
+    CriadoAnexoDocumento, REMOVIDO_ANEXO_DOCUMENTO,
+    RemovidoAnexoDocumento
+} from '../../../documento/store/actions/documento.actions';
 import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -1100,6 +1105,19 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
+    criadoAnexoDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<CriadoAnexoDocumento>(CRIADO_ANEXO_DOCUMENTO),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    removidoAnexoDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<RemovidoAnexoDocumento>(REMOVIDO_ANEXO_DOCUMENTO),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+
     /**
      * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar
      *
