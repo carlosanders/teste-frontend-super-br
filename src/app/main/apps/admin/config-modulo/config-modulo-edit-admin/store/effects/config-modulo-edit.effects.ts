@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ConfigModuleEditActions from '../actions/config-modulo-edit.actions';
@@ -66,10 +66,9 @@ export class ConfigModuloEditEffects {
                         entityId: response['entities'][0].id
                     })
                 ]),
-                catchError((err, caught) => {
+                catchError(err => {
                     console.log(err);
-                    this._store.dispatch(new ConfigModuleEditActions.GetConfigModuleFailed(err));
-                    return caught;
+                    return of(new ConfigModuleEditActions.GetConfigModuleFailed(err));
                 })
             )
     );
@@ -92,10 +91,9 @@ export class ConfigModuloEditEffects {
                         ])
                     );
                 }),
-                catchError((err, caught) => {
+                catchError(err => {
                     console.log(err);
-                    this._store.dispatch(new ConfigModuleEditActions.SaveConfigModuleFailed(err));
-                    return caught;
+                    return of(new ConfigModuleEditActions.SaveConfigModuleFailed(err));
                 })
             )
     );
@@ -118,10 +116,9 @@ export class ConfigModuloEditEffects {
                         ])
                     );
                 }),
-                catchError((err, caught) => {
+                catchError(err => {
                     console.log(err);
-                    this._store.dispatch(new ConfigModuleEditActions.UpdateConfigModuleFailed(err));
-                    return caught;
+                    return of(new ConfigModuleEditActions.UpdateConfigModuleFailed(err));
                 })
             )
     );
