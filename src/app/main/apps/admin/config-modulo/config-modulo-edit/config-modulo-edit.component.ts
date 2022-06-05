@@ -103,9 +103,12 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
                         const moduloNormalizado = modulo.prefixo ? this.normalizedString(modulo.nome) : modulo.prefixo;
                         const sistema = 'supp_core';
                         const moduloCompleto = `${moduloNormalizado}_backend`;
+                        console.log(this.form.get('nome').value);
+                        console.log(this.form.get('nome').value.split('.'));
+                        console.log(this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length).join("."));
                         const nome =
                             this.form.get('nome').value ?
-                                this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length) :
+                                this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length).join(".") :
                                 ''
                         ;
                         this.form.patchValue({'module': moduloNormalizado})
