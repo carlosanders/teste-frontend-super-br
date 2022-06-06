@@ -6,13 +6,20 @@ breadcrumb {
     > .content {
         flex: 1 1 auto;
         display: flex;
-        align-items: flex-start;
-    }
+        justify-content: flex-start;
+        align-items: center;
 
-    div.container {
-        display: flex;
-        justify-content: center;
-    }
+        > button {
+            text-align: initial;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
     
-    a {cursor: pointer;}
+            a {
+                cursor: pointer;
+            }
+        }
+    }
 }
