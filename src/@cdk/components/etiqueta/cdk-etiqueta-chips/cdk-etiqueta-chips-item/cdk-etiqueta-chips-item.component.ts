@@ -66,7 +66,6 @@ export class CdkEtiquetaChipsItemComponent {
 
     @ViewChild(MatMenuTrigger) matMenuTrigger: MatMenuTrigger;
 
-
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog) {
     }

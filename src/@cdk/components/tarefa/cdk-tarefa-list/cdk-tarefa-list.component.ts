@@ -440,7 +440,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     dynamicColumnList: CdkTarefaListGridColumn[] = [];
     dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
 
-    filterProcesso: any;
+    filterProcesso: any = null;
     filterEtiquetas: Etiqueta[] = [];
 
     /**
@@ -972,7 +972,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.convertePdf.emit(documentoId);
     }
 
-    doDeleteDocumento(event: { documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }): void {
+    doDeleteDocumento(event: { documentoId: any; tarefaId: any; documentoAvulsoUuid?: any }): void {
         this.matMenuTriggersList?.forEach((trigger) => trigger.closeMenu());
         this.deleteDocumento.emit(event);
     }
@@ -1025,18 +1025,30 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     }
 
     doFilterNup(processo): void {
-        this.filterProcesso = null;
-        this.filterEtiquetas = [];
-        this.filterProcesso = processo;
-        this.listFilter.filters = {'processo.id': `eq:${processo.id}`};
-        this.loadPage();
+        if (this.filterProcesso?.id === processo?.id) {
+            this.filterProcesso = null;
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.filterProcesso = processo;
+            this.listFilter.filters = {'processo.id': `eq:${processo.id}`};
+            this.loadPage();
+        }
     }
 
     doFilterEtiqueta(etiqueta): void {
-        this.filterEtiquetas = [];
-        this.filterProcesso = null;
-        this.listFilter.filters = { 'vinculacoesEtiquetas.etiqueta.id': `eq:${etiqueta.id}` };
-        this.filterEtiquetas.push(etiqueta);
-        this.loadPage();
+        if (this.filterEtiquetas.find(et => etiqueta.id === et.id)) {
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {'vinculacoesEtiquetas.etiqueta.id': `eq:${etiqueta.id}`};
+            this.filterEtiquetas.push(etiqueta);
+            this.loadPage();
+        }
     }
 }

@@ -88,6 +88,9 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
     @Output()
     filter = new EventEmitter<Etiqueta>();
 
+    @Input()
+    viewFilterEtiqueta = false;
+
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
@@ -123,7 +126,6 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
 
             this.etiquetaCtrl.setValue(null);
         } else {
-            console.log('is open');
             this.autoCompleteEtiquetas.closePanel();
         }
     }

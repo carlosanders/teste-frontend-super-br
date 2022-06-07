@@ -230,7 +230,7 @@
             </mat-form-field>
 
             <button class="refresh" mat-icon-button
-                    *ngIf="parentIdentifier && viewMode == 'grid'"
+                    *ngIf="parentIdentifier && viewMode === 'grid'"
                     (click)="resetTableColumns()"
                     aria-label="redefinir_tabela"
                     matTooltip="Redefinir Tabela">
