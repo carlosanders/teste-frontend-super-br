@@ -7,7 +7,7 @@ import * as fromStore from '../../store';
 import {DocumentosState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
-import {LoginService} from "../../../../../../auth/login/login.service";
+import {LoginService} from '../../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -28,7 +28,6 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
     }
 
     /**

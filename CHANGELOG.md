@@ -953,4 +953,15 @@
 * Correção da rota de retorno ao enviar por email documento
 * Correção erro de exibição de arquivo após upload
 * Correção de validação tarefa form
-
+* Correção erro de upload por cópia dentro do ofício exigindo store de documento-edit
+* Correção onde sistema não abre ofício automaticamente após criar ofício
+* Melhoria no editor para apenas salvar quando usuário tentar trocar a tela sem salvar dados alterados do editor
+* Correção no desentranhamento do processo-view, que atualiza informações da juntada sem precisar de ação do usuário
+* Correção de bug onde era possível visualizar componente digital de juntada desentranhada na tela do processo
+* Correção para redirecionamento após desentranhamento de juntada não incluir o id do componente digital de juntada recém desentranhada
+* Correção de erro ao tentar abrir minuta ou ofício criados a partir de modelo posteriormente excluído
+* Correção de comportamento onde era possível excluir uma assinatura de minuta e editor não atualizava para modo de edição
+* Correção para atualizar etiqueta da minuta no painel de tarefas ao assinar/remover assinatura
+* Correção para atualizar ícones das minutas/ofícios na listagem de tarefas para informar da existência de uploads sempre que um anexo for adicionado/removido
+* Melhoria implementada em editor de ofícios para permitir alternar entre outros ofícios da tarefa diretamente da aba de dados básicos
+* Correção para trazer todas as minutas/ofícios da tarefa, não limitando somente às 10 mais recentes

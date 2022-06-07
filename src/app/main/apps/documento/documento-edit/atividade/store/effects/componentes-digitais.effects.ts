@@ -15,6 +15,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
+import {CriadoAnexoDocumento} from '../../../../store';
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -207,6 +208,7 @@ export class ComponenteDigitalEffects {
                         data: [{...action.payload, ...response}],
                         schema: componenteDigitalSchema
                     }),
+                    new CriadoAnexoDocumento(action.payload.documentoOrigem.id),
                     new fromStore.ReloadDocumentosVinculados()
                 ]),
                 catchError((err) => {

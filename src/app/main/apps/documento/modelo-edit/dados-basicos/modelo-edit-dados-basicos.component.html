@@ -1,6 +1,6 @@
 <div class="dados-basicos mb-8">
-    <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Modelo</h3>
-    <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
+    <h3 *ngIf="!(documento$ | async)?.estaVinculado" style="font-weight: bold">Modelo</h3>
+    <h3 *ngIf="(documento$ | async)?.estaVinculado" style="font-weight: bold">Anexo</h3>
 
     <cdk-modelo-form cdkPerfectScrollbar [modelo]="(documento$ | async)?.modelo"
                      [saving]="(isSaving$ | async)"

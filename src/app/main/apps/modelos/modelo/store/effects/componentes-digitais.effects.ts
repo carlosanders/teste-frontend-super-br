@@ -109,7 +109,8 @@ export class ComponenteDigitalEffect {
             JSON.stringify([
                 'processoOrigem',
                 'tarefaOrigem'
-            ])
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true})
         )),
         switchMap(response => [
             new AddData<Documento>({
@@ -143,7 +144,7 @@ export class ComponenteDigitalEffect {
 
             primary += componenteDigitalId;
 
-            const tarefaId = action.payload.documento.vinculacaoDocumentoPrincipal ?
+            const tarefaId = action.payload.documento.estaVinculado ?
                 action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
                 action.payload.documento.tarefaOrigem.id;
             const processoId = action.payload.documento.processoOrigem.id;

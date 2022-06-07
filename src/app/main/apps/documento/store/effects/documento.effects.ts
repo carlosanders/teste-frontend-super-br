@@ -56,8 +56,9 @@ export class DocumentoEffect {
                 }
             });
             let context = {};
+            context['incluiVinculacaoDocumentoPrincipal'] = true;
             if (this.lixeira) {
-                context = {'mostrarApagadas': true};
+                context['mostrarApagadas'] = true;
             }
             this.populate = [
                 'procedencia',

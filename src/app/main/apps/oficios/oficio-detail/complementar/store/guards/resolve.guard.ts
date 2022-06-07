@@ -78,7 +78,8 @@ export class ResolveGuard implements CanActivate {
                             'documentoAvulsoRemessa.documentoResposta',
                             'componentesDigitais',
                             'juntadaAtual'
-                        ]
+                        ],
+                        context: {'incluiVinculacaoDocumentoPrincipal': true}
                     };
                     this._store.dispatch(new fromStore.GetDocumentos(params));
                 }

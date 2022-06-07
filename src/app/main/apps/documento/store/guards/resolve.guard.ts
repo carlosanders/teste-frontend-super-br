@@ -20,6 +20,7 @@ export class ResolveGuard implements CanActivate {
      *
      * @param _store
      * @param _activatedRoute
+     * @param _router
      */
     constructor(
         private _store: Store<DocumentoAppState>,
@@ -32,7 +33,6 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
     }
 
     /**

@@ -354,7 +354,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('adicionarVinculacao') > -1 &&
                                     deletingIds?.indexOf(juntada.id) === -1 &&
-                                    !juntada.documento?.vinculacaoDocumentoPrincipal"
+                                    !juntada.documento?.estaVinculado"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
                                 (click)="doAdicionarVinculacao(juntada.id)" aria-label="Adicionar Vinculação"
                                 matTooltip="Adicionar Vinculação">

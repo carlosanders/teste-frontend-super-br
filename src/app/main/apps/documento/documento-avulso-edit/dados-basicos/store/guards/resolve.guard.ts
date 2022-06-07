@@ -8,12 +8,13 @@ import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {DocumentoAvulsoEditDadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
-import {getDocumentosVinculadosHasLoaded} from '../';
+import {getDocumentosHasLoaded, getDocumentosVinculadosHasLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
+    loadingDocumentos: boolean = false;
 
     /**
      * Constructor
@@ -29,6 +30,11 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._store.pipe(
+            select(fromStore.getDocumentosLoading)
+        ).subscribe((loading) => {
+            this.loadingDocumentos = loading;
+        })
     }
 
     /**
@@ -39,12 +45,49 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getDocumentosVinculados().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
                 return of(false);
             })
+        );
+    }
+
+    /**
+     * Check store
+     *
+     * @returns
+     */
+    checkStore(): Observable<any> {
+        return forkJoin([
+            this.getDocumentos(),
+            this.getDocumentosVinculados()
+        ]).pipe(
+            take(1)
+        );
+    }
+
+    /**
+     * Get Documentos
+     *
+     * @returns
+     */
+    getDocumentos(): any {
+        return this._store.pipe(
+            select(getDocumentosHasLoaded),
+            tap((loaded: any) => {
+                if (!this.loadingDocumentos && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                    this._store.dispatch(new fromStore.UnloadDocumentos());
+                    this.loadingDocumentos = true;
+                    this._store.dispatch(new fromStore.GetDocumentos({
+                        limit: 10,
+                        offset: 0
+                    }));
+                }
+            }),
+            filter((loaded: any) => this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            take(1)
         );
     }
 
@@ -84,7 +127,8 @@ export class ResolveGuard implements CanActivate {
                             'tarefaOrigem.usuarioResponsavel',
                             'tarefaOrigem.vinculacoesEtiquetas',
                             'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                        ]
+                        ],
+                        context: {'incluiVinculacaoDocumentoPrincipal': true}
                     };
                     this._store.dispatch(new fromStore.GetDocumentosVinculados(params));
                 }

@@ -31,7 +31,7 @@ export class DocumentosEffects {
             const params = {
                 filter: {
                     'tarefaOrigem.id': 'eq:' + tarefaId,
-                    'documentoAvulsoRemessa.id': 'isNull',
+                    'documentoAvulsoRemessa.id': 'isNotNull',
                     'juntadaAtual': 'isNull'
                 },
                 limit: action.payload.limit,

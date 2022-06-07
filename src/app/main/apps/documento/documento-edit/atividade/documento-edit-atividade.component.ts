@@ -35,6 +35,7 @@ import * as AssinaturaStore from '../../../../../store';
 import {Location} from '@angular/common';
 import {modulesConfig} from "../../../../../../modules/modules-config";
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {CriadoAnexoDocumento} from '../../store';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -99,6 +100,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     routeAtividadeDocumento = 'atividade';
 
     routerState: any;
+
+    loadingDocumentos$: Observable<boolean>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -186,6 +189,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -357,6 +361,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoVinculadoId: documentoId,
+            documentoId: this.documento.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -485,7 +490,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -533,6 +538,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new CriadoAnexoDocumento(this.documento.id));
         this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
     }
 
@@ -568,7 +574,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     anexarCopia(): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [

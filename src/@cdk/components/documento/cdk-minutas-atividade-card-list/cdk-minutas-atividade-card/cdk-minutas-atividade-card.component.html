@@ -5,6 +5,7 @@
         <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
                       (change)="toggleInSelected(documento.id)"
                       (click)="$event.stopPropagation();"
+                      *ngIf="!oficio"
                       [disabled]="disabledSelect">
         </mat-checkbox>
     </div>

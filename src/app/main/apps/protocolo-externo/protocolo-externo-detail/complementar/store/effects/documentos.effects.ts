@@ -8,16 +8,13 @@ import * as DocumentosActions from '../actions';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
+import {ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import {environment} from 'environments/environment';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {LoginService} from '../../../../../../auth/login/login.service';
@@ -44,7 +41,8 @@ export class DocumentosEffects {
                 'documentoAvulsoRemessa.documentoResposta',
                 'componentesDigitais',
                 'juntadaAtual'
-            ]))),
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true}))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActions.GetDocumentosSuccess({
@@ -78,7 +76,8 @@ export class DocumentosEffects {
                 'documentoAvulsoRemessa.documentoResposta',
                 'componentesDigitais',
                 'juntadaAtual'
-            ]))),
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true}))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActions.GetDocumentosCompelemtaresSuccess({
@@ -203,85 +202,6 @@ export class DocumentosEffects {
         ), 25)
     ));
     /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.AssinaDocumento>(DocumentosActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
-            .pipe(
-                map(response => new DocumentosActions.AssinaDocumentoSuccess(response)),
-                catchError((err, caught) => {
-                    console.log(err);
-                    return of(new DocumentosActions.AssinaDocumentoFailed(err));
-                })
-            ), 25)
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
-                new DocumentosActions.GetDocumentos({
-                    'processoOrigem.id': `eq:${action.payload.processoId}`,
-                    'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-                }),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
-            ]),
-            catchError((err) => {
-                const payload = {
-                    id: action.payload.documentoId,
-                    err: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                }));
-                return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.RemoveAssinaturaDocumento>(DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(response => [
-                    new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                    new DocumentosActions.GetDocumentos({
-                        'processoOrigem.id': `eq:${action.payload.processoId}`,
-                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-                    }),
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new DocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                })
-            ), 25)
-    ));
-    /**
      * Download P7S
      *
      * @type {Observable<any>}
@@ -328,7 +248,6 @@ export class DocumentosEffects {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _assinaturaService: AssinaturaService,
         private _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
@@ -340,5 +259,4 @@ export class DocumentosEffects {
             this.routerState = routerState.state;
         });
     }
-
 }

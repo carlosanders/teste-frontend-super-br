@@ -1,14 +1,14 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {DocumentosState, DocumentoEditAtividadeAppState, getDocumentoEditAtividadeAppState} from '../reducers';
+import {DocumentosState, DocumentoAvulsoEditDadosBasicosAppState, getDocumentoAvulsoEditDadosBasicosAppState} from '../reducers';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getDocumentosState: any = createSelector(
-    getDocumentoEditAtividadeAppState,
-    (state: DocumentoEditAtividadeAppState) => state.documentos
+    getDocumentoAvulsoEditDadosBasicosAppState,
+    (state: DocumentoAvulsoEditDadosBasicosAppState) => state.documentos
 );
 
 export const getDocumentosHasLoaded: any = createSelector(
