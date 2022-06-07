@@ -398,7 +398,8 @@
                                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                                     [habilitarOpcaoBtnAddEtiqueta]="true"
                                     (pendencies)="doPendencies({vinculacaoEtiqueta: $event, tarefa: tarefa})"
-                                    [placeholder]="'Adicionar Etiquetas'">
+                                    [placeholder]="'Adicionar Etiquetas'"
+                                    (filter)="doFilterEtiqueta($event)">
                                 </cdk-vinculacao-etiqueta-chips>
                             </div>
                         </div>
