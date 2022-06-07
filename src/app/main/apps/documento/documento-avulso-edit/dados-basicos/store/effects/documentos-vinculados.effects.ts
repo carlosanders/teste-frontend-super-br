@@ -38,7 +38,8 @@ export class DocumentosVinculadosEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
@@ -86,7 +87,8 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })

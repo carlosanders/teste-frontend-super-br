@@ -40,8 +40,7 @@ export class JuntadaEffects {
                     'documento',
                     'documento.componentesDigitais',
                     'documento.vinculacoesDocumentos',
-                    'documento.tipoDocumento',
-                    'documento.vinculacaoDocumentoPrincipal'
+                    'documento.tipoDocumento'
                 ])
             ).pipe(
                 mergeMap(response => [

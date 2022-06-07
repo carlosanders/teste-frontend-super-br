@@ -102,7 +102,7 @@ export class ComponenteDigitalEffect {
 
                 let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                 // eslint-disable-next-line max-len
-                if ((!documento?.minuta || documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
+                if ((!documento?.minuta || documento?.estaVinculado || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
                     sidebar = 'editar/dados-basicos';
                 }
                 const url = this.routerState.url.includes('/processo/' + this.routerState.params.processoHandle + '/visualizar') ?

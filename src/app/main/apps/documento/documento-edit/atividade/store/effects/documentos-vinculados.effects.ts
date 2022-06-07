@@ -38,7 +38,8 @@ export class DocumentosVinculadosEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
@@ -86,7 +87,8 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })
@@ -148,7 +150,7 @@ export class DocumentosVinculadosEffects {
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
             let sidebar = 'editar/anexos';
-            if (action.payload.vinculacaoDocumentoPrincipal) {
+            if (action.payload.estaVinculado) {
                 sidebar = 'editar/dados-basicos';
             }
             this._componenteDigitalService.trocandoDocumento.next(true);

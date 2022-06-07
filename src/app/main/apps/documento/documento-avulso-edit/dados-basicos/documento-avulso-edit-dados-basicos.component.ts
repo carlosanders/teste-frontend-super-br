@@ -344,7 +344,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -510,7 +510,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     anexarCopia(): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [

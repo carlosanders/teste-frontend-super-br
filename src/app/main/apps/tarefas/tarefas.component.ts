@@ -1800,7 +1800,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 'tipoDocumento',
                 'componentesDigitais',
                 'processoOrigem',
-            ]
+            ],
+            context: {'incluiVinculacaoDocumentoPrincipal': true}
         };
         this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
         const documento = new Documento();

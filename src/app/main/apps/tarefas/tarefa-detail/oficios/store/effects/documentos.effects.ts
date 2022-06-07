@@ -15,7 +15,6 @@ import {
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
@@ -53,7 +52,8 @@ export class AtividadeCreateDocumentosEffect {
                     'documentoAvulsoRemessa.documentoResposta',
                     'componentesDigitais',
                     'juntadaAtual'
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
 
             return this._documentoService.query(
@@ -63,7 +63,8 @@ export class AtividadeCreateDocumentosEffect {
                 params.limit,
                 params.offset,
                 JSON.stringify(params.sort),
-                JSON.stringify(params.populate)).pipe(
+                JSON.stringify(params.populate),
+                JSON.stringify(params.context)).pipe(
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: params.populate}),
                     new OficiosDocumentosActions.GetDocumentosSuccess({
@@ -307,7 +308,6 @@ export class AtividadeCreateDocumentosEffect {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
         public activatedRoute: ActivatedRoute

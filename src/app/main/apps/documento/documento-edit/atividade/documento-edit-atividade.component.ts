@@ -490,7 +490,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -574,7 +574,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     anexarCopia(): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [

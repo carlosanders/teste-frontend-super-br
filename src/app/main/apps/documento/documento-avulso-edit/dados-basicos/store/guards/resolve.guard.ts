@@ -127,7 +127,8 @@ export class ResolveGuard implements CanActivate {
                             'tarefaOrigem.usuarioResponsavel',
                             'tarefaOrigem.vinculacoesEtiquetas',
                             'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                        ]
+                        ],
+                        context: {'incluiVinculacaoDocumentoPrincipal': true}
                     };
                     this._store.dispatch(new fromStore.GetDocumentosVinculados(params));
                 }
