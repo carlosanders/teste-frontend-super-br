@@ -108,7 +108,6 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        console.log('NUP', this.form.get('prefixoNUP') );
 
         if (changes['setor'] && this.setor && (!this.setor.id || (this.setor.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.setor});
