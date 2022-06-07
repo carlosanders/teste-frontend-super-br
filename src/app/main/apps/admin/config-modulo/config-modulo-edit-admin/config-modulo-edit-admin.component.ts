@@ -96,12 +96,12 @@ export class ConfigModuloEditAdminComponent implements OnInit, OnDestroy {
             switchMap((modulo: Modulo) => {
                 if (modulo !== null) {
                     if (typeof modulo === 'object' && modulo) {
-                        const moduloNormalizado = this.normalizedString(modulo.nome);
+                        const moduloNormalizado = modulo.prefixo ? this.normalizedString(modulo.nome) : modulo.prefixo;
                         const sistema = 'supp_core';
                         const moduloCompleto = `${moduloNormalizado}_backend`;
                         const nome =
                             this.form.get('nome').value ?
-                                this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length) :
+                                this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length).join(".") :
                                 ''
                         ;
                         this.form.patchValue({'module': moduloNormalizado})
