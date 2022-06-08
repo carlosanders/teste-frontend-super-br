@@ -107,6 +107,10 @@ const routes = [
         loadChildren: () => import('./validacao-assinatura/validacao-assinatura.module').then(m => m.ValidacaoAssinaturaModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
+    },
+    {
+        path: '**',
+        redirectTo: 'painel'
     }
 ];
 
