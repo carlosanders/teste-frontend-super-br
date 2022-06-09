@@ -169,10 +169,16 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     selected = new EventEmitter<Interessado>();
 
     @Output()
+    selectedBloco = new EventEmitter<Interessado[]>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
     selectedIds: number[] = [];
+
+    @Output()
+    changedSelectedIds = new EventEmitter<number[]>();
 
     dataSource: InteressadoDataSource;
 
@@ -342,8 +348,13 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     recompute(): void {
+        this.changedSelectedIds.emit(this.selectedIds);
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.interessados.length && this.selectedIds.length > 0);
+        const ids = this.selectedIds;
+        this.selectedBloco.emit(this.interessados.filter(function(a){
+            return ids.includes(a.id);
+        }));
     }
 
     setFilter(gridFilter): void {

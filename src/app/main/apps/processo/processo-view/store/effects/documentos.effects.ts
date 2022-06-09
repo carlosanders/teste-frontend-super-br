@@ -297,9 +297,9 @@ export class ProcessoViewDocumentosEffects {
             let sidebar = action.payload.routeOficio + '/dados-basicos';
 
             // eslint-disable-next-line max-len
-            if (!action.payload.documento?.documentoAvulsoRemessa && action.payload.documento?.minuta && !action.payload.documento?.vinculacaoDocumentoPrincipal && !action.payload.componenteDigital?.documentoOrigem ) {
+            if (!action.payload.documento?.documentoAvulsoRemessa && action.payload.documento?.minuta && !action.payload.documento?.estaVinculado && !action.payload.componenteDigital?.documentoOrigem ) {
                 sidebar = 'editar/' + action.payload.routeAtividade;
-            } else if (!action.payload.documento?.minuta || action.payload.documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) {
+            } else if (!action.payload.documento?.minuta || action.payload.documento?.estaVinculado || action.payload.componenteDigital?.documentoOrigem) {
                 sidebar = 'editar/dados-basicos';
             }
 

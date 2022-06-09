@@ -24,8 +24,9 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back, getRouterState} from '../../../../../store';
-import {ActivatedRoute, Router} from "@angular/router";
-import * as AssinaturaStore from "../../../../../store";
+import {ActivatedRoute, Router} from '@angular/router';
+import * as AssinaturaStore from '../../../../../store';
+import {CriadoAnexoDocumento} from '../../store';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -60,6 +61,15 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     remeterDocAvulso = false;
 
+    documentos$: Observable<Documento[]>;
+    oficios: Documento[] = [];
+    selectedDocumentos$: Observable<Documento[]>;
+    selectedOficios: Documento[] = [];
+    selectedIds$: Observable<number[]>;
+    disabledIds: number[] = [];
+    assinandoDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+
     documentosVinculados$: Observable<Documento[]>;
     documentosVinculados: Documento[];
     pagination$: Observable<any>;
@@ -77,6 +87,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     lote: string;
 
     routerState: any;
+
+    loadingDocumentos$: Observable<boolean>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -123,6 +135,12 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
+        this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -161,6 +179,22 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             }
         });
 
+        this.selectedDocumentos$.pipe(
+            filter(selectedDocumentos => !!selectedDocumentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((selectedDocumentos) => {
+            this.selectedOficios = selectedDocumentos.filter(documento => documento.minuta && !!documento.documentoAvulsoRemessa);
+        });
+
+        this.documentos$.pipe(
+            filter(cd => !!cd),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((documentos) => {
+            this.oficios = documentos.filter(documento =>
+                (!!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
+            this._ref.markForCheck();
+        });
+
         this.documentosVinculados$.pipe(
             filter(documentos => !!documentos),
             takeUntil(this._unsubscribeAll)
@@ -194,6 +228,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      */
     ngOnDestroy(): void {
         this.remeterDocAvulso = false;
+        this._store.dispatch(new fromStore.UnloadDocumentos());
         this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
         this._store.dispatch(new fromStore.UnloadDocumentoAvulso());
         this._unsubscribeAll.next(true);
@@ -233,6 +268,10 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         });
     }
 
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
     upload(): void {
         this.cdkUpload.upload();
     }
@@ -257,24 +296,55 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }
     }
 
+    onClicked(event): void {
+        const documento = event.documento;
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                const sidebar = 'editar/dados-basicos';
+                if (event.event.ctrlKey) {
+                    const extras = {
+                        queryParams: {
+                            novaAba: true
+                        }
+                    };
+                    const url = this._router.createUrlTree([
+                        this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                        '/documento/' + documento.id,
+                        {
+                            outlets: {
+                                sidebar: sidebar
+                            }
+                        }
+                    ], extras);
+                    window.open(url.toString(), '_blank');
+                } else {
+                    // this._componenteDigitalService.trocandoDocumento.next(true);
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                            '/documento/' + documento.id,
+                            {
+                                outlets: {
+                                    sidebar: sidebar
+                                }
+                            }],
+                        {
+                            relativeTo: this._activatedRoute.parent,
+                            queryParams: {lixeira: null}
+                        }).then();
+                }
+            }
+        });
+    }
+
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -309,6 +379,29 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             documentoId: this.documento.id,
             operacaoId: operacaoId
         }));
+    }
+
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    documento: result.documento,
+                    operacaoId: operacaoId
+                }));
+            });
+        }
     }
 
     doAssinaturaDocumentoVinculado(result): void {
@@ -380,6 +473,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new CriadoAnexoDocumento(this.documento.id));
         this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
     }
 
@@ -404,6 +498,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoVinculadoId: documentoId,
+            documentoId: this.documento.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -415,7 +510,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     anexarCopia(): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [
@@ -423,7 +518,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                     {outlets: {primary: rota}}
                 ],
                 {relativeTo: this._activatedRoute.parent}
-            ).then(() => {});
+            ).then(() => {
+            });
             return;
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -435,7 +531,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                         {outlets: {primary: rota}}
                     ],
                     {relativeTo: this._activatedRoute.parent}
-                ).then(() => {});
+                ).then(() => {
+                });
             }
         });
     }

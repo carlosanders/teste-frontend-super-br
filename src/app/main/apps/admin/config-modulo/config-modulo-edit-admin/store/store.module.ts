@@ -7,7 +7,7 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('config-modulo-edit-app', reducers),
+        StoreModule.forFeature('config-modulo-edit-admin-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

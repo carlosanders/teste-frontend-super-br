@@ -13,10 +13,13 @@
             <span class="title">Buscar processos por:</span>
         </div>
         <div class="filter-content">
-            <div *ngFor="let filter of defaultFilters" class="campo" (click)="setSelectedFilter(filter)"
-                 [ngClass]="{'selected': isFilterSelected(filter)}">
-                <span>{{filter.name}}</span>
-                <mat-icon class="green-fg" *ngIf="isFilterSelected(filter)">check</mat-icon>
+            <div class="campo" (click)="selecionaCampo('NUP', 'NUP')" [ngClass]="{'selected': searchField === 'NUP'}">
+                <span>NUP</span>
+                <mat-icon class="green-fg" *ngIf="searchField === 'NUP'">check</mat-icon>
+            </div>
+            <div class="campo" (click)="selecionaCampo('outroNumero', 'Outro Número')" [ngClass]="{'selected': searchField === 'outroNumero'}">
+                <span>Outro Número</span>
+                <mat-icon class="green-fg" *ngIf="searchField === 'outroNumero'">check</mat-icon>
             </div>
             <ng-template #dynamicComponent></ng-template>
         </div>

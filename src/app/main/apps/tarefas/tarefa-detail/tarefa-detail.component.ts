@@ -434,7 +434,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                         'tipoDocumento',
                         'componentesDigitais',
                         'processoOrigem',
-                    ]
+                    ],
+                    context: {'incluiVinculacaoDocumentoPrincipal': true}
                 };
                 this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
                 const documento = new Documento();

@@ -1,4 +1,5 @@
-<ckeditor [config]="config" [(ngModel)]="src" (change)="onChangeContent($event)" debounce="500" (ready)="onReady($event)">
+<ckeditor [config]="config" [(ngModel)]="src" (change)="onChangeContent($event)" debounce="500" (ready)="onReady($event)"
+          [disabled]="true">
         <ckbutton [name]="'saveButton'"
                   [command]="'saveCmd'"
                   (click)="doSave()"

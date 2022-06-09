@@ -19,6 +19,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {CriadoAnexoDocumento, RemovidoAnexoDocumento} from '../../../../store';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -37,7 +38,8 @@ export class DocumentosVinculadosEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
@@ -85,7 +87,8 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })
@@ -118,6 +121,7 @@ export class DocumentosVinculadosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
+                this._store.dispatch(new RemovidoAnexoDocumento(action.payload.documentoId));
                 return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
             }),
             catchError((err) => {
@@ -145,10 +149,7 @@ export class DocumentosVinculadosEffects {
     clickedDocumentoVinculado: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
-            let sidebar = 'editar/anexos';
-            if (action.payload.vinculacaoDocumentoPrincipal) {
-                sidebar = 'editar/dados-basicos';
-            }
+            let sidebar = 'editar/dados-basicos';
             this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
@@ -284,6 +285,19 @@ export class DocumentosVinculadosEffects {
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
         tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+                this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados do ofício atualmente aberto
+     */
+    saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
             if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }

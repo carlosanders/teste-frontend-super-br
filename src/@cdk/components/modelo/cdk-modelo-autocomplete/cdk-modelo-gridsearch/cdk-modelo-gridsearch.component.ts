@@ -73,7 +73,6 @@ export class CdkModeloGridsearchComponent implements OnInit {
 
         const filterParam = {
             ...params.filter,
-            andX: this.andxFilter
         };
 
         if (filterParam.hasOwnProperty('documento.componentesDigitais.conteudo')) {
@@ -106,7 +105,7 @@ export class CdkModeloGridsearchComponent implements OnInit {
             offset: params.offset,
             populate: this.pagination.populate
         };
-        this.load (params);
+        this.load(params);
     }
 
     select(modelo): void {

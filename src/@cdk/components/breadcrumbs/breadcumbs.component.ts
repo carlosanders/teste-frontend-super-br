@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import {
     ChangeDetectionStrategy,
@@ -10,8 +11,9 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router, ActivatedRouteSnapshot, RouterState } from '@angular/router';
 import {Breadcrumb} from './breadcrumb.model';
+import * as fromStore from 'app/store';
 
 @Component({
     selector: 'breadcrumb',
@@ -29,6 +31,12 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
     icone: string = 'assignment_ind';
 
     @Input()
+    showBackBtn: boolean = false;
+
+    @Input()
+    finalRoute: boolean = false;
+
+    @Input()
     startPath: string = null;
 
     breadcrumb: Breadcrumb[] = [];
@@ -36,6 +44,7 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
+        private _store: Store<fromStore.State>,
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -43,10 +52,10 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
         this.breadCrumbData();
     }
 
-    static getHandleValue(route: ActivatedRoute, handleName: string): string|null {
+    static getHandleValue(route: ActivatedRouteSnapshot, handleName: string): string|null {
         do {
-            if(route.snapshot.params[handleName]) {
-                return route.snapshot.params[handleName];
+            if(route.params[handleName]) {
+                return route.params[handleName];
             }
             route = route.parent;
         }
@@ -67,24 +76,33 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
         this.router.events
             .pipe(
                 filter(event => event instanceof NavigationEnd),
-                map(() => this.activatedRoute),
+                map(() => this.router.routerState.snapshot.root),
                 filter(route => route.outlet === PRIMARY_OUTLET),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe((route) => {
-            this.updateData(route);
+            ).subscribe((route: ActivatedRouteSnapshot) => {
+                //captura o snapshot da última rota ativa
+                if (this.finalRoute) {
+                    do {
+                        route = route.children[0];
+                    } while (route.children.length)
+                } else {
+                    route = this.activatedRoute.snapshot;
+                }
+
+                this.updateData(route);
         });
     }
 
-    updateData(route: ActivatedRoute): void {
+    updateData(route: ActivatedRouteSnapshot): void {
         this.breadcrumb = [];
         route.pathFromRoot.forEach((childRoute) => {
-            const url = childRoute.snapshot.pathFromRoot
+            const url = childRoute.pathFromRoot
                 .filter(c => c.url.length)
                 .map(c => c.url.map(u => u.path).join('/'))
                 .join('/');
             // console.log('URL: ', url);
-            if (childRoute.snapshot.routeConfig?.data?.breadcrumb) {
-                const data = childRoute.snapshot.data.breadcrumb;
+            if (childRoute.routeConfig?.data?.breadcrumb) {
+                const data = childRoute.data.breadcrumb;
                 const breadcrumb = Array.isArray(data) ?
                     JSON.parse(JSON.stringify(data)) :
                     [JSON.parse(JSON.stringify(data))];
@@ -157,5 +175,9 @@ export class BreadcumbsComponent implements OnInit, OnDestroy {
             }
         }
         return st.join('/');
+    }
+
+    goBack() {
+        this._store.dispatch(new fromStore.Back());
     }
 }

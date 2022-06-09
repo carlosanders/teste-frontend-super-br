@@ -140,7 +140,10 @@ export class LoginComponent implements OnInit {
             filter(config => !!config)
         ).subscribe((config) => {
             this.config = config;
+
             window.document.title = config.sigla;
+            this.initFavicon(config);
+
             this.cdkConfigService.logo = config.logo;
             this.cdkConfigService.icone = config.icone;
             this.cdkConfigService.nome = config.name;
@@ -169,6 +172,12 @@ export class LoginComponent implements OnInit {
         // BC
         if (!['interno','ldap','govBr'].includes(this._loginService.getLoginType())) {
             this._loginService.setLoginType('interno');
+        }
+    }
+
+    private initFavicon(config: any) {
+        if (config.sigla && config.sigla !== 'SUPP' && config.sigla !== 'SAPIENS') {
+            document.querySelector("link[rel=icon]")['href'] = "assets/icons/favicon-alt.ico";
         }
     }
 

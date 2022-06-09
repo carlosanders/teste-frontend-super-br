@@ -117,24 +117,6 @@
             </mat-button-toggle-group>
         </span>
 
-        <mat-form-field>
-            <input matInput placeholder="Criado Por"
-                   formControlName="criadoPor"
-                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Atualizado Por"
-                   formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"

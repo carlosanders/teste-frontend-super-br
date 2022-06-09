@@ -4,6 +4,7 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnInit,
     OnChanges,
     OnDestroy,
     Output,
@@ -26,7 +27,7 @@ import {of} from 'rxjs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
+export class CdkAssuntoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     assunto: Assunto;
@@ -78,6 +79,10 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    ngOnInit(): void {
+        this.assuntoAdministrativoPagination.populate = ['parent'];
+    }
 
     /**
      * On change

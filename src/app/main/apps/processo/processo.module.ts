@@ -73,7 +73,12 @@ const routes: Routes = [
             {
                 path: 'envia-email',
                 loadChildren: () => import('./processo-envia-email/processo-envia-email.module').then(m => m.ProcessoEnviaEmailModule),
-            }
+            },
+            {
+                path: 'dossies',
+                loadChildren: () => import('./processo-solicitar-dossies/processo-solicitar-dossies.module').then(m => m.ProcessoSolicitarDossiesModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
         ]
     }
 ];

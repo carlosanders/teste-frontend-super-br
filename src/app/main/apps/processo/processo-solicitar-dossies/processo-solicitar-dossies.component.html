@@ -1,0 +1,68 @@
+<!-- CONTENT HEADER -->
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button
+                *ngIf="operacoes.length === 0"
+                (click)="back()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+
+<div *ngIf="operacoes.length === 0">
+    <div class="content" cdkPerfectScrollbar>
+        <cdk-interessado-grid
+            [interessados]="(interessados$ | async)"
+            [actions]="[]"
+            (reload)="reloadInteressados()"
+            [loading]="(interessadosLoading$ | async)"
+            (selectedBloco)="selected($event)">
+        </cdk-interessado-grid>
+
+    </div>
+
+    <div class="content" cdkPerfectScrollbar *ngIf="(selectInteressados)?.length > 0">
+        <cdk-tipo-dossie-grid
+            [tiposDossie]="(tiposDossie$ | async)"
+            [actions]="[]"
+            (selectedBloco)="selectedTipoDossie($event)">
+        </cdk-tipo-dossie-grid>
+    </div>
+
+
+    <div class="content" cdkPerfectScrollbar>
+        <div class="actions">
+            <button mat-raised-button color="accent"
+                    [disabled]="(selectInteressados)?.length < 1 || (selectTiposDossie)?.length < 1"
+                    (click)="submit()">
+                GERAR DOSSIÊS
+            </button>
+        </div>
+    </div>
+
+</div>
+<!-- / CONTENT -->
+
+<div *ngIf="operacoes.length > 0">
+    <mat-list >
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+    <div class="actions" *ngIf="operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()">
+            VOLTAR
+        </button>
+    </div>
+</div>

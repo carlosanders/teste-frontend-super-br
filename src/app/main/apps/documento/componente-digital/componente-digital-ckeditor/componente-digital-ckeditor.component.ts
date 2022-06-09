@@ -49,6 +49,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     repositorio$: Observable<string>;
     repositorio: string;
     saving$: Observable<boolean>;
+    loading$: Observable<boolean>;
     saving = false;
     errors$: Observable<any>;
     routerState: any;
@@ -69,6 +70,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
             select(getRouterState),

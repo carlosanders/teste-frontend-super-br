@@ -54,6 +54,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     classificacaoPagination: Pagination;
     configuracaoNupPagination: Pagination;
     logEntryPagination: Pagination;
+    assuntoPagination: Pagination;
 
     routerState: any;
 
@@ -121,6 +122,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
+        this.assuntoPagination = new Pagination();
 
         this._store.pipe(
             select(getRouterState),
@@ -168,6 +170,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.filter = {permissaoUso: 'eq:true'};
         this.classificacaoPagination.populate = ['parent'];
+        this.assuntoPagination.populate = ['parent'];
     }
 
     /**

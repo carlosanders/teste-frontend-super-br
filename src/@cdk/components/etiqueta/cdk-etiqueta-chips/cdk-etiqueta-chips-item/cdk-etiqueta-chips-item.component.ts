@@ -61,8 +61,10 @@ export class CdkEtiquetaChipsItemComponent {
     @Output()
     pendencies: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
 
-    @ViewChild(MatMenuTrigger) matMenuTrigger: MatMenuTrigger;
+    @Output()
+    filter: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
 
+    @ViewChild(MatMenuTrigger) matMenuTrigger: MatMenuTrigger;
 
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog) {
@@ -102,5 +104,11 @@ export class CdkEtiquetaChipsItemComponent {
 
     canOpenMenu(): boolean {
         return !this.saving && (this.hasPendencies || this.deletable || this.editable);
+    }
+
+    doFiltro(): void {
+        if (this.selectable) {
+            this.filter.emit(this.etiqueta);
+        }
     }
 }

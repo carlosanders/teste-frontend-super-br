@@ -5,7 +5,10 @@
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
                            [arrayFiltrosEtiquetas]="arraySearchTypes"
                            [targetHandle]="targetHandle"
-                           [typeHandle]="typeHandle"></cdk-tarefa-filter>
+                           [typeHandle]="typeHandle"
+                           [filterProcesso]="filterProcesso"
+                           [etiquetas]="filterEtiquetas"
+        ></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -227,7 +230,7 @@
             </mat-form-field>
 
             <button class="refresh" mat-icon-button
-                    *ngIf="parentIdentifier && viewMode == 'grid'"
+                    *ngIf="parentIdentifier && viewMode === 'grid'"
                     (click)="resetTableColumns()"
                     aria-label="redefinir_tabela"
                     matTooltip="Redefinir Tabela">
@@ -395,7 +398,8 @@
                                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                                     [habilitarOpcaoBtnAddEtiqueta]="true"
                                     (pendencies)="doPendencies({vinculacaoEtiqueta: $event, tarefa: tarefa})"
-                                    [placeholder]="'Adicionar Etiquetas'">
+                                    [placeholder]="'Adicionar Etiquetas'"
+                                    (filter)="doFilterEtiqueta($event)">
                                 </cdk-vinculacao-etiqueta-chips>
                             </div>
                         </div>
@@ -707,7 +711,9 @@
                     (completedAll)="onCompleteAll($event)"
                     (outraAbaHandler)="doAbrirOutraAba($event)"
                     (editarObservacao)="doEditarObservacao($event)"
-                    (pencencies)="doPendencies($event)">
+                    (pencencies)="doPendencies($event)"
+                    (filterNup)="doFilterNup($event)"
+                    (filterEtiqueta)="doFilterEtiqueta($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

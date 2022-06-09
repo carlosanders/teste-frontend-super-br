@@ -56,6 +56,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    showSolicitarDossie = true;
+
     loading$: Observable<boolean>;
     routerState: any;
 
@@ -395,7 +397,11 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SincronizaBarramento({processo: processo, operacaoId: operacaoId}));
     }
 
-    mouseEnter(trigger) {
+    solicitarDossies(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'dossies']).then();
+    }
+
+    mouseEnter(trigger): void {
         if (this.timedOutCloser) {
             clearTimeout(this.timedOutCloser);
         }

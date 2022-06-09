@@ -140,21 +140,21 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
     }
 
     ngOnInit(): void {
-        if (!this.configModule.id) {
-            this.form.get('modulo').valueChanges.pipe(
-                filter(value => !!value),
-            ).subscribe(modulo => {
-                this.configModulePagination.filter = {
-                    ...this.configModulePagination.filter,
-                    'modulo.id': `eq:${modulo.id}`
-                };
-            });
-        } else {
-            this.configModulePagination.filter = {
-                ...this.configModulePagination.filter,
-                'modulo.id': `eq:${this.configModule.modulo.id}`
-            };
-        }
+        // if (!this.configModule.id) {
+        //     this.form.get('modulo').valueChanges.pipe(
+        //         filter(value => !!value),
+        //     ).subscribe(modulo => {
+        //         this.configModulePagination.filter = {
+        //             ...this.configModulePagination.filter,
+        //             'modulo.id': `eq:${modulo.id}`
+        //         };
+        //     });
+        // } else {
+        //     this.configModulePagination.filter = {
+        //         ...this.configModulePagination.filter,
+        //         'modulo.id': `eq:${this.configModule.modulo.id}`
+        //     };
+        // }
 
         if (this.mode === 'edit') {
             this.form.get('nome').disable();

@@ -9,7 +9,7 @@
         <mat-icon *ngIf="conteudo"
                   [ngStyle]="{'color': corHexadecimalFonte(), 'opacity': 0.8}">subject</mat-icon>
 
-        <span (click)="doSelect()">
+        <span (click)="doFiltro()">
             {{etiqueta.nome | titleCasePipe}}
         </span>
 

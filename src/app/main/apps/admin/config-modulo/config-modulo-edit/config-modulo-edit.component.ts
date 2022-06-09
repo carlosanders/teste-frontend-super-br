@@ -19,6 +19,7 @@ import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operat
 import {ConfigModulo, Modulo} from '../../../../../../@cdk/models';
 import {Usuario} from '../../../../../../@cdk/models';
 import {Pagination} from '@cdk/models/pagination';
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
     selector: 'config-modulo-edit',
@@ -79,6 +80,7 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
             dataValue: [null],
             modulo: [null, [Validators.required]],
             mandatory: [true, [Validators.required]],
+            invalid: [false, [Validators.required]],
             paradigma: [null]
         });
 
@@ -101,7 +103,11 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
                         const moduloNormalizado = modulo.prefixo ? this.normalizedString(modulo.nome) : modulo.prefixo;
                         const sistema = 'supp_core';
                         const moduloCompleto = `${moduloNormalizado}_backend`;
-                        const nome = this.form.get('nome').value ? this.form.get('nome').value.split('.')[2] : '';
+                        const nome =
+                            this.form.get('nome').value ?
+                                this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length).join(".") :
+                                ''
+                        ;
                         this.form.patchValue({'module': moduloNormalizado})
                         return of(`${sistema}.${moduloCompleto}.${nome}`);
                     }
@@ -123,8 +129,11 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
                 }
 
                 if (valor === 'json' && null === this.configModule.dataSchema) {
+                    const baseURI = environment.api_url;
+                    const schemaURI = `${baseURI}administrativo/config_module/schema/`;
                     retorno = JSON.stringify({
-                        'schema': 'http://json-schema.org/draft-07/schema#',
+                        '$schema': 'http://json-schema.org/draft-07/schema#',
+                        '$id': `${schemaURI}${this.form.get('nome').value}`,
                         'description': `${this.form.get('descricao').value}`,
                         'type':'object',
                         'required':[
@@ -146,18 +155,20 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
         if (!this.configModule) {
             this.configModule = new ConfigModulo();
             this.configModule.mandatory = true;
+            this.configModule.invalid = false;
         }
     }
 
     submit(values): void {
-        const configModule = new ConfigModulo();
+        const novoConfigModulo = new ConfigModulo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                configModule[key] = value;
+                novoConfigModulo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveConfigModule(configModule));
+        novoConfigModulo.invalid = false;
+        this._store.dispatch(new fromStore.SaveConfigModule(novoConfigModulo));
     }
 
     doAbort(): void {
@@ -167,7 +178,7 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
     normalizedString(value: string): string {
         return value.normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '-') // Substitui espaço e outros caracteres por hífen
+            .replace(/([^\w]+|\s+)/g, '_') // Substitui espaço e outros caracteres por hífen
             .replace(/(^-+|-+$)/, '').toLowerCase();
     }
 

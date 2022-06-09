@@ -17,10 +17,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {getDocumento} from '../../../store';
 import {getComponenteDigitalLoaded} from '../selectors';
 import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
-import {CacheGenericUserDataService} from "../../../../../../../@cdk/services/cache.service";
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {
     ComponenteDigitalCkeditorComponent
-} from "../../componente-digital-ckeditor/componente-digital-ckeditor.component";
+} from '../../componente-digital-ckeditor/componente-digital-ckeditor.component';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -55,28 +55,32 @@ export class ComponenteDigitalEffect {
             if (this.lixeira) {
                 context = JSON.stringify({'mostrarApagadas': true});
             }
-            return this._componenteDigitalService.download(handle.value, context);
-        }),
-        mergeMap(response => [
-            new UpdateData<ComponenteDigital>({
-                id: response.id,
-                schema: componenteDigitalSchema,
-                changes: {conteudo: response.conteudo, mimetype: response.mimetype,
+            return this._componenteDigitalService.download(handle.value, context).pipe(
+                mergeMap(response => [
+                    new UpdateData<ComponenteDigital>({
+                        id: response.id,
+                        schema: componenteDigitalSchema,
+                        changes: {
+                            conteudo: response.conteudo, mimetype: response.mimetype,
                             fileName: response.fileName, unsafe: response.unsafe,
-                            extensao: response.extensao, convertidoPdf: response.convertidoPdf}
-            }),
-            new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
-                componenteDigital: response,
-                loaded: {
-                    id: 'componenteDigitalHandle',
-                    value: this.routerState.params['componenteDigitalHandle']
-                }
-            }),
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
+                            extensao: response.extensao, convertidoPdf: response.convertidoPdf,
+                            assinado: response.assinado, editavel: response.editavel
+                        }
+                    }),
+                    new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
+                        componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                        componenteDigital: response,
+                        loaded: {
+                            id: 'componenteDigitalHandle',
+                            value: this.routerState.params['componenteDigitalHandle']
+                        }
+                    }),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
+                })
+            );
         })
     ));
     downloadComponenteDigitalSuccess: any = createEffect(() => this._actions.pipe(
@@ -99,7 +103,7 @@ export class ComponenteDigitalEffect {
 
                 let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                 // eslint-disable-next-line max-len
-                if ((!documento?.minuta || documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
+                if ((!documento?.minuta || documento?.estaVinculado || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
                     sidebar = 'editar/dados-basicos';
                 }
                 const url = this.routerState.url.includes('/processo/' + this.routerState.params.processoHandle + '/visualizar') ?
@@ -307,7 +311,7 @@ export class ComponenteDigitalEffect {
                         this._cacheGenericUserDataService.set(
                             componenteDigitalBackupList.filter((backup) => backup.id !== action.payload.componenteDigital.id),
                             ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
-                            (60*60*24*30) //30 dias
+                            (60 * 60 * 24 * 30) //30 dias
                         ).subscribe();
                     });
                 return this._store.dispatch(new OperacoesActions.Operacao({
@@ -405,7 +409,28 @@ export class ComponenteDigitalEffect {
             }
         })
     ), {dispatch: false});
-
+    /**
+     * Ações relacionadas a remover assinatura de minutas com sucesso
+     */
+    removeAssinaturaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.RemoveAssinaturaDocumentoSuccess>(AssinaturaActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Ações relacionadas a deleção de assinatura pela listagem de assinaturas
+     */
+    deleteAssinaturaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.DeleteAssinaturaDocumentoSuccess>(ComponenteDigitalActions.DELETE_ASSINATURA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload.documentoId) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
+        })
+    ), {dispatch: false});
     visualizarHtmlComponenteDigital: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.VisualizarHTMLComponenteDigital>(ComponenteDigitalActions.VISUALIZAR_HTML_COMPONENTE_DIGITAL),
         switchMap((action) => this._componenteDigitalService.renderHtmlContent(action.payload)),

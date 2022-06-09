@@ -1,4 +1,23 @@
 <div class="dados-basicos-sidebar">
+    <cdk-minutas-atividade-card-list
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        [alterandoId]="(alterandoDocumentosId$ | async)"
+        [documentos]="oficios"
+        [selectedIds]="(selectedIds$ | async)"
+        [mode]="'editor'"
+        [disabledSelects]="disabledIds"
+        [oficio]="true"
+        [currentDocumentoId]="documento?.id"
+        (clicked)="onClicked($event)"
+        (assinatura)="doAssinatura($event)"
+        (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+        (changedSelectedIds)="changedSelectedIds($event)">
+    </cdk-minutas-atividade-card-list>
+
+    <div *ngIf="(loadingDocumentos$ | async) === true" class="spinner-container m-8">
+        <mat-spinner diameter="24"></mat-spinner>
+    </div>
+
     <div class="documentos-vinculados mb-4">
         <h3 style="font-weight: bold">Anexos</h3>
 
@@ -93,7 +112,7 @@
             <cdk-documento-avulso-form cdkPerfectScrollbar
                                        *ngIf="(documento$ | async)?.documentoAvulsoRemessa"
                                        [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-                                       [mode]="'vertical'"
+                                       [mode]="'editor'"
                                        [saving]="(isSaving$ | async)"
                                        [errors]="(errors$ | async)"
                                        (save)="submit($event)"

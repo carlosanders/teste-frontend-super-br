@@ -7,6 +7,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {ConfigModulo, Modulo} from '../../../../../../@cdk/models';
+import {CdkUtils} from "../../../../../../@cdk/utils";
 
 @Component({
     selector: 'config-modulo-list',
@@ -85,6 +86,15 @@ export class ConfigModuloListComponent implements OnInit {
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
+    }
+
+    delete(configModuloId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteConfigModule({
+            configModuloId: configModuloId,
+            operacaoId: operacaoId,
+            loteId: loteId
+        }));
     }
 
     doAbort(): void {

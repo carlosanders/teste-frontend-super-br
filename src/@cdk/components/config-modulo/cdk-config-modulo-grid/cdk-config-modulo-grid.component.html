@@ -122,6 +122,13 @@
                                 matTooltip="Configuração com schema de outra configuração">
                             people
                         </mat-icon>
+                        <mat-icon
+                            *ngIf="configModule.invalid"
+                            [ngStyle]="{'color':'red'}"
+                            aria-label="Valor inválido em relação ao schema de outra configuração"
+                            matTooltip="Valor inválido em relação ao schema de outra configuração">
+                            announcement
+                        </mat-icon>
                     </td>
                 </ng-container>
 

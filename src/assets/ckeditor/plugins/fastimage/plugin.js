@@ -32,7 +32,7 @@
                                 {
                                     type: 'html',
                                     html: "<div><input type='file' name='img' size='65' id='uploadimage' onchange='CKEDITOR.getshop.fastimage.draw(this)' value='test'></div>" +
-                                            '<canvas id="canvas" width="400" height="400"></canvas>'
+                                            "<canvas id='canvas' width='400' height='400' style='max-width: 600px; max-height: 600px;'></canvas>"
                                 }
                             ]
                         }
@@ -70,8 +70,8 @@ CKEDITOR.getshop.fastimage = {
 
         img.src = src;
         img.onload = function() {
-            var maxWidth = 1000;
-            var maxHeight = 1000;
+            var maxWidth = 600;
+            var maxHeight = 600;
 
             var ratio = 1;
 

@@ -30,7 +30,7 @@ import {
     GetDocumentos as GetDocumentosAtividade
 } from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
-import {UnloadComponenteDigital} from './componente-digital/store';
+import {getIsLoading as getIsLoadingComponenteDigital, getIsSaving as getIsSavingComponenteDigital, UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog} from '@angular/material/dialog';
@@ -51,6 +51,11 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
     documento$: Observable<Documento>;
     loading$: Observable<boolean>;
+    loading: boolean = false;
+    loadingComponenteDigital$: Observable<boolean>;
+    loadingComponenteDigital: boolean = false;
+    savingComponenteDigital$: Observable<boolean>;
+    savingComponenteDigital: boolean = false;
     currentComponenteDigital$: Observable<ComponenteDigital>;
     screen$: Observable<any>;
 
@@ -89,6 +94,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.loadingComponenteDigital$ = this._store.pipe(select(getIsLoadingComponenteDigital));
+        this.savingComponenteDigital$ = this._store.pipe(select(getIsSavingComponenteDigital));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._store.pipe(
             select(getRouterState),
@@ -404,7 +412,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 let primary: string;
                 primary = 'componente-digital/' + this.currentComponenteDigital.id;
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
-                if (this.documento.vinculacaoDocumentoPrincipal) {
+                if (this.documento.estaVinculado) {
                     sidebar = 'editar/dados-basicos';
                 }
                 if (!!this.documento.documentoAvulsoRemessa) {

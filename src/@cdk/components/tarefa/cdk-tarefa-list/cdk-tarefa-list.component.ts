@@ -41,6 +41,7 @@ import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.comp
 import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
 import * as _ from 'lodash';
+import {CdkTarefaFilterService} from "../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -438,6 +439,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     dynamicColumnList: CdkTarefaListGridColumn[] = [];
     dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
+
+    filterProcesso: any = null;
+    filterEtiquetas: Etiqueta[] = [];
 
     /**
      * Constructor
@@ -968,7 +972,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.convertePdf.emit(documentoId);
     }
 
-    doDeleteDocumento(event: { documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }): void {
+    doDeleteDocumento(event: { documentoId: any; tarefaId: any; documentoAvulsoUuid?: any }): void {
         this.matMenuTriggersList?.forEach((trigger) => trigger.closeMenu());
         this.deleteDocumento.emit(event);
     }
@@ -1018,5 +1022,33 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     doPendencies(event: {vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}): void {
         this.pencencies.emit(event);
+    }
+
+    doFilterNup(processo): void {
+        if (this.filterProcesso?.id === processo?.id) {
+            this.filterProcesso = null;
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.filterProcesso = processo;
+            this.listFilter.filters = {'processo.id': `eq:${processo.id}`};
+            this.loadPage();
+        }
+    }
+
+    doFilterEtiqueta(etiqueta): void {
+        if (this.filterEtiquetas.find(et => etiqueta.id === et.id)) {
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {'vinculacoesEtiquetas.etiqueta.id': `eq:${etiqueta.id}`};
+            this.filterEtiquetas.push(etiqueta);
+            this.loadPage();
+        }
     }
 }
