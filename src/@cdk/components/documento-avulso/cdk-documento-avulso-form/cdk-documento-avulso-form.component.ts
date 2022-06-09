@@ -376,6 +376,14 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             this.form.markAsDirty({onlySelf: false});
         }
 
+        if (changes['mode'] && !!this.mode) {
+            if (this.mode === 'editor') {
+                this.form.get('modelo').disable();
+            } else {
+                this.form.get('modelo').enable();
+            }
+        }
+
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
             try {
                 const data = JSON.parse(this.errors.error.message);

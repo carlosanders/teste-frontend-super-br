@@ -55,31 +55,32 @@ export class ComponenteDigitalEffect {
             if (this.lixeira) {
                 context = JSON.stringify({'mostrarApagadas': true});
             }
-            return this._componenteDigitalService.download(handle.value, context);
-        }),
-        mergeMap(response => [
-            new UpdateData<ComponenteDigital>({
-                id: response.id,
-                schema: componenteDigitalSchema,
-                changes: {
-                    conteudo: response.conteudo, mimetype: response.mimetype,
-                    fileName: response.fileName, unsafe: response.unsafe,
-                    extensao: response.extensao, convertidoPdf: response.convertidoPdf,
-                    assinado: response.assinado, editavel: response.editavel
-                }
-            }),
-            new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
-                componenteDigital: response,
-                loaded: {
-                    id: 'componenteDigitalHandle',
-                    value: this.routerState.params['componenteDigitalHandle']
-                }
-            }),
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
+            return this._componenteDigitalService.download(handle.value, context).pipe(
+                mergeMap(response => [
+                    new UpdateData<ComponenteDigital>({
+                        id: response.id,
+                        schema: componenteDigitalSchema,
+                        changes: {
+                            conteudo: response.conteudo, mimetype: response.mimetype,
+                            fileName: response.fileName, unsafe: response.unsafe,
+                            extensao: response.extensao, convertidoPdf: response.convertidoPdf,
+                            assinado: response.assinado, editavel: response.editavel
+                        }
+                    }),
+                    new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
+                        componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                        componenteDigital: response,
+                        loaded: {
+                            id: 'componenteDigitalHandle',
+                            value: this.routerState.params['componenteDigitalHandle']
+                        }
+                    }),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
+                })
+            );
         })
     ));
     downloadComponenteDigitalSuccess: any = createEffect(() => this._actions.pipe(

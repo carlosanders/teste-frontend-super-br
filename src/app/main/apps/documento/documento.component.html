@@ -1,5 +1,5 @@
 <div class="full-screen" disabled>
-    <div class="modal page-layout left-sidebar inner-scroll">
+    <div class="modal page-layout left-sidebar inner-scroll" [class.disabled]="(loading$ | async) === true || (loadingComponenteDigital$ | async) === true || (savingComponenteDigital$ | async) === true">
         <!-- SIDEBAR -->
         <div [ngClass]="{'modal-header accent': !mobileMode, 'mobile-modal-header accent': mobileMode}">
             <button class="sidebar-toggle" mat-icon-button
@@ -70,3 +70,4 @@
         </div>
     </div>
 </div>
+<div class="isDisabled" (click)="$event.preventDefault(); $event.stopPropagation();" *ngIf="(loading$ | async) === true || (loadingComponenteDigital$ | async) === true || (savingComponenteDigital$ | async) === true"></div>

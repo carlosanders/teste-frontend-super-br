@@ -29,7 +29,8 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
 
         case DocumentoActions.GET_DOCUMENTO: {
             return {
-                ...DocumentoInitialState
+                ...state,
+                loading: true
             };
         }
 

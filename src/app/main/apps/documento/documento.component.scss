@@ -1,6 +1,16 @@
 documento {
     display: flex;
 
+    .isDisabled {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 150000 !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+    }
+
     .full-screen {
         position: fixed;
         top: 0;
@@ -14,6 +24,10 @@ documento {
         background: rgba(0, 0, 0, 0.5) !important;
 
         > .modal {
+            &.disabled {
+                z-index: 1001 !important;
+            }
+
             height: 95%;
             width: 98%;
             flex: 0 1 95%;
@@ -169,7 +183,6 @@ documento {
                     }
                 }
             }
-
         }
     }
 }

@@ -358,9 +358,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     }
                 }
             }
+            if (this.autoSave) {
+                clearInterval(this.autoSave);
+            }
+            const me = this;
+            this.autoSave = setInterval(() => {
+                me.doSave();
+            }, 180 * 1000);
         } else {
             this._lastContent = null;
             this.src = null;
+            if (this.autoSave) {
+                clearInterval(this.autoSave);
+            }
         }
         this._changeDetectorRef.detectChanges();
     }
@@ -508,7 +518,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             fragment.writeHtml(writer);
             ev.data.dataValue = writer.getHtml()?.replaceAll('<span style="color:transparent">', '<span>');
         });
-
+        if (this.autoSave) {
+            clearInterval(this.autoSave);
+        }
         this.autoSave = setInterval(() => {
             me.doSave();
         }, 180 * 1000);

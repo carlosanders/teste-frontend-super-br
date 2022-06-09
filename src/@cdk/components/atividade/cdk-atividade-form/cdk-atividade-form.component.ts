@@ -198,10 +198,6 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas);
-
-        this.form.get('unidadeAprovacao').disable();
         this.form.get('setorAprovacao').disable();
         this.form.get('usuarioAprovacao').disable();
 
@@ -399,8 +395,12 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         if (changes['atividade'] && this.atividade && (!this.atividade.id || (this.atividade.tarefa.id !== this.form.get('tarefa').value.id))) {
             this.form.reset();
             this.form.patchValue({...this.atividade});
-            this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas);
+            this.ajustaDestinacao();
             this.changeEncerramentoTarefa.emit(this.atividade.encerraTarefa);
+        } else {
+            if (changes['temMinutas']) {
+                this.ajustaDestinacao();
+            }
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -439,6 +439,20 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
+        }
+    }
+
+    ajustaDestinacao(): void {
+        if (!this.temMinutas) {
+            this.form.get('desinacaoMinutas').setValue('juntar');
+            this.form.get('unidadeAprovacao').disable();
+        } else {
+            if (this.destinacaoMinutas === 'submeter_aprovacao') {
+                this.form.get('unidadeAprovacao').enable();
+            } else {
+                this.form.get('unidadeAprovacao').disable();
+            }
+            this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas); //destinação minutas padrão
         }
     }
 

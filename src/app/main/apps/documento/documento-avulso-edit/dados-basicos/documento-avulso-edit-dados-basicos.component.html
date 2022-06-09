@@ -112,7 +112,7 @@
             <cdk-documento-avulso-form cdkPerfectScrollbar
                                        *ngIf="(documento$ | async)?.documentoAvulsoRemessa"
                                        [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-                                       [mode]="'vertical'"
+                                       [mode]="'editor'"
                                        [saving]="(isSaving$ | async)"
                                        [errors]="(errors$ | async)"
                                        (save)="submit($event)"
