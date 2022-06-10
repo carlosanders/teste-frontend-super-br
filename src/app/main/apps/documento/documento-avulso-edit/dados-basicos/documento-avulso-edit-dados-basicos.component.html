@@ -78,12 +78,12 @@
 
     <div class="dados-basicos mb-8" *ngIf="(documento$ | async)">
         <div class="actions mb-8">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    mat-icon-button (click)="remeterDocumentoAvulso()"
+            <button mat-raised-button color="accent"
+                    (click)="remeterDocumentoAvulso()"
                     [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || (isRemetendo$ | async) || remeterDocAvulso"
                     aria-label="remeter ofício"
                     matTooltip="Remeter Ofício">
-                <mat-icon class="black-fg">send</mat-icon>
+                <mat-icon class="black-fg">send</mat-icon> Remeter
             </button>
         </div>
 
