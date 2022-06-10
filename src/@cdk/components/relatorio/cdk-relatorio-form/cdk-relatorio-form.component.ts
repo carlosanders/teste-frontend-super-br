@@ -337,6 +337,22 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
+
+        this.form.get('dataHoraInicio').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap(() => {
+                this.validarDatas();
+                return of([]);
+            })
+        ).subscribe();
+
+        this.form.get('dataHoraFim').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap(() => {
+                this.validarDatas();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     /**
@@ -568,6 +584,21 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showClassificacaoGrid(): void {
         this.activeCard = 'classificacao-gridsearch';
+    }
+
+    validarDatas(): void {
+        const dataHoraInicio = this.form.get('dataHoraInicio').value;
+        const dataHoraFim = this.form.get('dataHoraFim').value;
+
+        if (!dataHoraInicio || !dataHoraFim) {
+            return;
+        }
+
+        if (dataHoraFim < dataHoraInicio) {
+            this.form.get('dataHoraFim').setErrors({formError: 'A data final não pode ser anterior a data inicial!'});
+            this._changeDetectorRef.markForCheck();
+            return;
+        }
     }
 
     cancel(): void {
