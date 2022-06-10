@@ -431,9 +431,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
+        this._store.dispatch(new fromStore.SetCurrentStepFailed(null));
         if (this.routerState.url.indexOf('anexar-copia') === -1 &&
-            this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle'] + '/visualizar') === -1) {
+            this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle']) === -1) {
+            this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
         if (this.processo?.origemDados) {
