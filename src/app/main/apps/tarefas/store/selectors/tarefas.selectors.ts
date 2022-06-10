@@ -77,6 +77,11 @@ export const getIsLoading: any = createSelector(
     (state: TarefasState) => state.loading
 );
 
+export const getIsTrocandoPastas: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.trocandoPastas
+);
+
 export const getError: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.error

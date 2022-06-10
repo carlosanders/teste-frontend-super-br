@@ -101,7 +101,7 @@
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center"
                         [disabled]="!podeAlterarTipoDocumento"
-                        *showIfRole="'ROLE_COLABORADOR'"
+                        *ngIf="!oficio && this._loginService.isGranted('ROLE_COLABORADOR')"
                         [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                     <mat-icon color="accent">edit</mat-icon>
                     <span>Alterar Tipo de Documento</span>

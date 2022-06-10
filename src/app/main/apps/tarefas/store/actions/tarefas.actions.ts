@@ -60,9 +60,11 @@ export const TOGGLE_URGENTE_TAREFA = '[TAREFAS] TOGGLE URGENTE TAREFA';
 export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
 export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAILED';
 
+export const SET_FOLDER_ON_SELECTED_TAREFAS_START = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS START';
 export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
+export const SET_FOLDER_ON_SELECTED_TAREFAS_FINISH = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FINISH';
 
 export const DISTRIBUIR_TAREFA = '[TAREFAS] DISTRIBUIR TAREFA';
 export const DISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA SUCCESS';
@@ -421,6 +423,16 @@ export class ChangeDraggedTarefas implements Action {
 }
 
 /**
+ * Set Folder on Selected Tarefas Start
+ */
+export class SetFolderOnSelectedTarefasStart implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_START;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Set Folder on Selected Tarefas
  */
 export class SetFolderOnSelectedTarefas implements Action {
@@ -447,6 +459,16 @@ export class SetFolderOnSelectedTarefasFailed implements Action {
     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FAILED;
 
     constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Folder on Selected Tarefas Finish
+ */
+export class SetFolderOnSelectedTarefasFinish implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FINISH;
+
+    constructor() {
     }
 }
 
@@ -1337,9 +1359,11 @@ export type TarefasActionsAll
     | SyncCurrentTarefaId
     | ChangeSelectedTarefas
     | ChangeDraggedTarefas
+    | SetFolderOnSelectedTarefasStart
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
+    | SetFolderOnSelectedTarefasFinish
     | DistribuirTarefas
     | DistribuirTarefasSuccess
     | DistribuirTarefasFailed

@@ -1,5 +1,6 @@
 <div class="dados-basicos-sidebar">
     <cdk-minutas-atividade-card-list
+        *ngIf="!remetendo"
         [assinandoId]="(assinandoDocumentosId$ | async)"
         [alterandoId]="(alterandoDocumentosId$ | async)"
         [documentos]="oficios"
@@ -14,11 +15,11 @@
         (changedSelectedIds)="changedSelectedIds($event)">
     </cdk-minutas-atividade-card-list>
 
-    <div *ngIf="(loadingDocumentos$ | async) === true" class="spinner-container m-8">
+    <div *ngIf="(loadingDocumentos$ | async) === true && !remetendo" class="spinner-container m-8">
         <mat-spinner diameter="24"></mat-spinner>
     </div>
 
-    <div class="documentos-vinculados mb-4">
+    <div class="documentos-vinculados mb-4" *ngIf="!remetendo">
         <h3 style="font-weight: bold">Anexos</h3>
 
         <button mat-mini-fab
@@ -80,7 +81,7 @@
         <div class="actions mb-8">
             <button mat-raised-button color="accent"
                     (click)="remeterDocumentoAvulso()"
-                    [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || (isRemetendo$ | async) || remeterDocAvulso"
+                    [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || remetendo || remeterDocAvulso"
                     aria-label="remeter ofício"
                     matTooltip="Remeter Ofício">
                 <mat-icon class="black-fg">send</mat-icon> Remeter
@@ -98,10 +99,10 @@
         </span>
             <ng-template #dynamicStatus></ng-template>
         </div>
-        <div *ngIf="(isRemetendo$ | async)" class="remetendo">
+        <div *ngIf="remetendo" class="remetendo">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>
-        <div *ngIf="!(isRemetendo$ | async)" class="formulario">
+        <div *ngIf="!remetendo" class="formulario">
             <div>
                 <mat-slide-toggle [checked]="!!!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraEncerramento"
                                   (change)="toggleEncerramento()"

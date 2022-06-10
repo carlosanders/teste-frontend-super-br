@@ -46,7 +46,7 @@ import {
     getBufferingDistribuir,
     getCienciaTarefaIds,
     getDeletingTarefaIds,
-    getDistribuindoTarefaIds,
+    getDistribuindoTarefaIds, getViewMode,
 } from '../selectors';
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
@@ -65,6 +65,8 @@ import * as DocumentoEditAtividadeDocumentosActions
     from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
 import * as DocumentoOficioActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documento-avulso-edit.actions';
+import * as DocumentoOficioVinculadosActions
+    from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documentos-vinculados.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
 import {
@@ -617,6 +619,26 @@ export class TarefasEffect {
         })
     ));
     /**
+     * Set Folder on Selected Tarefas
+     *
+     * @type {Observable<any>}
+     */
+    setFolderOnSelectedTarefasFinish: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SetFolderOnSelectedTarefasFinish>(TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_FINISH),
+        withLatestFrom(this._store.pipe(select(fromStore.getPagination)), this._store.pipe(select(fromStore.getTarefasIds)), this._store.pipe(select(fromStore.getViewMode))),
+        tap(([, pagination, tarefasIds, viewMode]) => {
+            if (tarefasIds.length < pagination.total) {
+                const nparams = {
+                    ...pagination,
+                    offset: tarefasIds.length,
+                    viewMode: viewMode
+                };
+
+                this._store.dispatch(new fromStore.GetTarefas(nparams));
+            }
+        })
+    ), {dispatch: false});
+    /**
      * ISSUE-176
      * Set Setor On Selected Tarefas
      *
@@ -625,17 +647,6 @@ export class TarefasEffect {
     distribuirSelectedTarefas: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.DistribuirTarefas>(TarefasActions.DISTRIBUIR_TAREFA),
         tap((action) => {
-            this._store.dispatch(new UpdateData<Tarefa>(
-                {
-                    id: action.payload.tarefa.id,
-                    schema: tarefaSchema,
-                    changes: {
-                        setorResponsavel: action.payload.setorResponsavel,
-                        distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
-                        usuarioResponsavel: action.payload.usuarioResponsavel
-                    }
-                }
-            ));
             this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tarefa',
@@ -1075,10 +1086,22 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
+    alteraTipoDocumentoOficioEditor: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoOficioVinculadosActions.UpdateDocumentoVinculadoSuccess>(DocumentoOficioVinculadosActions.UPDATE_DOCUMENTO_VINCULADO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
     deleteDocumentoAtividadeBloco: any = createEffect(() => this._actions.pipe(
         ofType<AtividadeBlocoCreateActions.DeleteDocumentoSuccess>(AtividadeBlocoCreateActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
+        })
+    ), {dispatch: false});
+    deleteDocumentoVinculadoOficio: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoOficioVinculadosActions.DeleteDocumentoVinculadoSuccess>(DocumentoOficioVinculadosActions.DELETE_DOCUMENTO_VINCULADO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
     converteDocumentoPdfAtividade: any = createEffect(() => this._actions.pipe(

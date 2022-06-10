@@ -88,16 +88,22 @@ export class DocumentosEffects {
      */
     updateDocumento: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.UpdateDocumento>(DocumentosActionsAll.UPDATE_DOCUMENTO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, ['tipoDocumento']).pipe(
-            mergeMap((response: Documento) => [
-                new DocumentosActionsAll.UpdateDocumentoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema}),
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new DocumentosActionsAll.UpdateDocumentoFailed(err));
-            })
-        ))
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'tipoDocumento',
+                'atualizadoPor'
+            ]);
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+                mergeMap((response: Documento) => [
+                    new DocumentosActionsAll.UpdateDocumentoSuccess(response.id),
+                    new AddData<Documento>({data: [response], schema: documentoSchema}),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosActionsAll.UpdateDocumentoFailed(err));
+                })
+            );
+        }, 25)
     ));
 
     constructor(

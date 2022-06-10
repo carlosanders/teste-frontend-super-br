@@ -55,6 +55,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     isSaving$: Observable<boolean>;
     isRemetendo$: Observable<boolean>;
+    remetendo: boolean = false;
     errors$: Observable<any>;
     errorsRemetendo$: Observable<any>;
     errorsRemetendo: any;
@@ -167,6 +168,13 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => this.pagination = pagination);
 
+        this.isRemetendo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((remetendo) => {
+            this.remetendo = remetendo;
+            this._ref.detectChanges();
+        })
+
         this._componenteDigitalService.completedEditorSave.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((value) => {
@@ -176,6 +184,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                     documentoId: this.documento.id,
                     uuid: this.documento.uuid
                 }));
+                this._ref.detectChanges();
             }
         });
 

@@ -39,12 +39,14 @@
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
-            <button mat-menu-item
+            <button mat-menu-item *ngIf="targetHandle !== 'entrada'"
                     (click)="setFolder(null)">ENTRADA
             </button>
-            <button mat-menu-item *ngFor="let folder of folders"
-                    (click)="setFolder(folder)">{{folder.nome}}
-            </button>
+            <ng-container *ngFor="let folder of folders">
+                <button mat-menu-item *ngIf="folder.id != targetHandle"
+                        (click)="setFolder(folder)">{{folder.nome}}
+                </button>
+            </ng-container>
         </mat-menu>
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
@@ -512,7 +514,7 @@
                                         <span>Ver Resposta</span>
                                     </button>
                                     <button fxLayout="row" fxLayoutAlign="start center"
-                                            *ngIf="loginService.isGranted('ROLE_COLABORADOR')"
+                                            *ngIf="loginService.isGranted('ROLE_COLABORADOR') && !vinculacaoEtiqueta.objectContext['documentoAvulsoUuid']"
                                             (click)="$event.stopPropagation();"
                                             [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger"
                                             mat-menu-item>

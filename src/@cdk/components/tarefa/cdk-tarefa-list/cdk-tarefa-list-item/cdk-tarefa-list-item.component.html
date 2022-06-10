@@ -213,7 +213,7 @@
                             <span>Ver Resposta</span>
                         </button>
                         <button fxLayout="row" fxLayoutAlign="start center"
-                                *ngIf="_loginService.isGranted('ROLE_COLABORADOR')"
+                                *ngIf="_loginService.isGranted('ROLE_COLABORADOR') && !vinculacaoEtiqueta.objectContext['documentoAvulsoUuid']"
                                 (click)="$event.stopPropagation();"
                                 [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger"
                                 mat-menu-item>

@@ -37,7 +37,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -177,6 +177,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     pesquisaTarefa: string;
 
     changingFolderIds$: Observable<number[]>;
+    trocandoPastas: boolean = false;
 
     generoHandle: string;
     typeHandle: string;
@@ -603,6 +604,22 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             });
         });
 
+        this._store.pipe(
+            select(fromStore.getIsTrocandoPastas),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((trocandoPastas) => {
+            this.trocandoPastas = trocandoPastas;
+        })
+
+        this.changingFolderIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefasIds) => {
+            if (this.trocandoPastas && tarefasIds.length === 0) {
+                // Acabou de trocar as pastas das tarefas selecionadas
+                this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasFinish());
+            }
+        })
+
         this.errorComponentesDigitais$.pipe(
             filter(errors => !!errors),
             takeUntil(this._unsubscribeAll)
@@ -980,6 +997,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setFolderOnSelectedTarefas(folder): void {
         const loteId = CdkUtils.makeId();
+        if (this.targetHandle !== 'lixeira') {
+            // Informa do inicio da mudança de pastas das tarefas selecionadas
+            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasStart(this.selectedTarefas.map(tarefa => tarefa.id)));
+        }
         this.selectedTarefas.forEach((tarefa) => {
             const operacaoId = CdkUtils.makeId();
             if (this.targetHandle === 'lixeira') {

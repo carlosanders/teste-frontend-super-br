@@ -27,6 +27,7 @@ export interface TarefasState {
     bufferingRedistribuir: number;
     bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
+    trocandoPastas: boolean;
     togglingLidaTarefaIds: number[];
     currentTarefaId: any;
     deletedTarefaIds: number[];
@@ -74,6 +75,7 @@ export const tarefasInitialState: TarefasState = {
     deletingTarefaIds: [],
     undeletingTarefaIds: [],
     changingFolderTarefaIds: [],
+    trocandoPastas: false,
     togglingLidaTarefaIds: [],
     bufferingDelete: 0,
     bufferingCiencia: 0,
@@ -215,10 +217,11 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             };
         }
 
-        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS: {
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_START: {
             return {
                 ...state,
-                changingFolderTarefaIds: [...state.changingFolderTarefaIds, action.payload.tarefa.id]
+                trocandoPastas: true,
+                changingFolderTarefaIds: [...state.changingFolderTarefaIds, ...action.payload]
             };
         }
 
@@ -241,6 +244,13 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 changingFolderTarefaIds: state.changingFolderTarefaIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_FINISH: {
+            return {
+                ...state,
+                trocandoPastas: false
             };
         }
 
