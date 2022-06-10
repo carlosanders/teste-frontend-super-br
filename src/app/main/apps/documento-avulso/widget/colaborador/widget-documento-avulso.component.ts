@@ -80,7 +80,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
         this.isContadorPrincipal = !this.isContadorPrincipal;
         this.contagemDocumentosAvulsos = [];
         this._documentoAvulsoService.query(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull"}`,
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull", "dataHoraEncerramento": "isNull"}`,
             25,
             0,
             '{"criadoEm": "DESC"}',

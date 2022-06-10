@@ -1,10 +1,10 @@
 <div>
     <div class="info">
         <div class="title">
-            <span>{{acao.modalidadeAcaoEtiqueta.valor}}</span>
+            <span>{{acao.modalidadeAcaoEtiqueta.valor | titleCasePipe}}</span>
         </div>
         <div class="body mt-4">
-            <span>{{acao.modalidadeAcaoEtiqueta.descricao}}</span>
+            <span>{{acao.modalidadeAcaoEtiqueta.descricao | titleCasePipe}}</span>
         </div>
     </div>
 
@@ -14,7 +14,7 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button mat-icon-button *ngIf="!deleting" aria-label="remover"
+        <button mat-icon-button *ngIf="!deleting && actions.indexOf('delete') > -1" aria-label="remover"
                 (click)="doDelete()">
             <mat-icon>delete</mat-icon>
         </button>

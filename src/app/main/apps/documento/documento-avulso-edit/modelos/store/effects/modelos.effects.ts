@@ -30,12 +30,14 @@ export class ModelosEffects {
                 orX: []
             };
             if (action.payload.filter?.orX) {
-                action.payload.filter.orX.forEach((filtro) => {
-                    filters.orX.push({
-                        ...filtro,
-                        id: 'neq:' + this.currentComponenteDigital.modelo.id
+                if (this.currentComponenteDigital.modelo?.id) {
+                    action.payload.filter.orX.forEach((filtro) => {
+                        filters.orX.push({
+                            ...filtro,
+                            id: 'neq:' + this.currentComponenteDigital.modelo.id
+                        });
                     });
-                });
+                }
             }
             const mode = 'search';
             return this._modeloService[`${mode}`](

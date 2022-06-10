@@ -84,7 +84,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            filter(routerState => !!routerState.state)
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
 

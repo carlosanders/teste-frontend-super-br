@@ -60,9 +60,11 @@ export const TOGGLE_URGENTE_TAREFA = '[TAREFAS] TOGGLE URGENTE TAREFA';
 export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
 export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAILED';
 
+export const SET_FOLDER_ON_SELECTED_TAREFAS_START = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS START';
 export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
+export const SET_FOLDER_ON_SELECTED_TAREFAS_FINISH = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FINISH';
 
 export const DISTRIBUIR_TAREFA = '[TAREFAS] DISTRIBUIR TAREFA';
 export const DISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA SUCCESS';
@@ -142,8 +144,19 @@ export const EDITAR_OBSERVACAO = '[TAREFAS] EDITAR OBSERVACAO';
 
 export const UPLOAD_CONCLUIDO = '[TAREFAS] UPLOAD CONCLUIDO';
 
-
 export const CHANGE_VIEW_MODE = '[TAREFAS] CHANGE VIEW MODE';
+
+
+export const GET_ACOES_ETIQUETA = '[TAREFAS] GET ACOES ETIQUETA';
+export const GET_ACOES_ETIQUETA_SUCCESS = '[TAREFAS] GET ACOES ETIQUETA SUCCESS';
+export const GET_ACOES_ETIQUETA_FAILED = '[TAREFAS] GET ACOES ETIQUETA FAILED';
+
+
+export const APROVAR_SUGESTAO = '[TAREFAS] APROVAR SUGESTAO';
+export const APROVAR_SUGESTAO_SUCCESS = '[TAREFAS] APROVAR SUGESTAO SUCCESS';
+export const APROVAR_SUGESTAO_FAILED = '[TAREFAS] APROVAR SUGESTAO FAILED';
+
+export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFAS] RELOAD VINCULACAO_ETIQUETA';
 
 /**
  * Unload Tarefas
@@ -410,6 +423,16 @@ export class ChangeDraggedTarefas implements Action {
 }
 
 /**
+ * Set Folder on Selected Tarefas Start
+ */
+export class SetFolderOnSelectedTarefasStart implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_START;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Set Folder on Selected Tarefas
  */
 export class SetFolderOnSelectedTarefas implements Action {
@@ -436,6 +459,16 @@ export class SetFolderOnSelectedTarefasFailed implements Action {
     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FAILED;
 
     constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Folder on Selected Tarefas Finish
+ */
+export class SetFolderOnSelectedTarefasFinish implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FINISH;
+
+    constructor() {
     }
 }
 
@@ -1243,6 +1276,62 @@ export class ChangeViewMode implements Action
     }
 }
 
+export class GetAcoesEtiqueta implements Action {
+    readonly type = GET_ACOES_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetAcoesEtiquetaSuccess implements Action {
+    readonly type = GET_ACOES_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetAcoesEtiquetaFailed implements Action {
+    readonly type = GET_ACOES_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestao implements Action {
+    readonly type = APROVAR_SUGESTAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoSuccess implements Action {
+    readonly type = APROVAR_SUGESTAO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoFailed implements Action {
+    readonly type = APROVAR_SUGESTAO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ReloadVinculacaoEtiqueta implements Action {
+    readonly type = RELOAD_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -1270,9 +1359,11 @@ export type TarefasActionsAll
     | SyncCurrentTarefaId
     | ChangeSelectedTarefas
     | ChangeDraggedTarefas
+    | SetFolderOnSelectedTarefasStart
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
+    | SetFolderOnSelectedTarefasFinish
     | DistribuirTarefas
     | DistribuirTarefasSuccess
     | DistribuirTarefasFailed
@@ -1349,4 +1440,11 @@ export type TarefasActionsAll
     | UploadConcluido
     | EditarObservacao
     | ChangeViewMode
+    | GetAcoesEtiqueta
+    | GetAcoesEtiquetaSuccess
+    | GetAcoesEtiquetaFailed
+    | AprovarSugestao
+    | AprovarSugestaoSuccess
+    | AprovarSugestaoFailed
+    | ReloadVinculacaoEtiqueta
     ;

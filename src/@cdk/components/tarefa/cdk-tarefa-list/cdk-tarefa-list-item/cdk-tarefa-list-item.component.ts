@@ -147,6 +147,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     loadInteressados = new EventEmitter<any>();
 
+    @Output()
+    pencencies: EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}> = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>()
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -230,6 +233,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Output()
     erroUpload = new EventEmitter<string>();
+
+    @Output()
+    filterNup = new EventEmitter<any>();
+
+    @Output()
+    filterEtiqueta = new EventEmitter<any>();
 
     @Output()
     outraAbaHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
@@ -593,5 +602,17 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     doAbrirMinutaEmOutraAba(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
         this.menuTriggerMinutas.closeMenu();
         this.outraAbaHandler.emit({vinculacaoEtiqueta, tarefa});
+    }
+
+    doPendencies(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.pencencies.emit({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa})
+    }
+
+    doFilterNup(processo: any): void {
+        this.filterNup.emit(processo);
+    }
+
+    doFilterEtiqueta(etiqueta: any): void {
+        this.filterEtiqueta.emit(etiqueta);
     }
 }

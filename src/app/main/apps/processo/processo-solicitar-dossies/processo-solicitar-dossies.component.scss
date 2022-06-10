@@ -1,0 +1,37 @@
+@import "~@cdk/scss/cdk";
+
+processo-solicitar-dossies {
+
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px;
+
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+    }
+    .actions {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        button:first-child {
+            margin: 0 8px 0 8px;
+        }
+    }
+}
+

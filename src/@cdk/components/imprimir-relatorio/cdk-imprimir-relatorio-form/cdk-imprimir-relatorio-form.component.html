@@ -36,6 +36,14 @@
             </button>
         </div>
 
+        <div>
+            <mat-slide-toggle formControlName="extrato">
+                Extrato de Tarefas e Atividades
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id">
+            </button>
+        </div>
+
     </mat-card>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

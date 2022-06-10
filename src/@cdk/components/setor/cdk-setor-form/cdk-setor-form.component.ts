@@ -79,7 +79,7 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
             ativo: [true],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.maxLength(255)]],
-            prefixoNUP: [null, [Validators.required, Validators.maxLength(255)]],
+            prefixoNUP: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern('[0-9]{1,5}')]],
             endereco: [null],
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
@@ -108,6 +108,7 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
         if (changes['setor'] && this.setor && (!this.setor.id || (this.setor.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.setor});
         }

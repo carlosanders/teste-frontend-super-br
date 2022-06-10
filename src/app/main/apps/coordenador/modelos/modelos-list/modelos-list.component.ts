@@ -14,9 +14,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {LoginService} from "../../../../auth/login/login.service";
 
 @Component({
     selector: 'modelos-list',
@@ -43,18 +44,24 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     colunas: string[];
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    orgaoCentralPagination: Pagination;
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+
     /**
      *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
      * @param _activatedRoute
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ModelosListAppState>,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _loginService: LoginService,
     ) {
         this.modelos$ = this._store.pipe(select(fromStore.getModelosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -72,17 +79,31 @@ export class ModelosListComponent implements OnInit, OnDestroy {
                 this.actions = ['edit', 'create', 'editConteudo', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
                 this.type = 'setor';
+                this.setorPagination = new Pagination();
+                this.setorPagination.filter = {
+                    id: 'in:' + this.routerState.params['entidadeHandle'],
+                    parent: 'isNotNull'
+                };
             }
             if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
                 (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
                 this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
                 this.type = 'unidade';
+                this.unidadePagination = new Pagination();
+                this.unidadePagination.filter = {
+                    id: 'in:' + this.routerState.params['entidadeHandle'],
+                    parent: 'isNull'
+                };
             }
             if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
                 this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                 this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
                 this.type = 'nacional';
+                this.orgaoCentralPagination = new Pagination();
+                this.orgaoCentralPagination.filter = {
+                    id: 'in:' + this.routerState.params['entidadeHandle'],
+                };
             }
         });
     }

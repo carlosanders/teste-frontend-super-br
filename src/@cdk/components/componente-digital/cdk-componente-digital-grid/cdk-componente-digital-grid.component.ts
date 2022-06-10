@@ -17,7 +17,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
 import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
@@ -75,6 +75,12 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     @Input()
     actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
+
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

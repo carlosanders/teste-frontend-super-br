@@ -7,11 +7,10 @@ import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators'
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
@@ -19,8 +18,6 @@ import * as ProtocoloDocumentoActions from '../actions';
 import {Router} from '@angular/router';
 import {getDocumentos} from '../selectors';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {environment} from '../../../../../../../environments/environment';
-import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 
@@ -42,7 +39,8 @@ export class ProtocoloDocumentoEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new ProtocoloDocumentoActions.GetDocumentosSuccess({
@@ -81,7 +79,8 @@ export class ProtocoloDocumentoEffects {
                     'documentoAvulsoRemessa.documentoResposta',
                     'componentesDigitais',
                     'juntadaAtual'
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new ProtocoloDocumentoActions.GetDocumentos(params));
         })
@@ -100,82 +99,6 @@ export class ProtocoloDocumentoEffects {
             ]).then();
         })
     ), {dispatch: false});
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.AssinaDocumento>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
-                })
-            )
-        )
-    ));
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.RemoveAssinaturaDocumento>(ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(() => [
-                    new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                    new ProtocoloDocumentoActions.GetDocumentos({
-                        'processoOrigem.id': `eq:${action.payload.processoId}`,
-                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-                    }),
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                })
-            )
-        )
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.AssinaDocumentoEletronicamente>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
-                new ProtocoloDocumentoActions.GetDocumentos({
-                    'processoOrigem.id': `eq:${action.payload.processoId}`,
-                    'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-                }),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
-            ]),
-            catchError((err) => {
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                }));
-                return of(new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteFailed(err));
-            })
-        ))
-    ));
     /**
      * Converte Documento
      *

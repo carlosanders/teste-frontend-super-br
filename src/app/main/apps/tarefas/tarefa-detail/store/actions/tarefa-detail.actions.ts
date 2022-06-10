@@ -57,6 +57,23 @@ export const REMOVE_PLUGIN_LOADING = '[TAREFA DETAIL] REMOVE PLUGIN LOADING';
 
 export const TAREFA_PROCESO_RESTRITO_VALIDADA_SUCCESS = '[TAREFA DETAIL] TAREFA PROCESSO RESTRITO VALIDADA SUCCESS';
 
+export const UPLOAD_CONCLUIDO = '[TAREFA DETAIL] UPLOAD CONCLUIDO';
+
+export const GET_ETIQUETAS_TAREFAS = '[TAREFA DETAIL] GET ETIQUETAS TAREFA';
+export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFA DETAIL] GET ETIQUETAS TAREFA SUCCESS';
+export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFA DETAIL] GET ETIQUETAS TAREFA FAILED';
+
+export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA MINUTA TAREFA';
+export const REMOVE_ETIQUETA_OFICIO_TAREFA = '[TAREFA DETAIL] REMOVE ETIQUETA OFICIO TAREFA';
+export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFA DETAIL] ATUALIZA ETIQUETA MINUTA';
+
+export const TOGGLE_SHOW_DETAIL = '[TAREFA DETAIL] TOOGLE SHOW DETAIL';
+
+export const APROVAR_SUGESTAO = '[TAREFA DETAIL] APROVAR SUGESTAO';
+export const APROVAR_SUGESTAO_SUCCESS = '[TAREFA DETAIL] APROVAR SUGESTAO SUCCESS';
+export const APROVAR_SUGESTAO_FAILED = '[TAREFA DETAIL] APROVAR SUGESTAO FAILED';
+export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFA DETAIL] RELOAD VINCULACAO_ETIQUETA';
+
 /**
  * Get Tarefa
  */
@@ -547,6 +564,100 @@ export class TarefaProcessoRestritoValidadaSuccess implements Action
     }
 }
 
+export class UploadConcluido implements Action
+{
+    readonly type = UPLOAD_CONCLUIDO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetEtiquetasTarefas implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class GetEtiquetasTarefasSuccess implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class GetEtiquetasTarefasFailed implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class RemoveEtiquetaMinutaTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_MINUTA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class RemoveEtiquetaOficioTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_OFICIO_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AtualizaEtiquetaMinuta implements Action {
+    readonly type = ATUALIZA_ETIQUETA_MINUTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ToggleShowDetail implements Action {
+    readonly type = TOGGLE_SHOW_DETAIL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestao implements Action {
+    readonly type = APROVAR_SUGESTAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoSuccess implements Action {
+    readonly type = APROVAR_SUGESTAO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarSugestaoFailed implements Action {
+    readonly type = APROVAR_SUGESTAO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ReloadVinculacaoEtiqueta implements Action {
+    readonly type = RELOAD_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -588,4 +699,17 @@ export type TarefaDetailActionsAll
     | GetDocumentosFailed
     | AddPluginLoading
     | RemovePluginLoading
-    | TarefaProcessoRestritoValidadaSuccess;
+    | TarefaProcessoRestritoValidadaSuccess
+    | UploadConcluido
+    | GetEtiquetasTarefas
+    | GetEtiquetasTarefasSuccess
+    | GetEtiquetasTarefasFailed
+    | RemoveEtiquetaMinutaTarefa
+    | RemoveEtiquetaOficioTarefa
+    | AtualizaEtiquetaMinuta
+    | ToggleShowDetail
+    | AprovarSugestao
+    | AprovarSugestaoSuccess
+    | AprovarSugestaoFailed
+    | ReloadVinculacaoEtiqueta
+    ;

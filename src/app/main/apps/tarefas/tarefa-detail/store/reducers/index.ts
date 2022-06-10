@@ -1,12 +1,14 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {TarefaDetailReducer, TarefaDetailState} from './tarefa-detail.reducer';
-import {EtiquetaReducer, EtiquetaState} from './etiqueta.reducer';
-import {ProcessoReducer, ProcessoState} from './processo.reducer';
+import * as fromStore from './';
 
 export interface TarefaDetailAppState {
-    tarefaDetail: TarefaDetailState;
-    etiqueta: EtiquetaState;
-    processo: ProcessoState;
+    tarefaDetail: fromStore.TarefaDetailState;
+    etiqueta: fromStore.EtiquetaState;
+    processo: fromStore.ProcessoState;
+    documentos: fromStore.TarefaDetailDocumentosState;
+    componentesDigitais: fromStore.ComponenteDigitalState;
+    assinaturas: fromStore.AssinaturasState;
+    documentosVinculados: fromStore.DocumentosVinculadosState;
 }
 
 export const getTarefaDetailAppState = createFeatureSelector<TarefaDetailAppState>(
@@ -19,11 +21,19 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<TarefaDetailAppState> = {
-    tarefaDetail: TarefaDetailReducer,
-    etiqueta: EtiquetaReducer,
-    processo: ProcessoReducer
+    tarefaDetail: fromStore.TarefaDetailReducer,
+    etiqueta: fromStore.EtiquetaReducer,
+    processo: fromStore.ProcessoReducer,
+    documentos: fromStore.TarefaDetailDocumentosReducer,
+    componentesDigitais: fromStore.ComponenteDigitalReducer,
+    assinaturas: fromStore.AssinaturasReducer,
+    documentosVinculados: fromStore.DocumentosVinculadosReducer,
 };
 
 export * from './tarefa-detail.reducer';
 export * from './etiqueta.reducer';
 export * from './processo.reducer';
+export * from './documentos.reducer';
+export * from './componentes-digitais.reducer';
+export * from './assinaturas.reducer';
+export * from './documentos-vinculados.reducer';

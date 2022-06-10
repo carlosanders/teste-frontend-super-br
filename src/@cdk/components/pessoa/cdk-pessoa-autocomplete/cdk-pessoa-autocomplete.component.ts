@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-pessoa-autocomplete',
@@ -77,17 +78,20 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                         context['cnpj'] = valor;
                     }
                     termFilterNome.push({
-                        nome: `like:%${valor}%`
+                        nome: `like:%${valor.trim()}%`
                     });
                     termFilterNumeroDocumentoPrincipal.push({
                         numeroDocumentoPrincipal: `like:%${valor}%`
                     });
-                    const termFilter = {
-                        orX: [
-                            {andX: termFilterNome},
-                            {andX: termFilterNumeroDocumentoPrincipal}
-                        ]
+                    let termFilter = {
+                        andX: termFilterNome
                     };
+                    if (!isNaN(valor)) {
+                        termFilter = {
+                            andX: termFilterNumeroDocumentoPrincipal
+                        };
+                    }
+
                     if (typeof valor === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
                         this.pessoaListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
@@ -124,7 +128,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
         if (pessoa && pessoa.pessoaValidada) {
             retorno += ' - VALIDADA';
         }
-        return retorno;
+        return TitleCasePipe.format(retorno);
     }
 
     isCpfValid(cpf): boolean {

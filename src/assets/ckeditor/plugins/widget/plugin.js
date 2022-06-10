@@ -2733,7 +2733,9 @@
 					editableElement = toBe.editables[ e ];
 
 					delete editableElement.attributes.contenteditable;
-					editableElement.setHtml( widget.editables[ e ].getData() );
+                    if (widget.editables[ e ]) {
+                        editableElement.setHtml(widget.editables[e].getData());
+                    }
 				}
 
 				// Returned element always defaults to widgetElement.

@@ -17,6 +17,8 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioFilterModule} from '../sidebars/cdk-usuario-filter/cdk-usuario-filter.module';
+import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
+import {DndModule} from 'ngx-drag-drop';
 
 @NgModule({
     declarations: [
@@ -39,9 +41,11 @@ import {CdkUsuarioFilterModule} from '../sidebars/cdk-usuario-filter/cdk-usuario
         CdkSharedModule,
         CdkSidebarModule,
         MatTooltipModule,
+        DndModule,
     ],
     providers: [
         UsuarioService,
+        TableDefinitionsService
     ],
     exports: [
         CdkUsuarioGridComponent

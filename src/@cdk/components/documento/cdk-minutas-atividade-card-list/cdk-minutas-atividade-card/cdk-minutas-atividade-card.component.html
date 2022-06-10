@@ -5,6 +5,7 @@
         <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
                       (change)="toggleInSelected(documento.id)"
                       (click)="$event.stopPropagation();"
+                      *ngIf="!oficio"
                       [disabled]="disabledSelect">
         </mat-checkbox>
     </div>
@@ -100,7 +101,7 @@
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center"
                         [disabled]="!podeAlterarTipoDocumento"
-                        *showIfRole="'ROLE_COLABORADOR'"
+                        *ngIf="!oficio && this._loginService.isGranted('ROLE_COLABORADOR')"
                         [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                     <mat-icon color="accent">edit</mat-icon>
                     <span>Alterar Tipo de Documento</span>

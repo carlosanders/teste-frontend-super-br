@@ -17,6 +17,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: ' cdk-usuario-autocomplete',
@@ -142,6 +143,6 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     }
 
     displayUsuarioFn(usuario: Usuario): string {
-        return usuario ? usuario.nome + ' (' + usuario.username + ')' : null;
+        return usuario ? TitleCasePipe.format(usuario.nome) + ' (' + usuario.username + ')' : null;
     }
 }

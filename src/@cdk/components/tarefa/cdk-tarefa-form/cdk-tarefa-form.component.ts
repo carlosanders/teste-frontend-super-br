@@ -27,7 +27,7 @@ import {
 } from '@cdk/models';
 import * as moment from 'moment';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
+import {catchError, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
@@ -365,7 +365,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('distribuicaoAutomatica').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value) {
@@ -397,7 +396,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('unidadeResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object') {
@@ -431,7 +429,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('setorResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
@@ -485,7 +482,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('tarefaWorkflow').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                 if (this.tarefa?.id) {
@@ -507,7 +503,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('processo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (this.form.get('blocoProcessos').value && typeof value === 'object' && value) {
@@ -616,7 +611,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.form.get('usuarioResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
 
@@ -647,7 +641,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('dataHoraFinalPrazo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
                     this.clearValidators();
@@ -659,7 +652,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('dataHoraInicioPrazo').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
                     this.clearValidators();
@@ -671,7 +663,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('prazoDias').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap(() => {
                     this.alteraPrazoFinal();
@@ -681,7 +672,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('diasUteis').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap(() => {
                     this.alteraDiasUteis();
@@ -691,7 +681,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         this.form.get('especieTarefa').valueChanges.pipe(
-            debounceTime(500),
             distinctUntilChanged(),
             switchMap((value) => {
                     this.especieTarefaPagination['context'] = {};
@@ -711,7 +700,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.form.get('grupoContato')) {
             this.form.get('grupoContato').valueChanges.pipe(
-                debounceTime(300),
                 distinctUntilChanged(),
                 switchMap((value) => {
 
@@ -727,7 +715,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.lotacaoControl.valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                 if (value && typeof value === 'object') {
@@ -754,7 +741,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
 
-        if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
+        if (dataHoraInicioPrazo && dataHoraFinalPrazo) {
             let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days', true);
 
             if (this.form.get('diasUteis').value) {

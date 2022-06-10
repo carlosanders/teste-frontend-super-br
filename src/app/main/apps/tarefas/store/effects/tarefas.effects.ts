@@ -6,6 +6,7 @@ import {
     processo as processoSchema,
     tarefa as tarefaSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
+    acao as acaoSchema,
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -30,7 +31,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Acao, Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -45,7 +46,7 @@ import {
     getBufferingDistribuir,
     getCienciaTarefaIds,
     getDeletingTarefaIds,
-    getDistribuindoTarefaIds,
+    getDistribuindoTarefaIds, getViewMode,
 } from '../selectors';
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
@@ -64,9 +65,16 @@ import * as DocumentoEditAtividadeDocumentosActions
     from 'app/main/apps/documento/documento-edit/atividade/store/actions/documentos.actions';
 import * as DocumentoOficioActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documento-avulso-edit.actions';
+import * as DocumentoOficioVinculadosActions
+    from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documentos-vinculados.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
-import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
+import {
+    CRIADO_ANEXO_DOCUMENTO,
+    CriadoAnexoDocumento, REMOVIDO_ANEXO_DOCUMENTO,
+    RemovidoAnexoDocumento
+} from '../../../documento/store/actions/documento.actions';
+import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
@@ -75,10 +83,15 @@ import {
 } from '@cdk/services/vinculacao-especie-processo-workflow.service';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';
 import {UnloadProcesso} from '../../../processo/store';
+import {TarefasComponent} from '../../tarefas.component';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {AcaoService} from '@cdk/services/acao.service';
 
 @Injectable()
 export class TarefasEffect {
     routerState: any;
+    generoHandle: any;
+    typeHandle: string;
     /**
      * Get Tarefas with router parameters
      *
@@ -99,25 +112,58 @@ export class TarefasEffect {
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context),
-            'app/main/apps/tarefas#lista').pipe(
-            concatMap(response => [
-                new AddData<Tarefa>({
-                    data: response['entities'],
-                    schema: tarefaSchema
-                }),
-                new TarefasActions.GetTarefasSuccess({
-                    entitiesId: response['entities'].map(tarefa => tarefa.id),
-                    loaded: {
-                        id: 'generoHandle_typeHandle_targetHandle',
-                        value: this.routerState.params.generoHandle + '_' +
-                            this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
-                    },
-                    total: response['total']
-                })
-            ])
+        ).pipe(
+            concatMap(response => {
+                this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                    .pipe(
+                        take(1),
+                        switchMap((configs) => of(configs || {}))
+                    )
+                    .subscribe((configs) => {
+                        const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                        const updatedConfigs = {...configs};
+                        updatedConfigs[scopeKey] = {
+                            ...(updatedConfigs[scopeKey] ?? {}),
+                            tarefaSort: (action.payload.sort)
+                        };
+
+                        this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
+                    });
+
+                return [
+                    new AddData<Tarefa>({
+                        data: response['entities'],
+                        schema: tarefaSchema
+                    }),
+                    new TarefasActions.GetTarefasSuccess({
+                        entitiesId: response['entities'].map(tarefa => tarefa.id),
+                        loaded: {
+                            id: 'generoHandle_typeHandle_targetHandle',
+                            value: this.routerState.params.generoHandle + '_' +
+                                this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                        },
+                        total: response['total']
+                    })
+                ];
+            })
         )),
         catchError((err) => {
             console.log(err);
+            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                .pipe(
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    updatedConfigs[scopeKey] = {
+                        ...(updatedConfigs[scopeKey] ?? {}),
+                        listSort: null
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
+                });
             return of(new TarefasActions.GetTarefasFailed(err));
         })
     ));
@@ -573,6 +619,26 @@ export class TarefasEffect {
         })
     ));
     /**
+     * Set Folder on Selected Tarefas
+     *
+     * @type {Observable<any>}
+     */
+    setFolderOnSelectedTarefasFinish: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SetFolderOnSelectedTarefasFinish>(TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_FINISH),
+        withLatestFrom(this._store.pipe(select(fromStore.getPagination)), this._store.pipe(select(fromStore.getTarefasIds)), this._store.pipe(select(fromStore.getViewMode))),
+        tap(([, pagination, tarefasIds, viewMode]) => {
+            if (tarefasIds.length < pagination.total) {
+                const nparams = {
+                    ...pagination,
+                    offset: tarefasIds.length,
+                    viewMode: viewMode
+                };
+
+                this._store.dispatch(new fromStore.GetTarefas(nparams));
+            }
+        })
+    ), {dispatch: false});
+    /**
      * ISSUE-176
      * Set Setor On Selected Tarefas
      *
@@ -581,17 +647,6 @@ export class TarefasEffect {
     distribuirSelectedTarefas: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.DistribuirTarefas>(TarefasActions.DISTRIBUIR_TAREFA),
         tap((action) => {
-            this._store.dispatch(new UpdateData<Tarefa>(
-                {
-                    id: action.payload.tarefa.id,
-                    schema: tarefaSchema,
-                    changes: {
-                        setorResponsavel: action.payload.setorResponsavel,
-                        distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
-                        usuarioResponsavel: action.payload.usuarioResponsavel
-                    }
-                }
-            ));
             this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tarefa',
@@ -1031,10 +1086,22 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
+    alteraTipoDocumentoOficioEditor: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoOficioVinculadosActions.UpdateDocumentoVinculadoSuccess>(DocumentoOficioVinculadosActions.UPDATE_DOCUMENTO_VINCULADO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
     deleteDocumentoAtividadeBloco: any = createEffect(() => this._actions.pipe(
         ofType<AtividadeBlocoCreateActions.DeleteDocumentoSuccess>(AtividadeBlocoCreateActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
+        })
+    ), {dispatch: false});
+    deleteDocumentoVinculadoOficio: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoOficioVinculadosActions.DeleteDocumentoVinculadoSuccess>(DocumentoOficioVinculadosActions.DELETE_DOCUMENTO_VINCULADO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
     converteDocumentoPdfAtividade: any = createEffect(() => this._actions.pipe(
@@ -1061,6 +1128,19 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
+    criadoAnexoDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<CriadoAnexoDocumento>(CRIADO_ANEXO_DOCUMENTO),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    removidoAnexoDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<RemovidoAnexoDocumento>(REMOVIDO_ANEXO_DOCUMENTO),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+
     /**
      * Remove Minutas da Tarefa que foram juntadas a processo através do componente de movimentar
      *
@@ -1228,6 +1308,70 @@ export class TarefasEffect {
         ))
     ));
 
+    aprovarSugestao: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.AprovarSugestao>(fromStore.APROVAR_SUGESTAO),
+        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(action.payload.vinculacaoEtiqueta, JSON.stringify(['populateAll'])).pipe(
+            mergeMap(response => [
+                new fromStore.AprovarSugestaoSuccess(response.id),
+                new UpdateData<VinculacaoEtiqueta>({
+                    id: response.id,
+                    schema: vinculacaoEtiquetaSchema,
+                    changes: {
+                        dataHoraAprovacaoSugestao: response.dataHoraAprovacaoSugestao,
+                        usuarioAprovacaoSugestao: response.usuarioAprovacaoSugestao,
+                        objectContext: response.objectContext
+                    }
+                }),
+                new fromStore.ReloadVinculacaoEtiqueta(action.payload.tarefa)
+            ]),
+            catchError((err) => of(new fromStore.AprovarSugestaoFailed(err)))
+        ))
+    ));
+
+    reloadVinculacoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.ReloadVinculacaoEtiqueta>(fromStore.RELOAD_VINCULACAO_ETIQUETA),
+        switchMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({'tarefa.id': `eq:${action.payload.id}`}),
+            25,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll',
+                'etiqueta',
+                'tarefa',
+            ])).pipe(
+            mergeMap(response => [
+                new UpdateData<Tarefa>({
+                    id: action.payload.id,
+                    schema: tarefaSchema,
+                    changes: {
+                        vinculacoesEtiquetas: response['entities'].filter((entity => !(action.payload?.vinculacoesEtiquetas ?? []).find((vinculacaoEtiqueta) => vinculacaoEtiqueta.id === entity.id)))
+                    }
+                })
+            ])
+        ))
+    ));
+
+    getAcoesEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.GetAcoesEtiqueta>(fromStore.GET_ACOES_ETIQUETA),
+        switchMap(action => this._acaoService.query(
+            JSON.stringify({'etiqueta.id': `eq:${action.payload}`}),
+            1000,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ])).pipe(
+            mergeMap(response => [
+                new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
+                new fromStore.GetAcoesEtiquetaSuccess(
+                    response['entities'].map((acao) => acao.id)
+                )
+            ]),
+            catchError(err => of(new fromStore.GetAcoesEtiquetaFailed(err)))
+        ))
+    ));
+
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
@@ -1237,14 +1381,18 @@ export class TarefasEffect {
         private _assuntoService: AssuntoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _vinculacaoEspecieProcessoWorkflowService: VinculacaoEspecieProcessoWorkflowService,
+        private _acaoService: AcaoService,
         private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.generoHandle = routerState.state.params['generoHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
         });
     }
 }

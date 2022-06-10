@@ -1,0 +1,73 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-card>
+
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <textarea matInput formControlName="descricao" required></textarea>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="mode === 'regular' || mode === 'bloco-create'">
+                <input matInput placeholder="Espécie" formControlName="especieRelatorio"
+                       [matAutocomplete]="especieRelatorio.autocomplete" required (blur)="checkEspecieRelatorio()">
+            <cdk-especie-relatorio-autocomplete
+                #especieRelatorio="especieRelatorioAutocomplete"
+                [especieRelatorioList]="especieRelatorioList"
+                [especieRelatorioListIsLoading]="especieRelatorioListIsLoading"
+                [control]="form.get('especieRelatorio')"
+                [pagination]="especieRelatorioPagination">
+            </cdk-especie-relatorio-autocomplete>
+            <button matSuffix mat-button mat-icon-button (click)="showEspecieRelatorioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('especieRelatorio').hasError('formError')">
+                {{form.get('especieRelatorio').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Template HTML</mat-label>
+            <input matInput formControlName="templateHTML" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Parâmetros</mat-label>
+            <input matInput formControlName="parametros" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>DQL</mat-label>
+            <textarea matInput formControlName="DQL" required></textarea>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="ativo">
+            Ativo
+        </mat-checkbox>
+    </mat-card>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" class="actions">
+        <button type="submit" mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-especie-relatorio-gridsearch
+    *ngIf="activeCard === 'especie-relatorio-gridsearch'"
+    [pagination]="especieRelatorioPagination"
+    (selected)="selectEspecieRelatorio($event)"
+    (cancel)="cancel()">
+</cdk-especie-relatorio-gridsearch>

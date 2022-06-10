@@ -1,43 +1,124 @@
-<div class="dados-basicos mb-8" *ngIf="(documento$ | async)">
-    <div class="actions mb-8">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                mat-icon-button (click)="remeterDocumentoAvulso()"
-                [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || (isRemetendo$ | async) || remeterDocAvulso"
-                aria-label="remeter ofício"
-                matTooltip="Remeter Ofício">
-            <mat-icon class="black-fg">send</mat-icon>
-        </button>
+<div class="dados-basicos-sidebar">
+    <cdk-minutas-atividade-card-list
+        *ngIf="!remetendo"
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        [alterandoId]="(alterandoDocumentosId$ | async)"
+        [documentos]="oficios"
+        [selectedIds]="(selectedIds$ | async)"
+        [mode]="'editor'"
+        [disabledSelects]="disabledIds"
+        [oficio]="true"
+        [currentDocumentoId]="documento?.id"
+        (clicked)="onClicked($event)"
+        (assinatura)="doAssinatura($event)"
+        (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+        (changedSelectedIds)="changedSelectedIds($event)">
+    </cdk-minutas-atividade-card-list>
+
+    <div *ngIf="(loadingDocumentos$ | async) === true && !remetendo" class="spinner-container m-8">
+        <mat-spinner diameter="24"></mat-spinner>
     </div>
 
-    <mat-error *ngIf="errorsRemetendo">{{errorsRemetendo}}</mat-error>
+    <div class="documentos-vinculados mb-4" *ngIf="!remetendo">
+        <h3 style="font-weight: bold">Anexos</h3>
 
-    <div class="status-remessa" [hidden]="!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa">
+        <button mat-mini-fab
+                class="ml-8 mb-8 active accent add-file-button"
+                [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                (click)="$event.stopPropagation()">
+            <mat-icon class="secondary-text">attach_file</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="upload de anexo"
+                    (click)="upload()">
+                <ng-container>
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    <span>Upload</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="anexar uma cópia de um documento"
+                    (click)="anexarCopia()">
+                <ng-container>
+                    <mat-icon>file_copy</mat-icon>
+                    <span>Por Cópia</span>
+                </ng-container>
+            </button>
+
+            <ng-template #dynamicComponent></ng-template>
+        </mat-menu>
+
+        <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
+                                 [deletingId]="(deletingDocumentosVinculadosId$ | async)"
+                                 [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
+                                 [alterandoId]="(alterandoDocumentosVinculadosId$ | async)"
+                                 [downloadId]="(downloadP7SDocumentosId$ | async)"
+                                 [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                                 [saving]="(isSavingDocumentosVinculados$ | async)"
+                                 [loading]="(isLoadingDocumentosVinculados$ | async)"
+                                 [documentosPagination]="pagination"
+                                 (delete)="doDeleteDocumentoVinculado($event)"
+                                 (deleteBlocoEmmitter)="doDeleteBloco($event)"
+                                 (assinatura)="doAssinaturaDocumentoVinculado($event)"
+                                 (assinaturaBloco)="doAssinaturaBloco($event)"
+                                 (removeAssinatura)="doRemoveAssinatura($event)"
+                                 (clicked)="onClickedDocumentoVinculado($event)"
+                                 (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                 (downloadP7S)="doDownloadP7S($event)"
+                                 (getMore)="paginaDocumentosVinculados()"
+                                 (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
+        </cdk-documento-card-list>
+
+        <cdk-componente-digital-card-list #cdkUpload
+                                          [documentoOrigem]="(documento$ | async)"
+                                          (completed)="onCompleteDocumentoVinculado()"
+                                          (completedAll)="onCompleteAllDocumentosVinculados()">
+        </cdk-componente-digital-card-list>
+    </div>
+
+    <div class="dados-basicos mb-8" *ngIf="(documento$ | async)">
+        <div class="actions mb-8">
+            <button mat-raised-button color="accent"
+                    (click)="remeterDocumentoAvulso()"
+                    [disabled]="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null || remetendo || remeterDocAvulso"
+                    aria-label="remeter ofício"
+                    matTooltip="Remeter Ofício">
+                <mat-icon class="black-fg">send</mat-icon> Remeter
+            </button>
+        </div>
+
+        <mat-error *ngIf="errorsRemetendo">{{errorsRemetendo}}</mat-error>
+
+        <div class="status-remessa" [hidden]="!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa">
         <span *ngIf="(documento$ | async)?.documentoAvulsoRemessa?.dataHoraRemessa !== null">
             Objeto remetido em: {{(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
         </span>
-        <span *ngIf="(documento$ | async)?.documentoAvulsoRemessa?.usuarioRemessa !== null">
+            <span *ngIf="(documento$ | async)?.documentoAvulsoRemessa?.usuarioRemessa !== null">
             Remetido por: {{(documento$ | async).documentoAvulsoRemessa.usuarioRemessa.nome}}
         </span>
-        <ng-template #dynamicStatus></ng-template>
-    </div>
-    <div *ngIf="(isRemetendo$ | async)" class="remetendo">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-    <div *ngIf="!(isRemetendo$ | async)" class="formulario">
-        <div>
-            <mat-slide-toggle [checked]="!!!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraEncerramento"
-                              (change)="toggleEncerramento()"
-                              class="mt-8 mr-8 mb-8">
-                Acompanhar a resposta
-            </mat-slide-toggle>
+            <ng-template #dynamicStatus></ng-template>
         </div>
-        <cdk-documento-avulso-form cdkPerfectScrollbar
-                                   [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-                                   [mode]="'vertical'"
-                                   [saving]="(isSaving$ | async)"
-                                   [errors]="(errors$ | async)"
-                                   (save)="submit($event)"
-                                   (abort)="doAbort()">
-        </cdk-documento-avulso-form>
+        <div *ngIf="remetendo" class="remetendo">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+        <div *ngIf="!remetendo" class="formulario">
+            <div>
+                <mat-slide-toggle [checked]="!!!(documento$ | async)?.documentoAvulsoRemessa?.dataHoraEncerramento"
+                                  (change)="toggleEncerramento()"
+                                  class="mt-8 mr-8 mb-8">
+                    Acompanhar a resposta
+                </mat-slide-toggle>
+            </div>
+            <cdk-documento-avulso-form cdkPerfectScrollbar
+                                       *ngIf="(documento$ | async)?.documentoAvulsoRemessa"
+                                       [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
+                                       [mode]="'editor'"
+                                       [saving]="(isSaving$ | async)"
+                                       [errors]="(errors$ | async)"
+                                       (save)="submit($event)"
+                                       (abort)="doAbort()">
+            </cdk-documento-avulso-form>
+        </div>
     </div>
 </div>

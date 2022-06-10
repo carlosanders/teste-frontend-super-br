@@ -30,12 +30,12 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import * as AssinaturaStore from '../../../../../store';
 import {Location} from '@angular/common';
 import {modulesConfig} from "../../../../../../modules/modules-config";
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {CriadoAnexoDocumento} from '../../store';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -100,6 +100,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     routeAtividadeDocumento = 'atividade';
 
     routerState: any;
+
+    loadingDocumentos$: Observable<boolean>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -187,6 +189,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -358,6 +361,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoVinculadoId: documentoId,
+            documentoId: this.documento.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -438,17 +442,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }
@@ -476,7 +471,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                     ], extras);
                     window.open(url.toString(), '_blank');
                 } else {
-                    this._componenteDigitalService.trocandoDocumento.next(true);
+                    // this._componenteDigitalService.trocandoDocumento.next(true);
                     this._router.navigate([
                             this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
                             '/documento/' + documento.id,
@@ -495,7 +490,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -543,6 +538,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new CriadoAnexoDocumento(this.documento.id));
         this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
     }
 
@@ -578,7 +574,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     }
 
     anexarCopia(): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculado) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
             this._router.navigate(
                 [

@@ -1,0 +1,24 @@
+<div class="header">
+    <button mat-icon-button
+            (click)="doAbort()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <breadcrumb module="admin"></breadcrumb>
+</div>
+<cdk-config-modulo-grid
+    [loading]="(loading$ | async)"
+    [configModules]="(configModules$ | async)"
+    [modulos]="(modulos$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'nome', 'mandatory', 'dataValue', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (editAdmin)="editAdmin($event)"
+    (delete)="delete($event)"
+    (create)="create()">
+</cdk-config-modulo-grid>

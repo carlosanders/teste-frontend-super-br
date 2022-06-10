@@ -207,7 +207,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                         canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
                             filter(processo => !!processo),
                             switchMap((processo) => {
-                                if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                                if (processo.acessoNegado || processo.modalidadeMeio?.valor === 'ELETRÔNICO') {
                                     return of(false);
                                 }
                                 return of(true);
@@ -252,7 +252,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                     canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
                         filter(processo => !!processo),
                         switchMap((processo) => {
-                            if (processo.somenteLeitura) {
+                            if (processo.acessoNegado || processo.somenteLeitura) {
                                 return of(false);
                             }
                             return of(true);

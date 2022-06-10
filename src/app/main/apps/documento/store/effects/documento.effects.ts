@@ -56,8 +56,9 @@ export class DocumentoEffect {
                 }
             });
             let context = {};
+            context['incluiVinculacaoDocumentoPrincipal'] = true;
             if (this.lixeira) {
-                context = {'mostrarApagadas': true};
+                context['mostrarApagadas'] = true;
             }
             this.populate = [
                 'procedencia',
@@ -65,10 +66,6 @@ export class DocumentoEffect {
                 'tipoDocumento',
                 'componentesDigitais',
                 'componentesDigitais.assinaturas',
-                'componentesDigitais.modelo',
-                'modelo',
-                'modelo.template',
-                'modelo.modalidadeModelo',
                 'processoOrigem',
                 'repositorio',
                 'juntadaAtual',
@@ -78,7 +75,6 @@ export class DocumentoEffect {
                 'documentoAvulsoRemessa.processo',
                 'documentoAvulsoRemessa.processo.especieProcesso',
                 'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
-                'documentoAvulsoRemessa.modelo',
                 'documentoAvulsoRemessa.setorDestino',
                 'documentoAvulsoRemessa.pessoaDestino',
                 'documentoAvulsoRemessa.usuarioRemessa',
@@ -102,7 +98,7 @@ export class DocumentoEffect {
                 },
                 documentoId: response.id,
                 // tslint:disable-next-line:max-line-length
-                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa.dataHoraRemessa) || response.minuta,
+                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa?.dataHoraRemessa) || response.minuta,
                 currentComponenteDigitalId: response.componentesDigitais[0] ? response.componentesDigitais[0].id : null
             })
         ]),

@@ -222,7 +222,7 @@
             <div *ngIf="this.orgaoCentralCoordenacao.length">
                 <div class="nav-subheader pl-8 mt-0">
                     <mat-icon class="mr-8">language</mat-icon>
-                    <span>ÓRGÃO CENTRAL</span>
+                    <span>Órgão Central</span>
                 </div>
 
                 <div class="nav-item" *ngFor="let orgao of orgaoCentralCoordenacao">
@@ -230,7 +230,7 @@
                         <section class="orgao-central">
                             <div class="menu_content_label">
                                 <div>
-                                    <span>{{orgao.descricao | uppercase}}</span>
+                                    <span>{{orgao.descricao | titleCasePipe}}</span>
                                 </div>
                             </div>
                         </section>
@@ -256,7 +256,7 @@
                                     <div class="menu_content_label">
                                         <div>
                                             <mat-icon class="nav-link-icon">location_city</mat-icon>
-                                            <span>{{unidade.nome | uppercase}}</span>
+                                            <span>{{unidade.nome | titleCasePipe}}</span>
                                         </div>
                                     </div>
                                 </section>
@@ -292,7 +292,7 @@
                                             <div class="menu_content_label">
                                                 <div>
                                                     <mat-icon class="nav-link-icon">domain</mat-icon>
-                                                    <span>{{setor.nome | uppercase}}</span>
+                                                    <span>{{setor.nome | titleCasePipe}}</span>
                                                 </div>
                                                 <mat-icon class="place-holder">
                                                     assignment_return
@@ -331,7 +331,7 @@
                                                  (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
                                             <div class="nav-link-badge">
                                                 <mat-icon class="nav-link-icon">person</mat-icon>
-                                                <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome}}</span>
+                                                <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
                                                 <mat-icon class="place-holder">
                                                     assignment_return
                                                 </mat-icon>
@@ -373,7 +373,7 @@
             <div *ngIf="this.unidadesCoordenacao.length">
                 <div class="nav-subheader pl-8 mt-0">
                     <mat-icon class="mr-8">language</mat-icon>
-                    <span>UNIDADE</span>
+                    <span>Unidade</span>
                 </div>
 
                 <div class="nav-item" *ngFor="let unidade of unidadesCoordenacao">
@@ -382,7 +382,7 @@
                             <div class="menu_content_label">
                                 <div>
                                     <mat-icon class="nav-link-icon">location_city</mat-icon>
-                                    <span>{{unidade.nome | uppercase}}</span>
+                                    <span>{{unidade.nome | titleCasePipe}}</span>
                                 </div>
                             </div>
                         </section>
@@ -416,7 +416,7 @@
                                     <div class="menu_content_label">
                                         <div>
                                             <mat-icon class="nav-link-icon">domain</mat-icon>
-                                            <span>{{setor.nome | uppercase}}</span>
+                                            <span>{{setor.nome | titleCasePipe}}</span>
                                         </div>
                                         <mat-icon class="place-holder">
                                             assignment_return
@@ -454,7 +454,7 @@
                                          (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
                                     <div class="nav-link-badge">
                                         <mat-icon class="nav-link-icon">person</mat-icon>
-                                        <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome}}</span>
+                                        <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
                                         <mat-icon class="place-holder">
                                             assignment_return
                                         </mat-icon>
@@ -486,7 +486,7 @@
             <div *ngIf="this.setoresCoordenacao.length">
                 <div class="nav-subheader pl-8 mt-0">
                     <mat-icon class="mr-8">language</mat-icon>
-                    <span>SETOR</span>
+                    <span>Setor</span>
                 </div>
 
                 <div class="nav-item lotacao-drop" *ngFor="let setor of setoresCoordenacao">
@@ -503,7 +503,7 @@
                             <div class="menu_content_label">
                                 <div>
                                     <mat-icon class="nav-link-icon">domain</mat-icon>
-                                    <span>{{setor?.unidade?.sigla}} - {{setor.nome | uppercase}}</span>
+                                    <span>{{setor?.unidade?.sigla}} - {{setor.nome | titleCasePipe}}</span>
                                 </div>
                                 <mat-icon class="place-holder">
                                     assignment_return
@@ -536,7 +536,7 @@
                                  (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
                             <div class="nav-link-badge">
                                 <mat-icon class="nav-link-icon">person</mat-icon>
-                                <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome}}</span>
+                                <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
                                 <mat-icon class="place-holder">
                                     assignment_return
                                 </mat-icon>
@@ -574,7 +574,7 @@
                         <div class="menu_content_label">
                             <div>
                                 <mat-icon class="nav-link-icon">domain</mat-icon>
-                                <span>{{setor?.unidade?.sigla}} - {{setor.nome | uppercase}}</span>
+                                <span>{{setor?.unidade?.sigla}} - {{setor.nome | titleCasePipe}}</span>
                             </div>
                             <mat-icon class="place-holder">
                                 assignment_return
@@ -607,7 +607,7 @@
                              (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
                         <div class="nav-link-badge">
                             <mat-icon class="nav-link-icon">person</mat-icon>
-                            <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome}}</span>
+                            <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
                             <mat-icon class="place-holder">
                                 assignment_return
                             </mat-icon>
@@ -645,14 +645,14 @@
     <div class="actions">
         <mat-toolbar>
             <button mat-icon-button
-                    [disabled]="viewMode == 'list'"
+                    [disabled]="viewMode === 'list'"
                     class="secondary-text"
                     (click)="doToogleViewMode()"
                     matTooltip="Listas de Tarefas">
                 <mat-icon>check_box</mat-icon>
             </button>
             <button mat-icon-button
-                    [disabled]="viewMode == 'grid' || isXSmallScreen"
+                    [disabled]="viewMode === 'grid' || isXSmallScreen"
                     class="secondary-text"
                     (click)="doToogleViewMode()"
                     matTooltip="Grid de Tarefas">

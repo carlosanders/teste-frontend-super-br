@@ -46,7 +46,8 @@ export class DocumentosEffects {
                 'documentoAvulsoRemessa.documentoResposta',
                 'componentesDigitais',
                 'juntadaAtual'
-            ]))),
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true}))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActions.GetDocumentosSuccess({

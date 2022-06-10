@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>
+
+</h1>
+
+<form name="form" [formGroup]="form" (submit)="submit()">
+    <div mat-dialog-content fxLayout="column">
+        <mat-checkbox formControlName="privada" fxFlex>
+            Privada
+        </mat-checkbox>
+        <mat-form-field fxFlex>
+            <div>
+                <textarea matInput
+                formControlName="conteudo"
+                placeholder="Conteúdo da etiqueta"
+                #fieldConteudo ng-trim="false"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="4"
+                cdkAutosizeMaxRows="6"></textarea>
+            </div>
+            <mat-error *ngIf="form.get('conteudo').hasError('formError')">
+                {{form.get('conteudo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+   <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+   <div mat-dialog-actions align="end">
+        <button *ngIf="!data.mostraSpinnerSalvamento" mat-button mat-dialog-close (click)="onCloseClick()">Fechar</button>
+        <mat-spinner *ngIf="data.mostraSpinnerSalvamento" diameter="24"></mat-spinner>
+        <button *ngIf="!data.mostraSpinnerSalvamento && data.podeAlterarConteudo" mat-raised-button color="accent">Salvar</button>
+    </div>
+</form>
+
+
+

@@ -11,12 +11,13 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of, Subject, switchMap} from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {
+    Acao,
     Assinatura,
     ComponenteDigital,
     Documento,
@@ -36,10 +37,10 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {LoginService} from '../../auth/login/login.service';
+import {filter, take, takeUntil} from 'rxjs/operators';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
-import {modulesConfig} from '../../../../modules/modules-config';
+import {modulesConfig} from 'modules/modules-config';
 import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
@@ -60,12 +61,15 @@ import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {HasTarefa} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
-import {Back} from 'app/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogComponent
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
 
 @Component({
     selector: 'tarefas',
@@ -85,9 +89,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
     @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -175,7 +177,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     pesquisaTarefa: string;
 
     changingFolderIds$: Observable<number[]>;
+    trocandoPastas: boolean = false;
 
+    generoHandle: string;
     typeHandle: string;
     targetHandle: string;
 
@@ -221,11 +225,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     documentosVinculadosPagination$: Observable<any>;
     documentosVinculadosPagination: any;
 
+    loadingAcoesEtiqueta$: Observable<boolean>;
+    acoesEtiquetaList$: Observable<Acao[]>;
+
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
     tarefaListViewMode: ViewMode;
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
+    parentIdentifier: string;
+
+    private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
+    private readonly _defaultSortOrder: string = 'ASC';
+
+    static definitionsKey = 'tarefaListDefinitions';
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -244,8 +257,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _matDialog: MatDialog,
         private _breakpointObserver: BreakpointObserver,
         private _activatedRoute: ActivatedRoute,
-        private _cdkTarefaListService: CdkTarefaListService
+        private _cdkTarefaListService: CdkTarefaListService,
+        private _cacheGenericUserDataService: CacheGenericUserDataService
     ) {
+        this.parentIdentifier = this.constructor.name;
         // Set the defaults
         this.formEditor = this._formBuilder.group({
             modelo: [null]
@@ -279,6 +294,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
+        this.loadingAcoesEtiqueta$ = this._store.pipe(select(fromStore.getLoadingAcoesEtiquetas));
+        this.acoesEtiquetaList$ = this._store.pipe(select(fromStore.getAcoesEtiqueta));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -297,26 +314,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
-        this._store
-            .pipe(
-                select(fromStore.getViewMode),
-                distinctUntilChanged()
-            )
-            .subscribe((viewMode) => {
-                const lastViewMode = this.tarefaListViewMode;
-                this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
-
-            if (lastViewMode && lastViewMode !== viewMode) {
-                this.reload({
-                    listFilter: this.pagination.listFilter,
-                    listSort: this.pagination.listSort,
-                    tipoBusca: this.pagination?.listFilter?.tipoBusca,
-                    offset: 0
-                });
-            }
-
-            this._changeDetectorRef.markForCheck();
-        });
 
         this._breakpointObserver
             .observe([Breakpoints.Small])
@@ -424,6 +421,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(fromStore.getViewMode),
+                filter((viewMode) => !!viewMode)
+            )
+            .subscribe((viewMode) => {
+                this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
+                this._changeDetectorRef.markForCheck();
+            });
 
         this.novaTarefa = false;
 
@@ -440,6 +446,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
 
+            this.generoHandle = routerState.state.params['generoHandle'];
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
@@ -448,14 +455,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             const path = 'app/main/apps/tarefas';
+            this.routeAtividade = 'atividades/criar';
+            this.routeAtividadeBloco = 'atividade-bloco';
+            this.routeAtividadeDocumento = 'atividade';
+            this.routeOficioDocumento = 'oficio';
             modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
                     (module.name === this.routerState.params.generoHandle)) {
                     this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
-                } else {
-                    this.routeAtividade = "atividades/criar";
                 }
 
                 if (module.routerLinks.hasOwnProperty(path) &&
@@ -595,6 +604,22 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             });
         });
 
+        this._store.pipe(
+            select(fromStore.getIsTrocandoPastas),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((trocandoPastas) => {
+            this.trocandoPastas = trocandoPastas;
+        })
+
+        this.changingFolderIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefasIds) => {
+            if (this.trocandoPastas && tarefasIds.length === 0) {
+                // Acabou de trocar as pastas das tarefas selecionadas
+                this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasFinish());
+            }
+        })
+
         this.errorComponentesDigitais$.pipe(
             filter(errors => !!errors),
             takeUntil(this._unsubscribeAll)
@@ -621,6 +646,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         const path = 'app/main/apps/tarefas';
+        this.routeAtividade = 'atividades/criar';
+        this.routeAtividadeBloco = 'atividade-bloco';
+        this.routeAtividadeDocumento = 'atividade';
+        this.routeOficioDocumento = 'oficio';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
@@ -635,13 +664,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
-                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
             }
 
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
                 this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
             }
         });
@@ -656,6 +687,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
+    }
+
+    static generateScopeKey(keys: string[]): string {
+        return keys.join('.');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -730,8 +765,27 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             nparams['filter'] = {
                 ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
+                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
+        }
+
+        if (this.tarefaListViewMode === 'grid' && nparams.limit !== this.pagination.limit) {
+            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+                .pipe(
+                    takeUntil(this._unsubscribeAll),
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    updatedConfigs[scopeKey] = {
+                        ...(updatedConfigs[scopeKey] ?? {}),
+                        tarefaLimit: nparams.limit
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                });
         }
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -943,6 +997,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setFolderOnSelectedTarefas(folder): void {
         const loteId = CdkUtils.makeId();
+        if (this.targetHandle !== 'lixeira') {
+            // Informa do inicio da mudança de pastas das tarefas selecionadas
+            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasStart(this.selectedTarefas.map(tarefa => tarefa.id)));
+        }
         this.selectedTarefas.forEach((tarefa) => {
             const operacaoId = CdkUtils.makeId();
             if (this.targetHandle === 'lixeira') {
@@ -1174,10 +1232,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     doUpload(): void {
         if (this.tarefaListViewMode == 'list') {
             const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
-            selectedTarefa.upload();
+            if (selectedTarefa) {
+                selectedTarefa.upload();
+            }
         } else {
             const selectedTarefa = this.tarefasList.componenteDigitalListItems.find((componenteDigitalListItem) => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
-            selectedTarefa.upload();
+            if (selectedTarefa) {
+                selectedTarefa.upload();
+            }
         }
     }
 
@@ -1355,7 +1417,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     retornar(): void {
         this.mostraCriar = false;
-        this._store.dispatch(new Back());
+        const url = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle;
+
+        this._router.navigate([url], {state: {viewMode: this.tarefaListViewMode}}).then();
     }
 
     doSalvarObservacao(params: any): void {
@@ -1756,7 +1821,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 'tipoDocumento',
                 'componentesDigitais',
                 'processoOrigem',
-            ]
+            ],
+            context: {'incluiVinculacaoDocumentoPrincipal': true}
         };
         this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
         const documento = new Documento();
@@ -1911,6 +1977,67 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doTarefaListViewModeChange(viewMode: ViewMode): void {
+        this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                take(1),
+                switchMap((configs) => of(configs || {}))
+            )
+            .subscribe((configs) => {
+                const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                const updatedConfigs = {...configs};
+                updatedConfigs[scopeKey] = {
+                    ...(updatedConfigs[scopeKey] ?? {}),
+                    viewMode: viewMode
+                };
+
+                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+            });
+
+        this.tarefaListViewMode = viewMode;
         this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+
+        this.reload({
+            listFilter: this.pagination.listFilter,
+            listSort: this.pagination.listSort,
+            tipoBusca: this.pagination?.listFilter?.tipoBusca,
+            offset: 0
+        });
+    }
+
+    resetTableDefinitions(): void {
+        const sort = {...(this.pagination.sort ?? {})};
+        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase())  {
+            this.reload({
+                ...this.pagination,
+                listSort: {[this._defaultSortField]: this._defaultSortOrder},
+                limit: 10,
+                offset: 0
+            });
+        }
+    }
+
+    doPendencies({vinculacaoEtiqueta, tarefa}): void {
+        this._store.dispatch(new fromStore.GetAcoesEtiqueta(vinculacaoEtiqueta.etiqueta.id));
+        const dialogRef = this._matDialog
+            .open(CdkVinculacaoEtiquetaAcoesDialogComponent, {
+                data: {
+                    vinculacaoEtiqueta: vinculacaoEtiqueta,
+                    acoesEtiquetaList$: this.acoesEtiquetaList$,
+                    isSaving$: this.savingVinculacaoEtiquetaId$
+                        .pipe(switchMap((vinculacaoEtiquetaId: number) => of(vinculacaoEtiquetaId === vinculacaoEtiqueta.id))),
+                    isLoading$: this.loadingAcoesEtiqueta$
+                },
+                width: '600px',
+                height: '300px',
+            });
+
+        dialogRef.afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((option) => {
+                if (option === true) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}));
+                }
+            });
     }
 }

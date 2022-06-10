@@ -15,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {AcaoTransicaoWorkflow, Pagination} from '@cdk/models';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-acao-transicao-workflow-autocomplete',
@@ -94,6 +95,6 @@ export class CdkAcaoTransicaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayAcaoFn(acao): string {
-        return acao ? acao.contexto : null;
+        return acao ? TitleCasePipe.format(acao.contexto) : null;
     }
 }

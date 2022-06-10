@@ -282,6 +282,13 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let juntada">
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                (click)="viewJuntada(juntada)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>pageview</mat-icon>
+                        </button>
 
                         <button mat-icon-button *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
@@ -347,7 +354,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('adicionarVinculacao') > -1 &&
                                     deletingIds?.indexOf(juntada.id) === -1 &&
-                                    !juntada.documento?.vinculacaoDocumentoPrincipal"
+                                    !juntada.documento?.estaVinculado"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
                                 (click)="doAdicionarVinculacao(juntada.id)" aria-label="Adicionar Vinculação"
                                 matTooltip="Adicionar Vinculação">

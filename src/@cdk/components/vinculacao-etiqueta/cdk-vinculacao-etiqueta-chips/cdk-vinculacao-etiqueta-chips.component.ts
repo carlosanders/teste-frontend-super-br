@@ -24,7 +24,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta, Pagination, VinculacaoEtiqueta} from '@cdk/models';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
-import {CdkUtils} from '../../../utils';
+import {CdkUtils} from '@cdk/utils';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 
@@ -39,7 +39,6 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
 
     visible = true;
-    selectable = true;
     addOnBlur = true;
     separatorKeysCodes: number[] = [ENTER, COMMA];
     etiquetaCtrl = new FormControl();
@@ -65,6 +64,12 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
     @Input()
     habilitarOpcaoBtnAddEtiqueta = false;
 
+    @Input()
+    pagination: Pagination;
+
+    @Input()
+    valid = true;
+
     @Output()
     delete = new EventEmitter<VinculacaoEtiqueta>();
 
@@ -77,11 +82,14 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
     @Output()
     addEtiqueta = new EventEmitter<Etiqueta>();
 
-    @Input()
-    pagination: Pagination;
+    @Output()
+    pendencies: EventEmitter<VinculacaoEtiqueta> = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    filter = new EventEmitter<Etiqueta>();
 
     @Input()
-    valid = true;
+    viewFilterEtiqueta = false;
 
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
@@ -118,12 +126,11 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
 
             this.etiquetaCtrl.setValue(null);
         } else {
-            console.log('is open');
             this.autoCompleteEtiquetas.closePanel();
         }
     }
 
-    remove(etiqueta:Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    doRemove(etiqueta:Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.creating = false;
         this.autoCompleteEtiquetas.closePanel();
         const index = this.vinculacoesEtiquetas.indexOf(vinculacaoEtiqueta);
@@ -195,19 +202,20 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
         this._changeDetectorRef.markForCheck();
     }
 
+    openMenu(event: any): void {
+        if (event.scope.canOpenMenu() && event.scope.matMenuTrigger) {
+            event.scope.matMenuTrigger.openMenu()
+        }
+    }
+
     openDialogEdit(etiqueta:Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.creating = false;
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
         if (this.savingVinculacaoEtiquetaId !== vinculacaoEtiqueta.id) {
             this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
                 data: {
-                    conteudo: vinculacaoEtiqueta.conteudo,
-                    nome: vinculacaoEtiqueta.etiqueta.nome,
-                    id: vinculacaoEtiqueta.id,
-                    corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal,
+                    vinculacaoEtiqueta: vinculacaoEtiqueta,
                     mostraSpinnerSalvamento: false,
-                    podeAlterarConteudo: vinculacaoEtiqueta.podeAlterarConteudo,
-                    privada: vinculacaoEtiqueta.privada
                 },
                 width: '600px',
                 height: '300px',
@@ -223,6 +231,10 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
                     this.dialogRef = null;
                 });
         }
+    }
+
+    doPendencies(etiqueta: Etiqueta, vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.pendencies.emit(vinculacaoEtiqueta);
     }
 
     newEtiqueta(): void {
@@ -254,5 +266,9 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
         this.addEtiqueta.emit(this.etiqueta);
         this.creating = true;
         this.showBtnAddEtiqueta = false;
+    }
+
+    filtroEtiquetas(etiqueta: Etiqueta): void {
+        this.filter.emit(etiqueta);
     }
 }

@@ -40,7 +40,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: DocumentoAvulso) => [
-                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload.documentoAvulso),
+                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload),
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
             ]),
             catchError((err) => {

@@ -18,6 +18,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
+import {LoginService} from "../../../../app/main/auth/login/login.service";
 
 @Component({
     selector: 'cdk-minutas-atividade-card-list',
@@ -136,6 +137,9 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     @Input()
     currentDocumentoId = null;
 
+    @Input()
+    oficio = false;
+
     hasSelected = false;
 
     form: FormGroup;
@@ -144,14 +148,17 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _formBuilder
      * @param dialog
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         public dialog: MatDialog,
+        public _loginService: LoginService
     ) {
         this.form = this._formBuilder.group({
             tipoDocumen: [null],

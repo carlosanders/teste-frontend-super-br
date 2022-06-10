@@ -331,7 +331,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
+            filter(juntadas => !!juntadas && (juntadas.length !== this.juntadas?.length || juntadas !== this.juntadas))
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
@@ -343,23 +343,26 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.form.get('numeracaoSequencial').setValue(null);
             }
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -469,8 +472,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         panelClass: ['danger-snackbar']
                     });
                 }
-            }
-        );
+            });
 
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -671,10 +673,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
+            if (!componenteDigitalId && juntada.ativo && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
                 stepHandle += '-' + substep;
-            } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
+            } else if (componenteDigitalId && juntada.ativo && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
                 stepHandle += '-' + substep;
             } else {
@@ -732,6 +734,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+                houveMudanca = true;
+            }
+        });
+        return houveMudanca;
+    }
+
     reload(params): void {
         this.novaJuntada = false;
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
@@ -767,7 +779,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const customJuntada = JSON.stringify({
             id: juntada.id,
             vinculacoesDocumentos: juntada.documento.vinculacoesDocumentos?.length,
-            vinculacaoDocumentoPrincipal: !!juntada.documento.vinculacaoDocumentoPrincipal,
+            vinculacaoDocumentoPrincipal: juntada.documento.estaVinculado,
             ativo: juntada.ativo
         });
         event.dataTransfer.setData(customJuntada, '');
@@ -807,7 +819,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
         const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == tmpJuntadaArrastada.id);
         // eslint-disable-next-line max-len
-        return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
+        return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.estaVinculado && juntadaArrastada.ativo;
     }
 
     /**
@@ -820,7 +832,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const juntadaArrastadaId = event.data;
         const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == juntadaArrastadaId);
         // eslint-disable-next-line max-len
-        return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
+        return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.estaVinculado && juntadaArrastada.ativo;
     }
 
     onDrop($event, enabled: boolean): void {
@@ -1286,7 +1298,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 'tarefaOrigem.usuarioResponsavel',
                 'tarefaOrigem.vinculacoesEtiquetas',
                 'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-            ]
+            ],
+            context: {'incluiVinculacaoDocumentoPrincipal': true}
         };
         this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documento: documento}));
         const dialogRef = this.dialog.open(CdkUploadDialogComponent, {
@@ -1560,7 +1573,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     fecharSidebar(): void {
-        if (!this._cdkSidebarService.getSidebar(this.name).isLockedOpen) {
+        if (!this._cdkSidebarService.getSidebar(this.name)?.isLockedOpen) {
             this._cdkSidebarService.getSidebar(this.name).close();
         }
     }

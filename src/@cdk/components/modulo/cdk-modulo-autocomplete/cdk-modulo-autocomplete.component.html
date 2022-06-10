@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModuloFn">
+    <mat-option *ngFor="let modulo of moduloList"
+                [value]="modulo">
+        <span [innerHTML]="displayModuloFn(modulo) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="moduloListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

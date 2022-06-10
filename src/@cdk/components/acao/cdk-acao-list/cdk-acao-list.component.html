@@ -12,9 +12,10 @@
         <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
     </div>
 
-    <div class="items" *ngIf="acoes.length > 0 && !loading">
+    <div class="items" *ngIf="!loading && acoes?.length > 0">
         <cdk-acao-list-item matRipple *ngFor="let acao of acoes"
                             [acao]="acao"
+                            [actions]="actions"
                             [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
                             [total]="acoes.length"
                             (delete)="doDeleteacao($event)"
@@ -22,7 +23,7 @@
         </cdk-acao-list-item>
     </div>
 
-    <div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading">
+    <div class="no-acoes-text" *ngIf="!loading && acoes?.length === 0">
         <span class="hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
     </div>
 </div>

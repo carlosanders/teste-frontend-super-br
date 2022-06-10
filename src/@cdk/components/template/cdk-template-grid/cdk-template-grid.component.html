@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -118,7 +118,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ModalidadeTemplate Column -->
@@ -129,7 +129,7 @@
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile'
                         data-label='Modalidade do Template: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.modalidadeTemplate?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.modalidadeTemplate?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->
@@ -139,7 +139,7 @@
                         Tipo Documento
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Tipo Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.documento?.tipoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.documento?.tipoDocumento?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -159,7 +159,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -179,7 +179,7 @@
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -199,7 +199,7 @@
                     </th>
                     <td mat-cell *matCellDef="let template" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1, 'error': getProp(deletingErrors, template.id)}"> {{template.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

@@ -7,7 +7,6 @@ import {CdkComponenteDigitalViewModule} from '@cdk/components/componente-digital
 import {ValidacaoAssinaturaStoreModule} from './store/store.module';
 import {MatProgressSpinnerModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 import * as fromGuard from './store/guards'
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -45,7 +44,6 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
     ],
     providers: [
-        ComponenteDigitalService,
         fromGuard.ResolveGuard
     ]
 })

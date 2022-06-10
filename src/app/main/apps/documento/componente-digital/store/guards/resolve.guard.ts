@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     getComponenteDigital(): any {
-        if (this.routerState.params['componenteDigitalHandle'] === 0) {
+        if (Number(this.routerState.params['componenteDigitalHandle']) === 0) {
             return of(true);
         } else {
             return this._store.pipe(

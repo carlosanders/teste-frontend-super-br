@@ -25,14 +25,14 @@ export function DocumentoAvulsoCreateBlocoReducer(
         case DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO: {
             return {
                 ...state,
-                savingProcessosId: [...state.savingProcessosId, action.payload.documentoAvulso.processo.id]
+                savingProcessosId: [...state.savingProcessosId, action.payload.documentoAvulso?.processo?.id]
             };
         }
 
         case DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO_SUCCESS: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.documentoAvulso.processo.id)
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.documentoAvulso?.processo?.id)
             };
         }
 

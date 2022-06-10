@@ -110,7 +110,7 @@ modulesConfig.forEach((module) => {
         fromGuards.ResolveGuard,
         fromGuards.DeactivateGuard,
         BookmarkService,
-        AssinaturaService
+        AssinaturaService,
     ],
     exports: [
         AnexarCopiaComponent
