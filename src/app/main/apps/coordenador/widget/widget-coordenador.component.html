@@ -17,17 +17,18 @@
                 Nos setores que eu coordeno
             </div>
         </div>
-        <div class="card-tarefas-coordenador" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isContadorPrincipal">
+        <div class="card-tarefas-coordenador" fxLayout="column" fxLayoutAlign="center left" *ngIf="!isContadorPrincipal">
             <mat-spinner *ngIf="this.isLoading !== false" diameter="64"></mat-spinner>
-            <div *ngIf="this.isLoading === false">
-                <div *ngFor="let item of tarefas">
-                <button class="botao-link" mat-button
-                         [routerLink]="'/apps/tarefas/' + item.especieTarefa.generoTarefa.nome.toLowerCase() + '/coordenacao/' +item.setorResponsavel.id">
-                    <span class="material-icons">link</span>
-                    <span class="titulo">Setor {{item.setorResponsavel.sigla}}({{item.setorResponsavel.unidade.sigla}}) {{this.numeroTarefas[item.setorResponsavel.id]}}<br></span>
-                </button>
-            </div>
-            <div *ngIf="tarefasCount === 0" class="mensagem-aviso">Não há tarefas de Coordenação</div>
+            <div class="card-tarefa" *ngIf="!isContadorPrincipal">
+                <div *ngFor="let item of contagemTarefas | keyvalue">
+                    <button class="botao-link" mat-button
+                            [routerLink]="'/apps/tarefas/' + item.value.split('_')[1] + '/coordenacao/' + item.value.split('_')[0]">
+                        <span class="material-icons">link</span>
+                        <span class="titulo">Gênero {{item.value.split('_')[1] | titleCasePipe}}, Setor {{item.value.split('_')[3]}}({{item.value.split('_')[4]}})</span>
+                        : {{item.value.split('_')[2]}}
+                    </button>
+                </div>
+                <div *ngIf="!hasTarefaAberta" class="mensagem-aviso">Não há tarefas pendentes</div>
             </div>
         </div>
     </mat-card-content>

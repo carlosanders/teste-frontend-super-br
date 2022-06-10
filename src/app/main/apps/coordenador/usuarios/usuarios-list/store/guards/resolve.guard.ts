@@ -94,7 +94,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {
                         params.filter = {
                             ...params.filter,
-                            'colaborador.lotacoes.setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'colaborador.id': 'isNotNull'
                         };
                     }
                     if (!this.routerState.params.setorHandle &&
@@ -103,7 +103,7 @@ export class ResolveGuard implements CanActivate {
                             this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle'];
                         params.filter = {
                             ...params.filter,
-                            'colaborador.lotacoes.setor.unidade.id': 'eq:' + valor
+                            'colaborador.id': 'isNotNull'
                         };
                     }
                     if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {

@@ -9,23 +9,23 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Estado, Pagination} from '@cdk/models';
-import {EstadoService} from '@cdk/services/estado.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination, TipoDossie} from '@cdk/models';
+import {TipoDossieService} from "../../../services/tipo-dossie.service";
 
 @Component({
-    selector: 'cdk-estado-autocomplete',
-    templateUrl: './cdk-estado-autocomplete.component.html',
-    styleUrls: ['./cdk-estado-autocomplete.component.scss'],
+    selector: 'cdk-tipo-dossie-autocomplete',
+    templateUrl: './cdk-tipo-dossie-autocomplete.component.html',
+    styleUrls: ['./cdk-tipo-dossie-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations,
-    exportAs: 'estadoAutocomplete',
+    exportAs: 'tipoDossieutocomplete',
 })
-export class CdkEstadoAutocompleteComponent implements OnInit {
+export class CdkTipoDossieAutocompleteComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
@@ -33,24 +33,27 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
-    estadoList: Estado[];
+    @Input()
+    tipoDossieList: TipoDossie[];
 
-    estadoListIsLoading: boolean;
+    @Input()
+    tipoDossieListIsLoading: boolean;
+
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _estadoService: EstadoService
+        private _tipoDossieService: TipoDossieService
     ) {
-        this.estadoList = [];
-        this.estadoListIsLoading = false;
+        this.tipoDossieList = [];
+        this.tipoDossieListIsLoading = false;
 
         this.pagination = new Pagination();
     }
 
     fechado(): void {
         if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
-            this.estadoList = [];
+            this.tipoDossieList = [];
         }
     }
 
@@ -60,33 +63,26 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const filterNome = [];
-                    const filterUf = [];
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        filterNome.push({nome: `like:%${bit}%`});
-                        filterUf.push({uf: `like:%${bit}%`});
+                        andxFilter.push({
+                            nome: `like:%${bit}%`});
                     });
-                    const filter = {
-                        orX: [
-                            {andX: filterNome},
-                            {andX: filterUf}
-                        ]
-                    };
-                    if (typeof value === 'string' && (filterNome.length > 0 || filterUf.length > 0)) {
-                        this.estadoListIsLoading = true;
+                    if (typeof value === 'string' && andxFilter.length > 0) {
+                        this.tipoDossieListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...filter
+                            andX: andxFilter
                         };
-                        return this._estadoService.query(
+                        return this._tipoDossieService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
                             JSON.stringify(this.pagination.populate))
                             .pipe(
-                                finalize(() => this.estadoListIsLoading = false),
+                                finalize(() => this.tipoDossieListIsLoading = false),
                                 catchError(() => of([]))
                             );
                     } else {
@@ -95,12 +91,14 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
                 }
             )
         ).subscribe((response) => {
-            this.estadoList = response['entities'];
+            this.tipoDossieList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });
     }
 
-    displayEstadoFn(estado): string {
-        return estado ? estado.nome + ` (${estado.uf})`: null;
+    displaySetorFn(setor): string {
+        let displayed = setor ? setor.nome : '';
+        displayed += (setor && setor.unidade) ? (' (' + setor.unidade.sigla + ')') : '';
+        return displayed;
     }
 }

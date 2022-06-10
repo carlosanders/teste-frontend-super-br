@@ -227,6 +227,16 @@
                             <mat-menu #moreMenuConverter="matMenu">
                                 <ng-template #dynamicComponentConverter></ng-template>
                             </mat-menu>
+                            <div *ngIf="showSolicitarDossie">
+                                <button mat-menu-item aria-label="solicitar dossies"
+                                        *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                        (click)="solicitarDossies()">
+                                    <ng-container>
+                                        <mat-icon>folder_special</mat-icon>
+                                        <span>Solicitar Dossiês</span>
+                                    </ng-container>
+                                </button>
+                            </div>
                         </mat-menu>
                     </div>
                 </div>

@@ -34,6 +34,8 @@ export class Dossie {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     processo?: Processo;
 
+    sobDemanda?: boolean;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -91,6 +93,7 @@ export class Dossie {
         this.statusRequerimento = null;
         this.fonteDados = null;
         this.versao = null;
+        this.sobDemanda = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

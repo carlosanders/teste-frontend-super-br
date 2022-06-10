@@ -17,25 +17,28 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {InteressadoDataSource} from '@cdk/data-sources/interessado-data-source';
-import {Interessado} from '@cdk/models';
+
 import {FormControl} from '@angular/forms';
+import {CdkTipoDossieFilterComponent} from '../sidebars/cdk-tipo-dossie-filter/cdk-tipo-dossie-filter.component';
+import {TipoDossie} from "../../../models";
+import {TipoDossieDataSource} from "../../../data-sources/tipo-dossie-data-source";
+
 
 @Component({
-    selector: 'cdk-interessado-grid',
-    templateUrl: './cdk-interessado-grid.component.html',
-    styleUrls: ['./cdk-interessado-grid.component.scss'],
+    selector: 'cdk-tipo-dossie-grid',
+    templateUrl: './cdk-tipo-dossie-grid.component.html',
+    styleUrls: ['./cdk-tipo-dossie-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkTipoDossieGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    interessados: Interessado[];
+    tiposDossie: TipoDossie[];
 
     @Input()
     total = 0;
@@ -46,8 +49,11 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'pessoa.nome', 'modalidadeInteressado.valor', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
     allColumns: any[] = [
         {
@@ -61,33 +67,28 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: true
         },
         {
-            id: 'pessoa.numeroDocumentoPrincipal',
-            label: 'Número Documento Principal',
+            id: 'nome',
+            label: 'Nome',
             fixed: true
         },
         {
-            id: 'pessoa.nome',
-            label: 'Interessado',
-            fixed: true
-        },
-        {
-            id: 'processo',
-            label: 'NUP',
+            id: 'sigla',
+            label: 'Sigla',
             fixed: false
         },
         {
-            id: 'pessoa.nome',
-            label: 'Pessoa',
+            id: 'descricao',
+            label: 'Descrição',
             fixed: false
         },
         {
-            id: 'origemDados',
-            label: 'Origem de Dados',
+            id: 'ativo',
+            label: 'Ativo',
             fixed: false
         },
         {
-            id: 'modalidadeInteressado.valor',
-            label: 'Modalidade de Interassado',
+            id: 'especieRelatorio.nome',
+            label: 'Espécie de Relatorio',
             fixed: false
         },
         {
@@ -150,11 +151,20 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkTipoDossieFilterComponent)
+    cdkTipoDossieFilterComponent: CdkTipoDossieFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -163,24 +173,21 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
+    selected = new EventEmitter<TipoDossie>();
 
     @Output()
-    selected = new EventEmitter<Interessado>();
-
-    @Output()
-    selectedBloco = new EventEmitter<Interessado[]>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
+    selectedBloco = new EventEmitter<TipoDossie[]>();
 
     @Output()
     selectedIds: number[] = [];
 
     @Output()
+    visibilidade = new EventEmitter<number>();
+
+    @Output()
     changedSelectedIds = new EventEmitter<number[]>();
 
-    dataSource: InteressadoDataSource;
+    dataSource: TipoDossieDataSource;
 
     showFilter = false;
 
@@ -189,8 +196,10 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      */
@@ -202,7 +211,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     ngOnChanges(): void {
-        this.dataSource = new InteressadoDataSource(of(this.interessados));
+        this.dataSource = new TipoDossieDataSource(of(this.tiposDossie));
         this.paginator.length = this.total;
     }
 
@@ -219,7 +228,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new InteressadoDataSource(of(this.interessados));
+        this.dataSource = new TipoDossieDataSource(of(this.tiposDossie));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -252,13 +261,13 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-interessado-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-dossie-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -286,22 +295,39 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
         }
     }
 
-    editInteressado(interessadoId): void {
-        this.edit.emit(interessadoId);
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkTipoDossieFilterComponent.resetarFormulario();
+            this.loadPage();
+        }
     }
 
-    selectInteressado(interessado: Interessado): void {
-        this.selected.emit(interessado);
+    editTipoDossie(tipoDossieId): void {
+        this.edit.emit(tipoDossieId);
     }
 
-    deleteInteressado(interessadoId): void {
-        this.delete.emit(interessadoId);
+    selectTipoDossie(tipoDossie: TipoDossie): void {
+        this.selected.emit(tipoDossie);
     }
 
-    deleteInteressados(interessadosId): void {
-        this.deleteBlocoEmmitter.emit(interessadosId);
-        this.selectedIds = this.selectedIds.filter(id => interessadosId.indexOf(id) === -1);
-        this.recompute();
+    deleteTipoDossie(tipoDossieId): void {
+        this.delete.emit(tipoDossieId);
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**
@@ -323,8 +349,8 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.interessados).map(k => this.interessados[k]);
-        this.selectedIds = arr.map(interessado => interessado.id);
+        const arr = Object.keys(this.tiposDossie).map(k => this.tiposDossie[k]);
+        this.selectedIds = arr.map(tipoDossie => tipoDossie.id);
         this.recompute();
     }
 
@@ -336,13 +362,13 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
         this.recompute();
     }
 
-    toggleInSelected(interessadoId): void {
-        const selectedInteressadoIds = [...this.selectedIds];
+    toggleInSelected(tipoDossieId): void {
+        const selectedTipoDossieIds = [...this.selectedIds];
 
-        if (selectedInteressadoIds.find(id => id === interessadoId) !== undefined) {
-            this.selectedIds = selectedInteressadoIds.filter(id => id !== interessadoId);
+        if (selectedTipoDossieIds.find(id => id === tipoDossieId) !== undefined) {
+            this.selectedIds = selectedTipoDossieIds.filter(id => id !== tipoDossieId);
         } else {
-            this.selectedIds = [...selectedInteressadoIds, interessadoId];
+            this.selectedIds = [...selectedTipoDossieIds, tipoDossieId];
         }
         this.recompute();
     }
@@ -350,9 +376,9 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     recompute(): void {
         this.changedSelectedIds.emit(this.selectedIds);
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.interessados.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.tiposDossie.length && this.selectedIds.length > 0);
         const ids = this.selectedIds;
-        this.selectedBloco.emit(this.interessados.filter(function(a){
+        this.selectedBloco.emit(this.tiposDossie.filter(function(a){
             return ids.includes(a.id);
         }));
     }
@@ -381,4 +407,8 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     getMessageError(obj): any {
         return obj?.error?.error?.message;
    }
+
+    editVisibilidadeTipoDossie(tipoDossieId): void {
+        this.visibilidade.emit(tipoDossieId);
+    }
 }
