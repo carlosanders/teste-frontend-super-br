@@ -17,15 +17,13 @@ export class VerticalLayout3Component implements OnInit, OnDestroy {
     navigation: any;
     chatOpen: boolean = false;
     mobileMode: boolean;
-    isAutenticated: boolean = false;
 
     // Private
     private _unsubscribeAll: Subject<any>;
     private innerWidth: any;
 
     constructor(
-        private _cdkConfigService: CdkConfigService,
-        private _loginService: LoginService
+        private _cdkConfigService: CdkConfigService
     ) {
         this.navigation = navigation;
         // Set the private defaults
@@ -52,12 +50,6 @@ export class VerticalLayout3Component implements OnInit, OnDestroy {
             .subscribe((config) => {
                 this.cdkConfig = config;
             });
-
-        this._loginService
-            .getUserProfileChanges()
-            .pipe(
-                switchMap((profile) => of(!!profile)),
-            ).subscribe((autenticated)=> this.isAutenticated = autenticated);
 
         this.innerWidth = window.innerWidth;
         this.mobileMode = innerWidth <= 600;

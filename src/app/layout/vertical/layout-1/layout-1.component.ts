@@ -16,7 +16,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
     chatOpen: boolean = false;
-    isAutenticated: boolean = false;
 
     mobileMode: boolean;
     // Private
@@ -24,8 +23,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
     private innerWidth: any;
 
     constructor(
-        private _cdkConfigService: CdkConfigService,
-        private _loginService: LoginService
+        private _cdkConfigService: CdkConfigService
     ) {
         // Set the defaults
         this.navigation = navigation;
@@ -53,11 +51,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
             .subscribe((config) => {
                 this.cdkConfig = config;
             });
-        this._loginService
-            .getUserProfileChanges()
-            .pipe(
-                switchMap((profile) => of(!!profile)),
-            ).subscribe((autenticated)=> this.isAutenticated = autenticated);
 
         this.innerWidth = window.innerWidth;
         this.mobileMode = innerWidth <= 600;

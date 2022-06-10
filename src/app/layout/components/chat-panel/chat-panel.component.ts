@@ -19,7 +19,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {delay, filter, take, takeUntil} from 'rxjs/operators';
 import {MercureService} from '@cdk/services/mercure.service';
 import {IInfiniteScrollEvent} from 'ngx-infinite-scroll';
 
@@ -122,11 +122,13 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._loginService.getUserProfileChanges()
             .pipe(
                 filter((profile) => !!profile),
-                take(1),
                 takeUntil(this._unsubscribeAll),
+                delay(400),
             ).subscribe((profile) => {
                 this.usuarioLogado = profile;
-                this.getChatsUsuario();
+                if (this.usuarioLogado) {
+                    this.getChatsUsuario();
+                }
             });
         this.chatList$ = this._store.pipe(
             select(fromStore.getChatList),
@@ -231,6 +233,20 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this._cdkSidebarService.getSidebar('chatPanel').openedChanged
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter((isOpen: boolean) => !!isOpen && !this.chatLoading)
+            )
+            .subscribe(() => {
+                const lastUsuarioLogado = this.usuarioLogado;
+                this.usuarioLogado = this._loginService.getUserProfile();
+                if (!lastUsuarioLogado && this.usuarioLogado) {
+                    this.getChatsUsuario();
+                }
+                this._changeDetectorRef.detectChanges();
+            });
+
         this.chatOpen$.subscribe((chat) => {
 
             if (!!this.chatOpen && this.chatOpen?.id != chat?.id) {
