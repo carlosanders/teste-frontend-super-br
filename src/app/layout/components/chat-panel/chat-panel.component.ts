@@ -19,7 +19,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
-import {delay, filter, take, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {MercureService} from '@cdk/services/mercure.service';
 import {IInfiniteScrollEvent} from 'ngx-infinite-scroll';
 
@@ -123,7 +123,6 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             .pipe(
                 filter((profile) => !!profile),
                 takeUntil(this._unsubscribeAll),
-                delay(400),
             ).subscribe((profile) => {
                 this.usuarioLogado = profile;
                 if (this.usuarioLogado) {
