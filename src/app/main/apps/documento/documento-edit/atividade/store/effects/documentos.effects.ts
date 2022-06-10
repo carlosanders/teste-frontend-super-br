@@ -51,23 +51,25 @@ export class DocumentosEffects {
                 params.limit,
                 params.offset,
                 JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
+                JSON.stringify(params.populate)
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new DocumentosActionsAll.GetDocumentosSuccess({
+                        loaded: {
+                            id: this.routerState.params['tarefaHandle'] ? 'tarefaHandle' : 'documentoHandle',
+                            value: this.routerState.params['tarefaHandle'] ?? this.routerState.params['documentoHandle']
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                        total: response['total']
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosActionsAll.GetDocumentosFailed(err));
+                })
+            );
         }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosActionsAll.GetDocumentosSuccess({
-                loaded: {
-                    id: this.routerState.params['tarefaHandle'] ? 'tarefaHandle' : 'documentoHandle',
-                    value: this.routerState.params['tarefaHandle'] ?? this.routerState.params['documentoHandle']
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-                total: response['total']
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentosActionsAll.GetDocumentosFailed(err));
-        })
     ));
     getDocumentosSuccess: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.GetDocumentosSuccess>(DocumentosActionsAll.GET_DOCUMENTOS_SUCCESS),
