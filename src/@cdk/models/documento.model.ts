@@ -161,7 +161,7 @@ export class Documento {
     vinculacaoDocumentoPrincipal?: VinculacaoDocumento;
 
     @Exclude({ toPlainOnly: true })
-    estaVinculado?: boolean;
+    estaVinculada?: boolean;
     @Exclude({ toPlainOnly: true })
     temVinculacoes?: boolean;
 
@@ -188,7 +188,7 @@ export class Documento {
         this.dataHoraProducao = null;
         this.outroNumero = null;
         this.semEfeito = false;
-        this.estaVinculado = false;
+        this.estaVinculada = false;
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;

@@ -153,7 +153,7 @@ export class ComponentesDigitaisEffect {
             const componenteDigitalId = action.payload.componenteDigitalId;
 
             primary += componenteDigitalId;
-            const tarefaId = action.payload.documento.estaVinculado ?
+            const tarefaId = action.payload.documento.estaVinculada ?
                 action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
                 action.payload.documento.tarefaOrigem.id;
             const processoId = action.payload.documento.processoOrigem.id;

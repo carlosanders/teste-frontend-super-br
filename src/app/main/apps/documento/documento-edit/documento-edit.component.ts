@@ -199,7 +199,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             takeUntil(this._unsubscribeAll)
         ).subscribe((documento) => {
             this.documento = documento;
-            if (documento && documento.estaVinculado) {
+            if (documento && documento.estaVinculada) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
             }
         });
@@ -252,7 +252,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // -----------------------------------------------------------------------------------------------------
 
     onClickedDocumentoVinculado(documento: Documento): void {
-        if (this.documento.estaVinculado) {
+        if (this.documento.estaVinculada) {
             return this.navigateToDocumento(documento);
         }
         this.podeNavegarDoEditor().subscribe((result) => {
@@ -271,7 +271,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         } else {
             primary += '0';
         }
-        if (documento.estaVinculado) {
+        if (documento.estaVinculada) {
             sidebar = 'editar/dados-basicos';
         }
         this._componenteDigitalService.trocandoDocumento.next(true);

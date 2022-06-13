@@ -412,7 +412,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 let primary: string;
                 primary = 'componente-digital/' + this.currentComponenteDigital.id;
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
-                if (this.documento.estaVinculado) {
+                if (this.documento.estaVinculada) {
                     sidebar = 'editar/dados-basicos';
                 }
                 if (!!this.documento.documentoAvulsoRemessa) {
