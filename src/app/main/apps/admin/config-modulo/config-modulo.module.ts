@@ -37,19 +37,19 @@ const routes: Routes = [
         children: [
             {
                 path: 'listar',
-                loadChildren: (): Promise<ConfigModuloListModule> =>
+                loadChildren: () =>
                     import('./config-modulo-list/config-modulo-list.module')
                         .then(m => m.ConfigModuloListModule),
             },
             {
                 path: 'editar',
-                loadChildren: (): Promise<ConfigModuloEditModule> =>
+                loadChildren: () =>
                     import('./config-modulo-edit/config-modulo-edit.module')
                         .then(m => m.ConfigModuloEditModule),
             },
             {
                 path: 'editar_admin',
-                loadChildren: (): Promise<ConfigModuloEditModule> =>
+                loadChildren: () =>
                     import('./config-modulo-edit-admin/config-modulo-edit-admin.module')
                         .then(m => m.ConfigModuloEditAdminModule),
             },
