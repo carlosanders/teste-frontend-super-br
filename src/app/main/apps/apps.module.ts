@@ -5,7 +5,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {modulesConfig} from '../../../modules/modules-config';
 import {RoleGuard} from './role.guard';
 
-const routes = [
+const routes: any = [
     {
         path        : 'painel',
         loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule),
@@ -107,10 +107,6 @@ const routes = [
         loadChildren: () => import('./validacao-assinatura/validacao-assinatura.module').then(m => m.ValidacaoAssinaturaModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
-    },
-    {
-        path: '**',
-        redirectTo: 'painel'
     }
 ];
 
@@ -120,6 +116,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes.push(r)));
     }
+});
+
+routes.push({
+    path: '**',
+    redirectTo: 'painel'
 });
 
 @NgModule({
