@@ -40,8 +40,7 @@ export class JuntadaEffects {
                     'documento',
                     'documento.componentesDigitais',
                     'documento.vinculacoesDocumentos',
-                    'documento.tipoDocumento',
-                    'documento.vinculacaoDocumentoPrincipal'
+                    'documento.tipoDocumento'
                 ])
             ).pipe(
                 mergeMap(response => [
@@ -92,22 +91,24 @@ export class JuntadaEffects {
      * Save Desentranhamento Success
      */
     saveDesentranhamentoSuccess: any = createEffect(() => this._actions
-            .pipe(
-                ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([
-                        this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')
-                    ]).then(() => {
-                        const steps = this.routerState.params['stepHandle'].split('-');
-                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                            step: parseInt(steps[0], 10),
-                            subStep: parseInt(steps[1], 10)
-                        }));
-                    });
-                })
-            ),
-        {dispatch: false}
-    );
+        .pipe(
+            ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
+            tap((action) => {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                let url = this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '');
+                const currentStep = {
+                    step: parseInt(steps[0], 10),
+                    subStep: parseInt(steps[1], 10)
+                };
+                if (action.payload === parseInt(steps[0])) {
+                    currentStep['subStep'] = null;
+                    url = url.replace('/' + this.routerState.params['stepHandle'], '/' + steps[0]);
+                }
+                this._router.navigate([url]).then(() => {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                });
+            })
+        ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

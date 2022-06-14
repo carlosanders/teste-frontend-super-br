@@ -110,7 +110,8 @@ export class ComponentesDigitaisEffects {
             JSON.stringify([
                 'processoOrigem',
                 'tarefaOrigem'
-            ]))
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true}))
             .pipe(
                 switchMap(response => [
                     new AddData<Documento>({
@@ -147,11 +148,11 @@ export class ComponentesDigitaisEffects {
             const componenteDigitalId = action.payload.componenteDigitalId;
 
             primary += componenteDigitalId;
-            const tarefaId = action.payload.documento.vinculacaoDocumentoPrincipal ?
+            const tarefaId = action.payload.documento.estaVinculada ?
                 action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
                 action.payload.documento.tarefaOrigem.id;
             const processoId = action.payload.documento.processoOrigem.id;
-            if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'],10)) {
+            if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'], 10)) {
                 stepHandle = 'default';
             }
 

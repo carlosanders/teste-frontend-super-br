@@ -34,7 +34,8 @@ export class DocumentosVinculadosEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
@@ -84,7 +85,8 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })
@@ -152,7 +154,7 @@ export class DocumentosVinculadosEffects {
             } else {
                 primary += 'default';
             }
-            if (action.payload.vinculacaoDocumentoPrincipal) {
+            if (action.payload.estaVinculada) {
                 sidebar = 'modelo/dados-basicos';
             }
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {

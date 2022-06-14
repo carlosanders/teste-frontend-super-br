@@ -1,0 +1,94 @@
+@import "../../../scss/cdk";
+
+cdk-vinculacao-processo-tree-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    > .page-layout {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        .header {
+
+            .actions {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+
+                .back {
+                    margin-right: auto;
+                }
+            }
+        }
+
+        .content {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+
+            .loading {
+                display: flex;
+                justify-content: center;
+            }
+
+            .empty-vinculacao {
+                display: flex;
+                justify-content: center;
+                padding: 8px;
+
+                span {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-left: 10px;
+                }
+            }
+
+            mat-tree {
+                margin: 0 15px;
+
+                mat-nested-tree-node {
+                    display: flex;
+                    flex-direction: column;
+
+                    .node-children {
+                        border-top: 1px dashed #B0B9C5;
+                        padding-left: 30px;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .node-parent {
+                        margin-bottom: 5px;
+                    }
+
+                    &.deleted {
+                        text-decoration: line-through;
+                    }
+                }
+
+                .mat-tree-node,mat-tree-node {
+                    min-height: 40px;
+
+                    &.deleted {
+                        text-decoration: line-through;
+                    }
+
+                    &.current-node {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cdk-vinculacao-processo-tree-list-mat-menu {
+    min-height: auto;
+}
+

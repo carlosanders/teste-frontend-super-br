@@ -49,14 +49,17 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     repositorio$: Observable<string>;
     repositorio: string;
     saving$: Observable<boolean>;
+    autosaving$: Observable<boolean>;
+    loading$: Observable<boolean>;
     saving = false;
+    autosaving = false;
     errors$: Observable<any>;
     routerState: any;
     assinandoDocumentosId$: Observable<number[]>;
     btVersoes = true;
     logEntryPagination: Pagination;
     mode = 'documento';
-    localStorageBackupKey: string = 'componenteDigitalBakcup';
+    static LocalStorageBackupKey: string = 'componenteDigitalBakcup';
     componenteDigitalReady: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -69,6 +72,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.autosaving$ = this._store.pipe(select(fromStore.getIsAutoSaving));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
             select(getRouterState),
@@ -114,7 +119,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             filter(cd => !!cd)
         ).subscribe((cd) => {
             this._cacheGenericUserDataService
-                .get(this.localStorageBackupKey)
+                .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
                 .subscribe((cachedComponenteDigitalBackupList) => {
                     const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
                     const componenteDigitalBackup = componenteDigitalBackupList
@@ -135,15 +140,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         dialogRef.afterClosed()
                             .pipe(
                                 tap(
-                                    (conteudo) => {
-                                        if (conteudo) {
-                                            this._cacheGenericUserDataService.set(
-                                                componenteDigitalBackupList
-                                                    .filter((backup) => backup.id != componenteDigitalBackup.id),
-                                                this.localStorageBackupKey,
-                                                (60*60*24*30) //30 dias
-                                            );
-                                            this.componenteDigital = {...cd, conteudo: conteudo};
+                                    (componenteDigital) => {
+                                        if (componenteDigital) {
+                                            this.componenteDigital = {...cd, conteudo: componenteDigital.conteudo};
                                             this.componenteDigitalReady = true;
                                             this.logEntryPagination = new Pagination();
                                             this.logEntryPagination.filter = {
@@ -151,6 +150,11 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                                 target: 'hash',
                                                 id: +this.componenteDigital.id
                                             };
+                                            this.doSave({
+                                                conteudo: componenteDigital.conteudo,
+                                                hashAntigo: componenteDigital.hash,
+                                                auto: true
+                                            });
                                             this._changeDetectorRef.detectChanges();
                                         }
                                     }
@@ -187,6 +191,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             this.saving = saving;
             this._changeDetectorRef.detectChanges();
         });
+
+        this.autosaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((saving) => {
+            this.autosaving = saving;
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     /**
@@ -219,12 +230,21 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      */
     doSave(data: any): void {
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            operacaoId: operacaoId,
-            componenteDigital: this.componenteDigital,
-            data: data.conteudo,
-            hashAntigo: data.hashAntigo
-        }));
+        if (!data.auto) {
+            this._store.dispatch(new fromStore.SaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        } else {
+            this._store.dispatch(new fromStore.AutoSaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        }
     }
 
     /**
@@ -279,7 +299,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     doBackupComponenteDigital(componenteDigitalBackup: any): void {
         this._cacheGenericUserDataService
-            .get(this.localStorageBackupKey)
+            .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((cachedComponenteDigitalBackupList: any) => {
                 const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
@@ -288,7 +308,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         ...componenteDigitalBackupList.filter((backup) => backup.id !== componenteDigitalBackup.id),
                         componenteDigitalBackup
                     ],
-                    this.localStorageBackupKey,
+                    ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
                     (60*60*24*30) //30 dias
                 ).subscribe();
             });

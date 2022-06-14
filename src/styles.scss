@@ -99,6 +99,7 @@ mat-option.mat-option {
 
 .mat-menu-panel {
     max-width: 400px !important;
+    min-height: auto !important;
 }
 
 .mat-icon-button {
@@ -137,7 +138,7 @@ div.menu-busca {
 }
 
 div.menuNotificacao {
-    max-width: 880px !important;
+    max-width: 900px !important;
     padding-bottom: 0 !important;
     padding-top: 0 !important;
     top: 64px !important;

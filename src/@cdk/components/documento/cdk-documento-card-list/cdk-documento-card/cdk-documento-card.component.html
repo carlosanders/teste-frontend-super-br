@@ -101,7 +101,7 @@
                     <span>Alterar Tipo de Documento</span>
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doDesvincular(documento.vinculacaoDocumentoPrincipal)" mat-menu-item
-                        *ngIf="!documento.minuta && !!documento.vinculacaoDocumentoPrincipal && actions.indexOf('desvincular') > -1">
+                        *ngIf="!documento.minuta && !!documento.estaVinculada && actions.indexOf('desvincular') > -1">
                     <mat-icon color="accent">unlink</mat-icon>
                     <span>Desvincular Juntada</span>
                 </button>

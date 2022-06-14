@@ -1,0 +1,43 @@
+<mat-card class="scrollable-content" (click)="trocarVisualizacao()">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>schedule</mat-icon>
+        <mat-card-title>Minhas Tarefas</mat-card-title>
+        <mat-card-subtitle>Pendentes de conclusão</mat-card-subtitle>
+        <mat-icon class="icone-tarefa" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}">
+            swap_horiz
+        </mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
+            <mat-spinner *ngIf="this.tarefasCount === false" diameter="64"></mat-spinner>
+            <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-64 line-height-64 count-clickable">
+                {{this.tarefasCount}}
+            </div>
+            <div class="h3 font-weight-500">
+                Todas as espécies
+            </div>
+        </div>
+        <div class="card-tarefa" *ngIf="!isContadorPrincipal">
+            <div *ngFor="let item of contagemTarefas | keyvalue">
+                <button class="botao-link" mat-button
+                        [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/entrada'">
+                    <span class="material-icons">link</span>
+                    <span class="titulo">{{item.key}}</span>: {{item.value}}
+                </button>
+            </div>
+            <div *ngIf="!hasTarefaAberta" class="mensagem-aviso">Não há tarefas pendentes</div>
+        </div>
+    </mat-card-content>
+    <mat-card-footer *ngIf="isContadorPrincipal">
+        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+            <span class="h4 text-truncate">
+                Vencidas:
+            </span>
+            <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === false"
+                         diameter="15"></mat-spinner>
+            <span *ngIf="tarefasVencidasCount !== false" class="h4 ml-8 warn-500-fg count-clickable">
+                {{tarefasVencidasCount}}
+            </span>
+        </div>
+    </mat-card-footer>
+</mat-card>

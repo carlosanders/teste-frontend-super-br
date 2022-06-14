@@ -1,9 +1,10 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {of, Subject, switchMap} from 'rxjs';
+import {takeUntil, } from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {navigation} from 'app/navigation/navigation';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
     selector: 'vertical-layout-1',
@@ -21,9 +22,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any>;
     private innerWidth: any;
 
-    /**
-     * @param _cdkConfigService
-     */
     constructor(
         private _cdkConfigService: CdkConfigService
     ) {

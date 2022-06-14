@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {Etiqueta, Tarefa} from '@cdk/models';
 
 export const CREATE_ETIQUETA = '[TAREFA DETAIL ETIQUETA] CREATE ETIQUETA';
 
@@ -10,6 +9,10 @@ export const GET_ETIQUETA_FAILED = '[TAREFA DETAIL ETIQUETA] GET ETIQUETA FAILED
 export const SAVE_ETIQUETA = '[TAREFA DETAIL ETIQUETA] SAVE ETIQUETA';
 export const SAVE_ETIQUETA_SUCCESS = '[TAREFA DETAIL ETIQUETA] SAVE ETIQUETA SUCCESS';
 export const SAVE_ETIQUETA_FAILED = '[TAREFA DETAIL ETIQUETA] SAVE ETIQUETA FAILED';
+
+export const GET_ACOES_ETIQUETA = '[TAREFA DETAIL ETIQUETA] GET ACOES ETIQUETA';
+export const GET_ACOES_ETIQUETA_SUCCESS = '[TAREFA DETAIL ETIQUETA] GET ACOES ETIQUETA SUCCESS';
+export const GET_ACOES_ETIQUETA_FAILED = '[TAREFA DETAIL ETIQUETA] GET ACOES ETIQUETA FAILED';
 
 /**
  * Create Etiqueta
@@ -81,6 +84,30 @@ export class SaveEtiquetaFailed implements Action {
     }
 }
 
+export class GetAcoesEtiqueta implements Action {
+    readonly type = GET_ACOES_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetAcoesEtiquetaSuccess implements Action {
+    readonly type = GET_ACOES_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class GetAcoesEtiquetaFailed implements Action {
+    readonly type = GET_ACOES_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type EtiquetaActionsAll
     = CreateEtiqueta
     | GetEtiqueta
@@ -88,4 +115,8 @@ export type EtiquetaActionsAll
     | GetEtiquetaFailed
     | SaveEtiqueta
     | SaveEtiquetaSuccess
-    | SaveEtiquetaFailed;
+    | SaveEtiquetaFailed
+    | GetAcoesEtiqueta
+    | GetAcoesEtiquetaSuccess
+    | GetAcoesEtiquetaFailed
+    ;

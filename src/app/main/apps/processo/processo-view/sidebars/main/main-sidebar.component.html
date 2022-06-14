@@ -326,7 +326,7 @@
                      [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}"
                      [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                      [dndDragImageOffsetFunction]="this.offsetFunction"
-                     [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
+                     [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.estaVinculada"
                      (dndEnd)="onCancelDrag($event)"
                      (dndCopied)="onCopied($event, juntada)"
                      (dndStart)="onStartDrag($event, juntada)">
@@ -448,7 +448,7 @@
                             </mat-icon>
                             <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                             <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                                    *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                                    *ngIf="!processo?.somenteLeitura && juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
                                 !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
                                     aria-label="Ferramentas" (click)="$event.stopPropagation()">
                                 <mat-icon class="secondary-text">more_vert</mat-icon>

@@ -40,6 +40,7 @@ import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
 import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
+import {CdkTarefaFilterService} from "../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service";
 import * as _ from 'lodash';
 
 @Component({
@@ -361,6 +362,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @Output()
     erroUpload = new EventEmitter<string>();
 
+    @Output()
+    pencencies: EventEmitter<{tarefa: Tarefa, vinculacaoEtiqueta: VinculacaoEtiqueta}> = new EventEmitter<{tarefa: Tarefa; vinculacaoEtiqueta: VinculacaoEtiqueta}>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -436,6 +440,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     dynamicColumnList: CdkTarefaListGridColumn[] = [];
     dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
 
+    filterProcesso: any = null;
+    filterEtiquetas: Etiqueta[] = [];
+
     /**
      * Constructor
      */
@@ -448,7 +455,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         public loginService: LoginService,
         private _render: Renderer2,
         protected _changeDetectorRef: ChangeDetectorRef,
-        protected _tableDefinitionsService: TableDefinitionsService
+        protected _tableDefinitionsService: TableDefinitionsService,
+        private _cdkTarefaFilterService: CdkTarefaFilterService
     ) {
         super(_tableDefinitionsService, _changeDetectorRef);
         this.listFilter = {};
@@ -459,15 +467,14 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.displayedColumns = [
             'select',
             'id',
-            'processo.nup',
-            'processo.modalidadeEspecie',
+            'processo.NUP',
+            'processo.modalidadeMeio.valor',
             'especieTarefa.nome',
             'setorResponsavel.nome',
-            'dataHoraDistribuicao',
             'dataHoraFinalPrazo',
-            'observacao',
             'vinculacoesEtiquetas',
             'vinculacoesEtiquetasMinutas',
+            'observacao',
             'urgente',
         ];
 
@@ -485,10 +492,16 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         elementQueries.listen();
         elementQueries.init();
 
+        this._cdkTarefaFilterService.clear.subscribe(() => {
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {};
+        });
+
         this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
     }
 
     ngAfterViewInit(): void {
+        super.ngAfterViewInit();
         if (this.container !== undefined) {
             this.container.clear();
         }
@@ -525,6 +538,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 ) : [];
             });
             this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
+
+            if (changes['pagination'] && changes.pagination.currentValue) {
+                this.listSort = changes.pagination.currentValue.sort;
+                this.sortField = Object.keys(this.listSort)[0];
+                this.sortOrder = Object.values(this.listSort)[0];
+            }
 
             if (this.paginator) {
                 this.paginator.length = this.pagination.total;
@@ -959,7 +978,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.convertePdf.emit(documentoId);
     }
 
-    doDeleteDocumento(event: { documentoId: number; tarefaId: number; documentoAvulsoUuid?: string }): void {
+    doDeleteDocumento(event: { documentoId: any; tarefaId: any; documentoAvulsoUuid?: any }): void {
         this.matMenuTriggersList?.forEach((trigger) => trigger.closeMenu());
         this.deleteDocumento.emit(event);
     }
@@ -1005,5 +1024,37 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             this.habilitarTipoDocumentoSalvar = true;
         }
         this._changeDetectorRef.detectChanges();
+    }
+
+    doPendencies(event: {vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}): void {
+        this.pencencies.emit(event);
+    }
+
+    doFilterNup(processo): void {
+        if (this.filterProcesso?.id === processo?.id) {
+            this.filterProcesso = null;
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.filterProcesso = processo;
+            this.listFilter.filters = {'processo.id': `eq:${processo.id}`};
+            this.loadPage();
+        }
+    }
+
+    doFilterEtiqueta(etiqueta): void {
+        if (this.filterEtiquetas.find(et => etiqueta.id === et.id)) {
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {};
+            this.loadPage();
+        } else {
+            this.filterProcesso = null;
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {'vinculacoesEtiquetas.etiqueta.id': `eq:${etiqueta.id}`};
+            this.filterEtiquetas.push(etiqueta);
+            this.loadPage();
+        }
     }
 }

@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-especie-relevancia-autocomplete',
@@ -94,6 +95,6 @@ export class CdkEspecieRelevanciaAutocompleteComponent implements OnInit {
     }
 
     displayEspecieRelevanciaFn(especieRelevancia): string {
-        return especieRelevancia ? especieRelevancia.nome : null;
+        return TitleCasePipe.format(especieRelevancia ? especieRelevancia.nome : null);
     }
 }

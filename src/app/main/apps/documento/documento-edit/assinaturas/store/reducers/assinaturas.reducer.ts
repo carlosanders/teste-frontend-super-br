@@ -98,9 +98,9 @@ export function AssinaturasReducer(
         case AssinaturasActions.DELETE_ASSINATURA_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(state.deletingErrors, [action.payload])
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.assinaturaId),
+                deletedIds: [...state.deletedIds, action.payload.assinaturaId],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload.assinaturaId])
             };
         }
 

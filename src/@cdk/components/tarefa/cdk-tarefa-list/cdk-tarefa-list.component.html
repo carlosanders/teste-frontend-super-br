@@ -5,7 +5,10 @@
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
                            [arrayFiltrosEtiquetas]="arraySearchTypes"
                            [targetHandle]="targetHandle"
-                           [typeHandle]="typeHandle"></cdk-tarefa-filter>
+                           [typeHandle]="typeHandle"
+                           [filterProcesso]="filterProcesso"
+                           [etiquetas]="filterEtiquetas"
+        ></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -36,12 +39,14 @@
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
-            <button mat-menu-item
+            <button mat-menu-item *ngIf="targetHandle !== 'entrada'"
                     (click)="setFolder(null)">ENTRADA
             </button>
-            <button mat-menu-item *ngFor="let folder of folders"
-                    (click)="setFolder(folder)">{{folder.nome}}
-            </button>
+            <ng-container *ngFor="let folder of folders">
+                <button mat-menu-item *ngIf="folder.id != targetHandle"
+                        (click)="setFolder(folder)">{{folder.nome}}
+                </button>
+            </ng-container>
         </mat-menu>
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
@@ -227,7 +232,7 @@
             </mat-form-field>
 
             <button class="refresh" mat-icon-button
-                    *ngIf="parentIdentifier && viewMode == 'grid'"
+                    *ngIf="parentIdentifier && viewMode === 'grid'"
                     (click)="resetTableColumns()"
                     aria-label="redefinir_tabela"
                     matTooltip="Redefinir Tabela">
@@ -267,6 +272,8 @@
 
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('select').definitions.sortable === false"
                         (columnChageWidth)="columnChageWidth($event)"
                         [cdkTableColumnResizable]="getColumnTableColumn('select')"
                         (resizing)="resizingColumn($event)"
@@ -289,6 +296,8 @@
 
                 <ng-container matColumnDef="urgente">
                     <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('urgente').definitions.sortable === false"
                         (columnChageWidth)="columnChageWidth($event)"
                         [cdkTableColumnResizable]="getColumnTableColumn('urgente')"
                         (resizing)="resizingColumn($event)"
@@ -319,17 +328,19 @@
 
                 <ng-container matColumnDef="observacao">
                     <th mat-header-cell *matHeaderCellDef
-                              (columnChageWidth)="columnChageWidth($event)"
-                              [cdkTableColumnResizable]="getColumnTableColumn('observacao')"
-                              (resizing)="resizingColumn($event)"
-                              dndDropzone
-                              (dndDrop)="onDrop(getColumnTableColumn('observacao'), $event.data)"
-                              [dndDraggable]="getColumnTableColumn('observacao')"
-                              [dndEffectAllowed]="'move'"
-                              [dndDragoverClass]="'table-column-drag-over'"
-                              [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
-                              [dndDisableDragIf]="dndDisable(getColumnTableColumn('observacao'))"
-                              [dndDisableDropIf]="dndDisable(getColumnTableColumn('observacao'))">
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('observacao').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('observacao')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('observacao'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('observacao')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('observacao'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('observacao'))">
                         {{getColumnTableColumn('observacao').headerLabel}}
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile observacao' data-label="{{getColumnTableColumn('observacao').dataLabel}}">
@@ -358,6 +369,8 @@
 
                 <ng-container matColumnDef="vinculacoesEtiquetas">
                     <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('vinculacoesEtiquetas').definitions.sortable === false"
                         (columnChageWidth)="columnChageWidth($event)"
                         [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetas')"
                         (resizing)="resizingColumn($event)"
@@ -380,13 +393,15 @@
                                     (create)="doVinculacaoEtiquetaCreate({tarefa: tarefa, etiqueta: $event, operacaoId: cdkUtils.makeId()})"
                                     (delete)="doVinculacaoEtiquetaDelete({vinculacaoEtiquetaId: $event.id, tarefaId: tarefa.id})"
                                     (edit)="doVinculacaoEtiquetaEdit({
-                                vinculacaoEtiqueta: {id: $event.id},
-                                changes: {conteudo: $event.conteudo, privada: $event.privada}
-                            })"
+                                        vinculacaoEtiqueta: {id: $event.id},
+                                        changes: {conteudo: $event.conteudo, privada: $event.privada}
+                                    })"
                                     (addEtiqueta)="doAddEtiqueta({tarefa: tarefa, etiqueta: $event})"
                                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                                     [habilitarOpcaoBtnAddEtiqueta]="true"
-                                    [placeholder]="'Adicionar Etiquetas'">
+                                    (pendencies)="doPendencies({vinculacaoEtiqueta: $event, tarefa: tarefa})"
+                                    [placeholder]="'Adicionar Etiquetas'"
+                                    (filter)="doFilterEtiqueta($event)">
                                 </cdk-vinculacao-etiqueta-chips>
                             </div>
                         </div>
@@ -395,6 +410,8 @@
 
                 <ng-container matColumnDef="vinculacoesEtiquetasMinutas">
                     <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('vinculacoesEtiquetasMinutas').definitions.sortable === false"
                         (columnChageWidth)="columnChageWidth($event)"
                         [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetasMinutas')"
                         (resizing)="resizingColumn($event)"
@@ -497,7 +514,7 @@
                                         <span>Ver Resposta</span>
                                     </button>
                                     <button fxLayout="row" fxLayoutAlign="start center"
-                                            *ngIf="loginService.isGranted('ROLE_COLABORADOR')"
+                                            *ngIf="loginService.isGranted('ROLE_COLABORADOR') && !vinculacaoEtiqueta.objectContext['documentoAvulsoUuid']"
                                             (click)="$event.stopPropagation();"
                                             [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger"
                                             mat-menu-item>
@@ -562,6 +579,7 @@
                 <ng-container *ngFor="let tableColumn of getTableColumnsList()" matColumnDef="{{tableColumn.id}}">
                     <th mat-header-cell
                         mat-sort-header
+                        [disabled]="tableColumn.definitions.sortable === false"
                         *matHeaderCellDef
                         [cdkTableColumnResizable]="tableColumn"
                         (columnChageWidth)="columnChageWidth($event)"
@@ -694,7 +712,10 @@
                     (completed)="onComplete($event)"
                     (completedAll)="onCompleteAll($event)"
                     (outraAbaHandler)="doAbrirOutraAba($event)"
-                    (editarObservacao)="doEditarObservacao($event)">
+                    (editarObservacao)="doEditarObservacao($event)"
+                    (pencencies)="doPendencies($event)"
+                    (filterNup)="doFilterNup($event)"
+                    (filterEtiqueta)="doFilterEtiqueta($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>

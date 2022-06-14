@@ -6,6 +6,7 @@ import {VinculacaoEtiqueta} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {ParentGenericService} from './parent-generic.service';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEtiqueta> {
@@ -28,5 +29,23 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
                     return Object.assign(new VinculacaoEtiqueta(), {...vinculacaoEtiqueta, ...response});
                 })
             );
+    }
+
+    aprovarSugestao(vinculacaoEtiqueta: VinculacaoEtiqueta, populate: any = '[]', context: any = '{}'): Observable<VinculacaoEtiqueta> {
+        const params = {};
+        params['populate'] = populate;
+        params['context'] = context;
+
+        return this.http.patch(
+            `${environment.api_url}administrativo/vinculacao_etiqueta/${vinculacaoEtiqueta.id}/aprovar_sugestao` + environment.xdebug,
+            JSON.stringify({}),
+            { params }
+        ).pipe(
+            map((response) => {
+                response = plainToClass(VinculacaoEtiqueta, response);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
+                return Object.assign(new VinculacaoEtiqueta(), {...vinculacaoEtiqueta, ...response});
+            })
+        );
     }
 }

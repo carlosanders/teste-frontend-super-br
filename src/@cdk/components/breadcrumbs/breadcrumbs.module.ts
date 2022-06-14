@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BreadcumbsComponent} from './breadcumbs.component';
 import {RouterModule} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule, MatButtonModule} from '@cdk/angular/material';
 
 @NgModule({
     declarations: [BreadcumbsComponent],
@@ -12,7 +12,8 @@ import {MatIconModule} from '@angular/material/icon';
     imports: [
         CommonModule,
         RouterModule,
-        MatIconModule
+        MatIconModule,
+        MatButtonModule
     ]
 })
 export class BreadcrumbsModule {

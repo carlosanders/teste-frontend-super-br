@@ -103,7 +103,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.usuario?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Tarefa Column -->
@@ -113,7 +113,7 @@
                         Tarefa
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.tarefa?.especieTarefa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.tarefa?.especieTarefa?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Processo Column -->
@@ -124,6 +124,16 @@
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Processo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.processo?.NUP}} </td>
+                </ng-container>
+
+                <!-- Processo Título Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('processo.titulo') > -1"
+                              matColumnDef="processo.titulo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Título
+                    </th>
+                    <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile' data-label='Título: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.processo?.titulo | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Etiquetas Column -->
@@ -153,7 +163,7 @@
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -173,7 +183,7 @@
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -193,7 +203,7 @@
                     </th>
                     <td mat-cell *matCellDef="let acompanhamento" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acompanhamento.id) > -1, 'error': getProp(deletingErrors, acompanhamento.id)}"> {{acompanhamento.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

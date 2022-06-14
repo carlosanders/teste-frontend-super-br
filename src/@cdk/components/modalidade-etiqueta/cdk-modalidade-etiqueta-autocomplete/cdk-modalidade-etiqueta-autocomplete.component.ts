@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-etiqueta-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeEtiquetaAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeEtiquetaFn(modalidadeEtiqueta): string {
-        return modalidadeEtiqueta ? modalidadeEtiqueta.valor : null;
+        return modalidadeEtiqueta ? TitleCasePipe.format(modalidadeEtiqueta.valor) : null;
     }
 }

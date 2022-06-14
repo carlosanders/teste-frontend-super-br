@@ -47,6 +47,16 @@ let routes = [
         canActivate: [AuthGuard]
     },
     {
+        path        : 'documento',
+        loadChildren: () => import('./main/apps/componente-digital/componente-digital-link.module').then(m => m.ComponenteDigitalLinkModule),
+        canActivate: [AuthGuard]
+    },
+    {
+        path        : 'acesso-negado',
+        loadChildren: () => import('./main/apps/componente-digital/componente-digital-acesso-negado/componente-digital-acesso-negado.module').then(m => m.ComponenteDigitalAcessoNegadoModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'auth',
         loadChildren: (): any => import('./main/auth/auth.module').then(m => m.AuthModule)
     },

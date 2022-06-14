@@ -58,7 +58,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="this.mode !== 'editor'">
         <input matInput placeholder="Modelo"
                formControlName="modelo"
                [matAutocomplete]="modelo.autocomplete" required
@@ -93,7 +93,7 @@
 
         <label id="minutas-rg">Selecione o mecanismo de remessa</label>
 
-        <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
+        <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical'), 'editor': (mode === 'vertical')}"
                          formControlName="mecanismoRemessa" aria-labelledby="minutas-rg"
                          required [disabled]="!!documentoAvulso.id">
             <mat-radio-button [value]="'interna'">

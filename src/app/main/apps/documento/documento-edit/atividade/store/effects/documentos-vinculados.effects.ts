@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
-
+import * as fromStore from '../';
 import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -19,6 +19,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {CriadoAnexoDocumento, RemovidoAnexoDocumento} from '../../../../store';
+import {getDocumentoId} from '../selectors';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -30,51 +32,17 @@ export class DocumentosVinculadosEffects {
      */
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
-        switchMap(action => this._documentoService.query(
-            JSON.stringify({
-                ...action.payload.filter
-            }),
-            action.payload.limit,
-            action.payload.offset,
-            JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
-                loaded: {
-                    id: 'documentoHandle',
-                    value: this.routerState.params.documentoHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-                total: response['total']
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
-        })
-    ));
-    /**
-     * Reload Documentos Vinculados
-     */
-    reloadDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.ReloadDocumentosVinculados>(DocumentosVinculadosActions.RELOAD_DOCUMENTOS_VINCULADOS),
-        map(() => {
-            this._store.dispatch(new DocumentosVinculadosActions.UnloadDocumentosVinculados({reset: false}));
-            let documentoId = null;
-
-            const routeParams = of('documentoHandle');
-            routeParams.subscribe((param) => {
-                documentoId = `eq:${this.routerState.params[param]}`;
-            });
-
+        withLatestFrom(this._store.pipe(select(getDocumentoId))),
+        mergeMap(([action, documentoId]) => {
             const params = {
                 filter: {
-                    'vinculacaoDocumentoPrincipal.documento.id': documentoId
+                    'vinculacaoDocumentoPrincipal.documento.id': `eq:${documentoId}`
                 },
-                limit: 10,
-                offset: 0,
-                sort: {id: 'DESC'},
+                limit: action.payload.limit,
+                offset: action.payload.offset,
+                sort: {
+                    id: 'DESC'
+                },
                 populate: [
                     'tipoDocumento',
                     'vinculacaoDocumentoPrincipal',
@@ -85,9 +53,61 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
-            this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
+
+            return this._documentoService.query(
+                JSON.stringify({
+                    ...params.filter
+                }),
+                params.limit,
+                params.offset,
+                JSON.stringify(params.sort),
+                JSON.stringify(params.populate),
+                JSON.stringify(params.context)
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
+                        loaded: {
+                            id: 'documentoHandle',
+                            value: this.routerState.params.documentoHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                        total: response['total']
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
+                })
+            )
+        }),
+    ));
+    getDocumentosVinculadosSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.GetDocumentosVinculadosSuccess>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS_SUCCESS),
+        withLatestFrom(this._store.select(fromStore.getDocumentosVinculadosPagination), this._store.select(fromStore.getDocumentosVinculadosId)),
+        tap(([action, pagination, documentosIds]) => {
+            if (action.payload.total > documentosIds.length) {
+                this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados({
+                    limit: pagination.limit,
+                    offset: pagination.offset + pagination.limit
+                }));
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Reload Documentos Vinculados
+     */
+    reloadDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.ReloadDocumentosVinculados>(DocumentosVinculadosActions.RELOAD_DOCUMENTOS_VINCULADOS),
+        map(() => {
+            this._store.dispatch(new DocumentosVinculadosActions.UnloadDocumentosVinculados({reset: false}));
+            this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados({
+                limit: 10,
+                offset: 0
+            }));
         })
     ), {dispatch: false});
     /**
@@ -118,6 +138,7 @@ export class DocumentosVinculadosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
+                this._store.dispatch(new RemovidoAnexoDocumento(action.payload.documentoId));
                 return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
             }),
             catchError((err) => {
@@ -145,11 +166,11 @@ export class DocumentosVinculadosEffects {
     clickedDocumentoVinculado: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
-            let sidebar = 'editar/anexos';
-            if (action.payload.vinculacaoDocumentoPrincipal) {
+            let sidebar = 'editar/dados-basicos';
+            if (action.payload.estaVinculada) {
                 sidebar = 'editar/dados-basicos';
             }
-            this._componenteDigitalService.trocandoDocumento.next(true);
+            // this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
                         sidebar: sidebar
@@ -157,7 +178,9 @@ export class DocumentosVinculadosEffects {
                 }],
                 {
                     relativeTo: this._activatedRoute.parent
-                }).then();
+                }).then(() => {
+                    console.log('Aqui');
+            });
         })
     ), {dispatch: false});
     /**
@@ -284,6 +307,19 @@ export class DocumentosVinculadosEffects {
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
         tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+                this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados da minuta atualmente aberta
+     */
+    saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
             if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }

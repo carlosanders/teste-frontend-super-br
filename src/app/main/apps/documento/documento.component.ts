@@ -30,13 +30,13 @@ import {
     GetDocumentos as GetDocumentosAtividade
 } from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
-import {UnloadComponenteDigital} from './componente-digital/store';
+import {getIsLoading as getIsLoadingComponenteDigital, getIsSaving as getIsSavingComponenteDigital, UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
 import {CdkUtils} from '@cdk/utils';
-import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTabGroup} from '@angular/material/tabs';
 import {RouterHistoryService} from '../../../../@cdk/utils/router-history.service';
+import {ComponenteDigitalService} from '../../../../@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'documento',
@@ -51,6 +51,11 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
     documento$: Observable<Documento>;
     loading$: Observable<boolean>;
+    loading: boolean = false;
+    loadingComponenteDigital$: Observable<boolean>;
+    loadingComponenteDigital: boolean = false;
+    savingComponenteDigital$: Observable<boolean>;
+    savingComponenteDigital: boolean = false;
     currentComponenteDigital$: Observable<ComponenteDigital>;
     screen$: Observable<any>;
 
@@ -79,6 +84,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
@@ -88,6 +94,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.loadingComponenteDigital$ = this._store.pipe(select(getIsLoadingComponenteDigital));
+        this.savingComponenteDigital$ = this._store.pipe(select(getIsSavingComponenteDigital));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._store.pipe(
             select(getRouterState),
@@ -106,7 +115,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
+        // this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
+        this._backUrl = this._router.url.split('/documento/')[0];
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
 
@@ -164,10 +174,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
-        if (this.deveRecarregarJuntadas) {
-            this.reloadJuntadas();
-            return;
-        }
         if (this.routerState.params['stepHandle']) {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
@@ -199,13 +205,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     back(): void {
         // eslint-disable-next-line max-len
-        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         let url = this.routerState.url.split('/documento/')[0];
-        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
-        && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
-        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1;
-
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
         }
@@ -213,8 +214,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.getDocumentosAtividades = true;
         } else if (url.indexOf('/oficios') !== -1) {
             this.getDocumentosAvulsos = true;
-        } else if (url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1) {
-            this.getDocumentosProcesso = true;
         }
 
         if (this.routerState.queryParams.pesquisa) {
@@ -226,7 +225,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public destroyEditor(): void {
-        /*const editor = window['CKEDITOR'];
+        const editor = window['CKEDITOR'];
         if (editor && editor.instances) {
             for (const editorInstance in editor.instances) {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
@@ -234,41 +233,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                     editor.instances[editorInstance].destroy();
                 }
             }
-        }*/
-    }
-
-    reloadJuntadas(): void {
-        this._store.dispatch(new UnloadJuntadas({reset: true}));
-
-        let processoFilter = null;
-
-        const routeParams = of('processoHandle');
-        routeParams.subscribe((param) => {
-            processoFilter = `eq:${this.routerState.params[param]}`;
-        });
-
-        const params = {
-            filter: {
-                'volume.processo.id': processoFilter,
-                'vinculada': 'eq:0'
-            },
-            listFilter: {},
-            limit: 10,
-            offset: 0,
-            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
-            populate: [
-                'volume',
-                'documento',
-                'documento.origemDados',
-                'documento.tipoDocumento',
-                'documento.componentesDigitais',
-                'documento.criadoPor',
-                'documento.setorOrigem',
-                'documento.setorOrigem.unidade'
-            ]
-        };
-
-        this._store.dispatch(new GetJuntadas(params));
+        }
     }
 
     /**
@@ -403,7 +368,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 let primary: string;
                 primary = 'componente-digital/' + this.currentComponenteDigital.id;
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
-                if (this.documento.vinculacaoDocumentoPrincipal) {
+                if (this.documento.estaVinculada) {
                     sidebar = 'editar/dados-basicos';
                 }
                 if (!!this.documento.documentoAvulsoRemessa) {
@@ -419,17 +384,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     podeNavegarDoEditor(): Observable<boolean> {
         if (this.hasChanges()) {
-            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
-                data: {
-                    title: 'Confirmação',
-                    confirmLabel: 'Sim',
-                    cancelLabel: 'Não',
-                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
-                },
-                disableClose: false
-            });
-
-            return confirmDialogRef.afterClosed();
+            this._componenteDigitalService.doEditorSave.next(true);
+            return this._componenteDigitalService.completedEditorSave.asObservable();
         } else {
             return of(true);
         }

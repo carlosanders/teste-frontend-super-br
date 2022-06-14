@@ -103,7 +103,7 @@
                         Contexto
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Contexto: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.contexto}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.contexto | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Trigger Column -->
@@ -112,7 +112,7 @@
                         Trigger
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Trigger: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.trigger}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.trigger | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -121,7 +121,7 @@
                         Etiqueta
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.etiqueta?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.etiqueta?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -149,7 +149,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -167,7 +167,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

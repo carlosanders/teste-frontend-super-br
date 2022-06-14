@@ -8,12 +8,6 @@
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
-                    matTooltip="Gerir Anexos" routerLink="anexos"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">attachment</mat-icon>
-            </button>
-
             <button mat-icon-button aria-label="inteligência jurídica"
                     matTooltip="Inteligência Jurídica" routerLink="inteligencia"
                     [routerLinkActive]="['active', 'accent']">

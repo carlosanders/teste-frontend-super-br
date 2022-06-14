@@ -257,7 +257,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     onClickedDocumentoVinculado(documento): void {
-        if (this.documento.vinculacaoDocumentoPrincipal) {
+        if (this.documento.estaVinculada) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
         this.podeNavegarDoEditor().subscribe((result) => {

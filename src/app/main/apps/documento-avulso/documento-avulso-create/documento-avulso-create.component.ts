@@ -137,12 +137,6 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
             filter(tarefa => !!tarefa)
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
-
-            if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
-                this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'eq:ADMINISTRATIVO'};
-            } else {
-                this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
-            }
         });
 
         this.documentoAvulso = new DocumentoAvulso();

@@ -9,9 +9,9 @@ import {Chat, ComponenteDigital} from '@cdk/models';
 import {chat as chatSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {ChatService} from "@cdk/services/chat.service";
-import {of} from "rxjs";
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {ChatService} from '@cdk/services/chat.service';
+import {of} from 'rxjs';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
 export class ChatEffects {
@@ -167,11 +167,10 @@ export class ChatEffects {
         return this._actions
             .pipe(
                 ofType<ChatActions.SetChatActiveCard>(ChatActions.SET_CHAT_ACTIVE_CARD),
-                switchMap((action) => {
-                    this._store.dispatch(new ChatMensagemActions.ChatMensagensLimparErros());
-                    this._store.dispatch(new ChatParticipanteActions.ChatParticipanteLimparErros());
-                    return of(null);
-                })
+                mergeMap((action) => [
+                    new ChatMensagemActions.ChatMensagensLimparErros(),
+                    new ChatParticipanteActions.ChatParticipanteLimparErros()
+                ])
             );
     });
 

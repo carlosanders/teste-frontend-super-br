@@ -36,7 +36,8 @@ export class DocumentosEffects {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActions.GetDocumentosSuccess({
@@ -80,7 +81,8 @@ export class DocumentosEffects {
                     'documentoAvulsoRemessa.documentoResposta',
                     'componentesDigitais',
                     'juntadaAtual'
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentosActions.GetDocumentos(params));
         })

@@ -4,7 +4,7 @@ processo-view-main-sidebar {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    overflow-y: hidden;
+    overflow-y: auto;
     word-break: break-word;
 
     .badge {

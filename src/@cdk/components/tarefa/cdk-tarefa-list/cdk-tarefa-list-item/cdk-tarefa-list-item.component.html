@@ -27,6 +27,9 @@
                 <mat-icon class="s-18" (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
                 </mat-icon>
+                <mat-icon class="s-12 mt-4" [matTooltip]="'Filtrar por NUP'" (click)="doFilterNup(tarefa?.processo); $event.stopPropagation();">
+                    search
+                </mat-icon>
                 <mat-icon class="s-12 mt-4" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
             </div>
@@ -83,7 +86,7 @@
                 {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
             </div>
 
-            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id))">
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id)) &&  displayedCampos.indexOf('usuarioResponsavel.nome') > -1">
                 {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
             </div>
 
@@ -114,9 +117,11 @@
                     (delete)="doVinculacaoEtiquetaDelete($event)"
                     (edit)="doVinculacaoEtiquetaEdit($event)"
                     (addEtiqueta)="doAddEtiqueta($event)"
+                    (pendencies)="doPendencies($event)"
                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                     [errorsAddEtiqueta]="errorsAddEtiqueta"
-                    [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta">
+                    [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta"
+                    (filter)="doFilterEtiqueta($event)">
                 </cdk-vinculacao-etiqueta-chips>
             </div>
 
@@ -208,7 +213,7 @@
                             <span>Ver Resposta</span>
                         </button>
                         <button fxLayout="row" fxLayoutAlign="start center"
-                                *ngIf="_loginService.isGranted('ROLE_COLABORADOR')"
+                                *ngIf="_loginService.isGranted('ROLE_COLABORADOR') && !vinculacaoEtiqueta.objectContext['documentoAvulsoUuid']"
                                 (click)="$event.stopPropagation();"
                                 [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger"
                                 mat-menu-item>
@@ -328,7 +333,7 @@
             <mat-icon class="secondary-text">edit</mat-icon>
         </button>
 
-        <button *ngIf="!togglingUrgente && !deleting && ! ciencia && ! pluginLoading && ! undeleting && ! assinando && !tarefa.apagadoEm" mat-icon-button
+        <button *ngIf="(!togglingUrgente && !deleting && ! ciencia && ! pluginLoading && ! undeleting && ! assinando && !tarefa.apagadoEm) &&  displayedCampos.indexOf('urgente') > -1" mat-icon-button
                 (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Alterar urgência" fxHide.xs matTooltip="Alterar urgência">
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>

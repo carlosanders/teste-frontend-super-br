@@ -33,7 +33,7 @@ export class EnderecoListEffect {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify([
-                'municipio', 'municipio.estado', 'pais', 'pessoa'
+                'municipio', 'municipio.estado', 'pais', 'pessoa', 'origemDados'
             ]))),
         mergeMap(response => [
             new AddData<Endereco>({data: response['entities'], schema: enderecoSchema}),

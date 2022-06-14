@@ -1,0 +1,171 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-slide-toggle formControlName="mandatory" class="mr-16 mb-16 mt-24 flex-0-0-auto" *ngIf="mode === 'create' || mode === 'admin'">
+        Obrigatório
+    </mat-slide-toggle>
+
+    <mat-form-field>
+        <input matInput placeholder="Módulo"
+               formControlName="modulo"
+               (blur)="checkModulo()"
+               [matAutocomplete]="moduloAutocomplete.autocomplete">
+        <cdk-modulo-autocomplete
+            #moduloAutocomplete="moduloAutocomplete"
+            [control]="form.get('modulo')"
+            [pagination]="moduloPagination">
+        </cdk-modulo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModuloGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modulo').hasError('formError')">
+            {{form.get('modulo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+                name="nome"
+                formControlName="nome"
+                upperCase="true"
+                pattern="[a-z0-9\._]+[a-z0-9\._]+"/>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <input matInput #descricao
+               name="descricao"
+               formControlName="descricao"
+               upperCase="true"/>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" *ngIf="mode === 'create' || mode === 'admin'">
+        <mat-label>Tipo</mat-label>
+        <mat-select
+            formControlName="dataType"
+        >
+            <div *ngFor="let dataType of dataTypes">
+                <mat-option  [value]="dataType">{{dataType | uppercase}}</mat-option>
+            </div>
+        </mat-select>
+        <mat-error *ngIf="form.get('dataType').hasError('formError')">
+            {{ form.get("dataType").errors.formError }}
+        </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="form.get('dataType')?.value === 'json' && (mode === 'create' || mode === 'admin')">
+        <mat-slide-toggle
+                [(ngModel)]="inheritable"
+                [ngModelOptions]="{standalone: true}"
+                class="mr-16 mb-16 mt-24 flex-0-0-auto"
+                (change)="isInheritable($event)">
+            Utilizar schema de outra configuração cadastrada?
+        </mat-slide-toggle>
+        <div class="pesquisa">
+            <mat-form-field *ngIf="inheritable">
+                <input matInput placeholder="Configuração"
+                       formControlName="paradigma"
+                       (blur)="checkParadigma()"
+                       [matAutocomplete]="configModuleAutocompleteComponent.autocomplete">
+                <cdk-config-modulo-autocomplete
+                    #configModuleAutocompleteComponent="configModuleAutocomplete"
+                    [control]="form.get('paradigma')"
+                    [pagination]="configModulePagination">
+                </cdk-config-modulo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showParadigmaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('paradigma').hasError('formError')">
+                    {{form.get('paradigma').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngIf="!inheritable">
+            <div style="height: 500px" >
+                <ngx-monaco-editor
+                        formControlName="dataSchema"
+                        [options]="mergeOptions({ language: 'json' })"
+                        (init)="editorInit($event)">
+                </ngx-monaco-editor>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="form.get('dataType')?.value === 'json' && (mode === 'edit')">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab label="Valor">
+                <div style="height: 500px" >
+                    <ngx-monaco-editor
+                            formControlName="dataValue"
+                            [options]="mergeOptions({ language: 'json' })"
+                            (init)="editorInit($event)">
+                    </ngx-monaco-editor>
+                </div>
+            </mat-tab>
+            <mat-tab label="Schema">
+                <div style="height: 500px" >
+                    <ngx-monaco-editor
+                            [(ngModel)]="dataSchemaEdit"
+                            [ngModelOptions]="{standalone: true}"
+                            [options]="mergeOptions({ language: 'json' })"
+                            (init)="editorReadOnlyInit($event)">
+                    </ngx-monaco-editor>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    <mat-form-field
+            *ngIf="(form.get('dataType')?.value === 'float' ||
+                    form.get('dataType')?.value === 'int' ||
+                    form.get('dataType')?.value === 'string') && (mode === 'edit')">
+        <mat-label>Valor</mat-label>
+        <input matInput #dataValue
+               name="dataValue"
+               formControlName="dataValue"
+               upperCase="true"/>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="form.get('dataType')?.value === 'datetime' && (mode === 'edit')">
+        <mat-label>Valor</mat-label>
+        <input matInput formControlName="dataValue" [matDatetimepicker]="dataValue">
+        <mat-datetimepicker-toggle matSuffix [for]="dataValue"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #dataValue type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+    </mat-form-field>
+
+    <mat-slide-toggle
+            formControlName="dataValue"
+            class="mr-16 mb-16 mt-24 flex-0-0-auto"
+            *ngIf="form.get('dataType')?.value === 'bool' && (mode === 'edit')">
+        Valor
+    </mat-slide-toggle>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid && form['controls']?.dataSchema?.valid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
+
+<cdk-config-modulo-gridsearch
+        *ngIf="activeCard === 'config-modulo-gridsearch'"
+        [pagination]="configModulePagination"
+        (selected)="selectParadigma($event)"
+        (cancel)="cancel()">
+</cdk-config-modulo-gridsearch>
+
+<cdk-modulo-gridsearch
+        *ngIf="activeCard === 'modulo-gridsearch'"
+        [pagination]="moduloPagination"
+        (selected)="selectModulo($event)"
+        (cancel)="cancel()">
+</cdk-modulo-gridsearch>

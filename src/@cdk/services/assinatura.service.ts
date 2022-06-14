@@ -13,8 +13,6 @@ import {CdkConfigService} from "./config.service";
 @Injectable()
 export class AssinaturaService extends ParentGenericService<Assinatura> {
 
-    config: any;
-
     constructor(
         protected modelService: ModelService,
         private _loginService: LoginService,
@@ -22,10 +20,6 @@ export class AssinaturaService extends ParentGenericService<Assinatura> {
         private cdkConfigService: CdkConfigService,
     ) {
         super(modelService, 'administrativo/assinatura', Assinatura);
-        this._loginService.getConfig().
-            subscribe(cfg => {
-                this.config = cfg;
-            });
     }
 
     save(t: Assinatura, context: any = '{}', populate: any = '[]'): Observable<Assinatura> {
@@ -63,11 +57,10 @@ export class AssinaturaService extends ParentGenericService<Assinatura> {
     }
 
     geraUrlRedirect() {
-
-        return this.config.govBR.revalida_oauth_url+'/authorize?response_type=code'
-            +'&client_id='+this.config.govBR.revalida_client_id
+        return this.cdkConfigService.govBR.revalida_oauth_url+'/authorize?response_type=code'
+            +'&client_id='+this.cdkConfigService.govBR.revalida_client_id
             +'&scope=password-validation'
-            +'&redirect_uri='+this.config.govBR?.revalida_redirect_uri
+            +'&redirect_uri='+this.cdkConfigService.govBR?.revalida_redirect_uri
             +'&state='+this.generateState();
     }
 

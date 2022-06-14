@@ -9,12 +9,12 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {VinculacaoProcesso} from '@cdk/models';
+import {Processo, VinculacaoProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -36,6 +36,7 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    currentProcessoId: number;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -60,6 +61,7 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.currentProcessoId = this.routerState.params['processoHandle'] || null;
         });
     }
 
@@ -79,15 +81,8 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
     reload(params): void {
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-            },
-            gridFilter: {
-                ...params.gridFilter
-            },
+            processoId: this.routerState.params['processoHandle'],
             sort: params.sort,
-            limit: params.limit,
-            offset: params.offset,
             populate: this.pagination.populate
         }));
     }
@@ -95,13 +90,8 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
     excluded(params): void {
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-                ...params.gridFilter
-            },
+            processoId: this.routerState.params['processoHandle'],
             sort: params.sort,
-            limit: params.limit,
-            offset: params.offset,
             populate: this.pagination.populate,
             context: params.context
         }));
@@ -129,4 +119,13 @@ export class VinculacaoProcessoListComponent implements OnInit, OnDestroy {
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
+    visualizarProcesso(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + processo.id + chaveAcesso + '/visualizar']).then();
+    }
+
+    visualizarProcessoNovaAba(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        window.open('apps/processo/' + processo.id + chaveAcesso + '/visualizar', '_blank');
+    }
 }

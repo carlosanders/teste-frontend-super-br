@@ -21,6 +21,16 @@ export const getDocumentosIds: any = createSelector(
     (state: DocumentosState) => state.documentosId
 );
 
+export const getDocumentosLoading: any = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.loading
+);
+
+export const getDocumentosPagination: any = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.pagination
+);
+
 export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosIds,

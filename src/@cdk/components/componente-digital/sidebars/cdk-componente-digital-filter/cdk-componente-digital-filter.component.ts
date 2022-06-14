@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -10,9 +10,11 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Subject} from 'rxjs';
+import {of, Subject} from 'rxjs';
 import {CdkConfirmDialogComponent} from '../../../confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Pagination} from "../../../../models";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 
 @Component({
     selector: 'cdk-componente-digital-filter',
@@ -35,6 +37,12 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     @Input()
     isColaborador = false;
 
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
     filterCriadoEm = [];
     filterJuntadoEm = [];
 
@@ -47,6 +55,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
         private _matDialog: MatDialog,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.form = this._formBuilder.group({
             conteudo: [null],
@@ -63,6 +72,8 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             tipoDocumento: [null],
             juntadoPor: [null],
             juntadoEm: [null],
+            unidade: [null],
+            setor: [null]
         });
     }
 
@@ -72,6 +83,26 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         } else {
             this.form.get('conteudo').disable();
         }
+
+        this.form.get('setor').disable();
+
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value && typeof value === 'object') {
+                    this.form.get('setor').enable();
+                    this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value?.id}`;
+                    this.setorPagination.filter['parent'] = 'isNotNull';
+                } else {
+                    this.form.get('setor').setValue(null);
+                    this.form.get('setor').disable();
+                }
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            }
+            )
+        ).subscribe();
     }
 
     emite(): void {
@@ -149,6 +180,14 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             } else {
                 delete andXFilter['editavel'];
             }
+        }
+
+        if (this.form.get('unidade').value) {
+            andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
+        }
+
+        if (this.form.get('setor').value) {
+            andXFilter.push({'documento.setorOrigem.id': `eq:${this.form.get('setor').value.id}`});
         }
 
         const request = {

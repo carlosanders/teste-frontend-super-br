@@ -84,7 +84,8 @@ export class DocumentoAvulsoResponderEffect {
                 'documentoAvulsoRemessa.documentoResposta',
                 'componentesDigitais',
                 'juntadaAtual'
-            ]))),
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true}))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentoAvulsoReponderActions.GetDocumentosSuccess({
@@ -330,7 +331,8 @@ export class DocumentoAvulsoResponderEffect {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentoAvulsoReponderActions.GetDocumentosComplementaresSuccess({
@@ -374,7 +376,8 @@ export class DocumentoAvulsoResponderEffect {
                     'documentoAvulsoRemessa.documentoResposta',
                     'componentesDigitais',
                     'juntadaAtual'
-                ]
+                ],
+                context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
             this._store.dispatch(new DocumentoAvulsoReponderActions.GetDocumentosComplementares(params));
         })

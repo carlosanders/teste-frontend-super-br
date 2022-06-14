@@ -1,9 +1,10 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter, Input,
     OnChanges,
-    OnInit, Output,
-    SimpleChanges,
+    OnInit, Output, QueryList,
+    SimpleChanges, ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '../../animations';
@@ -14,7 +15,10 @@ import {TableDefinitionsService} from './table-definitions.service';
 import {CdkUsuarioGridColumns} from '../usuario/cdk-usuario-grid/cdk-usuario-grid.columns';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {TableDefinitions} from './table-definitions';
-import {ColumnWidthChangeEvent} from '../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive';
+import {
+    CdkTableColumnResizableDirective,
+    ColumnWidthChangeEvent
+} from '../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive';
 import {of, Subscription} from 'rxjs';
 import {FormControl} from '@angular/forms';
 
@@ -27,7 +31,7 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export abstract class CdkTableGridComponent implements OnInit, OnChanges{
+export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterViewInit{
 
     @Input() displayedColumns: string[] = [];
 
@@ -45,11 +49,14 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
     @Input() ordableColumns: string[] = ['!allTableColumns'];
 
     @Output() columnsDefinitionsChange: EventEmitter<TableColumn[]> = new EventEmitter<TableColumn[]>();
+    @Output() resetTableDefinitions: EventEmitter<void> = new EventEmitter<void>();
+    @ViewChildren(CdkTableColumnResizableDirective, {read: CdkTableColumnResizableDirective}) cdkTableColumnsResizableList: QueryList<CdkTableColumnResizableDirective>;
 
     protected _tableColumns: TableColumn[] = []
     protected _tableColumnsOriginal: TableColumn[] = [];
     protected _resizing: boolean = false;
     protected _columnsSubscriber: Subscription;
+
     columns = new FormControl();
 
     protected constructor(
@@ -81,6 +88,9 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
         }
     }
 
+    ngAfterViewInit(): void {
+    }
+
     ngOnInit(): void {
         if (this._columnsSubscriber) {
             this._columnsSubscriber.unsubscribe();
@@ -89,15 +99,49 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values: string[]) => {
-                this.getAllTableColumns().forEach((tableColumn: TableColumn) => {
-                    tableColumn.definitions.selected = values
-                        .includes(tableColumn.id) || (tableColumn.definitions.selected && (tableColumn.definitions.fixed || tableColumn.definitions.slave));
-                });
+                const columns = this.getDisplayColumns();
+                const tableWidth = (this.cdkTableColumnsResizableList.toArray() || [])[0]?.getTableWidth();
+
+                this.getAllTableColumns()
+                    .forEach((tableColumn: TableColumn) => tableColumn.definitions.selected = (
+                            values.includes(tableColumn.id)
+                            || (tableColumn.definitions.selected && tableColumn.definitions.fixed)
+                        )
+                    );
+
                 this._columnsDefinitionsChange(this._tableColumns);
-                this._changeDetectorRef.markForCheck();
-                return of([]);
+
+                return of({
+                    tableWidth: tableWidth,
+                    columns: columns,
+                    values: values
+                });
             })
-        ).subscribe();
+        ).subscribe(({tableWidth, columns, values}) => {
+            if (tableWidth) {
+                this.getDisplayColumns()
+                    .filter((id) => !columns.includes(id))
+                    .forEach((id) => {
+                        setTimeout(() => {
+                            const column = (this.cdkTableColumnsResizableList.toArray() || [])
+                                .find((col) => col.tableColumn.id === id);
+
+                            if (column) {
+                                column.tableColumn.definitions.width = 0;
+                                this._processPreventOverflow({
+                                    ...column.resizeColumnTo(column.tableColumn.definitions.width),
+                                    tableOldWidth: tableWidth
+                                });
+                                this._columnsDefinitionsChange(this._tableColumns);
+                                this._changeDetectorRef.markForCheck();
+                            }
+                        });
+                    });
+            }
+
+            this._changeDetectorRef.markForCheck();
+        });
+
         this._processResizableDefinitions();
         this._processOrdableDefinitions();
         this._processDisplayableColumns();
@@ -124,11 +168,51 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
                     }
                     this._processResizableDefinitions();
                     this._processOrdableDefinitions();
-                    //no processo displayable columns...
                     this._processTableColumns();
                     this._processColumnsOrder();
                     this._changeDetectorRef.markForCheck();
                 });
+        }
+    }
+
+    protected _processTableDefinitionsVersionChange(tableDefinitions: TableDefinitions): void {
+        //processes version change...
+    }
+
+    protected _processPreventOverflow(event: ColumnWidthChangeEvent): void {
+        if (event.tableOldWidth < event.tableNewWitdh) {
+            let widthDiff = event.tableNewWitdh - event.tableOldWidth;
+            let columns = (this.cdkTableColumnsResizableList?.toArray() ?? []);
+            const index = columns.findIndex((col) => col.tableColumn.id === event.tableColumn.id);
+            let breakExecution = false;
+
+            [
+                // fordward
+                ...columns
+                .slice(index+1) //not me
+                .filter((col) => col.tableColumn.definitions.resizable && col.tableColumn.definitions.width > 0),
+                //backward
+                ...columns
+                    .slice(0, index)
+                    .filter((col) => col.tableColumn.definitions.resizable && col.tableColumn.definitions.width > 0)
+                    .reverse()
+            ]
+                .forEach((col) => {
+                    col.tableColumn.definitions.width = widthDiff > col.tableColumn.definitions.width
+                        ? 0 : col.tableColumn.definitions.width - widthDiff;
+
+                    const data = col.resizeColumnTo(col.tableColumn.definitions.width);
+                    if (data.tableOldWidth > data.tableNewWitdh) {
+                        breakExecution = true;
+                        return;
+                    }
+                });
+
+            if (!breakExecution) {
+                event.tableColumn.definitions.width = event.newWidth - widthDiff;
+                event.scope.resizeColumnTo(event.tableColumn.definitions.width);
+            }
+            this._changeDetectorRef.markForCheck();
         }
     }
 
@@ -181,10 +265,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
         });
     }
 
-    private _processTableDefinitionsVersionChange(tableDefinitions: TableDefinitions): void {
-        //processes version change...
-    }
-
     private _processDisplayableColumns(): void {
         this.displayedColumns.forEach((id: string, toIndex: number) => {
             let fromIndex = this._tableColumns.findIndex((tableColumn: TableColumn) => tableColumn.id == id);
@@ -221,13 +301,17 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
 
     getDisplayableTableColumns(): TableColumn[] {
         return this.getAllTableColumns()
-            .filter((column: TableColumn) => !column.definitions.slave && !column.definitions.fixed);
+            .filter((column: TableColumn) => !column.definitions.fixed);
     }
 
     getDisplayColumns(): string[] {
-        return this.getAllTableColumns()
-            .filter((column: TableColumn) => column.definitions.selected)
+        return this.getTableSelectedColumns()
             .map((tableColumn: TableColumn) => tableColumn.id);
+    }
+
+    getTableSelectedColumns(): TableColumn[] {
+        return this.getAllTableColumns()
+            .filter((column: TableColumn) => column.definitions.selected);
     }
 
     getTableColumnsList(): TableColumn[] {
@@ -249,8 +333,11 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
         this._columnsDefinitionsChange(this._tableColumns);
     }
 
-    resizingColumn(resizing: boolean): void {
-        this._resizing = resizing;
+    resizingColumn(event: ColumnWidthChangeEvent|null): void {
+        this._resizing = event !== null;
+        if (this._resizing) {
+            this._processPreventOverflow(event);
+        }
     }
 
     onDrop(tableColumnTarget: TableColumn, tableColumnOrigin: TableColumn): void {
@@ -283,5 +370,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges{
         this._processColumnsOrder();
         this._columnsDefinitionsChange(this._tableColumns);
         this._changeDetectorRef.markForCheck();
+        this.resetTableDefinitions.emit();
     }
 }

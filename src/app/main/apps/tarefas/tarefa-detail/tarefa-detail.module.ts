@@ -37,6 +37,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {
     CdkComponenteDigitalCardListModule
 } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {
+    CdkVinculacaoEtiquetaAcoesDialogModule
+} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.module';
+import {AcaoService} from '@cdk/services/acao.service';
 
 const routes: Routes = [
     {
@@ -133,7 +137,8 @@ routes[0].children.push({
         CdkTipoDocumentoAutocompleteModule,
         MatAutocompleteModule,
         MatProgressBarModule,
-        CdkComponenteDigitalCardListModule
+        CdkComponenteDigitalCardListModule,
+        CdkVinculacaoEtiquetaAcoesDialogModule
     ],
     providers: [
         AcompanhamentoService,
@@ -143,7 +148,8 @@ routes[0].children.push({
         fromGuards.ResolveGuard,
         ModalidadeEtiquetaService,
         EtiquetaService,
-        StatusBarramentoService
+        StatusBarramentoService,
+        AcaoService
     ]
 })
 export class TarefaDetailModule {

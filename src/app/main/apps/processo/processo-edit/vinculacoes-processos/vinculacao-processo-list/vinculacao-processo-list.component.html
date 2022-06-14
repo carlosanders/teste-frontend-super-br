@@ -1,15 +1,18 @@
-<cdk-vinculacao-processo-grid
-        [loading]="(loading$ | async)"
-        [vinculacoesProcessos]="(vinculacoesProcessos$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'edit', 'delete', 'showDeleted']"
-        (reload)="reload($event)"
-        (excluded)="excluded($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
-</cdk-vinculacao-processo-grid>
+<cdk-vinculacao-processo-tree-list
+    [vinculacaoProcesso]="(vinculacoesProcessos$ | async)"
+    [isLoading]="(loading$ | async)"
+    [actions]="['create', 'select', 'view', 'edit', 'delete', 'showDeleted']"
+    [disableExpand]="true"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [currentProcessoId]="currentProcessoId"
+    (reload)="reload($event)"
+    (excluded)="excluded($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (delete)="delete($event)"
+    (deleteBloco)="deleteBloco($event)"
+    (visualizarProcesso)="visualizarProcesso($event)"
+    (visualizarProcessoNovaAba)="visualizarProcessoNovaAba($event)">
+</cdk-vinculacao-processo-tree-list>

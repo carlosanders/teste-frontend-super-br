@@ -1,0 +1,9 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displaySetorFn">
+    <mat-option *ngFor="let tipoDossie of tipoDossieList"
+                [value]="tipoDossie">
+        <div *ngIf="tipoDossie">{{ tipoDossie.nome }}</div>
+    </mat-option>
+    <mat-option *ngIf="tipoDossieListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -37,8 +37,8 @@ export class JuntadaEffects {
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.tipoDocumento',
-                'documento.vinculacaoDocumentoPrincipal'
-            ])
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true})
         ).pipe(
             mergeMap(response => [
                 new AddData<Juntada>({data: [response], schema: juntadaSchema}),
@@ -70,9 +70,9 @@ export class JuntadaEffects {
                 'documento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
-                'documento.tipoDocumento',
-                'documento.vinculacaoDocumentoPrincipal'
-            ])
+                'documento.tipoDocumento'
+            ]),
+            JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true})
         ).pipe(
             mergeMap(response => [
                 new AddData<Juntada>({data: [response], schema: juntadaSchema}),

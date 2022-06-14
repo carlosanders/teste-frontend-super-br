@@ -17,6 +17,7 @@ export interface TarefaDetailState {
     redistribuindoId: number;
     tarefaProcessoRestritoValidada: number;
     error: any;
+    showDetail: boolean;
 }
 
 export const TarefaDetailInitialState: TarefaDetailState = {
@@ -35,7 +36,8 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     cienciaId: null,
     redistribuindoId: null,
     tarefaProcessoRestritoValidada: null,
-    error: null
+    error: null,
+    showDetail: true
 };
 
 export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
@@ -258,6 +260,35 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             return {
                 ...state,
                 tarefaProcessoRestritoValidada: action.payload
+            };
+        }
+
+        case TarefaDetailActions.TOGGLE_SHOW_DETAIL: {
+            return {
+                ...state,
+                showDetail: action.payload
+            };
+        }
+
+        case TarefaDetailActions.APROVAR_SUGESTAO: {
+            return {
+                ...state,
+                saving: true
+            };
+        }
+
+        case TarefaDetailActions.APROVAR_SUGESTAO_SUCCESS: {
+            return {
+                ...state,
+                saving: false
+            };
+        }
+
+        case TarefaDetailActions.APROVAR_SUGESTAO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 

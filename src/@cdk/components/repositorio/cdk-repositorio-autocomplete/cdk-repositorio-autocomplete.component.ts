@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-repositorio-autocomplete',
@@ -97,6 +98,6 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
     }
 
     displayRepositorioFn(repositorio): string {
-        return repositorio ? repositorio.nome : null;
+        return repositorio ? TitleCasePipe.format(repositorio.nome) : null;
     }
 }

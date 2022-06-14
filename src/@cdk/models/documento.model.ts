@@ -161,6 +161,11 @@ export class Documento {
     vinculacaoDocumentoPrincipal?: VinculacaoDocumento;
 
     @Exclude({ toPlainOnly: true })
+    estaVinculada?: boolean;
+    @Exclude({ toPlainOnly: true })
+    temVinculacoes?: boolean;
+
+    @Exclude({ toPlainOnly: true })
     @Type(() => Sigilo)
     sigilos?: Sigilo[];
 
@@ -183,6 +188,7 @@ export class Documento {
         this.dataHoraProducao = null;
         this.outroNumero = null;
         this.semEfeito = false;
+        this.estaVinculada = false;
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;

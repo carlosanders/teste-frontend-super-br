@@ -611,6 +611,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 if (this.routerState.params['targetHandle'] !== 'lixeira') {
                     if (this.selectedTarefas.length > 1) {
                         const loteId = CdkUtils.makeId();
+                        this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasStart(this.selectedTarefas.map(tarefa => tarefa.id)));
                         this.selectedTarefas.forEach((tarefa) => {
                             const operacaoId = CdkUtils.makeId();
                             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
@@ -622,6 +623,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                         });
                     } else {
                         const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasStart([$event[0].data.id]));
                         this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                             tarefa: $event[0].data,
                             folder: $event[1],

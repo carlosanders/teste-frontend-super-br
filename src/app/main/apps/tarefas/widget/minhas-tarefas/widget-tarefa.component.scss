@@ -1,0 +1,62 @@
+@import "@cdk/scss/cdk";
+
+widget-tarefa {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+
+    .mat-card.scrollable-content {
+        height: 100%;
+        width: 100%;
+        box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        > .mat-card-title-group {
+            display: block;
+        }
+
+        > .mat-card-content {
+            overflow-y: auto;
+        }
+    }
+
+    .card-tarefa {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .icone-tarefa {
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .titulo {
+        text-transform: capitalize;
+        padding-left: 8px;
+        color: #03a9f4;
+    }
+
+    .botao-link {
+        display: flex;
+        width: 300px;
+        color: #03a9f4 !important;
+    }
+
+    .count-clickable {
+        cursor: pointer;
+    }
+
+    .mensagem-aviso {
+        display: flex;
+        justify-content: center;
+        color: #03a9f4;
+        font-size: 15px;
+        padding: 40px;
+    }
+}

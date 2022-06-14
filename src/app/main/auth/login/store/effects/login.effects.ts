@@ -7,7 +7,7 @@ import * as LoginActions from '../actions/login.actions';
 import {LoginService} from '../../login.service';
 import {getConfig} from '../selectors';
 import {select, Store} from '@ngrx/store';
-import {State} from '../../../../../store';
+import {State} from 'app/store';
 
 @Injectable()
 export class LoginEffects {
@@ -19,6 +19,12 @@ export class LoginEffects {
             .pipe(
                 map((data: any) => {
                     // eslint-disable-next-line max-len
+                    const tokenPayload = this.loginService.getTokenPayload(data.token);
+
+                    if (tokenPayload?.passwordExpired) {
+                        return new LoginActions.PasswordExpired(data.token);
+                    }
+
                     if ((!this.loginService.getVersion() && data.version === config.version) || (this.loginService.getVersion() && this.loginService.getVersion() === data.version)) {
                         data.redirect = action.payload.redirect ?? true;
                         return new LoginActions.LoginSuccess(data);
@@ -209,6 +215,14 @@ export class LoginEffects {
                 const url = this.route.snapshot.queryParamMap.get('url');
                 this.router.navigateByUrl((url && url.indexOf('/apps') > -1) ? url : '/apps/painel').then();
             }
+        })
+    ), {dispatch: false});
+
+    passwordExpired: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<LoginActions.LoginProfileSuccess>(LoginActions.PASSWORD_EXPIRED),
+        tap(() => {
+            const url = this.route.snapshot.queryParamMap.get('url');
+            this.router.navigateByUrl((url && url.indexOf('/apps') > -1) ? url : '/auth/update-password').then();
         })
     ), {dispatch: false});
 

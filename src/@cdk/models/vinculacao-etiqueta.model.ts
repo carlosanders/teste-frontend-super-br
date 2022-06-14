@@ -115,6 +115,19 @@ export class VinculacaoEtiqueta {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: moment.Moment;
 
+    @Exclude({ toPlainOnly: true })
+    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
+    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    dataHoraAprovacaoSugestao?: moment.Moment;
+
+    @Exclude({ toPlainOnly: true })
+    sugestao?: boolean;
+
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuarioAprovacaoSugestao?: Usuario;
+
     @Exclude({toPlainOnly: true})
     podeAlterarConteudo?: boolean;
 

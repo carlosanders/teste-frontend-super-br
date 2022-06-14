@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{ etiqueta.nome }}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{ etiqueta.nome | titleCasePipe }}
                     </td>
                 </ng-container>
 
@@ -129,7 +129,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Privada Column -->
@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile'
                         data-label='Modalidade da Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.modalidadeEtiqueta?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.modalidadeEtiqueta?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -171,7 +171,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -190,7 +190,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -208,7 +208,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

@@ -27,6 +27,7 @@ export interface TarefasState {
     bufferingRedistribuir: number;
     bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
+    trocandoPastas: boolean;
     togglingLidaTarefaIds: number[];
     currentTarefaId: any;
     deletedTarefaIds: number[];
@@ -49,6 +50,8 @@ export interface TarefasState {
     savingObservacaoIds: number[];
     observacaoEditIds: number[];
     viewMode: string;
+    loadingAcoes: boolean;
+    acoesId: number[];
 }
 
 export const tarefasInitialState: TarefasState = {
@@ -72,6 +75,7 @@ export const tarefasInitialState: TarefasState = {
     deletingTarefaIds: [],
     undeletingTarefaIds: [],
     changingFolderTarefaIds: [],
+    trocandoPastas: false,
     togglingLidaTarefaIds: [],
     bufferingDelete: 0,
     bufferingCiencia: 0,
@@ -97,7 +101,9 @@ export const tarefasInitialState: TarefasState = {
     clearForm: false,
     savingObservacaoIds: [],
     observacaoEditIds: [],
-    viewMode: 'list'
+    viewMode: 'list',
+    loadingAcoes: false,
+    acoesId: []
 };
 
 export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
@@ -211,10 +217,11 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             };
         }
 
-        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS: {
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_START: {
             return {
                 ...state,
-                changingFolderTarefaIds: [...state.changingFolderTarefaIds, action.payload.tarefa.id]
+                trocandoPastas: true,
+                changingFolderTarefaIds: [...state.changingFolderTarefaIds, ...action.payload]
             };
         }
 
@@ -237,6 +244,13 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 changingFolderTarefaIds: state.changingFolderTarefaIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_FINISH: {
+            return {
+                ...state,
+                trocandoPastas: false
             };
         }
 
@@ -750,6 +764,53 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 viewMode: action.payload
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: true
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                acoesId: action.payload,
+                loadingAcoes: false
+            };
+        }
+
+        case TarefasActions.GET_ACOES_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                acoesId: [],
+                loadingAcoes: false,
+                error: action.payload
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: action.payload
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO_SUCCESS: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null
+            };
+        }
+
+        case TarefasActions.APROVAR_SUGESTAO_FAILED: {
+            return {
+                ...state,
+                savingVinculacaoEtiquetaId: null,
+                error: action.payload
             };
         }
 

@@ -20,10 +20,13 @@ export const COMPARAR_VERSAO_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] COMPARAR
 export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL SUCCESS';
 export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL FAILED';
 
-
 export const SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL';
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL FAILED';
+
+export const AUTO_SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL';
+export const AUTO_SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL SUCCESS';
+export const AUTO_SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL FAILED';
 
 export const REVERT_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL';
 export const REVERT_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL SUCCESS';
@@ -36,6 +39,8 @@ export const VISUALIZAR_HTML_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] V
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML';
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML SUCCESS';
 export const COMPARAR_COMPONENTE_DIGITAL_COM_HTML_FAILED = '[COMPONENTE DIGITAL] COMPARAR COMPONENTE DIGITAL COM HTML FAILED';
+
+export const DELETE_ASSINATURA_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT ASSINATURA] DELETE ASSINATURA SUCCESS';
 
 /**
  * Unload ComponenteDigital
@@ -209,6 +214,36 @@ export class SaveComponenteDigitalFailed implements Action {
 }
 
 /**
+ * AutoSave ComponenteDigital
+ */
+export class AutoSaveComponenteDigital implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * AutoSave ComponenteDigital Success
+ */
+export class AutoSaveComponenteDigitalSuccess implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * AutoSave ComponenteDigital Failed
+ */
+export class AutoSaveComponenteDigitalFailed implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Revert ComponenteDigital
  */
 export class RevertComponenteDigital implements Action {
@@ -280,6 +315,13 @@ export class CompararComponenteDigitalComHtmlFailed implements Action {
     }
 }
 
+export class DeleteAssinaturaDocumentoSuccess implements Action {
+    readonly type = DELETE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = UnloadComponenteDigital
     | VisualizarVersaoComponenteDigital
@@ -298,6 +340,9 @@ export type ComponenteDigitalActionsAll
     | SaveComponenteDigital
     | SaveComponenteDigitalSuccess
     | SaveComponenteDigitalFailed
+    | AutoSaveComponenteDigital
+    | AutoSaveComponenteDigitalSuccess
+    | AutoSaveComponenteDigitalFailed
     | RevertComponenteDigital
     | RevertComponenteDigitalSuccess
     | RevertComponenteDigitalFailed
@@ -306,4 +351,5 @@ export type ComponenteDigitalActionsAll
     | VisualizarHTMLComponenteDigitalFailed
     | CompararComponenteDigitalComHtml
     | CompararComponenteDigitalComHtmlSuccess
-    | CompararComponenteDigitalComHtmlFailed;
+    | CompararComponenteDigitalComHtmlFailed
+    | DeleteAssinaturaDocumentoSuccess;

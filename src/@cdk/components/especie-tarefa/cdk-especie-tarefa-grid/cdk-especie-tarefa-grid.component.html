@@ -112,7 +112,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.nome}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -122,7 +122,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.descricao}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- GeneroTarefa Column -->
@@ -134,7 +134,7 @@
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile'
                         data-label='Gênero Tarefa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.generoTarefa?.nome}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.generoTarefa?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -156,7 +156,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.criadoPor?.nome}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -178,7 +178,7 @@
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.atualizadoPor?.nome}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -199,7 +199,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.apagadoPor?.nome}} </td>
+                                    (isWorkflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

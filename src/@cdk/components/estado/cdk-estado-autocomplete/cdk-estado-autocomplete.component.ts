@@ -60,17 +60,24 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [];
+                    const filterNome = [];
+                    const filterUf = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        andxFilter.push({
-                            nome: `like:%${bit}%`});
+                        filterNome.push({nome: `like:%${bit}%`});
+                        filterUf.push({uf: `like:%${bit}%`});
                     });
-                    if (typeof value === 'string' && andxFilter.length > 0) {
+                    const filter = {
+                        orX: [
+                            {andX: filterNome},
+                            {andX: filterUf}
+                        ]
+                    };
+                    if (typeof value === 'string' && (filterNome.length > 0 || filterUf.length > 0)) {
                         this.estadoListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
-                            andX: andxFilter
+                            ...filter
                         };
                         return this._estadoService.query(
                             JSON.stringify(filterParam),
@@ -94,6 +101,6 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
     }
 
     displayEstadoFn(estado): string {
-        return estado ? estado.nome : null;
+        return estado ? estado.nome + ` (${estado.uf})`: null;
     }
 }

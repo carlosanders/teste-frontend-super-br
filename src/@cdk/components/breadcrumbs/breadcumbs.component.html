@@ -1,4 +1,10 @@
 <div class="content">
+    <button mat-icon-button *ngIf="showBackBtn"
+            (click)="goBack()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
     <mat-icon *ngIf="icone" class="mr-8 s-16">{{icone}}</mat-icon>
     <div class="container">
         <span *ngFor="let crumb of breadcrumb; let i = index">

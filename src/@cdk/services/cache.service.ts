@@ -49,12 +49,12 @@ export abstract class BaseCacheService<T> {
         }
     }
 
-    protected _setIDBError(msg:string): void {
+    protected _setIDBError(msg: string): void {
         this._idbError = true;
         console.info(msg);
     }
 
-    get(key: string): Observable<T|T[]> {
+    get(key: string): Observable<T | T[]> {
         if (this._idbError) {
             return of(null);
         }
@@ -73,7 +73,7 @@ export abstract class BaseCacheService<T> {
             );
     }
 
-    set(value: Object|Object[], key: string, maxAge?: number): Observable<boolean> {
+    set(value: Object | Object[], key: string, maxAge?: number): Observable<boolean> {
         if (this._idbError) {
             return of(false);
         }
@@ -115,7 +115,7 @@ export abstract class BaseCacheService<T> {
 }
 
 @Injectable({providedIn: 'root'})
-export class CacheModelService<T> extends BaseCacheService<T>{
+export class CacheModelService<T> extends BaseCacheService<T> {
 
     private _modelName: string;
 
@@ -138,11 +138,11 @@ export class CacheModelService<T> extends BaseCacheService<T>{
         }
     }
 
-    get(key: string): Observable<T|T[]> {
+    get(key: string): Observable<T | T[]> {
         return super.get(this._getKey(key));
     }
 
-    set(value: Object|Object[], key: string, maxAge?: number): Observable<boolean> {
+    set(value: Object | Object[], key: string, maxAge?: number): Observable<boolean> {
         return super.set(value, this._getKey(key), maxAge);
     }
 
@@ -161,7 +161,7 @@ export class CacheModelService<T> extends BaseCacheService<T>{
 }
 
 @Injectable({providedIn: 'root'})
-export class CacheGenericUserDataService extends BaseCacheService<any> implements OnDestroy{
+export class CacheGenericUserDataService extends BaseCacheService<any> implements OnDestroy {
 
     private _unsubscribeAll: Subject<boolean> = new Subject<boolean>();
     private _usuario: Usuario;
@@ -206,7 +206,7 @@ export class CacheGenericUserDataService extends BaseCacheService<any> implement
             .pipe(switchMap(() => super.get(key)));
     }
 
-    set(value:Object|Object[], key: string, maxAge?: number): Observable<boolean> {
+    set(value: Object | Object[], key: string, maxAge?: number): Observable<boolean> {
         return of(this._db)
             .pipe(filter((db: IDBCache) => !!db))
             .pipe(delay(100))

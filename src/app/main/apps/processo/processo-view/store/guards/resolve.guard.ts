@@ -159,7 +159,7 @@ export class ResolveGuard implements CanActivate {
                                         }
                                         sidebar = null;
                                     }
-                                    if (this.routerState.url.indexOf('sidebar:') === -1) {
+                                    if (this.routerState.url.indexOf('sidebar:') === -1 || sidebar !== null) {
                                         // Navegação do processo deve ocorrer por outlet
                                         this._router.navigate(
                                             [
@@ -307,7 +307,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingJuntadas = true;
                 }
             }),
-            filter((loaded: any) => this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => !this.loadingJuntadas && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
@@ -346,7 +346,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingVolumes = true;
                 }
             }),
-            filter((loaded: any) => this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => !this.loadingVolumes && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
