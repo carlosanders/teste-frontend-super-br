@@ -22,9 +22,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetJuntada,
-    GetJuntadas,
     SetCurrentStep,
-    UnloadJuntadas
 } from '../processo/processo-view/store';
 import {
     GetDocumentos as GetDocumentosAtividade
@@ -123,14 +121,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.documento$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documento => {
-            this.documento = documento;
-            if (this._router.url.includes('/tarefa/' + this.routerState.params['tarefaHandle'])) {
-                const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-                this._backUrl = this._router.url.split('/tarefa/')[0] + '/tarefa/' + this.routerState.params['tarefaHandle'] +
-                    '/processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
-            }
-        });
+        ).subscribe(documento => this.documento = documento);
 
         this.currentComponenteDigital$.pipe(
             filter(cd => !!cd),
@@ -233,15 +224,15 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public destroyEditor(): void {
-        const editor = window['CKEDITOR'];
-        if (editor && editor.instances) {
-            for (const editorInstance in editor.instances) {
-                if (editor.instances.hasOwnProperty(editorInstance) &&
-                    editor.instances[editorInstance]) {
-                    editor.instances[editorInstance].destroy();
-                }
-            }
-        }
+        // const editor = window['CKEDITOR'];
+        // if (editor && editor.instances) {
+        //     for (const editorInstance in editor.instances) {
+        //         if (editor.instances.hasOwnProperty(editorInstance) &&
+        //             editor.instances[editorInstance]) {
+        //             editor.instances[editorInstance].destroy();
+        //         }
+        //     }
+        // }
     }
 
     /**

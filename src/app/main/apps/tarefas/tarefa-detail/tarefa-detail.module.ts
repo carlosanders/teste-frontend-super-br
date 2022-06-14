@@ -56,6 +56,10 @@ const routes: Routes = [
                 loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
             },
             {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            },
+            {
                 path: 'atividades',
                 loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
             },
