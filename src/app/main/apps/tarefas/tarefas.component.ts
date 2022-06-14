@@ -1088,7 +1088,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {skipLocationChange: true}).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default']).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1560,7 +1560,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
-        if(outraAba){
+        if (outraAba) {
             const extras = {
                 queryParams: {
                     novaAba: true
@@ -1572,12 +1572,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 + stepHandle + '/documento/' + documentoId
             ], extras);
             window.open(url.toString(), '_blank');
-        } else{
+        } else {
             this._router.navigate([
                 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
-            ], {skipLocationChange: true}).then();
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/atividades/criar/documento/' + documentoId
+            ]).then();
         }
     }
 

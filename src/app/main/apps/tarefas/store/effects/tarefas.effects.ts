@@ -371,8 +371,7 @@ export class TarefasEffect {
                 const extras = {
                     queryParams: {
                         documentoEdit: action.payload.documentoUuidEdit
-                    },
-                    skipLocationChange: true
+                    }
                 };
 
                 this._router.navigate([

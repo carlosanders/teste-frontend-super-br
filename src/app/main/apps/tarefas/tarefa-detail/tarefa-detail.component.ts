@@ -394,7 +394,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
                 + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
                 + stepHandle + '/documento/' + documentoId
-            ], {skipLocationChange: true}).then();
+            ]).then();
         }
     }
 

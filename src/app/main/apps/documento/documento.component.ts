@@ -115,7 +115,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
+        // this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
+        this._backUrl = this._router.url.split('/documento/')[0];
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
 
@@ -173,10 +174,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
-        if (this.deveRecarregarJuntadas) {
-            this.reloadJuntadas();
-            return;
-        }
         if (this.routerState.params['stepHandle']) {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
@@ -208,13 +205,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     back(): void {
         // eslint-disable-next-line max-len
-        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         let url = this.routerState.url.split('/documento/')[0];
-        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
-        && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
-        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1;
-
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
         }
@@ -222,8 +214,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.getDocumentosAtividades = true;
         } else if (url.indexOf('/oficios') !== -1) {
             this.getDocumentosAvulsos = true;
-        } else if (url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1) {
-            this.getDocumentosProcesso = true;
         }
 
         if (this.routerState.queryParams.pesquisa) {
@@ -235,7 +225,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public destroyEditor(): void {
-        /*const editor = window['CKEDITOR'];
+        const editor = window['CKEDITOR'];
         if (editor && editor.instances) {
             for (const editorInstance in editor.instances) {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
@@ -243,41 +233,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                     editor.instances[editorInstance].destroy();
                 }
             }
-        }*/
-    }
-
-    reloadJuntadas(): void {
-        this._store.dispatch(new UnloadJuntadas({reset: true}));
-
-        let processoFilter = null;
-
-        const routeParams = of('processoHandle');
-        routeParams.subscribe((param) => {
-            processoFilter = `eq:${this.routerState.params[param]}`;
-        });
-
-        const params = {
-            filter: {
-                'volume.processo.id': processoFilter,
-                'vinculada': 'eq:0'
-            },
-            listFilter: {},
-            limit: 10,
-            offset: 0,
-            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC', 'documento.componentesDigitais.numeracaoSequencial': 'ASC'},
-            populate: [
-                'volume',
-                'documento',
-                'documento.origemDados',
-                'documento.tipoDocumento',
-                'documento.componentesDigitais',
-                'documento.criadoPor',
-                'documento.setorOrigem',
-                'documento.setorOrigem.unidade'
-            ]
-        };
-
-        this._store.dispatch(new GetJuntadas(params));
+        }
     }
 
     /**
