@@ -117,12 +117,20 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         // this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
         this._backUrl = this._router.url.split('/documento/')[0];
+
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
 
         this.documento$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documento => this.documento = documento);
+        ).subscribe(documento => {
+            this.documento = documento;
+            if (this._router.url.includes('/tarefa/' + this.routerState.params['tarefaHandle'])) {
+                const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
+                this._backUrl = this._router.url.split('/tarefa/')[0] + '/tarefa/' + this.routerState.params['tarefaHandle'] +
+                    '/processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+            }
+        });
 
         this.currentComponenteDigital$.pipe(
             filter(cd => !!cd),
