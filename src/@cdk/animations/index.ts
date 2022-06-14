@@ -198,7 +198,6 @@ export const cdkAnimations = [
         transition('* => *', [
             query('content > :enter, content > :leave', [
                 style({
-                    position: 'absolute',
                     top     : 0,
                     bottom  : 0,
                     left    : 0,
@@ -244,7 +243,6 @@ export const cdkAnimations = [
         transition('* => *', [
             query('content > :enter, content > :leave', [
                 style({
-                    position: 'absolute',
                     top     : 0,
                     bottom  : 0,
                     left    : 0,
@@ -290,7 +288,6 @@ export const cdkAnimations = [
         transition('* => *', [
             query('content > :enter, content > :leave', [
                 style({
-                    position: 'absolute',
                     top     : 0,
                     bottom  : 0,
                     left    : 0,
@@ -334,7 +331,6 @@ export const cdkAnimations = [
         transition('* => *', [
             query('content > :enter, content > :leave', [
                 style({
-                    position: 'absolute',
                     top     : 0,
                     bottom  : 0,
                     left    : 0,
@@ -381,7 +377,6 @@ export const cdkAnimations = [
 
             query('content > :enter, content > :leave ', [
                 style({
-                    position: 'absolute',
                     top     : 0,
                     bottom  : 0,
                     left    : 0,
