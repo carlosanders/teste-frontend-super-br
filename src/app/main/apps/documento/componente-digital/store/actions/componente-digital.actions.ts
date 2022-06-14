@@ -24,6 +24,10 @@ export const SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIG
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL FAILED';
 
+export const AUTO_SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL';
+export const AUTO_SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL SUCCESS';
+export const AUTO_SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] AUTOSAVE COMPONENTE DIGITAL FAILED';
+
 export const REVERT_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL';
 export const REVERT_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL SUCCESS';
 export const REVERT_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL FAILED';
@@ -210,6 +214,36 @@ export class SaveComponenteDigitalFailed implements Action {
 }
 
 /**
+ * AutoSave ComponenteDigital
+ */
+export class AutoSaveComponenteDigital implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * AutoSave ComponenteDigital Success
+ */
+export class AutoSaveComponenteDigitalSuccess implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * AutoSave ComponenteDigital Failed
+ */
+export class AutoSaveComponenteDigitalFailed implements Action {
+    readonly type = AUTO_SAVE_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Revert ComponenteDigital
  */
 export class RevertComponenteDigital implements Action {
@@ -306,6 +340,9 @@ export type ComponenteDigitalActionsAll
     | SaveComponenteDigital
     | SaveComponenteDigitalSuccess
     | SaveComponenteDigitalFailed
+    | AutoSaveComponenteDigital
+    | AutoSaveComponenteDigitalSuccess
+    | AutoSaveComponenteDigitalFailed
     | RevertComponenteDigital
     | RevertComponenteDigitalSuccess
     | RevertComponenteDigitalFailed

@@ -342,6 +342,61 @@ export class ComponenteDigitalEffect {
         ))
     ));
     /**
+     * AutoSave ComponenteDigital
+     *
+     * @type {Observable<any>}
+     */
+    autoSaveComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.AutoSaveComponenteDigital>(ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'componente digital',
+            content: 'Salvando componente digital automaticamente...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital, {
+            conteudo: action.payload.data,
+            hashAntigo: action.payload.hashAntigo
+        }).pipe(
+            tap(response => {
+                this._cacheGenericUserDataService
+                    .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
+                    .subscribe((cachedComponenteDigitalBackupList) => {
+                        const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                        this._cacheGenericUserDataService.set(
+                            componenteDigitalBackupList.filter((backup) => backup.id !== action.payload.componenteDigital.id),
+                            ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
+                            (60 * 60 * 24 * 30) //30 dias
+                        ).subscribe();
+                    });
+                return this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: `Componente Digital id ${response.id} salvo automaticamente com sucesso!`,
+                    status: 1, // sucesso
+                }))
+            }),
+            mergeMap((response: ComponenteDigital) => [
+                new ComponenteDigitalActions.AutoSaveComponenteDigitalSuccess(response),
+                new UpdateData<ComponenteDigital>({
+                    id: response.id,
+                    schema: componenteDigitalSchema,
+                    changes: {conteudo: response.conteudo, hash: response.hash, atualizadoEm: response.atualizadoEm}
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Erro ao salvar automaticamente o componente digital!',
+                    status: 2, // erro
+                }));
+                return of(new ComponenteDigitalActions.AutoSaveComponenteDigitalFailed(err));
+            })
+        ))
+    ));
+    /**
      * Revert ComponenteDigital
      *
      * @type {Observable<any>}

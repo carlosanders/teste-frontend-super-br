@@ -49,8 +49,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     repositorio$: Observable<string>;
     repositorio: string;
     saving$: Observable<boolean>;
+    autosaving$: Observable<boolean>;
     loading$: Observable<boolean>;
     saving = false;
+    autosaving = false;
     errors$: Observable<any>;
     routerState: any;
     assinandoDocumentosId$: Observable<number[]>;
@@ -70,6 +72,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.autosaving$ = this._store.pipe(select(fromStore.getIsAutoSaving));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
@@ -149,7 +152,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                             };
                                             this.doSave({
                                                 conteudo: componenteDigital.conteudo,
-                                                hashAntigo: componenteDigital.hash
+                                                hashAntigo: componenteDigital.hash,
+                                                auto: true
                                             });
                                             this._changeDetectorRef.detectChanges();
                                         }
@@ -187,6 +191,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             this.saving = saving;
             this._changeDetectorRef.detectChanges();
         });
+
+        this.autosaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((saving) => {
+            this.autosaving = saving;
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     /**
@@ -219,12 +230,21 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      */
     doSave(data: any): void {
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            operacaoId: operacaoId,
-            componenteDigital: this.componenteDigital,
-            data: data.conteudo,
-            hashAntigo: data.hashAntigo
-        }));
+        if (!data.auto) {
+            this._store.dispatch(new fromStore.SaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        } else {
+            this._store.dispatch(new fromStore.AutoSaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        }
     }
 
     /**

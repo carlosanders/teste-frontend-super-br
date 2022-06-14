@@ -1,5 +1,5 @@
 <div class="loading">
-    <mat-progress-bar [mode]="'indeterminate'" *ngIf="saving"></mat-progress-bar>
+    <mat-progress-bar [mode]="'indeterminate'" *ngIf="saving || autosaving"></mat-progress-bar>
 </div>
 <cdk-componente-digital-ckeditor *ngIf="componenteDigitalReady"
                                  [mode]="mode"
