@@ -965,3 +965,11 @@
 * Correção para atualizar ícones das minutas/ofícios na listagem de tarefas para informar da existência de uploads sempre que um anexo for adicionado/removido
 * Melhoria implementada em editor de ofícios para permitir alternar entre outros ofícios da tarefa diretamente da aba de dados básicos
 * Correção para trazer todas as minutas/ofícios da tarefa, não limitando somente às 10 mais recentes
+
+1.8.8
+
+* Correções de bug de upgrade de dependencias
+
+1.8.9
+
+* Correções de bug de upgrade de dependencias
