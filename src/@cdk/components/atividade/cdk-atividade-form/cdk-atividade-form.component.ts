@@ -444,7 +444,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     ajustaDestinacao(): void {
         if (!this.temMinutas) {
-            this.form.get('desinacaoMinutas').setValue('juntar');
+            this.form.get('destinacaoMinutas').setValue('juntar');
             this.form.get('unidadeAprovacao').disable();
         } else {
             if (this.destinacaoMinutas === 'submeter_aprovacao') {

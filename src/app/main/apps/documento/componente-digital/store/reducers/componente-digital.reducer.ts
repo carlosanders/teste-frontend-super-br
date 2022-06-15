@@ -5,6 +5,7 @@ export interface ComponenteDigitalState {
     loading: boolean;
     componenteDigitalId: string;
     saving: boolean;
+    autosaving: boolean;
     errors: any;
 }
 
@@ -13,6 +14,7 @@ export const componenteDigitalInitialState: ComponenteDigitalState = {
     loading: false,
     componenteDigitalId: null,
     saving: false,
+    autosaving: false,
     errors: false
 };
 
@@ -27,6 +29,7 @@ export const componenteDigitalReducer = (
                 loading: false,
                 componenteDigitalId: null,
                 saving: false,
+                autosaving: false,
                 errors: false
             };
         }
@@ -37,6 +40,7 @@ export const componenteDigitalReducer = (
                 componenteDigitalId: null,
                 loading: true,
                 saving: false,
+                autosaving: false,
                 errors: false
             };
         }
@@ -47,6 +51,7 @@ export const componenteDigitalReducer = (
                 componenteDigitalId: action.payload.componenteDigitalId,
                 loading: false,
                 saving: false,
+                autosaving: false,
                 errors: false
             };
         }
@@ -64,6 +69,7 @@ export const componenteDigitalReducer = (
                 componenteDigitalId: null,
                 loading: false,
                 saving: false,
+                autosaving: false,
                 errors: addError(action.payload)
             };
         }
@@ -88,6 +94,30 @@ export const componenteDigitalReducer = (
             return {
                 ...state,
                 saving: false,
+                errors: addError(action.payload)
+            };
+        }
+
+        case ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL: {
+            return {
+                ...state,
+                autosaving: true,
+                errors: false
+            };
+        }
+
+        case ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL_SUCCESS: {
+            return {
+                ...state,
+                autosaving: false,
+                errors: false
+            };
+        }
+
+        case ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL_FAILED: {
+            return {
+                ...state,
+                autosaving: false,
                 errors: addError(action.payload)
             };
         }

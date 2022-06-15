@@ -1088,7 +1088,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default'], {skipLocationChange: true}).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default']).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1557,27 +1557,28 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'default';
-        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
-            stepHandle = this.routerState.params['stepHandle'];
+        let urlEditor;
+        if (this.routerState.params['processoHandle']) {
+            if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+                stepHandle = this.routerState.params['stepHandle'];
+            }
+            urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId;
+        } else {
+            urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/documento/' + documentoId;
         }
-        if(outraAba){
+        if (outraAba) {
             const extras = {
                 queryParams: {
                     novaAba: true
                 }
             };
-            const url = this._router.createUrlTree([
-                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
-            ], extras);
+            const url = this._router.createUrlTree([urlEditor], extras);
             window.open(url.toString(), '_blank');
-        } else{
-            this._router.navigate([
-                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
-            ], {skipLocationChange: true}).then();
+        } else {
+            this._router.navigate([urlEditor]).then();
         }
     }
 

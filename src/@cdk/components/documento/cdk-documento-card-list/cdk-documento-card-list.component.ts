@@ -242,7 +242,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     doDesvincularBloco(): void {
         const vinculacoesBloco = [];
         this.documentos.forEach((documento: Documento) => {
-            if (this.selectedIds.indexOf(documento.id) > -1 && !!documento.estaVinculado) {
+            if (this.selectedIds.indexOf(documento.id) > -1 && !!documento.estaVinculada) {
                 vinculacoesBloco.push(documento.vinculacaoDocumentoPrincipal);
             }
         });

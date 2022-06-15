@@ -40,8 +40,8 @@ import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
 import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
-import * as _ from 'lodash';
 import {CdkTarefaFilterService} from "../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -455,7 +455,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         public loginService: LoginService,
         private _render: Renderer2,
         protected _changeDetectorRef: ChangeDetectorRef,
-        protected _tableDefinitionsService: TableDefinitionsService
+        protected _tableDefinitionsService: TableDefinitionsService,
+        private _cdkTarefaFilterService: CdkTarefaFilterService
     ) {
         super(_tableDefinitionsService, _changeDetectorRef);
         this.listFilter = {};
@@ -490,6 +491,11 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
+
+        this._cdkTarefaFilterService.clear.subscribe(() => {
+            this.filterEtiquetas = [];
+            this.listFilter.filters = {};
+        });
 
         this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
     }

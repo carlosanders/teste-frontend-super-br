@@ -154,7 +154,7 @@ export class DocumentosVinculadosEffects {
             } else {
                 primary += 'default';
             }
-            if (action.payload.estaVinculado) {
+            if (action.payload.estaVinculada) {
                 sidebar = 'modelo/dados-basicos';
             }
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {

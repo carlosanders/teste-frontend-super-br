@@ -272,12 +272,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 }
 
                 if (value && typeof value === 'object') {
-                    if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
+                    if (this.form.get('processo').value?.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
                         this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO'};
                     } else {
                         this.especieDocumentoAvulsoPagination.filter = {
                             'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' +
-                                this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
+                                this.form.get('processo').value?.especieProcesso?.generoProcesso?.nome.toUpperCase()
                         };
                     }
 

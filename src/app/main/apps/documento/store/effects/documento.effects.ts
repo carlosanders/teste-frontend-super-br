@@ -132,7 +132,7 @@ export class DocumentoEffect {
                 } else {
                     this._router.navigate([
                         this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
-                    ], {skipLocationChange: true}).then();
+                    ]).then();
                 }
             }
         })
@@ -280,8 +280,7 @@ export class DocumentoEffect {
                     queryParams: {
                         lixeira: this.lixeira ? true : null,
                         pesquisa: this.pesquisa ? true : null
-                    },
-                    skipLocationChange: true
+                    }
                 }).then();
         })
     ), {dispatch: false});

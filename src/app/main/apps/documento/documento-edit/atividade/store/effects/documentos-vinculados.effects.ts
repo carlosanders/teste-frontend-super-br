@@ -166,11 +166,11 @@ export class DocumentosVinculadosEffects {
     clickedDocumentoVinculado: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
         tap((action) => {
-            let sidebar = 'editar/anexos';
-            if (action.payload.estaVinculado) {
+            let sidebar = 'editar/dados-basicos';
+            if (action.payload.estaVinculada) {
                 sidebar = 'editar/dados-basicos';
             }
-            this._componenteDigitalService.trocandoDocumento.next(true);
+            // this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
                         sidebar: sidebar
@@ -178,7 +178,9 @@ export class DocumentosVinculadosEffects {
                 }],
                 {
                     relativeTo: this._activatedRoute.parent
-                }).then();
+                }).then(() => {
+                    console.log('Aqui');
+            });
         })
     ), {dispatch: false});
     /**

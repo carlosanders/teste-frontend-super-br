@@ -88,7 +88,7 @@ export class ComponenteDigitalEffect {
         withLatestFrom(this._store.select(getDocumento), this._store.select(getComponenteDigitalLoaded)),
         tap(([action, documento, loaded]) => {
             if (loaded.exibido !== action.payload.componenteDigitalId) {
-                this._componenteDigitalService.trocandoDocumento.next(true);
+                // this._componenteDigitalService.trocandoDocumento.next(true);
                 let primary: string;
                 primary = 'componente-digital/';
                 const componenteDigital = action.payload.componenteDigital;
@@ -103,7 +103,7 @@ export class ComponenteDigitalEffect {
 
                 let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                 // eslint-disable-next-line max-len
-                if ((!documento?.minuta || documento?.estaVinculado || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
+                if ((!documento?.minuta || documento?.estaVinculada || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
                     sidebar = 'editar/dados-basicos';
                 }
                 const url = this.routerState.url.includes('/processo/' + this.routerState.params.processoHandle + '/visualizar') ?
@@ -338,6 +338,61 @@ export class ComponenteDigitalEffect {
                     status: 2, // erro
                 }));
                 return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+            })
+        ))
+    ));
+    /**
+     * AutoSave ComponenteDigital
+     *
+     * @type {Observable<any>}
+     */
+    autoSaveComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.AutoSaveComponenteDigital>(ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'componente digital',
+            content: 'Salvando componente digital automaticamente...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital, {
+            conteudo: action.payload.data,
+            hashAntigo: action.payload.hashAntigo
+        }).pipe(
+            tap(response => {
+                this._cacheGenericUserDataService
+                    .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
+                    .subscribe((cachedComponenteDigitalBackupList) => {
+                        const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
+                        this._cacheGenericUserDataService.set(
+                            componenteDigitalBackupList.filter((backup) => backup.id !== action.payload.componenteDigital.id),
+                            ComponenteDigitalCkeditorComponent.LocalStorageBackupKey,
+                            (60 * 60 * 24 * 30) //30 dias
+                        ).subscribe();
+                    });
+                return this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: `Componente Digital id ${response.id} salvo automaticamente com sucesso!`,
+                    status: 1, // sucesso
+                }))
+            }),
+            mergeMap((response: ComponenteDigital) => [
+                new ComponenteDigitalActions.AutoSaveComponenteDigitalSuccess(response),
+                new UpdateData<ComponenteDigital>({
+                    id: response.id,
+                    schema: componenteDigitalSchema,
+                    changes: {conteudo: response.conteudo, hash: response.hash, atualizadoEm: response.atualizadoEm}
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Erro ao salvar automaticamente o componente digital!',
+                    status: 2, // erro
+                }));
+                return of(new ComponenteDigitalActions.AutoSaveComponenteDigitalFailed(err));
             })
         ))
     ));

@@ -113,7 +113,7 @@
 
     <cdk-atividade-form
         [atividade]="atividade"
-        [temMinutas]="!!minutas.length"
+        [temMinutas]="!!selectedMinutas.length"
         [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
         [mode]="mode"

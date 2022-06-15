@@ -31,6 +31,7 @@ import * as moment from 'moment';
 import {MatDialog} from '@angular/material/dialog';
 import {ConflitoVersaoDialogComponent} from './dialog/conflito-versao-dialog.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -49,8 +50,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     repositorio$: Observable<string>;
     repositorio: string;
     saving$: Observable<boolean>;
+    autosaving$: Observable<boolean>;
     loading$: Observable<boolean>;
     saving = false;
+    autosaving = false;
     errors$: Observable<any>;
     routerState: any;
     assinandoDocumentosId$: Observable<number[]>;
@@ -65,11 +68,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.ComponenteDigitalAppState>,
         private _dialog: MatDialog,
-        private _cacheGenericUserDataService: CacheGenericUserDataService
+        private _cacheGenericUserDataService: CacheGenericUserDataService,
+        private _componenteDigitalService: ComponenteDigitalService
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.autosaving$ = this._store.pipe(select(fromStore.getIsAutoSaving));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
@@ -140,6 +145,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                     (componenteDigital) => {
                                         if (componenteDigital) {
                                             this.componenteDigital = {...cd, conteudo: componenteDigital.conteudo};
+                                            this._componenteDigitalService.trocandoDocumento.next(true);
                                             this.componenteDigitalReady = true;
                                             this.logEntryPagination = new Pagination();
                                             this.logEntryPagination.filter = {
@@ -149,7 +155,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                             };
                                             this.doSave({
                                                 conteudo: componenteDigital.conteudo,
-                                                hashAntigo: componenteDigital.hash
+                                                hashAntigo: componenteDigital.hash,
+                                                auto: true
                                             });
                                             this._changeDetectorRef.detectChanges();
                                         }
@@ -161,6 +168,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                     } else {
                         this.componenteDigitalReady = true;
                         this.componenteDigital = cd;
+                        this._componenteDigitalService.trocandoDocumento.next(true);
                         if (this.componenteDigital) {
                             this.logEntryPagination = new Pagination();
                             this.logEntryPagination.filter = {
@@ -185,6 +193,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((saving) => {
             this.saving = saving;
+            this._changeDetectorRef.detectChanges();
+        });
+
+        this.autosaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((saving) => {
+            this.autosaving = saving;
             this._changeDetectorRef.detectChanges();
         });
     }
@@ -219,12 +234,21 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      */
     doSave(data: any): void {
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            operacaoId: operacaoId,
-            componenteDigital: this.componenteDigital,
-            data: data.conteudo,
-            hashAntigo: data.hashAntigo
-        }));
+        if (!data.auto) {
+            this._store.dispatch(new fromStore.SaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        } else {
+            this._store.dispatch(new fromStore.AutoSaveComponenteDigital({
+                operacaoId: operacaoId,
+                componenteDigital: this.componenteDigital,
+                data: data.conteudo,
+                hashAntigo: data.hashAntigo
+            }));
+        }
     }
 
     /**

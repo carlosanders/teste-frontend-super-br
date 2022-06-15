@@ -66,7 +66,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
         this.documento$.subscribe((documento) => {
-            if (documento && documento.estaVinculado) {
+            if (documento && documento.estaVinculada) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
             }
         });

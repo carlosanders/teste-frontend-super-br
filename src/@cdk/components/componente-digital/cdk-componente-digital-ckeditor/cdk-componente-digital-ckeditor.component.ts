@@ -363,7 +363,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             }
             const me = this;
             this.autoSave = setInterval(() => {
-                me.doSave();
+                me.doSave(true);
             }, 180 * 1000);
         } else {
             this._lastContent = null;
@@ -522,11 +522,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             clearInterval(this.autoSave);
         }
         this.autoSave = setInterval(() => {
-            me.doSave();
+            me.doSave(true);
         }, 180 * 1000);
     }
 
-    doSave(): void {
+    doSave(auto: boolean = false): void {
         this.doBackupLocalstorage();
         this.editor.getCommand('saveCmd').disable();
         this.editor.getCommand('assinarCmd').disable();
@@ -543,7 +543,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                             console.log('editor sem conteudo!');
                             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                         }
-                        this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
+                        this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo, auto: auto});
                         this.editor.resetDirty();
                     }
                 );

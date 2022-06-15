@@ -4,7 +4,7 @@
         <!-- CONTENT HEADER -->
         <div class="actions p-8">
 
-            <button *ngIf="!(documento$ | async)?.estaVinculado" mat-icon-button aria-label="Gerir Anexos"
+            <button *ngIf="!(documento$ | async)?.estaVinculada" mat-icon-button aria-label="Gerir Anexos"
                     matTooltip="Gerir Anexos" routerLink="anexos"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">attachment</mat-icon>
@@ -19,7 +19,7 @@
         </div>
         <!-- / HEADER -->
 
-        <div *ngIf="(documento$ | async)?.estaVinculado">
+        <div *ngIf="(documento$ | async)?.estaVinculada">
             <button class="back" mat-icon-button
                     (click)="onClickedDocumentoVinculado(documentoPrincipal)"
                     aria-label="cancelar"

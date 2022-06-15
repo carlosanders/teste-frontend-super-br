@@ -3,7 +3,7 @@
     <div class="center">
         <!-- CONTENT HEADER -->
         <div class="actions p-8" *ngIf="!routerState.url.includes('visualizar-processo')">
-            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm && !(documento$ | async)?.estaVinculado && !routerState.url.includes('anexar-copia') && !routerState.url.includes('/minutas')"
+            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm && !(documento$ | async)?.estaVinculada && !routerState.url.includes('anexar-copia') && !routerState.url.includes('/minutas')"
                     mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" [routerLink]="routeAtividade"
                     [routerLinkActive]="['active', 'accent']">
@@ -104,7 +104,7 @@
             </div>
         </div>
 
-        <div *ngIf="(documento$ | async)?.estaVinculado">
+        <div *ngIf="(documento$ | async)?.estaVinculada">
             <button class="back" mat-icon-button
                     (click)="onClickedDocumentoVinculado(documentoPrincipal)"
                     aria-label="cancelar"

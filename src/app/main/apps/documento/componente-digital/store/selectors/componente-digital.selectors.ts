@@ -34,6 +34,11 @@ export const getIsSaving: any = createSelector(
     (state: ComponenteDigitalState) => state.saving
 );
 
+export const getIsAutoSaving: any = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.autosaving
+);
+
 export const getErrors: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.errors

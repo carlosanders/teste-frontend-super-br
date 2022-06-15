@@ -30,7 +30,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getProcesso, getProcessoLoaded} from '../store';
+import {getProcesso} from '../store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
