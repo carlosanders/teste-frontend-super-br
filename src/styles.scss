@@ -250,3 +250,10 @@ div.menu-sort {
     height: 36px !important;
     line-height: 36px !important;
 }
+
+.mat-mini-fab:not([class*=mat-elevation-z]) {
+    box-shadow:
+        0 3px 5px 0 rgb(0 0 0 / 20%),
+        0 3px 5px 0 rgb(0 0 0 / 15%),
+        0 3px 5px 0 rgb(0 0 0 / 10%) !important;
+}
