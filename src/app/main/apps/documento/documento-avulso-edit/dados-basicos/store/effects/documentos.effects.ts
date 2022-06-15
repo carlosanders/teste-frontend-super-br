@@ -27,11 +27,9 @@ export class DocumentosEffects {
         ofType<DocumentosActionsAll.GetDocumentos>(DocumentosActionsAll.GET_DOCUMENTOS),
         withLatestFrom(this._store.pipe(select(getDocumento))),
         mergeMap(([action, documento]) => {
-            const tarefaId = this.routerState.params['tarefaHandle'] ?? documento.tarefaOrigem.id;
             const params = {
                 filter: {
-                    'tarefaOrigem.id': 'eq:' + tarefaId,
-                    'documentoAvulsoRemessa.id': 'isNotNull',
+                    'documentoAvulsoRemessa.id': 'eq:' + documento.documentoAvulsoRemessa.id,
                     'juntadaAtual': 'isNull'
                 },
                 limit: action.payload.limit,
