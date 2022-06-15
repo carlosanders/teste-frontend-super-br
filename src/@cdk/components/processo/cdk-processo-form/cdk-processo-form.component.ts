@@ -33,6 +33,7 @@ import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {toNumber} from "lodash-es";
 
 @Component({
     selector: 'cdk-processo-form',
@@ -415,6 +416,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
+        if (!this.form.get('valorEconomico').value.toString().includes('.')) {
+            this.form.get('valorEconomico').setValue(this.form.get('valorEconomico').value + '.00');
+        }
         if (this.form.valid) {
             if (!this.nupIsValid && this.form.get('tipoProtocolo').value == 2) {
                 this.doValidateNup();
