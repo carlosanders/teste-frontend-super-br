@@ -31,6 +31,7 @@ import * as moment from 'moment';
 import {MatDialog} from '@angular/material/dialog';
 import {ConflitoVersaoDialogComponent} from './dialog/conflito-versao-dialog.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -67,7 +68,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.ComponenteDigitalAppState>,
         private _dialog: MatDialog,
-        private _cacheGenericUserDataService: CacheGenericUserDataService
+        private _cacheGenericUserDataService: CacheGenericUserDataService,
+        private _componenteDigitalService: ComponenteDigitalService
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -143,6 +145,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                     (componenteDigital) => {
                                         if (componenteDigital) {
                                             this.componenteDigital = {...cd, conteudo: componenteDigital.conteudo};
+                                            this._componenteDigitalService.trocandoDocumento.next(true);
                                             this.componenteDigitalReady = true;
                                             this.logEntryPagination = new Pagination();
                                             this.logEntryPagination.filter = {
@@ -165,6 +168,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                     } else {
                         this.componenteDigitalReady = true;
                         this.componenteDigital = cd;
+                        this._componenteDigitalService.trocandoDocumento.next(true);
                         if (this.componenteDigital) {
                             this.logEntryPagination = new Pagination();
                             this.logEntryPagination.filter = {

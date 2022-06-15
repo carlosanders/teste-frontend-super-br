@@ -88,7 +88,7 @@ export class ComponenteDigitalEffect {
         withLatestFrom(this._store.select(getDocumento), this._store.select(getComponenteDigitalLoaded)),
         tap(([action, documento, loaded]) => {
             if (loaded.exibido !== action.payload.componenteDigitalId) {
-                this._componenteDigitalService.trocandoDocumento.next(true);
+                // this._componenteDigitalService.trocandoDocumento.next(true);
                 let primary: string;
                 primary = 'componente-digital/';
                 const componenteDigital = action.payload.componenteDigital;
