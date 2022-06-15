@@ -257,6 +257,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         }
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
+                this._componenteDigitalService.saving.next(false);
                 return this.navigateToDocumento(documento);
             }
         });
@@ -274,7 +275,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (documento.estaVinculada) {
             sidebar = 'editar/dados-basicos';
         }
-        this._componenteDigitalService.trocandoDocumento.next(true);
         this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {
                 outlets: {
                     primary: primary,

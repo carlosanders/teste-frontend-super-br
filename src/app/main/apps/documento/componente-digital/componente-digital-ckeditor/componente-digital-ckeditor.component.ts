@@ -54,6 +54,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     loading$: Observable<boolean>;
     saving = false;
     autosaving = false;
+    anySaving = false;
     errors$: Observable<any>;
     routerState: any;
     assinandoDocumentosId$: Observable<number[]>;
@@ -106,6 +107,11 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         } else if (this.routerState.url.indexOf('sidebar:oficio') !== -1) {
             this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigitalAvulso));
         }
+        this._componenteDigitalService.saving.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((saving) => {
+            this.anySaving = saving;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -118,7 +124,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(cd => !!cd)
+            filter(cd => !!cd && (cd.id !== this.componenteDigital?.id || cd.conteudo !== this.componenteDigital?.conteudo || cd.atualizadoEm !== this.componenteDigital.atualizadoEm))
         ).subscribe((cd) => {
             this._cacheGenericUserDataService
                 .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
@@ -167,8 +173,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                             ).subscribe();
                     } else {
                         this.componenteDigitalReady = true;
+                        if (!this.anySaving && this.componenteDigital && this.componenteDigital.id !== cd.id) {
+                            this._componenteDigitalService.trocandoDocumento.next(true);
+                        }
                         this.componenteDigital = cd;
-                        this._componenteDigitalService.trocandoDocumento.next(true);
                         if (this.componenteDigital) {
                             this.logEntryPagination = new Pagination();
                             this.logEntryPagination.filter = {
