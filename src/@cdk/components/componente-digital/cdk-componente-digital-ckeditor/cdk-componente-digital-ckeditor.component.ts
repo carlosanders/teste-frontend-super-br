@@ -532,7 +532,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doSave(auto: boolean = false): void {
-        this.salvando = true;
+        if (!this.salvando) {
+            this.salvando = true;
+        }
         this._componenteDigitalService.saving.next(true);
         this.doBackupLocalstorage();
         this.editor.getCommand('saveCmd').disable();
