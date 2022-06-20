@@ -271,6 +271,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         ).subscribe(documentos => this.documentosVinculados = documentos);
 
         this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+            this._componenteDigitalService.saving.next(false);
             if (value === this.documento.id) {
                 this.submitAtividade();
             }
@@ -453,6 +454,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         const documento = event.documento;
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
+                this._componenteDigitalService.saving.next(false);
                 const sidebar = 'editar/' + this.routeAtividadeDocumento;
                 if (event.event.ctrlKey) {
                     const extras = {
@@ -495,6 +497,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         }
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
+                this._componenteDigitalService.saving.next(false);
                 return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
             }
         });

@@ -1,5 +1,5 @@
 # pulled from ubuntu
-FROM node:16.15.0-alpine as base
+FROM node:16.15.1-alpine as base
 
 RUN apk add tzdata
 
@@ -19,7 +19,7 @@ COPY docker/dev/node.sh /usr/local/bin/node
 
 RUN chmod +x /usr/local/bin/node
 
-RUN npm install npm@8.10.0 -g
+RUN npm install npm@8.11.0 -g
 
 FROM base as dev
 

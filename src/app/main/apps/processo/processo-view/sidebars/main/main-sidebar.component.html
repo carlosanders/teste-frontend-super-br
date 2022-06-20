@@ -316,7 +316,7 @@
             </div>
             <div class="volume" id="juntada_{{juntada.id}}" #element
                  *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;"
-                 [dndDisableDropIf]="!juntada.ativo" dndDragoverClass="custom-drag-over"
+                 [dndDisableDropIf]="!juntada.ativo || this.routerState.params['typeHandle'] !== 'minhas-tarefas'" dndDragoverClass="custom-drag-over"
                  dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled"
                  (dndDragover)="dragOver($event, element, dropzoneEnabledJuntada($event, juntada))"
                  (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">

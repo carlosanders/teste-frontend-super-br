@@ -181,6 +181,9 @@
             <mat-datetimepicker-toggle matSuffix [for]="dataHoraFim"></mat-datetimepicker-toggle>
             <mat-datetimepicker #dataHoraFim type="datetime" openOnFocus="true" timeInterval="5"
                                 required></mat-datetimepicker>
+            <mat-error *ngIf="form.get('dataHoraFim').hasError('formError')">
+                {{form.get('dataHoraFim').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="!form.get('prazoGuardaFaseCorrenteAno').disabled">

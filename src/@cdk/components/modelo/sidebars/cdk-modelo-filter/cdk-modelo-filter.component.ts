@@ -159,6 +159,12 @@ export class CdkModeloFilterComponent implements OnInit, OnChanges {
             });
         }
 
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'descricao': `like:%${bit}%`});
+            });
+        }
+
         if (this.type === null && this.form.get('modalidadeModelo').value) {
             if (this.form.get('modalidadeModelo').value === 'nacional') {
                 // Modelos nacionais
