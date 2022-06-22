@@ -182,9 +182,9 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             }
         }
 
-        if (this.form.get('unidade').value) {
-            andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
-        }
+        // if (this.form.get('unidade').value) {
+        //     andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
+        // }
 
         if (this.form.get('setor').value) {
             andXFilter.push({'documento.setorOrigem.id': `eq:${this.form.get('setor').value.id}`});
