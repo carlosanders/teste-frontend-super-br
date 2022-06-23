@@ -278,6 +278,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             if (changes['componenteDigital'].firstChange) {
                 this._firstChange = true;
                 this.fetch();
+            } else {
+                this._firstChange = false;
             }
 
             this.editor?.getCommand('saveCmd').enable();
@@ -286,6 +288,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
             if (this.salvando) {
                 this._componenteDigitalService.completedEditorSave.next(this.salvando);
+                this._componenteDigitalService.saving.next(false);
                 this.salvando = false;
             }
 
@@ -301,7 +304,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             }
 
             if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo && this.componenteDigital.editavel && !this.componenteDigital.assinado) {
-                this.fetch();
+                if (!this._firstChange) {
+                    this.fetch();
+                }
                 this._componenteDigitalService.trocandoDocumento.next(false);
             }
 
@@ -527,6 +532,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doSave(auto: boolean = false): void {
+        if (!this.salvando) {
+            this.salvando = true;
+        }
+        this._componenteDigitalService.saving.next(true);
         this.doBackupLocalstorage();
         this.editor.getCommand('saveCmd').disable();
         this.editor.getCommand('assinarCmd').disable();

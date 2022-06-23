@@ -338,6 +338,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             if (indice === 1) {
                 this.podeNavegarDoEditor().subscribe((result) => {
                     if (result) {
+                        this._componenteDigitalService.saving.next(false);
                         this.currentIndice = indice;
                         this.modoProcesso = 1;
                         const stepHandle = this.routerState.params['stepHandle'] ?? 'default';

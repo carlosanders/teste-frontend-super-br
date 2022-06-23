@@ -243,7 +243,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 })
             }
 
-            if (this.currentStep) {
+            if (this.currentStep && this.currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === this.currentStep.step);
                 this._changeDetectorRef.markForCheck();
             }
@@ -251,13 +251,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(currentStep => currentStep.step !== 0 && currentStep.subStep !== 0)
+            filter(currentStep => currentStep.subStep !== 0)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
-            if (this.juntadas?.length > 0) {
+            if (this.juntadas?.length > 0 && currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
             } else {
-                this.currentJuntada = this.index?.find(juntada => juntada.id === currentStep.step);
+                this.currentJuntada = this.index?.find(juntada => juntada.componentesDigitais.includes(currentStep.subStep));
             }
         });
 
@@ -460,6 +460,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
             if (firstJuntada) {
+                if (this.currentStep.step === 0) {
+                    return firstJuntada.componentesDigitais.includes(this.currentStep.subStep);
+                }
                 return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
             }
         }
@@ -470,6 +473,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
             if (lastJuntada) {
+                if (this.currentStep.step === 0) {
+                    return lastJuntada.componentesDigitais.includes(this.currentStep.subStep);
+                }
                 return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
             }
         }
@@ -493,8 +499,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         let step;
         let subStep = null;
-        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
-        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        let currentIndex;
+        if (this.currentStep.step !== 0) {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        } else {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.componentesDigitais.includes(this.currentStep.subStep));
+        }
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex.id);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
         if ((currentComponenteDigitalPosition - 1) >= 0 && currentIndex.ativo) {
             subStep = currentIndex.componentesDigitais[currentComponenteDigitalPosition - 1];
@@ -531,8 +542,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         let step;
         let subStep = null;
-        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
-        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        let currentIndex;
+        if (this.currentStep.step !== 0) {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        } else {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.componentesDigitais.includes(this.currentStep.subStep));
+        }
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex.id);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
         let newJuntadaPosition;
         let nextComponenteDigitalPosition;
@@ -558,9 +574,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             step: step,
             subStep: subStep
         };
-        let stepHandle: string = step.toString();
+        let stepHandle: string = '';
         if (subStep) {
-            stepHandle += '-' + subStep;
+            stepHandle = subStep.toString();
         }
 
         const index = this.index?.find(juntadaIndex => juntadaIndex.id === step);

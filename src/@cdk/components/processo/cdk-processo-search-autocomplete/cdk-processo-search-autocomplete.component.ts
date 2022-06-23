@@ -80,7 +80,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                     const filters = {};
 
                     if (this.searchField === 'outroNumero') {
-                        filters[this.searchField] = `like:${value}%`;
+                        filters[this.searchField] = `like:${value.trim()}%`;
                         termFilter.push(filters);
                         // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         //     const filters = {};
@@ -89,7 +89,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                         // });
                     } else {
                         value = value.split('.').join('').split('/').join('').replace('-', '');
-                        filters[this.searchField] = `like:${value}%`;
+                        filters[this.searchField] = `like:${value.trim()}%`;
                         termFilter.push(filters);
                         // value = value.split('.').join('').split('/').join('').replace('-', '');
                         // value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {

@@ -33,6 +33,7 @@ import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {toNumber} from "lodash-es";
 
 @Component({
     selector: 'cdk-processo-form',

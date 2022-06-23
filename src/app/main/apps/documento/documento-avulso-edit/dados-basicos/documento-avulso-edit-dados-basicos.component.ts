@@ -178,6 +178,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this._componenteDigitalService.completedEditorSave.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((value) => {
+            this._componenteDigitalService.saving.next(false);
             if (value === this.documento.id && this.remeterDocAvulso) {
                 this._store.dispatch(new fromStore.RemeterDocumentoAvulso({
                     documentoAvulsoRemessa: this.documento.documentoAvulsoRemessa,
