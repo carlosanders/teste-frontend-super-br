@@ -973,3 +973,12 @@
 1.8.9
 
 * Correções de bug de upgrade de dependencias
+
+1.8.10
+
+* Correções de bug de upgrade de dependencias
+
+1.8.11
+
+* Correções de bug de upgrade de dependencias
+* Não é possível apagar um modelo, apenas inativá-lo
