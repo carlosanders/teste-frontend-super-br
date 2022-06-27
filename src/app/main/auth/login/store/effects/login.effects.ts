@@ -19,9 +19,7 @@ export class LoginEffects {
             .pipe(
                 map((data: any) => {
                     // eslint-disable-next-line max-len
-                    const tokenPayload = this.loginService.getTokenPayload(data.token);
-
-                    if (tokenPayload?.passwordExpired) {
+                    if (data?.passwordExpired) {
                         return new LoginActions.PasswordExpired(data.token);
                     }
 

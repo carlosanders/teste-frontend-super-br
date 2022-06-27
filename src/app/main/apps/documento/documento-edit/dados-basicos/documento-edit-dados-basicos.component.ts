@@ -96,11 +96,7 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
             }
         );
         const populate = JSON.stringify([
-            'populateAll',
             'componentesDigitais.assinaturas',
-            'componentesDigitais.modelo',
-            'modelo.template',
-            'modelo.modalidadeModelo',
             'tarefaOrigem.usuarioResponsavel',
             'tarefaOrigem.vinculacoesEtiquetas',
             'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
@@ -109,7 +105,6 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
             'documentoAvulsoRemessa.processo',
             'documentoAvulsoRemessa.processo.especieProcesso',
             'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
-            'documentoAvulsoRemessa.modelo',
             'documentoAvulsoRemessa.setorDestino',
             'documentoAvulsoRemessa.pessoaDestino',
             'documentoAvulsoRemessa.usuarioRemessa',
