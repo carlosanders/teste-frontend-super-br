@@ -65,6 +65,11 @@ const routes: Routes = [
             {
                 path: 'documento',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
+            },
+            {
+                path: 'protocolo-existente',
+                loadChildren: () => import('./protocolo-existente/protocolo-existente.module').then(m => m.ProtocoloExistenteModule),
+                canActivate: [fromGuards.ResolveGuard]
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

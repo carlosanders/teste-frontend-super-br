@@ -414,6 +414,17 @@
                             </button>
                         </span>
 
+                        <span *showIfRole="'ROLE_USUARIO_EXTERNO_VALIDADO'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                    [disabled]="deletedIds?.indexOf(processo.id) > -1"
+                                    (click)="protocolarRequerimento(processo.id)"
+                                    aria-label="protocolarRequerimento"
+                                    matTooltip="Protocolar Requerimento">
+                                <mat-icon>input</mat-icon>
+                            </button>
+                        </span>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(processo.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>

@@ -173,4 +173,8 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     edit(processoId: number): void {
         this._router.navigate(['apps/processo/' + processoId + '/editar']).then();
     }
+
+    protocoloExistente(processoId: number): void {
+        this._router.navigate(['apps/protocolo-externo/meus-processos/entrada/protocolo-existente/' + processoId]).then();
+    }
 }

@@ -311,6 +311,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     restricoesAcesso = new EventEmitter<Processo>();
 
     @Output()
+    protocoloExterno = new EventEmitter<number>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: ProcessoDataSource;
@@ -555,5 +558,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-on');
         (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-on');
         (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-off');
+    }
+
+    protocolarRequerimento(processoId): void {
+        this.protocoloExterno.emit(processoId);
     }
 }
