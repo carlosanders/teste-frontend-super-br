@@ -336,10 +336,6 @@
                     <div *ngIf="!juntada.ativo">
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
-                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
-                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
-                        </mat-icon>
-                    </div>
                     <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                             <div class="descricao">
@@ -378,6 +374,10 @@
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                        <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                        </mat-icon>
+                                    </div>
                                     <a class="ml-4"
                                        (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
@@ -403,6 +403,10 @@
                                         <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
                                     </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                                        <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                            <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                            </mat-icon>
+                                        </div>
                                         <a class="ml-4"
                                            (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">

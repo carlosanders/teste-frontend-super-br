@@ -12,9 +12,13 @@ import {getRouterState} from 'app/store/reducers';
 import {getComponenteDigitalState} from '../';
 import {getDocumento} from '../../../store';
 import * as DocumentoActions from '../../../store/actions/documento.actions';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@cdk/angular/material';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     routerState: any;
 
     /**
@@ -22,11 +26,13 @@ export class ResolveGuard implements CanActivate {
      * @param _store
      * @param _router
      * @param _activatedRoute
+     * @param snackBar
      */
     constructor(
         private _store: Store<ComponenteDigitalAppState>,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private snackBar: MatSnackBar
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -46,7 +52,24 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault(route)) {
             return this.getComponenteDigital().pipe(
-                switchMap(() => of(true)),
+                switchMap((retorno: any) => {
+                    if (!retorno.errors) {
+                        return of(true)
+                    } else {
+                        if (retorno.errors.status === 422) {
+                            const error = (retorno.errors.error.message || retorno.errors.statusText || 'Erro desconhecido!').replace('Unknown Error', 'Erro Desconhecido!');
+                            this.snackBar.open(error, 'Fechar', {
+                                horizontalPosition: this.horizontalPosition,
+                                verticalPosition: this.verticalPosition,
+                                panelClass: ['danger-snackbar'],
+                                duration: 30000
+                            });
+                        }
+                        this._store.dispatch(new fromStore.UnloadComponenteDigital());
+                        this._store.dispatch(new DocumentoActions.UnloadDocumento());
+                        return of(false);
+                    }
+                }),
                 catchError((err) => {
                     console.log(err);
                     return of(false);
@@ -67,11 +90,11 @@ export class ResolveGuard implements CanActivate {
             return this._store.pipe(
                 select(getComponenteDigitalState),
                 tap((state: ComponenteDigitalState) => {
-                    if (!state.loading && (state.componenteDigitalId !== this.routerState.params['componenteDigitalHandle'])) {
+                    if (!state.errors && !state.loading && (state.componenteDigitalId !== this.routerState.params['componenteDigitalHandle'])) {
                         this._store.dispatch(new fromStore.DownloadComponenteDigital());
                     }
                 }),
-                filter((state: ComponenteDigitalState) => state.componenteDigitalId === this.routerState.params['componenteDigitalHandle']),
+                filter((state: ComponenteDigitalState) => !state.loading && (state.componenteDigitalId === this.routerState.params['componenteDigitalHandle'] || state.errors)),
                 take(1)
             );
         }
