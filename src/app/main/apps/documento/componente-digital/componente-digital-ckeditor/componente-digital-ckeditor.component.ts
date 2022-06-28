@@ -28,7 +28,7 @@ import {
 import {Pagination} from '@cdk/models/pagination';
 import {CdkUtils} from '@cdk/utils';
 import * as moment from 'moment';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ConflitoVersaoDialogComponent} from './dialog/conflito-versao-dialog.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -61,6 +61,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     btVersoes = true;
     logEntryPagination: Pagination;
     mode = 'documento';
+    dialogSub;
+    dialogRef: MatDialogRef<ConflitoVersaoDialogComponent>;
     static LocalStorageBackupKey: string = 'componenteDigitalBakcup';
     componenteDigitalReady: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -124,28 +126,32 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(cd => !!cd && (cd.id !== this.componenteDigital?.id || cd.conteudo !== this.componenteDigital?.conteudo || cd.atualizadoEm !== this.componenteDigital.atualizadoEm))
+            filter(cd => !!cd && (cd.id !== this.componenteDigital?.id || cd.hash !== this.componenteDigital?.hash))
         ).subscribe((cd) => {
             this._cacheGenericUserDataService
                 .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)
-                .subscribe((cachedComponenteDigitalBackupList) => {
+                .pipe(
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe((cachedComponenteDigitalBackupList) => {
                     const componenteDigitalBackupList = cachedComponenteDigitalBackupList || [];
                     const componenteDigitalBackup = componenteDigitalBackupList
                         .find((item) => item.id == cd.id);
                     //first run
                     if (!this.componenteDigital && componenteDigitalBackup && moment(componenteDigitalBackup.atualizadoEm) > cd.atualizadoEm) {
                         this.componenteDigitalReady = false;
-                        const dialogRef = this._dialog.open(ConflitoVersaoDialogComponent, {
-                            data: {
-                                componenteDigital: cd,
-                                componenteDigitalBackup: componenteDigitalBackup
-                            },
-                            hasBackdrop: true,
-                            disableClose: true,
-                            closeOnNavigation: true,
-                        });
+                        if (!this.dialogRef) {
+                            this.dialogRef = this._dialog.open(ConflitoVersaoDialogComponent, {
+                                data: {
+                                    componenteDigital: cd,
+                                    componenteDigitalBackup: componenteDigitalBackup
+                                },
+                                hasBackdrop: true,
+                                disableClose: true,
+                                closeOnNavigation: true,
+                            });
+                        }
 
-                        dialogRef.afterClosed()
+                        this.dialogSub = this.dialogRef.afterClosed()
                             .pipe(
                                 tap(
                                     (componenteDigital) => {
@@ -162,13 +168,19 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                                             this.doSave({
                                                 conteudo: componenteDigital.conteudo,
                                                 hashAntigo: componenteDigital.hash,
-                                                auto: true
+                                                auto: true,
                                             });
                                             this._changeDetectorRef.detectChanges();
                                         }
                                     }
                                 ),
-                                tap(() => dialogRef.close()),
+                                tap(() => {
+                                    if (this.dialogRef) {
+                                        this.dialogRef.close();
+                                        this.dialogSub.unsubscribe();
+                                    }
+                                    this.dialogRef = null;
+                                }),
                                 take(1)
                             ).subscribe();
                     } else {
@@ -182,7 +194,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                             this.logEntryPagination.filter = {
                                 entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
                                 target: 'hash',
-                                id: +this.componenteDigital.id
+                                id: + this.componenteDigital.id
                             };
                         }
                     }
@@ -241,8 +253,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      * @param data
      */
     doSave(data: any): void {
-        const operacaoId = CdkUtils.makeId();
         if (!data.auto) {
+            const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveComponenteDigital({
                 operacaoId: operacaoId,
                 componenteDigital: this.componenteDigital,
@@ -251,7 +263,6 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             }));
         } else {
             this._store.dispatch(new fromStore.AutoSaveComponenteDigital({
-                operacaoId: operacaoId,
                 componenteDigital: this.componenteDigital,
                 data: data.conteudo,
                 hashAntigo: data.hashAntigo
