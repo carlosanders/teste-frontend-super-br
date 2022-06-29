@@ -282,6 +282,13 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let juntada">
+                        <button disabled mat-icon-button
+                                *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                            <mat-icon matTooltip="Acesso restrito!" class="s-20 red-fg">
+                                      block
+                            </mat-icon>
+                        </button>
+
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
                                 (click)="viewJuntada(juntada)"
