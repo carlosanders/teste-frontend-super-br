@@ -152,13 +152,6 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             sort: 'list'
         },
         {
-            id: 'highlights',
-            label: 'Resumo',
-            fixed: false,
-            mode: 'search',
-            sort: 'none'
-        },
-        {
             id: 'numeracaoSequencial',
             label: 'Numeração Sequencial',
             fixed: false,
