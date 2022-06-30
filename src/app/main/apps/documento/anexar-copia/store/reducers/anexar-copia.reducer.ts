@@ -243,16 +243,6 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.ATUALIZA_JUNTADA_INDEX: {
-            return {
-                ...state,
-                loaded: {
-                    ...state.loaded,
-                    juntadaIndex: action.payload.juntadaIndex
-                }
-            }
-        }
-
         default:
             return state;
     }

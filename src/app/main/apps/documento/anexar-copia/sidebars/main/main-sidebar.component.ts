@@ -29,7 +29,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
-import {GetJuntadaIndex, getProcesso, getProcessoLoaded} from '../../store';
+import {getProcesso} from '../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
@@ -354,10 +354,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        this._store.dispatch(new GetJuntadaIndex({
-            processoId: this.processo.id,
-            reload: true
-        }));
     }
 
     doSort(sort: string): void {
@@ -453,15 +449,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
     doTogglePanel(id): void {
         this.isOpen[id] = !this.isOpen[id];
-    }
-
-    abreJuntadas(): void {
-        this.isJuntadas = true;
-        const stepHandle = this.routerState.params['stepHandle'];
-        this._store.dispatch(new fromStore.SetCurrentStep({
-            step: parseInt(stepHandle.split('-')[0], 10),
-            subStep: parseInt(stepHandle.split('-')[1], 10)
-        }));
     }
 
     doCopyNumDoc(numDoc: string): void {

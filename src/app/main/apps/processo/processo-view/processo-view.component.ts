@@ -196,6 +196,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
 
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -349,8 +350,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => this.pagination = pagination);
 
-        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
-
         this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
         this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
         this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
@@ -370,8 +369,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
-            this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
-                routerState.state.params.stepHandle === 'default';
+            this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
             this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
             this.desentranhamento = routerState.state.url.indexOf('/desentranhar') !== -1;
             this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
@@ -392,7 +390,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
-        if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
+        if (this.capa && (this.routerState.url.indexOf('mostrar') === -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1 && (this.routerState.url.indexOf('visualizar-processo') !== -1)) {
                 const processoId = this.routerState.params.processoHandle;
 
@@ -431,9 +429,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.SetCurrentStepFailed(null));
         if (this.routerState.url.indexOf('anexar-copia') === -1 &&
             this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle']) === -1) {
+            this._store.dispatch(new fromStore.SetCurrentStepFailed(null));
             this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
@@ -449,8 +447,25 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     compareAtivo(juntadas, index): boolean {
         let houveMudanca = false;
         juntadas.forEach((juntada) => {
-            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
                 houveMudanca = true;
+            }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
             }
         });
         return houveMudanca;
@@ -574,9 +589,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             step: step,
             subStep: subStep
         };
-        let stepHandle: string = '';
+        let stepHandle: string = step.toString();
         if (subStep) {
-            stepHandle = subStep.toString();
+            stepHandle += '-' + subStep.toString();
         }
 
         const index = this.index?.find(juntadaIndex => juntadaIndex.id === step);

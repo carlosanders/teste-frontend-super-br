@@ -307,16 +307,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
-        case ProcessoActions.ATUALIZA_JUNTADA_INDEX: {
-            return {
-                ...state,
-                loaded: {
-                    ...state.loaded,
-                    juntadaIndex: action.payload.juntadaIndex
-                }
-            }
-        }
-
         case ProcessoActions.GET_TAREFAS_PROCESSO: {
             return {
                 ...state,

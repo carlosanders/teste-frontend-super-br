@@ -33,37 +33,6 @@
                     <span>Crescente</span>
                 </button>
             </mat-menu>
-
-            <button mat-icon-button
-                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && !this.routerState.url.includes('/documento/')"
-                    (click)="getBookmark()"
-                    aria-label="abrir marcadores de página"
-                    matTooltip="Marcadores de páginas">
-                <mat-icon>bookmarks</mat-icon>
-            </button>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isJuntadas">
-            <button class="refresh" mat-icon-button
-                    (click)="reloadBookmarks()"
-                    aria-label="recarregar marcadores"
-                    matTooltip="Recarregar marcadores">
-                <mat-icon>refresh</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                    (click)="doCopyBookmark(bookmarksBySequencial)"
-                    aria-label="copiar Bookmark"
-                    matTooltip="Copiar Bookmark para o clipboard">
-                <mat-icon>file_copy</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                    (click)="abreJuntadas()"
-                    aria-label="abrir juntadas"
-                    matTooltip="Juntadas do processo">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
         </ng-container>
 
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
@@ -71,11 +40,6 @@
         <div *ngIf="this.isJuntadas">
             {{juntadas?.length}}/{{pagination.total}}
         </div>
-
-        <div *ngIf="!this.isJuntadas">
-            {{bookmarks?.length}}/{{paginationBookmark.total}}
-        </div>
-
     </div>
 
     <div class="filters" *ngIf="showListFilter">

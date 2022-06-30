@@ -106,6 +106,34 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.GET_JUNTADA_DOCUMENTO_VINCULADO: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case ProcessoViewActions.GET_JUNTADA_DOCUMENTO_VINCULADO_SUCCESS: {
+            let total = state.pagination.total + 1;
+
+            return {
+                ...state,
+                entitiesId: [...action.payload.entitiesId],
+                pagination: {
+                    ...state.pagination,
+                    total: total
+                },
+                loading: false
+            };
+        }
+
+        case ProcessoViewActions.GET_JUNTADA_DOCUMENTO_VINCULADO_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
         case ProcessoViewActions.UNLOAD_JUNTADAS: {
 
             if (action.payload.reset) {
@@ -138,16 +166,19 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
         }
 
         case ProcessoViewActions.SET_CURRENT_STEP: {
+            const step = action.payload.step ? parseInt(action.payload.step, 10) : state.currentStep.step;
             return {
                 ...state,
                 currentStep: {
-                    step: parseInt(action.payload.step, 10),
-                    subStep: parseInt(action.payload.subStep, 10),
+                    step: step,
+                    subStep: action.payload.subStep,
                 }
             };
         }
 
         case ProcessoViewActions.SET_CURRENT_STEP_SUCCESS: {
+            const step = action.payload.step ?? state.currentStep.step;
+            const subStep = action.payload.subStep ?? state.currentStep.subStep;
             return {
                 ...state,
                 binary: {
@@ -155,6 +186,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     src: action.payload.binary,
                     loading: false,
                     error: false
+                },
+                currentStep: {
+                    step: step,
+                    subStep: subStep
                 },
                 currentStepLoaded: action.payload.loaded
             };
@@ -242,6 +277,35 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     processo: action.payload,
                     error: null
                 }
+            };
+        }
+
+        case ProcessoViewActions.DOWNLOAD_LATEST_BINARY_SUCCESS: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: action.payload.binary,
+                    loading: false,
+                    error: false
+                },
+                currentStep: {
+                    step: 0,
+                    subStep: action.payload.subStep
+                }
+            };
+        }
+
+        case ProcessoViewActions.DOWNLOAD_LATEST_BINARY_FAILED: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: null,
+                    loading: false,
+                    error: action.payload.error
+                },
+                currentStepLoaded: false
             };
         }
 

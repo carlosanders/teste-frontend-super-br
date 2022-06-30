@@ -378,7 +378,7 @@ export class TarefasEffect {
                         'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                         this.routerState.params.typeHandle + '/' +
                         this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                        '/processo/' + action.payload.processoId + '/visualizar/default'],
+                        '/processo/' + action.payload.processoId + '/visualizar/latest'],
                     extras
                 ).then();
             }

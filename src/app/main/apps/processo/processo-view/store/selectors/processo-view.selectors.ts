@@ -25,7 +25,7 @@ export const getJuntadasIds: any = createSelector(
 
 export const getCurrentJuntadaHandle: any = createSelector(
     getRouterState,
-    router => router?.state.params['stepHandle'] && router?.state.params['stepHandle'] !== 'default' && router?.state.params['stepHandle'] !== 'capa' ?
+    router => router?.state.params['stepHandle'] && router?.state.params['stepHandle'] !== 'latest' && router?.state.params['stepHandle'] !== 'capa' ?
         router?.state.params['stepHandle'].split('-')[0] : null
 );
 

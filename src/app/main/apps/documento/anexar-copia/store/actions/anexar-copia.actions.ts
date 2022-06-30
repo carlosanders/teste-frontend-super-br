@@ -25,9 +25,6 @@ export const SET_BINARY_VIEW_FAILED = '[ANEXAR COPIA] SET BINARY VIEW FAILED';
 
 export const UNLOAD_COPIA = '[ANEXAR COPIA] UNLOAD COPIA';
 
-export const GET_JUNTADA_INDEX = '[ANEXAR COPIA] GET JUNTADA INDEX';
-export const ATUALIZA_JUNTADA_INDEX = '[ANEXAR COPIA] ATUALIZA JUNTADA INDEX';
-
 /**
  * Get Processo
  */
@@ -216,30 +213,6 @@ export class UnloadCopia implements Action
     }
 }
 
-/**
- * Get Juntada Index
- */
-export class GetJuntadaIndex implements Action
-{
-    readonly type = GET_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Atualiza Juntada Index
- */
-export class AtualizaJuntadaIndex implements Action
-{
-    readonly type = ATUALIZA_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type AnexarCopiaActionsAll
     = GetProcesso
     | GetProcessoSuccess
@@ -257,6 +230,4 @@ export type AnexarCopiaActionsAll
     | SetBinaryView
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
-    | UnloadCopia
-    | GetJuntadaIndex
-    | AtualizaJuntadaIndex;
+    | UnloadCopia;

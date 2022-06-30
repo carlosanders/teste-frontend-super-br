@@ -48,44 +48,6 @@ export const processoViewDocumentosReducer = (
 ): ProcessoViewDocumentosState => {
     switch (action.type) {
 
-        case ProcessoViewDocumentosActions.GET_DOCUMENTOS: {
-            return {
-                ...state,
-                documentosId: [],
-                documentosLoaded: false,
-                loading: true,
-                lixeiraMinutas: false
-            };
-        }
-
-        case ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS: {
-            return {
-                ...state,
-                documentosId: [],
-                documentosLoaded: false,
-                loadingDocumentosExcluidos: true,
-                lixeiraMinutas: true
-            };
-        }
-
-        case ProcessoViewDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
-            return {
-                ...state,
-                documentosId: action.payload.entitiesId,
-                loading: false,
-                documentosLoaded: action.payload.loaded,
-            };
-        }
-
-        case ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS_SUCCESS: {
-            return {
-                ...state,
-                documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded,
-                loadingDocumentosExcluidos: false,
-            };
-        }
-
         case ProcessoViewDocumentosActions.RELOAD_DOCUMENTO: {
             return {
                 ...state,
@@ -112,12 +74,6 @@ export const processoViewDocumentosReducer = (
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload.id],
-            };
-        }
-
-        case ProcessoViewDocumentosActions.UNLOAD_DOCUMENTOS: {
-            return {
-                ...processoViewDocumentosInitialState
             };
         }
 

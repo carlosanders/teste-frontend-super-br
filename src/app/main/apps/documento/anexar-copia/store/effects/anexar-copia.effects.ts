@@ -289,45 +289,6 @@ export class AnexarCopiaEffects {
             );
         })
     ));
-    /**
-     * Atualiza index de juntadas
-     *
-     * @type {Observable<any>}
-     */
-    getJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.GetJuntadaIndex>(ProcessoViewActions.GET_JUNTADA_INDEX),
-        switchMap(action => this._processoService.getJuntadaIndex(action.payload.processoId).pipe(
-            mergeMap((response: any) => [
-                new ProcessoViewActions.AtualizaJuntadaIndex({
-                    juntadaIndex: response,
-                    reload: !!action.payload.reload
-                }),
-            ])
-        ))
-    ));
-    atualizaJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewActions.AtualizaJuntadaIndex>(ProcessoViewActions.ATUALIZA_JUNTADA_INDEX),
-        withLatestFrom(this._store.pipe(select(getCurrentStep))),
-        tap(([action, currentStep]) => {
-            if (action.payload.reload) {
-                if (action.payload.juntadaIndex['status'] !== 'sem_juntadas') {
-                    const currentStep: {
-                        step: number;
-                        subStep: any;
-                    } = {
-                        step: action.payload.juntadaIndex['id'],
-                        subStep: action.payload.juntadaIndex['componenteDigitalId'] ?? null
-                    };
-                    // Chamada para o método que redireciona url para uma posição específica
-                    this._store.dispatch(new ProcessoViewActions.UnloadJuntadas({reset: true}));
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
-                    this._store.dispatch(new ProcessoViewActions.ReloadJuntadas());
-                }
-            } else {
-                this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
-            }
-        })
-    ), {dispatch: false});
 
     private _profile: any;
 
