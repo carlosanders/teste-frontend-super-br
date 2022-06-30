@@ -39,17 +39,19 @@ export class CdkMatchMediaService
      */
     private _init(): void
     {
-        this._mediaObserver.media$
+        this._mediaObserver.asObservable()
             .pipe(
                 debounceTime(500),
                 distinctUntilChanged()
             )
-            .subscribe((change: MediaChange) => {
-                if ( this.activeMediaQuery !== change.mqAlias )
-                {
-                    this.activeMediaQuery = change.mqAlias;
-                    this.onMediaChange.next(change.mqAlias);
-                }
+            .subscribe((change: MediaChange[]) => {
+                change.forEach((item) => {
+                    if ( this.activeMediaQuery !== item.mqAlias )
+                    {
+                        this.activeMediaQuery = item.mqAlias;
+                        this.onMediaChange.next(item.mqAlias);
+                    }
+                });
             });
     }
 
