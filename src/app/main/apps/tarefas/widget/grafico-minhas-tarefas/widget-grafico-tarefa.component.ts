@@ -4,7 +4,7 @@ import {
     Component,
     Input,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -20,6 +20,23 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {CounterState} from 'app/store/reducers/counter.reducer';
 import {CdkNavigationItem} from '@cdk/types';
+import {
+    ApexAxisChartSeries,
+    ApexChart, ApexDataLabels,
+    ApexPlotOptions,
+    ApexTitleSubtitle,
+    ApexXAxis,
+    ChartComponent
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+    series: ApexAxisChartSeries;
+    chart: ApexChart;
+    xaxis: ApexXAxis;
+    title: ApexTitleSubtitle;
+    plotOptions: ApexPlotOptions;
+    dataLabels: ApexDataLabels
+};
 
 @Component({
     selector: 'widget-tarefa',
@@ -50,6 +67,9 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
     loaded: any;
     contagemTarefas: any;
 
+    @ViewChild('graficoTarefa') chart: ChartComponent;
+    public chartOptions: Partial<ChartOptions> = {};
+
     private _unsubscribeAll: Subject<any> = new Subject();
     private counterState: CounterState;
 
@@ -76,76 +96,69 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._tarefaService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            (value) => {
-                this.tarefasCount = value;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this._tarefaService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            (value) => {
-                this.tarefasVencidasCount = value;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this._store
-            .pipe(
-                select(fromStore.getCounterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((value) => {
-            this.counterState = value;
-        });
+        // this._tarefaService.count(
+        //     `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
+        //     .pipe(
+        //         catchError(() => of([]))
+        //     ).subscribe(
+        //     (value) => {
+        //         this.tarefasCount = value;
+        //         this._changeDetectorRef.markForCheck();
+        //     }
+        // );
+        //
+        // this._tarefaService.count(
+        //     `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+        //     .pipe(
+        //         catchError(() => of([]))
+        //     ).subscribe(
+        //     (value) => {
+        //         this.tarefasVencidasCount = value;
+        //         this._changeDetectorRef.markForCheck();
+        //     }
+        // );
+        //
+        // this._store
+        //     .pipe(
+        //         select(fromStore.getCounterState),
+        //         takeUntil(this._unsubscribeAll)
+        //     ).subscribe((value) => {
+        //     this.counterState = value;
+        // });
+        this.carregarGrafico();
     }
 
-    trocarVisualizacao(): void {
-        this.isContadorPrincipal = !this.isContadorPrincipal;
-        this.contagemTarefas = []
-        let modulos = this.recuperarModulos();
-        let navigationConverter = 'arquivístico';
-
-        modulos.forEach((bit) => {
-            const totalTarefaModulo = this.contarTarefas(bit);
-            if (totalTarefaModulo > 0) {
-                this.hasTarefaAberta = true;
-                if(bit === navigationConverter){
-                    bit = 'arquivistico';
+    carregarGrafico(): void {
+        const data = new Date();
+        this.chartOptions = {
+            series: [
+                {
+                    name: "tarefas",
+                    data: [10, 41, 35, 51]
                 }
-                this.contagemTarefas[bit] = totalTarefaModulo;
-            }
-        })
-
-
-    }
-
-    recuperarModulos(): any {
-        let modulos = [];
-        for (const key of Object.keys(this.counterState)) {
-            if (key.includes('caixa_entrada')) {
-                modulos.push(key.split('_')[2]);
-            }
-        }
-        return modulos;
-    }
-
-    contarTarefas(modulo: string): number {
-        let valor = 0;
-        valor += this.counterState['caixa_entrada_' + modulo]
-        for (const key of Object.keys(this.counterState)) {
-            if (key.includes('folder_' + modulo)) {
-                valor += this.counterState[key]
+            ],
+            chart: {
+                type: "bar",
+                height: "180px"
+            },
+            title: {
+                text: "Tarefas recebidas nas últimas 4 semanas"
+            },
+            xaxis: {
+                categories: ["05/06 a 11/06", "12/06 a 18/06", "19/06 a 25/06", "26/06 a 01/07"]
+            },
+            dataLabels: {
+                offsetY: -20,
+            },
+            plotOptions: {
+                bar: {
+                    distributed: true,
+                    dataLabels: {
+                        position: 'top'
+                    }
+                }
             }
         }
-        return valor;
     }
 
     ngOnDestroy(): void {

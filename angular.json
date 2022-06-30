@@ -43,7 +43,9 @@
                             "src/styles.scss",
                             "node_modules/shepherd.js/dist/css/shepherd.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "node_modules/apexcharts/dist/apexcharts.min.js"
+                        ],
                         "allowedCommonJsDependencies": [
                             "hammerjs",
                             "class-transformer",

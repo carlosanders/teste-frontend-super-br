@@ -10,6 +10,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {RouterModule} from '@angular/router';
+import {NgApexchartsModule} from "ng-apexcharts";
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import {RouterModule} from '@angular/router';
         MatButtonModule,
         MatCardModule,
         RouterModule,
+        NgApexchartsModule
     ],
     providers: [
         TarefaService,
