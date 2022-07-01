@@ -201,7 +201,7 @@ export class BarraPesquisaComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     checkProcesso(): void {
-        const processo = this.form.get('processo').value.trim();
+        const processo = this.form.get('processo').value?.trim();
         if (!processo || typeof processo !== 'object') {
             this.form.get('processo').setValue(null);
         }
