@@ -23,6 +23,7 @@ import {UpdateData} from '../@cdk/ngrx-normalizr';
 import {Documento} from '../@cdk/models';
 import {documento as documentoSchema} from '../@cdk/normalizr';
 import {RouterHistoryService} from '../@cdk/utils/router-history.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@cdk/angular/material';
 
 @Component({
     selector: 'app',
@@ -33,6 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
     resize$: any;
+    assinaturaErrors$: Observable<any>;
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     // Private
     private _assinandoDocumentosId$: Observable<number[]>;
@@ -53,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _loginService
      * @param _routerHistoryService
+     * @param snackBar
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -65,7 +70,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _platform: Platform,
         private _store: Store<State>,
         private _loginService: LoginService,
-        private _routerHistoryService: RouterHistoryService
+        private _routerHistoryService: RouterHistoryService,
+        private snackBar: MatSnackBar
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -185,6 +191,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.document.body.classList.add(this.cdkConfig.colorTheme);
             });
         this._assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
         this.resize$ = fromEvent(window, 'resize')
             .pipe(
                 debounceTime(200),
@@ -255,6 +262,20 @@ export class AppComponent implements OnInit, OnDestroy {
                 }, 30000);
             } else {
                 clearInterval(this._assinaturaInterval);
+            }
+        });
+
+        this.assinaturaErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((err) => {
+            if (err && err.status && (err.status === 422 || err.status === 401)) {
+                const error = (err.error.message || err.statusText || 'Erro desconhecido!').replace('Unknown Error', 'Erro Desconhecido!');
+                this.snackBar.open(error, 'Fechar', {
+                    horizontalPosition: this.horizontalPosition,
+                    verticalPosition: this.verticalPosition,
+                    panelClass: ['danger-snackbar'],
+                    duration: 30000
+                });
             }
         });
     }

@@ -1,7 +1,6 @@
-<div fxLayout="row">
-
-    <div fxFlex fxLayoutAlign="center center"
-         lg>
+<div fxLayout="row" [ngClass]="{'borda-erro': this.hasAssinaturaErro}" [matTooltip]="this.erroAssinaturaMsg ?? documento.tipoDocumento.descricao"
+     matTooltipClass="multiline-tooltip">
+    <div fxFlex fxLayoutAlign="center center" lg>
         <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
                       (change)="toggleInSelected(documento.id)"
                       (click)="$event.stopPropagation();">

@@ -30,6 +30,11 @@ export const getDocumentosAssinando: any = createSelector(
     schemaSelectors.entitiesProjector
 );
 
+export const getAssinaturaErrosDocumentosId: any = createSelector(
+    getAssinaturaState,
+    (state: AssinaturaState) => state.errosAssinaturaDocumentosId
+);
+
 export const getAssinaturaErrors: any = createSelector(
     getAssinaturaState,
     (state: AssinaturaState) => state.errors

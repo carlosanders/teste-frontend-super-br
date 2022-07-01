@@ -82,7 +82,11 @@ import {
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: false}) tarefaListElement: ElementRef;
-    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: false}) set _tarefasList(tarefasList: CdkTarefaListComponent) {
+
+    @ViewChild('tarefasList', {
+        read: CdkTarefaListComponent,
+        static: false
+    }) set _tarefasList(tarefasList: CdkTarefaListComponent) {
         this.tarefasList = tarefasList;
         if (tarefasList) {
             this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
@@ -90,7 +94,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
+    @ViewChild('autoCompleteModelos', {
+        static: false,
+        read: MatAutocompleteTrigger
+    }) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
     tarefasList: CdkTarefaListComponent
@@ -421,15 +428,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(fromStore.getViewMode),
-                filter((viewMode) => !!viewMode)
-            )
-            .subscribe((viewMode) => {
-                this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode> viewMode;
-                this._changeDetectorRef.markForCheck();
-            });
+        this._store.pipe(
+            select(fromStore.getViewMode),
+            filter((viewMode) => !!viewMode)
+        ).subscribe((viewMode) => {
+            this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode>viewMode;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.novaTarefa = false;
 
@@ -554,6 +559,24 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((maximizado) => {
             this.maximizado = maximizado;
+            const path = 'app/main/apps/tarefas';
+            if (this.container !== undefined) {
+                this.container.clear();
+            }
+            modulesConfig.forEach((module) => {
+                if (module.components.hasOwnProperty(path)) {
+                    module.components[path].forEach(((c) => {
+                        if (this.container !== undefined) {
+                            this._dynamicService.loadComponent(c)
+                                .then((componentFactory) => {
+                                    const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                                    componente.instance.setTarefa(this.currentTarefa);
+                                    this._changeDetectorRef.detectChanges();
+                                });
+                        }
+                    }));
+                }
+            });
         });
 
         this.selectedTarefas$.pipe(
@@ -650,15 +673,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routeAtividadeBloco = 'atividade-bloco';
         this.routeAtividadeDocumento = 'atividade';
         this.routeOficioDocumento = 'oficio';
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
+
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
-                    this._dynamicService.loadComponent(c)
-                        .then((componentFactory) => {
-                            const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
-                            componente.instance.setTarefa(this.currentTarefa);
-                            this._changeDetectorRef.detectChanges();
-                        });
+                    if (this.container !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then((componentFactory) => {
+                                const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                                componente.instance.setTarefa(this.currentTarefa);
+                                this._changeDetectorRef.detectChanges();
+                            });
+                    }
                 }));
             }
 
@@ -784,7 +813,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         tarefaLimit: nparams.limit
                     };
 
-                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
                 });
         }
 
@@ -1248,6 +1277,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco/modelo']).then();
     }
 
+    doUploadBloco(): void {
+        // eslint-disable-next-line max-len
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+    }
+
     doCreateDocumentoAvulsoBloco(): void {
         // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
@@ -1589,8 +1623,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         window.open(
             this.routerState.url.split('/')[1] + '/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+            + stepHandle + '/documento/' + documentoId
         );
     }
 
@@ -1992,7 +2026,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     viewMode: viewMode
                 };
 
-                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60*60*24*1000).subscribe();
+                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
             });
 
         this.tarefaListViewMode = viewMode;
@@ -2008,7 +2042,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     resetTableDefinitions(): void {
         const sort = {...(this.pagination.sort ?? {})};
-        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase())  {
+        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase()) {
             this.reload({
                 ...this.pagination,
                 listSort: {[this._defaultSortField]: this._defaultSortOrder},
@@ -2037,7 +2071,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((option) => {
                 if (option === true) {
-                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}));
+                    this._store.dispatch(new fromStore.AprovarSugestao({
+                        vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        tarefa: tarefa
+                    }));
                 }
             });
     }

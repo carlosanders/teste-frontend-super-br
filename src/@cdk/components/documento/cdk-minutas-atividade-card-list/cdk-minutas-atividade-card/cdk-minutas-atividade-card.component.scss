@@ -21,8 +21,16 @@ cdk-minutas-atividade-card {
     .space {
         height: 4px;
     }
+
+    .borda-erro {
+        border: solid red 1px;
+    }
 }
 
 cdk-minutas-atividade-card.current {
     border-color: #3949AB !important;
+}
+
+.multiline-tooltip {
+    white-space: pre-line !important;
 }
