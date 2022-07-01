@@ -115,6 +115,15 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
     @Input()
     oficio = false;
 
+    @Input()
+    hasAssinaturaErro: boolean = false;
+
+    @Input()
+    assinaturaErrors: any = null;
+
+    @Input()
+    errorsAssinatura: string = null;
+
     podeAlterarTipoDocumento = true;
     podeDeletar = true;
 

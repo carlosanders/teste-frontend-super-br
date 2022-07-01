@@ -93,6 +93,9 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    assinaturaErrors$: Observable<any>;
+    assinaturaErrosDocumentosId$: Observable<number[]>;
+    errorsAssinatura: string = null;
     lote: string;
 
     values: any;
@@ -188,6 +191,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
+        this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
+        this.assinaturaErrosDocumentosId$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrosDocumentosId));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
@@ -276,6 +281,16 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                 this.submitAtividade();
             }
         });
+
+        this.assinaturaErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((err) => {
+            if (err) {
+                this.errorsAssinatura = CdkUtils.errorsToString(err);
+            } else {
+                this.errorsAssinatura = null;
+            }
+        })
     }
 
     ngAfterViewInit(): void {
