@@ -8,7 +8,7 @@ export const GET_VISIBILIDADES_PROCESSO_TAREFA = '[PROTOCOLO VISIBILIDADE] GET V
 export const GET_VISIBILIDADES_PROCESSO_TAREFA_SUCCESS = '[PROTOCOLO VISIBILIDADE] GET VISIBILIDADES SUCCESS';
 export const GET_VISIBILIDADES_PROCESSO_TAREFA_FAILED = '[PROTOCOLO VISIBILIDADE] GET VISIBILIDADES FAILED';
 
-export const UNLOAD_PROCESSO = '[PROTOCOLO CREATE] UNLOAD PROCESSO';
+export const UNLOAD_PROCESSO_EXISTENTE = '[PROTOCOLO EXISTENTE] UNLOAD PROCESSO EXISTENTE';
 
 /**
  * Get Processo
@@ -85,9 +85,9 @@ export class GetVisibilidadesFailed implements Action
 /**
  * Unload Processo
  */
-export class UnloadProcesso implements Action
+export class UnloadProcessoExistente implements Action
 {
-    readonly type = UNLOAD_PROCESSO;
+    readonly type = UNLOAD_PROCESSO_EXISTENTE;
 
     constructor()
     {
@@ -101,4 +101,4 @@ export type ProcessoActionsAll
     | GetVisibilidades
     | GetVisibilidadesSuccess
     | GetVisibilidadesFailed
-    | UnloadProcesso;
+    | UnloadProcessoExistente;

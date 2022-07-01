@@ -14,7 +14,7 @@ import {
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
-import * as ProtocoloDocumentoActions from '../actions';
+import * as ProtocoloExistenteDocumentoActions from '../actions';
 import {Router} from '@angular/router';
 import {getDocumentos} from '../selectors';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
@@ -31,7 +31,7 @@ export class ProtocoloDocumentoEffects {
      * @type {Observable<any>}
      */
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.GetDocumentos>(ProtocoloDocumentoActions.GET_DOCUMENTOS),
+        ofType<ProtocoloExistenteDocumentoActions.GetDocumentos>(ProtocoloExistenteDocumentoActions.GET_DOCUMENTOS),
         switchMap(action => this._documentoService.query(
             JSON.stringify({
                 ...action.payload.filter
@@ -43,7 +43,7 @@ export class ProtocoloDocumentoEffects {
             JSON.stringify(action.payload.context))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new ProtocoloDocumentoActions.GetDocumentosSuccess({
+            new ProtocoloExistenteDocumentoActions.GetDocumentosSuccess({
                 loaded: {
                     id: 'processoHandle',
                     value: this.routerState.params.processoHandle
@@ -54,16 +54,16 @@ export class ProtocoloDocumentoEffects {
         ]),
         catchError((err) => {
             console.log(err);
-            return of(new ProtocoloDocumentoActions.GetDocumentosFailed(err));
+            return of(new ProtocoloExistenteDocumentoActions.GetDocumentosFailed(err));
         })
     ));
     /**
      * Reload Documentos
      */
     reloadDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.ReloadDocumentos>(ProtocoloDocumentoActions.RELOAD_DOCUMENTOS),
+        ofType<ProtocoloExistenteDocumentoActions.ReloadDocumentos>(ProtocoloExistenteDocumentoActions.RELOAD_DOCUMENTOS),
         map(() => {
-            this._store.dispatch(new ProtocoloDocumentoActions.UnloadDocumentos());
+            this._store.dispatch(new ProtocoloExistenteDocumentoActions.UnloadDocumentos());
             const params = {
                 filter: {
                     'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`,
@@ -82,7 +82,7 @@ export class ProtocoloDocumentoEffects {
                 ],
                 context: {'incluiVinculacaoDocumentoPrincipal': true}
             };
-            this._store.dispatch(new ProtocoloDocumentoActions.GetDocumentos(params));
+            this._store.dispatch(new ProtocoloExistenteDocumentoActions.GetDocumentos(params));
         })
     ), {dispatch: false});
     /**
@@ -91,7 +91,7 @@ export class ProtocoloDocumentoEffects {
      * @type {Observable<any>}
      */
     clickedDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.ClickedDocumento>(ProtocoloDocumentoActions.CLICKED_DOCUMENTO),
+        ofType<ProtocoloExistenteDocumentoActions.ClickedDocumento>(ProtocoloExistenteDocumentoActions.CLICKED_DOCUMENTO),
         tap((action) => {
             this._router.navigate([
                 this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/reponder/${this.routerState.params.chaveAcessoHandle}`, 'documento/')
@@ -105,7 +105,7 @@ export class ProtocoloDocumentoEffects {
      * @type {Observable<any>}
      */
     converteDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.ConverteToPdf>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE),
+        ofType<ProtocoloExistenteDocumentoActions.ConverteToPdf>(ProtocoloExistenteDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE),
         mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
             .pipe(
                 mergeMap(response => [
@@ -114,11 +114,11 @@ export class ProtocoloDocumentoEffects {
                         schema: documentoSchema,
                         changes: {componentesDigitais: response.componentesDigitais}
                     }),
-                    new ProtocoloDocumentoActions.ConverteToPdfSucess(action.payload)
+                    new ProtocoloExistenteDocumentoActions.ConverteToPdfSucess(action.payload)
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new ProtocoloDocumentoActions.ConverteToPdfFailed(action.payload));
+                    return of(new ProtocoloExistenteDocumentoActions.ConverteToPdfFailed(action.payload));
                 })
             )
         )
@@ -129,7 +129,7 @@ export class ProtocoloDocumentoEffects {
      * @type {Observable<any>}
      */
     converteDocumentoHtml: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.ConverteToHtml>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
+        ofType<ProtocoloExistenteDocumentoActions.ConverteToHtml>(ProtocoloExistenteDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
         mergeMap(action => this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
             .pipe(
                 mergeMap(response => [
@@ -137,9 +137,9 @@ export class ProtocoloDocumentoEffects {
                         data: response['entities'],
                         schema: componenteDigitalSchema
                     }),
-                    new ProtocoloDocumentoActions.ConverteToHtmlSucess(action.payload)
+                    new ProtocoloExistenteDocumentoActions.ConverteToHtmlSucess(action.payload)
                 ]),
-                catchError(() => of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload)))
+                catchError(() => of(new ProtocoloExistenteDocumentoActions.ConverteToHtmlFailed(action.payload)))
             )
         )
     ));
@@ -149,15 +149,15 @@ export class ProtocoloDocumentoEffects {
      * @type {Observable<any>}
      */
     updateDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.UpdateDocumento>(ProtocoloDocumentoActions.UPDATE_DOCUMENTO),
+        ofType<ProtocoloExistenteDocumentoActions.UpdateDocumento>(ProtocoloExistenteDocumentoActions.UPDATE_DOCUMENTO),
         mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
             mergeMap((response: Documento) => [
-                new ProtocoloDocumentoActions.UpdateDocumentoSuccess(response.id),
+                new ProtocoloExistenteDocumentoActions.UpdateDocumentoSuccess(response.id),
                 new AddData<Documento>({data: [response], schema: documentoSchema})
             ]),
             catchError((err) => {
                 console.log(err);
-                return of(new ProtocoloDocumentoActions.UpdateDocumentoFailed(err));
+                return of(new ProtocoloExistenteDocumentoActions.UpdateDocumentoFailed(err));
             })
         ), 25)
     ));
@@ -168,7 +168,7 @@ export class ProtocoloDocumentoEffects {
      *
      * */
     downloadP7S: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProtocoloDocumentoActions.DownloadToP7S>(ProtocoloDocumentoActions.DOWNLOAD_DOCUMENTO_P7S),
+        ofType<ProtocoloExistenteDocumentoActions.DownloadToP7S>(ProtocoloExistenteDocumentoActions.DOWNLOAD_DOCUMENTO_P7S),
         mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
             .pipe(
                 map((response) => {
@@ -195,11 +195,11 @@ export class ProtocoloDocumentoEffects {
                             link.remove();
                         }, 100);
                     }
-                    return new ProtocoloDocumentoActions.DownloadToP7SSuccess(action.payload);
+                    return new ProtocoloExistenteDocumentoActions.DownloadToP7SSuccess(action.payload);
                 }),
                 catchError((err) => {
                     console.log(err);
-                    return of(new ProtocoloDocumentoActions.DownloadToP7SFailed(action.payload));
+                    return of(new ProtocoloExistenteDocumentoActions.DownloadToP7SFailed(action.payload));
                 })
             )
         )

@@ -1,15 +1,14 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ProtocoloCreateReducer, ProtocoloCreateState} from './protocolo-create.reducer';
 import {ProcessoReducer, ProcessoState} from './processo.reducer';
 import {protocoloDocumentoReducer, ProtocoloDocumentoState} from './protocolo-documento.reducer';
-import {EstadoReducer, EstadoState} from './estados.reducer';
+import {ProtocoloExistenteReducer, ProtocoloExistenteState} from './protocolo-existente.reducer';
+
 
 export interface ProtocoloCreateAppState
 {
-    protocolo: ProtocoloCreateState;
     processo: ProcessoState;
     protocoloDocumento: ProtocoloDocumentoState;
-    estados: EstadoState;
+    protocoloExistente: ProtocoloExistenteState;
 }
 
 export const getProtocoloCreateAppState = createFeatureSelector<ProtocoloCreateAppState>(
@@ -22,13 +21,11 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProtocoloCreateAppState> = {
-    protocolo: ProtocoloCreateReducer,
     processo: ProcessoReducer,
     protocoloDocumento: protocoloDocumentoReducer,
-    estados: EstadoReducer
+    protocoloExistente: ProtocoloExistenteReducer
 };
 
-export * from './protocolo-create.reducer';
 export * from './processo.reducer';
 export * from './protocolo-documento.reducer';
-export * from './estados.reducer';
+export * from './protocolo-existente.reducer';

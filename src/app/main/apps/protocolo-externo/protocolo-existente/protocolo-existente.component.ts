@@ -18,7 +18,16 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as fromStoreProtocolo from '../store';
 import * as AssinaturaStore from 'app/store';
-import {Assinatura, ComponenteDigital, Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
+import {
+    Assinatura,
+    ComponenteDigital,
+    Documento,
+    Estado,
+    Pagination,
+    Pessoa,
+    Processo,
+    Usuario,
+} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
@@ -29,6 +38,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {CdkUtils} from '../../../../../@cdk/utils';
+import {getExistenteErrors, getExistenteIsSaving} from "./store";
 
 @Component({
     selector: 'protocolo-existente',
@@ -47,6 +57,8 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
     container: ViewContainerRef;
 
     isSaving$: Observable<boolean>;
+    isSavingExistente$: Observable<boolean>;
+
     errors$: Observable<any>;
     pessoaProcedencia$: Observable<Pessoa>;
     pessoaProcedencia: Pessoa;
@@ -56,6 +68,8 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    existente: boolean = true;
 
     estados: Estado[] = [];
 
@@ -100,8 +114,8 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
         public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.isSavingExistente$ = this._store.pipe(select(fromStore.getExistenteIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getExistenteErrors));
         this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
@@ -187,12 +201,11 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
             }
         }
 
-        this.getEstados();
         this.unloadProcesso();
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/protocolo-externo/protocolo-create';
+        const path = 'app/main/apps/protocolo-externo/protocolo-existente';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
@@ -225,20 +238,16 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
     submit(values): void {
         const processo = new Processo();
 
-        delete values.estado;
-        delete values.generoSetor;
-
         Object.entries(values).forEach(
             ([key, value]) => {
                 processo[key] = value;
             }
         );
 
-        processo.procedencia = this.pessoaProcedencia;
-        processo.titulo = values.setorAtual.especieSetor.nome;
+        processo.id = this.routerState.params['processoHandle'];
 
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveProcesso({
+        this._store.dispatch(new fromStore.SaveJuntada({
             processo: processo,
             operacaoId: operacaoId
         }));
@@ -266,7 +275,7 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
 
         const params = {
             filter: {
-                'processoOrigem.id': `eq:${this.processo.id}`,
+                'processoOrigem.id': `eq:${this.routerState.params.processoHandle}`,
                 'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
             },
             limit: 10,
@@ -302,12 +311,8 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
     onClicked(documento): void {
         const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
         this._router.navigate([
-            this.routerState.url.split('/criar/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+            this.routerState.url.split('/protocolo-existente/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
         ]).then();
-    }
-
-    getEstados(): void {
-        this._store.dispatch(new fromStore.GetEstados({}));
     }
 
     doAssinaturaBloco(result): void {
@@ -357,6 +362,7 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
+                    documento: result.documento,
                     processoId: this.processo.id,
                     operacaoId: operacaoId
                 }));
@@ -390,13 +396,14 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
         this.selectedIndex = 0;
         this.paramHandle = this.routerState.params.typeHandle;
 
-        if (this.routerState.params.processoHandle) {
+        if (this.routerState.url.includes('anexar')) {
             this.selectedIndex = 1;
-            this._store.dispatch(new fromStore.UnloadProcesso());
+            this.processo.id = this.routerState.params.processoHandle;
+            this._store.dispatch(new fromStore.UnloadProcessoExistente());
         }
     }
 
     doConcluir(): void {
-        this._store.dispatch(new fromStore.ConcluirProcesso());
+        this._store.dispatch(new fromStore.ConcluirJuntada());
     }
 }

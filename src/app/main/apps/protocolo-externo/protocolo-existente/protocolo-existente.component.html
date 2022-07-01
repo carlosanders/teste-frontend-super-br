@@ -1,17 +1,18 @@
 <mat-horizontal-stepper linear #stepper [selectedIndex]="selectedIndex">
 
-    <mat-step>
-        <ng-template matStepLabel>Processo</ng-template>
+    <mat-step [completed]="!!documentos">
+        <ng-template matStepLabel>Requerimento</ng-template>
         <cdk-protocolo-externo-form
             [processo]="processo"
-            [saving]="(isSaving$ | async)"
+            [saving]="(isSavingExistente$ | async)"
             [errors]="(errors$ | async)"
             [pessoaVinculada]="_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
             [setorAtualPagination]="unidadePagination"
             [procedenciaPagination]="procedenciaPagination"
             [paramHandle]="paramHandle"
             (save)="submit($event)"
-            (abort)="cancel()">
+            (abort)="cancel()"
+            [existente]="existente">
         </cdk-protocolo-externo-form>
     </mat-step>
     <mat-step>

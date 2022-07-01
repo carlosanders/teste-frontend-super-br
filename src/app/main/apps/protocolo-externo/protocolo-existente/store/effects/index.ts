@@ -1,17 +1,15 @@
-import {ProtocoloCreateEffects} from './protocolo-create.effects';
 import {ProcessoEffect} from './processo.effects';
 import {ProtocoloDocumentoEffects} from './protocolo-documento.effects';
-import {EstadosEffects} from './estados.effects';
+import {ProtocoloExistenteEffects} from './protocolo-existente.effects';
 
 export const effects = [
-    ProtocoloCreateEffects,
     ProcessoEffect,
     ProtocoloDocumentoEffects,
-    EstadosEffects
+    ProtocoloExistenteEffects
 ];
 
-export * from './protocolo-create.effects';
 export * from './processo.effects';
 export * from './protocolo-documento.effects';
-export * from './estados.effects';
+export * from './protocolo-existente.effects';
+
 

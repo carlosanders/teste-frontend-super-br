@@ -1,33 +1,33 @@
-import * as ProtocoloCreateActions from '../actions/protocolo-create.actions';
+import * as ProtocoloExistenteActions from '../actions/protocolo-existente.actions';
 
-export interface ProtocoloCreateState {
+export interface ProtocoloExistenteState {
     saving: boolean;
     errors: any;
 }
 
-export const ProtocoloCreateInitialState: ProtocoloCreateState = {
+export const ProtocoloExistenteInitialState: ProtocoloExistenteState = {
     saving: false,
     errors: false
 };
 
-export function ProtocoloCreateReducer(state = ProtocoloCreateInitialState, action: ProtocoloCreateActions.ProtocoloCreateActionsAll): ProtocoloCreateState {
+export function ProtocoloExistenteReducer(state = ProtocoloExistenteInitialState, action: ProtocoloExistenteActions.ProtocoloExistenteActionsAll): ProtocoloExistenteState {
     switch (action.type) {
 
-        case ProtocoloCreateActions.CREATE_PROCESSO: {
+        case ProtocoloExistenteActions.CREATE_JUNTADA: {
             return {
                 saving: false,
                 errors: false
             };
         }
 
-        case ProtocoloCreateActions.SAVE_PROCESSO: {
+        case ProtocoloExistenteActions.SAVE_JUNTADA: {
             return {
                 ...state,
                 saving: true
             };
         }
 
-        case ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS: {
+        case ProtocoloExistenteActions.SAVE_JUNTADA_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -35,7 +35,7 @@ export function ProtocoloCreateReducer(state = ProtocoloCreateInitialState, acti
             };
         }
 
-        case ProtocoloCreateActions.SAVE_PROCESSO_FAILED: {
+        case ProtocoloExistenteActions.SAVE_JUNTADA_FAILED: {
             return {
                 ...state,
                 saving: false,

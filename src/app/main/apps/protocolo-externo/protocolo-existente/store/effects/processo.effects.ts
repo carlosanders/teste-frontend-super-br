@@ -12,7 +12,6 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {GetProcessoExistente} from "../actions/processo.actions";
 
 @Injectable()
 export class ProcessoEffect {
@@ -73,36 +72,6 @@ export class ProcessoEffect {
         })
     ));
 
-    /**
-     * Get Processo with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    saveRequerimento: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoActions.GetProcessoExistente>(ProcessoActions.GET_PROCESSO_EXISTENTE),
-        switchMap(action => this._processoService.query(
-            JSON.stringify(action.payload),
-            1,
-            0,
-            JSON.stringify({}),
-            JSON.stringify([
-                'populateAll'
-            ]))),
-        switchMap(response => [
-            new AddData<Processo>({data: response['entities'], schema: processoSchema}),
-            new ProcessoActions.GetProcessoExistenteSuccess({
-                loaded: {
-                    id: 'processoHandle',
-                    value: this.routerState.params.processoHandle
-                },
-                processoId: response['entities'][0].id
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoActions.GetProcessoExistenteFailed(err));
-        })
-    ));
 
     constructor(
         private _actions: Actions,

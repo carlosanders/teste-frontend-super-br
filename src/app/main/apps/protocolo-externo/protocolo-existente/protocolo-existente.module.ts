@@ -34,15 +34,15 @@ import {modulesConfig} from 'modules/modules-config';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {CdkProtocoloExternoFormModule} from '@cdk/components/protocolo-externo/cdk-protocolo-externo-form/cdk-protocolo-externo-form.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {JuntadaService} from "../../../../../@cdk/services/juntada.service";
 
 const routes: Routes = [
     {
-        path: '',
-        component: ProtocoloExistenteComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        path: ':processoHandle',
+        component: ProtocoloExistenteComponent
     },
     {
-        path: ':processoHandle',
+        path: ':processoHandle/anexar',
         component: ProtocoloExistenteComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -93,7 +93,8 @@ modulesConfig.forEach((module) => {
         ProcessoService,
         EstadoService,
         fromGuards.ResolveGuard,
-        AssinaturaService
+        AssinaturaService,
+        JuntadaService,
     ]
 })
 export class ProtocoloExistenteModule {

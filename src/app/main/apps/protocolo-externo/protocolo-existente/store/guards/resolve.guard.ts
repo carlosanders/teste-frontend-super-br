@@ -54,27 +54,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.saveRequerimento(), this.getDocumentos()]).pipe(
-            take(1)
-        );
-    }
-
-    /**
-     * Get Processo
-     *
-     * @returns
-     */
-    saveRequerimento(): any {
-        return this._store.pipe(
-            select(getProcessoLoaded),
-            tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetProcessoExistente({
-                        id: `eq:${this.routerState.params['processoHandle']}`
-                    }));
-                }
-            }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+        return this.getDocumentos().pipe(
             take(1)
         );
     }
