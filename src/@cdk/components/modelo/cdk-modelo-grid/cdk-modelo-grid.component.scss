@@ -205,5 +205,13 @@ cdk-modelo-grid {
                 height: 0;
             }
         }
+
+        .resumo {
+            @include mat-elevation(1);
+            margin-left: 8px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            padding: 4px;
+        }
     }
 }

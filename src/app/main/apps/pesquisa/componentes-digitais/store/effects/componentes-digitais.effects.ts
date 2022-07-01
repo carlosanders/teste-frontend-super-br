@@ -31,18 +31,19 @@ export class ComponentesDigitaisEffect {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
-        mergeMap(response => [
-            new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
-            new ComponentesDigitaisActions.GetComponentesDigitaisSuccess({
-                entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
-                total: response['total']
+            JSON.stringify(action.payload.populate)).pipe(
+            mergeMap(response => [
+                new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                new ComponentesDigitaisActions.GetComponentesDigitaisSuccess({
+                    entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
+                    total: response['total']
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new ComponentesDigitaisActions.GetComponentesDigitaisFailed(err));
             })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ComponentesDigitaisActions.GetComponentesDigitaisFailed(err));
-        })
+        ))
     ));
 
     constructor(
