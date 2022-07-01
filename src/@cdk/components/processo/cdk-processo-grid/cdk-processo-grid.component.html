@@ -419,7 +419,7 @@
                             </button>
                         </span>
 
-                        <span *showIfRole="'ROLE_PESSOA_VINCULADA_CONVENIADA' && 'ROLE_USUARIO_EXTERNO_VALIDADO'">
+                        <span *showIfRole="'ROLE_PESSOA_VINCULADA_CONVENIADA''ROLE_USUARIO_EXTERNO_VALIDADO'">
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
                                     [disabled]="deletedIds?.indexOf(processo.id) > -1"
