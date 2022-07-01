@@ -109,6 +109,12 @@ export class CdkMinutasCardComponent implements OnInit {
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
+    @Input()
+    hasAssinaturaErro: boolean = false;
+
+    @Input()
+    assinaturaErrors: any = null;
+
     podeAlterarTipoDocumento = true;
     podeDeletar = true;
 
@@ -117,6 +123,8 @@ export class CdkMinutasCardComponent implements OnInit {
     activeCard = 'form';
 
     habilitarTipoDocumentoSalvar = false;
+
+    erroAssinaturaMsg: string = null;
 
     /**
      * Constructor

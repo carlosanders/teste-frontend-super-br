@@ -85,6 +85,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     loadDocumentosExcluidos$: Observable<boolean>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
+    assinaturaErrors$: Observable<any>;
+    assinaturaErrosDocumentosId$: Observable<number[]>;
+    errorsAssinatura: string = null;
     saving$: Observable<boolean>;
     isLoading$: Observable<boolean>;
     screen$: Observable<any>;
@@ -166,6 +169,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
+        this.assinaturaErrosDocumentosId$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrosDocumentosId));
 
         this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
@@ -287,6 +292,16 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.mobileMode = screen.size !== 'desktop';
             this.mode = this.mobileMode ? 'vertical' : 'horizontal';
         });
+
+        this.assinaturaErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((err) => {
+            if (err) {
+                this.errorsAssinatura = CdkUtils.errorsToString(err);
+            } else {
+                this.errorsAssinatura = null;
+            }
+        })
     }
 
     ngAfterViewInit(): void {

@@ -15,6 +15,7 @@ import {CdkMinutasAtividadeCardComponent} from './cdk-minutas-atividade-card.com
 import {CdkAssinaturaEletronicaPluginModule} from '../../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {CdkTipoDocumentoGridsearchModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-gridsearch/cdk-tipo-documento-gridsearch.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import {CdkTipoDocumentoGridsearchModule} from '../../../tipo-documento/cdk-tipo
         CdkSharedModule,
         CdkTipoDocumentoAutocompleteModule,
         CdkTipoDocumentoGridsearchModule,
+        MatTooltipModule,
     ],
     providers: [],
     exports: [
