@@ -148,9 +148,7 @@ export class CdkModeloFilterComponent implements OnInit, OnChanges {
         }
 
         if (this.form.get('conteudo').value) {
-            this.form.get('conteudo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'documento.componentesDigitais.conteudo': `like:%${bit}%`});
-            });
+            andXFilter.push({'documento.componentesDigitais.conteudo': `like:%${this.form.get('conteudo').value}%`});
         }
 
         if (this.form.get('nome').value) {
