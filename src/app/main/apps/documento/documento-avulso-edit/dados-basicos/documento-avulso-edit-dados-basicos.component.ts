@@ -332,7 +332,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const documento = event.documento;
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
-                const sidebar = 'editar/dados-basicos';
+                const sidebar = 'oficio/dados-basicos';
                 if (event.event.ctrlKey) {
                     const extras = {
                         queryParams: {
