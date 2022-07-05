@@ -192,8 +192,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     minutasSaving$: Observable<boolean>;
 
-    minutasOpen = true;
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
@@ -741,8 +739,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     compareAtivo(juntadas, index): boolean {
         let houveMudanca = false;
         juntadas.forEach((juntada) => {
-            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
                 houveMudanca = true;
+            }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
             }
         });
         return houveMudanca;

@@ -220,6 +220,7 @@
                                               *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                         arrow_left
                                     </mat-icon>
+                                    <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
@@ -244,6 +245,7 @@
                                                   *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
                                         </mat-icon>
+                                        <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
                             </ng-container>

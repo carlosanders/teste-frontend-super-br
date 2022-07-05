@@ -1,32 +1,29 @@
 import {Action} from '@ngrx/store';
 
-export const GET_PROCESSO = '[ANEXAR COPIA] GET PROCESSO';
-export const GET_PROCESSO_SUCCESS = '[ANEXAR COPIA] GET PROCESSO SUCCESS';
-export const GET_PROCESSO_FAILED = '[ANEXAR COPIA] GET PROCESSO FAILED';
+export const GET_PROCESSO = '[VISUALIZAR PROCESSO] GET PROCESSO';
+export const GET_PROCESSO_SUCCESS = '[VISUALIZAR PROCESSO] GET PROCESSO SUCCESS';
+export const GET_PROCESSO_FAILED = '[VISUALIZAR PROCESSO] GET PROCESSO FAILED';
 
-export const GET_JUNTADAS = '[ANEXAR COPIA] GET JUNTADAS';
-export const GET_JUNTADAS_SUCCESS = '[ANEXAR COPIA] GET JUNTADAS SUCCESS';
-export const GET_JUNTADAS_FAILED = '[ANEXAR COPIA] GET JUNTADAS FAILED';
+export const GET_JUNTADAS = '[VISUALIZAR PROCESSO] GET JUNTADAS';
+export const GET_JUNTADAS_SUCCESS = '[VISUALIZAR PROCESSO] GET JUNTADAS SUCCESS';
+export const GET_JUNTADAS_FAILED = '[VISUALIZAR PROCESSO] GET JUNTADAS FAILED';
 
-export const SET_CURRENT_STEP = '[ANEXAR COPIA] SET CURRENT STEP';
-export const SET_CURRENT_STEP_SUCCESS = '[ANEXAR COPIA] SET CURRENT STEP SUCCESS';
-export const SET_CURRENT_STEP_FAILED = '[ANEXAR COPIA] SET CURRENT STEP FAILED';
+export const SET_CURRENT_STEP = '[VISUALIZAR PROCESSO] SET CURRENT STEP';
+export const SET_CURRENT_STEP_SUCCESS = '[VISUALIZAR PROCESSO] SET CURRENT STEP SUCCESS';
+export const SET_CURRENT_STEP_FAILED = '[VISUALIZAR PROCESSO] SET CURRENT STEP FAILED';
 
-export const UNLOAD_JUNTADAS = '[ANEXAR COPIA] UNLOAD JUNTADAS';
+export const UNLOAD_JUNTADAS = '[VISUALIZAR PROCESSO] UNLOAD JUNTADAS';
 
-export const RELOAD_JUNTADAS = '[ANEXAR COPIA] RELOAD JUNTADAS';
+export const RELOAD_JUNTADAS = '[VISUALIZAR PROCESSO] RELOAD JUNTADAS';
 
-export const START_LOADING_BINARY = '[ANEXAR COPIA] START LOADING BINARY';
-export const STILL_LOADING_BINARY = '[ANEXAR COPIA] STILL LOADING BINARY';
-export const DOWNLOAD_LATEST_BINARY = '[ANEXAR COPIA] DOWNLOAD LATEST';
-export const DOWNLOAD_LATEST_BINARY_SUCCESS = '[ANEXAR COPIA] DOWNLOAD LATEST SUCCESS';
-export const DOWNLOAD_LATEST_BINARY_FAILED = '[ANEXAR COPIA] DOWNLOAD LATEST FAILED';
+export const START_LOADING_BINARY = '[VISUALIZAR PROCESSO] START LOADING BINARY';
+export const STILL_LOADING_BINARY = '[VISUALIZAR PROCESSO] STILL LOADING BINARY';
 
-export const SET_BINARY_VIEW = '[ANEXAR COPIA] SET BINARY VIEW';
-export const SET_BINARY_VIEW_SUCCESS = '[ANEXAR COPIA] SET BINARY VIEW SUCCESS';
-export const SET_BINARY_VIEW_FAILED = '[ANEXAR COPIA] SET BINARY VIEW FAILED';
+export const SET_BINARY_VIEW = '[VISUALIZAR PROCESSO] SET BINARY VIEW';
+export const SET_BINARY_VIEW_SUCCESS = '[VISUALIZAR PROCESSO] SET BINARY VIEW SUCCESS';
+export const SET_BINARY_VIEW_FAILED = '[VISUALIZAR PROCESSO] SET BINARY VIEW FAILED';
 
-export const UNLOAD_COPIA = '[ANEXAR COPIA] UNLOAD COPIA';
+export const UNLOAD_PROCESSO = '[VISUALIZAR PROCESSO] UNLOAD PROCESSO';
 
 /**
  * Get Processo
@@ -175,36 +172,6 @@ export class StillLoadingBinary implements Action {
 }
 
 /**
- * Download Latest Binary
- */
-export class DownloadLatestBinary implements Action {
-    readonly type = DOWNLOAD_LATEST_BINARY;
-
-    constructor(public payload: any) {
-    }
-}
-
-/**
- * Download Latest Binary Success
- */
-export class DownloadLatestBinarySuccess implements Action {
-    readonly type = DOWNLOAD_LATEST_BINARY_SUCCESS;
-
-    constructor(public payload: any) {
-    }
-}
-
-/**
- * Download Latest Binary Failed
- */
-export class DownloadLatestBinaryFailed implements Action {
-    readonly type = DOWNLOAD_LATEST_BINARY_FAILED;
-
-    constructor(public payload: any) {
-    }
-}
-
-/**
  * Set Binary View
  */
 export class SetBinaryView implements Action {
@@ -235,18 +202,18 @@ export class SetBinaryViewFailed implements Action {
 }
 
 /**
- * Unload Copia
+ * Unload Processo
  */
-export class UnloadCopia implements Action
+export class UnloadProcesso implements Action
 {
-    readonly type = UNLOAD_COPIA;
+    readonly type = UNLOAD_PROCESSO;
 
     constructor()
     {
     }
 }
 
-export type AnexarCopiaActionsAll
+export type VisualizarProcessoActionsAll
     = GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed
@@ -260,10 +227,7 @@ export type AnexarCopiaActionsAll
     | ReloadJuntadas
     | StartLoadingBinary
     | StillLoadingBinary
-    | DownloadLatestBinary
-    | DownloadLatestBinarySuccess
-    | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
-    | UnloadCopia;
+    | UnloadProcesso;

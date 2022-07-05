@@ -65,11 +65,6 @@ export const getIsLoading: any = createSelector(
     (state: AnexarCopiaState) => state.loading
 );
 
-export const getIsLoadingLatestBinary: any = createSelector(
-    getAnexarCopiaState,
-    (state: AnexarCopiaState) => state.loadingLatestBinary
-);
-
 export const getBinary: any = createSelector(
     getAnexarCopiaState,
     (state: AnexarCopiaState) => state.binary

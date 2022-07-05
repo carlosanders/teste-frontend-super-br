@@ -69,7 +69,7 @@ const routes: Routes = [
             },
             {
                 path       : 'visualizar-processo',
-                loadChildren: () => import('./visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
+                loadChildren: () => import('./visualizar-processo-old/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
             }
         ]
     }

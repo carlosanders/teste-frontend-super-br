@@ -1,6 +1,6 @@
-import * as AnexarCopiaActions from '../actions/anexar-copia.actions';
+import * as VisualizarProcessoActions from '../actions/visualizar-processo.actions';
 
-export interface AnexarCopiaState {
+export interface VisualizarProcessoState {
     entitiesId: number[];
     pagination: {
         limit: number;
@@ -17,7 +17,7 @@ export interface AnexarCopiaState {
     loadedJuntadas: any;
     currentStep: {
         step: number;
-        subStep: any;
+        subStep: number;
     };
     currentStepLoaded: any;
     binary: {
@@ -26,10 +26,9 @@ export interface AnexarCopiaState {
         processo?: any;
         error?: any;
     };
-    loadingLatestBinary: boolean;
 }
 
-export const anexarCopiaInitialState: AnexarCopiaState = {
+export const visualizarProcessoInitialState: VisualizarProcessoState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -53,14 +52,13 @@ export const anexarCopiaInitialState: AnexarCopiaState = {
         src: null,
         loading: false,
         processo: null
-    },
-    loadingLatestBinary: false
+    }
 };
 
-export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: AnexarCopiaActions.AnexarCopiaActionsAll): AnexarCopiaState => {
+export const visualizarProcessoReducer = (state = visualizarProcessoInitialState, action: VisualizarProcessoActions.VisualizarProcessoActionsAll): VisualizarProcessoState => {
     switch (action.type) {
 
-        case AnexarCopiaActions.GET_PROCESSO: {
+        case VisualizarProcessoActions.GET_PROCESSO: {
             return {
                 ...state,
                 processoId: null,
@@ -68,7 +66,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.GET_PROCESSO_SUCCESS: {
+        case VisualizarProcessoActions.GET_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 processoId: action.payload.processoId,
@@ -76,7 +74,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.GET_PROCESSO_FAILED: {
+        case VisualizarProcessoActions.GET_PROCESSO_FAILED: {
             return {
                 ...state,
                 processoId: null,
@@ -84,7 +82,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.GET_JUNTADAS: {
+        case VisualizarProcessoActions.GET_JUNTADAS: {
             return {
                 ...state,
                 processoId: action.payload.processoId,
@@ -101,7 +99,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.GET_JUNTADAS_SUCCESS: {
+        case VisualizarProcessoActions.GET_JUNTADAS_SUCCESS: {
             const loadedJuntadas = action.payload.loaded;
 
             return {
@@ -116,7 +114,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.GET_JUNTADAS_FAILED: {
+        case VisualizarProcessoActions.GET_JUNTADAS_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -124,10 +122,10 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.UNLOAD_JUNTADAS: {
+        case VisualizarProcessoActions.UNLOAD_JUNTADAS: {
             if (action.payload.reset) {
                 return {
-                    ...anexarCopiaInitialState
+                    ...visualizarProcessoInitialState
                 };
             } else {
                 return {
@@ -143,7 +141,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             }
         }
 
-        case AnexarCopiaActions.START_LOADING_BINARY: {
+        case VisualizarProcessoActions.START_LOADING_BINARY: {
             return {
                 ...state,
                 binary: {
@@ -154,7 +152,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.SET_CURRENT_STEP: {
+        case VisualizarProcessoActions.SET_CURRENT_STEP: {
             return {
                 ...state,
                 currentStep: {
@@ -164,7 +162,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.SET_CURRENT_STEP_SUCCESS: {
+        case VisualizarProcessoActions.SET_CURRENT_STEP_SUCCESS: {
             return {
                 ...state,
                 binary: {
@@ -177,7 +175,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.SET_CURRENT_STEP_FAILED: {
+        case VisualizarProcessoActions.SET_CURRENT_STEP_FAILED: {
             return {
                 ...state,
                 binary: {
@@ -190,7 +188,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.RELOAD_JUNTADAS: {
+        case VisualizarProcessoActions.RELOAD_JUNTADAS: {
             return {
                 ...state,
                 entitiesId: [],
@@ -203,51 +201,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY: {
-            return {
-                ...state,
-                binary: {
-                    src: null,
-                    loading: true,
-                    processo: action.payload,
-                    error: null
-                },
-                loadingLatestBinary: true
-            };
-        }
-
-        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY_SUCCESS: {
-            return {
-                ...state,
-                binary: {
-                    ...state.binary,
-                    src: action.payload.binary,
-                    loading: false,
-                    error: false
-                },
-                currentStep: {
-                    step: 0,
-                    subStep: action.payload.subStep
-                },
-                loadingLatestBinary: false
-            };
-        }
-
-        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY_FAILED: {
-            return {
-                ...state,
-                binary: {
-                    ...state.binary,
-                    src: null,
-                    loading: false,
-                    error: action.payload.error
-                },
-                currentStepLoaded: false,
-                loadingLatestBinary: false
-            };
-        }
-
-        case AnexarCopiaActions.SET_BINARY_VIEW: {
+        case VisualizarProcessoActions.SET_BINARY_VIEW: {
             return {
                 ...state,
                 binary: {
@@ -259,7 +213,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.SET_BINARY_VIEW_SUCCESS: {
+        case VisualizarProcessoActions.SET_BINARY_VIEW_SUCCESS: {
             return {
                 ...state,
                 binary: {
@@ -271,7 +225,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.SET_BINARY_VIEW_FAILED: {
+        case VisualizarProcessoActions.SET_BINARY_VIEW_FAILED: {
             return {
                 ...state,
                 binary: {
@@ -283,9 +237,9 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
-        case AnexarCopiaActions.UNLOAD_COPIA: {
+        case VisualizarProcessoActions.UNLOAD_PROCESSO: {
             return {
-                ...anexarCopiaInitialState
+                ...visualizarProcessoInitialState
             };
         }
 

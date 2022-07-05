@@ -29,4 +29,130 @@
             border-bottom-color: map-get($foreground, divider);
         }
     }
+
+    anexar-copia {
+
+        .sidebar {
+
+            .header {
+
+                .filters {
+
+                    .volumes-filter {
+
+                        .index-volume {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+
+            }
+
+            .content {
+
+                .juntada {
+                    color: map-get($foreground, secondary-text);
+
+                    &.current {
+                        @if ($is-dark) {
+                            background: map-get($background, app-bar);
+                            color: map-get($foreground, text);
+                        } @else {
+                            background: map-get($accent, 50);
+                            color: map-get($accent, '50-contrast');
+                        }
+
+                        .index {
+                            &:before {
+                                border-left-color: map-get($accent, default);
+                            }
+
+                            span {
+                                @if ($is-dark) {
+                                    background: map-get($background, app-bar);
+                                    border-color: map-get($accent, default);
+                                } @else {
+                                    background: map-get($background, background);
+                                    border-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    &.completed {
+                        color: map-get($foreground, text);
+
+                        .index {
+                            &:before {
+                                border-left-color: map-get($accent, default);
+                            }
+
+                            span {
+                                border-color: map-get($accent, default);
+                            }
+
+                            &:after {
+                                border-left-color: map-get($accent, default);
+                            }
+                        }
+
+                        + .juntada {
+
+                            .index {
+
+                                &:before {
+                                    border-left-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    .index {
+
+                        &:before,
+                        &:after {
+                            border-left-color: map-get($foreground, divider);
+                        }
+
+                        span {
+                            background: map-get($background, background);
+                            border-color: map-get($foreground, divider);
+                        }
+                    }
+                }
+
+                .minutas-tarefa {
+                    background: map-get($background, background) !important;
+                }
+
+                .documentos-juntados-title {
+                    background: map-get($background, background);
+                }
+
+                .volume {
+                    .separador-volume {
+                        background: map-get($background, background);
+                    }
+                }
+            }
+        }
+
+        .center {
+
+            .content {
+                @if ($is-dark) {
+                    background: #353535;
+                } @else {
+                    background: mat-color($mat-grey, 200);
+                }
+
+                .anexar-copia-juntada {
+
+                    .anexar-copia-juntada-content {
+                        background: map-get($background, card);
+                    }
+                }
+            }
+        }
+    }
 }

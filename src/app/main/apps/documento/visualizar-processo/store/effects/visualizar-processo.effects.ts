@@ -4,20 +4,21 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
-import * as AnexarCopiaActions from '../actions/anexar-copia.actions';
+import * as VisualizarProcessoActions from '../actions/visualizar-processo.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
 import {juntada as juntadaSchema, processo as processoSchema} from '@cdk/normalizr';
+import {Router} from '@angular/router';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CacheModelService} from '@cdk/services/cache.service';
 import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
-import {getBinary} from '../';
+import {getProcessoLoaded, getBinary, getCurrentStep} from '../';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
-export class AnexarCopiaEffects {
+export class VisualizarProcessoEffects {
     routerState: any;
     /**
      * Get Processo with router parameters
@@ -25,7 +26,7 @@ export class AnexarCopiaEffects {
      * @type {Observable<any>}
      */
     getProcesso: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.GetProcesso>(AnexarCopiaActions.GET_PROCESSO),
+        ofType<VisualizarProcessoActions.GetProcesso>(VisualizarProcessoActions.GET_PROCESSO),
         mergeMap((action) => {
             const contexto = {};
 
@@ -49,10 +50,10 @@ export class AnexarCopiaEffects {
                 JSON.stringify(contexto)).pipe(
                 switchMap(response => [
                     new AddData<Processo>({data: [response], schema: processoSchema}),
-                    new AnexarCopiaActions.GetProcessoSuccess({
+                    new VisualizarProcessoActions.GetProcessoSuccess({
                         loaded: {
-                            id: 'processoCopiaHandle',
-                            value: this.routerState.params.processoCopiaHandle,
+                            id: 'processoViewHandle',
+                            value: this.routerState.params.processoViewHandle,
                             acessoNegado: response.acessoNegado
                         },
                         processoId: response.id
@@ -60,7 +61,7 @@ export class AnexarCopiaEffects {
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new AnexarCopiaActions.GetProcessoFailed(err));
+                    return of(new VisualizarProcessoActions.GetProcessoFailed(err));
                 })
             );
         }),
@@ -71,7 +72,7 @@ export class AnexarCopiaEffects {
      * @type {Observable<any>}
      */
     getJuntadas: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.GetJuntadas>(AnexarCopiaActions.GET_JUNTADAS),
+        ofType<VisualizarProcessoActions.GetJuntadas>(VisualizarProcessoActions.GET_JUNTADAS),
         switchMap((action) => {
             const chaveAcesso = {};
             return this._juntadaService.query(
@@ -87,17 +88,17 @@ export class AnexarCopiaEffects {
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
                 JSON.stringify(chaveAcesso),
-                'app/main/apps/documento/anexar-copia#juntadas').pipe(
+                'app/main/apps/documento/visualizar-processo#juntadas').pipe(
                 concatMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
-                    new AnexarCopiaActions.GetJuntadasSuccess({
+                    new VisualizarProcessoActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         documentosId: response['entities'].map(juntada => juntada.documento.id),
                         ativo: response['entities'].map(juntada => juntada.ativo),
                         processoId: action.payload.processoId,
                         loaded: {
-                            id: 'processoCopiaHandle',
-                            value: this.routerState.params.processoCopiaHandle
+                            id: 'processoViewHandle',
+                            value: this.routerState.params.processoViewHandle
                         },
                         default: !!action.payload.default ? this.getDefaultStep(response['entities']) : false,
                         total: response['total']
@@ -106,7 +107,7 @@ export class AnexarCopiaEffects {
                 catchError((err) => {
                     console.log(err);
                     this._cdkProgressBarService.hide();
-                    return of(new AnexarCopiaActions.GetJuntadasFailed(err));
+                    return of(new VisualizarProcessoActions.GetJuntadasFailed(err));
                 })
             );
         }),
@@ -117,12 +118,12 @@ export class AnexarCopiaEffects {
      * @type {any}
      */
     reloadJuntadas: any = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.ReloadJuntadas>(AnexarCopiaActions.RELOAD_JUNTADAS),
+        ofType<VisualizarProcessoActions.ReloadJuntadas>(VisualizarProcessoActions.RELOAD_JUNTADAS),
         map(() => {
             let processoFilter = null;
             let processoId = null;
 
-            const routeParams = of('processoCopiaHandle');
+            const routeParams = of('processoViewHandle');
             routeParams.subscribe((param) => {
                 processoFilter = `eq:${this.routerState.params[param]}`;
                 processoId = parseInt(this.routerState.params[param], 10);
@@ -159,7 +160,7 @@ export class AnexarCopiaEffects {
                     'documento.vinculacoesEtiquetas.etiqueta'
                 ]
             };
-            this._store.dispatch(new AnexarCopiaActions.GetJuntadas(params));
+            this._store.dispatch(new VisualizarProcessoActions.GetJuntadas(params));
         })
     ), {dispatch: false});
 
@@ -167,7 +168,7 @@ export class AnexarCopiaEffects {
      * @type {Observable<any>}
      */
     setCurrentStep: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.SetCurrentStep>(AnexarCopiaActions.SET_CURRENT_STEP),
+        ofType<VisualizarProcessoActions.SetCurrentStep>(VisualizarProcessoActions.SET_CURRENT_STEP),
         withLatestFrom(this._store.pipe(select(getBinary))),
         switchMap(([action, binary]) => {
             const currentStep = {
@@ -176,7 +177,7 @@ export class AnexarCopiaEffects {
             };
             if (currentStep.subStep === null) {
                 // nenhum componente digital solicitado ou juntada sem componentes digitais
-                return of(new AnexarCopiaActions.SetCurrentStepFailed(null));
+                return of(new VisualizarProcessoActions.SetCurrentStepFailed(null));
             }
             // temos componente digital, vamos pega-lo
             const contexto = {};
@@ -184,9 +185,8 @@ export class AnexarCopiaEffects {
                 contexto['chaveAcesso'] = this.routerState.params.chaveAcessoHandle;
             }
             const context = JSON.stringify(contexto);
-
             if (!binary.src || !binary.src.conteudo || binary.src.id !== currentStep.subStep) {
-                this._store.dispatch(new AnexarCopiaActions.StartLoadingBinary());
+                this._store.dispatch(new VisualizarProcessoActions.StartLoadingBinary());
                 const download$ = this._cacheComponenteDigitalModelService.get(currentStep.subStep)
                     .pipe(
                         switchMap((cachedValue: ComponenteDigital) => {
@@ -194,29 +194,31 @@ export class AnexarCopiaEffects {
                                 return of(cachedValue);
                             }
 
-                            return this._componenteDigitalService.download(currentStep.subStep, context)
-                                .pipe(tap((componenteDigital) => {
-                                    if (componenteDigital?.mimetype !== 'text/html') {
-                                        this._cacheComponenteDigitalModelService.set(componenteDigital, currentStep.subStep)
-                                            .subscribe();
-                                    }
-                                }));
+                            return this._componenteDigitalService.download(currentStep.subStep)
+                                .pipe(
+                                    tap((componenteDigital) => {
+                                        if (componenteDigital?.mimetype !== 'text/html') {
+                                            this._cacheComponenteDigitalModelService.set(componenteDigital, currentStep.subStep)
+                                                .subscribe();
+                                        }
+                                    })
+                                );
                         })
                     );
 
                 return download$.pipe(
-                    map((response: any) => new AnexarCopiaActions.SetCurrentStepSuccess({
+                    map((response: any) => new VisualizarProcessoActions.SetCurrentStepSuccess({
                         binary: response,
                         loaded: this.routerState.params.stepHandle
                     })),
                     catchError((err) => {
                         console.log(err);
-                        return of(new AnexarCopiaActions.SetCurrentStepFailed(err));
+                        return of(new VisualizarProcessoActions.SetCurrentStepFailed(err));
                     })
                 );
             } else {
-                // Já efetuou o download deste binário em algum momento e ainda encontra-se no estado da aplicação
-                return of(new AnexarCopiaActions.SetCurrentStepSuccess({
+                // Já efetuou o download deste binário no download_latest
+                return of(new VisualizarProcessoActions.SetCurrentStepSuccess({
                     binary: binary.src,
                     loaded: this.routerState.params.stepHandle
                 }));
@@ -231,7 +233,7 @@ export class AnexarCopiaEffects {
      * Get Juntadas Success
      */
     getJuntadasSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.GetJuntadasSuccess>(AnexarCopiaActions.GET_JUNTADAS_SUCCESS),
+        ofType<VisualizarProcessoActions.GetJuntadasSuccess>(VisualizarProcessoActions.GET_JUNTADAS_SUCCESS),
         tap((action) => {
             if (!!action.payload.default) {
                 // Foi feito pedido de alteração de ordenação, a primeira juntada será o novo default
@@ -239,46 +241,15 @@ export class AnexarCopiaEffects {
                     step: number;
                     subStep: any;
                 } = action.payload.default;
-                this._store.dispatch(new AnexarCopiaActions.SetCurrentStep(currentStep));
+                this._store.dispatch(new VisualizarProcessoActions.SetCurrentStep(currentStep));
             }
-        })
-    ), {dispatch: false});
-    /**
-     * @type {Observable<ProcessoViewActions.ProcessoViewActionsAll>}
-     */
-    downloadLatestBinary: Observable<AnexarCopiaActions.AnexarCopiaActionsAll> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.DownloadLatestBinary>(AnexarCopiaActions.DOWNLOAD_LATEST_BINARY),
-        switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
-            tap((componenteDigital) => {
-                if (componenteDigital?.mimetype != 'text/html') {
-                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
-                }
-            }),
-            map((response: any) => new AnexarCopiaActions.DownloadLatestBinarySuccess({
-                step: 0,
-                subStep: response.id,
-                binary: response
-            })),
-            catchError((err) => {
-                console.log(err);
-                return of(new AnexarCopiaActions.DownloadLatestBinaryFailed({processoId: action.payload, error: err.error.message}))
-            })
-        ))
-    ));
-    /**
-     *
-     */
-    downloadLatestBinaryFailed: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.DownloadLatestBinaryFailed>(AnexarCopiaActions.DOWNLOAD_LATEST_BINARY_FAILED),
-        tap((action) => {
-            this._store.dispatch(new AnexarCopiaActions.SetCurrentStepFailed(null));
         })
     ), {dispatch: false});
     /**
      * @type {Observable<any>}
      */
     setBinaryView: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AnexarCopiaActions.SetBinaryView>(AnexarCopiaActions.SET_BINARY_VIEW),
+        ofType<VisualizarProcessoActions.SetBinaryView>(VisualizarProcessoActions.SET_BINARY_VIEW),
         switchMap((action) => {
             const download$ = this._cacheComponenteDigitalModelService.get(action.payload.componenteDigitalId)
                 .pipe(
@@ -299,12 +270,12 @@ export class AnexarCopiaEffects {
                 );
 
             return download$.pipe(
-                map((response: any) => new AnexarCopiaActions.SetCurrentStepSuccess({
+                map((response: any) => new VisualizarProcessoActions.SetCurrentStepSuccess({
                     binary: response
                 })),
                 catchError((err) => {
                     console.log(err);
-                    return of(new AnexarCopiaActions.SetCurrentStepFailed(err));
+                    return of(new VisualizarProcessoActions.SetCurrentStepFailed(err));
                 })
             );
         })
@@ -319,6 +290,7 @@ export class AnexarCopiaEffects {
         private _processoService: ProcessoService,
         public _loginService: LoginService,
         private _store: Store<State>,
+        private _router: Router,
         private _cdkProgressBarService: CdkProgressBarService,
         private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
     ) {
@@ -331,26 +303,5 @@ export class AnexarCopiaEffects {
 
         this._profile = _loginService.getUserProfile();
         this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
-    }
-
-    getDefaultStep = (juntadas: Juntada[]): { step: number, subStep: number } => {
-        let juntadaDefault;
-        let defaultStep: {
-            step: number,
-            subStep: number
-        } = {
-            step: 0,
-            subStep: null
-        };
-        juntadaDefault = juntadas.find(juntada => {
-            return juntada.ativo && (juntada.documento.componentesDigitais.length > 0 || juntada.documento.vinculacoesDocumentos.length > 0);
-        });
-        if (juntadaDefault) {
-            defaultStep.step = juntadaDefault.id;
-            defaultStep.subStep = juntadaDefault.documento.componentesDigitais.length ?
-                juntadaDefault.documento.componentesDigitais[0].id :
-                juntadaDefault.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
-        }
-        return defaultStep;
     }
 }

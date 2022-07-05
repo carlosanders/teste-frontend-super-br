@@ -37,17 +37,17 @@ import {MercureService} from '@cdk/services/mercure.service';
 import {Contador} from '@cdk/models/contador';
 
 @Component({
-    selector: 'anexar-copia-main-sidebar',
+    selector: 'visualizar-processo-main-sidebar',
     templateUrl: './main-sidebar.component.html',
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
+export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
     @Input()
-    name: string = 'anexar-copia-left-sidebar-1';
+    name: string = 'visualizar-processo-left-sidebar-1';
 
     @Output()
     scrolled = new EventEmitter<any>();
@@ -133,7 +133,7 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _store: Store<fromStore.AnexarCopiaAppState>,
+        private _store: Store<fromStore.VisualizarProcessoAppState>,
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
@@ -180,30 +180,23 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
 
-            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
+            if (juntadas.length !== this.index.length) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.ativo) {
-                        if (juntada.documento?.componentesDigitais) {
-                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                        }
-                        if (juntada.documento?.vinculacoesDocumentos) {
-                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                    componentesDigitaisIds.push(dvcd.id);
-                                })
+                    if (juntada.documento?.componentesDigitais) {
+                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                    }
+                    if (juntada.documento?.vinculacoesDocumentos) {
+                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                componentesDigitaisIds.push(dvcd.id);
                             })
-                        }
-                    } else {
-                        if (juntada.documento?.componentesDigitais) {
-                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                        }
+                        })
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
-                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -272,11 +265,11 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
 
-            if (routerState.state.params['processoCopiaHandle'] && this.processoId !== routerState.state.params['processoCopiaHandle']) {
+            if (routerState.state.params['processoViewHandle'] && this.processoId !== routerState.state.params['processoViewHandle']) {
                 if (this.processoId) {
                     this._mercureService.unsubscribe('juntadas_' + this.processoId);
                 }
-                this.processoId = routerState.state.params['processoCopiaHandle'];
+                this.processoId = routerState.state.params['processoViewHandle'];
                 this._mercureService.subscribe('juntadas_' + this.processoId);
             }
         });
@@ -342,33 +335,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
         }
-    }
-
-    compareAtivo(juntadas, index): boolean {
-        let houveMudanca = false;
-        juntadas.forEach((juntada) => {
-            const indexEl = index.find((index) => index.id === juntada.id);
-            if (juntada.ativo !== indexEl?.ativo) {
-                houveMudanca = true;
-            }
-            if (!houveMudanca) {
-                let componentesDigitaisIds = [];
-                if (juntada.documento?.componentesDigitais) {
-                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                }
-                if (juntada.documento?.vinculacoesDocumentos) {
-                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                            componentesDigitaisIds.push(dvcd.id);
-                        })
-                    })
-                }
-                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
-                    houveMudanca = true;
-                }
-            }
-        });
-        return houveMudanca;
     }
 
     reload(params): void {
@@ -517,11 +483,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
     isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
         if (!componenteDigitalId) {
-            if (this.currentStep.step === 0) {
-                // latest ou inicial
-                const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
-                return juntadaLatest && juntadaId === juntadaLatest.id;
-            }
             return juntadaId === this.currentStep.step;
         }
         return !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;

@@ -164,6 +164,18 @@ anexar-copia-main-sidebar {
             overflow-y: auto;
         }
 
+        > .bookmarks {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+
+            .place-holder {
+                display: none;
+            }
+        }
+
         > .loading {
             flex: 0 1 auto;
             display: flex;

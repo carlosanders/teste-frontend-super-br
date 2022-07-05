@@ -266,9 +266,6 @@ export class ProcessoViewEffect {
             }
             // temos componente digital, vamos pega-lo
             const contexto = {};
-            if (currentStep.step) {
-                contexto['juntadaId'] = currentStep.step;
-            }
             if (this.routerState.params.chaveAcessoHandle) {
                 contexto['chaveAcesso'] = this.routerState.params.chaveAcessoHandle;
             }

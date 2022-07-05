@@ -28,7 +28,7 @@
 
 </div>
 
-<div class="processo-view">
+<div class="anexar-copia">
     <div class="page-layout left-sidebar">
 
         <!-- SIDEBAR -->
@@ -40,14 +40,14 @@
 
         <div class="center">
             <!-- HEADER -->
-            <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !modelos && !documentoAvulso">
+            <div class="header">
 
                 <button mat-icon-button class="sidebar-toggle mr-8 cdk-black-fg" fxHide.gt-md
                         (click)="toggleSidebar(this.sidebarName)">
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <div *ngIf="!modelos && !documentoAvulso" class="juntada-navigation">
+                <div class="juntada-navigation">
                     <div>
                         <button mat-mini-fab class="previous accent cdk-white-fg"
                                 *ngIf="!isBookmark"
@@ -88,7 +88,7 @@
                         </button>
                     </div>
                 </div>
-                <ng-template #assinaturasTemplate class="cdk-processo-view-assinatura-list">
+                <ng-template #assinaturasTemplate class="cdk-anexar-copia-assinatura-list">
                     <cdk-assinatura-grid cdkPerfectScrollbar
                                          (click)="$event.preventDefault()"
                                          [loading]="(assinaturasIsLoading$ | async)"
@@ -103,25 +103,25 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <div *ngIf="!modelos && !documentoAvulso" class="processo-view-juntada">
+                <div class="anexar-copia-juntada">
 
                     <div class="loading" *ngIf="loading">
                         <mat-spinner diameter="24"></mat-spinner>
                     </div>
 
-                    <div class="sem-juntadas" *ngIf="!loading && processo?.juntadaIndex?.length === 0">
+                    <div class="sem-juntadas" *ngIf="!loading && index?.length === 0">
                         <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                     </div>
 
-                    <div class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
-                         [ngStyle]="{'display': loading === true || processo?.juntadaIndex?.length === 0 ? 'none' : 'flex'}">
+                    <div class="anexar-copia-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
+                         [ngStyle]="{'display': loading === true || (loading === false && index?.length === 0) ? 'none' : 'flex'}">
                         <iframe id="iframe-juntadas" name="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                                 [src]="src">
                         </iframe>
                         <div class="pdf-viewer"
-                             [ngStyle]="{'display': loading || processo?.juntadaIndex?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
+                             [ngStyle]="{'display': loading || index?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
                             <ng2-pdfjs-viewer #pdfViewer
-                                              [viewerId]="'processo-view'"
+                                              [viewerId]="'anexar-copia'"
                                               [pdfSrc]="null"
                                               [zoom]="zoomSetting"
                                               [openFile]="false"
