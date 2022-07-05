@@ -3,7 +3,7 @@ import {getSetorEditAppState, SetorEditAppState, SetorEditState} from '../reduce
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
-import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../../../../store/reducers';
+import {CoordenadorSetorAppState, CoordenadorSetorState, getCoordenadorSetorAppState} from '../../../store';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
@@ -12,9 +12,9 @@ export const getSetorEditState: any = createSelector(
     (state: SetorEditAppState) => state.setor
 );
 
-export const getCoordenadorState: any = createSelector(
-    getCoordenadorAppState,
-    (state: CoordenadorAppState) => state.coordenador
+export const getCoordenadorSetorState: any = createSelector(
+    getCoordenadorSetorAppState,
+    (state: CoordenadorSetorAppState) => state.setor
 );
 
 export const getSetorId: any = createSelector(
@@ -23,8 +23,8 @@ export const getSetorId: any = createSelector(
 );
 
 export const getUnidadeId: any = createSelector(
-    getCoordenadorState,
-    (state: CoordenadorState) => state.loaded ? state.unidadeId : null
+    getCoordenadorSetorState,
+    (state: CoordenadorSetorState) => state.loadedUnidade ? state.unidadeId : null
 );
 
 export const getUnidade: any = createSelector(
@@ -50,8 +50,8 @@ export const getHasLoaded: any = createSelector(
 );
 
 export const getHasLoadedUnidade: any = createSelector(
-    getCoordenadorState,
-    (state: CoordenadorState) => state.loaded
+    getCoordenadorSetorState,
+    (state: CoordenadorSetorState) => state.loadedUnidade
 );
 
 export const getErrors: any = createSelector(
