@@ -5,13 +5,16 @@
         <mat-card-subtitle>Gráfico das últimas 4 semanas</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="this.tarefasCount === false">
+            <mat-spinner diameter="64"></mat-spinner>
+        </div>
         <div style="text-align: center; overflow: hidden">
             <apx-chart #graficoTarefa
-               [series]="chartOptions.series"
-               [chart]="chartOptions.chart"
-               [xaxis]="chartOptions.xaxis"
-               [plotOptions]="chartOptions.plotOptions"
-               [dataLabels]="chartOptions.dataLabels"
+                       [series]="chartOptions.series"
+                       [chart]="chartOptions.chart"
+                       [xaxis]="chartOptions.xaxis"
+                       [plotOptions]="chartOptions.plotOptions"
+                       [dataLabels]="chartOptions.dataLabels"
             ></apx-chart>
         </div>
     </mat-card-content>

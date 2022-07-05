@@ -61,17 +61,13 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
     _profile: Usuario;
 
     tarefasCount: any = false;
-    tarefasVencidasCount: any = false;
     isContadorPrincipal: boolean = true;
-    hasTarefaAberta: boolean = false;
     loaded: any;
-    contagemTarefas: any;
 
     @ViewChild('graficoTarefa') chart: ChartComponent;
     public chartOptions: Partial<ChartOptions> = {};
 
     private _unsubscribeAll: Subject<any> = new Subject();
-    private counterState: CounterState;
 
     @Input()
     item: CdkNavigationItem;
@@ -96,45 +92,32 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        // this._tarefaService.count(
-        //     `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
-        //     .pipe(
-        //         catchError(() => of([]))
-        //     ).subscribe(
-        //     (value) => {
-        //         this.tarefasCount = value;
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // );
-        //
-        // this._tarefaService.count(
-        //     `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-        //     .pipe(
-        //         catchError(() => of([]))
-        //     ).subscribe(
-        //     (value) => {
-        //         this.tarefasVencidasCount = value;
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // );
-        //
-        // this._store
-        //     .pipe(
-        //         select(fromStore.getCounterState),
-        //         takeUntil(this._unsubscribeAll)
-        //     ).subscribe((value) => {
-        //     this.counterState = value;
-        // });
-        this.carregarGrafico();
+        this._tarefaService.obterGraficoTarefas()
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            (value) => {
+                this.tarefasCount = value;
+                this._changeDetectorRef.markForCheck();
+                this.carregarGrafico();
+            }
+        );
     }
 
     carregarGrafico(): void {
-        const data = new Date();
+        const series = this.tarefasCount.map(item => {
+            return item.quantidade;
+        });
+
+        const periodos = this.tarefasCount.map(item => {
+            return item.periodo;
+        });
+
         this.chartOptions = {
             series: [
                 {
                     name: "tarefas",
-                    data: [10, 41, 35, 51]
+                    data: series
                 }
             ],
             chart: {
@@ -145,7 +128,7 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
                 text: "Tarefas recebidas nas últimas 4 semanas"
             },
             xaxis: {
-                categories: ["05/06 a 11/06", "12/06 a 18/06", "19/06 a 25/06", "26/06 a 01/07"]
+                categories: periodos
             },
             dataLabels: {
             },
