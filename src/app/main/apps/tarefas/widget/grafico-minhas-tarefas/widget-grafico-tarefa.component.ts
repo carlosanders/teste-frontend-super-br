@@ -148,11 +148,9 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
                 categories: ["05/06 a 11/06", "12/06 a 18/06", "19/06 a 25/06", "26/06 a 01/07"]
             },
             dataLabels: {
-                offsetY: -20,
             },
             plotOptions: {
                 bar: {
-                    distributed: true,
                     dataLabels: {
                         position: 'top'
                     }
