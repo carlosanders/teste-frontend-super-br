@@ -8,7 +8,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {of, Subject} from 'rxjs';
 import {CdkConfirmDialogComponent} from '../../../confirm-dialog/confirm-dialog.component';
@@ -73,7 +73,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             juntadoPor: [null],
             juntadoEm: [null],
             unidade: [null],
-            setor: [null]
+            setor: [null, [Validators.required]]
         });
     }
 
@@ -113,9 +113,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         const andXFilter = [];
 
         if (this.form.get('conteudo').value) {
-            this.form.get('conteudo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'conteudo': `like:%${bit}%`});
-            });
+            andXFilter.push({'conteudo': `like:%${this.form.get('conteudo').value}%`});
         }
 
         if (this.form.get('extensao').value) {
@@ -182,9 +180,9 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             }
         }
 
-        if (this.form.get('unidade').value) {
-            andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
-        }
+        // if (this.form.get('unidade').value) {
+        //     andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
+        // }
 
         if (this.form.get('setor').value) {
             andXFilter.push({'documento.setorOrigem.id': `eq:${this.form.get('setor').value.id}`});

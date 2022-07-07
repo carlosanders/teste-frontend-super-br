@@ -108,6 +108,10 @@ mat-option.mat-option {
     line-height: 32px !important;
 }
 
+.mat-checkbox-layout .mat-checkbox-label {
+    line-height: 16px !important;
+}
+
 .mat-card-title {
     font-size: 15px !important;
 }
@@ -249,4 +253,11 @@ div.menu-sort {
 .mat-menu-item {
     height: 36px !important;
     line-height: 36px !important;
+}
+
+.mat-mini-fab:not([class*=mat-elevation-z]) {
+    box-shadow:
+        0 3px 5px 0 rgb(0 0 0 / 20%),
+        0 3px 5px 0 rgb(0 0 0 / 15%),
+        0 3px 5px 0 rgb(0 0 0 / 10%) !important;
 }

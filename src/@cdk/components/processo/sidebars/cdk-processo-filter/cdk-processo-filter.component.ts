@@ -161,9 +161,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'interessados.pessoa.nome': `like:%${bit}%`});
-            });
+            if(this.form.get('nome').value.includes('"', '\'')){
+                andXFilter.push({'interessados.pessoa.nome': `like:%${this.form.get('nome').value}%`});
+            } else{
+                this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                    andXFilter.push({'interessados.pessoa.nome': `like:%${bit}%`});
+                });
+            }
         }
 
         if (this.form.get('NUP').value) {
@@ -171,15 +175,23 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
 
         if (this.form.get('titulo').value) {
-            this.form.get('titulo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'titulo': `like:%${bit}%`});
-            });
+            if(this.form.get('titulo').value.includes('"', '\'')){
+                andXFilter.push({'titulo': `like:%${this.form.get('titulo').value}%`});
+            } else{
+                this.form.get('titulo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                    andXFilter.push({'titulo': `like:%${bit}%`});
+                });
+            }
         }
 
         if (this.form.get('descricao').value) {
-            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'descricao': `like:%${bit}%`});
-            });
+            if(this.form.get('descricao').value.includes('"', '\'')){
+                andXFilter.push({'descricao': `like:%${this.form.get('descricao').value}%`});
+            } else{
+                this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                    andXFilter.push({'descricao': `like:%${bit}%`});
+                });
+            }
         }
 
         if (this.form.get('outroNumero').value) {
@@ -221,9 +233,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
 
         if (this.form.get('lembreteArquivista').value) {
-            this.form.get('lembreteArquivista').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'lembreteArquivista': `like:%${bit}%`});
-            });
+            if(this.form.get('lembreteArquivista').value.includes('"', '\'')){
+                andXFilter.push({'lembreteArquivista': `like:%${this.form.get('lembreteArquivista').value}%`});
+            } else {
+                this.form.get('lembreteArquivista').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                    andXFilter.push({'lembreteArquivista': `like:%${bit}%`});
+                });
+            }
         }
 
         if (this.filterDataHoraAbertura?.length) {

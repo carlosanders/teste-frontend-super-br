@@ -2,10 +2,20 @@
 
     <mat-form-field>
         <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+        <mat-error *ngIf="form.get('nome').hasError('minlength')">O campo deve ter no mínimo 3 caracteres!
+        </mat-error>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
         <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+        <mat-error *ngIf="form.get('descricao').hasError('minlength')">O campo deve ter no mínimo 3 caracteres!
+        </mat-error>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>

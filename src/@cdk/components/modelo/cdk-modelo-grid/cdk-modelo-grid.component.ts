@@ -77,7 +77,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];
+    actions: string[] = ['edit', 'editConteudo', 'especie', 'select'];
 
     @Input()
     checkboxSelection = true;

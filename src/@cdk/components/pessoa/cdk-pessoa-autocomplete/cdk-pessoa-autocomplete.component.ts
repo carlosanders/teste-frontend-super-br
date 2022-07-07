@@ -128,6 +128,9 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
         if (pessoa && pessoa.pessoaValidada) {
             retorno += ' - VALIDADA';
         }
+        if (pessoa && pessoa.pessoaConveniada) {
+            retorno += ' - CONVENIADA';
+        }
         return TitleCasePipe.format(retorno);
     }
 

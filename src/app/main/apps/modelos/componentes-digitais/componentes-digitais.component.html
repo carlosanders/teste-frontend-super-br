@@ -7,7 +7,7 @@
             [mode]="'search'"
             [saving]="(saving$ | async)"
             [mobileMode]="mobileMode"
-            [displayedColumns]="['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions']"
+            [displayedColumns]="['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions']"
             [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
             [actions]="['select']"
             (selected)="doSelect($event)"

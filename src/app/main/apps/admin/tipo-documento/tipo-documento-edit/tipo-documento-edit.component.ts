@@ -56,10 +56,10 @@ export class TipoDocumentoEditComponent implements OnInit {
     loadForm(): void {
         this.formTipoDocumento = this._formBuilder.group({
             id: [null],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            nome: [null,  [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.minLength(3)]],
             especieDocumento: [null, [Validators.required]],
-            descricao: [null, [Validators.required]],
+            descricao: [null,  [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             ativo: [null],
         });
     }

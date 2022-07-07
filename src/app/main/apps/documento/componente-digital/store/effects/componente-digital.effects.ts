@@ -88,7 +88,7 @@ export class ComponenteDigitalEffect {
         withLatestFrom(this._store.select(getDocumento), this._store.select(getComponenteDigitalLoaded)),
         tap(([action, documento, loaded]) => {
             if (loaded.exibido !== action.payload.componenteDigitalId) {
-                this._componenteDigitalService.trocandoDocumento.next(true);
+                // this._componenteDigitalService.trocandoDocumento.next(true);
                 let primary: string;
                 primary = 'componente-digital/';
                 const componenteDigital = action.payload.componenteDigital;
@@ -348,12 +348,6 @@ export class ComponenteDigitalEffect {
      */
     autoSaveComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.AutoSaveComponenteDigital>(ComponenteDigitalActions.AUTO_SAVE_COMPONENTE_DIGITAL),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'componente digital',
-            content: 'Salvando componente digital automaticamente...',
-            status: 0, // carregando
-        }))),
         switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital, {
             conteudo: action.payload.data,
             hashAntigo: action.payload.hashAntigo
@@ -369,12 +363,6 @@ export class ComponenteDigitalEffect {
                             (60 * 60 * 24 * 30) //30 dias
                         ).subscribe();
                     });
-                return this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: `Componente Digital id ${response.id} salvo automaticamente com sucesso!`,
-                    status: 1, // sucesso
-                }))
             }),
             mergeMap((response: ComponenteDigital) => [
                 new ComponenteDigitalActions.AutoSaveComponenteDigitalSuccess(response),
@@ -386,12 +374,6 @@ export class ComponenteDigitalEffect {
             ]),
             catchError((err) => {
                 console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: 'Erro ao salvar automaticamente o componente digital!',
-                    status: 2, // erro
-                }));
                 return of(new ComponenteDigitalActions.AutoSaveComponenteDigitalFailed(err));
             })
         ))

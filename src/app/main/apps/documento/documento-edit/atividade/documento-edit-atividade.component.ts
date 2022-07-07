@@ -93,6 +93,9 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    assinaturaErrors$: Observable<any>;
+    assinaturaErrosDocumentosId$: Observable<number[]>;
+    errorsAssinatura: string = null;
     lote: string;
 
     values: any;
@@ -188,6 +191,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
+        this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
+        this.assinaturaErrosDocumentosId$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrosDocumentosId));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
@@ -271,10 +276,21 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         ).subscribe(documentos => this.documentosVinculados = documentos);
 
         this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+            this._componenteDigitalService.saving.next(false);
             if (value === this.documento.id) {
                 this.submitAtividade();
             }
         });
+
+        this.assinaturaErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((err) => {
+            if (err) {
+                this.errorsAssinatura = CdkUtils.errorsToString(err);
+            } else {
+                this.errorsAssinatura = null;
+            }
+        })
     }
 
     ngAfterViewInit(): void {
@@ -453,6 +469,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         const documento = event.documento;
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
+                this._componenteDigitalService.saving.next(false);
                 const sidebar = 'editar/' + this.routeAtividadeDocumento;
                 if (event.event.ctrlKey) {
                     const extras = {
@@ -495,6 +512,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         }
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
+                this._componenteDigitalService.saving.next(false);
                 return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
             }
         });

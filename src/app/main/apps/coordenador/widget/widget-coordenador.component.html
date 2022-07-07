@@ -24,7 +24,7 @@
                     <button class="botao-link" mat-button
                             [routerLink]="'/apps/tarefas/' + item.value.split('_')[1] + '/coordenacao/' + item.value.split('_')[0]">
                         <span class="material-icons">link</span>
-                        <span class="titulo">Gênero {{item.value.split('_')[1] | titleCasePipe}}, Setor {{item.value.split('_')[3]}}({{item.value.split('_')[4]}})</span>
+                        <span class="titulo">{{item.value.split('_')[1] | titleCasePipe}}, Setor {{item.value.split('_')[3]}}({{item.value.split('_')[4]}})</span>
                         : {{item.value.split('_')[2]}}
                     </button>
                 </div>
