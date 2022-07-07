@@ -5,13 +5,13 @@
 // Import app and page component themes here to enable theming for them
 // Adicionar aqui o caminho dos temas de cada módulo instalado
 //@import "./disciplinar/module.theme";
-@import "./judicial/module.theme";
-@import "./divida/module.theme";
-@import "./calculo/module.theme";
+//@import "./judicial/module.theme";
+//@import "./divida/module.theme";
+//@import "./calculo/module.theme";
 
 @mixin modules-theme($theme) {
     //@include disciplinar-theme($theme);
-    @include judicial-theme($theme);
-    @include divida-theme($theme);
-    @include calculo-theme($theme);
+    //@include judicial-theme($theme);
+    //@include divida-theme($theme);
+    //@include calculo-theme($theme);
 }
