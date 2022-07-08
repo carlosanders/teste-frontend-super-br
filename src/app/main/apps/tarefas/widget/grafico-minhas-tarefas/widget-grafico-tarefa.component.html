@@ -1,0 +1,23 @@
+<mat-card class="scrollable-content">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>trending_up</mat-icon>
+        <mat-card-title>Distribuição</mat-card-title>
+        <mat-card-subtitle>Últimas 4 semanas</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="this.tarefasCount === false">
+            <mat-spinner diameter="64"></mat-spinner>
+        </div>
+        <div style="text-align: center; overflow: hidden" *ngIf="chartOptions?.series">
+            <apx-chart #graficoTarefa
+                       [series]="chartOptions.series"
+                       [chart]="chartOptions.chart"
+                       [xaxis]="chartOptions.xaxis"
+                       [yaxis]="chartOptions.yaxis"
+                       [stroke]="chartOptions.stroke"
+                       [plotOptions]="chartOptions.plotOptions"
+                       [dataLabels]="chartOptions.dataLabels"
+            ></apx-chart>
+        </div>
+    </mat-card-content>
+</mat-card>

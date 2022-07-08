@@ -98,4 +98,14 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             map(response => plainToClass(Tarefa, response))
         );
     }
+
+    obterGraficoTarefas(context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.get(
+            `${environment.api_url}${'administrativo/tarefa'}/grafico_semanal` + environment.xdebug,
+            {params}
+        );
+    }
+
 }
