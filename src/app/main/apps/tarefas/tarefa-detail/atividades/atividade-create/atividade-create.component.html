@@ -98,6 +98,9 @@
                                  (changedSelectedIds)="changedSelectedIds($event)"
                                  [loadingDocumentosExcluidos]="(loadDocumentosExcluidos$ | async)"
                                  [lixeiraMinutas]="(lixeiraMinutas$| async)"
+                                 [assinaturaErrors]="(assinaturaErrors$ | async)"
+                                 [assinaturasErrosDocumentosId]="(assinaturaErrosDocumentosId$ | async)"
+                                 [errorsAssinatura]="errorsAssinatura"
                                  (sairLixeira)="doSairLixeiraMinutas($event)"
                                  [undeletingId]="(undeletingDocumentosId$ | async)">
         </cdk-minutas-atividade-card-list>

@@ -3,6 +3,7 @@ import * as AssinaturaActions from '../actions/assinatura.actions';
 export interface AssinaturaState {
     assinandoDocumentosId: number[];
     removendoAssinaturaDocumentosId: number[];
+    errosAssinaturaDocumentosId: number[];
     errors: any;
     redirectRevalidaGovBr: boolean,
 }
@@ -10,6 +11,7 @@ export interface AssinaturaState {
 export const assinaturaInitialState: AssinaturaState = {
     assinandoDocumentosId: [],
     removendoAssinaturaDocumentosId: [],
+    errosAssinaturaDocumentosId: [],
     errors: false,
     redirectRevalidaGovBr: false,
 };
@@ -24,6 +26,7 @@ export const assinaturaReducer = (
             return {
                 ...state,
                 assinandoDocumentosId: [...state.assinandoDocumentosId, ...action.payload],
+                errosAssinaturaDocumentosId: state.errosAssinaturaDocumentosId.filter(id => id !== action.payload),
                 errors: false
             };
         }
@@ -46,6 +49,7 @@ export const assinaturaReducer = (
             return {
                 ...state,
                 assinandoDocumentosId: state.assinandoDocumentosId.filter(el => action.payload.ids.includes(el)),
+                errosAssinaturaDocumentosId: [...state.errosAssinaturaDocumentosId, ...action.payload.ids],
                 errors: action.payload.error
             };
         }
@@ -54,6 +58,7 @@ export const assinaturaReducer = (
             return {
                 ...state,
                 assinandoDocumentosId: [...state.assinandoDocumentosId, action.payload.documento.id],
+                errosAssinaturaDocumentosId: state.errosAssinaturaDocumentosId.filter(id => id !== action.payload.documento.id),
                 errors: false
             };
         }
@@ -70,6 +75,7 @@ export const assinaturaReducer = (
             return {
                 ...state,
                 assinandoDocumentosId: state.assinandoDocumentosId.filter(id => id !== action.payload.documentoId),
+                errosAssinaturaDocumentosId: [...state.errosAssinaturaDocumentosId, action.payload.documentoId],
                 errors: action.payload.error
             };
         }
