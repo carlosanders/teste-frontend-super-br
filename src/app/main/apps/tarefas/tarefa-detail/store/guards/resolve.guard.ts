@@ -90,11 +90,6 @@ export class ResolveGuard implements CanActivate {
                             id: this.routerState.params['processoHandle']
                         }));
                     }
-                } else {
-                    if (this.routerState.params['stepHandle'] === 'default' && !this.loadedProcesso) {
-                        // Tentando carregar a rota default de um processo que está no estado da aplicação mas não passou pelo GetJuntadasSuccess
-                        const firstJuntada = loaded?.juntadaIndex?.findIndex(indice => indice.componentesDigitais.length > 0);
-                    }
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

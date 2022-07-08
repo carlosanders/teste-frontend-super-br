@@ -154,17 +154,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
-        if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-            // Entrou na rota de visualizar processo
-            this.matTabGroup.selectedIndex = 1;
-            if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
-                const steps = this.routerState.params['stepHandle'].split('-');
-                this._store.dispatch(new SetCurrentStep({
-                    step: parseInt(steps[0], 10),
-                    subStep: parseInt(steps[1], 10)
-                }));
-            }
-        }
     }
 
     /**
@@ -189,7 +178,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
-        if (this.routerState.params['stepHandle']) {
+        if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: parseInt(steps[0], 10),
@@ -357,25 +346,13 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                         this._componenteDigitalService.saving.next(false);
                         this.currentIndice = indice;
                         this.modoProcesso = 1;
-                        let stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-                        if (stepHandle === 'capa') {
-                            stepHandle += '/mostrar';
-                        }
-                        const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
-                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id;
                         const sidebar = 'empty';
                         this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                             {
                                 relativeTo: this._activatedRoute
                             })
-                            .then(() => {
-                                if (steps) {
-                                    this._store.dispatch(new SetCurrentStep({
-                                        step: parseInt(steps[0], 10),
-                                        subStep: parseInt(steps[1], 10)
-                                    }));
-                                }
-                            });
+                            .then(() => {});
                     } else {
                         this.matTabGroup.selectedIndex = 0;
                     }

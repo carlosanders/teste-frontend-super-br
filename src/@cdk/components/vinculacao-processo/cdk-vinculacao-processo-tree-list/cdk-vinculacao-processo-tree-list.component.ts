@@ -61,6 +61,7 @@ export class CdkVinculacaoProcessoTreeListComponent implements OnInit, OnChanges
     @Input() paginator: Pagination = new Pagination();
     @Input() deletingErrors: any = {};
     @Input() currentProcessoId: number;
+    @Input() mode = 'padrao';
     @Output() excluded: EventEmitter<Pagination> = new EventEmitter<Pagination>();
     @Output() reload: EventEmitter<Pagination> = new EventEmitter<Pagination>();
     @Output('deleteBloco') deleteBlocoEmmitter: EventEmitter<number[]> = new EventEmitter<number[]>();

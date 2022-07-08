@@ -50,7 +50,13 @@ const routes: Routes = [
         path: ':processoCopiaHandle',
         component: AnexarCopiaComponent,
         canActivate: [fromGuards.ResolveGuard],
-        canDeactivate: [fromGuards.DeactivateGuard]
+        canDeactivate: [fromGuards.DeactivateGuard],
+        children: [
+            {
+                path: 'acesso-negado',
+                loadChildren: () => import('../acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
+            },
+        ]
     }
 ];
 

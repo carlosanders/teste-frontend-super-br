@@ -29,7 +29,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
-import {GetJuntadaIndex, getProcesso, getProcessoLoaded} from '../../store';
+import {getProcesso} from '../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
@@ -180,23 +180,30 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
 
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
+                    } else {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -337,6 +344,33 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
+                houveMudanca = true;
+            }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
+            }
+        });
+        return houveMudanca;
+    }
+
     reload(params): void {
         this.novaJuntada = false;
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
@@ -354,10 +388,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        this._store.dispatch(new GetJuntadaIndex({
-            processoId: this.processo.id,
-            reload: true
-        }));
     }
 
     doSort(sort: string): void {
@@ -455,15 +485,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         this.isOpen[id] = !this.isOpen[id];
     }
 
-    abreJuntadas(): void {
-        this.isJuntadas = true;
-        const stepHandle = this.routerState.params['stepHandle'];
-        this._store.dispatch(new fromStore.SetCurrentStep({
-            step: parseInt(stepHandle.split('-')[0], 10),
-            subStep: parseInt(stepHandle.split('-')[1], 10)
-        }));
-    }
-
     doCopyNumDoc(numDoc: string): void {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (numDoc));
@@ -496,6 +517,11 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
 
     isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
         if (!componenteDigitalId) {
+            if (this.currentStep.step === 0) {
+                // latest ou inicial
+                const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+                return juntadaLatest && juntadaId === juntadaLatest.id;
+            }
             return juntadaId === this.currentStep.step;
         }
         return !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;

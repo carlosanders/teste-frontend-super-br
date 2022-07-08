@@ -41,7 +41,6 @@ export class ProcessoEffect {
             } : {};
 
             contexto['compartilhamentoUsuario'] = 'processo';
-            contexto['latestJuntadaIndex'] = true;
 
             let populate = action.payload.populate ? [...action.payload.populate] : [];
             populate = [
@@ -65,8 +64,7 @@ export class ProcessoEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params['processoHandle'],
-                            acessoNegado: response.acessoNegado,
-                            juntadaIndex: response.juntadaIndex
+                            acessoNegado: response.acessoNegado
                         },
                         processoId: response.id
                     })
@@ -428,22 +426,6 @@ export class ProcessoEffect {
                     }
                 );
             })
-        ))
-    ));
-    /**
-     * Atualiza index de juntadas
-     *
-     * @type {Observable<any>}
-     */
-    getJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoActions.GetJuntadaIndex>(ProcessoActions.GET_JUNTADA_INDEX),
-        switchMap(action => this._processoService.getJuntadaIndex(action.payload.processoId).pipe(
-            mergeMap((response: any) => [
-                new ProcessoActions.AtualizaJuntadaIndex({
-                    juntadaIndex: response,
-                    reload: !!action.payload.reload
-                }),
-            ])
         ))
     ));
 

@@ -149,7 +149,7 @@ export class ComponenteDigitalEffect {
                 action.payload.documento.tarefaOrigem.id;
             const processoId = action.payload.documento.processoOrigem.id;
             if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'], 10)) {
-                stepHandle = 'default';
+                stepHandle = 'latest';
             }
             this._router.navigate([
                     'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'

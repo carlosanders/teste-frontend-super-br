@@ -1,16 +1,19 @@
 import {StoreModule} from '@ngrx/store';
 import {NgModule} from '@angular/core';
+import {EffectsModule} from '@ngrx/effects';
 
 import {reducers} from './reducers';
+import {effects} from './effects';
 import {ProcessoService} from '@cdk/services/processo.service';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('editor-visualizar-processo-app', reducers),
+        StoreModule.forFeature('visualizar-processo-app', reducers),
+        EffectsModule.forFeature(effects)
     ],
     providers: [
         ProcessoService
     ]
 })
-export class EditorVisualizarProcessoStoreModule {
+export class VisualizarProcessoStoreModule {
 }

@@ -89,7 +89,7 @@ export class ContaEmailEffects {
                         } else {
                             this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
                             this._router.navigate([
-                                `apps/processo/${response.id}/visualizar/default`
+                                `apps/processo/${response.id}/visualizar/latest`
                             ]);
                         }
                     })

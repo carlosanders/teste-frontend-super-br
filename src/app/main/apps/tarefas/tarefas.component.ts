@@ -1117,7 +1117,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/latest']).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1590,7 +1590,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         let urlEditor;
         if (this.routerState.params['processoHandle']) {
             if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
@@ -1617,7 +1617,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
