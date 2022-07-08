@@ -982,3 +982,13 @@
 
 * Correções de bug de upgrade de dependencias
 * Não é possível apagar um modelo, apenas inativá-lo
+
+1.8.12
+
+* Correções de bug de upgrade de dependencias
+
+1.8.13
+
+* Widget com o gráfico da distribuição de tarefas das 4 ultimas semanas
+* Correção para exibir as setas de alteração de ano em alguns datepickers
+* Ajuste visual nos subsmenus do processo

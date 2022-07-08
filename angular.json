@@ -43,8 +43,13 @@
                             "src/styles.scss",
                             "node_modules/shepherd.js/dist/css/shepherd.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "node_modules/apexcharts/dist/apexcharts.min.js"
+                        ],
                         "allowedCommonJsDependencies": [
+                            "apexcharts",
+                            "prismjs/prism",
+                            "moment",
                             "hammerjs",
                             "class-transformer",
                             "event-source-polyfill",

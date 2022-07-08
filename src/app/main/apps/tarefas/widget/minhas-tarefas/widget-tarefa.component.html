@@ -3,9 +3,6 @@
         <mat-icon class="s-52" mat-card-avatar>schedule</mat-icon>
         <mat-card-title>Minhas Tarefas</mat-card-title>
         <mat-card-subtitle>Pendentes de conclusão</mat-card-subtitle>
-        <mat-icon class="icone-tarefa" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}">
-            swap_horiz
-        </mat-icon>
     </mat-card-header>
     <mat-card-content>
         <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">

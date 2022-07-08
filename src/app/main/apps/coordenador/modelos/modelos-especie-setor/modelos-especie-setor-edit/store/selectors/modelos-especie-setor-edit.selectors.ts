@@ -9,7 +9,7 @@ import {VinculacaoModelo} from '@cdk/models/vinculacao-modelo.model';
 import {
     modalidadeOrgaoCentral as schemaOrgaoCentral,
     modelo as schemaModelo,
-    unidade as schemaUnidade,
+    setor as schemaUnidade,
     vinculacaoModelo as vinculacaoModeloSchema
 } from '@cdk/normalizr';
 import {getModelosEspecieSetorState} from '../../../store/selectors';

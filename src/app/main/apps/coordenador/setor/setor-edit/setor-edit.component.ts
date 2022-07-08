@@ -56,8 +56,8 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             select(getRouterState),
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-                    this.routerState = routerState.state;
-            });
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
@@ -85,7 +85,9 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(setor => this.setor = setor);
 
-        this.unidade$.subscribe(unidade => this.unidade = unidade);
+        this.unidade$.subscribe((unidade) => {
+            this.unidade = unidade;
+        });
 
         if (!this.setor) {
             this.setor = new Setor();
