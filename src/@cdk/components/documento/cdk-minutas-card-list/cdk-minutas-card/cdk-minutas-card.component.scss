@@ -1,7 +1,6 @@
 @import '../../../../scss/cdk';
 
 cdk-minutas-card {
-
     border: 1px solid;
     border-radius: 3px;
 
@@ -19,5 +18,12 @@ cdk-minutas-card {
     .space {
         height: 4px;
     }
+
+    .borda-erro {
+        border: solid red 1px;
+    }
 }
 
+.multiline-tooltip {
+    white-space: pre-line !important;
+}

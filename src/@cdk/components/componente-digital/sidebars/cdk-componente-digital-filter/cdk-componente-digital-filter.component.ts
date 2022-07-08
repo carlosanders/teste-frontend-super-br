@@ -113,13 +113,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         const andXFilter = [];
 
         if (this.form.get('conteudo').value) {
-            if(this.form.get('conteudo').value.includes('"', '\'')){
-                andXFilter.push({'conteudo': `like:%${this.form.get('conteudo').value}%`});
-            } else {
-                this.form.get('conteudo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                    andXFilter.push({'conteudo': `like:%${bit}%`});
-                });
-            }
+            andXFilter.push({'conteudo': `like:%${this.form.get('conteudo').value}%`});
         }
 
         if (this.form.get('extensao').value) {
