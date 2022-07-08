@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getAnexarCopiaAppState,
-    AnexarCopiaAppState,
+    getVisualizarProcessoAppState,
+    VisualizarProcessoAppState,
     VolumesState
 } from '../reducers';
 
@@ -12,8 +12,8 @@ import {Volume} from '@cdk/models';
 const schemaSelectors = createSchemaSelectors<Volume>(volumeSchema);
 
 export const getVolumesState: any = createSelector(
-    getAnexarCopiaAppState,
-    (state: AnexarCopiaAppState) => state.volumes
+    getVisualizarProcessoAppState,
+    (state: VisualizarProcessoAppState) => state.volumes
 );
 
 export const getVolumesIds: any = createSelector(

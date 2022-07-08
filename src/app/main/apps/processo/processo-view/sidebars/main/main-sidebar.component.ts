@@ -236,6 +236,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark$: any;
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
+    isBookmark$: Observable<boolean>;
+    isBookmark = false;
     isJuntadas = true;
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -315,14 +317,21 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
+        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
             this.isJuntadas = true;
-            SharedBookmarkService.modeBookmark = false;
             this._changeDetectorRef.markForCheck();
+        });
+
+        this.isBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isBookmark) => {
+            this.isBookmark = isBookmark;
+            this.isJuntadas = !isBookmark;
         });
 
         this.tipoDocumentoPagination = new Pagination();
@@ -465,16 +474,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.errorsDocumento$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((errors) => {
-                if (errors && errors.status && errors.status === 422) {
-                    const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
-                    this._snackBar.open(error, null, {
-                        duration: 5000,
-                        horizontalPosition: this.horizontalPosition,
-                        verticalPosition: this.verticalPosition,
-                        panelClass: ['danger-snackbar']
-                    });
-                }
-            });
+            if (errors && errors.status && errors.status === 422) {
+                const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+                this._snackBar.open(error, null, {
+                    duration: 5000,
+                    horizontalPosition: this.horizontalPosition,
+                    verticalPosition: this.verticalPosition,
+                    panelClass: ['danger-snackbar']
+                });
+            }
+        });
 
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -692,47 +701,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             // in the animation direction registered
             this._changeDetectorRef.detectChanges();
 
-            if (this.routerState.url.indexOf('/documento/') !== -1) {
-                const arrPrimary = [];
-                arrPrimary.push('visualizar-processo');
-                arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(stepHandle);
-                // Navegação do processo deve ocorrer por outlet
-                this._router.navigate(
-                    [
-                        this.routerState.url.split('/documento/')[0] + '/documento/' +
-                        this.routerState.params.documentoHandle,
-                        {
-                            outlets: {
-                                primary: arrPrimary
-                            }
-                        }
-                    ],
-                    {
-                        relativeTo: this._activatedRoute.parent
-                    }
-                ).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-                    this.fecharSidebar();
-                });
-            } else {
-                let url = this.routerState.url.split('/processo/')[0] +
-                    '/processo/' +
-                    this.routerState.params.processoHandle;
-                if (this.routerState.params.chaveAcessoHandle) {
-                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
-                }
-                url += '/visualizar/' + stepHandle;
-                this._router.navigateByUrl(url).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-                    this.fecharSidebar();
-                });
+            let url = this.routerState.url.split('/processo/')[0] +
+                '/processo/' +
+                this.routerState.params.processoHandle;
+            if (this.routerState.params.chaveAcessoHandle) {
+                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
             }
+            url += '/visualizar/' + stepHandle;
+            this._router.navigateByUrl(url).then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                this.fecharSidebar();
+            });
         }
     }
 
@@ -1252,10 +1231,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
 
-    doJuntadaOutraAba(documento: Documento, juntada:Juntada): void {
+    doJuntadaOutraAba(documento: Documento, juntada: Juntada): void {
         if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
             juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
-                this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
+            this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
         } else {
             this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
         }
@@ -1467,12 +1446,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     abreJuntadas(): void {
-        this.isJuntadas = true;
-        const stepHandle = this.routerState.params['stepHandle'];
-        this._store.dispatch(new fromStore.SetCurrentStep({
-            step: parseInt(stepHandle.split('-')[0], 10),
-            subStep: parseInt(stepHandle.split('-')[1], 10)
-        }));
+        SharedBookmarkService.pagina = null;
+        this._store.dispatch(new fromStore.SetCurrentStep(this.currentStep));
     }
 
     reloadBookmarks(): void {
@@ -1482,8 +1457,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     getBookmark(): void {
         this.isJuntadas = false;
         this.bookMarkselected = 0;
-        SharedBookmarkService.modeBookmark = true;
-
         this._store.dispatch(new fromStore.ReloadBookmarks());
     }
 
@@ -1491,16 +1464,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookMarkselected = bookmark.id;
         this.bookMarkJuntadaselected = key;
         SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
-        SharedBookmarkService.modeBookmark = true;
-
-        this._router.navigate([
-                this.routerState.url.split('/processo/')[0] +
-                '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + bookmark.juntada.id + '-' + bookmark.componenteDigital.id
-            ], {queryParams: {pagina: pagina}}
-        ).then(() => {
-            this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
-        });
+        SharedBookmarkService.pagina = pagina;
+        this._store.dispatch(new fromStore.SetBinaryView({
+            juntadaId: bookmark.juntada.id,
+            componenteDigitalId: bookmark.componenteDigital.id,
+            pagina: pagina
+        }));
     }
 
     deleteBookmark(bookmarkId: any): void {

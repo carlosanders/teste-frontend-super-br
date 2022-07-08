@@ -4,18 +4,26 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
-import * as VisualizarProcessoActions from '../actions/visualizar-processo.actions';
+import * as VisualizarProcessoActions from '../actions/';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
-import {juntada as juntadaSchema, processo as processoSchema} from '@cdk/normalizr';
+import {Assunto, ComponenteDigital, Interessado, Juntada, Processo, VinculacaoProcesso} from '@cdk/models';
+import {
+    assunto as assuntoSchema,
+    interessado as interessadoSchema,
+    juntada as juntadaSchema,
+    processo as processoSchema, vinculacaoProcesso as vinculacaoProcessoSchema
+} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CacheModelService} from '@cdk/services/cache.service';
 import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
-import {getProcessoLoaded, getBinary, getCurrentStep} from '../';
+import {getBinary} from '../';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 
 @Injectable()
 export class VisualizarProcessoEffects {
@@ -39,10 +47,21 @@ export class VisualizarProcessoEffects {
                 'modalidadeMeio',
                 'especieProcesso',
                 'especieProcesso.generoProcesso',
+                'especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'setorAtual',
                 'setorAtual.especieSetor',
+                'setorAtual.unidade',
+                'classificacao',
+                'classificacao.modalidadeDestinacao',
                 'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta'
+                'vinculacoesEtiquetas.etiqueta',
+                'modalidadeFase',
+                'procedencia',
+                'modalidadeMeio',
+                'localizador',
+                'criadoPor',
+                'atualizadoPor'
             ];
             return this._processoService.get(
                 action.payload.id,
@@ -66,6 +85,66 @@ export class VisualizarProcessoEffects {
             );
         }),
     ));
+    /**
+     * Get Processo Success
+     */
+    getProcessoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.GetProcessoSuccess>(VisualizarProcessoActions.GET_PROCESSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new VisualizarProcessoActions.UnloadAssuntos({reset: true}));
+            const paramsAssuntos = {
+                filter: {'processo.id': `eq:${action.payload.processoId}`, 'principal': 'eq:true'},
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: ['populateAll']
+            };
+            this._store.dispatch(new VisualizarProcessoActions.GetAssuntos(paramsAssuntos));
+            this._store.dispatch(new VisualizarProcessoActions.UnloadInteressados({reset: true}));
+            const paramsInteressados = {
+                filter: {'processo.id': `eq:${action.payload.processoId}`},
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: ['populateAll', 'pessoa']
+            };
+            this._store.dispatch(new VisualizarProcessoActions.GetInteressados(paramsInteressados));
+            this._store.dispatch(new VisualizarProcessoActions.UnloadJuntadasCapa({reset: true}));
+            const paramsJuntadas = {
+                filter: {'volume.processo.id': `eq:${action.payload.processoId}`},
+                sort: {numeracaoSequencial: 'DESC'},
+                gridFilter: {},
+                limit: 10,
+                offset: 0,
+                populate: [
+                    'populateAll',
+                    'documento',
+                    'documento.componentesDigitais',
+                    'documento.tipoDocumento',
+                    'documento.vinculacoesDocumentos',
+                    'documento.vinculacoesDocumentos.documentoVinculado',
+                    'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
+                    'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                    'documento.criadoPor',
+                    'documento.origemDados',
+                    'documento.setorOrigem',
+                    'documento.setorOrigem.unidade',
+                    'documento.pasta',
+                    'documento.procedencia',
+                    'documento.componentesDigitais.assinaturas',
+                ]
+            };
+            this._store.dispatch(new VisualizarProcessoActions.GetJuntadasCapa(paramsJuntadas));
+            this._store.dispatch(new VisualizarProcessoActions.UnloadVinculacoesProcessos({reset: true}));
+            const paramsVinculacoesProcessos = {
+                processoId: action.payload.processoId,
+                populate: ['populateAll']
+            };
+            this._store.dispatch(new VisualizarProcessoActions.GetVinculacoesProcessos(paramsVinculacoesProcessos));
+
+        })
+    ), {dispatch: false});
     /**
      * Get Juntadas with router parameters
      *
@@ -163,7 +242,6 @@ export class VisualizarProcessoEffects {
             this._store.dispatch(new VisualizarProcessoActions.GetJuntadas(params));
         })
     ), {dispatch: false});
-
     /**
      * @type {Observable<any>}
      */
@@ -246,6 +324,37 @@ export class VisualizarProcessoEffects {
         })
     ), {dispatch: false});
     /**
+     * @type {Observable<VisualizarProcessoActions.VisualizarProcessoActionsAll>}
+     */
+    downloadLatestBinary: Observable<VisualizarProcessoActions.VisualizarProcessoActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.DownloadLatestBinary>(VisualizarProcessoActions.DOWNLOAD_LATEST_BINARY),
+        switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
+            tap((componenteDigital) => {
+                if (componenteDigital?.mimetype != 'text/html') {
+                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
+                }
+            }),
+            map((response: any) => new VisualizarProcessoActions.DownloadLatestBinarySuccess({
+                step: 0,
+                subStep: response.id,
+                binary: response
+            })),
+            catchError((err) => {
+                console.log(err);
+                return of(new VisualizarProcessoActions.DownloadLatestBinaryFailed({processoId: action.payload, error: err.error.message}))
+            })
+        ))
+    ));
+    /**
+     *
+     */
+    downloadLatestBinaryFailed: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.DownloadLatestBinaryFailed>(VisualizarProcessoActions.DOWNLOAD_LATEST_BINARY_FAILED),
+        tap((action) => {
+            this._store.dispatch(new VisualizarProcessoActions.SetCurrentStepFailed(null));
+        })
+    ), {dispatch: false});
+    /**
      * @type {Observable<any>}
      */
     setBinaryView: Observable<any> = createEffect(() => this._actions.pipe(
@@ -270,14 +379,154 @@ export class VisualizarProcessoEffects {
                 );
 
             return download$.pipe(
-                map((response: any) => new VisualizarProcessoActions.SetCurrentStepSuccess({
+                map((response: any) => new VisualizarProcessoActions.SetBinaryViewSuccess({
                     binary: response
                 })),
                 catchError((err) => {
                     console.log(err);
-                    return of(new VisualizarProcessoActions.SetCurrentStepFailed(err));
+                    return of(new VisualizarProcessoActions.SetBinaryViewFailed(err));
                 })
             );
+        })
+    ));
+    /**
+     * Get Assuntos Processo
+     *
+     * @type {Observable<any>}
+     */
+    getAssuntosProcesso: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.GetAssuntos>(VisualizarProcessoActions.GET_ASSUNTOS),
+        switchMap((action) => {
+            const contexto = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            return this._assuntoService.query(
+                JSON.stringify({
+                    ...action.payload.filter,
+                    ...action.payload.listFilter,
+                    ...action.payload.gridFilter,
+                }),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate),
+                JSON.stringify(contexto));
+        }),
+        mergeMap(response => [
+            new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+            new VisualizarProcessoActions.GetAssuntosSuccess({
+                entitiesId: response['entities'].map(assunto => assunto.id),
+                loaded: {
+                    id: 'processoViewHandle',
+                    value: this.routerState.params['processoViewHandle']
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new VisualizarProcessoActions.GetAssuntosFailed(err));
+        })
+    ));
+    /**
+     * GetInteressados Processo
+     *
+     * @type {Observable<any>}
+     */
+    getInteressadosProcesso: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.GetInteressados>(VisualizarProcessoActions.GET_INTERESSADOS),
+        switchMap((action) => {
+            const contexto = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            return this._interessadoService.query(
+                JSON.stringify({
+                    ...action.payload.filter,
+                    ...action.payload.listFilter,
+                    ...action.payload.gridFilter,
+                }),
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate),
+                JSON.stringify(contexto));
+        }),
+        mergeMap(response => [
+            new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
+            new VisualizarProcessoActions.GetInteressadosSuccess({
+                entitiesId: response['entities'].map(interessado => interessado.id),
+                loaded: {
+                    id: 'processoViewHandle',
+                    value: this.routerState.params['processoViewHandle']
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new VisualizarProcessoActions.GetInteressadosFailed(err));
+        })
+    ));
+    /**
+     * GetVinculacoesProcessos Processo
+     *
+     * @type {Observable<any>}
+     */
+    getVinculacoesProcessosProcesso: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.GetVinculacoesProcessos>(VisualizarProcessoActions.GET_VINCULACOES_PROCESSOS),
+        switchMap((action) => {
+            const contexto = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            return this._vinculacaoProcessoService.findAllVinculacoes(
+                action.payload.processoId,
+                JSON.stringify(action.payload.populate),
+                JSON.stringify(contexto)
+            );
+        }),
+        mergeMap(response => [
+            new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
+            new VisualizarProcessoActions.GetVinculacoesProcessosSuccess({//o-
+                entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
+                loaded: {
+                    id: 'processoViewHandle',
+                    value: this.routerState.params['processoViewHandle']
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new VisualizarProcessoActions.GetVinculacoesProcessosFailed(err));
+        })
+    ));
+
+    getJuntadasCapa: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<VisualizarProcessoActions.GetJuntadasCapa>(VisualizarProcessoActions.GET_JUNTADAS_CAPA),
+        switchMap(action => this._juntadaService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
+        mergeMap(response => [
+            new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
+            new VisualizarProcessoActions.GetJuntadasCapaSuccess({
+                entitiesId: response['entities'].map(juntada => juntada.id),
+                loaded: {
+                    id: 'processoViewHandle',
+                    value: this.routerState.params['processoViewHandle']
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new VisualizarProcessoActions.GetJuntadasCapaFailed(err));
         })
     ));
 
@@ -287,6 +536,9 @@ export class VisualizarProcessoEffects {
         private _actions: Actions,
         private _componenteDigitalService: ComponenteDigitalService,
         private _juntadaService: JuntadaService,
+        private _assuntoService: AssuntoService,
+        private _interessadoService: InteressadoService,
+        private _vinculacaoProcessoService: VinculacaoProcessoService,
         private _processoService: ProcessoService,
         public _loginService: LoginService,
         private _store: Store<State>,
@@ -303,5 +555,26 @@ export class VisualizarProcessoEffects {
 
         this._profile = _loginService.getUserProfile();
         this._cacheComponenteDigitalModelService.initialize(this._loginService.getUserProfile().username, ComponenteDigital);
+    }
+
+    getDefaultStep = (juntadas: Juntada[]): { step: number, subStep: number } => {
+        let juntadaDefault;
+        let defaultStep: {
+            step: number,
+            subStep: number
+        } = {
+            step: 0,
+            subStep: null
+        };
+        juntadaDefault = juntadas.find(juntada => {
+            return juntada.ativo && (juntada.documento.componentesDigitais.length > 0 || juntada.documento.vinculacoesDocumentos.length > 0);
+        });
+        if (juntadaDefault) {
+            defaultStep.step = juntadaDefault.id;
+            defaultStep.subStep = juntadaDefault.documento.componentesDigitais.length ?
+                juntadaDefault.documento.componentesDigitais[0].id :
+                juntadaDefault.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
+        }
+        return defaultStep;
     }
 }

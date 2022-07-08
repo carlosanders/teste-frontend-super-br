@@ -362,7 +362,10 @@ export class ProcessoViewEffect {
             })),
             catchError((err) => {
                 console.log(err);
-                return of(new ProcessoViewActions.DownloadLatestBinaryFailed({processoId: action.payload, error: err.error.message}))
+                return of(new ProcessoViewActions.DownloadLatestBinaryFailed({
+                    processoId: action.payload,
+                    error: err.error.message
+                }))
             })
         ))
     ));
@@ -400,12 +403,12 @@ export class ProcessoViewEffect {
                 );
 
             return download$.pipe(
-                map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                map((response: any) => new ProcessoViewActions.SetBinaryViewSuccess({
                     binary: response
                 })),
                 catchError((err) => {
                     console.log(err);
-                    return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                    return of(new ProcessoViewActions.SetBinaryViewFailed(err));
                 })
             );
         })
@@ -491,23 +494,11 @@ export class ProcessoViewEffect {
             const arrPrimary = [];
             let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
             url = url.replace('/default/', '/' + stepHandle + '/');
-            if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-                arrPrimary.push('visualizar-processo');
-                arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(stepHandle);
-                sidebar = 'empty';
-            } else {
-                if (this.routerState.params['componenteDigitalHandle']) {
-                    arrPrimary.push('componente-digital');
-                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
-                }
-                sidebar = null;
+            if (this.routerState.params['componenteDigitalHandle']) {
+                arrPrimary.push('componente-digital');
+                arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
             }
+            sidebar = null;
             if (this.routerState.url.indexOf('sidebar:') === -1) {
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(

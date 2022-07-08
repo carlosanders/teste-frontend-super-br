@@ -218,11 +218,6 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
-                    if (this.filtered !== null) {
-                        // Juntada deve ser filtrada, para garantir que a juntada pesquisada originalmente pela url apareça para o usuário
-                        params.listFilter['id'] = 'eq:' + this.filtered;
-                    }
-
                     this._store.dispatch(new fromStore.GetJuntadas(params));
                     this.loadingJuntadas = true;
                 }

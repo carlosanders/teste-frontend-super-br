@@ -244,7 +244,7 @@ export class AnexarCopiaEffects {
         })
     ), {dispatch: false});
     /**
-     * @type {Observable<ProcessoViewActions.ProcessoViewActionsAll>}
+     * @type {Observable<AnexarCopiaActions.AnexarCopiaActionsAll>}
      */
     downloadLatestBinary: Observable<AnexarCopiaActions.AnexarCopiaActionsAll> = createEffect(() => this._actions.pipe(
         ofType<AnexarCopiaActions.DownloadLatestBinary>(AnexarCopiaActions.DOWNLOAD_LATEST_BINARY),

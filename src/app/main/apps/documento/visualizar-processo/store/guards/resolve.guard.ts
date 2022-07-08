@@ -1,39 +1,42 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {AnexarCopiaAppState} from '../reducers';
+import {VisualizarProcessoAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getRouterState} from 'app/store/reducers';
 import {Processo} from '@cdk/models';
-import {VisualizarProcessoService} from '../../anexar-copia.service';
-import {getProcesso, getJuntadasLoaded, getIsLoading, getIsLoadingVolumes, getVolumesLoaded} from '../../store';
+import {VisualizarProcessoService} from '../../visualizar-processo.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
     processoId: number;
+    loadingLatestBinary: boolean = false;
     loadingJuntadas: boolean = false;
     loadingVolumes: boolean = false;
     error = null;
     processo: Processo;
     downloadingBinary: boolean = false;
+    loadingProcesso = null;
     guardaAtivado: boolean;
 
     /**
      *
      * @param _store
      * @param _router
-     * @param _anexarCopiaService
+     * @param _visualizarProcessoService
+     * @param _activatedRoute
      */
     constructor(
-        private _store: Store<AnexarCopiaAppState>,
+        private _store: Store<VisualizarProcessoAppState>,
         private _router: Router,
-        private _anexarCopiaService: VisualizarProcessoService
+        private _visualizarProcessoService: VisualizarProcessoService,
+        private _activatedRoute: ActivatedRoute,
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -43,24 +46,39 @@ export class ResolveGuard implements CanActivate {
         });
 
         this._store.pipe(
-            select(getIsLoading)
+            select(fromStore.getIsLoading)
         ).subscribe((loading) => {
             this.loadingJuntadas = loading;
         });
 
         this._store.pipe(
-            select(getIsLoadingVolumes)
+            select(fromStore.getIsLoadingVolumes)
         ).subscribe((loading) => {
             this.loadingVolumes = loading;
         });
 
         this._store.pipe(
-            select(getProcesso)
+            select(fromStore.getBinary)
+        ).subscribe((binary) => {
+            if (this.loadingProcesso === null || binary.processo !== this.loadingProcesso || !!binary.error) {
+                this.loadingProcesso = binary.processo;
+                this.error = binary.error;
+            }
+        });
+
+        this._store.pipe(
+            select(fromStore.getIsLoadingLatestBinary)
+        ).subscribe((loading) => {
+            this.loadingLatestBinary = loading;
+        })
+
+        this._store.pipe(
+            select(fromStore.getProcesso)
         ).subscribe((processo) => {
             this.processo = processo;
         });
 
-        this._anexarCopiaService.guardaAtivado.subscribe((value) => {
+        this._visualizarProcessoService.guardaAtivado.subscribe((value) => {
             this.guardaAtivado = value;
             if (!value) {
                 this.downloadingBinary = false;
@@ -95,6 +113,7 @@ export class ResolveGuard implements CanActivate {
     checkStore(): Observable<any> {
         return forkJoin([
             this.getProcesso(),
+            this.downloadLatestBinary(),
             this.getJuntadas(),
             this.getVolumes()
         ]).pipe(
@@ -112,14 +131,28 @@ export class ResolveGuard implements CanActivate {
             select(fromStore.getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
-                    this._router.navigate([
-                        this.routerState.url.split('/anexar-copia')[0] + '/anexar-copia/' + this.routerState.params.processoCopiaHandle + '/acesso-negado'
-                    ]).then();
+                    const sidebar = 'empty';
+                    const arrPrimary = [];
+                    let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                    arrPrimary.push('acesso-negado');
+                    arrPrimary.push(this.routerState.params.processoViewHandle);
+                    this._router.navigate(
+                        [
+                            url,
+                            {
+                                outlets: {
+                                    primary: arrPrimary,
+                                    sidebar: sidebar
+                                }
+                            }
+                        ],
+                        {
+                            relativeTo: this._activatedRoute.parent
+                        }
+                    ).then(() => {});
                 } else {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        this._store.dispatch(new fromStore.GetProcesso({id: this.routerState.params['processoCopiaHandle']}));
-                    } else {
-                        this.getStep(loaded);
+                        this._store.dispatch(new fromStore.GetProcesso({id: this.routerState.params['processoViewHandle']}));
                     }
                 }
             }),
@@ -128,24 +161,26 @@ export class ResolveGuard implements CanActivate {
         );
     }
 
-    getStep(loaded: any): void {
-        if (loaded && !this.guardaAtivado && this.routerState.params[loaded.id] === loaded.value) {
-            this._anexarCopiaService.guardaAtivado.next(true);
-            const currentStep = {};
-            const index = loaded?.juntadaIndex;
-            if (index && index['juntadaId']) {
-                currentStep['step'] = index['juntadaId'];
-                currentStep['subStep'] = null;
-                if (index['componenteDigitalId']) {
-                    currentStep['subStep'] = index['componenteDigitalId'];
+    downloadLatestBinary(): any {
+        return this._store.pipe(
+            select(fromStore.getBinary),
+            tap((binary: any) => {
+                let processoId = null;
+
+                const routeParams = of('processoViewHandle');
+                routeParams.subscribe((param) => {
+                    processoId = parseInt(this.routerState.params[param], 10);
+                });
+                if (!this.loadingLatestBinary && (!binary.src) && this.loadingProcesso !== processoId) {
+                    this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
+                    this.loadingLatestBinary = true;
                 }
-                this.downloadingBinary = true;
-                this._store.dispatch(new fromStore.SetCurrentStep({
-                    step: currentStep['step'],
-                    subStep: currentStep['subStep']
-                }));
-            }
-        }
+            }),
+            filter((binary: any) => !this.loadingLatestBinary && ((!!binary.src) ||
+                (binary.processo === parseInt(this.routerState.params['processoViewHandle'], 10)) ||
+                (this.loadingProcesso === parseInt(this.routerState.params['processoViewHandle'], 10)))),
+            take(1)
+        );
     }
 
     /**
@@ -155,7 +190,7 @@ export class ResolveGuard implements CanActivate {
      */
     getJuntadas(): any {
         return this._store.pipe(
-            select(getJuntadasLoaded),
+            select(fromStore.getJuntadasLoaded),
             tap((loaded: any) => {
                 if (!this.loadingJuntadas && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     this._store.dispatch(new fromStore.UnloadJuntadas({}));
@@ -163,7 +198,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = null;
                     let processoId = null;
 
-                    const routeParams = of('processoCopiaHandle');
+                    const routeParams = of('processoViewHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                         processoId = parseInt(this.routerState.params[param], 10);
@@ -204,7 +239,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingJuntadas = true;
                 }
             }),
-            filter((loaded: any) => this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => !this.loadingJuntadas && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
@@ -216,14 +251,14 @@ export class ResolveGuard implements CanActivate {
      */
     getVolumes(): any {
         return this._store.pipe(
-            select(getVolumesLoaded),
+            select(fromStore.getVolumesLoaded),
             tap((loaded: any) => {
                 if (!this.loadingVolumes && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
 
                     let processoFilter = null;
 
-                    const routeParams = of('processoCopiaHandle');
+                    const routeParams = of('processoViewHandle');
                     routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });
@@ -243,7 +278,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingVolumes = true;
                 }
             }),
-            filter((loaded: any) => this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => !this.loadingVolumes && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

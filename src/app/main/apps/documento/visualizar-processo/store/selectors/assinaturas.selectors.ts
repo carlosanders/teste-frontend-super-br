@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {AnexarCopiaAppState, AssinaturasState, getAnexarCopiaAppState} from '../reducers';
+import {VisualizarProcessoAppState, AssinaturasState, getVisualizarProcessoAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
@@ -8,8 +8,8 @@ import {Assinatura} from '@cdk/models';
 const schemaSelectors = createSchemaSelectors<Assinatura>(assinaturaSchema);
 
 export const getAssinaturasState: any = createSelector(
-    getAnexarCopiaAppState,
-    (state: AnexarCopiaAppState) => state.assinaturas
+    getVisualizarProcessoAppState,
+    (state: VisualizarProcessoAppState) => state.assinaturas
 );
 
 export const getAssinaturasIds: any = createSelector(

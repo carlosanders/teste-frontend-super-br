@@ -17,7 +17,7 @@ export interface VisualizarProcessoState {
     loadedJuntadas: any;
     currentStep: {
         step: number;
-        subStep: number;
+        subStep: any;
     };
     currentStepLoaded: any;
     binary: {
@@ -26,6 +26,9 @@ export interface VisualizarProcessoState {
         processo?: any;
         error?: any;
     };
+    loadingLatestBinary: boolean;
+    bookmark?: boolean;
+    pagina: number;
 }
 
 export const visualizarProcessoInitialState: VisualizarProcessoState = {
@@ -52,7 +55,10 @@ export const visualizarProcessoInitialState: VisualizarProcessoState = {
         src: null,
         loading: false,
         processo: null
-    }
+    },
+    loadingLatestBinary: false,
+    bookmark: false,
+    pagina: null
 };
 
 export const visualizarProcessoReducer = (state = visualizarProcessoInitialState, action: VisualizarProcessoActions.VisualizarProcessoActionsAll): VisualizarProcessoState => {
@@ -62,7 +68,8 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
             return {
                 ...state,
                 processoId: null,
-                loaded: false
+                loaded: false,
+                pagina: null
             };
         }
 
@@ -136,7 +143,8 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                         limit: 10,
                         offset: 0,
                         total: 0
-                    }
+                    },
+                    pagina: null
                 };
             }
         }
@@ -148,7 +156,26 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                     ...state.binary,
                     loading: true,
                     src: null
-                }
+                },
+                pagina: null
+            };
+        }
+
+        case VisualizarProcessoActions.VER_CAPA_PROCESSO: {
+            return {
+                ...state,
+                currentStep: {
+                    step: -1,
+                    subStep: null
+                },
+                binary: {
+                    src: null,
+                    loading: false,
+                    error: false
+                },
+                currentStepLoaded: 'capa',
+                bookmark: false,
+                pagina: null
             };
         }
 
@@ -158,7 +185,8 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                 currentStep: {
                     step: parseInt(action.payload.step, 10),
                     subStep: parseInt(action.payload.subStep, 10),
-                }
+                },
+                pagina: null
             };
         }
 
@@ -171,7 +199,8 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                     loading: false,
                     error: false
                 },
-                currentStepLoaded: action.payload.loaded
+                currentStepLoaded: action.payload.loaded,
+                bookmark: false
             };
         }
 
@@ -201,6 +230,52 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
             };
         }
 
+        case VisualizarProcessoActions.DOWNLOAD_LATEST_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: true,
+                    processo: action.payload,
+                    error: null
+                },
+                loadingLatestBinary: true,
+                bookmark: false,
+                pagina: null
+            };
+        }
+
+        case VisualizarProcessoActions.DOWNLOAD_LATEST_BINARY_SUCCESS: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: action.payload.binary,
+                    loading: false,
+                    error: false
+                },
+                currentStep: {
+                    step: 0,
+                    subStep: action.payload.subStep
+                },
+                loadingLatestBinary: false
+            };
+        }
+
+        case VisualizarProcessoActions.DOWNLOAD_LATEST_BINARY_FAILED: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: null,
+                    loading: false,
+                    error: action.payload.error
+                },
+                currentStepLoaded: false,
+                loadingLatestBinary: false
+            };
+        }
+
         case VisualizarProcessoActions.SET_BINARY_VIEW: {
             return {
                 ...state,
@@ -209,7 +284,9 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                     loading: true,
                     processo: null,
                     error: null
-                }
+                },
+                bookmark: true,
+                pagina: action.payload.pagina
             };
         }
 
@@ -221,7 +298,8 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                     src: action.payload.binary,
                     loading: false,
                     error: false
-                }
+                },
+                bookmark: true
             };
         }
 
@@ -233,7 +311,9 @@ export const visualizarProcessoReducer = (state = visualizarProcessoInitialState
                     loading: false,
                     processo: null,
                     error: true
-                }
+                },
+                bookmark: false,
+                pagina: null
             };
         }
 

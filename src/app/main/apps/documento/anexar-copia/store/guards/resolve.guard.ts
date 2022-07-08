@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -30,11 +30,13 @@ export class ResolveGuard implements CanActivate {
      * @param _store
      * @param _router
      * @param _anexarCopiaService
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<AnexarCopiaAppState>,
         private _router: Router,
-        private _anexarCopiaService: AnexarCopiaService
+        private _anexarCopiaService: AnexarCopiaService,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -129,9 +131,26 @@ export class ResolveGuard implements CanActivate {
             select(fromStore.getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
-                    this._router.navigate([
-                        this.routerState.url.split('/anexar-copia')[0] + '/anexar-copia/' + this.routerState.params.processoCopiaHandle + '/acesso-negado'
-                    ]).then();
+                    const sidebar = 'empty';
+                    const arrPrimary = [];
+                    let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                    arrPrimary.push('anexar-copia');
+                    arrPrimary.push(this.routerState.params.processoCopiaHandle);
+                    arrPrimary.push('acesso-negado');
+                    this._router.navigate(
+                        [
+                            url,
+                            {
+                                outlets: {
+                                    primary: arrPrimary,
+                                    sidebar: sidebar
+                                }
+                            }
+                        ],
+                        {
+                            relativeTo: this._activatedRoute.parent
+                        }
+                    ).then(() => {});
                 } else {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                         this._store.dispatch(new fromStore.GetProcesso({id: this.routerState.params['processoCopiaHandle']}));

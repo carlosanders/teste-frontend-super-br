@@ -18,7 +18,7 @@ import {
     MatRippleModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import {AnexarCopiaStoreModule} from './store/store.module';
+import {VisualizarProcessoStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 
 import {modulesConfig} from 'modules/modules-config';
@@ -43,6 +43,16 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import {
+    CdkVinculacaoProcessoTreeListModule
+} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-tree-list/cdk-vinculacao-processo-tree-list.module';
+import {
+    CdkInteressadoGridModule
+} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
+import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk-assunto-grid.module';
+import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
+import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
+import {StatusBarramentoService} from '@cdk/services/status-barramento';
 
 const routes: Routes = [
     {
@@ -81,7 +91,7 @@ modulesConfig.forEach((module) => {
         InfiniteScrollModule,
         TranslateModule,
 
-        AnexarCopiaStoreModule,
+        VisualizarProcessoStoreModule,
 
         CdkSharedModule,
         CdkSidebarModule,
@@ -101,7 +111,11 @@ modulesConfig.forEach((module) => {
         MatSelectModule,
         CdkBookmarkEditDialogModule,
         PdfJsViewerModule,
-        CdkAssinaturaGridModule
+        CdkAssinaturaGridModule,
+        CdkVinculacaoProcessoTreeListModule,
+        CdkInteressadoGridModule,
+        CdkAssuntoGridModule,
+        CdkJuntadaGridModule
     ],
     providers: [
         ProcessoService,
@@ -110,6 +124,8 @@ modulesConfig.forEach((module) => {
         fromGuards.DeactivateGuard,
         BookmarkService,
         AssinaturaService,
+        VinculacaoProcessoService,
+        StatusBarramentoService,
     ],
     exports: [
         VisualizarProcessoComponent

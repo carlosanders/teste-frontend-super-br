@@ -227,18 +227,10 @@ export class DocumentoEffect {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(this.routerState.params['stepHandle']);
                 sidebar = 'empty';
             } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
                 arrPrimary.push('visualizar-processo');
                 arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(this.routerState.params['stepHandle']);
                 sidebar = 'empty';
             } else {
                 let type = '/visualizar';

@@ -21,7 +21,16 @@ import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollba
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {Assinatura, ComponenteDigital, Documento, Juntada, Pagination, Processo} from '@cdk/models';
+import {
+    Assinatura,
+    Assunto,
+    ComponenteDigital,
+    Documento,
+    Juntada,
+    Pagination,
+    Processo,
+    VinculacaoProcesso
+} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as fromStoreDocumento from '../../documento/store';
@@ -41,7 +50,6 @@ import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {MatButton} from '@angular/material/button';
-import {CdkSearchBarComponent} from '@cdk/components/search-bar/search-bar.component';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -100,11 +108,13 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
 
     fileName = '';
     zoomSetting = 'auto';
+    pagina$: Observable<number>;
+    pagina = null;
     page = 1;
     spreadMode: 'off' | 'even' | 'odd' = 'off';
     componenteDigital: ComponenteDigital;
 
-    sidebarName = 'anexar-copia-left-sidebar-' + CdkUtils.makeId(3);
+    sidebarName = 'visualizar-processo-left-sidebar-' + CdkUtils.makeId(3);
 
     src: any;
     pdfSrc: any = null;
@@ -127,7 +137,9 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
     unsafe = false;
 
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
+    isBookmark$: Observable<boolean>;
     isBookmark = false;
+    capa: boolean = false;
 
     assinaturasIsLoading$: Observable<boolean>;
     assinaturas$: Observable<Assinatura[]>;
@@ -143,6 +155,31 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
 
     currentComponenteDigitalId$: Observable<number>;
     currentComponenteDigitalId: number;
+
+    assuntos$: Observable<Assunto[]>;
+    assuntos: Assunto[] = [];
+    paginationAssuntos$: Observable<any>;
+    paginationAssuntos: Pagination;
+    loadingAssuntos$: Observable<boolean>;
+
+    interessados$: Observable<Assunto[]>;
+    interessados: Assunto[] = [];
+    paginationInteressados$: Observable<any>;
+    paginationInteressados: Pagination;
+    loadingInteressados$: Observable<boolean>;
+
+    vinculacoesProcessos$: Observable<VinculacaoProcesso[]>;
+    vinculacoesProcessos: VinculacaoProcesso[] = [];
+    paginationVinculacoesProcessos$: Observable<any>;
+    paginationVinculacoesProcessos: Pagination;
+    loadingVinculacoesProcessos$: Observable<boolean>;
+
+    juntadasCapa$: Observable<Juntada[]>;
+    paginationJuntadasCapa$: Observable<any>;
+    paginationJuntadasCapa: Pagination;
+    loadingJuntadasCapa$: Observable<boolean>;
+
+    estaNumProcessoWorkflow: string;
 
     routerState: any;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -165,7 +202,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
      * @param _viewContainerRef
      */
     constructor(
-        private _store: Store<fromStore.AnexarCopiaAppState>,
+        private _store: Store<fromStore.VisualizarProcessoAppState>,
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
@@ -189,7 +226,26 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
 
+        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
+        this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
+        this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
+        this.juntadasCapa$ = this._store.pipe(select(fromStore.getCapaJuntadas));
+
+        this.loadingAssuntos$ = this._store.pipe(select(fromStore.getIsAssuntosLoading));
+        this.loadingInteressados$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
+        this.loadingVinculacoesProcessos$ = this._store.pipe(select(fromStore.getIsVinculacoesProcessosLoading));
+        this.loadingJuntadasCapa$ = this._store.pipe(select(fromStore.getCapaIsJuntadasLoading));
+
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+
+        this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
+        this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
+        this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
+        this.paginationJuntadasCapa$ = this._store.pipe(select(fromStore.getCapaPaginationJuntadas));
+
+        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
+        this.pagina$ = this._store.pipe(select(fromStore.getPaginaBookmark));
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -201,56 +257,83 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
                 this._mercureService.subscribe(processo.origemDados['@id']);
             }
             this.processo = processo;
+
+            if (this.processo && this.processo.especieProcesso?.workflow) {
+                this.estaNumProcessoWorkflow = 'SIM';
+            } else {
+                this.estaNumProcessoWorkflow = 'NÃO';
+            }
             this._changeDetectorRef.markForCheck();
         });
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
+            filter(juntadas => !!juntadas && (juntadas.length !== this.juntadas?.length || juntadas != this.juntadas))
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
 
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
                 })
             }
 
-            if (this.currentStep) {
+            if (this.currentStep && this.currentStep.step > -1) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === this.currentStep.step);
+                this._changeDetectorRef.markForCheck();
+            } else {
+                this.currentJuntada = null;
                 this._changeDetectorRef.markForCheck();
             }
         });
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(currentStep => currentStep.step !== 0 && currentStep.subStep !== 0)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
-            if (this.juntadas?.length > 0) {
+            this.capa = this.currentStep.step === -1;
+            if (!this.capa && this.juntadas?.length > 0 && currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
+            } else if (!this.capa && currentStep.step === 0) {
+                this.currentJuntada = this.index?.find(juntada => juntada.componentesDigitais.includes(currentStep.subStep));
             } else {
-                this.currentJuntada = this.index?.find(juntada => juntada.id === currentStep.step);
+                this.currentJuntada = null;
             }
         });
+
+        this.isBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isBookmark) => {
+            this.isBookmark = isBookmark;
+            SharedBookmarkService.modeBookmark = isBookmark;
+        });
+
+        this.pagina$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagina) => {
+            this.pagina = pagina;
+        })
 
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -301,6 +384,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
                 this.fileName = '';
                 this.src = false;
                 this.pdfSrc = null;
+                this.componenteDigital = null;
                 if (this.currentJuntada && !this.currentJuntada.ativo) {
                     this.srcMessage = 'Juntada desentranhada do processo';
                 } else if (this.currentJuntada && !this.currentJuntada.documento) {
@@ -329,8 +413,6 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
                     SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;
             }
 
-            this.isBookmark = SharedBookmarkService.modeBookmark;
-
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
         });
@@ -350,21 +432,62 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-            if (this.routerState && this.routerState?.queryParams?.pagina &&
-                this.page !== this.routerState?.queryParams?.pagina) {
-                this.page = parseInt(this.routerState?.queryParams?.pagina, 10);
-            }
         });
-
-        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
 
         this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
         this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
         this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
 
-        this.assinaturasPagination$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
+        this.assinaturasPagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination: Pagination) => {
+            this.assinaturasPagination = pagination;
+        });
+
+        this.assuntos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(assuntos => !!assuntos)
+        ).subscribe((assuntos) => {
+            this.assuntos = assuntos;
+        });
+
+        this.interessados$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(interessados => !!interessados)
+        ).subscribe((interessados) => {
+            this.interessados = interessados;
+        });
+
+        this.vinculacoesProcessos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(vinculacoesProcessos => !!vinculacoesProcessos)
+        ).subscribe((vinculacoesProcessos) => {
+            this.vinculacoesProcessos = vinculacoesProcessos;
+        });
+
+        this.paginationAssuntos$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
+            this.paginationAssuntos = pagination;
+        });
+
+        this.paginationInteressados$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
+            this.paginationInteressados = pagination;
+        });
+
+        this.paginationVinculacoesProcessos$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
+            this.paginationVinculacoesProcessos = pagination;
+        });
+
+        this.paginationJuntadasCapa$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((paginationJuntadas) => {
+            this.paginationJuntadasCapa = paginationJuntadas;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -400,7 +523,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._store.dispatch(new fromStore.UnloadCopia());
+        this._store.dispatch(new fromStore.UnloadProcesso());
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
@@ -410,7 +533,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        const rota = 'componente-digital/' + this.currentComponenteDigitalId + '/editor/ckeditor';
+        const rota = 'componente-digital/' + this.currentComponenteDigitalId;
         this._router.navigate(
             [
                 {outlets: {primary: rota}}
@@ -440,20 +563,50 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    disabledBack(): boolean {
-        if (this.juntadas?.length && this.index?.length) {
-            const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
-            if (firstJuntada) {
-                return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
+                houveMudanca = true;
             }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
+            }
+        });
+        return houveMudanca;
+    }
+
+    disabledBack(): boolean {
+        if (this.currentStep) {
+            return this.currentStep.step === -1;
         }
         return true;
     }
 
     disabledNext(): boolean {
-        if (this.juntadas?.length && this.index?.length) {
+        if (this.juntadas?.length && this.index?.length && this.currentStep) {
             const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
             if (lastJuntada) {
+                if (this.currentStep.step === -1) {
+                    return this.index.filter(index => index.componentesDigitais.length > 0).length === 0;
+                }
+                if (this.currentStep.step === 0) {
+                    return lastJuntada.componentesDigitais.includes(this.currentStep.subStep);
+                }
                 return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
             }
         }
@@ -477,17 +630,25 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
 
         let step;
         let subStep = null;
-        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
-        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        let currentIndex;
+        if (this.currentStep.step !== 0) {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        } else {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.componentesDigitais.includes(this.currentStep.subStep));
+        }
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex.id);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
-        if ((currentComponenteDigitalPosition - 1) >= 0) {
+        if (currentJuntadaPosition === 0 && currentComponenteDigitalPosition === 0) {
+            return this._store.dispatch(new fromStore.VerCapaProcesso());
+        }
+        if ((currentComponenteDigitalPosition - 1) >= 0 && currentIndex.ativo) {
             subStep = currentIndex.componentesDigitais[currentComponenteDigitalPosition - 1];
             step = this.currentStep.step;
         } else {
             if (currentJuntadaPosition > 0) {
                 step = this.juntadas[currentJuntadaPosition - 1].id;
                 const newIndex = this.index?.find(juntada => juntada.id === step);
-                if (newIndex.componentesDigitais.length > 0) {
+                if (newIndex.componentesDigitais.length > 0 && newIndex.ativo) {
                     subStep = (newIndex.componentesDigitais.length - 1) >= 0 ?
                         newIndex.componentesDigitais[newIndex.componentesDigitais.length - 1] :
                         newIndex.componentesDigitais[0];
@@ -515,12 +676,28 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
 
         let step;
         let subStep = null;
-        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === this.currentStep.step);
-        const currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        let currentIndex;
+        if (this.currentStep.step > 0) {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.id === this.currentStep.step);
+        } else if (this.currentStep.step === 0) {
+            currentIndex = this.index?.find(juntadaIndex => juntadaIndex.componentesDigitais.includes(this.currentStep.subStep));
+        } else {
+            // Estou na capa, encontrar a primeira juntada
+            const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
+            if (firstJuntada) {
+                step = firstJuntada.id;
+                if (firstJuntada.ativo && firstJuntada.componentesDigitais.length > 0) {
+                    subStep = firstJuntada.componentesDigitais[0];
+                }
+            }
+            this.navigateToStep(step, subStep);
+            return;
+        }
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex.id);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
         let newJuntadaPosition;
         let nextComponenteDigitalPosition;
-        if (currentComponenteDigitalPosition + 1 <= currentIndex.componentesDigitais.length - 1) {
+        if (currentComponenteDigitalPosition + 1 <= currentIndex.componentesDigitais.length - 1 && currentIndex.ativo) {
             nextComponenteDigitalPosition = currentComponenteDigitalPosition + 1;
             step = this.currentStep.step;
             subStep = currentIndex.componentesDigitais[nextComponenteDigitalPosition];
@@ -529,7 +706,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
             nextComponenteDigitalPosition = 0;
             step = this.juntadas[newJuntadaPosition].id;
             const newIndex = this.index?.find(juntada => juntada.id === step);
-            if (newIndex.componentesDigitais.length > 0) {
+            if (newIndex.componentesDigitais.length > 0 && newIndex.ativo) {
                 subStep = newIndex.componentesDigitais[nextComponenteDigitalPosition];
             }
         }
@@ -636,9 +813,8 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
     }
 
     public onPageRendered(event): void {
-        if (this.routerState && this.routerState?.queryParams?.pagina &&
-            this.page !== this.routerState?.queryParams?.pagina) {
-            this.page = parseInt(this.routerState?.queryParams?.pagina, 10);
+        if (this.pagina && this.pagina !== this.page) {
+            this.page = parseInt(this.pagina, 10);
         }
         if (this.page <= this.pdfViewer?.PDFViewerApplication?.pagesCount) {
             this.pdfViewer.page = this.page;
@@ -705,8 +881,96 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
         }));
     }
 
+    reloadAssuntos(params): void {
+        this._store.dispatch(new fromStore.UnloadAssuntos({reset: false}));
+
+        this._store.dispatch(new fromStore.GetAssuntos({
+            processoId: this.processo.id,
+            ...this.paginationAssuntos,
+            filter: {
+                ...this.paginationAssuntos.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationAssuntos.populate
+        }));
+
+    }
+
+    reloadInteressados(params): void {
+        this._store.dispatch(new fromStore.UnloadInteressados({reset: false}));
+
+        this._store.dispatch(new fromStore.GetInteressados({
+            processoId: this.processo.id,
+            ...this.paginationInteressados,
+            filter: {
+                ...this.paginationInteressados.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationInteressados.populate
+        }));
+    }
+
+    reloadVinculacoesProcessos(params): void {
+        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: false}));
+
+        this._store.dispatch(new fromStore.GetVinculacoesProcessos({
+            processoId: this.processo.id,
+            ...this.paginationVinculacoesProcessos,
+            filter: {
+                ...this.paginationVinculacoesProcessos.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationVinculacoesProcessos.populate
+        }));
+    }
+
     print(): void {
         window.frames['iframe-juntadas'].focus();
         window.frames['iframe-juntadas'].print();
+    }
+
+    reloadJuntadas(params): void {
+        this._store.dispatch(new fromStore.UnloadJuntadasCapa({reset: false}));
+
+        this._store.dispatch(new fromStore.GetJuntadasCapa({
+            ...this.paginationJuntadasCapa,
+            filter: {
+                ...this.paginationJuntadasCapa.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationJuntadasCapa.populate
+        }));
+
+    }
+
+    visualizarProcessoNovaAba(processo: Processo): void {
+        const chaveAcesso = processo.chaveAcesso ? '/chave/' + processo.chaveAcesso : '';
+        window.open('apps/processo/' + processo.id + chaveAcesso + '/visualizar/latest', '_blank');
+    }
+
+    abrirJuntadaNovaAba(juntada: Juntada): void {
+        let stepHandle: string = juntada.id.toString();
+        if (juntada.ativo && (juntada.documento.componentesDigitais.length > 0 || juntada.documento.vinculacoesDocumentos.length > 0)) {
+            const subStep = juntada.documento.componentesDigitais.length ?
+                juntada.documento.componentesDigitais[0].id :
+                juntada.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
+            stepHandle += '-' + subStep;
+        }
+        window.open(
+            this.routerState.url.split('/')[1] +
+            `/processo/${this.processo.id}/visualizar/` + stepHandle
+        );
     }
 }

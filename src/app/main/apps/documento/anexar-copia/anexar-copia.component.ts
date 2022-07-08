@@ -32,17 +32,13 @@ import {getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getCurrentComponenteDigitalId} from '../store';
 import {MercureService} from '@cdk/services/mercure.service';
-import {
-    CdkBookmarkEditDialogComponent
-} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
 import {CdkUtils} from '@cdk/utils';
-import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {MatButton} from '@angular/material/button';
 import {CdkSearchBarComponent} from '@cdk/components/search-bar/search-bar.component';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'anexar-copia',
@@ -121,9 +117,6 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     pagination: any;
 
     chaveAcesso: string;
-
-    documentoAvulso = false;
-    modelos = false;
 
     zoom: number = 0;
 

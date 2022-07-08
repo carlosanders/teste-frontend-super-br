@@ -28,7 +28,7 @@
 
 </div>
 
-<div class="anexar-copia">
+<div class="anexar-copia" *ngIf="this.processo">
     <div class="page-layout left-sidebar">
 
         <!-- SIDEBAR -->
@@ -152,3 +152,4 @@
         </div>
     </div>
 </div>
+<router-outlet></router-outlet>

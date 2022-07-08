@@ -26,6 +26,8 @@ export interface ProcessoViewState {
         error?: any;
     };
     expandir: boolean;
+    bookmark?: boolean;
+    pagina: number;
 }
 
 export const processoViewInitialState: ProcessoViewState = {
@@ -52,7 +54,9 @@ export const processoViewInitialState: ProcessoViewState = {
         loading: false,
         processo: null
     },
-    expandir: false
+    expandir: false,
+    bookmark: false,
+    pagina: null
 };
 
 export const processoViewReducer = (state = processoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState => {
@@ -149,7 +153,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                         limit: 10,
                         offset: 0,
                         total: 0
-                    }
+                    },
+                    pagina: null
                 };
             }
         }
@@ -161,7 +166,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     ...state.binary,
                     loading: true,
                     src: null
-                }
+                },
+                pagina: null
             };
         }
 
@@ -172,7 +178,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                 currentStep: {
                     step: step,
                     subStep: action.payload.subStep,
-                }
+                },
+                pagina: null
             };
         }
 
@@ -191,7 +198,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     step: step,
                     subStep: subStep
                 },
-                currentStepLoaded: action.payload.loaded
+                currentStepLoaded: action.payload.loaded,
+                bookmark: false
             };
         }
 
@@ -240,7 +248,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     loading: true,
                     processo: null,
                     error: null
-                }
+                },
+                bookmark: true,
+                pagina: action.payload.pagina
             };
         }
 
@@ -305,7 +315,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     loading: false,
                     error: action.payload.error
                 },
-                currentStepLoaded: false
+                currentStepLoaded: false,
+                bookmark: false,
+                pagina: null
             };
         }
 
@@ -331,7 +343,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     processo: null,
                     src: null,
                     loading: false
-                }
+                },
+                bookmark: false,
+                pagina: null
             };
         }
         default:

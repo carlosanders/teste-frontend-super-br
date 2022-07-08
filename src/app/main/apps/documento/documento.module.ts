@@ -69,7 +69,11 @@ const routes: Routes = [
             },
             {
                 path       : 'visualizar-processo',
-                loadChildren: () => import('./visualizar-processo-old/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
+                loadChildren: () => import('./visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
+            },
+            {
+                path       : 'acesso-negado/:processoAcessoNegadoHandle',
+                loadChildren: () => import('./acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
             }
         ]
     }

@@ -96,3 +96,13 @@ export const getCurrentJuntada: any = createSelector(
     getCurrentJuntadaHandle,
     schemaSelectors.entityProjector
 );
+
+export const getIsBookmark: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.bookmark
+);
+
+export const getPaginaBookmark: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.pagina
+);

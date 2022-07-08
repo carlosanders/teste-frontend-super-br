@@ -33,6 +33,37 @@
                     <span>Crescente</span>
                 </button>
             </mat-menu>
+
+            <button mat-icon-button
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')"
+                    (click)="getBookmark()"
+                    aria-label="abrir marcadores de página"
+                    matTooltip="Marcadores de páginas">
+                <mat-icon>bookmarks</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="!this.isJuntadas">
+            <button class="refresh" mat-icon-button
+                    (click)="reloadBookmarks()"
+                    aria-label="recarregar marcadores"
+                    matTooltip="Recarregar marcadores">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="doCopyBookmark(bookmarksBySequencial)"
+                    aria-label="copiar Bookmark"
+                    matTooltip="Copiar Bookmark para o clipboard">
+                <mat-icon>file_copy</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="abreJuntadas()"
+                    aria-label="abrir juntadas"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
         </ng-container>
 
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
@@ -40,6 +71,11 @@
         <div *ngIf="this.isJuntadas">
             {{juntadas?.length}}/{{pagination.total}}
         </div>
+
+        <div *ngIf="!this.isJuntadas">
+            {{bookmarks?.length}}/{{paginationBookmark.total}}
+        </div>
+
     </div>
 
     <div class="filters" *ngIf="showListFilter">
@@ -158,6 +194,24 @@
             <div class="nova-juntada accent" matRipple (click)="reloadJuntadas()" *ngIf="novaJuntada">
                 <span class="mat-body">Nova juntada recebida... recarregue a lista!</span>
             </div>
+            <div class="juntada capa" matRipple *ngIf="(isLoading$ | async) === false"
+                 (click)="goToCapaProcesso()"
+                 [ngClass]="{'current': capa}">
+                <div class="index">
+                    <span>
+                        <mat-icon>insert_drive_file</mat-icon>
+                    </span>
+                </div>
+                <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
+                    <div class="descricao">Capa</div>
+                    <div class="criado-em">{{processo?.dataHoraAbertura ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
+                    <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                        <span class="ml-4"
+                              [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso?.nome | titleCasePipe}}</span>
+                    </div>
+                </div>
+            </div>
             <div class="volume" id="juntada_{{juntada.id}}" #element
                  *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
                 {{contador.reset()}}
@@ -169,9 +223,6 @@
                     </div>
                     <div *ngIf="!juntada.ativo">
                         <div class="desentranhado">DESENTRANHADO</div>
-                    </div>
-                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
-                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block</mat-icon>
                     </div>
                     <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
@@ -211,6 +262,10 @@
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                        <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                        </mat-icon>
+                                    </div>
                                     <a class="ml-4"
                                        (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
@@ -220,7 +275,6 @@
                                               *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                         arrow_left
                                     </mat-icon>
-                                    <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
@@ -236,6 +290,10 @@
                                         <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
                                     </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                                        <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                            <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                            </mat-icon>
+                                        </div>
                                         <a class="ml-4"
                                            (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
@@ -245,7 +303,6 @@
                                                   *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
                                         </mat-icon>
-                                        <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
                             </ng-container>
@@ -291,6 +348,70 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isJuntadas">
+        <div class="documentos-juntados-title" fxFlex="0 0 auto"
+             fxLayoutAlign="start center">
+            <div class="ml-24">Marcadores de páginas</div>
+        </div>
+
+        <div class="loading" *ngIf="(isLoadingBookmarks$ | async)">
+            <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
+        </div>
+
+        <div class="bookmarks" *ngIf="bookmarks"
+             cdkPerfectScrollbar infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="3"
+             [infiniteScrollThrottle]="150"
+             (scrolled)="onScrollBookmark()">
+
+            <div *ngFor="let bookmark of bookmarksBySequencial">
+                <div class="juntada" matRipple *ngIf="bookmark"
+                     [ngClass]="{'current': bookMarkJuntadaselected === bookmark.key}">
+                    <div class="index">
+                        <span>{{bookmark.key}}</span>
+                    </div>
+                    <div fxFlex="1 1 auto" fxLayout="column">
+                        <div>
+                            <div *ngFor="let book of bookmark.value" fxLayout="column">
+                                <div fxFlex="1 1 auto" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                    <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
+                                        <mat-icon *ngIf="book.corHexadecimal"
+                                                  class="ml-4 s-14"
+                                                  [ngStyle]="{'color': book.corHexadecimal}">
+                                            bookmark
+                                        </mat-icon>
+                                        <mat-icon *ngIf="!book.corHexadecimal"
+                                                  class="ml-4 s-14">
+                                            bookmark
+                                        </mat-icon>
+                                        <div class="index-vinculado">
+                                            <span>{{book.pagina}}</span>
+                                        </div>
+                                        <a class="ml-4"
+                                           (click)="viewBookmark(book, book.pagina, bookmark.key)" >
+                                            {{book.nome}}
+                                        </a>
+                                        <mat-icon class="ml-4 s-24"
+                                                  *ngIf="book.id === bookMarkselected">
+                                            arrow_left
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                                <div class="criado-em" fxLayout="row" fxLayoutAlign="center center">
+                                    {{book.descricao}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sem-minutas" *ngIf="(isLoadingBookmarks$ | async) === false && (!bookmarks)">
+            <div class="m-8" style="font-style: italic;">Não há marcadores de página.</div>
         </div>
     </ng-container>
 </div>

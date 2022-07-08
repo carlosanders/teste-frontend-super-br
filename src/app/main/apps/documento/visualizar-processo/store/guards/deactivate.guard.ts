@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {CanDeactivate} from '@angular/router';
-import {VisualizarProcessoComponent} from '../../anexar-copia.component';
-import {VisualizarProcessoService} from '../../anexar-copia.service';
+import {VisualizarProcessoComponent} from '../../visualizar-processo.component';
+import {VisualizarProcessoService} from '../../visualizar-processo.service';
 import {Observable, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {AnexarCopiaAppState} from '../reducers';
+import {VisualizarProcessoAppState} from '../reducers';
 import {getRouterState} from '../../../../../../store';
 import {filter} from 'rxjs/operators';
 import {getProcessoLoaded} from '../../store';
@@ -17,11 +17,11 @@ export class DeactivateGuard implements CanDeactivate<VisualizarProcessoComponen
     /**
      *
      * @param _store
-     * @param _anexarCopiaService
+     * @param _visualizarProcessoService
      */
     constructor(
-        private _store: Store<AnexarCopiaAppState>,
-        private _anexarCopiaService: VisualizarProcessoService
+        private _store: Store<VisualizarProcessoAppState>,
+        private _visualizarProcessoService: VisualizarProcessoService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -37,8 +37,8 @@ export class DeactivateGuard implements CanDeactivate<VisualizarProcessoComponen
     }
 
     canDeactivate(target: VisualizarProcessoComponent): Observable<boolean> {
-        if (!this.routerState.url.includes('anexar-copia/' + this.processoId)) {
-            this._anexarCopiaService.guardaAtivado.next(false);
+        if (!this.routerState.url.includes('visualizar-processo/' + this.processoId)) {
+            this._visualizarProcessoService.guardaAtivado.next(false);
         }
         return of(true);
     }

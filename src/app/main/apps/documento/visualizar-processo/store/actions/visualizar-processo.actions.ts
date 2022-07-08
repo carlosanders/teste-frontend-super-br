@@ -18,10 +18,15 @@ export const RELOAD_JUNTADAS = '[VISUALIZAR PROCESSO] RELOAD JUNTADAS';
 
 export const START_LOADING_BINARY = '[VISUALIZAR PROCESSO] START LOADING BINARY';
 export const STILL_LOADING_BINARY = '[VISUALIZAR PROCESSO] STILL LOADING BINARY';
+export const DOWNLOAD_LATEST_BINARY = '[VISUALIZAR PROCESSO] DOWNLOAD LATEST';
+export const DOWNLOAD_LATEST_BINARY_SUCCESS = '[VISUALIZAR PROCESSO] DOWNLOAD LATEST SUCCESS';
+export const DOWNLOAD_LATEST_BINARY_FAILED = '[VISUALIZAR PROCESSO] DOWNLOAD LATEST FAILED';
 
 export const SET_BINARY_VIEW = '[VISUALIZAR PROCESSO] SET BINARY VIEW';
 export const SET_BINARY_VIEW_SUCCESS = '[VISUALIZAR PROCESSO] SET BINARY VIEW SUCCESS';
 export const SET_BINARY_VIEW_FAILED = '[VISUALIZAR PROCESSO] SET BINARY VIEW FAILED';
+
+export const VER_CAPA_PROCESSO = '[VISUALIZAR PROCESSO] VER CAPA PROCESSO';
 
 export const UNLOAD_PROCESSO = '[VISUALIZAR PROCESSO] UNLOAD PROCESSO';
 
@@ -172,6 +177,36 @@ export class StillLoadingBinary implements Action {
 }
 
 /**
+ * Download Latest Binary
+ */
+export class DownloadLatestBinary implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Success
+ */
+export class DownloadLatestBinarySuccess implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Failed
+ */
+export class DownloadLatestBinaryFailed implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Set Binary View
  */
 export class SetBinaryView implements Action {
@@ -202,6 +237,16 @@ export class SetBinaryViewFailed implements Action {
 }
 
 /**
+ * Ver Capa Processo
+ */
+export class VerCapaProcesso implements Action {
+    readonly type = VER_CAPA_PROCESSO;
+
+    constructor() {
+    }
+}
+
+/**
  * Unload Processo
  */
 export class UnloadProcesso implements Action
@@ -227,7 +272,11 @@ export type VisualizarProcessoActionsAll
     | ReloadJuntadas
     | StartLoadingBinary
     | StillLoadingBinary
+    | DownloadLatestBinary
+    | DownloadLatestBinarySuccess
+    | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
+    | VerCapaProcesso
     | UnloadProcesso;

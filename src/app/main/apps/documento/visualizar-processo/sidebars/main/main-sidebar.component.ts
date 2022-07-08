@@ -12,6 +12,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {
+    Documento,
     Juntada,
     Processo,
     Volume
@@ -33,8 +34,15 @@ import {getProcesso} from '../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 import {MercureService} from '@cdk/services/mercure.service';
 import {Contador} from '@cdk/models/contador';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 
 @Component({
     selector: 'visualizar-processo-main-sidebar',
@@ -54,6 +62,9 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
 
     @Output()
     sorted = new EventEmitter<string>();
+
+    @Input()
+    capa: boolean = false;
 
     sort: string = 'DESC';
 
@@ -113,6 +124,19 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
     contador: Contador = new Contador();
     contadorVinculacoes: Contador = new Contador();
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+    bookMarkselected: any;
+    bookMarkJuntadaselected: any;
+    isLoadingBookmarks$: Observable<boolean>;
+    bookmarks$: Observable<Bookmark[]>;
+    bookmarks: Bookmark[] = [];
+    bookmarksBySequencial: any;
+    paginationBookmark$: any;
+    paginationBookmark: any;
+    isBookmark$: Observable<boolean>;
+    isBookmark = false;
     isJuntadas = true;
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -128,6 +152,7 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
      * @param _activatedRoute
      * @param _loginService
      * @param _mercureService
+     * @param _snackBar
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -139,6 +164,7 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         public _loginService: LoginService,
         private _mercureService: MercureService,
+        private _snackBar: MatSnackBar
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -164,6 +190,10 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
 
         this.volumes$ = this._store.pipe(select(getVolumes));
         this.selectedVolume$ = this._store.pipe(select(getSelectedVolume));
+        this.isLoadingBookmarks$ = this._store.pipe(select(fromStore.getIsLoadingBookmark));
+        this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
+        this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
+        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -173,6 +203,13 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         });
 
+        this.isBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isBookmark) => {
+            this.isBookmark = isBookmark;
+            this.isJuntadas = !isBookmark;
+        });
+
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(juntadas => !!juntadas && juntadas.length !== this.juntadas?.length)
@@ -180,23 +217,30 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
             this.juntadas = juntadas;
             this.totalSteps = juntadas.length;
 
-            if (juntadas.length !== this.index.length) {
+            if (juntadas.length !== this.index.length || this.compareAtivo(juntadas, this.index)) {
                 this.index = [];
                 juntadas.forEach((juntada) => {
                     let componentesDigitaisIds = [];
-                    if (juntada.documento?.componentesDigitais) {
-                        componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
-                    }
-                    if (juntada.documento?.vinculacoesDocumentos) {
-                        juntada.documento.vinculacoesDocumentos.forEach((vd) => {
-                            vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                                componentesDigitaisIds.push(dvcd.id);
+                    if (juntada.ativo) {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
+                        if (juntada.documento?.vinculacoesDocumentos) {
+                            juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                                    componentesDigitaisIds.push(dvcd.id);
+                                })
                             })
-                        })
+                        }
+                    } else {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                        }
                     }
                     const tmpJuntada = {
                         id: juntada.id,
                         numeracaoSequencial: juntada.numeracaoSequencial,
+                        ativo: juntada.ativo,
                         componentesDigitais: componentesDigitaisIds
                     };
                     this.index.push(tmpJuntada);
@@ -250,6 +294,28 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this.bookmarks$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            (bookmarks) => {
+                if (bookmarks) {
+                    this.bookmarks = bookmarks;
+                    this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
+                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({
+                        key,
+                        value
+                    })).sort((a, b) => b.key - a.key);
+                    this._changeDetectorRef.markForCheck();
+                }
+            }
+        );
+
+        this.paginationBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pagination => this.paginationBookmark = pagination
+        );
     }
 
     /**
@@ -315,12 +381,13 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
         } else {
             const juntada = this.index?.find(junt => junt.id === juntadaId);
             if (juntada === undefined) {
+                this._store.dispatch(new fromStore.VerCapaProcesso());
                 return;
             }
 
-            if (!componenteDigitalId && juntada.componentesDigitais.length > 0) {
+            if (!componenteDigitalId && juntada.ativo && juntada.componentesDigitais.length > 0) {
                 substep = juntada.componentesDigitais[0];
-            } else if (componenteDigitalId && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
+            } else if (componenteDigitalId && juntada.ativo && juntada.componentesDigitais.indexOf(componenteDigitalId) !== -1) {
                 substep = componenteDigitalId;
             } else {
                 substep = null;
@@ -335,6 +402,43 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
 
             this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
         }
+    }
+
+    goToCapaProcesso(): void {
+        // Decide the animation direction
+        this.animationDirection = 'right';
+        // Run change detection so the change
+        // in the animation direction registered
+        this._changeDetectorRef.detectChanges();
+
+        this._store.dispatch(new fromStore.VerCapaProcesso());
+    }
+
+    compareAtivo(juntadas, index): boolean {
+        let houveMudanca = false;
+        juntadas.forEach((juntada) => {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
+                houveMudanca = true;
+            }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
+            }
+        });
+        return houveMudanca;
     }
 
     reload(params): void {
@@ -354,6 +458,8 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        this._store.dispatch(new fromStore.ReloadJuntadas());
     }
 
     doSort(sort: string): void {
@@ -447,8 +553,60 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
         this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
 
+    doJuntadaOutraAba(documento: Documento, juntada:Juntada): void {
+        if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
+            juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
+            this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
+        } else {
+            this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
+        }
+    }
+
     doTogglePanel(id): void {
         this.isOpen[id] = !this.isOpen[id];
+    }
+
+    onScrollBookmark(): void {
+        if (this.bookmarks.length >= this.paginationBookmark.total) {
+            return;
+        }
+
+        const nparams = {
+            filter: this.paginationBookmark.filter,
+            sort: this.paginationBookmark.sort,
+            limit: this.paginationBookmark.limit,
+            offset: this.paginationBookmark.offset + this.paginationBookmark.limit,
+            populate: this.paginationBookmark.populate
+        };
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.GetBookmarks({
+            params: nparams,
+            operacaoId: operacaoId
+        }));
+    }
+
+    abreJuntadas(): void {
+        SharedBookmarkService.pagina = null;
+        this._store.dispatch(new fromStore.SetCurrentStep(this.currentStep));
+    }
+
+    reloadBookmarks(): void {
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    getBookmark(): void {
+        this.isJuntadas = false;
+        this.bookMarkselected = 0;
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    viewBookmark(bookmark: any, pagina: any, key: any): void {
+        this.bookMarkselected = bookmark.id;
+        this.bookMarkJuntadaselected = key;
+        SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
+        SharedBookmarkService.pagina = pagina;
+        this._store.dispatch(new fromStore.SetBinaryView({juntadaId: bookmark.juntada.id, componenteDigitalId: bookmark.componenteDigital.id, pagina: pagina}));
     }
 
     doCopyNumDoc(numDoc: string): void {
@@ -481,26 +639,37 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
         document.execCommand('copy');
     }
 
-    isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
+    isCurrent(juntadaId: number, componenteDigitalId: any = null): boolean {
         if (!componenteDigitalId) {
-            return juntadaId === this.currentStep.step;
+            if (this.currentStep.step === 0) {
+                // latest ou inicial
+                const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+                return juntadaLatest && !this.capa && juntadaId === juntadaLatest.id;
+            }
+            return !this.capa && juntadaId === this.currentStep.step;
         }
-        return !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;
+        return !this.capa && !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;
     }
 
     isCompleted(juntadaId: number): boolean {
         if (this.index) {
             const juntada = this.index?.find(junt => junt.id === juntadaId);
-            const currentJuntada = this.index?.find(junt => junt.id === this.currentStep.step);
-            if (this.sort === 'ASC') {
-                return juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
+            let currentJuntada;
+            if (this.currentStep.step === 0) {
+                // latest ou inicial
+                currentJuntada = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+            } else {
+                currentJuntada = this.index?.find(junt => junt.id === this.currentStep.step);
             }
-            return juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
+            if (this.sort === 'ASC') {
+                return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
+            }
+            return !this.capa && juntada?.numeracaoSequencial > currentJuntada?.numeracaoSequencial;
         }
     }
 
     fecharSidebar(): void {
-        if (!this._cdkSidebarService.getSidebar(this.name).isLockedOpen) {
+        if (!this._cdkSidebarService.getSidebar(this.name)?.isLockedOpen) {
             this._cdkSidebarService.getSidebar(this.name).close();
         }
     }

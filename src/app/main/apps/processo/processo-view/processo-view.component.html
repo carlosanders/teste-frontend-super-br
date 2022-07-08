@@ -28,7 +28,7 @@
                     <ng-container *showIfRole="'ROLE_COLABORADOR'">
                         <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
                                 class="previous accent cdk-white-fg ml-8"
-                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
+                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !isBookmark"
                                 (click)="criarBookmark(this.componenteDigital.id)">
                             <mat-icon>bookmark</mat-icon>
                         </button>

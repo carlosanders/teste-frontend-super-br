@@ -37,8 +37,8 @@ export class VolumesEffects {
             new VolumesActions.GetVolumesSuccess({
                 entitiesId: response['entities'].map(volume => volume.id),
                 loaded: {
-                    id: 'processoCopiaHandle',
-                    value: this.routerState.params.processoCopiaHandle
+                    id: 'processoViewHandle',
+                    value: this.routerState.params.processoViewHandle
                 },
                 total: response['total']
             })

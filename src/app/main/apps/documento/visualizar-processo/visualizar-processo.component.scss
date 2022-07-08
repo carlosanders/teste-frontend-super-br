@@ -5,26 +5,7 @@ visualizar-processo {
     flex: 1 1 auto;
     flex-direction: column;
 
-    .actions {
-        display: flex;
-        flex: 0 0 auto;
-        position: relative;
-
-        .nup {
-            display: flex;
-            flex: 1 1 auto;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-        }
-
-        .anexar-copia {
-            margin-left: auto;
-            margin-right: 32px;
-        }
-    }
-
-    > .processo-view {
+    > .visualizar-processo {
         flex: 1 1 auto;
         display: flex;
 
@@ -88,7 +69,7 @@ visualizar-processo {
                         align-items: center;
                     }
 
-                    > .processo-view-juntada {
+                    > .visualizar-processo-juntada {
                         flex: 1 1 auto;
                         display: flex;
                         flex-direction: column;
@@ -145,7 +126,7 @@ visualizar-processo {
                             transform: scale(2);
                         }
 
-                        > .processo-view-juntada-content {
+                        > .visualizar-processo-juntada-content {
                             flex: 1 1 auto;
                             display: flex;
                             flex-direction: column;
@@ -214,6 +195,63 @@ visualizar-processo {
                                         align-items: flex-start;
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+                .processo-capa {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 2px;
+
+                    > .header {
+                        flex: 0 1 auto;
+                        display: flex;
+                        flex-direction: column;
+                        margin: 20px 0 20px 0;
+
+                        .title {
+                            font-weight: bold;
+                            font-size: 14px;
+                            text-align: center;
+                        }
+                    }
+
+                    > .content {
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-direction: column;
+                        height: 0;
+                        overflow-y: auto;
+
+                        .linha {
+                            display: flex;
+                            flex: 1 1 auto;
+                            flex-direction: row;
+                        }
+
+                        .titulo {
+                            display: flex;
+                            flex: 1 1 30%;
+                            font-weight: 600;
+                        }
+
+                        .valor {
+                            display: flex;
+                            flex: 1 1 70%;
+                            padding-left: 2px;
+                        }
+
+                        > mat-card {
+                            flex: 1 1 auto;
+                            display: flex !important;
+                            flex-direction: column;
+                            padding: 8px !important;
+                            margin: 1px 2px 7px 2px !important;
+
+                            .mat-grid-tile .mat-figure {
+                                justify-content: left !important;
                             }
                         }
                     }
