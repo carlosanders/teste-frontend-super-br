@@ -19,14 +19,13 @@ processo-main-sidebar {
         }
 
         .logo-nup {
-            margin-top: 4px;
             font-size: 12px;
             line-height: 22px;
         }
 
         .logo-subtext {
             font-size: 12px;
-            line-height: 22px;
+            line-height: 12px;
         }
     }
 
@@ -42,7 +41,6 @@ processo-main-sidebar {
             > .nav-item {
                 > .children {
                     overflow: hidden;
-                    margin-left: 48px;
                 }
 
                 &.closed {
