@@ -13,19 +13,17 @@ import {animate, query, stagger, style, transition, trigger} from '@angular/anim
 import {Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {catchError, takeUntil} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
-import * as moment from 'moment';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {CounterState} from 'app/store/reducers/counter.reducer';
 import {CdkNavigationItem} from '@cdk/types';
 import {
     ApexAxisChartSeries,
-    ApexChart, ApexDataLabels,
-    ApexPlotOptions,
+    ApexChart, ApexDataLabels, ApexMarkers,
+    ApexPlotOptions, ApexStroke,
     ApexTitleSubtitle,
-    ApexXAxis,
+    ApexXAxis, ApexYAxis,
     ChartComponent
 } from "ng-apexcharts";
 
@@ -33,6 +31,8 @@ export type ChartOptions = {
     series: ApexAxisChartSeries;
     chart: ApexChart;
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis;
+    stroke: ApexStroke,
     title: ApexTitleSubtitle;
     plotOptions: ApexPlotOptions;
     dataLabels: ApexDataLabels
@@ -121,16 +121,36 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
                 }
             ],
             chart: {
-                type: "bar",
-                height: "180px"
+                type: "line",
+                height: "180",
+                dropShadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 0.2
+                },
+                toolbar: {
+                    show: false
+                }
+            },
+            stroke: {
+                curve: 'smooth'
             },
             title: {
-                text: "Tarefas recebidas nas últimas 4 semanas"
+                text: "Distribuições nas últimas 4 semanas"
+            },
+            yaxis: {
+                labels: {
+                    show: false
+                }
             },
             xaxis: {
                 categories: periodos
             },
             dataLabels: {
+                enabled: true,
             },
             plotOptions: {
                 bar: {
