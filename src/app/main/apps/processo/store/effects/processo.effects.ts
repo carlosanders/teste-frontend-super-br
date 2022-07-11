@@ -22,8 +22,8 @@ import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
-import {TarefaService} from "../../../../../../@cdk/services/tarefa.service";
-import * as fromStore from "../index";
+import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
+import * as fromStore from '../index';
 
 @Injectable()
 export class ProcessoEffect {
@@ -69,15 +69,6 @@ export class ProcessoEffect {
                         processoId: response.id
                     })
                 ]),
-                tap(() => {
-                    this._store.dispatch(new fromStore.UnloadTarefasProcesso());
-                    if (this.routerState.params['processoHandle'] &&
-                        this._loginService.isGranted('ROLE_COLABORADOR')) {
-                        this._store.dispatch(new ProcessoActions.GetTarefasProcesso({
-                            processoId: this.routerState.params.processoHandle
-                        }));
-                    }
-                }),
                 catchError((err) => {
                     console.log(err);
                     return of(new ProcessoActions.GetProcessoFailed(err));
@@ -455,6 +446,10 @@ export class ProcessoEffect {
         mergeMap(response => [
             new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
             new ProcessoActions.GetTarefasProcessoSuccess({
+                loadedTarefas: {
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle'],
+                },
                 entitiesId: response['entities'].map(tarefa => tarefa.id)
             })
         ]),

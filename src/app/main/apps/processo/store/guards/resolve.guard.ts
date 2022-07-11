@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {ProcessoAppState} from 'app/main/apps/processo/store/reducers';
 import * as fromStore from 'app/main/apps/processo/store';
-import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getProcessoIsLoading} from '../';
+import {getProcessoLoaded, getProcessoIsLoading, getLoadingTarefasProcesso, getTarefasProcessoLoaded} from '../';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -17,6 +16,7 @@ export class ResolveGuard implements CanActivate {
 
     usuario: Usuario;
     loadingProcesso: boolean;
+    loadingTarefasProcesso: boolean;
 
     /**
      *
@@ -41,8 +41,14 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((loading) => {
             this.loadingProcesso = loading;
         });
+        this._store.pipe(
+            select(getLoadingTarefasProcesso)
+        ).subscribe((loading) => {
+            this.loadingTarefasProcesso = loading;
+        });
 
         this.loadingProcesso = false;
+        this.loadingTarefasProcesso = false;
     }
 
     /**
@@ -53,12 +59,26 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getProcesso().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
                 return of(false);
             })
+        );
+    }
+
+    /**
+     * Check store
+     *
+     * @returns
+     */
+    checkStore(): Observable<any> {
+        return forkJoin([
+            this.getProcesso(),
+            this.getTarefasProcesso()
+        ]).pipe(
+            take(1)
         );
     }
 
@@ -90,6 +110,31 @@ export class ResolveGuard implements CanActivate {
             take(1)
         );
     }
+
+    /**
+     * Get Tarefas Processo
+     *
+     * @returns
+     */
+    getTarefasProcesso(): any {
+        return this._store.pipe(
+            select(getTarefasProcessoLoaded),
+            tap((loaded: any) => {
+                if (!this.loadingTarefasProcesso && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                    if (this.routerState.params['processoHandle'] !== 'criar' && this._loginService.isGranted('ROLE_COLABORADOR')) {
+                        this._store.dispatch(new fromStore.UnloadTarefasProcesso());
+                        this.loadingTarefasProcesso = true;
+                        this._store.dispatch(new fromStore.GetTarefasProcesso({
+                            processoId: this.routerState.params.processoHandle
+                        }));
+                    }
+                }
+            }),
+            filter((loaded: any) => !this.loadingTarefasProcesso && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            take(1)
+        );
+    }
+
 }
 
 
