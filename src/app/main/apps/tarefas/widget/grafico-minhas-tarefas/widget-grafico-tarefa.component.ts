@@ -138,7 +138,7 @@ export class WidgetGraficoTarefaComponent implements OnInit, OnDestroy {
                 }
             ],
             chart: {
-                type: "bar",
+                type: "line",
                 height: "180px"
             },
             title: {
