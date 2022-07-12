@@ -9,12 +9,10 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Usuario} from '@cdk/models';
-
 import {LoginService} from 'app/main/auth/login/login.service';
-import {catchError, finalize, takeUntil} from 'rxjs/operators';
+import {catchError, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
-import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {AfastamentoService} from "../../../../../../@cdk/services/afastamento.service";
+import {AfastamentoService} from "@cdk/services/afastamento.service";
 import moment from "moment";
 
 @Component({
@@ -28,7 +26,8 @@ import moment from "moment";
 export class WidgetAfastamentosComponent implements OnInit, OnDestroy {
 
     _profile: Usuario;
-    afastamentos: any = false;
+    afastamentos: any = [];
+    loading = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -46,16 +45,11 @@ export class WidgetAfastamentosComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-//  {"colaborador.id":"eq:3","andX":[{"dataInicioBloqueio":"gte:2022-07-12"}]}
-    /// `{"colaborador.id": "eq:${this._profile.colaborador.id}", "andX": [{"dataInicioBloqueio": "gte:${moment().format('YYYY-MM-DD)"}]}`)
-    // -----------------------------------------------------------------------------------------------------
-
     /**
      * On init
      */
     ngOnInit(): void {
+        this.loading = true;
         this._afastamentoService.query(
             `{"colaborador.id": "eq:${this._profile.colaborador.id}", "andX": [{"dataInicioBloqueio": "gte:${moment().format('YYYY-MM-DD')}"}]}`,
             25,
@@ -64,22 +58,18 @@ export class WidgetAfastamentosComponent implements OnInit, OnDestroy {
             JSON.stringify(["populateAll", "colaborador.usuario"]),
         )
             .pipe(
-                catchError(() => of([])),
+                catchError(() => {
+                    this.loading = false;
+                    return of([]);
+                }),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
             (value) => {
+                this.loading = false;
                 this.afastamentos = value['entities'];
                 this._changeDetectorRef.markForCheck();
             }
         );
-
-        // this._store
-        //     .pipe(
-        //         select(fromStore.getCounterState),
-        //         takeUntil(this._unsubscribeAll)
-        //     ).subscribe((value) => {
-        //     this.counterState = value;
-        // });
     }
 
     ngOnDestroy() {

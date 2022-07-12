@@ -6,17 +6,6 @@ widget-afastamentos {
     box-sizing: border-box;
     padding: 8px;
 
-    p {
-        b {
-            font-size: 14px;
-        }
-        span {
-            display: block;
-            color: rgba(0, 0, 0, 0.54);
-        }
-    }
-
-
     .mat-card.scrollable-content {
         height: 100%;
         width: 100%;
@@ -37,5 +26,15 @@ widget-afastamentos {
 
     .count-clickable {
         cursor: pointer;
+    }
+
+    p {
+        b {
+            font-size: 14px;
+        }
+        span {
+            display: block;
+            color: rgba(0, 0, 0, 0.54);
+        }
     }
 }
