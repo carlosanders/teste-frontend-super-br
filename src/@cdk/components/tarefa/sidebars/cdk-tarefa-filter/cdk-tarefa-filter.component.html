@@ -44,13 +44,28 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput placeholder="Espécie de Tarefa"
-                       formControlName="especieTarefa"
-                       [matAutocomplete]="especieTarefa.autocomplete"
-                       (change)="verificarValor($event)">
-                <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
-                                                 [control]="form.get('especieTarefa')">
-                </cdk-especie-tarefa-autocomplete>
+                <cdk-especie-tarefa-autocomplete-chiplist #especieTarefaChiplist
+                                                          [pagination]="especieTarefaPagination"
+                                                          [selectedEspecieTarefaList]="selectedEspecieTarefaList"
+                                                          (valuesChanged)="updateSelectedEspecieTarefaList($event)"
+                                                          [disableItemFn]="especieTarefaDisabledFn"
+                                                          [displayItemFn]="especieTarefaDisplayItemFn">
+                    <input matInput placeholder="Especie Tarefa"
+                           formControlName="especieTarefa"
+                           #especieTarefa
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputFor]="especieTarefaChiplist.chipList"
+                           [cdkAutocompleteMultiple]="especieTarefaAutocomplete.autocomplete">
+                </cdk-especie-tarefa-autocomplete-chiplist>
+                <cdk-especie-tarefa-autocomplete-multiple
+                    #especieTarefaAutocomplete="especieTarefaAutocomplete"
+                    [pagination]="especieTarefaPagination"
+                    (valuesChanged)="updateSelectedEspecieTarefaList($event)"
+                    [selectedEspecieTarefaList]="selectedEspecieTarefaList"
+                    [disableItemFn]="especieTarefaDisabledFn"
+                    [displayItemFn]="especieTarefaDisplayItemFn"
+                    [control]="form.get('especieTarefa')">
+                </cdk-especie-tarefa-autocomplete-multiple>
             </mat-form-field>
 
             <mat-form-field>
