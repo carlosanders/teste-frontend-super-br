@@ -130,7 +130,8 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => !this.loadingTarefasProcesso && (this.routerState.params['processoHandle'] === 'criar' || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value))),
+            filter((loaded: any) => !this._loginService.isGranted('ROLE_COLABORADOR') || this.routerState.params['processoHandle'] === 'criar' ||
+                    (!this.loadingTarefasProcesso && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value))),
             take(1)
         );
     }
