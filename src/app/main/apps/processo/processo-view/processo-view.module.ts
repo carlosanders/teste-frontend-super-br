@@ -84,7 +84,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'default'
+        redirectTo: 'latest'
     }
 ];
 

@@ -7,6 +7,11 @@
                formControlName="nome"
                maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('minlength')">O campo deve ter no mínimo 3 caracteres!
+        </mat-error>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -16,6 +21,11 @@
                formControlName="sigla"
                maxlength="255" upperCase required>
         <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('sigla').hasError('minlength')">O campo deve ter no mínimo 3 caracteres!
+        </mat-error>
+        <mat-error *ngIf="form.get('sigla').hasError('formError')">
+            {{form.get('sigla').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -28,6 +38,11 @@
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('minlength')">O campo deve ter no mínimo 3 caracteres!
+        </mat-error>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>

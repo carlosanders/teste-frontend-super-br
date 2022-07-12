@@ -982,3 +982,36 @@
 
 * Correções de bug de upgrade de dependencias
 * Não é possível apagar um modelo, apenas inativá-lo
+
+1.8.12
+
+* Correções de bug de upgrade de dependencias
+
+1.8.13
+
+* Widget com o gráfico da distribuição de tarefas das 4 ultimas semanas
+* Correção para exibir as setas de alteração de ano em alguns datepickers
+* Ajuste visual nos subsmenus do processo
+
+1.8.14
+
+* Refatoramento completo do componente de visualização de processo, visando reduzir a complexidade do código e melhorar o desempenho para processos grandes
+* Eliminada a dependência de um index montado no backend
+* Volta do uso de requisição ao back que faz o download do componente digital mais recente de um processo
+* Alterada rota padrão do visualizar processo de 'default' para 'latest'
+* Correção de erro enviando requisições repetidas ao GetVolumes para o backend
+* Corrigido comportamento incorreto navegando pelas setas por juntadas desentranhadas
+* Removendo juntadas vinculadas do estado da aplicação corretamente ao vincular juntadas
+* Trazendo de volta ao estado da aplicação a juntada desvinculada
+* Implementada mensagem de erro em tela quando o mesmo fosse retornado pelo guarda de rota
+* Alterações e correções de bug em componente de anexar por cópia
+* Removidas dependências de index montado pelo backend em componente de anexar cópia
+* Correção de erro em CSS quando aberto componente de anexar por cópia sem que o processo-view tenha entrado no estado da aplicação
+* Implementado componente simplificado de visualização de processo dentro do editor de minutas
+* Implementar visualização de bookmarks no componente de visualização simplificada de processo
+* Implementar visualização de capa do processo no componente de visualização simplificada de processo
+* Alterado componente de bookmarks para não alterar a url da aplicação
+* Correção de bug em capa de processo no método que abria juntadas em nova aba
+* Implementado corretamente acesso negado em anexar-copia e visualizar processo simplificado
+* Ocultando o ícone de criação de bookmark ao visualizar um bookmark no visualizar processo
+* Correção de chamada duplicada para getTarefas no backend ao abrir detalhamento de uma tarefa

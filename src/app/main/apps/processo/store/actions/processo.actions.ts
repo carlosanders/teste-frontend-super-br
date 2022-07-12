@@ -56,9 +56,6 @@ export const SINCRONIZA_BARRAMENTO_SUCCESS = '[PROCESSO] SINCRONIZACAO BARRAMENT
 
 export const PLUGIN_SET_ERROR = '[PROCESSO] PLUGIN SET ERROR';
 
-export const GET_JUNTADA_INDEX = '[PROCESSO] GET JUNTADA INDEX';
-export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
-
 export const GET_TAREFAS_PROCESSO = '[PROCESSO GET TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_PROCESSO_SUCCESS = '[PROCESSO GET TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_PROCESSO_FAILED = '[PROCESSO GET TAREFAS] GET TAREFAS FAILED';
@@ -526,30 +523,6 @@ export class PluginSetError implements Action
 }
 
 /**
- * Get Juntada Index
- */
-export class GetJuntadaIndex implements Action
-{
-    readonly type = GET_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Atualiza Juntada Index
- */
-export class AtualizaJuntadaIndex implements Action
-{
-    readonly type = ATUALIZA_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
  * Get Tarefas
  */
 export class GetTarefasProcesso implements Action
@@ -637,8 +610,6 @@ export type ProcessoActionsAll
     | SincronizaBarramento
     | SincronizaBarramentoSuccess
     | PluginSetError
-    | GetJuntadaIndex
-    | AtualizaJuntadaIndex
     | GetTarefasProcesso
     | GetTarefasProcessoSuccess
     | GetTarefasProcessoFailed

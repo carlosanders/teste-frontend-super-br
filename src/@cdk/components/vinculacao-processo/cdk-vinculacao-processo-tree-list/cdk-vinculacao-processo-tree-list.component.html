@@ -136,7 +136,7 @@
                 </div>
                 <mat-menu #moreMenuParent="matMenu" class="cdk-vinculacao-processo-tree-list-mat-menu">
                     <button mat-menu-item
-                            *ngIf="actions.indexOf('view') > -1"
+                            *ngIf="actions.indexOf('view') > -1 && mode === 'padrao'"
                             (click)="visualizarProcesso(node.data.processo)"
                             aria-label="visualizar"
                             matTooltip="Visualizar">

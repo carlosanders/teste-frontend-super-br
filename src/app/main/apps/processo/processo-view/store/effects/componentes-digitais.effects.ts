@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../actions';
 import * as fromStoreTarefaDetail from '../../../../tarefas/tarefa-detail/store';
 import {DomSanitizer} from '@angular/platform-browser';
 import * as fromStore from '../../store';
@@ -69,7 +68,6 @@ export class ComponentesDigitaisEffects {
                 status: 1, // sucesso
             }))),
             tap(() => {
-                this._store.dispatch(new GetDocumentos());
                 if (this.routerState.params['tarefaHandle']) {
                     this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
                         id: this.routerState.params['tarefaHandle']

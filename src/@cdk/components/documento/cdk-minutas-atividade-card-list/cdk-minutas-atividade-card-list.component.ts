@@ -6,7 +6,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChange,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -109,6 +109,15 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     downloadId: number[] = [];
 
     @Input()
+    assinaturasErrosDocumentosId: number[] = [];
+
+    @Input()
+    assinaturaErrors: any = false;
+
+    @Input()
+    errorsAssinatura: string = null;
+
+    @Input()
     loadingDocumentosExcluidos = false;
 
     @Input()
@@ -169,7 +178,16 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     ngOnInit(): void {
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (this.assinaturaErrors && this.assinaturaErrors.status && (this.assinaturaErrors.status === 400 || this.assinaturaErrors.status === 422)) {
+            try {
+                const data = JSON.parse(this.assinaturaErrors.error.message);
+                console.log(data);
+                const fields = Object.keys(data || {});
+                console.log(fields);
+            } catch (e) {
+            }
+        }
     }
 
     deleteDocumento(documentoId): void {

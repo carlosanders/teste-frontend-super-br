@@ -132,10 +132,4 @@ export class ProcessoService extends ParentGenericService<Processo> {
                 map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
             );
     }
-
-    getJuntadaIndex(id: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
-        return this.http.get(`${environment.api_url}administrativo/processo/${id}/juntada_index` + environment.xdebug, {params});
-    }
 }

@@ -24,7 +24,7 @@ anexar-copia {
         }
     }
 
-    > .processo-view {
+    > .anexar-copia {
         flex: 1 1 auto;
         display: flex;
 
@@ -88,7 +88,7 @@ anexar-copia {
                         align-items: center;
                     }
 
-                    > .processo-view-juntada {
+                    > .anexar-copia-juntada {
                         flex: 1 1 auto;
                         display: flex;
                         flex-direction: column;
@@ -145,7 +145,7 @@ anexar-copia {
                             transform: scale(2);
                         }
 
-                        > .processo-view-juntada-content {
+                        > .anexar-copia-juntada-content {
                             flex: 1 1 auto;
                             display: flex;
                             flex-direction: column;

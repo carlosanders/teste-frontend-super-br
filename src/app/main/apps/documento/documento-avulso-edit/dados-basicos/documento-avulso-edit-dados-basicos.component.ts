@@ -85,6 +85,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    assinaturaErrors$: Observable<any>;
+    assinaturaErrosDocumentosId$: Observable<number[]>;
+    errorsAssinatura: string = null;
     lote: string;
 
     routerState: any;
@@ -141,6 +144,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
         this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
+        this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
+        this.assinaturaErrosDocumentosId$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrosDocumentosId));
         this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
@@ -213,6 +218,16 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.errorsRemetendo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(err => this.errorsRemetendo = CdkUtils.errorsToString(err));
+
+        this.assinaturaErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((err) => {
+            if (err) {
+                this.errorsAssinatura = CdkUtils.errorsToString(err);
+            } else {
+                this.errorsAssinatura = null;
+            }
+        })
     }
 
     ngAfterViewInit(): void {
@@ -317,7 +332,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const documento = event.documento;
         this.podeNavegarDoEditor().subscribe((result) => {
             if (result) {
-                const sidebar = 'editar/dados-basicos';
+                const sidebar = 'oficio/dados-basicos';
                 if (event.event.ctrlKey) {
                     const extras = {
                         queryParams: {

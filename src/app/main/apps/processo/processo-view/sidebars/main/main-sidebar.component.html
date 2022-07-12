@@ -1,16 +1,6 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-4">
     <div class="actions">
-        <button mat-mini-fab style="display: none;"
-                [matTooltip]="'Criar Minuta'"
-                *ngIf="tarefa"
-                class="m-8 active accent"
-                [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                #menuTriggerList="matMenuTrigger"
-                (click)="$event.stopPropagation()">
-            <mat-icon class="secondary-text">attach_file</mat-icon>
-        </button>
-
         <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
                 aria-label="Maximizar Tela"
                 matTooltip="Maximizar Tela"
@@ -24,82 +14,7 @@
                 (click)="expandirTela(false)">
             <mat-icon>fullscreen_exit</mat-icon>
         </button>
-
-        <mat-menu #moreMenu="matMenu">
-            <button mat-menu-item aria-label="upload"
-                    (click)="upload()">
-                <ng-container>
-                    <mat-icon>picture_as_pdf</mat-icon>
-                    <span>Upload</span>
-                </ng-container>
-            </button>
-
-            <button fxLayout="row" aria-label="editor de textos" fxLayoutAlign="start center"
-                    [matMenuTriggerFor]="modeloMenu" mat-menu-item>
-                <mat-icon>create</mat-icon>
-                <span>Editor</span>
-            </button>
-
-            <button mat-menu-item aria-label="criar ofício"
-                    (click)="criarOficio()">
-                <ng-container>
-                    <mat-icon>mail</mat-icon>
-                    <span>Ofício</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="upload"
-                    (click)="minutasExcluidas()">
-                <ng-container>
-                    <mat-icon>delete</mat-icon>
-                    <span>Lixeira</span>
-                </ng-container>
-            </button>
-
-            <ng-template #dynamicComponent></ng-template>
-        </mat-menu>
-
-        <mat-menu #modeloMenu="matMenu">
-            <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
-            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
-                  fxLayoutAlign="start"
-                  (submit)="doEditor()"
-                  fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
-                <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                        <input matInput placeholder="Nome ou Id"
-                               formControlName="modelo"
-                               #autoCompleteModelos
-                               [matAutocomplete]="modelo.autocomplete"
-                               (blur)="checkModelo()">
-                    </div>
-                    <cdk-modelo-autocomplete
-                        #modelo="modeloAutocomplete"
-                        [control]="formEditor.get('modelo')"
-                        [pagination]="modeloPagination">
-                    </cdk-modelo-autocomplete>
-                    <button matSuffix mat-button mat-icon-button type="button"
-                            (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
-                        <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>
-                    </button>
-                    <button matSuffix mat-button mat-icon-button type="button"
-                            (click)="$event.stopPropagation(); showModelosGrid()">
-                        <mat-icon matTooltip="Procurar em todos os modelos">search</mat-icon>
-                    </button>
-                </mat-form-field>
-                <button mat-raised-button color="accent" type="submit" [disabled]="!formEditorValid">
-                    CRIAR MINUTA
-                </button>
-            </form>
-        </mat-menu>
-
         <ng-container *ngIf="this.isJuntadas">
-            <button mat-mini-fab *ngIf="(loadingDocumentosExcluidos$ | async) === false && (lixeiraMinutas$ | async)"
-                    class="m-4 active accent" aria-label="Sair da lixeira"
-                    (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
-                <mat-icon class="secondary-text">exit_to_app</mat-icon>
-            </button>
-
             <button class="refresh" mat-icon-button
                     (click)="reloadJuntadas()"
                     aria-label="recarregar juntadas"
@@ -452,8 +367,7 @@
                             </mat-icon>
                             <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                             <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                                    *ngIf="!processo?.somenteLeitura && juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
-                                !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                    *ngIf="!processo?.somenteLeitura && juntada.ativo && !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
                                     aria-label="Ferramentas" (click)="$event.stopPropagation()">
                                 <mat-icon class="secondary-text">more_vert</mat-icon>
                             </button>

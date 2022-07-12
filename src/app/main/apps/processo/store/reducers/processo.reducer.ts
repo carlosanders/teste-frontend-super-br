@@ -18,6 +18,7 @@ export interface ProcessoState {
     loadingAcompanhamento: boolean;
     entitiesTarefasId: number[];
     loadingTarefas: boolean;
+    loadedTarefas: any;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -37,7 +38,8 @@ export const ProcessoInitialState: ProcessoState = {
     deletedIds: [],
     loadingAcompanhamento: false,
     entitiesTarefasId: [],
-    loadingTarefas: false
+    loadingTarefas: false,
+    loadedTarefas: false
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -73,13 +75,13 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: {
                     id: undefined,
                     value: undefined,
-                    acessoNegado: false,
-                    juntadaIndex: {}
+                    acessoNegado: false
                 },
                 loading: false,
                 errors: false,
                 savingVinculacaoEtiquetaId: null,
-                steps: false
+                steps: false,
+                loadedTarefas: false
             };
         }
 
@@ -307,21 +309,12 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
-        case ProcessoActions.ATUALIZA_JUNTADA_INDEX: {
-            return {
-                ...state,
-                loaded: {
-                    ...state.loaded,
-                    juntadaIndex: action.payload.juntadaIndex
-                }
-            }
-        }
-
         case ProcessoActions.GET_TAREFAS_PROCESSO: {
             return {
                 ...state,
                 loadingTarefas: true,
-                errors: false
+                errors: false,
+                loadedTarefas: false
             };
         }
 
@@ -329,7 +322,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 entitiesTarefasId: action.payload.entitiesId,
-                loadingTarefas: false
+                loadingTarefas: false,
+                loadedTarefas: action.payload.loadedTarefas,
             };
         }
 
@@ -344,7 +338,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 entitiesTarefasId: [],
-                loadingTarefas: false
+                loadingTarefas: false,
+                loadedTarefas: false
             };
         }
 

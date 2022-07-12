@@ -22,8 +22,8 @@ import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
-import {TarefaService} from "../../../../../../@cdk/services/tarefa.service";
-import * as fromStore from "../index";
+import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
+import * as fromStore from '../index';
 
 @Injectable()
 export class ProcessoEffect {
@@ -41,7 +41,6 @@ export class ProcessoEffect {
             } : {};
 
             contexto['compartilhamentoUsuario'] = 'processo';
-            contexto['latestJuntadaIndex'] = true;
 
             let populate = action.payload.populate ? [...action.payload.populate] : [];
             populate = [
@@ -65,21 +64,11 @@ export class ProcessoEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params['processoHandle'],
-                            acessoNegado: response.acessoNegado,
-                            juntadaIndex: response.juntadaIndex
+                            acessoNegado: response.acessoNegado
                         },
                         processoId: response.id
                     })
                 ]),
-                tap(() => {
-                    this._store.dispatch(new fromStore.UnloadTarefasProcesso());
-                    if (this.routerState.params['processoHandle'] &&
-                        this._loginService.isGranted('ROLE_COLABORADOR')) {
-                        this._store.dispatch(new ProcessoActions.GetTarefasProcesso({
-                            processoId: this.routerState.params.processoHandle
-                        }));
-                    }
-                }),
                 catchError((err) => {
                     console.log(err);
                     return of(new ProcessoActions.GetProcessoFailed(err));
@@ -430,22 +419,6 @@ export class ProcessoEffect {
             })
         ))
     ));
-    /**
-     * Atualiza index de juntadas
-     *
-     * @type {Observable<any>}
-     */
-    getJuntadaIndex: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoActions.GetJuntadaIndex>(ProcessoActions.GET_JUNTADA_INDEX),
-        switchMap(action => this._processoService.getJuntadaIndex(action.payload.processoId).pipe(
-            mergeMap((response: any) => [
-                new ProcessoActions.AtualizaJuntadaIndex({
-                    juntadaIndex: response,
-                    reload: !!action.payload.reload
-                }),
-            ])
-        ))
-    ));
 
     /**
      * Get Tarefas Processo with router parameters
@@ -473,6 +446,10 @@ export class ProcessoEffect {
         mergeMap(response => [
             new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
             new ProcessoActions.GetTarefasProcessoSuccess({
+                loadedTarefas: {
+                    id: 'processoHandle',
+                    value: this.routerState.params['processoHandle'],
+                },
                 entitiesId: response['entities'].map(tarefa => tarefa.id)
             })
         ]),

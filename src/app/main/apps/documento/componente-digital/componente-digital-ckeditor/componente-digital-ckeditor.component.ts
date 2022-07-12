@@ -126,7 +126,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(cd => !!cd && (cd.id !== this.componenteDigital?.id || cd.hash !== this.componenteDigital?.hash))
+            filter(cd => !!cd)
         ).subscribe((cd) => {
             this._cacheGenericUserDataService
                 .get(ComponenteDigitalCkeditorComponent.LocalStorageBackupKey)

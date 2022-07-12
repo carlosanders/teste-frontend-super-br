@@ -35,6 +35,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatTabGroup} from '@angular/material/tabs';
 import {RouterHistoryService} from '../../../../@cdk/utils/router-history.service';
 import {ComponenteDigitalService} from '../../../../@cdk/services/componente-digital.service';
+import {modulesConfig} from 'modules/modules-config';
 
 @Component({
     selector: 'documento',
@@ -51,9 +52,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     loading$: Observable<boolean>;
     loading: boolean = false;
     loadingComponenteDigital$: Observable<boolean>;
-    loadingComponenteDigital: boolean = false;
     savingComponenteDigital$: Observable<boolean>;
-    savingComponenteDigital: boolean = false;
     currentComponenteDigital$: Observable<ComponenteDigital>;
     screen$: Observable<any>;
 
@@ -68,13 +67,13 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     destroying = false;
     mobileMode: boolean;
 
-    deveRecarregarJuntadas: boolean = false;
-    unloadDocumentosTarefas: boolean = false;
     getDocumentosAtividades: boolean = false;
     atualizarJuntadaId: number = null;
     getDocumentosAvulsos: boolean = false;
-    getDocumentosProcesso: boolean = false;
     lote: string;
+    routeAtividadeDocumento = 'atividade';
+    routeOficioDocumento = 'oficio';
+
     private _backUrl: string;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -115,7 +114,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         // this._backUrl = this._routerHistoryService.getPreviousUrl()?.url;
         this._backUrl = this._router.url.split('/documento/')[0];
-
+        if (this._backUrl.indexOf('/capa') !== -1) {
+            this._backUrl += '/mostrar';
+        }
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
 
@@ -138,17 +139,21 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-            // Entrou na rota de visualizar processo
-            this.matTabGroup.selectedIndex = 1;
-            if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
-                const steps = this.routerState.params['stepHandle'].split('-');
-                this._store.dispatch(new SetCurrentStep({
-                    step: parseInt(steps[0], 10),
-                    subStep: parseInt(steps[1], 10)
-                }));
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
+                this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
-        }
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle) &&
+                (module.name === this.routerState.params.generoHandle)) {
+                this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     /**
@@ -173,7 +178,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
-        if (this.routerState.params['stepHandle']) {
+        if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: parseInt(steps[0], 10),
@@ -341,22 +346,13 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                         this._componenteDigitalService.saving.next(false);
                         this.currentIndice = indice;
                         this.modoProcesso = 1;
-                        const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
-                        const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
+                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id;
                         const sidebar = 'empty';
                         this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                             {
                                 relativeTo: this._activatedRoute
                             })
-                            .then(() => {
-                                if (steps) {
-                                    this._store.dispatch(new SetCurrentStep({
-                                        step: parseInt(steps[0], 10),
-                                        subStep: parseInt(steps[1], 10)
-                                    }));
-                                }
-                            });
+                            .then(() => {});
                     } else {
                         this.matTabGroup.selectedIndex = 0;
                     }
@@ -364,7 +360,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             } else {
                 this.currentIndice = indice;
                 this.modoProcesso = 0;
-                let sidebar = 'editar/atividade';
+                let sidebar = 'editar/' + this.routeAtividadeDocumento;
                 let primary: string;
                 primary = 'componente-digital/' + this.currentComponenteDigital.id;
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
@@ -372,7 +368,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                     sidebar = 'editar/dados-basicos';
                 }
                 if (!!this.documento.documentoAvulsoRemessa) {
-                    sidebar = 'oficio/dados-basicos';
+                    sidebar = this.routeOficioDocumento + '/dados-basicos';
                 }
                 this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                     {
