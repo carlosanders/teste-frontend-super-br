@@ -7,6 +7,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
+import {TimelineEvent} from "../../app/main/apps/processo/processo-timeline/models/timeline-event.model";
 
 @Injectable()
 export class ProcessoService extends ParentGenericService<Processo> {
@@ -130,6 +131,17 @@ export class ProcessoService extends ParentGenericService<Processo> {
         return this.modelService.search('administrativo/processo', new HttpParams({fromObject: params}))
             .pipe(
                 map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
+            );
+    }
+
+    getTimeline(id: number, populate: any = '[]', context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams({fromObject: {
+                'context': context,
+                'populate': populate
+            }});
+        return this.http.get(`${environment.api_url}administrativo/processo/${id}/timeline` + environment.xdebug, {params})
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(TimelineEvent, response['entities']), response['total']))
             );
     }
 }

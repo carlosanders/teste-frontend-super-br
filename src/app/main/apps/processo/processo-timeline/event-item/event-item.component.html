@@ -1,0 +1,43 @@
+<div #dot class="dot" *ngIf="timelineEvents.length"
+     [ngClass]="getDotClass()">
+    <div class="info" *ngIf="timelineEvents.length">
+        <ng-container *ngIf="timelineEvents.length === 1">
+            <ng-container *ngIf="isMainEvent() || this.timelineEvents[0].typeEvent.objectClass === 'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Distribuicao'">
+                <img class="user-img" [src]="timelineEvents[0].usuario.imgPerfil.conteudo|safeResourceUrl"
+                     matTooltip="{{timelineEvents[0].message}}"
+                     *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === true">
+                <ng-container *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === false">
+                <span matTooltip="{{timelineEvents[0].message}}">
+                    {{getSiglaUsuario(timelineEvents[0].usuario)}}
+                </span>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!isMainEvent()">
+                <mat-icon class="s-16"
+                          matTooltip="{{timelineEvents[0].message}}">
+                    {{getEventIco(timelineEvents[0])}}
+                </mat-icon>
+            </ng-container>
+
+        </ng-container>
+        <ng-container *ngIf="timelineEvents.length > 1">
+            <mat-icon
+                class="s-30"
+                matTooltip="{{timelineEvents.length}} eventos"
+                [matBadge]="timelineEvents.length > 99 ? '99+' : timelineEvents.length"
+                [matBadgePosition]="'above'"
+                  [matBadgeSize]="'small'"
+                [matBadgeColor]="'accent'">
+                zoom_in
+            </mat-icon>
+        </ng-container>
+    </div>
+</div>
+
+<div class="spacer" *ngIf="!timelineEvents.length && hasPrevious()">
+</div>
+
+<div class="dot-parent-connector cursor-pointer" *ngIf="!!parentDot && !!dot && timelineEvents.length"
+    [ngStyle]="getParentDotConnectorStyle()"
+    matTooltip="Tarefa {{tarefa.id}} aberta para {{timelineEvents[0].usuario.nome}}">
+</div>

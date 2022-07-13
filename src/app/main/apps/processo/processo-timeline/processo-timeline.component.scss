@@ -1,0 +1,30 @@
+@import "@cdk/scss/partials/cdk-form";
+
+processo-timeline {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .container {
+            display: flex;
+            flex-direction: column;
+
+            //date-group {
+            //    &.month-date-group, &.week-data-label {
+            //        .data-label {
+            //            font-style: italic;
+            //            font-size: 16px;
+            //            mat-icon{
+            //                size: 16px;
+            //            }
+            //        }
+            //    }
+            //}
+        }
+    }
+}
