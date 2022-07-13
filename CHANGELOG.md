@@ -1015,3 +1015,4 @@
 * Implementado corretamente acesso negado em anexar-copia e visualizar processo simplificado
 * Ocultando o ícone de criação de bookmark ao visualizar um bookmark no visualizar processo
 * Correção de chamada duplicada para getTarefas no backend ao abrir detalhamento de uma tarefa
+* Correção de erro impossibilitando de arrastar e soltar para vincular juntadas de processo em algumas rotas
