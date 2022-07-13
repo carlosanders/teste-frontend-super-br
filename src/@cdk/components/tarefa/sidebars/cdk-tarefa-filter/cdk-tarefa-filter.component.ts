@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ElementRef,
     EventEmitter,
     Input, OnChanges,
     Output, SimpleChange,
@@ -17,9 +17,10 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {of, Subject} from 'rxjs';
-import {Etiqueta, Pagination} from '../../../../models';
+import {EspecieTarefa, Etiqueta, Pagination} from '../../../../models';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {SearchBarEtiquetasFiltro} from '../../../search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -84,6 +85,11 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     etiquetaFilter: any;
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
+    especieTarefaPagination = new Pagination();
+    selectedEspecieTarefaList: EspecieTarefa[] = [];
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    @ViewChild('especieTarefa', {static: true}) especieTarefaRef: ElementRef<HTMLInputElement>;
 
     form: FormGroup;
 
@@ -249,8 +255,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
             andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
         }
 
-        if (this.form.get('especieTarefa').value) {
-            andXFilter.push({'especieTarefa.id': `eq:${this.form.get('especieTarefa').value.id}`});
+        if (this.selectedEspecieTarefaList.length > 0) {
+            andXFilter.push({'especieTarefa.id': `in:${this.selectedEspecieTarefaList.map(especieTarefa => especieTarefa.id).join(',')}`});
         }
 
         if (this.form.get('especieRelevancia').value) {
@@ -467,6 +473,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
         this.limparFormFiltroDatas$.next(true);
         this._cdkTarefaFilterService.clear.next(true);
         this.etiquetas = [];
+        this.selectedEspecieTarefaList = [];
 
         if (this.form.get('tipoBusca')) {
             this.form.get('tipoBusca').setValue('pastaAtual');
@@ -488,5 +495,24 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     changeEtiquetaFilter(filtro: SearchBarEtiquetasFiltro): void {
         this.etiquetas = [];
         this.filtroEtiquetas = filtro;
+    }
+
+    especieTarefaDisabledFn(especieTarefa: EspecieTarefa, pagination: Pagination): boolean {
+        return false;
+    }
+
+    especieTarefaDisplayItemFn(especieTarefa: EspecieTarefa): string {
+        let displayed = especieTarefa ? especieTarefa.nome : '';
+        displayed += (especieTarefa && especieTarefa.generoTarefa) ? (' (' + especieTarefa.generoTarefa.nome + ')') : '';
+        return displayed;
+    }
+
+    updateSelectedEspecieTarefaList(selectedList: EspecieTarefa[]): void {
+        this.selectedEspecieTarefaList = selectedList;
+        if (this.form.get('especieTarefa')) {
+            this.especieTarefaRef.nativeElement.focus();
+            this._changeDetectorRef.markForCheck();
+            this.form.patchValue({especieTarefa: ''});
+        }
     }
 }
