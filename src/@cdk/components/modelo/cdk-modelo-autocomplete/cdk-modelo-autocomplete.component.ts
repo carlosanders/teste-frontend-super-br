@@ -43,6 +43,9 @@ export class CdkModeloAutocompleteComponent implements OnInit {
     @Input()
     andxFilter: any;
 
+    @Input()
+    mode = 'search';
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -91,7 +94,7 @@ export class CdkModeloAutocompleteComponent implements OnInit {
                             andX: andxFilter,
                             ...this.pagination.filter
                         };
-                        return this._modeloService.search(
+                        return this._modeloService[`${this.mode}`](
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
