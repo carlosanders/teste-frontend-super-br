@@ -120,7 +120,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getTarefasProcessoLoaded),
             tap((loaded: any) => {
-                if (!this.loadingTarefasProcesso && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                if (!this.loadingTarefasProcesso && (!this.routerState.params[loaded?.id] || this.routerState.params[loaded?.id] !== loaded.value)) {
                     if (this.routerState.params['processoHandle'] !== 'criar' && this._loginService.isGranted('ROLE_COLABORADOR')) {
                         this._store.dispatch(new fromStore.UnloadTarefasProcesso());
                         this.loadingTarefasProcesso = true;
