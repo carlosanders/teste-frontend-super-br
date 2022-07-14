@@ -31,21 +31,6 @@ toolbar {
         display: none !important;
     }
 
-    .user-button,
-    .language-button,
-    .chat-panel-toggle-button,
-    .quick-panel-toggle-button,
-    .quick-panel-toggle-button2,
-    .quick-panel-toggle-button3{
-
-        min-width: 56px;
-        height: 56px;
-
-        @include media-breakpoint('xs') {
-            height: 56px;
-        }
-    }
-
     .navbar-toggle-button {
         min-width: 56px;
         height: 56px;
@@ -144,7 +129,7 @@ toolbar {
 }
 
 .avatar {
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
     transition: all 0.2s ease-in-out;
     &:after {
         content: "";
