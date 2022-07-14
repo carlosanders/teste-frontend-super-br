@@ -16,7 +16,6 @@ toolbar {
 
     .mat-toolbar {
         position: relative;
-        color: inherit !important;
     }
 
     .logo {
@@ -35,8 +34,8 @@ toolbar {
     .user-button,
     .language-button,
     .chat-panel-toggle-button,
-    .quick-panel-toggle-button
-    .quick-panel-toggle-button2
+    .quick-panel-toggle-button,
+    .quick-panel-toggle-button2,
     .quick-panel-toggle-button3{
 
         min-width: 56px;
