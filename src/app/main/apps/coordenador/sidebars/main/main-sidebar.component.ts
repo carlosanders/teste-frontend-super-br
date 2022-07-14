@@ -30,6 +30,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _loginService
+     * @param _cdkSidebarService
      */
     constructor(
         private _loginService: LoginService,
