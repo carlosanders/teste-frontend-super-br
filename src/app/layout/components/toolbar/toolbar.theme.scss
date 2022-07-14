@@ -9,7 +9,7 @@
     toolbar {
 
         mat-toolbar {
-            background: map-get($background, card) !important;
+            background: map-get($background, card);
         }
 
         .toolbar-separator {
