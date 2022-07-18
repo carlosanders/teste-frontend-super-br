@@ -52,9 +52,7 @@ export class CdkUsuarioFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'nome': `like:%${bit}%`});
-            });
+            andXFilter.push({'usuario.id': `eq:${this.form.get('nome').value.id}`});
         }
 
         if (this.form.get('username').value) {
@@ -70,7 +68,7 @@ export class CdkUsuarioFilterComponent {
         }
 
         if (this.form.get('nivelAcesso').value) {
-            this.form.get('nivelAcesso').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('nivelAcesso').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'nivelAcesso': `like:%${bit}%`});
             });
         }
