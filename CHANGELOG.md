@@ -1016,3 +1016,7 @@
 * Ocultando o ícone de criação de bookmark ao visualizar um bookmark no visualizar processo
 * Correção de chamada duplicada para getTarefas no backend ao abrir detalhamento de uma tarefa
 * Correção de erro impossibilitando de arrastar e soltar para vincular juntadas de processo em algumas rotas
+* Correção em uma das causas de loop infinito ao alternar entre minutas de tarefas diferentes
+* Correção de erro ao pesquisar processo na barra superior enquanto visualiza o detalhamento de outro processo
+* Correção de bug que impedia processo de ser exibido corretamente ao fechar modal de documento
+* Correção de erro de console do angular que causava comportamentos indesejados na aplicação

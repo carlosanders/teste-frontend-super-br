@@ -86,6 +86,7 @@ export class ResolveGuard implements CanActivate {
             this.guardaAtivado = value;
             if (!value) {
                 this.downloadingBinary = false;
+                this.loadingLatestBinary = false;
             }
         });
 
@@ -140,7 +141,7 @@ export class ResolveGuard implements CanActivate {
                     routeParams.subscribe((param) => {
                         processoId = parseInt(this.routerState.params[param], 10);
                     });
-                    if (!this.loadingLatestBinary && (!binary.src) && this.loadingProcesso !== processoId) {
+                    if (!this.loadingLatestBinary && ((!binary.src) || this.loadingProcesso !== processoId)) {
                         this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
                         this.loadingLatestBinary = true;
                     }

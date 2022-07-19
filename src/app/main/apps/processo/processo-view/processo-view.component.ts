@@ -462,10 +462,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const firstJuntada = this.index?.find(juntadaIndex => juntadaIndex?.id === this.juntadas[0]?.id);
             if (firstJuntada) {
-                if (this.currentStep.step === 0) {
-                    return firstJuntada.componentesDigitais.includes(this.currentStep.subStep);
+                if (this.currentStep?.step === 0) {
+                    return firstJuntada.componentesDigitais.includes(this.currentStep?.subStep);
                 }
-                return this.currentStep.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === firstJuntada.componentesDigitais[0]);
+                return this.currentStep?.step === firstJuntada.id && (firstJuntada.componentesDigitais.length === 0 || this.currentStep?.subStep === firstJuntada.componentesDigitais[0]);
             }
         }
         return true;
@@ -475,10 +475,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.juntadas?.length && this.index?.length) {
             const lastJuntada = this.index?.find(juntadaIndex => juntadaIndex.id === this.juntadas[this.juntadas?.length - 1].id);
             if (lastJuntada) {
-                if (this.currentStep.step === 0) {
-                    return lastJuntada.componentesDigitais.includes(this.currentStep.subStep);
+                if (this.currentStep?.step === 0) {
+                    return lastJuntada.componentesDigitais.includes(this.currentStep?.subStep);
                 }
-                return this.currentStep.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
+                return this.currentStep?.step === lastJuntada.id && (lastJuntada.componentesDigitais.length === 0 || this.currentStep?.subStep === lastJuntada.componentesDigitais[lastJuntada.componentesDigitais.length - 1]);
             }
         }
         return true;

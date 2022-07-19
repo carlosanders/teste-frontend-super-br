@@ -225,7 +225,11 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this._router.navigate([this._backUrl || url]).then();
+        this._router.navigate([this._backUrl || url]).then(() => {
+            if (url.indexOf('latest') !== -1) {
+                this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(this.routerState.params['processoHandle']));
+            }
+        });
     }
 
     public destroyEditor(): void {

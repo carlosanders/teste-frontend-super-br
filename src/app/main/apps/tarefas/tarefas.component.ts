@@ -1592,8 +1592,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'latest';
         let urlEditor;
-        if (this.routerState.params['processoHandle']) {
-            if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+        if (this.routerState.params['processoHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            if (this.routerState.params['stepHandle']) {
                 stepHandle = this.routerState.params['stepHandle'];
             }
             urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'

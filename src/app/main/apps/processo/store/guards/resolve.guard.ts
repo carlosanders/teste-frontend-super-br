@@ -91,7 +91,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (loaded.acessoNegado) {
+                if (loaded.acessoNegado && this.routerState.params.processoHandle === loaded.value) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
                     if (!this.loadingProcesso && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
