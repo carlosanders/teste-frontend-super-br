@@ -116,7 +116,11 @@ const routes: Routes = [
             {
                 path: 'config-modulo',
                 loadChildren: () => import('./config-modulo/config-modulo.module').then(m => m.ConfigModuloModule)
-            }
+            },
+            {
+                path: 'cronjob',
+                loadChildren: () => import('./cronjob/cronjob.module').then(m => m.CronjobModule)
+            },
         ],
         canActivate: [fromGuards.ResolveGuard]
     },

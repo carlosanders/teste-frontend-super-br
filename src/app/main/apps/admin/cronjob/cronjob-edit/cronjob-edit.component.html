@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="alarm"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="cronjob">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-cronjob-form
+        [cronjob]="(cronjob$ | async)"
+        [form]="formCronjob"
+        [logEntryPagination]="logEntryPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitCronjob($event)"
+        (abort)="doAbort()">
+    </cdk-cronjob-form>
+</div>
