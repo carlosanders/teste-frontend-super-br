@@ -52,7 +52,9 @@ export class CdkUsuarioFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            andXFilter.push({'usuario.id': `eq:${this.form.get('nome').value.id}`});
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'nome': `like:%${bit}%`});
+            });
         }
 
         if (this.form.get('username').value) {
