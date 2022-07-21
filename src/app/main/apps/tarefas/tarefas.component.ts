@@ -527,7 +527,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(tarefas => !!tarefas && tarefas !== this.tarefas)
+            filter(tarefas => !!tarefas)
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
         });

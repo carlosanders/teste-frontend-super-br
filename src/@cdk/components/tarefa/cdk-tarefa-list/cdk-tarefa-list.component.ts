@@ -1057,4 +1057,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             this.loadPage();
         }
     }
+
+    tarefaTrackBy(index, tarefa: Tarefa): number {
+        return tarefa.id;
+    }
+
 }
