@@ -114,6 +114,11 @@ export class CdkCronjobGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: false
         },
         {
+            id: 'percentualExecucao',
+            label: 'Percentual Execução',
+            fixed: false
+        },
+        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false

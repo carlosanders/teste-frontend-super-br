@@ -40,14 +40,14 @@ export class CdkCronjobExpressionParserService {
             customTranslation: 'Às 12:00 AM do primeiro dia útil do mês'
         },
         {
-            alias: '@firstTwoBunsinessDaysOfMonth',
-            expression: '@firstTwoBunsinessDaysOfMonth',
-            customTranslation: 'Às 12:00 AM dos dois primeiros dias úteis do mês'
+            alias: '@secondBunsinessDaysOfMonth',
+            expression: '@secondBunsinessDaysOfMonth',
+            customTranslation: 'Às 12:00 AM do segundo dia útil do mês'
         },
         {
-            alias: '@firstThreeBunsinessDaysOfMonth',
-            expression: '@firstThreeBunsinessDaysOfMonth',
-            customTranslation: 'Às 12:00 AM dos três primeiros dias úteis do mês'
+            alias: '@thirdBunsinessDaysOfMonth',
+            expression: '@thirdBunsinessDaysOfMonth',
+            customTranslation: 'Às 12:00 AM do terceiro dia útil do mês'
         },
     ];
 

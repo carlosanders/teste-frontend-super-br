@@ -177,6 +177,17 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.ultimoPid}} </td>
                 </ng-container>
 
+                <!-- Percentual Execução -->
+                <ng-container matColumnDef="percentualExecucao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Percentual Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='PID Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}">
+                        {{cronjob.percentualExecucao !== null ? cronjob.percentualExecucao + ' %' : null}}
+                    </td>
+                </ng-container>
+
                 <!-- CriadoPor Column -->
                 <ng-container matColumnDef="criadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

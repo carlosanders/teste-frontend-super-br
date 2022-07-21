@@ -31,6 +31,9 @@ export class Cronjob {
     ultimoPid?: number;
 
     @Exclude({ toPlainOnly: true })
+    percentualExecucao?: number;
+
+    @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraUltimaExecucao?: moment.Moment;
@@ -94,5 +97,6 @@ export class Cronjob {
         this.dataHoraUltimaExecucao = null;
         this.dataHoraProximaExecucao = null;
         this.ativo = null;
+        this.percentualExecucao = null;
     }
 }

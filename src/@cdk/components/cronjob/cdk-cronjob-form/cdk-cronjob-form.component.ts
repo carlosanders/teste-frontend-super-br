@@ -77,7 +77,7 @@ export class CdkCronjobFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (changes['cronjob']) {
-            this.checkTextoPeriodicidade(this.cronjob.periodicidade);
+            this.checkTextoPeriodicidade(this.cronjob?.periodicidade ?? this.form.get('periodicidade')?.value);
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
