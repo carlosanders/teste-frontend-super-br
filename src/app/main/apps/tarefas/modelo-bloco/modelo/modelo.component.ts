@@ -76,6 +76,7 @@ export class ModeloComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this.lote = CdkUtils.makeId();
     }
 
     ngOnInit(): void {

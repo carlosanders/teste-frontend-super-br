@@ -1020,3 +1020,5 @@
 * Correção de erro ao pesquisar processo na barra superior enquanto visualiza o detalhamento de outro processo
 * Correção de bug que impedia processo de ser exibido corretamente ao fechar modal de documento
 * Correção de erro de console do angular que causava comportamentos indesejados na aplicação
+* Correção de erro ao criar minuta com base em modelo em uma única tarefa, e posteriormente tentar criar minuta com base em modelo em múltiplas tarefas
+* Melhoria para aumentar desempenho levemente da listagem de tarefas
