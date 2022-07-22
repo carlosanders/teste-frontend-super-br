@@ -349,25 +349,30 @@ export class ProcessoViewEffect {
      */
     downloadLatestBinary: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinary>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY),
-        switchMap(action => this._componenteDigitalService.downloadLatestByProcessoId(action.payload, '{}').pipe(
-            tap((componenteDigital) => {
-                if (componenteDigital?.mimetype != 'text/html') {
-                    this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
-                }
-            }),
-            map((response: any) => new ProcessoViewActions.DownloadLatestBinarySuccess({
-                step: 0,
-                subStep: response.id,
-                binary: response
-            })),
-            catchError((err) => {
-                console.log(err);
-                return of(new ProcessoViewActions.DownloadLatestBinaryFailed({
-                    processoId: action.payload,
-                    error: err.error.message
-                }))
-            })
-        ))
+        switchMap((action) => {
+            const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            return this._componenteDigitalService.downloadLatestByProcessoId(action.payload, JSON.stringify(chaveAcesso)).pipe(
+                tap((componenteDigital) => {
+                    if (componenteDigital?.mimetype != 'text/html') {
+                        this._cacheComponenteDigitalModelService.set(componenteDigital, action.payload).subscribe();
+                    }
+                }),
+                map((response: any) => new ProcessoViewActions.DownloadLatestBinarySuccess({
+                    step: 0,
+                    subStep: response.id,
+                    binary: response
+                })),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.DownloadLatestBinaryFailed({
+                        processoId: action.payload,
+                        error: err.error.message
+                    }))
+                })
+            );
+        })
     ));
     /**
      *
