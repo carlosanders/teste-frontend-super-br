@@ -53,6 +53,16 @@
         <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'" required></mcc-color-picker-collection>
     </mcc-color-picker>
 
+    <h3>Tipo de Execução de Sugestão de Ações</h3>
+
+    <div class="responsive-group acoes-sugestao">
+        <mat-radio-group formControlName="tipoExecucaoAcaoSugestao">
+            <mat-radio-button *ngFor="let criteria of tipoAcoesSugestao" [value]="criteria.valor">
+                {{criteria.descricao}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
