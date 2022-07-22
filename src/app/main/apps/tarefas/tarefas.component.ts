@@ -2064,15 +2064,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     isLoading$: this.loadingAcoesEtiqueta$
                 },
                 width: '600px',
-                height: '300px',
+                height: '600px',
             });
 
         dialogRef.afterClosed()
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((option) => {
-                if (option === true) {
+            .subscribe((acoesId?: number[]) => {
+                if (acoesId) {
                     this._store.dispatch(new fromStore.AprovarSugestao({
                         vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        acoesExecucaoSugestao: JSON.stringify(acoesId),
                         tarefa: tarefa
                     }));
                 }

@@ -31,14 +31,14 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
             );
     }
 
-    aprovarSugestao(vinculacaoEtiqueta: VinculacaoEtiqueta, populate: any = '[]', context: any = '{}'): Observable<VinculacaoEtiqueta> {
+    aprovarSugestao(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, populate: any = '[]', context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['populate'] = populate;
         params['context'] = context;
 
         return this.http.patch(
             `${environment.api_url}administrativo/vinculacao_etiqueta/${vinculacaoEtiqueta.id}/aprovar_sugestao` + environment.xdebug,
-            JSON.stringify({}),
+            JSON.stringify(changes),
             { params }
         ).pipe(
             map((response) => {

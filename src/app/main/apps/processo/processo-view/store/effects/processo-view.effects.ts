@@ -177,7 +177,7 @@ export class ProcessoViewEffect {
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new ProcessoViewActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
-                        documentosId: response['entities'].map(juntada => juntada.documento.id),
+                        documentosId: response['entities'].map(juntada => juntada.documento?.id),
                         ativo: response['entities'].map(juntada => juntada.ativo),
                         processoId: action.payload.processoId,
                         loaded: {
