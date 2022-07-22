@@ -16,8 +16,6 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
 
-import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/dados-basicos/store';
-
 @Injectable()
 export class ComponenteDigitalEffect {
     routerState: any;
