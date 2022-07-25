@@ -8,7 +8,7 @@ import * as ComponenteDigitalActions from '../actions/componente-digital.actions
 import {getRouterState, State} from 'app/store/reducers';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {select, Store} from '@ngrx/store';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -45,10 +45,10 @@ export class ComponenteDigitalEffect {
                 schema: componenteDigitalSchema
             }),
             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                componenteDigitalId: response.id,
                 componenteDigital: response,
                 loaded: {
-                    id: this.routerState.params['componenteDigitalHandle'],
+                    id: response.id,
                     chaveAcesso: this.routerState.params['chaveAcessoHandle']
                 }
             }),
