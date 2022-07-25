@@ -182,9 +182,7 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
         if (this.assinaturaErrors && this.assinaturaErrors.status && (this.assinaturaErrors.status === 400 || this.assinaturaErrors.status === 422)) {
             try {
                 const data = JSON.parse(this.assinaturaErrors.error.message);
-                console.log(data);
                 const fields = Object.keys(data || {});
-                console.log(fields);
             } catch (e) {
             }
         }
