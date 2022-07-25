@@ -6,10 +6,9 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {ValidacaoAssinaturaAppState, ComponenteDigitalState} from '../reducers';
+import {ValidacaoAssinaturaAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getComponenteDigitalLoaded} from "../";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -59,7 +58,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(fromStore.getComponenteDigitalLoaded),
             tap((loaded) => {
-                if (!loaded || loaded.id !== this.routerState.params['componenteDigitalHandle'] || loaded.chaveAcesso !== this.routerState.params['chaveAcessoHandler']) {
+                if (!loaded || loaded.id !== parseInt(this.routerState.params['componenteDigitalHandle'], 10) || loaded.chaveAcesso !== this.routerState.params['chaveAcessoHandler']) {
                     this._store.dispatch(new fromStore.DownloadComponenteDigital());
                 }
             }),
