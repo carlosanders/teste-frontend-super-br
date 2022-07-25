@@ -13,11 +13,7 @@
             <mat-label>Nome</mat-label>
             <input matInput #nome
                    name="nome"
-                   formControlName="nome"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('nome')">
-            </cdk-usuario-autocomplete>
+                   formControlName="nome">
         </mat-form-field>
 
         <mat-form-field>
