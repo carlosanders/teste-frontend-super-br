@@ -90,11 +90,11 @@ export class ResolveGuard implements CanActivate {
             return this._store.pipe(
                 select(getComponenteDigitalState),
                 tap((state: ComponenteDigitalState) => {
-                    if (!state.errors && !state.loading && (state.componenteDigitalId !== this.routerState.params['componenteDigitalHandle'])) {
+                    if (!state.errors && !state.loading && (state.componenteDigitalId !== parseInt(this.routerState.params['componenteDigitalHandle'], 10))) {
                         this._store.dispatch(new fromStore.DownloadComponenteDigital());
                     }
                 }),
-                filter((state: ComponenteDigitalState) => !state.loading && (state.componenteDigitalId === this.routerState.params['componenteDigitalHandle'] || state.errors)),
+                filter((state: ComponenteDigitalState) => !state.loading && (state.componenteDigitalId === parseInt(this.routerState.params['componenteDigitalHandle'], 10) || state.errors)),
                 take(1)
             );
         }
