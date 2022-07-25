@@ -19,7 +19,7 @@
 </event-list>
 <div class="spacer-group" *ngIf="dateEventGroup.expanded === true">
     <ng-container *ngFor="let tarefaData of dateEventGroup.tarefas |keyvalue">
-        <div class="spacer" *ngIf="hasPrevious(tarefaData.value.timelineEvents)">
+        <div class="spacer tarefa-{{tarefaData.value.tarefa.id}} tipo-{{dateEventGroup.groupType}} chave-{{dateEventGroup.groupKey}}" *ngIf="hasPrevious(tarefaData.value.timelineEvents)">
         </div>
     </ng-container>
 </div>

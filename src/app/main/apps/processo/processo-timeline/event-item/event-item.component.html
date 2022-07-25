@@ -1,34 +1,26 @@
 <div #dot class="dot" *ngIf="timelineEvents.length"
      [ngClass]="getDotClass()">
-    <div class="info" *ngIf="timelineEvents.length">
-        <ng-container *ngIf="timelineEvents.length === 1">
-            <ng-container *ngIf="isMainEvent() || this.timelineEvents[0].typeEvent.objectClass === 'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Distribuicao'">
-                <img class="user-img" [src]="timelineEvents[0].usuario.imgPerfil.conteudo|safeResourceUrl"
-                     matTooltip="{{timelineEvents[0].message}}"
-                     *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === true">
-                <ng-container *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === false">
-                <span matTooltip="{{timelineEvents[0].message}}">
-                    {{getSiglaUsuario(timelineEvents[0].usuario)}}
-                </span>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngIf="!isMainEvent()">
-                <mat-icon class="s-16"
-                          matTooltip="{{timelineEvents[0].message}}">
-                    {{getEventIco(timelineEvents[0])}}
-                </mat-icon>
-            </ng-container>
-
+    <div class="info"
+         [matTooltip]="getTooltip()"
+         [matBadge]="timelineEvents.length > 99 ? '99+' : timelineEvents.length"
+         [matBadgePosition]="'above'"
+         [matBadgeSize]="'small'"
+         [matBadgeColor]="'accent'"
+         [matBadgeHidden]="timelineEvents.length === 1">
+        <ng-container *ngIf="hasMainEvent()">
+            <img class="user-img"
+                 *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === true"
+                 [src]="timelineEvents[0].usuario.imgPerfil.conteudo|safeResourceUrl">
+            <span *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === false">
+                {{getSiglaUsuario(timelineEvents[0].usuario)}}
+            </span>
         </ng-container>
-        <ng-container *ngIf="timelineEvents.length > 1">
-            <mat-icon
-                class="s-30"
-                matTooltip="{{timelineEvents.length}} eventos"
-                [matBadge]="timelineEvents.length > 99 ? '99+' : timelineEvents.length"
-                [matBadgePosition]="'above'"
-                  [matBadgeSize]="'small'"
-                [matBadgeColor]="'accent'">
-                zoom_in
+        <ng-container *ngIf="!hasMainEvent()">
+            <mat-icon [ngClass]="{
+                        's-16': timelineEvents.length === 1,
+                        's-30': timelineEvents.length > 1
+                      }">
+                {{timelineEvents.length > 1 ? 'zoom_in' : getEventIco(timelineEvents[0])}}
             </mat-icon>
         </ng-container>
     </div>

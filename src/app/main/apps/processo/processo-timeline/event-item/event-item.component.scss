@@ -81,6 +81,11 @@ event-item {
             mat-icon {
                 margin: 0 auto;
             }
+
+            .mat-badge-content {
+                top: -5px !important;
+                right: -5px !important;
+            }
         }
     }
 

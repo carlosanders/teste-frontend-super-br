@@ -112,6 +112,16 @@ export class EventItemComponent implements OnInit, AfterViewInit, OnDestroy
         return this.timelineEvents.length === 1 && this.timelineEvents[0].typeEvent.objectClass === 'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Tarefa';
     }
 
+    hasMainEvent(): boolean {
+        const mainEvents = [
+            'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Tarefa',
+            'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Distribuicao'
+        ]
+        return this.timelineEvents
+            .filter((timelineEvent) => mainEvents.includes(timelineEvent.typeEvent.objectClass))
+            .length > 0;
+    }
+
     getEventIco(timelineEvent: TimelineEvent): string {
         let ico = 'list';
         if (timelineEvent.typeEvent.objectClass === 'SuppCore\\AdministrativoBackend\\Api\\V1\\DTO\\Atividade' && timelineEvent.objectContext?.juntadas?.length) {
@@ -139,6 +149,14 @@ export class EventItemComponent implements OnInit, AfterViewInit, OnDestroy
         dotClass[`event-item-tarefa-${this.tarefa.id}`] = true;
 
         return dotClass;
+    }
+
+    getTooltip(): string {
+        if (this.timelineEvents.length === 1) {
+            return this.timelineEvents[0].message
+        }
+
+        return `${this.timelineEvents.length} eventos`
     }
 
     private _getParentDotElement(): HTMLDivElement {

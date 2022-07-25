@@ -110,7 +110,10 @@ export class ProcessoTimelineComponent implements OnInit, OnDestroy {
 
             const tarefasInSameYear = timelineEvents
                 .filter((data) =>
-                    data.eventDate.isSameOrBefore(timelineEvent.eventDate, 'year')
+                    (
+                        data.eventDate.isSame(timelineEvent.eventDate, 'year')
+                        || (data.eventDate.isBefore(timelineEvent.eventDate, 'year') && !data.tarefa.dataHoraConclusaoPrazo)
+                    )
                     && !yearEventGroup.tarefas.has(data.tarefa.id))
                 .reduce((tarefas: Tarefa[], data) => {
                     if (!tarefas.find((tarefa) => tarefa.id === data.tarefa.id)) {
