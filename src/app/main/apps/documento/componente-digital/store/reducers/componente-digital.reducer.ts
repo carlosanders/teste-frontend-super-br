@@ -52,6 +52,7 @@ export const componenteDigitalReducer = (
                 loading: false,
                 saving: false,
                 autosaving: false,
+                loaded: action.payload.loaded,
                 errors: false
             };
         }

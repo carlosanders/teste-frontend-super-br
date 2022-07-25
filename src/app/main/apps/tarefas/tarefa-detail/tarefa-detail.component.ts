@@ -799,14 +799,18 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                     isLoading$: this.isLoadingAcoesEtiqueta$
                 },
                 width: '600px',
-                height: '300px',
+                height: '600px',
             });
 
         dialogRef.afterClosed()
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((option) => {
-                if (option === true) {
-                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa}));
+            .subscribe((acoesId?: number[]) => {
+                if (acoesId) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({
+                        vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        acoesExecucaoSugestao: JSON.stringify(acoesId),
+                        tarefa: this.tarefa
+                    }));
                 }
             });
     }

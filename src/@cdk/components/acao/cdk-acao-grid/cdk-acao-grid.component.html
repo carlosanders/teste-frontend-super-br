@@ -7,8 +7,7 @@
     <!-- / SIDEBAR -->
 
     <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
-
-        <div class="actions">
+        <div class="actions" [ngClass]="{'hidden': (actions.indexOf('headerGridActions') === -1)}">
 
             <div class="back">
                 <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
@@ -124,6 +123,24 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao.etiqueta?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
+                <!-- Modalidade Acao Valor Column -->
+                <ng-container matColumnDef="modalidadeAcaoEtiqueta.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Ação
+                    </th>
+                    <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Ação: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao?.modalidadeAcaoEtiqueta?.valor  | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- Modalidade Acao Descricao Column -->
+                <ng-container matColumnDef="modalidadeAcaoEtiqueta.descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let acao" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(acao.id) > -1, 'error': getProp(deletingErrors, acao.id)}"> {{acao?.modalidadeAcaoEtiqueta?.descricao  | titleCasePipe}} </td>
+                </ng-container>
+
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -226,7 +243,7 @@
             </table>
         </div>
 
-        <div class="footer">
+        <div class="footer" [ngClass]="{'hidden': actions.indexOf('footerGridActions') === -1}">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 

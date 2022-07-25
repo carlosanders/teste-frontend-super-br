@@ -61,7 +61,8 @@
                             "@mattlewis92/dom-autoscroller",
                             "dom-plane",
                             "dom-set",
-                            "crypto-js"
+                            "crypto-js",
+                            "cronstrue"
                         ]
                     },
                     "configurations": {

@@ -1,9 +1,35 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Acao, ModalidadeEtiqueta, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoEtiqueta} from '@cdk/models';
+import {
+    Acao,
+    Criteria,
+    ModalidadeEtiqueta,
+    ModalidadeOrgaoCentral,
+    Setor,
+    Usuario,
+    VinculacaoEtiqueta
+} from '@cdk/models';
 
 export class Etiqueta {
+
+    static readonly TIPO_EXECUCAO_ACAO_TODOS: number = null;
+    static readonly TIPO_EXECUCAO_ACAO_SELECAO_UNICA: number = 1;
+    static readonly TIPO_EXECUCAO_ACAO_SELECAO_MULTIPLA: number = 2;
+    static readonly TIPO_EXECUCAO_LIST: Criteria[] = [
+        <Criteria>{
+            valor: Etiqueta.TIPO_EXECUCAO_ACAO_TODOS,
+            descricao: 'TODAS',
+        },
+        <Criteria>{
+            valor: Etiqueta.TIPO_EXECUCAO_ACAO_SELECAO_UNICA,
+            descricao: 'SELEÇÃO ÚNICA',
+        },
+        <Criteria>{
+            valor: Etiqueta.TIPO_EXECUCAO_ACAO_SELECAO_MULTIPLA,
+            descricao: 'SELEÇÃO MÚLTIPLA',
+        },
+    ];
 
     @Exclude({toPlainOnly: true})
     id?: number;
@@ -20,6 +46,8 @@ export class Etiqueta {
     ativo?: boolean;
 
     sistema?: boolean;
+
+    tipoExecucaoAcaoSugestao?: number;
 
     @Type(() => ModalidadeEtiqueta)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -98,5 +126,6 @@ export class Etiqueta {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.tipoExecucaoAcaoSugestao = null;
     }
 }

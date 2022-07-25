@@ -803,7 +803,13 @@ export class TarefaDetailEffect {
 
     aprovarSugestao: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<fromStore.AprovarSugestao>(fromStore.APROVAR_SUGESTAO),
-        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(action.payload.vinculacaoEtiqueta, JSON.stringify(['populateAll'])).pipe(
+        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(
+            action.payload.vinculacaoEtiqueta,
+            {
+                acoesExecucaoSugestao: action.payload.acoesExecucaoSugestao
+            },
+            JSON.stringify(['populateAll'])
+        ).pipe(
             mergeMap(response => [
                 new fromStore.AprovarSugestaoSuccess(response.id),
                 new UpdateData<VinculacaoEtiqueta>({
@@ -815,7 +821,7 @@ export class TarefaDetailEffect {
                         objectContext: response.objectContext
                     }
                 }),
-                new fromStore.ReloadVinculacaoEtiqueta(action.payload.tarefa)
+                new fromStore.GetTarefa(action.payload.tarefa)
             ]),
             catchError((err) => of(new fromStore.AprovarSugestaoFailed(err)))
         ))
