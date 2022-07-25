@@ -144,8 +144,9 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters ? this.gridFilter.filters : this.listFilter;
         this.reload.emit({
-            listFilter: this.listFilter,
+            listFilter: filter,
             listSort: this.listSort
         });
     }
@@ -218,7 +219,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-filter').toggleOpen();
     }
 
     doResponderComplementarBloco(): void {
