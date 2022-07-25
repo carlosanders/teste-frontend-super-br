@@ -18,7 +18,7 @@ import * as fromStore from 'app/main/apps/documento/store';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetJuntada,
@@ -249,7 +249,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     gotoNextStep(): void {
         if (this.currentComponenteDigital.editavel) {
-            this.podeNavegarDoEditor().subscribe((result) => {
+            this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                 if (result) {
                     let nextComponenteDigital = null;
                     this.documento.componentesDigitais.forEach((componenteDigital) => {
@@ -288,7 +288,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     gotoPreviousStep(): void {
         if (this.currentComponenteDigital.editavel) {
-            this.podeNavegarDoEditor().subscribe((result) => {
+            this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                 if (result) {
                     let prevComponenteDigital = null;
                     this.documento.componentesDigitais.forEach((componenteDigital) => {
@@ -345,7 +345,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         const indice = clickedTab.index;
         if (this.currentIndice !== indice) {
             if (indice === 1) {
-                this.podeNavegarDoEditor().subscribe((result) => {
+                this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                     if (result) {
                         this._componenteDigitalService.saving.next(false);
                         this.currentIndice = indice;

@@ -18,7 +18,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {getTarefa} from '../../tarefas/tarefa-detail/store';
 import {LoginService} from '../../../auth/login/login.service';
@@ -255,7 +255,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (this.documento.estaVinculada) {
             return this.navigateToDocumento(documento);
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 this._componenteDigitalService.saving.next(false);
                 return this.navigateToDocumento(documento);

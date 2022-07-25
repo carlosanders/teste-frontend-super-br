@@ -23,7 +23,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 import {GetDocumento, SetCurrentStep} from '../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {getComponenteDigitalLoading} from "./store";
@@ -244,7 +244,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
                 editavel: componenteDigital.editavel && this.documento.minuta
             }));
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 return this._store.dispatch(new SetCurrentStep({
                     id: componenteDigital.id,

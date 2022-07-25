@@ -21,7 +21,7 @@ import {getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -260,7 +260,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         if (this.documento.estaVinculada) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
             }

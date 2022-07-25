@@ -26,7 +26,7 @@ import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back, getRouterState} from '../../../../../store';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -467,7 +467,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     onClicked(event): void {
         const documento = event.documento;
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 this._componenteDigitalService.saving.next(false);
                 const sidebar = 'editar/' + this.routeAtividadeDocumento;
@@ -510,7 +510,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         if (this.documento.estaVinculada) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 this._componenteDigitalService.saving.next(false);
                 return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
@@ -603,7 +603,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             ).then(() => {});
             return;
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
                 this._router.navigate(

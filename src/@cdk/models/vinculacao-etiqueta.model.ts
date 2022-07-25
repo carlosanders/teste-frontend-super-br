@@ -33,6 +33,12 @@ export class VinculacaoEtiqueta {
     objectUuid?: string;
 
     @Exclude({ toPlainOnly: true })
+    extensionObjectClass?: string;
+
+    @Exclude({ toPlainOnly: true })
+    extensionObjectUuid?: string;
+
+    @Exclude({ toPlainOnly: true })
     objectId?: number;
 
     @Exclude({ toPlainOnly: true })
@@ -169,5 +175,7 @@ export class VinculacaoEtiqueta {
         this.objectContext = {};
         this.relatorio = null;
         this.acoesExecucaoSugestao = [];
+        this.extensionObjectClass = null;
+        this.extensionObjectUuid = null;
     }
 }
