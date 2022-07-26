@@ -24,13 +24,13 @@ export const getTarefas: any = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-export const getEvents: any = createSelector(
+export const getEvents: any = (context: string) => createSelector(
     getTarefas,
     (tarefas: Tarefa[]): CalendarEventModel[] => {
         if (tarefas) {
             return tarefas.map((tarefa: Tarefa) => {
                 const data = {
-                    start    : tarefa.dataHoraInicioPrazo,
+                    start    : (context === 'evento' ? tarefa.dataHoraInicioPrazo : tarefa.dataHoraFinalPrazo),
                     end      : tarefa.dataHoraFinalPrazo,
                     title    : tarefa.especieTarefa.nome,
                     allDay   : false,
@@ -39,10 +39,10 @@ export const getEvents: any = createSelector(
                         secondary: tarefa.especieTarefa.corHexadecimalSecundaria ?? '#FFCDD2'
                     },
                     resizable: {
-                        beforeStart: true,
-                        afterEnd   : true
+                        beforeStart: (context === 'evento'),
+                        afterEnd   : (context === 'evento')
                     },
-                    draggable: true,
+                    draggable: (context === 'evento'),
                     meta     : {
                         location: tarefa.localEvento,
                         notes   : tarefa.observacao,

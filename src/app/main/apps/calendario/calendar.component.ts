@@ -20,7 +20,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as moment from 'moment';
 import {CdkUtils} from '../../../../@cdk/utils';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {getRouterState} from "../../../store";
 
 @Component({
     selector: 'calendar',
@@ -40,8 +41,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     view: string;
     viewDate: Date;
     locale = 'br';
+    routerState: any;
 
-    events$: Observable<CalendarEvent[]>;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
@@ -55,7 +56,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.activeDayIsOpen = true;
         this.selectedDay = {date: startOfDay(new Date())};
 
-        this.events$ = this._store.pipe(select(fromStore.getEvents));
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this._store
+                .pipe(
+                    select(fromStore.getEvents(this.routerState.params['contextHandle'] || 'evento')),
+                    takeUntil(this._unsubscribeAll)
+                )
+                .subscribe((events: CalendarEvent[]) => {
+                this.events = events;
+            });
+        });
 
         this.actions = [
             {
@@ -81,14 +95,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.events$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((events) => {
-            this.events = events;
-        });
     }
 
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
@@ -197,6 +207,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
      * @param event
      */
     editEvent(action: string, event: CalendarEvent): void {
+        if (this.routerState.params['contextHandle'] !== 'evento') {
+            return;
+        }
         const eventIndex = this.events.indexOf(event);
         const operacaoId = CdkUtils.makeId();
 

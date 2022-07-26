@@ -14,7 +14,7 @@
         <div class="nav-subheader">MEUS EVENTOS</div>
 
         <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/minhas-tarefas/todas'"
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/evento/minhas-tarefas/todas'"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
                 <span>Meu Calendário</span>
@@ -24,7 +24,7 @@
         <div class="nav-subheader">Compartilhamento</div>
 
         <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/compartilhadas/outros-usuarios'"
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/evento/compartilhadas/outros-usuarios'"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">share</mat-icon>
                 <span>Outros Usuários</span>
@@ -34,7 +34,7 @@
         <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">COORDENAÇÃO</div>
 
         <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
-            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/coordenacao/' + setor.id"
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/evento/coordenacao/' + setor.id"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
                 <span>{{setor.nome | titleCasePipe}}</span>
@@ -44,10 +44,20 @@
         <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
 
         <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/assessor/' + usuario.id"
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/evento/assessor/' + usuario.id"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
                 <span>{{usuario.nome | titleCasePipe}}</span>
+            </a>
+        </div>
+
+        <div class="nav-subheader">MINHAS TAREFAS</div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/tarefa/minhas-tarefas/todas'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon">{{ 'check_box' }}</mat-icon>
+                <span>Tarefas Comuns</span>
             </a>
         </div>
 
@@ -70,7 +80,7 @@
                     routerLinkActive="mat-accent" matTooltip="Grid de Tarefas">
                 <mat-icon>view_list</mat-icon>
             </button>
-            <button disabled mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas"
+            <button disabled mat-icon-button class="secondary-text" routerLink="/apps/calendario/evento/minhas-tarefas/todas"
                     routerLinkActive="mat-accent" matTooltip="Calendário">
                 <mat-icon>calendar_today</mat-icon>
             </button>
