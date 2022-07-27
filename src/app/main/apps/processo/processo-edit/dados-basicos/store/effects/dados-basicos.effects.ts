@@ -58,7 +58,7 @@ export class DadosBasicosEffect {
     saveProcessoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<DadosBasicosActions.SaveProcessoSuccess>(DadosBasicosActions.SAVE_PROCESSO_SUCCESS),
         tap((action) => {
-            this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
+            // this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
         })
     ), {dispatch: false});
 

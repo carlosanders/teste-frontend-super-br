@@ -565,7 +565,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             }
 
             if (changes['generoHandle'] || changes['targetHandle'] || changes['typeHandle']) {
-                if (this.contentScroll.enabled) {
+                if (this.contentScroll?.enabled) {
                     this.contentScroll.scrollToTop();
                 }
             }

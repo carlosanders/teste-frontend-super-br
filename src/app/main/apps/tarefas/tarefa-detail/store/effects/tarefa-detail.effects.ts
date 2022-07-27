@@ -74,7 +74,6 @@ export class TarefaDetailEffect {
         ofType<fromStore.GetTarefa>(fromStore.GET_TAREFA),
         switchMap((action) => {
             this.populate = action.payload.populate ?? [
-                'folder',
                 'especieTarefa',
                 'usuarioResponsavel',
                 'setorResponsavel',
