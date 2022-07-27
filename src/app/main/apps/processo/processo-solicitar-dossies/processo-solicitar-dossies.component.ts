@@ -120,6 +120,8 @@ export class ProcessoSolicitarDossiesComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(): void {
+        this.operacoes = [];
+
         this.selectInteressados.forEach((i) => {
             this.selectTiposDossie.forEach((td) => {
                 const interessado = new Interessado();
