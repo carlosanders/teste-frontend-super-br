@@ -9,14 +9,10 @@ import {
     ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-
 import {select, Store} from '@ngrx/store';
-
 import * as fromStore from './store';
-import * as fromStoreProtocolo from '../store';
 import * as AssinaturaStore from 'app/store';
 import {
     Assinatura,
@@ -24,21 +20,19 @@ import {
     Documento,
     Estado,
     Pagination,
-    Pessoa,
     Processo,
     Usuario,
 } from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getMercureState, getRouterState} from '../../../../store';
+import {getRouterState} from '../../../../store';
 import {FormBuilder} from '@angular/forms';
-import {getPessoa} from '../store';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {CdkUtils} from '../../../../../@cdk/utils';
-import {getExistenteErrors, getExistenteIsSaving} from "./store";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'protocolo-existente',
@@ -60,8 +54,6 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
     isSavingExistente$: Observable<boolean>;
 
     errors$: Observable<any>;
-    pessoaProcedencia$: Observable<Pessoa>;
-    pessoaProcedencia: Pessoa;
 
     unidadePagination: Pagination;
     procedenciaPagination: Pagination;
@@ -96,27 +88,26 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
 
     /**
      * @param _store
-     * @param _storeProtocolo
      * @param dialog
      * @param _router
      * @param _formBuilder
      * @param _changeDetectorRef
      * @param _loginService
+     * @param _location
      * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
-        private _storeProtocolo: Store<fromStoreProtocolo.ProcessosState>,
         public dialog: MatDialog,
         private _router: Router,
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
+        private _location: Location,
         private _dynamicService: DynamicService
     ) {
         this.isSavingExistente$ = this._store.pipe(select(fromStore.getExistenteIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getExistenteErrors));
-        this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -175,13 +166,6 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
             this._changeDetectorRef.markForCheck();
         });
 
-        this.pessoaProcedencia$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(pessoa => !!pessoa)
-        ).subscribe((pessoa) => {
-            this.pessoaProcedencia = pessoa;
-        });
-
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(documentos => !!documentos)
@@ -195,10 +179,6 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
             this.processo.unidadeArquivistica = 2;
             this.processo.tipoProtocolo = 1;
             this.processo.protocoloEletronico = true;
-
-            if (this._profile.vinculacoesPessoasUsuarios.length === 1) {
-                this.processo.procedencia = this.pessoaProcedencia;
-            }
         }
 
         this.unloadProcesso();
@@ -258,9 +238,7 @@ export class ProtocoloExistenteComponent implements OnInit, OnDestroy, AfterView
     }
 
     cancel(): void {
-        this._router.navigate([
-            '/apps/protocolo-externo/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
-        ]).then();
+        this._location.back();
     }
 
     upload(): void {

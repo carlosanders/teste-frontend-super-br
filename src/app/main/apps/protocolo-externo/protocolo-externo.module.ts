@@ -18,7 +18,6 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import * as fromGuards from './store/guards/index';
 import {ProcessoStoreModule} from './store/store.module';
 import {ProtocoloExternoComponent} from './protocolo-externo.component';
@@ -65,11 +64,6 @@ const routes: Routes = [
             {
                 path: 'documento',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
-            },
-            {
-                path: 'protocolo-existente',
-                loadChildren: () => import('./protocolo-existente/protocolo-existente.module').then(m => m.ProtocoloExistenteModule),
-                canActivate: [fromGuards.ResolveGuard]
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

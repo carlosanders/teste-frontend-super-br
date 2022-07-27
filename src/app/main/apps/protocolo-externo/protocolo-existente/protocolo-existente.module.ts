@@ -22,7 +22,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {ProtocoloExistenteComponent} from './protocolo-existente.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
-import {ProtocoloCreateStoreModule} from './store/store.module';
+import {ProtocoloExistenteCreateStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
@@ -39,7 +39,8 @@ import {JuntadaService} from "../../../../../@cdk/services/juntada.service";
 const routes: Routes = [
     {
         path: ':processoHandle',
-        component: ProtocoloExistenteComponent
+        component: ProtocoloExistenteComponent,
+        canActivate: [fromGuards.ResolveGuard]
     },
     {
         path: ':processoHandle/anexar',
@@ -78,7 +79,7 @@ modulesConfig.forEach((module) => {
         MatDialogModule,
         CdkTarefaFormModule,
         CdkVisibilidadePluginModule,
-        ProtocoloCreateStoreModule,
+        ProtocoloExistenteCreateStoreModule,
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,

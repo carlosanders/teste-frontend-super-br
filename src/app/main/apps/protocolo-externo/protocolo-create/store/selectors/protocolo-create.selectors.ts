@@ -1,6 +1,6 @@
 import {createSelector} from '@ngrx/store';
 import {getProtocoloCreateAppState, ProtocoloCreateAppState, ProtocoloCreateState} from '../reducers';
-import {getProtocoloExternoAppState, ProcessosAppState, ProcessosState} from '../../../store/reducers';
+import {getProtocoloExternoAppState, ProcessosAppState, ProcessosState} from '../../../store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Pessoa} from '@cdk/models';
 import {pessoa as pessoaSchema} from '@cdk/normalizr';
