@@ -1026,3 +1026,4 @@
 * Correção de erro no downloadLatest para usuários externos
 * Correção de erro de loop infinito de downloadLatest ao criar minuta baseada em modelo dentro de tarefa cujo processo não tem juntadas
 * Correção de erro ao trocar entre diversas minutas e, posteriormente, tomar alguma ação sobre o componente digital mais recente
+* Correção de bug de barra de rolagem se manter no final da listagem de tarefas ao trocar de pasta/gênero/tipo de tarefa

@@ -397,6 +397,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     errorDistribuir: number[] = [];
 
     @Input()
+    generoHandle: any;
+
+    @Input()
     targetHandle: any;
 
     @Input()
@@ -559,6 +562,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 this.listSort = changes.pagination.currentValue.sort;
                 this.sortField = Object.keys(this.listSort)[0];
                 this.sortOrder = Object.values(this.listSort)[0];
+            }
+
+            if (changes['generoHandle'] || changes['targetHandle'] || changes['typeHandle']) {
+                if (this.contentScroll.enabled) {
+                    this.contentScroll.scrollToTop();
+                }
             }
 
             if (this.paginator) {
