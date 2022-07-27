@@ -315,7 +315,10 @@
                                      [resizableColumns]="['allTableColumns']"
                                      [ordableColumns]="['allTableColumns']"
                                      (resetTableDefinitions)="resetTableDefinitions()"
-                                     (pencencies)="doPendencies($event)">
+                                     (pencencies)="doPendencies($event)"
+                                     (toggleGroup)="doToggleGroup($event)"
+                                     (groupOptionChange)="doGroupOptionChange($event)"
+                                     [collapsedGroups]="collapsedGroups$ | async">
                     </cdk-tarefa-list>
                 </div>
 

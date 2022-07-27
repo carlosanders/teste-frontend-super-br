@@ -158,6 +158,10 @@ export const APROVAR_SUGESTAO_FAILED = '[TAREFAS] APROVAR SUGESTAO FAILED';
 
 export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFAS] RELOAD VINCULACAO_ETIQUETA';
 
+export const TOGGLE_GROUP = '[TAREFAS] TOGGLE GROUP';
+
+export const UNLOAD_GROUP = '[TAREFAS] UNLOAD GROUP';
+
 /**
  * Unload Tarefas
  */
@@ -1332,6 +1336,18 @@ export class ReloadVinculacaoEtiqueta implements Action {
     }
 }
 
+export class ToggleGroup implements Action {
+    readonly type = TOGGLE_GROUP;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class UnloadGroup implements Action {
+    readonly type = UNLOAD_GROUP;
+}
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -1447,4 +1463,6 @@ export type TarefasActionsAll
     | AprovarSugestaoSuccess
     | AprovarSugestaoFailed
     | ReloadVinculacaoEtiqueta
+    | ToggleGroup
+    | UnloadGroup
     ;

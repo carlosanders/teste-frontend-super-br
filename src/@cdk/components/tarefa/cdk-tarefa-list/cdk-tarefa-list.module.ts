@@ -43,6 +43,8 @@ import {
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {DirectivesModule} from '../../../directives/directives';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -79,7 +81,9 @@ import {DirectivesModule} from '../../../directives/directives';
         CdkTipoDocumentoAutocompleteModule,
         CdkComponenteDigitalCardListModule,
         MatPaginatorModule,
-        DirectivesModule
+        DirectivesModule,
+        MatDividerModule,
+        MatSlideToggleModule
     ],
     providers: [
         EspecieTarefaService,
