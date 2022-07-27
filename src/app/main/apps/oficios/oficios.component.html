@@ -12,25 +12,12 @@
 
         <!-- CONTENT HEADER -->
         <div class="header" fxHide.lt-md *ngIf="!(maximizado$ | async)">
-
-            <div class="search-wrapper">
-
                 <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
                         (click)="toggleSidebar('documento-avulso-main-sidebar')">
                     <mat-icon>menu</mat-icon>
                 </button>
-
-                <div class="search">
-                    <mat-icon class="secondary-text">search</mat-icon>
-                    <cdk-etiqueta-chips [etiquetas]="etiquetas"
-                                        (create)="addEtiqueta($event)"
-                                        [pagination]="vinculacaoEtiquetaPagination"
-                                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
-                </div>
-
-            </div>
-
         </div>
+
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->

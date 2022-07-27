@@ -7,11 +7,11 @@ import {effects} from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('protocolo-create-app', reducers),
+        StoreModule.forFeature('protocolo-existente-create-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class ProtocoloCreateStoreModule
+export class ProtocoloExistenteCreateStoreModule
 {
 }

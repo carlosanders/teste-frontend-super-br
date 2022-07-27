@@ -3,7 +3,6 @@ import {ProcessoReducer, ProcessoState} from './processo.reducer';
 import {protocoloDocumentoReducer, ProtocoloDocumentoState} from './protocolo-documento.reducer';
 import {ProtocoloExistenteReducer, ProtocoloExistenteState} from './protocolo-existente.reducer';
 
-
 export interface ProtocoloCreateAppState
 {
     processo: ProcessoState;
@@ -12,7 +11,7 @@ export interface ProtocoloCreateAppState
 }
 
 export const getProtocoloCreateAppState = createFeatureSelector<ProtocoloCreateAppState>(
-    'protocolo-create-app'
+    'protocolo-existente-create-app'
 );
 
 export const getAppState: any = createSelector(

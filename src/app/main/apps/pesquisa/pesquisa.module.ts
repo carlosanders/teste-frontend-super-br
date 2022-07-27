@@ -12,6 +12,7 @@ import {CommonModule} from '@angular/common';
 import {RouteGuard} from './guard';
 import {modulesConfig} from 'modules/modules-config';
 import {RoleGuard} from '../role.guard';
+import * as fromGuards from "../protocolo-externo/store/guards";
 
 const routes: Routes = [
     {
@@ -32,6 +33,10 @@ const routes: Routes = [
                 loadChildren: () => import('./componentes-digitais/pesquisa-componentes-digitais.module').then(m => m.PesquisaComponentesDigitaisModule),
                 data: {roles: ['ROLE_COLABORADOR']},
                 canActivate: [RoleGuard],
+            },
+            {
+                path: 'protocolo-existente',
+                loadChildren: () => import('../protocolo-externo/protocolo-existente/protocolo-existente.module').then(m => m.ProtocoloExistenteModule)
             },
             {
                 path: '**',

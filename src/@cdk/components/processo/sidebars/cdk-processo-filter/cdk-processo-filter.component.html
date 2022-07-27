@@ -7,7 +7,7 @@
 
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
-        <div class="search-wrapper">
+        <div class="search-wrapper" *showIfRole="'ROLE_COLABORADOR'">
             <div class="search">
                 <cdk-search-bar-etiquetas [etiquetas]="etiquetas"
                                           [entidades]="''"
