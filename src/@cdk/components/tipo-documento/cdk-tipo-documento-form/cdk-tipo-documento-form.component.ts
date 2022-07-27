@@ -53,23 +53,19 @@ export class CdkTipoDocumentoFormComponent implements OnChanges, OnDestroy {
     ) {
         this.form = this._formBuilder.group({
             id: [null],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            nome: [null, [ Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.minLength(3)]],
             especieDocumento: [null, [Validators.required]],
-            descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            descricao: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             ativo: [null],
         });
-    }
-
-    loadForm(): void {
-
     }
 
     /**
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['tipoDocumento'] && this.tipoDocumento && ((!this.tipoDocumento.id && !this.form.dirty) || (this.tipoDocumento.id !== this.form.get('id').value))) {
+        if(changes['tipoDocumento'] && this.tipoDocumento && (!this.tipoDocumento.id || (this.tipoDocumento.id !== this.form.get('id').value)))  {
             this.form.patchValue({
                 id: this.tipoDocumento.id,
                 nome: this.tipoDocumento.nome,
@@ -92,16 +88,17 @@ export class CdkTipoDocumentoFormComponent implements OnChanges, OnDestroy {
                 this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
-
-        if (!this.errors) {
-            Object.keys(this.form.controls).forEach((key) => {
-                this.form.get(key).setErrors(null);
-            });
-
-            this.form.setErrors(null);
-        }
-
         this._changeDetectorRef.markForCheck();
+
+        // if (!this.errors) {
+        //     Object.keys(this.form.controls).forEach((key) => {
+        //         this.form.get(key).setErrors(null);
+        //     });
+
+        //     this.form.setErrors(null);
+        // }
+
+        // this._changeDetectorRef.markForCheck();
     }
 
     /**

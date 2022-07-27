@@ -166,7 +166,13 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'file_copy',
                 link: 'modelos',
                 role: ['ROLE_ADMIN']
-            }
+            },
+            {
+                nome: 'Cronjob',
+                icon: 'alarm',
+                link: 'cronjob',
+                role: ['ROLE_ADMIN']
+            },
         ];
 
         this.links['administrativo'] = CdkUtils.sortArraySideBar(links);

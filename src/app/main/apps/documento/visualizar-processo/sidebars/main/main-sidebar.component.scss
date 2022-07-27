@@ -1,0 +1,436 @@
+@import '~@angular/material/theming';
+
+visualizar-processo-main-sidebar {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow-y: hidden;
+    word-break: break-word;
+
+    .badge {
+        display: flex;
+        align-items: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 7px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 20px;
+        transition: opacity 0.2s ease-in-out 0.1s;
+        margin-left: 8px;
+    }
+
+    > .header {
+
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+        > .actions {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            > .mat-icon-button {
+                width: 32px;
+                height: 32px;
+                line-height: 34px !important;
+            }
+
+            > .espaco-icones {
+                margin: 3px 2px 5px 4px;
+            }
+
+            .sort-asc {
+                moz-transform: rotateX(180deg);
+                -o-transform: rotateX(180deg);
+                -webkit-transform: rotateX(180deg);
+                transform: rotateX(180deg);
+            }
+
+            > .toolbar-separator {
+                margin-left: auto;
+                height: 32px;
+                width: 1px;
+            }
+        }
+
+        > .filters {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > form {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: column;
+
+                > div.grupo {
+                    flex: 1 0 auto;
+                    padding: 8px;
+                    display: flex;
+                    flex-direction: column;
+
+                    .volumes-filter {
+                        display: flex;
+                        flex-direction: row;
+
+                        mat-label {
+                            margin-right: 8px;
+                            line-height: 22px;
+                        }
+
+                        > .volumes {
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            flex: 1 1 auto;
+                        }
+
+                        .index-volume {
+                            display: flex;
+                            flex-direction: row;
+                            margin-right: 2px;
+                            margin-bottom: 2px;
+                            width: 22px;
+                            cursor: pointer;
+
+                            span {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                position: relative;
+                                width: 22px;
+                                min-width: 22px;
+                                max-width: 22px;
+                                height: 22px;
+                                border-radius: 100%;
+                                border: 2px solid;
+                                font-weight: bold;
+                                font-size: 12px;
+                                z-index: 10;
+                            }
+
+                            &.current {
+                                span {
+                                    border-color: red;
+                                }
+                            }
+                        }
+                    }
+
+                    mat-form-field {
+                        flex: 1 1 auto;
+                        display: flex;
+                        margin-right: 8px;
+
+                        .mat-form-field-wrapper {
+                            flex: 1 1 auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .mat-expansion-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mat-expansion-panel-body {
+        padding: 0 !important;
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+
+        > .documentos-juntados-title {
+            font-size: 13px;
+            height: 48px;
+        }
+
+        > .juntadas {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+        }
+
+        > .bookmarks {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+
+            .place-holder {
+                display: none;
+            }
+        }
+
+        > .loading {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            > .juntada-list-loading {
+                z-index: 9999;
+                margin-top: 225px;
+                display: flex;
+                position: fixed;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .nova-juntada {
+            display: flex;
+            flex: 0 0 auto;
+            cursor: pointer;
+            align-items: center;
+            align-content: center;
+            padding: 8px;
+        }
+
+        .juntada {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 8px;
+            cursor: pointer;
+
+            .etiquetas {
+                margin-top: 8px;
+
+                .etiqueta {
+                    font-size: 11px;
+                    border-radius: 4px;
+                    margin-top: 4px;
+                    margin-right: 4px;
+                    padding: 3px 8px;
+                    background-color: rgba(0, 0, 0, 0.08);
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            .current-tipo-documento {
+                font-weight: bold;
+            }
+
+            &.current {
+
+                .index {
+
+                    span {
+                        border: 2px solid;
+                    }
+                }
+
+                .descricao {
+                    display: flex;
+                    font-weight: bold;
+                    word-break: break-word;
+                }
+
+                .numero {
+                    font-style: italic;
+                    font-size: 10px;
+                }
+
+            }
+
+            &.capa {
+
+                .index {
+
+                    &:after {
+                        display: none;
+                    }
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &.completed {
+
+                .index {
+
+                    span {
+                        border: 2px solid;
+                    }
+                }
+            }
+
+            &.first {
+
+                .index {
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &.last {
+
+                .index {
+
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+
+            .index {
+                display: flex;
+                margin-right: 12px;
+
+                &:before,
+                &:after {
+                    position: absolute;
+                    display: block;
+                    content: ' ';
+                    border-left: 1px solid;
+                    width: 1px;
+                    height: 50%;
+                    left: 25px;
+                    z-index: 8;
+                }
+
+                &:before {
+                    top: 0;
+                }
+
+                &:after {
+                    bottom: 0;
+                }
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    width: 34px;
+                    min-width: 34px;
+                    max-width: 34px;
+                    height: 34px;
+                    border-radius: 100%;
+                    border: 2px solid;
+                    font-weight: bold;
+                    font-size: 12px;
+                    z-index: 10;
+                }
+            }
+
+            .descricao {
+                display: flex;
+                word-break: break-word;
+            }
+
+            .numero {
+                font-style: italic;
+                font-size: 10px;
+            }
+
+            .desentranhado {
+                color: red;
+            }
+
+            .criado-em {
+                font-style: italic;
+                font-size: 10px;
+            }
+
+            .tipo-documento {
+                .index-vinculado {
+                    display: flex;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 22px;
+                        max-width: 30px;
+                        height: 20px;
+                        border-radius: 100%;
+                        font-size: 11px;
+                        border: 1px solid;
+                        font-weight: bold;
+                        z-index: 10;
+                    }
+                }
+            }
+        }
+
+        .volume {
+            display: flex;
+            flex-direction: column;
+
+            .separador-volume {
+                display: flex;
+                flex: 1 1 auto;
+                flex-wrap: wrap;
+                font-size: 13px;
+                height: 48px;
+            }
+        }
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .no-events {
+            pointer-events: none;
+        }
+        .selected-color {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    }
+}
+
+.sort-menu-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-end;
+
+    > mat-icon {
+        flex: 0 1 auto;
+        align-self: center;
+        width: 24px;
+        min-width: 24px;
+        max-width: 24px;
+    }
+
+    > span {
+        flex: 1 1 auto;
+        align-self: center;
+    }
+
+}

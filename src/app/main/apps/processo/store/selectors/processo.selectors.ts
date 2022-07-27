@@ -121,3 +121,7 @@ export const getTarefaList: any = createSelector(
     schemaTarefaSelectors.entitiesProjector
 );
 
+export const getTarefasProcessoLoaded: any = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.loadedTarefas
+);

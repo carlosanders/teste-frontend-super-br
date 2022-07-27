@@ -1,0 +1,60 @@
+date-group {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .date-label {
+        width: 150px;
+        font-size: 18px;
+        font-weight: bolder;
+        text-align: right;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-right: 20px;
+        margin: auto 0;
+
+        mat-icon{
+            size: 16px;
+        }
+    }
+
+    &.month-date-group {
+        .date-label {
+            font-size: 16px;
+            padding-left: 25px;
+        }
+    }
+
+    &.week-date-group {
+        .date-label {
+            padding-left: 60px;
+            font-style: italic;
+            font-size: 16px;
+        }
+    }
+
+    > .spacer-group {
+        display: flex;
+        flex-direction: row;
+        margin: 10px 10px 10px 20px;
+
+        .spacer {
+            width: 70px;
+            height: 50px;
+            position: relative;
+
+            &::before {
+                position: absolute;
+                display: block;
+                content: "";
+                border-left-width: 2px;
+                border-left-style: solid;
+                width: 1px;
+                bottom: 0;
+                left: 50%;
+                height: 200%;
+            }
+        }
+    }
+}

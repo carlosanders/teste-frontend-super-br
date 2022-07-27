@@ -42,11 +42,11 @@ export class CalendarEventModel
         };
         this.draggable = data.draggable;
         this.resizable = {
-            beforeStart: data.resizable && data.resizable.beforeStart || true,
-            afterEnd   : data.resizable && data.resizable.afterEnd || true
+            beforeStart: data.resizable && data.resizable.beforeStart,
+            afterEnd   : data.resizable && data.resizable.afterEnd
         };
         this.actions = data.actions || [];
-        this.allDay = data.allDay || false;
+        this.allDay = !!data.allDay;
         this.cssClass = data.cssClass || '';
         this.meta = {
             location: data.meta && data.meta.location || '',

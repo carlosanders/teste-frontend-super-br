@@ -139,3 +139,4 @@ export * from './avaliacao.model';
 export * from './config-modulo.model';
 export * from './modulo.model';
 export * from './relatorio.model';
+export * from './cronjob.model';

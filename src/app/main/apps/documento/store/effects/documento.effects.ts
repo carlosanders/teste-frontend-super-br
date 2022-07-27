@@ -87,24 +87,26 @@ export class DocumentoEffect {
                 handle.value,
                 JSON.stringify(this.populate),
                 JSON.stringify(context),
-                '{"componentesDigitais.numeracaoSequencial": "ASC"}');
-        }),
-        switchMap(response => [
-            new AddData<Documento>({data: [response], schema: documentoSchema, populate: this.populate}),
-            new DocumentoActions.GetDocumentoSuccess({
-                loaded: {
-                    id: 'documentoHandle',
-                    value: this.routerState.params.documentoHandle
-                },
-                documentoId: response.id,
-                // tslint:disable-next-line:max-line-length
-                editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa?.dataHoraRemessa) || response.minuta,
-                currentComponenteDigitalId: response.componentesDigitais[0] ? response.componentesDigitais[0].id : null
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentoActions.GetDocumentoFailed(err));
+                '{"componentesDigitais.numeracaoSequencial": "ASC"}'
+            ).pipe(
+                switchMap(response => [
+                    new AddData<Documento>({data: [response], schema: documentoSchema, populate: this.populate}),
+                    new DocumentoActions.GetDocumentoSuccess({
+                        loaded: {
+                            id: 'documentoHandle',
+                            value: this.routerState.params.documentoHandle
+                        },
+                        documentoId: response.id,
+                        // tslint:disable-next-line:max-line-length
+                        editavel: (response.documentoAvulsoRemessa && !response.documentoAvulsoRemessa?.dataHoraRemessa) || response.minuta,
+                        currentComponenteDigitalId: response.componentesDigitais[0] ? response.componentesDigitais[0].id : null
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentoActions.GetDocumentoFailed(err));
+                })
+            );
         })
     ));
     /**
@@ -222,23 +224,11 @@ export class DocumentoEffect {
             let arrPrimary = [];
             if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                 arrPrimary.push('anexar-copia');
-                arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(this.routerState.params['stepHandle']);
+                arrPrimary.push(this.routerState.params.processoCopiaHandle);
                 sidebar = 'empty';
             } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
                 arrPrimary.push('visualizar-processo');
-                arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(this.routerState.params['stepHandle']);
+                arrPrimary.push(this.routerState.params.processoViewHandle);
                 sidebar = 'empty';
             } else {
                 let type = '/visualizar';

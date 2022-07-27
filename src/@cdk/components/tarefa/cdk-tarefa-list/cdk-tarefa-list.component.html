@@ -636,7 +636,7 @@
         </div>
 
         <div *ngIf="tarefas?.length > 0 && viewMode === 'list'" class="view-mode-list">
-            <div *ngFor="let tarefa of tarefas"
+            <div *ngFor="let tarefa of tarefas; index as i; trackBy: tarefaTrackBy"
                  class="drag-tarefa"
                  [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"

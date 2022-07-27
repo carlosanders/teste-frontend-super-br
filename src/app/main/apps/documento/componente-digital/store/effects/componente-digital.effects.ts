@@ -69,11 +69,11 @@ export class ComponenteDigitalEffect {
                         }
                     }),
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                        componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                        componenteDigitalId: response.id,
                         componenteDigital: response,
                         loaded: {
                             id: 'componenteDigitalHandle',
-                            value: this.routerState.params['componenteDigitalHandle']
+                            value: response.id
                         }
                     }),
                 ]),

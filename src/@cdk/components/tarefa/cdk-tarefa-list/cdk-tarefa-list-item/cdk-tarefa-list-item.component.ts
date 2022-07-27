@@ -341,7 +341,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ngAfterViewInit(): void {
         const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
         modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
+            if (module.components.hasOwnProperty(path) && (module.generoAffinity?.hasOwnProperty(path)) &&
+                module.generoAffinity[path].hasOwnProperty(this.tarefa.processo.especieProcesso?.generoProcesso?.nome.toUpperCase())) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then((componentFactory) => {
@@ -355,7 +356,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
         const pathItemText = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
         modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(pathItemText)) {
+            if (module.components.hasOwnProperty(path) && (module.generoAffinity?.hasOwnProperty(path)) &&
+                module.generoAffinity[path].hasOwnProperty(this.tarefa.processo.especieProcesso?.generoProcesso?.nome.toUpperCase())) {
                 module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then((componentFactory) => {

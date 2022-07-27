@@ -18,15 +18,15 @@ export const RELOAD_JUNTADAS = '[ANEXAR COPIA] RELOAD JUNTADAS';
 
 export const START_LOADING_BINARY = '[ANEXAR COPIA] START LOADING BINARY';
 export const STILL_LOADING_BINARY = '[ANEXAR COPIA] STILL LOADING BINARY';
+export const DOWNLOAD_LATEST_BINARY = '[ANEXAR COPIA] DOWNLOAD LATEST';
+export const DOWNLOAD_LATEST_BINARY_SUCCESS = '[ANEXAR COPIA] DOWNLOAD LATEST SUCCESS';
+export const DOWNLOAD_LATEST_BINARY_FAILED = '[ANEXAR COPIA] DOWNLOAD LATEST FAILED';
 
 export const SET_BINARY_VIEW = '[ANEXAR COPIA] SET BINARY VIEW';
 export const SET_BINARY_VIEW_SUCCESS = '[ANEXAR COPIA] SET BINARY VIEW SUCCESS';
 export const SET_BINARY_VIEW_FAILED = '[ANEXAR COPIA] SET BINARY VIEW FAILED';
 
 export const UNLOAD_COPIA = '[ANEXAR COPIA] UNLOAD COPIA';
-
-export const GET_JUNTADA_INDEX = '[ANEXAR COPIA] GET JUNTADA INDEX';
-export const ATUALIZA_JUNTADA_INDEX = '[ANEXAR COPIA] ATUALIZA JUNTADA INDEX';
 
 /**
  * Get Processo
@@ -175,6 +175,36 @@ export class StillLoadingBinary implements Action {
 }
 
 /**
+ * Download Latest Binary
+ */
+export class DownloadLatestBinary implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Success
+ */
+export class DownloadLatestBinarySuccess implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Download Latest Binary Failed
+ */
+export class DownloadLatestBinaryFailed implements Action {
+    readonly type = DOWNLOAD_LATEST_BINARY_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Set Binary View
  */
 export class SetBinaryView implements Action {
@@ -216,30 +246,6 @@ export class UnloadCopia implements Action
     }
 }
 
-/**
- * Get Juntada Index
- */
-export class GetJuntadaIndex implements Action
-{
-    readonly type = GET_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Atualiza Juntada Index
- */
-export class AtualizaJuntadaIndex implements Action
-{
-    readonly type = ATUALIZA_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type AnexarCopiaActionsAll
     = GetProcesso
     | GetProcessoSuccess
@@ -254,9 +260,10 @@ export type AnexarCopiaActionsAll
     | ReloadJuntadas
     | StartLoadingBinary
     | StillLoadingBinary
+    | DownloadLatestBinary
+    | DownloadLatestBinarySuccess
+    | DownloadLatestBinaryFailed
     | SetBinaryView
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
-    | UnloadCopia
-    | GetJuntadaIndex
-    | AtualizaJuntadaIndex;
+    | UnloadCopia;

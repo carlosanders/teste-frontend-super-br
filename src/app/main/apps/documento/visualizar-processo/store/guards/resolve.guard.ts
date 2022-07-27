@@ -1,33 +1,42 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {EditorVisualizarProcessoAppState} from '../reducers';
+import {VisualizarProcessoAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getRouterState} from 'app/store/reducers';
 import {Processo} from '@cdk/models';
-import {getProcessoLoaded, getProcessoIsLoading, GetProcesso} from '../../../../processo/store';
+import {VisualizarProcessoService} from '../../visualizar-processo.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
     processoId: number;
-    loading: boolean = false;
+    loadingLatestBinary: boolean = false;
+    loadingJuntadas: boolean = false;
+    loadingVolumes: boolean = false;
     error = null;
     processo: Processo;
+    downloadingBinary: boolean = false;
+    loadingProcesso = null;
+    guardaAtivado: boolean;
 
     /**
      *
      * @param _store
      * @param _router
+     * @param _visualizarProcessoService
+     * @param _activatedRoute
      */
     constructor(
-        private _store: Store<EditorVisualizarProcessoAppState>,
+        private _store: Store<VisualizarProcessoAppState>,
         private _router: Router,
+        private _visualizarProcessoService: VisualizarProcessoService,
+        private _activatedRoute: ActivatedRoute,
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -37,10 +46,46 @@ export class ResolveGuard implements CanActivate {
         });
 
         this._store.pipe(
-            select(getProcessoIsLoading)
-        ).subscribe((loading: boolean) => {
-            this.loading = loading;
+            select(fromStore.getIsLoading)
+        ).subscribe((loading) => {
+            this.loadingJuntadas = loading;
         });
+
+        this._store.pipe(
+            select(fromStore.getIsLoadingVolumes)
+        ).subscribe((loading) => {
+            this.loadingVolumes = loading;
+        });
+
+        this._store.pipe(
+            select(fromStore.getBinary)
+        ).subscribe((binary) => {
+            if (this.loadingProcesso === null || binary.processo !== this.loadingProcesso || !!binary.error) {
+                this.loadingProcesso = binary.processo;
+                this.error = binary.error;
+            }
+        });
+
+        this._store.pipe(
+            select(fromStore.getIsLoadingLatestBinary)
+        ).subscribe((loading) => {
+            this.loadingLatestBinary = loading;
+        })
+
+        this._store.pipe(
+            select(fromStore.getProcesso)
+        ).subscribe((processo) => {
+            this.processo = processo;
+        });
+
+        this._visualizarProcessoService.guardaAtivado.subscribe((value) => {
+            this.guardaAtivado = value;
+            if (!value) {
+                this.downloadingBinary = false;
+            }
+        });
+
+        this.downloadingBinary = false;
     }
 
     /**
@@ -51,12 +96,28 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getProcesso().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
                 return of(false);
             })
+        );
+    }
+
+    /**
+     * Check store
+     *
+     * @returns
+     */
+    checkStore(): Observable<any> {
+        return forkJoin([
+            this.getProcesso(),
+            this.downloadLatestBinary(),
+            this.getJuntadas(),
+            this.getVolumes()
+        ]).pipe(
+            take(1)
         );
     }
 
@@ -67,20 +128,157 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
-            select(getProcessoLoaded),
+            select(fromStore.getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
-                    this._router.navigate([
-                        this.routerState.url.split('visualizar-processo')[0] + 'visualizar-processo/' + this.routerState.params.processoHandle + '/acesso-negado'
-                    ]).then();
+                    const sidebar = 'empty';
+                    const arrPrimary = [];
+                    let url = this.routerState.url.split('/documento')[0] + '/documento/' + this.routerState.params.documentoHandle + '/';
+                    arrPrimary.push('acesso-negado');
+                    arrPrimary.push(this.routerState.params.processoViewHandle);
+                    this._router.navigate(
+                        [
+                            url,
+                            {
+                                outlets: {
+                                    primary: arrPrimary,
+                                    sidebar: sidebar
+                                }
+                            }
+                        ],
+                        {
+                            relativeTo: this._activatedRoute.parent
+                        }
+                    ).then(() => {});
                 } else {
-                    if (!this.loading && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
-                        this.loading = true;
-                        this._store.dispatch(new GetProcesso({id: this.routerState.params['processoHandle']}));
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                        this._store.dispatch(new fromStore.GetProcesso({id: this.routerState.params['processoViewHandle']}));
                     }
                 }
             }),
-            filter((loaded: any) => !this.loading && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            take(1)
+        );
+    }
+
+    downloadLatestBinary(): any {
+        return this._store.pipe(
+            select(fromStore.getBinary),
+            tap((binary: any) => {
+                let processoId = null;
+
+                const routeParams = of('processoViewHandle');
+                routeParams.subscribe((param) => {
+                    processoId = parseInt(this.routerState.params[param], 10);
+                });
+                if (!this.loadingLatestBinary && (!binary.src) && this.loadingProcesso !== processoId) {
+                    this._store.dispatch(new fromStore.DownloadLatestBinary(processoId));
+                    this.loadingLatestBinary = true;
+                }
+            }),
+            filter((binary: any) => !this.loadingLatestBinary && ((!!binary.src) ||
+                (binary.processo === parseInt(this.routerState.params['processoViewHandle'], 10)) ||
+                (this.loadingProcesso === parseInt(this.routerState.params['processoViewHandle'], 10)))),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Juntadas
+     *
+     * @returns
+     */
+    getJuntadas(): any {
+        return this._store.pipe(
+            select(fromStore.getJuntadasLoaded),
+            tap((loaded: any) => {
+                if (!this.loadingJuntadas && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                    this._store.dispatch(new fromStore.UnloadJuntadas({}));
+
+                    let processoFilter = null;
+                    let processoId = null;
+
+                    const routeParams = of('processoViewHandle');
+                    routeParams.subscribe((param) => {
+                        processoFilter = `eq:${this.routerState.params[param]}`;
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+
+                    const params = {
+                        filter: {
+                            'volume.processo.id': processoFilter,
+                            'vinculada': 'eq:0'
+                        },
+                        processoId: processoId,
+                        listFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {
+                            'numeracaoSequencial': 'DESC',
+                        },
+                        populate: [
+                            'volume',
+                            'documento',
+                            'documento.componentesDigitais',
+                            'documento.origemDados',
+                            'documento.tipoDocumento',
+                            'documento.criadoPor',
+                            'documento.setorOrigem',
+                            'documento.setorOrigem.unidade',
+                            'documento.vinculacoesDocumentos',
+                            'documento.vinculacoesDocumentos.documentoVinculado',
+                            'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
+                            'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                            'documento.vinculacoesEtiquetas',
+                            'documento.vinculacoesEtiquetas.etiqueta'
+                        ]
+                    };
+
+                    this._store.dispatch(new fromStore.GetJuntadas(params));
+                    this.loadingJuntadas = true;
+                }
+            }),
+            filter((loaded: any) => !this.loadingJuntadas && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Volumes
+     *
+     * @returns
+     */
+    getVolumes(): any {
+        return this._store.pipe(
+            select(fromStore.getVolumesLoaded),
+            tap((loaded: any) => {
+                if (!this.loadingVolumes && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
+                    this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
+
+                    let processoFilter = null;
+
+                    const routeParams = of('processoViewHandle');
+                    routeParams.subscribe((param) => {
+                        processoFilter = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'processo.id': processoFilter
+                        },
+                        listFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {numeracaoSequencial: 'ASC'},
+                        populate: []
+                    };
+
+                    this._store.dispatch(new fromStore.GetVolumes(params));
+                    this.loadingVolumes = true;
+                }
+            }),
+            filter((loaded: any) => !this.loadingVolumes && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

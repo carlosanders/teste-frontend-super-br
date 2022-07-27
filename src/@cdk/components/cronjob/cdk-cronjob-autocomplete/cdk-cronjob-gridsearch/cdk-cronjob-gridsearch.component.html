@@ -1,0 +1,10 @@
+d<cdk-cronjob-grid
+        [loading]="loading"
+        [cronjobs]="cronjobs"
+        [displayedColumns]="['id', 'nome', 'descricao', 'periodicidade', 'comando', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-cronjob-grid>

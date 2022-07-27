@@ -40,18 +40,18 @@
         <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
-                   [matAutocomplete]="usuario.autocomplete"
+                   [matAutocomplete]="criadoPorUsuario.autocomplete"
                    (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            <cdk-usuario-autocomplete #criadoPorUsuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete"
+                   [matAutocomplete]="atualizadoPorUsuario.autocomplete"
                    (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            <cdk-usuario-autocomplete #atualizadoPorUsuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 

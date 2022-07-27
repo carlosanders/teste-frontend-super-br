@@ -1,0 +1,19 @@
+<div class="header">
+    <path icone="alarm"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="cronjob">
+    </path>
+</div>
+<cdk-cronjob-grid
+    [loading]="(loading$ | async)"
+    [cronjobs]="cronjobs"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['select', 'id', 'nome', 'descricao', 'periodicidade', 'comando', 'dataHoraUltimaExecucao', 'textoStatusUltimaExecucao', 'usuarioUltimaExecucao.nome', 'dataHoraProximaExecucao', 'actions']"
+    [actions]="['edit', 'delete', 'execute', 'showInatived', 'create']"
+    [executingIds]="(executingIds$ | async)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()"
+    (excluded)="excluded($event)"
+    (execute)="executeCronJob($event)">
+</cdk-cronjob-grid>

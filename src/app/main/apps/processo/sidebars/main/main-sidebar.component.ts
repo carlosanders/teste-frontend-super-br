@@ -266,7 +266,24 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                     type: 'item',
                     processo: true,
                     role: 'ROLE_USER'
-                }
+                },
+                {
+                    nome: 'Fluxo de Trabalho',
+                    icon: 'timeline',
+                    type: 'item',
+                    link: 'timeline',
+                    processo: true,
+                    role: 'ROLE_COLABORADOR',
+                    canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
+                        filter(processo => !!processo),
+                        switchMap((processo) => {
+                            if (processo.acessoNegado || processo.somenteLeitura) {
+                                return of(false);
+                            }
+                            return of(true);
+                        })
+                    )
+                },
             ];
 
             const path = 'app/main/apps/processo/sidebars/main';

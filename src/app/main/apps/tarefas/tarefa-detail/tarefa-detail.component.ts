@@ -373,7 +373,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     }
 
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
@@ -399,7 +399,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
@@ -799,14 +799,18 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                     isLoading$: this.isLoadingAcoesEtiqueta$
                 },
                 width: '600px',
-                height: '300px',
+                height: '600px',
             });
 
         dialogRef.afterClosed()
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((option) => {
-                if (option === true) {
-                    this._store.dispatch(new fromStore.AprovarSugestao({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa}));
+            .subscribe((acoesId?: number[]) => {
+                if (acoesId) {
+                    this._store.dispatch(new fromStore.AprovarSugestao({
+                        vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        acoesExecucaoSugestao: JSON.stringify(acoesId),
+                        tarefa: this.tarefa
+                    }));
                 }
             });
     }

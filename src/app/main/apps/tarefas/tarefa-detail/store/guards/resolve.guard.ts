@@ -8,13 +8,15 @@ import * as fromStoreProcesso from 'app/main/apps/processo/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import {getHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getProcessoLoaded} from '../../../../processo/store';
+import {getProcessoLoaded, getProcessoIsLoading} from '../../../../processo/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
     error = null;
     loadedProcesso: boolean;
+    loadingTarefa: boolean = false;
+    loadingProcesso: boolean = false;
 
     /**
      * Constructor
@@ -32,7 +34,19 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this._store.pipe(
+            select(fromStore.getIsLoading)
+        ).subscribe((loading) => {
+            this.loadingTarefa = loading;
+        })
+        this._store.pipe(
+            select(getProcessoIsLoading)
+        ).subscribe((loading) => {
+            this.loadingProcesso = loading;
+        })
         this.loadedProcesso = false;
+        this.loadingProcesso = false;
+        this.loadingTarefa = false;
     }
 
     /**
@@ -61,13 +75,13 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getHasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.loadingTarefa && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     this._store.dispatch(new fromStore.GetTarefa({
                         id: this.routerState.params['tarefaHandle']
                     }));
                 }
             }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            filter((loaded: any) => !this.loadingTarefa && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
@@ -81,7 +95,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.loadingProcesso && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     if (this.routerState.params['processoHandle'] === 'criar') {
                         this._store.dispatch(new fromStoreProcesso.CreateProcesso());
                     } else {
@@ -90,14 +104,9 @@ export class ResolveGuard implements CanActivate {
                             id: this.routerState.params['processoHandle']
                         }));
                     }
-                } else {
-                    if (this.routerState.params['stepHandle'] === 'default' && !this.loadedProcesso) {
-                        // Tentando carregar a rota default de um processo que está no estado da aplicação mas não passou pelo GetJuntadasSuccess
-                        const firstJuntada = loaded?.juntadaIndex?.findIndex(indice => indice.componentesDigitais.length > 0);
-                    }
                 }
             }),
-            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            filter((loaded: any) => !this.loadingProcesso && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

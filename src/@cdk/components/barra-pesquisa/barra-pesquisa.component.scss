@@ -6,7 +6,6 @@
         display: flex;
         flex: 1 0 auto;
         font-size: 13px;
-        background: transparent;
 
         @include media-breakpoint('xs') {
             height: 56px;
@@ -25,8 +24,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 border-radius: 28px;
-                background: white;
-                margin: 0px 13px;
+                margin: 0 13px;
                 padding-left: 8px;
                 height: 45px;
                 max-width: 400px;
@@ -54,8 +52,6 @@
                 flex: 1 0 auto;
                 min-height: 64px;
                 font-size: 13px;
-                background-color: transparent;
-                color: currentColor;
             }
         }
     }

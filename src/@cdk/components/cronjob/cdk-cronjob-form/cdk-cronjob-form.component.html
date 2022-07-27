@@ -1,0 +1,107 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('ativo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+    </mat-checkbox>
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               minlength="3"
+               maxlength="255"
+               required
+               upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('nome').hasError('minlength')">
+            Tamanho mínimo de 3 caracteres
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <input matInput #descricao
+               name="descricao"
+               formControlName="descricao"
+               minlength="3"
+               maxlength="255"
+               required
+               upperCase>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('descricao').hasError('minlength')">
+            Tamanho mínimo de 3 caracteres
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Comando</mat-label>
+        <input matInput #comando
+               name="comando"
+               formControlName="comando"
+               minlength="3"
+               maxlength="255"
+               required>
+        <mat-hint align="end">{{comando.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('comando').hasError('formError')">
+            {{form.get('comando').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('comando').hasError('minlength')">
+            Tamanho mínimo de 3 caracteres
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Periodicidade</mat-label>
+        <input matInput #periodicidade
+               name="periodicidade"
+               formControlName="periodicidade"
+               minlength="9"
+               maxlength="255"
+               required>
+        <mat-hint align="end">{{periodicidade.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('periodicidade').hasError('formError')">
+            {{form.get('periodicidade').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('periodicidade').hasError('minlength')">
+            Tamanho mínimo de 9 caracteres
+        </mat-error>
+
+        <mat-error *ngIf="form.get('periodicidade').hasError('invalidPeriodicidade')">
+            Formato inválido ou não suportado
+        </mat-error>
+    </mat-form-field>
+    <div class="mb-20" *ngIf="!!textoPeriodicidade">
+        {{textoPeriodicidade}}
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
+<cdk-logentry-gridsearch
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

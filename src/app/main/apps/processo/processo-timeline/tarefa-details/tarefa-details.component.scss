@@ -1,0 +1,24 @@
+tarefa-details {
+
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    .content {
+
+        .title {
+            font-weight: bolder;
+            margin-bottom: 5px;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+
+            span {
+                font-style: italic;
+            }
+        }
+    }
+
+}

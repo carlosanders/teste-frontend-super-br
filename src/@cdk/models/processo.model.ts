@@ -47,8 +47,6 @@ export class Processo {
 
     NUP?: string;
 
-    juntadaIndex?: any;
-
     @Exclude({toPlainOnly: true})
     NUPFormatado?: string;
 
@@ -251,6 +249,5 @@ export class Processo {
         this.validaNup = null;
         this.alterarChave = null;
         this.compartilhamentoUsuario = null;
-        this.juntadaIndex = null;
     }
 }

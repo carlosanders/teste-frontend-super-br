@@ -378,7 +378,7 @@ export class TarefasEffect {
                         'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                         this.routerState.params.typeHandle + '/' +
                         this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                        '/processo/' + action.payload.processoId + '/visualizar/default'],
+                        '/processo/' + action.payload.processoId + '/visualizar/latest'],
                     extras
                 ).then();
             }
@@ -1309,7 +1309,13 @@ export class TarefasEffect {
 
     aprovarSugestao: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<fromStore.AprovarSugestao>(fromStore.APROVAR_SUGESTAO),
-        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(action.payload.vinculacaoEtiqueta, JSON.stringify(['populateAll'])).pipe(
+        mergeMap(action => this._vinculacaoEtiquetaService.aprovarSugestao(
+            action.payload.vinculacaoEtiqueta,
+            {
+                acoesExecucaoSugestao: action.payload.acoesExecucaoSugestao
+            },
+            JSON.stringify(['populateAll'])
+        ).pipe(
             mergeMap(response => [
                 new fromStore.AprovarSugestaoSuccess(response.id),
                 new UpdateData<VinculacaoEtiqueta>({
@@ -1321,7 +1327,7 @@ export class TarefasEffect {
                         objectContext: response.objectContext
                     }
                 }),
-                new fromStore.ReloadVinculacaoEtiqueta(action.payload.tarefa)
+                new fromStore.GetTarefa(action.payload.tarefa.id)
             ]),
             catchError((err) => of(new fromStore.AprovarSugestaoFailed(err)))
         ))

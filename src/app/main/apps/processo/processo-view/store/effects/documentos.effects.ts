@@ -20,7 +20,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
-import {GetJuntadaIndex} from '../../../store';
+import {GetJuntadaDocumentoVinculado} from '../actions';
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -59,126 +59,6 @@ export class ProcessoViewDocumentosEffects {
         }),
     ));
     /**
-     * Get Documentos with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.GetDocumentos>(ProcessoViewDocumentosActions.GET_DOCUMENTOS),
-        switchMap(() => {
-
-            let tarefaId = null;
-
-            const routeParams = of('tarefaHandle');
-            routeParams.subscribe((param) => {
-                tarefaId = `eq:${this.routerState.params[param]}`;
-            });
-
-            const params = {
-                filter: {
-                    'tarefaOrigem.id': tarefaId,
-                    'juntadaAtual': 'isNull'
-                },
-                limit: 25,
-                offset: 0,
-                sort: {
-                    criadoEm: 'DESC'
-                },
-                populate: [
-                    'tipoDocumento',
-                    'documentoAvulsoRemessa',
-                    'documentoAvulsoRemessa.documentoResposta',
-                    'componentesDigitais',
-                ]
-            };
-
-            return this._documentoService.query(
-                JSON.stringify({
-                    ...params.filter
-                }),
-                params.limit,
-                params.offset,
-                JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
-        }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new ProcessoViewDocumentosActions.GetDocumentosSuccess({
-                loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params.tarefaHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewDocumentosActions.GetDocumentosFailed(err));
-        })
-    ));
-    /**
-     * Get Documentos Excluídos with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    getDocumentosExcluidos: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.GetDocumentosExcluidos>(ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS),
-        switchMap(() => {
-
-            let tarefaId = null;
-
-            const routeParams = of('tarefaHandle');
-            routeParams.subscribe((param) => {
-                tarefaId = `eq:${this.routerState.params[param]}`;
-            });
-
-            const params = {
-                filter: {
-                    'tarefaOrigem.id': tarefaId,
-                    'juntadaAtual': 'isNull'
-                },
-                limit: 10,
-                offset: 0,
-                sort: {
-                    criadoEm: 'DESC'
-                },
-                populate: [
-                    'tipoDocumento',
-                    'documentoAvulsoRemessa',
-                    'documentoAvulsoRemessa.documentoResposta',
-                    'componentesDigitais'
-                ],
-                context: {
-                    'mostrarApagadas': true
-                }
-            };
-
-            return this._documentoService.query(
-                JSON.stringify({
-                    ...params.filter
-                }),
-                params.limit,
-                params.offset,
-                JSON.stringify(params.sort),
-                JSON.stringify(params.populate),
-                JSON.stringify(params.context));
-        }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new ProcessoViewDocumentosActions.GetDocumentosExcluidosSuccess({
-                loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params.tarefaHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new ProcessoViewDocumentosActions.GetDocumentosExcluidosFailed(err));
-        })
-    ));
-    /**
      * Update Documento
      *
      * @type {Observable<any>}
@@ -189,7 +69,6 @@ export class ProcessoViewDocumentosEffects {
             mergeMap((response: Documento) => [
                 new ProcessoViewDocumentosActions.UpdateDocumentoSuccess(response.id),
                 new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new ProcessoViewDocumentosActions.GetDocumentos()
             ]),
             catchError((err) => {
                 console.log(err);
@@ -421,11 +300,8 @@ export class ProcessoViewDocumentosEffects {
                         parentSchema: documentoSchema,
                         parentId: action.payload.documentoId
                     }),
+                    new GetJuntadaDocumentoVinculado(action.payload.vinculacaoDocumento.documentoVinculado),
                     new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoSuccess(action.payload.vinculacaoDocumento.id),
-                    new GetJuntadaIndex({
-                        processoId: action.payload.processoId,
-                        reload: true
-                    }),
                 ]),
                 catchError((err) => {
                     console.log(err);

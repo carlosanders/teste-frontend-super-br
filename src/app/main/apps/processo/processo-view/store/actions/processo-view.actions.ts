@@ -4,6 +4,10 @@ export const GET_JUNTADA = '[PROCESSO VIEW] GET JUNTADA';
 export const GET_JUNTADA_SUCCESS = '[PROCESSO VIEW] GET JUNTADA SUCCESS';
 export const GET_JUNTADA_FAILED = '[PROCESSO VIEW] GET JUNTADA FAILED';
 
+export const GET_JUNTADA_DOCUMENTO_VINCULADO = '[PROCESSO VIEW] GET JUNTADA DOCUMENTO VINCULADO';
+export const GET_JUNTADA_DOCUMENTO_VINCULADO_SUCCESS = '[PROCESSO VIEW] GET JUNTADA DOCUMENTO VINCULADO SUCCESS';
+export const GET_JUNTADA_DOCUMENTO_VINCULADO_FAILED = '[PROCESSO VIEW] GET JUNTADA DOCUMENTO VINCULADO FAILED';
+
 export const GET_JUNTADAS = '[PROCESSO VIEW] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS SUCCESS';
 export const GET_JUNTADAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS FAILED';
@@ -52,8 +56,6 @@ export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
 export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
 export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
 
-export const ATUALIZA_JUNTADA_INDEX = '[PROCESSO] ATUALIZA JUNTADA INDEX';
-
 
 /**
  * Expandir Processo
@@ -99,6 +101,42 @@ export class GetJuntadaFailed implements Action
     readonly type = GET_JUNTADA_FAILED;
 
     constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Get Juntada Documento Vinculado
+ */
+export class GetJuntadaDocumentoVinculado implements Action
+{
+    readonly type = GET_JUNTADA_DOCUMENTO_VINCULADO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Documento Vinculado Success
+ */
+export class GetJuntadaDocumentoVinculadoSuccess implements Action
+{
+    readonly type = GET_JUNTADA_DOCUMENTO_VINCULADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Documento Vinculado Failed
+ */
+export class GetJuntadaDocumentoVinculadoFailed implements Action
+{
+    readonly type = GET_JUNTADA_DOCUMENTO_VINCULADO_FAILED;
+
+    constructor(public payload: any)
     {
     }
 }
@@ -471,21 +509,13 @@ export class RemoveConteudoBinario implements Action {
     }
 }
 
-/**
- * Atualiza Juntada Index
- */
-export class AtualizaJuntadaIndex implements Action {
-    readonly type = ATUALIZA_JUNTADA_INDEX;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
+    | GetJuntadaDocumentoVinculado
+    | GetJuntadaDocumentoVinculadoSuccess
+    | GetJuntadaDocumentoVinculadoFailed
     | GetComponentesDigitaisJuntada
     | GetComponentesDigitaisJuntadaSuccess
     | GetComponentesDigitaisJuntadaFailed
@@ -519,5 +549,4 @@ export type ProcessoViewActionsAll
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
     | LimpaCacheDocumento
-    | RemoveConteudoBinario
-    | AtualizaJuntadaIndex;
+    | RemoveConteudoBinario;

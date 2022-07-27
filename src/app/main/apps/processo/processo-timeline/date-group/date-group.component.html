@@ -1,0 +1,25 @@
+<div class="date-label cursor-pointer" (click)="toogleDateGroup()">
+    <mat-icon *ngIf="dateEventGroup.childs?.size && !dateEventGroup.expanded">chevron_right</mat-icon>
+    <mat-icon *ngIf="dateEventGroup.childs?.size && dateEventGroup.expanded">expand_more</mat-icon>
+    <ng-container [ngSwitch]="dateEventGroup.groupType">
+        <ng-container *ngSwitchCase="'month'">
+            {{dateEventGroup.groupDate.toDate() |date:'MMM'|titleCasePipe}}
+        </ng-container>
+        <ng-container *ngSwitchCase="'week'">
+            Sem. {{dateEventGroup.groupKey}}
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{dateEventGroup.groupKey}}
+        </ng-container>
+    </ng-container>
+</div>
+<event-list *ngIf="dateEventGroup.expanded === false"
+    (clickEventItem)="onClickEventItem($event.tarefa, $event.timelineEvents)"
+    [dateGroupEvent]="dateEventGroup">
+</event-list>
+<div class="spacer-group" *ngIf="dateEventGroup.expanded === true">
+    <ng-container *ngFor="let tarefaData of dateEventGroup.tarefas |keyvalue">
+        <div class="spacer tarefa-{{tarefaData.value.tarefa.id}} tipo-{{dateEventGroup.groupType}} chave-{{dateEventGroup.groupKey}}" *ngIf="hasPrevious(tarefaData.value.timelineEvents)">
+        </div>
+    </ng-container>
+</div>

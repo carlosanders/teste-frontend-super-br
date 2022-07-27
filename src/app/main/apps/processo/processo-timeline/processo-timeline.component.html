@@ -1,0 +1,28 @@
+<div class="content p-8">
+    <h2>Fluxo de Trabalho</h2>
+    <div class="container" cdkPerfectScrollbar>
+        <ng-container *ngFor="let yearDateGroup of timeline |keyvalue">
+            <date-group
+                [dateEventGroup]="yearDateGroup.value"
+                (toogleDateGroup)="toogleDateGroup($event)"
+                (clickEventItem)="onClickEventItem($event.tarefa, $event.timelineEvents)">
+            </date-group>
+            <ng-container *ngIf="yearDateGroup.value?.expanded === true">
+                <ng-container *ngFor="let monthDateGroup of yearDateGroup.value.childs |keyvalue">
+                    <date-group
+                        [dateEventGroup]="monthDateGroup.value"
+                        (toogleDateGroup)="toogleDateGroup($event)"
+                        (clickEventItem)="onClickEventItem($event.tarefa, $event.timelineEvents)">
+                    </date-group>
+                    <ng-container *ngIf="monthDateGroup.value?.expanded === true">
+                        <date-group *ngFor="let weekDateGroup of monthDateGroup.value.childs |keyvalue"
+                            [dateEventGroup]="weekDateGroup.value"
+                            (toogleDateGroup)="toogleDateGroup($event)"
+                            (clickEventItem)="onClickEventItem($event.tarefa, $event.timelineEvents)">
+                        </date-group>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

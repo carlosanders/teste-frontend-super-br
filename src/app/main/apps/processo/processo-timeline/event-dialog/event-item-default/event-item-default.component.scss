@@ -1,0 +1,16 @@
+event-item-default {
+    .message {
+        display: flex;
+        flex-direction: row;
+        font-style: italic;
+
+        .date {
+            font-weight: bolder;
+            width: 115px;
+        }
+
+        .text {
+            max-width: 500px;
+        }
+    }
+}

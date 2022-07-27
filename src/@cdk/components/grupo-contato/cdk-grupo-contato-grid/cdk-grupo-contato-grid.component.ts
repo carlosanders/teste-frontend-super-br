@@ -321,7 +321,7 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
     }
 
     deleteBloco(ids): void {
-        console.log(ids);
+        // console.log(ids);
         this.deleteBlocoEmmitter.emit(ids);
     }
 

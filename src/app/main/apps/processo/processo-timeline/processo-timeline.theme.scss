@@ -1,0 +1,52 @@
+@mixin processo-timeline-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    processo-timeline {
+        date-group {
+
+            .spacer::before {
+                @if ($is-dark) {
+                    //border-color: #484848;
+                    border-color: #858585;
+                } @else {
+                    border-left-color: #e0e0e0;
+                }
+            }
+
+            event-list {
+                event-item {
+
+                    .dot {
+                        @if ($is-dark) {
+                            background: map-get($background, app-bar);
+                            color: map-get($foreground, text);
+                            //border-color: #484848;
+                            border-color: #858585;
+                        } @else {
+                            background: map-get($background, background);
+                            color: map-get($accent, '50-contrast');
+                            border-color: #e0e0e0;
+                        }
+
+                        &.has-previous::before, &.has-next::after {
+                            @if ($is-dark) {
+                                //border-color: #484848;
+                                border-color: #858585;
+                            } @else {
+                                border-color: #e0e0e0;
+                            }
+                        }
+                        &.in-progress {
+                            border-color: #ffa500;
+                            color: #ffa500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

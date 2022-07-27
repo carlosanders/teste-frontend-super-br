@@ -31,7 +31,7 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterViewInit{
+export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterViewInit {
 
     @Input() displayedColumns: string[] = [];
 
@@ -58,6 +58,8 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     protected _columnsSubscriber: Subscription;
 
     columns = new FormControl();
+
+    initialized: boolean = false;
 
     protected constructor(
         protected _tableDefinitionsService: TableDefinitionsService,
@@ -92,86 +94,89 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     }
 
     ngOnInit(): void {
-        if (this._columnsSubscriber) {
-            this._columnsSubscriber.unsubscribe();
-        }
-        this._columnsSubscriber = this.columns.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values: string[]) => {
-                const columns = this.getDisplayColumns();
-                const tableWidth = (this.cdkTableColumnsResizableList.toArray() || [])[0]?.getTableWidth();
+        if (!this.initialized) {
+            if (this._columnsSubscriber) {
+                this._columnsSubscriber.unsubscribe();
+            }
+            this._columnsSubscriber = this.columns.valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((values: string[]) => {
+                    const columns = this.getDisplayColumns();
+                    const tableWidth = (this.cdkTableColumnsResizableList.toArray() || [])[0]?.getTableWidth();
 
-                this.getAllTableColumns()
-                    .forEach((tableColumn: TableColumn) => tableColumn.definitions.selected = (
-                            values.includes(tableColumn.id)
-                            || (tableColumn.definitions.selected && tableColumn.definitions.fixed)
-                        )
-                    );
+                    this.getAllTableColumns()
+                        .forEach((tableColumn: TableColumn) => tableColumn.definitions.selected = (
+                                values.includes(tableColumn.id)
+                                || (tableColumn.definitions.selected && tableColumn.definitions.fixed)
+                            )
+                        );
 
-                this._columnsDefinitionsChange(this._tableColumns);
+                    this._columnsDefinitionsChange(this._tableColumns);
 
-                return of({
-                    tableWidth: tableWidth,
-                    columns: columns,
-                    values: values
-                });
-            })
-        ).subscribe(({tableWidth, columns, values}) => {
-            if (tableWidth) {
-                this.getDisplayColumns()
-                    .filter((id) => !columns.includes(id))
-                    .forEach((id) => {
-                        setTimeout(() => {
-                            const column = (this.cdkTableColumnsResizableList.toArray() || [])
-                                .find((col) => col.tableColumn.id === id);
+                    return of({
+                        tableWidth: tableWidth,
+                        columns: columns,
+                        values: values
+                    });
+                })
+            ).subscribe(({tableWidth, columns, values}) => {
+                if (tableWidth) {
+                    this.getDisplayColumns()
+                        .filter((id) => !columns.includes(id))
+                        .forEach((id) => {
+                            setTimeout(() => {
+                                const column = (this.cdkTableColumnsResizableList.toArray() || [])
+                                    .find((col) => col.tableColumn.id === id);
 
-                            if (column) {
-                                column.tableColumn.definitions.width = 0;
-                                this._processPreventOverflow({
-                                    ...column.resizeColumnTo(column.tableColumn.definitions.width),
-                                    tableOldWidth: tableWidth
-                                });
-                                this._columnsDefinitionsChange(this._tableColumns);
-                                this._changeDetectorRef.markForCheck();
-                            }
+                                if (column) {
+                                    column.tableColumn.definitions.width = 0;
+                                    this._processPreventOverflow({
+                                        ...column.resizeColumnTo(column.tableColumn.definitions.width),
+                                        tableOldWidth: tableWidth
+                                    });
+                                    this._columnsDefinitionsChange(this._tableColumns);
+                                    this._changeDetectorRef.markForCheck();
+                                }
+                            });
                         });
+                }
+
+                this._changeDetectorRef.markForCheck();
+            });
+
+            this._processResizableDefinitions();
+            this._processOrdableDefinitions();
+            this._processDisplayableColumns();
+            this._processTableColumns();
+            this._processColumnsOrder();
+
+            if (this.parentIdentifier) {
+                this._tableDefinitionsService
+                    .getTableDefinitions(
+                        this._tableDefinitionsService
+                            .generateTableDeinitionIdentifier([this.parentIdentifier, this.constructor.name])
+                    )
+                    .pipe(filter((definitions: TableDefinitions) => !!definitions))
+                    .subscribe((definitions: TableDefinitions) => {
+                        if (definitions.version != CdkUsuarioGridColumns.version) {
+                            this._processTableDefinitionsVersionChange(definitions);
+                        } else {
+                            this._tableColumns.forEach((tableColumn: TableColumn) => {
+                                const cachedTableColumn = definitions.columns.find((column) => column.id == tableColumn.id);
+                                if (cachedTableColumn) {
+                                    tableColumn.definitions = {...cachedTableColumn.definitions}
+                                }
+                            });
+                        }
+                        this._processResizableDefinitions();
+                        this._processOrdableDefinitions();
+                        this._processTableColumns();
+                        this._processColumnsOrder();
+                        this._changeDetectorRef.markForCheck();
                     });
             }
-
-            this._changeDetectorRef.markForCheck();
-        });
-
-        this._processResizableDefinitions();
-        this._processOrdableDefinitions();
-        this._processDisplayableColumns();
-        this._processTableColumns();
-        this._processColumnsOrder();
-
-        if (this.parentIdentifier) {
-            this._tableDefinitionsService
-                .getTableDefinitions(
-                    this._tableDefinitionsService
-                        .generateTableDeinitionIdentifier([this.parentIdentifier, this.constructor.name])
-                )
-                .pipe(filter((definitions: TableDefinitions) => !!definitions))
-                .subscribe((definitions: TableDefinitions) => {
-                    if (definitions.version != CdkUsuarioGridColumns.version) {
-                        this._processTableDefinitionsVersionChange(definitions);
-                    } else {
-                        this._tableColumns.forEach((tableColumn: TableColumn) => {
-                            const cachedTableColumn = definitions.columns.find((column) => column.id == tableColumn.id);
-                            if (cachedTableColumn) {
-                                tableColumn.definitions = {...cachedTableColumn.definitions}
-                            }
-                        });
-                    }
-                    this._processResizableDefinitions();
-                    this._processOrdableDefinitions();
-                    this._processTableColumns();
-                    this._processColumnsOrder();
-                    this._changeDetectorRef.markForCheck();
-                });
+            this.initialized = true;
         }
     }
 

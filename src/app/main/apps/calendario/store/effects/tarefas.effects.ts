@@ -38,14 +38,16 @@ export class TarefasEffect {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context)
+        )),
         mergeMap(response => [
             new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
             new TarefasActions.GetTarefasSuccess({
                 entitiesId: response['entities'].map(tarefa => tarefa.id),
                 loaded: {
-                    id: 'typeHandle_targetHandle',
-                    value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                    id: 'contextHandle_typeHandle_targetHandle',
+                    value: this.routerState.params.contextHandle + '_' + this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
                 },
                 total: response['total']
             })

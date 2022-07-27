@@ -140,6 +140,7 @@ export const objetoAvaliado = new schema.Entity('objeto-avaliado');
 export const avaliacao = new schema.Entity('avaliacao');
 export const configModule = new schema.Entity('config-modulo');
 export const modulo = new schema.Entity('modulo');
+export const cronjob = new schema.Entity('cronjob');
 
 modulo.define({});
 
@@ -1187,4 +1188,11 @@ objetoAvaliado.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
+});
+
+
+cronjob.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario,
 });
