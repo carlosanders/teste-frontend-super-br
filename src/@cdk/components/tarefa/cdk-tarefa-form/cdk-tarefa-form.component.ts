@@ -353,11 +353,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('blocoProcessos').valueChanges.pipe(
             distinctUntilChanged(),
             switchMap((value) => {
-                if (value && this.processos.length > 0) {
-                    this.desabilitaEspecieTarefa = false;
-                } else {
-                    this.desabilitaEspecieTarefa = true;
-                }
+                this.desabilitaEspecieTarefa = !(value && this.processos.length > 0);
 
                 this._changeDetectorRef.markForCheck();
                 return of([]);
@@ -665,6 +661,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('prazoDias').valueChanges.pipe(
             distinctUntilChanged(),
             switchMap(() => {
+                    this.clearValidators();
                     this.alteraPrazoFinal();
                     return of([]);
                 }
@@ -674,6 +671,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('diasUteis').valueChanges.pipe(
             distinctUntilChanged(),
             switchMap(() => {
+                this.clearValidators();
                     this.alteraDiasUteis();
                     return of([]);
                 }
@@ -685,12 +683,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             switchMap((value) => {
                     this.especieTarefaPagination['context'] = {};
                     if (value) {
-                        this.clearValidators();
                         this.evento = value.evento;
-                        if (!this.evento) {
+                        if (this.evento) {
+                            this.form.get('prazoDias').setValue(0);
+                        } else {
+                            if (!this.form.get('prazoDias').value) {
+                                this.form.get('prazoDias').setValue(5);
+                            } else {
+                                this.validaPrazo();
+                            }
                             this.form.get('localEvento').reset();
                         }
-
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -772,7 +775,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const b = this.form.get('dataHoraFinalPrazo').value.format('HH:mm:ss');
         const dataHoraFinalPrazo = moment(a + 'T' + b);
         const dias = this.form.get('prazoDias').value;
-        if (!dias) {
+        if (dias === null || dias < 0) {
             return;
         }
         const dataHoraFinalPrazoCalculado = dataHoraFinalPrazo.clone().add(dias, 'days');
@@ -808,6 +811,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (dataHoraFinalPrazo < dataHoraInicioPrazo) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'A data final do prazo não pode ser anterior a do início!'});
+            this._changeDetectorRef.markForCheck();
+            return;
+        }
+
+        if (!this.evento && (diffDays < 1)) {
+            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser de no mínimo 1 dia!'});
             this._changeDetectorRef.markForCheck();
             return;
         }
