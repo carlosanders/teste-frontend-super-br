@@ -5,6 +5,7 @@
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="['select', 'visualizar']"
+        [displayedColumns]="['select', 'id', 'nome', 'modalidadeModelo.valor', 'actions']"
         [mobileMode]="mobileMode"
         [mode]="'search'"
         (selected)="doSelect($event)"
