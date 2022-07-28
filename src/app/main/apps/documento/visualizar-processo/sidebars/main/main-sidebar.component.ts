@@ -553,15 +553,6 @@ export class VisualizarProcessoMainSidebarComponent implements OnInit, OnDestroy
         this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
 
-    doJuntadaOutraAba(documento: Documento, juntada:Juntada): void {
-        if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
-            juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
-            this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
-        } else {
-            this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
-        }
-    }
-
     doTogglePanel(id): void {
         this.isOpen[id] = !this.isOpen[id];
     }

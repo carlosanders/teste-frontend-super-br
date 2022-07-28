@@ -129,7 +129,7 @@
         </div>
 
         <div *ngIf="processos?.length > 0 && !loading">
-            <cdk-processo-list-item matRipple *ngFor="let processo of processos" [processo]="processo"
+            <cdk-processo-list-item matRipple *ngFor="let processo of processos; index as i; trackBy: processoTrackBy" [processo]="processo"
                                     [ngClass]="{'selected': (processo.id === currentProcessoId), 'deleted': (deletedIds?.indexOf(processo.id) > -1)}"
                                     (click)="selectProcesso(processo)"
                                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"

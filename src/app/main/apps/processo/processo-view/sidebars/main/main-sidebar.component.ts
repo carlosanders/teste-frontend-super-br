@@ -1232,12 +1232,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento, juntada: Juntada): void {
-        if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
-            juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
-            this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
-        } else {
-            this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
+        if (this.routerState.params.stepHandle !== 'capa' && this.routerState.params.stepHandle === 'latest') {
+            if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
+                juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
+                this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
+                return;
+            }
+        } else if (this.isCurrent(juntada.id)) {
+            this._store.dispatch(new fromStore.VisualizarJuntada(this.currentStep.subStep));
+            return;
         }
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
     }
 
     uploadAnexo(documento: Documento): void {

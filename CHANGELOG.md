@@ -1033,3 +1033,7 @@
 * Configuração de cronjobs no módulo de administração
 * Funcionalidade para agrupar a ordenação da lista de tarefas em datas, processos e espécies de tarefas
 * Funcionalidade para exibir no calendário de taredas não apenas os eventos, mas todas as tarefas
+* Correção em erro no painel de ofícios do usuário externo que limitava a quantidade máxima de ofícios na listagem a 100
+* Correção de erros de navegação e roteamento na aplicação quando ocorria vinculação ou desentranhamento de juntadas de processos na rota latest
+* Melhoria em telas onde são exibidas diversas minutas em cards, que passa a exibir também um índice numérico para diferenciar entre as minutas
+* Melhoria em código de rastreamento de alterações no DOM aplicado nas listagens de arquivista, ofícios, protocolo-externo e relatórios

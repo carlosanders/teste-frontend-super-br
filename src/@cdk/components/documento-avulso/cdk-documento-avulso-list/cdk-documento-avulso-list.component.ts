@@ -238,4 +238,8 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.gridFilter = gridFilter;
         this.loadPage();
     }
+
+    documentoAvulsoTrackBy(index, documentoAvulso: DocumentoAvulso): number {
+        return documentoAvulso.id;
+    }
 }

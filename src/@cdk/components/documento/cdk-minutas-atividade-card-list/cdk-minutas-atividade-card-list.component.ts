@@ -6,13 +6,14 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
@@ -349,5 +350,9 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     doRestaurarBloco(): void {
         this.selectedIds.forEach(documentoId => this.doRestaurar(documentoId));
         this.deselectAll();
+    }
+
+    documentoTrackBy(index, documento: Documento): number {
+        return documento.id;
     }
 }

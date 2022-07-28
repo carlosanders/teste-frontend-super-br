@@ -88,7 +88,7 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
         case DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO_SUCCESS: {
             return {
                 ...state,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
