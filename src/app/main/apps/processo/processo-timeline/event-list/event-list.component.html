@@ -1,0 +1,9 @@
+<ng-container *ngFor="let tarefaData of dateGroupEvent.tarefas |keyvalue">
+    <event-item
+        [dateEventGroup]="dateGroupEvent"
+        [tarefa]="tarefaData.value.tarefa"
+        [timelineEvents]="tarefaData.value.timelineEvents"
+        (click)="onClickEventItem(tarefaData.value.tarefa, tarefaData.value.timelineEvents)"
+    >
+    </event-item>
+</ng-container>

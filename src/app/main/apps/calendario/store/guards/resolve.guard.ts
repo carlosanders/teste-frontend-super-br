@@ -65,9 +65,11 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getTarefasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['typeHandle'] ||
+                if (!this.routerState.params['contextHandle'] ||
+                    !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
-                    (this.routerState.params['typeHandle'] +
+                    (this.routerState.params['contextHandle'] +
+                        '_' + this.routerState.params['typeHandle'] +
                         '_' + this.routerState.params['targetHandle']) !==
                     loaded.value) {
 
@@ -95,55 +97,71 @@ export class ResolveGuard implements CanActivate {
 
                     const routeTypeParam = of('typeHandle');
                     routeTypeParam.subscribe((typeParam) => {
+                        switch (this.routerState.params['contextHandle']) {
+                            case 'evento':
+                                if (this.routerState.params[typeParam] === 'coordenacao') {
+                                    tarefaFilter = {
+                                        'dataHoraConclusaoPrazo': 'isNull',
+                                        'especieTarefa.evento': 'eq:true'
+                                    };
+                                    const routeTargetParam = of('targetHandle');
+                                    routeTargetParam.subscribe((targetParam) => {
+                                        tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                                    });
+                                }
 
-                        if (this.routerState.params[typeParam] === 'coordenacao') {
-                            tarefaFilter = {
-                                'dataHoraConclusaoPrazo': 'isNull',
-                                'especieTarefa.evento': 'eq:true'
-                            };
-                            const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe((targetParam) => {
-                                tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-                            });
-                        }
+                                if (this.routerState.params[typeParam] === 'assessor') {
+                                    tarefaFilter = {
+                                        'dataHoraConclusaoPrazo': 'isNull',
+                                        'especieTarefa.evento': 'eq:true'
+                                    };
+                                    const routeTargetParam = of('targetHandle');
+                                    routeTargetParam.subscribe((targetParam) => {
+                                        tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                                    });
+                                }
 
-                        if (this.routerState.params[typeParam] === 'assessor') {
-                            tarefaFilter = {
-                                'dataHoraConclusaoPrazo': 'isNull',
-                                'especieTarefa.evento': 'eq:true'
-                            };
-                            const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe((targetParam) => {
-                                tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-                            });
-                        }
+                                if (this.routerState.params[typeParam] === 'minhas-tarefas') {
+                                    tarefaFilter = {
+                                        'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                        'dataHoraConclusaoPrazo': 'isNull',
+                                        'especieTarefa.evento': 'eq:true'
+                                    };
+                                }
 
-                        if (this.routerState.params[typeParam] === 'minhas-tarefas') {
-                            tarefaFilter = {
-                                'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                                'dataHoraConclusaoPrazo': 'isNull',
-                                'especieTarefa.evento': 'eq:true'
-                            };
-                        }
+                                if (this.routerState.params[typeParam] === 'compartilhadas') {
+                                    tarefaFilter = {
+                                        'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
+                                        'dataHoraConclusaoPrazo': 'isNull',
+                                        'especieTarefa.evento': 'eq:true'
+                                    };
+                                }
 
-                        if (this.routerState.params[typeParam] === 'compartilhadas') {
-                            tarefaFilter = {
-                                'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                                'dataHoraConclusaoPrazo': 'isNull',
-                                'especieTarefa.evento': 'eq:true'
-                            };
+                                params['filter'] = tarefaFilter;
+                                this._store.dispatch(new fromStore.GetTarefas(params));
+                                break
+                            case 'tarefa':
+                                tarefaFilter = {
+                                    'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                    'dataHoraConclusaoPrazo': 'isNull',
+                                    'especieTarefa.evento': 'eq:false'
+                                };
+
+                                params['filter'] = tarefaFilter;
+                                this._store.dispatch(new fromStore.GetTarefas(params));
+                                break;
+                            default:
+                                throw new Error('Contexto inválido');
                         }
                     });
-
-                    params['filter'] = tarefaFilter;
-
-                    this._store.dispatch(new fromStore.GetTarefas(params));
                 }
             }),
-            filter((loaded: any) => this.routerState.params['typeHandle'] &&
+            filter((loaded: any) => this.routerState.params['contextHandle'] &&
+                this.routerState.params['typeHandle'] &&
                 this.routerState.params['targetHandle'] &&
-                (this.routerState.params['typeHandle'] + '_' +
-                    this.routerState.params['targetHandle']) ===
+                (this.routerState.params['contextHandle'] +
+                    '_' + this.routerState.params['typeHandle'] +
+                    '_' + this.routerState.params['targetHandle']) ===
                 loaded.value),
             take(1)
         );

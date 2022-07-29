@@ -1,8 +1,357 @@
-<div class="actions">
+<div class="visualizar-processo">
+    <div class="page-layout left-sidebar">
 
-    <div *ngIf="(isSaving$ | async)" class="visualizar-processo">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
+        <!-- SIDEBAR -->
+        <cdk-sidebar class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
+            <visualizar-processo-main-sidebar [@animate]="{value:'*'}" [capa]="capa"
+                                       (scrolled)="onScroll()" (sorted)="onSort($event)" [name]="sidebarName"></visualizar-processo-main-sidebar>
+        </cdk-sidebar>
+        <!-- / SIDEBAR -->
+
+        <div class="center">
+            <!-- HEADER -->
+            <div class="header">
+
+                <button mat-icon-button class="sidebar-toggle mr-8 cdk-black-fg" fxHide.gt-md
+                        (click)="toggleSidebar(this.sidebarName)">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="juntada-navigation">
+                    <div>
+                        <button mat-mini-fab class="previous accent cdk-white-fg"
+                                *ngIf="!isBookmark"
+                                (click)="gotoPreviousStep()"
+                                [disabled]="disabledBack()">
+                            <mat-icon>chevron_left</mat-icon>
+                        </button>
+                    </div>
+
+                    <div>
+                        <span [matTooltip]="fileName" fxHide.lt-sm
+                              [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">
+                            {{ (fileName.length > 25) ?
+                            (fileName | slice:0:25)+'...' :
+                            (fileName)
+                            }}
+                        </span>
+                    </div>
+
+                    <div class="right">
+                        <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas (click)="doLoadAssinaturas()">
+                            <mat-icon class="mat-18">lock</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="print()" *ngIf="isHtml(fileName)">
+                            <mat-icon class="mat-18">print</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
+                            <mat-icon class="mat-18">zoom_out</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="zoomIn()"  *ngIf="isHtml(fileName)">
+                            <mat-icon class="mat-18">zoom_in</mat-icon>
+                        </button>
+                        <button mat-mini-fab class="next accent cdk-white-fg"
+                                *ngIf="!isBookmark"
+                                (click)="gotoNextStep()"
+                                [disabled]="disabledNext()">
+                            <mat-icon>chevron_right</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <ng-template #assinaturasTemplate class="cdk-visualizar-processo-assinatura-list">
+                    <cdk-assinatura-grid cdkPerfectScrollbar
+                                         (click)="$event.preventDefault()"
+                                         [loading]="(assinaturasIsLoading$ | async)"
+                                         [assinaturas]="(assinaturas$ | async)"
+                                         [total]="(assinaturasPagination$ | async)?.total"
+                                         [actions]="[]"
+                                         (reload)="doReloadAssinaturas($event)">
+                    </cdk-assinatura-grid>
+                </ng-template>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="content" *ngIf="!capa">
+
+                <div class="visualizar-processo-juntada">
+
+                    <div class="loading" *ngIf="loading">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <div class="sem-juntadas" *ngIf="!loading && index?.length === 0">
+                        <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
+                    </div>
+
+                    <div class="visualizar-processo-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
+                         [ngStyle]="{'display': loading === true || (loading === false && index?.length === 0) ? 'none' : 'flex'}">
+                        <iframe id="iframe-juntadas" name="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
+                                [src]="src">
+                        </iframe>
+                        <div class="pdf-viewer"
+                             [ngStyle]="{'display': loading || index?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
+                            <ng2-pdfjs-viewer #pdfViewer
+                                              [viewerId]="'visualizar-processo'"
+                                              [pdfSrc]="null"
+                                              [zoom]="zoomSetting"
+                                              [openFile]="false"
+                                              [viewBookmark]="false"
+                                              [download]="true"
+                                              (onDocumentLoad)="onPageRendered($event)"
+                                              (onPageChange)="onPagesLoaded('pageChange', $event)">
+                            </ng2-pdfjs-viewer>
+                        </div>
+                        <div class="div-about-blank" *ngIf="(loading === false) && src === false && !!this.srcMessage && !downloadUrl">
+                            <span class="no-juntadas-text">{{this.srcMessage}}</span>
+                            <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
+                                <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>
+                                <mat-card-content>
+                                    <span>{{this.currentJuntada?.descricao}}</span>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div class="div-about-blank" *ngIf="downloadUrl">
+                            <button mat-raised-button color="accent" (click)="doDownload()">
+                                DOWNLOAD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / CONTENT -->
+            <div class="processo-capa" *ngIf="capa">
+                <div class="header">
+                    <div class="title">{{processo?.especieProcesso?.nome}} ({{processo?.especieProcesso?.generoProcesso?.nome}})</div>
+                </div>
+
+                <div class="content" cdkPerfectScrollbar *ngIf="(processo !== null)">
+                    <mat-card class="card">
+                        <div class="linha">
+                            <div class="titulo">
+                                NUP:
+                            </div>
+                            <div class="valor">
+                                {{ processo.NUPFormatado }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Tipo:
+                            </div>
+                            <div class="valor">
+                                {{ (processo.unidadeArquivistica === 1) ? 'Processo' : ((processo.unidadeArquivistica === 2) ? 'Documento Avulso' : 'Dossiê') }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Workflow:
+                            </div>
+                            <div class="valor">
+                                {{estaNumProcessoWorkflow | titleCasePipe}}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Abertura:
+                            </div>
+                            <div class="valor">
+                                {{ processo.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy' }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Idade:
+                            </div>
+                            <div class="valor">
+                                <div>
+                                    {{ processo.modalidadeFase.valor | titleCasePipe }}
+                                </div>
+                                <div *ngIf="processo.modalidadeFase.valor !== 'CORRENTE'" style="color:red;" >
+                                    (Encerrado)
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <div class="linha">
+                            <div class="titulo">
+                                Classificação:
+                            </div>
+                            <div class="valor" [matTooltip]="processo.classificacao.nomeCompleto">
+                                {{ processo.classificacao.codigo }} - {{ processo.classificacao.nome | titleCasePipe }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Procedência:
+                            </div>
+                            <div class="valor">
+                                {{ processo.procedencia.nome | titleCasePipe }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Meio:
+                            </div>
+                            <div class="valor">
+                                {{ processo.modalidadeMeio.descricao | titleCasePipe }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Valor:
+                            </div>
+                            <div class="valor">
+                                {{ processo?.valorEconomico | currency:'BRL':'symbol' }}
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <div class="linha">
+                            <div class="titulo">
+                                Título:
+                            </div>
+                            <div class="valor">
+                                {{ processo.titulo |titleCasePipe }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Descrição:
+                            </div>
+                            <div class="valor">
+                                {{ processo.descricao | titleCasePipe }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Outro Número:
+                            </div>
+                            <div class="valor">
+                                {{ processo?.outroNumero }}
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <div class="linha">
+                            <div class="titulo">
+                                Setor Atual:
+                            </div>
+                            <div class="valor">
+                                {{ processo.setorAtual.nome | titleCasePipe }} - {{ processo.setorAtual.unidade.sigla }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Localizador:
+                            </div>
+                            <div class="valor">
+                                {{ processo.localizador?.nome | titleCasePipe }}
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <div class="linha">
+                            <mat-card-subtitle>Informações Gerenciais</mat-card-subtitle>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Id:
+                            </div>
+                            <div class="valor">
+                                {{ processo.id }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Chave Acesso:
+                            </div>
+                            <div class="valor">
+                                {{ processo.chaveAcesso }}
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="titulo">
+                                Consulta Pública ao Cidadão:
+                            </div>
+                            <div class="valor" *ngIf="processo.visibilidadeExterna">
+                                Habilitado
+                            </div>
+                            <div class="valor" *ngIf="!processo.visibilidadeExterna">
+                                Não habilitado
+                            </div>
+                        </div>
+                        <div class="linha" *ngIf="processo.criadoPor">
+                            <div class="titulo">
+                                Criado Por:
+                            </div>
+                            <div class="valor">
+                                {{ processo.criadoPor?.nome | titleCasePipe}}
+                            </div>
+                        </div>
+                        <div class="linha" *ngIf="processo.atualizadoPor">
+                            <div class="titulo">
+                                Atualizador Por:
+                            </div>
+                            <div class="valor">
+                                {{ processo.atualizadoPor?.nome | titleCasePipe }}
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <mat-card-subtitle>Processos Vinculados</mat-card-subtitle>
+                        <cdk-vinculacao-processo-tree-list
+                            [vinculacaoProcesso]="(vinculacoesProcessos$ | async)"
+                            [isLoading]="(loadingVinculacoesProcessos$ | async)"
+                            [actions]="['view']"
+                            [disableExpand]="true"
+                            [currentProcessoId]="processo?.id"
+                            [mode]="'editor'"
+                            (reload)="reloadVinculacoesProcessos($event)"
+                            (visualizarProcessoNovaAba)="visualizarProcessoNovaAba($event)">
+                        </cdk-vinculacao-processo-tree-list>
+                    </mat-card>
+
+                    <mat-card>
+                        <mat-card-subtitle>Interessados</mat-card-subtitle>
+                        <cdk-interessado-grid
+                            [loading]="(loadingInteressados$ | async)"
+                            (reload)="reloadInteressados($event)"
+                            [interessados]="interessados"
+                            [displayedColumns]="['id', 'pessoa.numeroDocumentoPrincipal', 'pessoa.nome', 'modalidadeInteressado.valor']"
+                            [total]="(paginationInteressados$ | async)?.total">
+                        </cdk-interessado-grid>
+                    </mat-card>
+
+                    <mat-card>
+                        <mat-card-subtitle>Assuntos</mat-card-subtitle>
+                        <cdk-assunto-grid
+                            [loading]="(loadingAssuntos$ | async)"
+                            (reload)="reloadAssuntos($event)"
+                            [assuntos]="assuntos"
+                            [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
+                            [total]="(paginationAssuntos$ | async)?.total">
+                        </cdk-assunto-grid>
+                    </mat-card>
+                    <mat-card>
+                        <mat-card-subtitle>Juntadas</mat-card-subtitle>
+                        <cdk-juntada-grid
+                            [loading]="(loadingJuntadasCapa$ | async)"
+                            [juntadas]="(juntadasCapa$ | async)"
+                            [total]="(paginationJuntadasCapa$ | async)?.total"
+                            [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
+                            [actions]="['view']"
+                            (view)="abrirJuntadaNovaAba($event)"
+                            (reload)="reloadJuntadas($event)">
+                        </cdk-juntada-grid>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

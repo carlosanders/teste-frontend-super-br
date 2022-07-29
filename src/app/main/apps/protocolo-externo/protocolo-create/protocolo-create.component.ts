@@ -332,6 +332,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
                     const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
+                        documento: result.documento,
                         processoId: this.processo.id,
                         operacaoId: operacaoId,
                         loteId: lote

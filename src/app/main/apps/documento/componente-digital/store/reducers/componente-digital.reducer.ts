@@ -3,8 +3,8 @@ import * as ComponenteDigitalActions from '../actions/componente-digital.actions
 export interface ComponenteDigitalState {
     loaded: any;
     loading: boolean;
-    componenteDigitalId: string;
-    saving: boolean;
+    componenteDigitalId: number;
+    saving: number;
     autosaving: boolean;
     errors: any;
 }
@@ -13,7 +13,7 @@ export const componenteDigitalInitialState: ComponenteDigitalState = {
     loaded: false,
     loading: false,
     componenteDigitalId: null,
-    saving: false,
+    saving: null,
     autosaving: false,
     errors: false
 };
@@ -28,7 +28,7 @@ export const componenteDigitalReducer = (
                 loaded: false,
                 loading: false,
                 componenteDigitalId: null,
-                saving: false,
+                saving: null,
                 autosaving: false,
                 errors: false
             };
@@ -39,7 +39,7 @@ export const componenteDigitalReducer = (
                 loaded: false,
                 componenteDigitalId: null,
                 loading: true,
-                saving: false,
+                saving: null,
                 autosaving: false,
                 errors: false
             };
@@ -50,8 +50,9 @@ export const componenteDigitalReducer = (
                 ...state,
                 componenteDigitalId: action.payload.componenteDigitalId,
                 loading: false,
-                saving: false,
+                saving: null,
                 autosaving: false,
+                loaded: action.payload.loaded,
                 errors: false
             };
         }
@@ -65,10 +66,11 @@ export const componenteDigitalReducer = (
 
         case ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL_FAILED: {
             return {
+                ...state,
                 loaded: false,
                 componenteDigitalId: null,
                 loading: false,
-                saving: false,
+                saving: null,
                 autosaving: false,
                 errors: addError(action.payload)
             };
@@ -77,7 +79,7 @@ export const componenteDigitalReducer = (
         case ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL: {
             return {
                 ...state,
-                saving: true,
+                saving: action.payload.componenteDigital.id,
                 errors: false
             };
         }
@@ -85,7 +87,7 @@ export const componenteDigitalReducer = (
         case ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: null,
                 errors: false
             };
         }
@@ -93,7 +95,7 @@ export const componenteDigitalReducer = (
         case ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_FAILED: {
             return {
                 ...state,
-                saving: false,
+                saving: null,
                 errors: addError(action.payload)
             };
         }

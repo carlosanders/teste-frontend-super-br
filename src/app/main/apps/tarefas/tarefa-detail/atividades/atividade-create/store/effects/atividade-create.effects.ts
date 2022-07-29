@@ -78,7 +78,7 @@ export class AtividadeCreateEffect {
             } else {
                 // Não foi encerrada a tarefa, encaminha pra visão do processo
                 // tslint:disable-next-line:max-line-length
-                this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/processo/' + action.payload.tarefa.processo.id + '/visualizar/default']).then();
+                this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/processo/' + action.payload.tarefa.processo.id + '/visualizar/latest']).then();
             }
         })
     ), {dispatch: false});

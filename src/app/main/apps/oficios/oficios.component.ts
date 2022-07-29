@@ -282,7 +282,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit,
         };
 
         this._store.dispatch(new fromStore.GetDocumentosAvulso(nparams));

@@ -18,7 +18,7 @@ import * as fromStore from 'app/main/apps/documento/store';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetJuntada,
@@ -154,17 +154,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
-        if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
-            // Entrou na rota de visualizar processo
-            this.matTabGroup.selectedIndex = 1;
-            if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
-                const steps = this.routerState.params['stepHandle'].split('-');
-                this._store.dispatch(new SetCurrentStep({
-                    step: parseInt(steps[0], 10),
-                    subStep: parseInt(steps[1], 10)
-                }));
-            }
-        }
     }
 
     /**
@@ -189,7 +178,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
-        if (this.routerState.params['stepHandle']) {
+        if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: parseInt(steps[0], 10),
@@ -236,7 +225,11 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this._router.navigate([this._backUrl || url]).then();
+        this._router.navigate([this._backUrl || url]).then(() => {
+            if (url.indexOf('latest') !== -1) {
+                this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(this.routerState.params['processoHandle']));
+            }
+        });
     }
 
     public destroyEditor(): void {
@@ -256,7 +249,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     gotoNextStep(): void {
         if (this.currentComponenteDigital.editavel) {
-            this.podeNavegarDoEditor().subscribe((result) => {
+            this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                 if (result) {
                     let nextComponenteDigital = null;
                     this.documento.componentesDigitais.forEach((componenteDigital) => {
@@ -295,7 +288,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     gotoPreviousStep(): void {
         if (this.currentComponenteDigital.editavel) {
-            this.podeNavegarDoEditor().subscribe((result) => {
+            this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                 if (result) {
                     let prevComponenteDigital = null;
                     this.documento.componentesDigitais.forEach((componenteDigital) => {
@@ -352,30 +345,18 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         const indice = clickedTab.index;
         if (this.currentIndice !== indice) {
             if (indice === 1) {
-                this.podeNavegarDoEditor().subscribe((result) => {
+                this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
                     if (result) {
                         this._componenteDigitalService.saving.next(false);
                         this.currentIndice = indice;
                         this.modoProcesso = 1;
-                        let stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-                        if (stepHandle === 'capa') {
-                            stepHandle += '/mostrar';
-                        }
-                        const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
-                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id;
                         const sidebar = 'empty';
                         this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                             {
                                 relativeTo: this._activatedRoute
                             })
-                            .then(() => {
-                                if (steps) {
-                                    this._store.dispatch(new SetCurrentStep({
-                                        step: parseInt(steps[0], 10),
-                                        subStep: parseInt(steps[1], 10)
-                                    }));
-                                }
-                            });
+                            .then(() => {});
                     } else {
                         this.matTabGroup.selectedIndex = 0;
                     }

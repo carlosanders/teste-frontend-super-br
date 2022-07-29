@@ -992,3 +992,48 @@
 * Widget com o gráfico da distribuição de tarefas das 4 ultimas semanas
 * Correção para exibir as setas de alteração de ano em alguns datepickers
 * Ajuste visual nos subsmenus do processo
+
+1.9.0
+
+* Refatoramento completo do componente de visualização de processo, visando reduzir a complexidade do código e melhorar o desempenho para processos grandes
+* Eliminada a dependência de um index montado no backend
+* Volta do uso de requisição ao back que faz o download do componente digital mais recente de um processo
+* Alterada rota padrão do visualizar processo de 'default' para 'latest'
+* Correção de erro enviando requisições repetidas ao GetVolumes para o backend
+* Corrigido comportamento incorreto navegando pelas setas por juntadas desentranhadas
+* Removendo juntadas vinculadas do estado da aplicação corretamente ao vincular juntadas
+* Trazendo de volta ao estado da aplicação a juntada desvinculada
+* Implementada mensagem de erro em tela quando o mesmo fosse retornado pelo guarda de rota
+* Alterações e correções de bug em componente de anexar por cópia
+* Removidas dependências de index montado pelo backend em componente de anexar cópia
+* Correção de erro em CSS quando aberto componente de anexar por cópia sem que o processo-view tenha entrado no estado da aplicação
+* Implementado componente simplificado de visualização de processo dentro do editor de minutas
+* Implementar visualização de bookmarks no componente de visualização simplificada de processo
+* Implementar visualização de capa do processo no componente de visualização simplificada de processo
+* Alterado componente de bookmarks para não alterar a url da aplicação
+* Correção de bug em capa de processo no método que abria juntadas em nova aba
+* Implementado corretamente acesso negado em anexar-copia e visualizar processo simplificado
+* Ocultando o ícone de criação de bookmark ao visualizar um bookmark no visualizar processo
+* Correção de chamada duplicada para getTarefas no backend ao abrir detalhamento de uma tarefa
+* Correção de erro impossibilitando de arrastar e soltar para vincular juntadas de processo em algumas rotas
+* Correção em uma das causas de loop infinito ao alternar entre minutas de tarefas diferentes
+* Correção de erro ao pesquisar processo na barra superior enquanto visualiza o detalhamento de outro processo
+* Correção de bug que impedia processo de ser exibido corretamente ao fechar modal de documento
+* Correção de erro de console do angular que causava comportamentos indesejados na aplicação
+* Correção de erro ao criar minuta com base em modelo em uma única tarefa, e posteriormente tentar criar minuta com base em modelo em múltiplas tarefas
+* Melhoria para aumentar desempenho levemente da listagem de tarefas
+* Melhoria na listagem de tarefas visando um aumento de desempenho do lado do frontend, especialmente quando há várias tarefas na lista
+* Correção de erro no downloadLatest para usuários externos
+* Correção de erro de loop infinito de downloadLatest ao criar minuta baseada em modelo dentro de tarefa cujo processo não tem juntadas
+* Correção de erro ao trocar entre diversas minutas e, posteriormente, tomar alguma ação sobre o componente digital mais recente
+* Correção de bug de barra de rolagem se manter no final da listagem de tarefas ao trocar de pasta/gênero/tipo de tarefa
+* Correção de bug no formulário da tarefa para permitir evento com inicio e fim no mesmo dia
+* Nova funcionalidade para permitir ao usuário externo conveniado juntar uma petição em um NUP existente
+* Nova visão do processo na forma de fluxo de trabalho
+* Configuração de cronjobs no módulo de administração
+* Funcionalidade para agrupar a ordenação da lista de tarefas em datas, processos e espécies de tarefas
+* Funcionalidade para exibir no calendário de taredas não apenas os eventos, mas todas as tarefas
+* Correção em erro no painel de ofícios do usuário externo que limitava a quantidade máxima de ofícios na listagem a 100
+* Correção de erros de navegação e roteamento na aplicação quando ocorria vinculação ou desentranhamento de juntadas de processos na rota latest
+* Melhoria em telas onde são exibidas diversas minutas em cards, que passa a exibir também um índice numérico para diferenciar entre as minutas
+* Melhoria em código de rastreamento de alterações no DOM aplicado nas listagens de arquivista, ofícios, protocolo-externo e relatórios

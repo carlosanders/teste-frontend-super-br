@@ -46,7 +46,7 @@ import * as moment from 'moment';
 import * as AssinaturaStore from 'app/store';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {GetJuntadaIndex, getProcesso} from '../../store';
+import {getProcesso} from '../../store';
 import {configuracaoNup} from '@cdk/normalizr';
 import {CdkUtils} from '@cdk/utils';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -727,7 +727,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     onCompleteJuntada(): void {
-        this._store.dispatch(new GetJuntadaIndex({processoId: this.processo.id}));
         this._store.dispatch(new fromStore.GetJuntadas(this.juntadasPagination));
     }
 

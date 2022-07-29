@@ -46,6 +46,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     selected = true;
 
     @Input()
+    indice: number;
+
+    @Input()
     deleting = false;
 
     @Input()

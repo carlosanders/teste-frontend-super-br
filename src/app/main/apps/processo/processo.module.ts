@@ -17,9 +17,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {StatusBarramentoService} from '../../../../@cdk/services/status-barramento';
-import {MatCardModule} from "@angular/material/card";
-import {TarefaService} from "../../../../@cdk/services/tarefa.service";
+import {StatusBarramentoService} from '@cdk/services/status-barramento';
+import {MatCardModule} from '@angular/material/card';
+import {TarefaService} from '@cdk/services/tarefa.service';
 
 const routes: Routes = [
     {
@@ -77,6 +77,11 @@ const routes: Routes = [
             {
                 path: 'dossies',
                 loadChildren: () => import('./processo-solicitar-dossies/processo-solicitar-dossies.module').then(m => m.ProcessoSolicitarDossiesModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'timeline',
+                loadChildren: () => import('./processo-timeline/processo-timeline.module').then(m => m.ProcessoTimelineModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
         ]

@@ -4,16 +4,6 @@ export const RELOAD_DOCUMENTO = '[PROCESSO VIEW] RELOAD DOCUMENTO';
 export const RELOAD_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] RELOAD DOCUMENTO SUCCESS';
 export const RELOAD_DOCUMENTO_FAILED = '[PROCESSO VIEW] RELOAD DOCUMENTO FAILED';
 
-export const GET_DOCUMENTOS = '[PROCESSO VIEW] GET DOCUMENTOS';
-export const GET_DOCUMENTOS_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS SUCCESS';
-export const GET_DOCUMENTOS_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS FAILED';
-
-export const GET_DOCUMENTOS_EXCLUIDOS = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS';
-export const GET_DOCUMENTOS_EXCLUIDOS_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS SUCCESS';
-export const GET_DOCUMENTOS_EXCLUIDOS_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS FAILED';
-
-export const UNLOAD_DOCUMENTOS = '[PROCESSO VIEW] UNLOAD DOCUMENTOS';
-
 export const DELETE_DOCUMENTO = '[PROCESSO VIEW] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[PROCESSO VIEW] DELETE DOCUMENTO FAILED';
@@ -75,18 +65,6 @@ export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] REMOVE VINCU
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO FAILED';
 
 /**
- * Unload Documentos
- */
-export class UnloadDocumentos implements Action
-{
-    readonly type = UNLOAD_DOCUMENTOS;
-
-    constructor()
-    {
-    }
-}
-
-/**
  * Reload Documento
  */
 export class ReloadDocumento implements Action
@@ -118,78 +96,6 @@ export class ReloadDocumentoFailed implements Action
     readonly type = RELOAD_DOCUMENTO_FAILED;
 
     constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Get Documentos
- */
-export class GetDocumentos implements Action
-{
-    readonly type = GET_DOCUMENTOS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Get Documentos Success
- */
-export class GetDocumentosSuccess implements Action
-{
-    readonly type = GET_DOCUMENTOS_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Get Documentos Failed
- */
-export class GetDocumentosFailed implements Action
-{
-    readonly type = GET_DOCUMENTOS_FAILED;
-
-    constructor(public payload: string)
-    {
-    }
-}
-
-/**
- * Get Documentos Excluídos
- */
-export class GetDocumentosExcluidos implements Action
-{
-    readonly type = GET_DOCUMENTOS_EXCLUIDOS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Get Documentos Excluídos Success
- */
-export class GetDocumentosExcluidosSuccess implements Action
-{
-    readonly type = GET_DOCUMENTOS_EXCLUIDOS_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Get Documentos Excluídos Failed
- */
-export class GetDocumentosExcluidosFailed implements Action
-{
-    readonly type = GET_DOCUMENTOS_EXCLUIDOS_FAILED;
-
-    constructor(public payload: string)
     {
     }
 }
@@ -696,12 +602,6 @@ export type ProcessoViewDocumentosActionsAll
     = ReloadDocumento
     | ReloadDocumentoSuccess
     | ReloadDocumentoFailed
-    | GetDocumentos
-    | GetDocumentosSuccess
-    | GetDocumentosFailed
-    | GetDocumentosExcluidos
-    | GetDocumentosExcluidosSuccess
-    | GetDocumentosExcluidosFailed
     | ClickedDocumento
     | CompleteDocumento
     | AssinaDocumento
@@ -743,7 +643,6 @@ export type ProcessoViewDocumentosActionsAll
     | ConverteToHtml
     | ConverteToHtmlSucess
     | ConverteToHtmlFailed
-    | UnloadDocumentos
     | RemoveVinculacaoDocumento
     | RemoveVinculacaoDocumentoSuccess
     | RemoveVinculacaoDocumentoFailed;

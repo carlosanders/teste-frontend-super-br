@@ -1,0 +1,14 @@
+<div class="content">
+    <span class="title">
+        Tarefa  {{tarefa.id}}
+    </span>
+    <div class="details">
+        <span>{{tarefa.especieTarefa?.nome | titleCasePipe}} {{tarefa.vinculacaoWorkflow ? ' (Tarefa de Workflow)' : ''}}</span>
+        <span> {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})</span>
+        <span> Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}</span>
+        <span>
+            Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+            até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+        </span>
+    </div>
+</div>

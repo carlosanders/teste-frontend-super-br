@@ -37,10 +37,10 @@ import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
-import {GetJuntadaIndex, getProcesso, getProcessoLoaded} from '../../../store';
+import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
+import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {
@@ -192,8 +192,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     minutasSaving$: Observable<boolean>;
 
-    minutasOpen = true;
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
@@ -238,6 +236,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark$: any;
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
+    isBookmark$: Observable<boolean>;
+    isBookmark = false;
     isJuntadas = true;
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -317,14 +317,21 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
+        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
             this.isJuntadas = true;
-            SharedBookmarkService.modeBookmark = false;
             this._changeDetectorRef.markForCheck();
+        });
+
+        this.isBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isBookmark) => {
+            this.isBookmark = isBookmark;
+            this.isJuntadas = !isBookmark;
         });
 
         this.tipoDocumentoPagination = new Pagination();
@@ -357,6 +364,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                                     componentesDigitaisIds.push(dvcd.id);
                                 })
                             })
+                        }
+                    } else {
+                        if (juntada.documento?.componentesDigitais) {
+                            componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
                         }
                     }
                     const tmpJuntada = {
@@ -463,16 +474,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.errorsDocumento$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((errors) => {
-                if (errors && errors.status && errors.status === 422) {
-                    const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
-                    this._snackBar.open(error, null, {
-                        duration: 5000,
-                        horizontalPosition: this.horizontalPosition,
-                        verticalPosition: this.verticalPosition,
-                        panelClass: ['danger-snackbar']
-                    });
-                }
-            });
+            if (errors && errors.status && errors.status === 422) {
+                const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+                this._snackBar.open(error, null, {
+                    duration: 5000,
+                    horizontalPosition: this.horizontalPosition,
+                    verticalPosition: this.verticalPosition,
+                    panelClass: ['danger-snackbar']
+                });
+            }
+        });
 
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -690,55 +701,42 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             // in the animation direction registered
             this._changeDetectorRef.detectChanges();
 
-            if (this.routerState.url.indexOf('/documento/') !== -1) {
-                const arrPrimary = [];
-                arrPrimary.push('visualizar-processo');
-                arrPrimary.push(this.routerState.params.processoHandle);
-                if (this.routerState.params.chaveAcessoHandle) {
-                    arrPrimary.push('chave');
-                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                }
-                arrPrimary.push('visualizar');
-                arrPrimary.push(stepHandle);
-                // Navegação do processo deve ocorrer por outlet
-                this._router.navigate(
-                    [
-                        this.routerState.url.split('/documento/')[0] + '/documento/' +
-                        this.routerState.params.documentoHandle,
-                        {
-                            outlets: {
-                                primary: arrPrimary
-                            }
-                        }
-                    ],
-                    {
-                        relativeTo: this._activatedRoute.parent
-                    }
-                ).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-                    this.fecharSidebar();
-                });
-            } else {
-                let url = this.routerState.url.split('/processo/')[0] +
-                    '/processo/' +
-                    this.routerState.params.processoHandle;
-                if (this.routerState.params.chaveAcessoHandle) {
-                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
-                }
-                url += '/visualizar/' + stepHandle;
-                this._router.navigateByUrl(url).then(() => {
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
-                    this.fecharSidebar();
-                });
+            let url = this.routerState.url.split('/processo/')[0] +
+                '/processo/' +
+                this.routerState.params.processoHandle;
+            if (this.routerState.params.chaveAcessoHandle) {
+                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
             }
+            url += '/visualizar/' + stepHandle;
+            this._router.navigateByUrl(url).then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+                this.fecharSidebar();
+            });
         }
     }
 
     compareAtivo(juntadas, index): boolean {
         let houveMudanca = false;
         juntadas.forEach((juntada) => {
-            if (juntada.ativo !== index.find((index) => index.id === juntada.id)?.ativo) {
+            const indexEl = index.find((index) => index.id === juntada.id);
+            if (juntada.ativo !== indexEl?.ativo) {
                 houveMudanca = true;
+            }
+            if (!houveMudanca) {
+                let componentesDigitaisIds = [];
+                if (juntada.documento?.componentesDigitais) {
+                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(cd => cd.id);
+                }
+                if (juntada.documento?.vinculacoesDocumentos) {
+                    juntada.documento.vinculacoesDocumentos.forEach((vd) => {
+                        vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                            componentesDigitaisIds.push(dvcd.id);
+                        })
+                    })
+                }
+                if (componentesDigitaisIds !== indexEl.componentesDigitais) {
+                    houveMudanca = true;
+                }
             }
         });
         return houveMudanca;
@@ -761,16 +759,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        this._store.dispatch(new GetJuntadaIndex({
-            processoId: this.processo.id,
-            reload: true
-        }));
-    }
-
-    reloadDocumentos(): void {
-        this._store.dispatch(new fromStore.UnloadDocumentos());
-
-        this._store.dispatch(new fromStore.GetDocumentos());
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        this._store.dispatch(new fromStore.ReloadJuntadas());
     }
 
     offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => ({x: 0, y: 0});
@@ -846,15 +836,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             ]).then();
         }
         this.placeholderId = null;
-    }
-
-    onOpenMinutas(): void {
-        this.minutasOpen = true;
-    }
-
-    onCloseMinutas(): void {
-        this.minutasOpen = false;
-        this.reloadDocumentos();
     }
 
     checkModelo(): void {
@@ -1207,13 +1188,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         );
     }
 
-    onComplete(): void {
-        if (this.routerState.params['tarefaHandle']) {
-            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
-        }
-        this._store.dispatch(new fromStore.GetDocumentos());
-    }
-
     goToCapaProcesso(): void {
         this._store.dispatch(new fromStore.GetCapaProcesso());
         this.fecharSidebar();
@@ -1234,14 +1208,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             redo: null,
             undo: null
         }));
-    }
-
-    minutasExcluidas(): void {
-        this._store.dispatch(new fromStore.GetDocumentosExcluidos());
-    }
-
-    doSairLixeiraMinutas(): void {
-        this._store.dispatch(new fromStore.GetDocumentos());
     }
 
     expandirTela(valor: boolean): void {
@@ -1265,13 +1231,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
 
-    doJuntadaOutraAba(documento: Documento, juntada:Juntada): void {
-        if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
-            juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
+    doJuntadaOutraAba(documento: Documento, juntada: Juntada): void {
+        if (this.routerState.params.stepHandle !== 'capa' && this.routerState.params.stepHandle === 'latest') {
+            if ((documento?.vinculacoesDocumentos.length > 0 || documento?.componentesDigitais.length > 1) &&
+                juntada.id === Number(this.routerState.params.stepHandle.split('-')[0])) {
                 this._store.dispatch(new fromStore.VisualizarJuntada(this.routerState.params.stepHandle.split('-')[1]));
-        } else {
-            this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
+                return;
+            }
+        } else if (this.isCurrent(juntada.id)) {
+            this._store.dispatch(new fromStore.VisualizarJuntada(this.currentStep.subStep));
+            return;
         }
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento?.componentesDigitais[0].id));
     }
 
     uploadAnexo(documento: Documento): void {
@@ -1480,12 +1451,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     abreJuntadas(): void {
-        this.isJuntadas = true;
-        const stepHandle = this.routerState.params['stepHandle'];
-        this._store.dispatch(new fromStore.SetCurrentStep({
-            step: parseInt(stepHandle.split('-')[0], 10),
-            subStep: parseInt(stepHandle.split('-')[1], 10)
-        }));
+        SharedBookmarkService.pagina = null;
+        this._store.dispatch(new fromStore.SetCurrentStep(this.currentStep));
     }
 
     reloadBookmarks(): void {
@@ -1495,8 +1462,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     getBookmark(): void {
         this.isJuntadas = false;
         this.bookMarkselected = 0;
-        SharedBookmarkService.modeBookmark = true;
-
         this._store.dispatch(new fromStore.ReloadBookmarks());
     }
 
@@ -1504,16 +1469,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookMarkselected = bookmark.id;
         this.bookMarkJuntadaselected = key;
         SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
-        SharedBookmarkService.modeBookmark = true;
-
-        this._router.navigate([
-                this.routerState.url.split('/processo/')[0] +
-                '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + bookmark.juntada.id + '-' + bookmark.componenteDigital.id
-            ], {queryParams: {pagina: pagina}}
-        ).then(() => {
-            this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
-        });
+        SharedBookmarkService.pagina = pagina;
+        this._store.dispatch(new fromStore.SetBinaryView({
+            juntadaId: bookmark.juntada.id,
+            componenteDigitalId: bookmark.componenteDigital.id,
+            pagina: pagina
+        }));
     }
 
     deleteBookmark(bookmarkId: any): void {
@@ -1554,8 +1515,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         document.execCommand('copy');
     }
 
-    isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
+    isCurrent(juntadaId: number, componenteDigitalId: any = null): boolean {
         if (!componenteDigitalId) {
+            if (this.currentStep.step === 0) {
+                // latest ou inicial
+                const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+                return juntadaLatest && !this.capa && juntadaId === juntadaLatest.id;
+            }
             return !this.capa && juntadaId === this.currentStep.step;
         }
         return !this.capa && !!this.index && this.currentStep.step === juntadaId && this.currentStep.subStep === componenteDigitalId;
@@ -1564,7 +1530,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     isCompleted(juntadaId: number): boolean {
         if (this.index) {
             const juntada = this.index?.find(junt => junt.id === juntadaId);
-            const currentJuntada = this.index?.find(junt => junt.id === this.currentStep.step);
+            let currentJuntada;
+            if (this.currentStep.step === 0) {
+                // latest ou inicial
+                currentJuntada = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+            } else {
+                currentJuntada = this.index?.find(junt => junt.id === this.currentStep.step);
+            }
             if (this.sort === 'ASC') {
                 return !this.capa && juntada?.numeracaoSequencial < currentJuntada?.numeracaoSequencial;
             }

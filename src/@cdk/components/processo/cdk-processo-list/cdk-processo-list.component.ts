@@ -289,4 +289,8 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     doLoadInteressados(processoId): void {
         this.loadInteressados.emit(processoId);
     }
+
+    processoTrackBy(index, processo: Processo): number {
+        return processo.id;
+    }
 }

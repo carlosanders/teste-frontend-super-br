@@ -3,12 +3,14 @@
 </h1>
 
 <form name="form" [formGroup]="form" (submit)="submit()">
-    <div mat-dialog-content fxLayout="column">
-        <cdk-acao-list
+    <div mat-dialog-content fxLayout="column" cdkPerfectScrollbar>
+        <cdk-acao-grid #acaoGridComponent
             [loading]="(isLoading$ | async)"
             [acoes]="(acoesEtiquetaList$ | async)"
-            [actions]="[]">
-        </cdk-acao-list>
+            [displayedColumns]="getDisplayedColumns()"
+            [actions]="[]"
+            (changeSelectedIds)="changeSelectedIds($event)">
+        </cdk-acao-grid>
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -18,6 +20,7 @@
         <ng-container *ngIf="(isSaving$|async) !== true">
             <button mat-button mat-dialog-close (click)="doCloseModal()">FECHAR</button>
             <button *ngIf="vinculacaoEtiqueta.podeAlterarConteudo" (click)="submit()"
+                    [disabled]="form.invalid || (isSaving$|async) === true || (isLoading$ | async) === true"
                     mat-raised-button color="accent">EXECUTAR</button>
         </ng-container>
     </div>

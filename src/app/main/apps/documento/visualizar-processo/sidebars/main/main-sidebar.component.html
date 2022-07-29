@@ -1,0 +1,417 @@
+<!-- SIDEBAR HEADER -->
+<div class="header p-4">
+    <div class="actions">
+        <ng-container *ngIf="this.isJuntadas">
+            <button class="refresh" mat-icon-button
+                    (click)="reloadJuntadas()"
+                    aria-label="recarregar juntadas"
+                    matTooltip="Recarregar Juntadas">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter"
+                    [ngClass]="{'warn': (listFilter | json) !== '{}'}" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+                <mat-icon *ngIf="sort === 'DESC'">sort</mat-icon>
+                <mat-icon class="sort-asc" *ngIf="sort === 'ASC'">sort</mat-icon>
+            </button>
+            <mat-menu fxHide #selectMenu="matMenu">
+                <button mat-menu-item class="sort-menu-button"
+                        (click)="doSort('DESC')">
+                    <mat-icon>{{sort === 'DESC' ? 'check' : ''}}</mat-icon>
+                    <span>Decrescente</span>
+                </button>
+                <button mat-menu-item class="sort-menu-button"
+                        (click)="doSort('ASC')">
+                    <mat-icon>{{sort === 'ASC' ? 'check' : ''}}</mat-icon>
+                    <span>Crescente</span>
+                </button>
+            </mat-menu>
+
+            <button mat-icon-button
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')"
+                    (click)="getBookmark()"
+                    aria-label="abrir marcadores de página"
+                    matTooltip="Marcadores de páginas">
+                <mat-icon>bookmarks</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="!this.isJuntadas">
+            <button class="refresh" mat-icon-button
+                    (click)="reloadBookmarks()"
+                    aria-label="recarregar marcadores"
+                    matTooltip="Recarregar marcadores">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="doCopyBookmark(bookmarksBySequencial)"
+                    aria-label="copiar Bookmark"
+                    matTooltip="Copiar Bookmark para o clipboard">
+                <mat-icon>file_copy</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="abreJuntadas()"
+                    aria-label="abrir juntadas"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </ng-container>
+
+        <div class="toolbar-separator" *ngIf="pagination.total"></div>
+
+        <div *ngIf="this.isJuntadas">
+            {{juntadas?.length}}/{{pagination.total}}
+        </div>
+
+        <div *ngIf="!this.isJuntadas">
+            {{bookmarks?.length}}/{{paginationBookmark.total}}
+        </div>
+
+    </div>
+
+    <div class="filters" *ngIf="showListFilter">
+        <h3>Filtros</h3>
+
+        <form class="p-8 mb-8" name="form" [formGroup]="form">
+
+            <div class="grupo">
+                <div class="volumes-filter">
+                    <mat-label>Volume:</mat-label>
+                    <div class="volumes">
+                        <div *ngFor="let volume of (volumes$ | async)">
+                            <div class="index-volume" [ngClass]="{'current': volume.id === selectedVolume}"
+                                 (click)="filtraVolume(volume)">
+                                <span>{{volume.numeracaoSequencial}}</span>
+                            </div>
+                        </div>
+                        <div class="loading" *ngIf="loadingVolumes$ | async">
+                            <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
+                        </div>
+                        <div class="index-volume" (click)="paginaVolumes()"
+                             *ngIf="this.volumes && this.volumes?.length < this.volumesPagination.total">
+                            <span>+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-form-field>
+                    <mat-label>Numeração Sequencial</mat-label>
+                    <input matInput #numeracaoSequencial
+                           name="numeracaoSequencial"
+                           formControlName="numeracaoSequencial">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Descrição</mat-label>
+                    <input matInput #descricao
+                           name="descricao"
+                           formControlName="descricao">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Tipo de Documento"
+                               formControlName="tipoDocumento"
+                               [matAutocomplete]="tipoDocumento.autocomplete">
+                    </div>
+                    <cdk-tipo-documento-autocomplete
+                        #tipoDocumento="tipoDocumentoAutocomplete"
+                        [control]="form.get('tipoDocumento')">
+                    </cdk-tipo-documento-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Juntador Por"
+                           formControlName="criadoPor"
+                           [matAutocomplete]="usuarioCriadoPor.autocomplete">
+                    <cdk-usuario-autocomplete
+                        #usuarioCriadoPor="usuarioAutocomplete"
+                        [control]="form.get('criadoPor')">
+                    </cdk-usuario-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Unidade Origem"
+                           formControlName="unidade"
+                           [matAutocomplete]="setor.autocomplete">
+                    <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')">
+                    </cdk-setor-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Origem</mat-label>
+                    <mat-select formControlName="origemDados">
+                        <mat-option value="">Todos</mat-option>
+                        <mat-option value="administrativo">Administrativo</mat-option>
+                        <mat-option value="integracao">Integração</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+                 fxLayoutAlign="center center">
+                <button mat-raised-button color="accent" class="mr-sm-12" (click)="pesquisar()">
+                    Pesquisar
+                </button>
+                <button mat-raised-button color="warn" class="mr-sm-12"
+                        (click)="limpar()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<div class="content">
+
+    <ng-container *ngIf="isJuntadas">
+        <div class="documentos-juntados-title" fxFlex="0 0 auto"
+             fxLayoutAlign="start center">
+            <div class="ml-24">Documentos Juntados</div>
+        </div>
+
+        <div class="loading" *ngIf="(isLoading$ | async)">
+            <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
+        </div>
+
+        <div class="juntadas" cdkPerfectScrollbar infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="3"
+             [infiniteScrollThrottle]="150"
+             (scrolled)="onScroll()">
+
+            <div class="nova-juntada accent" matRipple (click)="reloadJuntadas()" *ngIf="novaJuntada">
+                <span class="mat-body">Nova juntada recebida... recarregue a lista!</span>
+            </div>
+            <div class="juntada capa" matRipple *ngIf="(isLoading$ | async) === false"
+                 (click)="goToCapaProcesso()"
+                 [ngClass]="{'current': capa}">
+                <div class="index">
+                    <span>
+                        <mat-icon>insert_drive_file</mat-icon>
+                    </span>
+                </div>
+                <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
+                    <div class="descricao">Capa</div>
+                    <div class="criado-em">{{processo?.dataHoraAbertura ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
+                    <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                        <span class="ml-4"
+                              [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso?.nome | titleCasePipe}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="volume" id="juntada_{{juntada.id}}" #element
+                 *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
+                {{contador.reset()}}
+                <div class="juntada" matRipple
+                     (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, $event)"
+                     [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}">
+                    <div class="index">
+                        <span>{{juntada.numeracaoSequencial}}</span>
+                    </div>
+                    <div *ngIf="!juntada.ativo">
+                        <div class="desentranhado">DESENTRANHADO</div>
+                    </div>
+                    <div fxFlex fxLayout="row">
+                        <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
+                            <div class="descricao">
+                                {{juntada.descricao?.split('/').join(' ') | titleCasePipe}}
+                            </div>
+                            <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>
+                            <div class="criado-em" *ngIf="juntada.criadoPor?.nome && isOpen[juntada.id]" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
+                            <div class="criado-em" *ngIf="juntada.documento?.criadoPor && !juntada.criadoPor?.nome && isOpen[juntada.id]">
+                                {{juntada.documento.criadoPor?.nome.split('/').join(' ')}}</div>
+                            <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
+                            <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla && juntada.documento?.setorOrigem?.sigla">
+                                {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
+                            </div>
+                            <div
+                                *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
+                                <div fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-spinner diameter="24"></mat-spinner>
+                                </div>
+                            </div>
+                            <div
+                                *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status > 1) && (juntada.documento.origemDados.status !== 11)">
+                                <div fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon>error_outline</mat-icon>
+                                    ERRO!
+                                </div>
+                            </div>
+                            <div
+                                *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status === 11)">
+                                <div fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon>lock</mat-icon>
+                                    PENDENTE DE CIÊNCIA
+                                </div>
+                            </div>
+                            <ng-container
+                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0)">
+                                <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
+                                     class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                                    <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                        <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                        </mat-icon>
+                                    </div>
+                                    <a class="ml-4"
+                                       (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                       [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
+                                        {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
+                                    </a>
+                                    <mat-icon class="ml-4 s-24"
+                                              *ngIf="isCurrent(juntada.id, componenteDigital.id)">
+                                        arrow_left
+                                    </mat-icon>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
+                                {{contadorVinculacoes.reset()}}
+                                <div
+                                    *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
+                                    class="tipo-documento" fxLayout="column" fxLayoutAlign="start">
+                                    <div
+                                        *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado?.componentesDigitais); index as z;"
+                                        class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                        <mat-icon class="ml-8 s-14">attach_file</mat-icon>
+                                        <span class="index-vinculado" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
+                                        <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
+                                    </span>
+                                        <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                                        <div *ngIf="!!juntada.documento.acessoRestrito && juntada.ativo">
+                                            <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                            </mat-icon>
+                                        </div>
+                                        <a class="ml-4"
+                                           (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                           [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
+                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
+                                        </a>
+                                        <mat-icon class="ml-4 s-24"
+                                                  *ngIf="isCurrent(juntada.id, componenteDigital.id)">
+                                            arrow_left
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div fxFlex fxLayout="row"
+                                 *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
+                                <div class="numero" fxFlex="1 1 auto" fxLayoutAlign="space-between center">
+                                    <div>
+                                        {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                                    </div>
+                                    <mat-icon class="s-10" fxFlex="1 1 auto" fxLayoutAlign="center"
+                                              [matTooltip]="'Copiar Número do Documento'"
+                                              (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado); $event.stopPropagation();">
+                                        file_copy
+                                    </mat-icon>
+                                </div>
+                            </div>
+                            <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                                <div class="etiqueta"
+                                     *ngFor="let vinculacaoEtiqueta of juntada.documento.vinculacoesEtiquetas"
+                                     fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.label">
+                                    <div class="etiqueta-color"
+                                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="actions" *ngIf="juntada.ativo">
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
+                            </mat-icon>
+                            <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                      *ngIf="isOpen[juntada.id]">keyboard_arrow_up
+                            </mat-icon>
+                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock</mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="separador-volume"
+                     *ngIf="juntadasByVolume.get(juntada?.volume?.numeracaoSequencial)[juntadasByVolume.get(juntada?.volume?.numeracaoSequencial).length - 1].id === juntada.id">
+                    <div class="documentos-juntados-title" fxFlex="0 0 auto"
+                         fxLayoutAlign="start center" aria-label="Volume">
+                        <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isJuntadas">
+        <div class="documentos-juntados-title" fxFlex="0 0 auto"
+             fxLayoutAlign="start center">
+            <div class="ml-24">Marcadores de páginas</div>
+        </div>
+
+        <div class="loading" *ngIf="(isLoadingBookmarks$ | async)">
+            <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
+        </div>
+
+        <div class="bookmarks" *ngIf="bookmarks"
+             cdkPerfectScrollbar infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="3"
+             [infiniteScrollThrottle]="150"
+             (scrolled)="onScrollBookmark()">
+
+            <div *ngFor="let bookmark of bookmarksBySequencial">
+                <div class="juntada" matRipple *ngIf="bookmark"
+                     [ngClass]="{'current': bookMarkJuntadaselected === bookmark.key}">
+                    <div class="index">
+                        <span>{{bookmark.key}}</span>
+                    </div>
+                    <div fxFlex="1 1 auto" fxLayout="column">
+                        <div>
+                            <div *ngFor="let book of bookmark.value" fxLayout="column">
+                                <div fxFlex="1 1 auto" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                    <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
+                                        <mat-icon *ngIf="book.corHexadecimal"
+                                                  class="ml-4 s-14"
+                                                  [ngStyle]="{'color': book.corHexadecimal}">
+                                            bookmark
+                                        </mat-icon>
+                                        <mat-icon *ngIf="!book.corHexadecimal"
+                                                  class="ml-4 s-14">
+                                            bookmark
+                                        </mat-icon>
+                                        <div class="index-vinculado">
+                                            <span>{{book.pagina}}</span>
+                                        </div>
+                                        <a class="ml-4"
+                                           (click)="viewBookmark(book, book.pagina, bookmark.key)" >
+                                            {{book.nome}}
+                                        </a>
+                                        <mat-icon class="ml-4 s-24"
+                                                  *ngIf="book.id === bookMarkselected">
+                                            arrow_left
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                                <div class="criado-em" fxLayout="row" fxLayoutAlign="center center">
+                                    {{book.descricao}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sem-minutas" *ngIf="(isLoadingBookmarks$ | async) === false && (!bookmarks)">
+            <div class="m-8" style="font-style: italic;">Não há marcadores de página.</div>
+        </div>
+    </ng-container>
+</div>

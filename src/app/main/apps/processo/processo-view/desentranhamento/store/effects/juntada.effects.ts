@@ -18,7 +18,6 @@ import {
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
-import {GetJuntadaIndex} from '../../../../store';
 
 @Injectable()
 export class JuntadaEffects {
@@ -72,7 +71,6 @@ export class JuntadaEffects {
             switchMap(action => this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
                 mergeMap((response: Desentranhamento) => [
                     new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
-                    new GetJuntadaIndex({processoId: action.payload.desentranhamento.juntada.volume.processo.id}),
                     new UpdateData<Juntada>({
                         id: action.payload.desentranhamento.juntada.id,
                         schema: juntadaSchema,
@@ -94,18 +92,35 @@ export class JuntadaEffects {
         .pipe(
             ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
             tap((action) => {
-                const steps = this.routerState.params['stepHandle'].split('-');
                 let url = this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '');
-                const currentStep = {
-                    step: parseInt(steps[0], 10),
-                    subStep: parseInt(steps[1], 10)
-                };
-                if (action.payload === parseInt(steps[0])) {
-                    currentStep['subStep'] = null;
-                    url = url.replace('/' + this.routerState.params['stepHandle'], '/' + steps[0]);
+                if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                    const steps = this.routerState.params['stepHandle'].split('-');
+                    if (action.payload === parseInt(steps[0])) {
+                        url = url.replace('/' + this.routerState.params['stepHandle'], '/' + steps[0]);
+                    }
                 }
                 this._router.navigate([url]).then(() => {
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                    if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                        const steps = this.routerState.params['stepHandle'].split('-');
+                        const currentStep = {
+                            step: parseInt(steps[0], 10),
+                            subStep: parseInt(steps[1], 10)
+                        };
+                        if (action.payload === parseInt(steps[0])) {
+                            currentStep['subStep'] = null;
+                        }
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                    } else if (this.routerState.params['stepHandle'] === 'capa') {
+                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                    } else {
+                        let processoId = null;
+
+                        const routeParams = of('processoHandle');
+                        routeParams.subscribe((param) => {
+                            processoId = parseInt(this.routerState.params[param], 10);
+                        });
+                        this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
+                    }
                 });
             })
         ), {dispatch: false});

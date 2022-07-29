@@ -1,0 +1,73 @@
+<mat-horizontal-stepper linear #stepper [selectedIndex]="selectedIndex">
+
+    <mat-step [completed]="!!documentos">
+        <ng-template matStepLabel>Requerimento</ng-template>
+        <cdk-protocolo-externo-form
+            [processo]="processo"
+            [saving]="(isSavingExistente$ | async)"
+            [errors]="(errors$ | async)"
+            [pessoaVinculada]="_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
+            [setorAtualPagination]="unidadePagination"
+            [procedenciaPagination]="procedenciaPagination"
+            [paramHandle]="paramHandle"
+            (save)="submit($event)"
+            (abort)="cancel()"
+            [existente]="existente">
+        </cdk-protocolo-externo-form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Documentos</ng-template>
+        <div class="bt-upload">
+            <button mat-mini-fab
+                    class="active accent mt-8 mb-8 ml-8 mr-8"
+                    [matMenuTriggerFor]="moreMenu" aria-label="Documento Avulso"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="upload"
+                        (click)="upload()">
+                    <ng-container>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Enviar Documento</span>
+                    </ng-container>
+                </button>
+                <ng-template #dynamicComponent></ng-template>
+            </mat-menu>
+
+            <cdk-documento-card-list [documentos]="documentos"
+                                     (clicked)="onClicked($event)"
+                                     [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [alterandoId]="(alterandoDocumentosId$ | async)"
+                                     [deletingId]="(deletingDocumentosId$ | async)"
+                                     [downloadId] ="(downloadP7SDocumentosId$ | async)"
+                                     [saving]="(isSavingDocumentos$ | async)"
+                                     [loading]="(isLoadingDocumentos$ | async)"
+                                     [documentosPagination]="pagination"
+                                     (converte)="doConverte($event)"
+                                     (converteHtml)="doConverteHtml($event)"
+                                     (assinatura)="doAssinatura($event)"
+                                     (removeAssinatura)="doRemoveAssinatura($event)"
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                     [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (getMore)="paginaDocumentos()"
+                                     (changedSelectedIds)="changedSelectedIds($event)">
+            </cdk-documento-card-list>
+
+            <cdk-componente-digital-card-list class="pt-8 pb-8 pl-0 pr-8" #cdkUpload
+                                              [processoOrigem]="processo"
+                                              [uploadMode]="'linear'"
+                                              (completed)="onComplete()"
+                                              (completedAll)="onCompleteAllDocumentos()">
+            </cdk-componente-digital-card-list>
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doConcluir()">
+                CONCLUIR
+            </button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

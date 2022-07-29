@@ -6,14 +6,15 @@ export class NavigationMark {
     register: number;
 
     constructor(
-        private navigationHistory: NavigationHistory,
+        private _navigationHistory: NavigationHistory,
         @Optional() private component: string
     ) {
-        this.register = this.navigationHistory.register();
+        this.register = this._navigationHistory.register();
     }
 
-    goBack() {
-        this.navigationHistory.go(this.register, this.component);
+    public goBack() {
+        this._navigationHistory.go(this.register, this.component);
     }
 }
 
+export function navigationMarkFactory(c:string) { return (n: NavigationHistory): NavigationMark => new NavigationMark(n, c) }

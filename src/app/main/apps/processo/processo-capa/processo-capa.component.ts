@@ -268,9 +268,16 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     }
 
     abrirJuntadaNovaAba(juntada: Juntada): void {
+        let stepHandle: string = juntada.id.toString();
+        if (juntada.ativo && (juntada.documento.componentesDigitais.length > 0 || juntada.documento.vinculacoesDocumentos.length > 0)) {
+            const subStep = juntada.documento.componentesDigitais.length ?
+                juntada.documento.componentesDigitais[0].id :
+                juntada.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
+            stepHandle += '-' + subStep;
+        }
         window.open(
             this.routerState.url.split('/')[1] +
-            `/processo/${this.processo.id}`
+            `/processo/${this.processo.id}/visualizar/` + stepHandle
         );
     }
 }

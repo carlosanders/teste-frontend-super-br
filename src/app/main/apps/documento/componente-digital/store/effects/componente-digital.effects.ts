@@ -34,6 +34,7 @@ export class ComponenteDigitalEffect {
      */
     downloadComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
+        tap(action => console.log(action)),
         switchMap(() => {
             let handle = {id: '', value: ''};
             let context: any = '{}';
@@ -68,11 +69,11 @@ export class ComponenteDigitalEffect {
                         }
                     }),
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                        componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                        componenteDigitalId: response.id,
                         componenteDigital: response,
                         loaded: {
                             id: 'componenteDigitalHandle',
-                            value: this.routerState.params['componenteDigitalHandle']
+                            value: response.id
                         }
                     }),
                 ]),

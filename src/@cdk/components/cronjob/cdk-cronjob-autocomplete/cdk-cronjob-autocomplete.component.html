@@ -1,0 +1,9 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayCronjobFn">
+    <mat-option *ngFor="let cronjob of cronjobList"
+                [value]="cronjob">
+        {{ cronjob.nome | titleCasePipe }}
+    </mat-option>
+    <mat-option *ngIf="cronjobListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

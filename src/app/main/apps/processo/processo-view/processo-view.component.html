@@ -28,7 +28,7 @@
                     <ng-container *showIfRole="'ROLE_COLABORADOR'">
                         <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
                                 class="previous accent cdk-white-fg ml-8"
-                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !this.routerState.url.includes('/documento/')"
+                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !isBookmark"
                                 (click)="criarBookmark(this.componenteDigital.id)">
                             <mat-icon>bookmark</mat-icon>
                         </button>
@@ -107,17 +107,17 @@
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!loading && processo?.juntadaIndex?.length === 0">
+                <div class="sem-juntadas" *ngIf="!loading && index?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
                 <div class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
-                     [ngStyle]="{'display': loading === true || processo?.juntadaIndex?.length === 0 ? 'none' : 'flex'}">
+                     [ngStyle]="{'display': loading === true || (loading === false && index?.length === 0) ? 'none' : 'flex'}">
                     <iframe id="iframe-juntadas" name="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
                     <div class="pdf-viewer"
-                         [ngStyle]="{'display': loading || processo?.juntadaIndex?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
+                         [ngStyle]="{'display': loading || index?.length === 0 || !!this.srcMessage || this.componenteDigital?.mimetype !== 'application/pdf' ? 'none' : 'flex'}">
                         <ng2-pdfjs-viewer #pdfViewer
                                           [viewerId]="'processo-view'"
                                           [pdfSrc]="null"

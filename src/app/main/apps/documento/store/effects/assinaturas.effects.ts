@@ -12,7 +12,6 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assinatura} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @Injectable()

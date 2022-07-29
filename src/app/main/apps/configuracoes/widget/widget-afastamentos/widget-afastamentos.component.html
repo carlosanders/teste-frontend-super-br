@@ -1,0 +1,30 @@
+<mat-card class="scrollable-content">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>inbox</mat-icon>
+        <mat-card-title>Meus Próximos Afastamentos</mat-card-title>
+        <mat-card-subtitle>
+            <a [routerLink]="'/apps/configuracoes/afastamentos/listar'">
+                <span style="margin-left: auto;">Ver todos</span>
+            </a>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="64"></mat-spinner>
+        </div>
+        <div *ngIf="afastamentos.length > 0">
+            <p *ngFor="let afastamento of afastamentos">
+                <b>{{ afastamento.modalidadeAfastamento.descricao }}</b><br/>
+                {{ afastamento.dataInicio | date: 'dd/MM/yyyy' }} até {{ afastamento.dataFim | date: 'dd/MM/yyyy' }}
+                <span>
+                        Período de bloqueio:<br/>
+                    {{ afastamento.dataInicioBloqueio | date: 'dd/MM/yyyy' }} até
+                    {{ afastamento.dataFimBloqueio | date: 'dd/MM/yyyy' }}
+                    </span>
+            </p>
+        </div>
+        <div class="p-24 mt-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="!loading && afastamentos.length === 0">
+            <p>Nenhum afastamento previsto.</p>
+        </div>
+    </mat-card-content>
+</mat-card>

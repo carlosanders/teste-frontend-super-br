@@ -49,7 +49,7 @@ export class ComponenteDigitalEffect {
                     componenteDigitalId: response.id,
                     loaded: {
                         id: 'componenteDigitalHandle',
-                        value: this.routerState.params.componenteDigitalHandle
+                        value: response.id
                     }
                 }
             ),

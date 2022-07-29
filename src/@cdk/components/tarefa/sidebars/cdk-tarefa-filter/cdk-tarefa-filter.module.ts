@@ -28,6 +28,13 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {CdkEspecieRelevanciaAutocompleteModule} from '../../../especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
 import {CdkSearchBarEtiquetasModule} from "../../../search-bar-etiquetas/search-bar-etiquetas.module";
+import {
+    CdkEspecieTarefaAutocompleteMultipleModule
+} from "../../../especie-tarefa/cdk-especie-tarefa-autocomplete-multiple/cdk-especie-tarefa-autocomplete-multiple.module";
+import {
+    CdkEspecieTarefaAutocompleteChiplistModule
+} from "../../../especie-tarefa/cdk-especie-tarefa-autocomplete-multiple/cdk-especie-tarefa-autocomplete-chiplist/cdk-especie-tarefa-autocomplete-chiplist.module";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
     declarations: [
@@ -44,6 +51,7 @@ import {CdkSearchBarEtiquetasModule} from "../../../search-bar-etiquetas/search-
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatCheckboxModule,
+        MatChipsModule,
 
         CdkSharedModule,
 
@@ -57,6 +65,8 @@ import {CdkSearchBarEtiquetasModule} from "../../../search-bar-etiquetas/search-
         CdkAssuntoAutocompleteModule,
         CdkAssuntoAdministrativoAutocompleteModule,
         CdkDateFilterModule,
+        CdkEspecieTarefaAutocompleteMultipleModule,
+        CdkEspecieTarefaAutocompleteChiplistModule,
         MatMenuModule,
         MatButtonToggleModule,
         CdkEspecieRelevanciaAutocompleteModule,

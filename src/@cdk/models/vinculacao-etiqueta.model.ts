@@ -33,6 +33,12 @@ export class VinculacaoEtiqueta {
     objectUuid?: string;
 
     @Exclude({ toPlainOnly: true })
+    extensionObjectClass?: string;
+
+    @Exclude({ toPlainOnly: true })
+    extensionObjectUuid?: string;
+
+    @Exclude({ toPlainOnly: true })
     objectId?: number;
 
     @Exclude({ toPlainOnly: true })
@@ -134,6 +140,11 @@ export class VinculacaoEtiqueta {
     @Exclude({toPlainOnly: true})
     podeExcluir?: boolean;
 
+    @Exclude({toClassOnly: true})
+    @Transform(value => value ? JSON.stringify(value) : null, { toPlainOnly: true })
+    @Transform(value => value ? JSON.parse(value) : [], {toClassOnly: true})
+    acoesExecucaoSugestao?: number[];
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -163,5 +174,8 @@ export class VinculacaoEtiqueta {
         this.objectId = null;
         this.objectContext = {};
         this.relatorio = null;
+        this.acoesExecucaoSugestao = [];
+        this.extensionObjectClass = null;
+        this.extensionObjectUuid = null;
     }
 }

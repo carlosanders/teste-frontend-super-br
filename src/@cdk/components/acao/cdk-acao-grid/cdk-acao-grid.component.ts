@@ -60,11 +60,6 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
             fixed: true
         },
         {
-            id: 'contexto',
-            label: 'Contexto',
-            fixed: true
-        },
-        {
             id: 'trigger',
             label: 'Trigger',
             fixed: true
@@ -72,6 +67,16 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
         {
             id: 'etiqueta.nome',
             label: 'Etiqueta',
+            fixed: true
+        },
+        {
+            id: 'modalidadeAcaoEtiqueta.valor',
+            label: 'Ação',
+            fixed: true
+        },
+        {
+            id: 'modalidadeAcaoEtiqueta.descricao',
+            label: 'Descrição',
             fixed: true
         },
         {
@@ -126,7 +131,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'footerGridActions', 'headerGridActions'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -151,6 +156,8 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Output()
     selected = new EventEmitter<Acao>();
+
+    @Output() changeSelectedIds: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Output()
     selectedIds: number[] = [];
@@ -324,6 +331,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.acoes.length && this.selectedIds.length > 0);
+        this.changeSelectedIds.emit(this.selectedIds);
     }
 
     setFilter(gridFilter): void {

@@ -108,7 +108,7 @@ export class SaveVinculacaoDocumentoSuccess implements Action
 {
     readonly type = SAVE_VINCULACAO_DOCUMENTO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

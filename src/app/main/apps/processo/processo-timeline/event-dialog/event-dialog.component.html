@@ -1,0 +1,15 @@
+<div class="container">
+    <h1 class="dialog-title">TAREFA {{tarefa.id}}</h1>
+    <div mat-dialog-content class="dialog-content">
+        <tarefa-details [tarefa]="tarefa"></tarefa-details>
+        <h2 class="bolder">Eventos</h2>
+        <div class="events-list">
+            <ng-container *ngFor="let timelineEvent of timelineEvents">
+                <ng-template  class="event" [cdkPortalOutlet]="getComponent(timelineEvent)"></ng-template>
+            </ng-container>
+        </div>
+    </div>
+    <div mat-dialog-actions class="actions m-8" align="end">
+        <button mat-button mat-dialog-close (click)="fechar()">FECHAR</button>
+    </div>
+</div>

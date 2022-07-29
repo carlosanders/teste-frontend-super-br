@@ -9,6 +9,7 @@ import {
 } from '@cdk/angular/material';
 import {CdkVinculacaoEtiquetaAcoesDialogComponent} from './cdk-vinculacao-etiqueta-acoes-dialog.component';
 import {CdkAcaoListModule} from '../../acao/cdk-acao-list/cdk-acao-list.module';
+import {CdkAcaoGridModule} from '../../acao/cdk-acao-grid/cdk-acao-grid.module';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import {CdkAcaoListModule} from '../../acao/cdk-acao-list/cdk-acao-list.module';
         MatProgressSpinnerModule,
         CdkSharedModule,
         CdkAcaoListModule,
+        CdkAcaoGridModule,
     ],
     entryComponents: [
         CdkVinculacaoEtiquetaAcoesDialogComponent

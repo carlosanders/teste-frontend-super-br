@@ -1,0 +1,35 @@
+<div #dot class="dot" *ngIf="timelineEvents.length"
+     [ngClass]="getDotClass()">
+    <div class="info"
+         [matTooltip]="getTooltip()"
+         [matBadge]="timelineEvents.length > 99 ? '99+' : timelineEvents.length"
+         [matBadgePosition]="'above'"
+         [matBadgeSize]="'small'"
+         [matBadgeColor]="'accent'"
+         [matBadgeHidden]="timelineEvents.length === 1">
+        <ng-container *ngIf="hasMainEvent()">
+            <img class="user-img"
+                 *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === true"
+                 [src]="timelineEvents[0].usuario.imgPerfil.conteudo|safeResourceUrl">
+            <span *ngIf="!!timelineEvents[0]?.usuario?.imgPerfil?.conteudo === false">
+                {{getSiglaUsuario(timelineEvents[0].usuario)}}
+            </span>
+        </ng-container>
+        <ng-container *ngIf="!hasMainEvent()">
+            <mat-icon [ngClass]="{
+                        's-16': timelineEvents.length === 1,
+                        's-30': timelineEvents.length > 1
+                      }">
+                {{timelineEvents.length > 1 ? 'zoom_in' : getEventIco(timelineEvents[0])}}
+            </mat-icon>
+        </ng-container>
+    </div>
+</div>
+
+<div class="spacer" *ngIf="!timelineEvents.length && hasPrevious()">
+</div>
+
+<div class="dot-parent-connector cursor-pointer" *ngIf="!!parentDot && !!dot && timelineEvents.length"
+    [ngStyle]="getParentDotConnectorStyle()"
+    matTooltip="Tarefa {{tarefa.id}} aberta para {{timelineEvents[0].usuario.nome}}">
+</div>

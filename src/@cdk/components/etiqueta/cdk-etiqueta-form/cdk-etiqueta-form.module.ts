@@ -15,6 +15,8 @@ import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta
 import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {MccColorPickerModule} from 'material-community-components/color-picker';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,8 @@ import {MccColorPickerModule} from 'material-community-components/color-picker';
         CdkModalidadeEtiquetaGridsearchModule,
 
         CdkSharedModule,
+        MatRadioModule,
+        MatCardModule,
     ],
     providers: [],
     exports: [

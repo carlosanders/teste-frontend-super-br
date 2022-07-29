@@ -8,9 +8,8 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {select, Store} from '@ngrx/store';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {AddData} from "../../../../../../@cdk/ngrx-normalizr";
-import {Router} from "@angular/router";
-import * as ProcessoViewActions from "../../../documento/anexar-copia/store/actions/anexar-copia.actions";
+import {AddData} from '../../../../../../@cdk/ngrx-normalizr';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -48,10 +47,10 @@ export class ComponenteDigitalEffect {
                         schema: componenteDigitalSchema
                     }),
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                        componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                        componenteDigitalId: response.id,
                         loaded: {
                             id: 'componenteDigitalHandle',
-                            value: this.routerState.params['componenteDigitalHandle']
+                            value: response.id
                         }
                     }),
                 ]),

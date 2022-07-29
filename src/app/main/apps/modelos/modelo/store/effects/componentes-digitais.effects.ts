@@ -137,7 +137,6 @@ export class ComponenteDigitalEffect {
     getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
         tap((action) => {
-            let stepHandle = this.routerState.params['stepHandle'];
             let primary: string;
             primary = 'componente-digital/';
             const componenteDigitalId = action.payload.componenteDigitalId;
@@ -147,14 +146,11 @@ export class ComponenteDigitalEffect {
             const tarefaId = action.payload.documento.estaVinculada ?
                 action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
                 action.payload.documento.tarefaOrigem.id;
-            const processoId = action.payload.documento.processoOrigem.id;
-            if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'], 10)) {
-                stepHandle = 'default';
-            }
+            const url = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/documento/' + action.payload.documento.id;
+
             this._router.navigate([
-                    'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                    + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/processo/' + processoId + '/visualizar/'
-                    + stepHandle + '/documento/' + action.payload.documento.id,
+                    url,
                     {
                         outlets: {
                             primary: primary

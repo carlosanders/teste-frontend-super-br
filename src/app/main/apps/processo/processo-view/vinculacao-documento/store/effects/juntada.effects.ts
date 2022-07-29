@@ -16,7 +16,6 @@ import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {GetJuntada, RetiraJuntada} from '../../../store';
-import {GetJuntadaIndex} from '../../../../store';
 import * as ProcessoViewActions from '../../../store/actions';
 
 @Injectable()
@@ -122,10 +121,9 @@ export class JuntadaEffects {
                 }))),
                 mergeMap((response: VinculacaoDocumento) => [
                     new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
-                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                    new GetJuntadaIndex({processoId: action.payload.processoId}),
-                    new RetiraJuntada(action.payload.juntadaVinculadaId),
                     new GetJuntada(action.payload.juntada.id),
+                    new RetiraJuntada(action.payload.juntadaVinculadaId),
+                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(action.payload),
                 ]),
                 catchError((err) => {
                     console.log(err);
@@ -145,15 +143,35 @@ export class JuntadaEffects {
      */
     saveVinculacaoDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO_SUCCESS),
-        tap(() => {
-            this._router.navigate([this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0]])
-                .then(() => {
-                    const steps = this.routerState.params['stepHandle'].split('-');
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: parseInt(steps[0], 10),
-                        subStep: parseInt(steps[1], 10)
-                    }));
-                });
+        tap((action) => {
+            let url = this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0];
+            let currentStep;
+            if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                currentStep = {
+                    step: parseInt(steps[0], 10),
+                    subStep: parseInt(steps[1], 10)
+                };
+                if (currentStep.step === action.payload.juntadaVinculadaId) {
+                    currentStep.step = action.payload.juntada.id;
+                    url = url.replace(this.routerState.params['stepHandle'], currentStep.step + '-' + currentStep.subStep);
+                }
+            }
+            this._router.navigate([url]).then(() => {
+                if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                } else if (this.routerState.params['stepHandle'] === 'capa') {
+                    this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                } else {
+                    let processoId = null;
+
+                    const routeParams = of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
+                }
+            });
         })
     ), {dispatch: false});
 

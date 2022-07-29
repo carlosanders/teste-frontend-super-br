@@ -1,0 +1,313 @@
+<div class="page-layout left-sidebar">
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar name="cdk-cronjob-filter" position="left">
+        <cdk-cronjob-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-cronjob-filter>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
+
+        <div class="actions">
+
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteCronjobs(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showInatived') > -1"
+                    (click)="loadInatived()"
+                    aria-label="mostrar inativo"
+                    matTooltip="Mostrar Inativos">
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+        </div>
+
+        <div class="loading" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <div class="content" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob">
+                        <mat-checkbox [checked]="selectedIds.indexOf(cronjob.id) > -1"
+                                      (change)="toggleInSelected(cronjob.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="cronjob.principal || (deletedIds?.indexOf(cronjob.id) > -1)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.id}} </td>
+                </ng-container>
+
+                <!-- Nome Column -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob?.nome | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- Descrição Column -->
+                <ng-container matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob?.descricao | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- Periodicidade Column -->
+                <ng-container matColumnDef="periodicidade">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Periodicidade
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Periodicidade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob?.periodicidade}} </td>
+                </ng-container>
+
+                <!-- Comando Column -->
+                <ng-container matColumnDef="comando">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Comando
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Comando: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob?.comando}} </td>
+                </ng-container>
+
+                <!-- Status Última Execução Column -->
+                <ng-container matColumnDef="textoStatusUltimaExecucao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Status Última Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Status Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob?.textoStatusUltimaExecucao | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- Usuário Última Execução Column -->
+                <ng-container matColumnDef="usuarioUltimaExecucao.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Usuário Última Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Usuário Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.usuarioUltimaExecucao?.nome | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- Data Última Execução Column -->
+                <ng-container matColumnDef="dataHoraUltimaExecucao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Última Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Data Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.dataHoraUltimaExecucao?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                </ng-container>
+
+                <!-- Data Última Execução Column -->
+                <ng-container matColumnDef="dataHoraProximaExecucao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Próxima Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Data Próxima Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.dataHoraProximaExecucao?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                </ng-container>
+
+                <!-- PID Última Execução -->
+                <ng-container matColumnDef="ultimoPid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        PID Última Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='PID Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.ultimoPid}} </td>
+                </ng-container>
+
+                <!-- Percentual Execução -->
+                <ng-container matColumnDef="percentualExecucao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Percentual Execução
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='PID Última Execução: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}">
+                        {{cronjob.percentualExecucao !== null ? cronjob.percentualExecucao + ' %' : null}}
+                    </td>
+                </ng-container>
+
+                <!-- CriadoPor Column -->
+                <ng-container matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.criadoPor?.nome | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- CriadoEm Column -->
+                <ng-container matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                </ng-container>
+
+                <!-- AtualizadoPor Column -->
+                <ng-container matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.atualizadoPor?.nome | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- AtualizadoEm Column -->
+                <ng-container matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                </ng-container>
+
+                <!-- ApagadoPor Column -->
+                <ng-container matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.apagadoPor?.nome | titleCasePipe}} </td>
+                </ng-container>
+
+                <!-- ApagadoEm Column -->
+                <ng-container matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let cronjob" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cronjob.id) > -1 || cronjob.apagadoEm}"> {{cronjob.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                </ng-container>
+
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let cronjob">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('execute') > -1 && deletingIds?.indexOf(cronjob.id) === -1 && executingIds?.indexOf(cronjob.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(cronjob.id) > -1 || executingIds?.indexOf(cronjob.id) > -1"
+                                (click)="executeCronjob(cronjob.id)"
+                                aria-label="execute"
+                                matTooltip="Executar">
+                            <mat-icon>play_arrow</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="executingIds?.indexOf(cronjob.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1 && deletingIds?.indexOf(cronjob.id) === -1 && !hasExcluded"
+                                (click)="selectCronjob(cronjob)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(cronjob.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(cronjob.id) > -1"
+                                (click)="editCronjob(cronjob.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(cronjob.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(cronjob.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(cronjob.id) > -1"
+                                (click)="deleteCronjob(cronjob.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, cronjob.id)">
+                            {{ getMessageError(getProp(deletingErrors, cronjob.id)) }}
+                        </mat-error>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let cronjob; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
+        </div>
+
+    </div>
+
+</div>
+

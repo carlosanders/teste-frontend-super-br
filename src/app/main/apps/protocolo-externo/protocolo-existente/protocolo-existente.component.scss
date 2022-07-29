@@ -1,0 +1,38 @@
+protocolo-existente {
+    display: flex;
+    flex: 1 1 auto;
+    > mat-horizontal-stepper {
+        flex: 1 1 auto;
+        display: flex !important;
+        flex-direction: column;
+        > .mat-horizontal-content-container {
+            overflow-y: auto !important;
+            display: flex !important;
+            flex-direction: column;
+            flex: 1 1 auto;
+
+            div.mat-horizontal-stepper-content[aria-expanded=true] {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+            }
+
+            .bt-upload {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .actions {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                button:first-child {
+                    margin: 0 8px 0 8px;
+                }
+            }
+        }
+    }
+}
+

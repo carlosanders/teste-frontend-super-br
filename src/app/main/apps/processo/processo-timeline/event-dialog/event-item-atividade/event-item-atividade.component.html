@@ -1,0 +1,24 @@
+<span class="message">
+    <span class="date">{{timelineEvent.eventDate.toDate() |date: 'dd/MM/yyyy H:mm'}}:</span> <span class="text">{{timelineEvent.message | titleCasePipe}}</span>
+</span>
+<ng-container *ngIf="timelineEvent.objectContext?.juntadas">
+    <div class="juntadas">
+        <h3 class="title">Juntadas</h3>
+
+        <div class="juntada" *ngFor="let juntada of timelineEvent.objectContext.juntadas; let i = index;">
+            {{i+1}})
+            <div class="juntada-content">
+                        <span>
+                        ID {{juntada.documentoId}} <span *ngIf="juntada.siglaSetorOrigem && juntada.unidadeSetorOrigem"> - {{juntada.unidadeSetorOrigem}}({{juntada.siglaSetorOrigem}})</span>
+                    </span>
+                <div class="tipo-documento">
+                    <mat-icon class="ml-8 s-14">attach_file</mat-icon>
+                    <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                    <span class="ml-4">
+                            {{juntada.nomeTipoDocumentoVinculado}}
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

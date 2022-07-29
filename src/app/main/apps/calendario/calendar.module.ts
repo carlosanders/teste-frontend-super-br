@@ -30,7 +30,7 @@ import {MatDividerModule} from '@angular/material/divider';
 
 const routes: Routes = [
     {
-        path: ':typeHandle/:targetHandle',
+        path: ':contextHandle/:typeHandle/:targetHandle',
         component: CalendarComponent,
         children: [],
         canActivate: [fromGuards.ResolveGuard]

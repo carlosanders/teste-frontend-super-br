@@ -204,25 +204,22 @@
             </button>
             <mat-menu fxHide #selectMenu="matMenu" class="menu-sort">
                 <button mat-menu-item class="sort-button"
-                        [ngClass]="{'selected': sortField === 'dataHoraFinalPrazo'}"
-                        (click)="doSort({'dataHoraFinalPrazo': sortField === 'dataHoraFinalPrazo' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
-                    <span>Final do Prazo</span>
-                    <mat-icon color="accent" *ngIf="sortField === 'dataHoraFinalPrazo'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+                        *ngFor="let sortOption of sortOptions"
+                        [ngClass]="{'selected': sortField === sortOption.field}"
+                        (click)="doSort(getSortOptionListSort(sortOption))">
+                    <span>{{sortOption.label}}</span>
+                    <mat-icon color="accent" *ngIf="sortField === sortOption.field">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
-                <button mat-menu-item class="sort-button"
-                        [ngClass]="{'selected': sortField === 'dataHoraDistribuicao'}"
-                        (click)="doSort({'dataHoraDistribuicao': sortField === 'dataHoraDistribuicao' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
-                    <span>Data da Distribuição</span>
-                    <mat-icon color="accent" *ngIf="sortField === 'dataHoraDistribuicao'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
-                </button>
-                <button mat-menu-item class="sort-button"
-                        [ngClass]="{'selected': sortField === 'atualizadoEm'}"
-                        (click)="doSort({'atualizadoEm': sortField === 'atualizadoEm' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
-                    <span>Última atualização</span>
-                    <mat-icon color="accent" *ngIf="sortField === 'atualizadoEm'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
-                </button>
-            </mat-menu>
+                <mat-divider></mat-divider>
+                <mat-slide-toggle class="ml-10"
+                                  [disabled]="getSortOptionSelected() === undefined"
+                                  [formControl]="agruparFormControl"
+                                  (change)="doSort(listSort)"
+                                  (click)="$event.stopPropagation();">
+                    Agrupar
+                </mat-slide-toggle>
 
+            </mat-menu>
             <mat-form-field class="colunas mr-8" aria-label="columns" matTooltip="Campos">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let tableColumn of getDisplayableTableColumns()">
@@ -248,11 +245,13 @@
     </div>
 
     <div class="content"
-         cdkPerfectScrollbar="viewMode !== 'grid'"
+         #contentScroll
+         [cdkPerfectScrollbar]="viewMode !== 'grid'"
          infiniteScroll
          [scrollWindow]="false"
          [infiniteScrollDistance]="3"
          [infiniteScrollThrottle]="150"
+         [alwaysCallback]="true"
          (scrolled)="onScroll()">
 
         <div (click)="loadPage()" fxFlex="0 1 auto" fxLayoutAlign="center center" class="nova-tarefa p-8 accent" *ngIf="novaTarefa">
@@ -636,87 +635,97 @@
         </div>
 
         <div *ngIf="tarefas?.length > 0 && viewMode === 'list'" class="view-mode-list">
-            <div *ngFor="let tarefa of tarefas"
-                 class="drag-tarefa"
-                 [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
-                 [dndDragImageOffsetFunction]="this.offsetFunction"
-                 [dndDisableIf]="typeHandle === 'concluidas' || typeHandle === 'enviadas'"
-                 (dndEnd)="onCancelDrag($event)"
-                 (dndCopied)="onCopied($event, tarefa)"
-                 (dndStart)="onStartDrag($event, tarefa)">
-                <cdk-tarefa-list-item #tarefaListItems
-                    [tarefa]="tarefa"
-                    [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
-                    [usuarioAtual]="usuarioAtual"
-                    [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
-                    [displayedCampos]="getDisplayColumns()"
-                    (click)="selectTarefa($event, tarefa);"
-                    [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
-                    [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
-                    [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
-                    [savingComponentesDigitais]="savingComponentesDigitaisIds.length > 0 && savingComponentesDigitaisIds.indexOf(tarefa.id) > -1"
-                    [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
-                    [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1"
-                    [countSelected]="selectedIds.length"
-                    [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
-                    [alterandoDocumentosId]="alterandoDocumentosId"
-                    [assinandoDocumentosId]="assinandoDocumentosId"
-                    [convertendoDocumentosId]="convertendoDocumentosId"
-                    [deletingDocumentosId]="deletingDocumentosId"
-                    [downloadP7SDocumentoIds]="downloadP7SDocumentoIds"
-                    [removendoAssinaturaDocumentosId]="removendoAssinaturaDocumentosId"
-                    (toggleInSelectedTarefas)="toggleInSelected($event)"
-                    (delete)="doDeleteTarefa($event)"
-                    (restauraTarefa)="doRestauraTarefa($event)"
-                    (removeTarefa)="doRemoveTarefa($event)"
-                    (movimentar)="doMovimentar($event)"
-                    (compartilhar)="doCompartilhar($event)"
-                    (toggleUrgente)="doToggleUrgente($event)"
-                    (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
-                    (createTarefa)="doCreateTarefa($event)"
-                    (editTarefa)="doEditTarefa($event)"
-                    (redistribuirTarefa)="doRedistribuirTarefa($event)"
-                    (cienciaTarefa)="doCienciaTarefa($event)"
-                    (editProcesso)="doEditProcesso($event)"
-                    (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
-                    (aprovaDocumento)="doAprovaDocumento($event)"
-                    (assinaDocumento)="doAssinaDocumento($event)"
-                    (converteHtml)="doConverteHtml($event)"
-                    (convertePdf)="doConvertePdf($event)"
-                    (deleteDocumento)="doDeleteDocumento($event)"
-                    (downloadP7S)="doDownloadP7S($event)"
-                    (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
-                    (uploadAnexos)="doUploadAnexos($event)"
-                    (verResposta)="doVerResposta($event)"
-                    [ngClass]="{
-                        'selected':tarefa.id === currentTarefaId,
-                        'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
-                    }"
-                    (loadAssuntos)="doLoadAssuntos($event)"
-                    (loadInteressados)="doLoadInteressados($event)"
-                    (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
-                    (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
-                    (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
-                    [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
-                    [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
-                    [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
-                    [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
-                    [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
-                    [savingObservacao]="savingObservacaoIds.indexOf(tarefa.id) > -1"
-                    [targetHandle]="targetHandle"
-                    [typeHandle]="typeHandle"
-                    (addEtiqueta)="doAddEtiqueta($event)"
-                    (salvarObservacao)="doSalvarObservacao($event)"
-                    (etiquetaClickHandler)="doClickEtiqueta($event)"
-                    (erroUpload)="onErroUpload($event)"
-                    (completed)="onComplete($event)"
-                    (completedAll)="onCompleteAll($event)"
-                    (outraAbaHandler)="doAbrirOutraAba($event)"
-                    (editarObservacao)="doEditarObservacao($event)"
-                    (pencencies)="doPendencies($event)"
-                    (filterNup)="doFilterNup($event)"
-                    (filterEtiqueta)="doFilterEtiqueta($event)">
-                </cdk-tarefa-list-item>
+            <div *ngFor="let groupData of groupedTarefas; trackBy: groupDataTrackBy"
+                [ngClass]="{'card': groupData.mode === 'group', 'list': groupData.mode === 'list'}">
+                <div class="card-title" (click)="toggleGroupDataExpanded(groupData)">
+                    <mat-icon [ngClass]="{'expanded': groupData.expanded}">keyboard_arrow_right</mat-icon>
+                    <h3 class="title-label">{{groupData.dataLabel | titleCasePipe}}</h3>
+                </div>
+                <div class="card-content" [ngClass]="{'expanded': groupData.expanded, 'collapsed': !groupData.expanded}">
+                    <div *ngFor="let tarefa of groupData.tarefaList; index as i; trackBy: tarefaTrackBy"
+                         class="drag-tarefa"
+                         [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
+                         [dndDragImageOffsetFunction]="this.offsetFunction"
+                         [dndDisableIf]="typeHandle === 'concluidas' || typeHandle === 'enviadas'"
+                         (dndEnd)="onCancelDrag($event)"
+                         (dndCopied)="onCopied($event, tarefa)"
+                         (dndStart)="onStartDrag($event, tarefa)">
+                        <cdk-tarefa-list-item
+                              #tarefaListItems
+                              [tarefa]="tarefa"
+                              [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
+                              [usuarioAtual]="usuarioAtual"
+                              [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
+                              [displayedCampos]="getDisplayColumns()"
+                              (click)="selectTarefa($event, tarefa);"
+                              [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
+                              [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                              [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                              [savingComponentesDigitais]="savingComponentesDigitaisIds.length > 0 && savingComponentesDigitaisIds.indexOf(tarefa.id) > -1"
+                              [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
+                              [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1"
+                              [countSelected]="selectedIds.length"
+                              [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
+                              [alterandoDocumentosId]="alterandoDocumentosId"
+                              [assinandoDocumentosId]="assinandoDocumentosId"
+                              [convertendoDocumentosId]="convertendoDocumentosId"
+                              [deletingDocumentosId]="deletingDocumentosId"
+                              [downloadP7SDocumentoIds]="downloadP7SDocumentoIds"
+                              [removendoAssinaturaDocumentosId]="removendoAssinaturaDocumentosId"
+                              (toggleInSelectedTarefas)="toggleInSelected($event)"
+                              (delete)="doDeleteTarefa($event)"
+                              (restauraTarefa)="doRestauraTarefa($event)"
+                              (removeTarefa)="doRemoveTarefa($event)"
+                              (movimentar)="doMovimentar($event)"
+                              (compartilhar)="doCompartilhar($event)"
+                              (toggleUrgente)="doToggleUrgente($event)"
+                              (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
+                              (createTarefa)="doCreateTarefa($event)"
+                              (editTarefa)="doEditTarefa($event)"
+                              (redistribuirTarefa)="doRedistribuirTarefa($event)"
+                              (cienciaTarefa)="doCienciaTarefa($event)"
+                              (editProcesso)="doEditProcesso($event)"
+                              (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                              (aprovaDocumento)="doAprovaDocumento($event)"
+                              (assinaDocumento)="doAssinaDocumento($event)"
+                              (converteHtml)="doConverteHtml($event)"
+                              (convertePdf)="doConvertePdf($event)"
+                              (deleteDocumento)="doDeleteDocumento($event)"
+                              (downloadP7S)="doDownloadP7S($event)"
+                              (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
+                              (uploadAnexos)="doUploadAnexos($event)"
+                              (verResposta)="doVerResposta($event)"
+                              [ngClass]="{
+                                'selected':tarefa.id === currentTarefaId,
+                                'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
+                              }"
+                              (loadAssuntos)="doLoadAssuntos($event)"
+                              (loadInteressados)="doLoadInteressados($event)"
+                              (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                              (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                              (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
+                              [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
+                              [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
+                              [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
+                              [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+                              [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
+                              [savingObservacao]="savingObservacaoIds.indexOf(tarefa.id) > -1"
+                              [targetHandle]="targetHandle"
+                              [typeHandle]="typeHandle"
+                              (addEtiqueta)="doAddEtiqueta($event)"
+                              (salvarObservacao)="doSalvarObservacao($event)"
+                              (etiquetaClickHandler)="doClickEtiqueta($event)"
+                              (erroUpload)="onErroUpload($event)"
+                              (completed)="onComplete($event)"
+                              (completedAll)="onCompleteAll($event)"
+                              (outraAbaHandler)="doAbrirOutraAba($event)"
+                              (editarObservacao)="doEditarObservacao($event)"
+                              (pencencies)="doPendencies($event)"
+                              (filterNup)="doFilterNup($event)"
+                              (filterEtiqueta)="doFilterEtiqueta($event)">
+                        </cdk-tarefa-list-item>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

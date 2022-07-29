@@ -17,7 +17,7 @@ export interface AnexarCopiaState {
     loadedJuntadas: any;
     currentStep: {
         step: number;
-        subStep: number;
+        subStep: any;
     };
     currentStepLoaded: any;
     binary: {
@@ -26,6 +26,7 @@ export interface AnexarCopiaState {
         processo?: any;
         error?: any;
     };
+    loadingLatestBinary: boolean;
 }
 
 export const anexarCopiaInitialState: AnexarCopiaState = {
@@ -52,7 +53,8 @@ export const anexarCopiaInitialState: AnexarCopiaState = {
         src: null,
         loading: false,
         processo: null
-    }
+    },
+    loadingLatestBinary: false
 };
 
 export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: AnexarCopiaActions.AnexarCopiaActionsAll): AnexarCopiaState => {
@@ -201,6 +203,50 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             };
         }
 
+        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: true,
+                    processo: action.payload,
+                    error: null
+                },
+                loadingLatestBinary: true
+            };
+        }
+
+        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY_SUCCESS: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: action.payload.binary,
+                    loading: false,
+                    error: false
+                },
+                currentStep: {
+                    step: 0,
+                    subStep: action.payload.subStep
+                },
+                loadingLatestBinary: false
+            };
+        }
+
+        case AnexarCopiaActions.DOWNLOAD_LATEST_BINARY_FAILED: {
+            return {
+                ...state,
+                binary: {
+                    ...state.binary,
+                    src: null,
+                    loading: false,
+                    error: action.payload.error
+                },
+                currentStepLoaded: false,
+                loadingLatestBinary: false
+            };
+        }
+
         case AnexarCopiaActions.SET_BINARY_VIEW: {
             return {
                 ...state,
@@ -241,16 +287,6 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
             return {
                 ...anexarCopiaInitialState
             };
-        }
-
-        case AnexarCopiaActions.ATUALIZA_JUNTADA_INDEX: {
-            return {
-                ...state,
-                loaded: {
-                    ...state.loaded,
-                    juntadaIndex: action.payload.juntadaIndex
-                }
-            }
         }
 
         default:

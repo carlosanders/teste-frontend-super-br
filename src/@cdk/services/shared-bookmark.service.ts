@@ -7,5 +7,6 @@ export class SharedBookmarkService
 {
     static juntadaAtualSelect: any;
     static modeBookmark = false;
+    static pagina = null;
 }
 

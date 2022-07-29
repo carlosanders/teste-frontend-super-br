@@ -40,8 +40,10 @@ import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
 import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
-import {CdkTarefaFilterService} from "../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service";
+import {CdkTarefaFilterService} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service';
 import * as _ from 'lodash';
+import {CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface} from './cdk-tarefa-sort-group.interface';
+import {CdkPerfectScrollbarDirective} from '../../../directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -119,6 +121,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         });
     }
 
+    @ViewChild('contentScroll', {read: CdkPerfectScrollbarDirective}) contentScroll: CdkPerfectScrollbarDirective;
+
     @Input()
     loading: boolean;
 
@@ -193,6 +197,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
+
+    @Input()
+    collapsedGroups: string[] = [];
 
     @Output()
     reload = new EventEmitter<any>();
@@ -365,6 +372,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @Output()
     pencencies: EventEmitter<{tarefa: Tarefa, vinculacaoEtiqueta: VinculacaoEtiqueta}> = new EventEmitter<{tarefa: Tarefa; vinculacaoEtiqueta: VinculacaoEtiqueta}>();
 
+    @Output()
+    toggleGroup: EventEmitter<CdkTarefaGroupDataInterface> = new EventEmitter<CdkTarefaGroupDataInterface>();
+
+    @Output()
+    groupOptionChange: EventEmitter<CdkTarefaSortOptionsInterface|null> = new EventEmitter<CdkTarefaSortOptionsInterface|null>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -382,6 +395,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     @Input()
     errorDistribuir: number[] = [];
+
+    @Input()
+    generoHandle: any;
 
     @Input()
     targetHandle: any;
@@ -422,6 +438,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @HostBinding('class') classes = '';
 
     columns = new FormControl();
+    agruparFormControl = new FormControl<boolean>(false);
 
     listFilter: any;
     listSort: Record<string, string> = {};
@@ -442,6 +459,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     filterProcesso: any = null;
     filterEtiquetas: Etiqueta[] = [];
+    groupedTarefas: CdkTarefaGroupDataInterface[] = [];
+    sortOptions: CdkTarefaSortOptionsInterface[] = CdkTarefaListComponent.getSortOptions();
 
     /**
      * Constructor
@@ -545,6 +564,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 this.sortOrder = Object.values(this.listSort)[0];
             }
 
+            if (changes['generoHandle'] || changes['targetHandle'] || changes['typeHandle']) {
+                if (this.contentScroll?.enabled) {
+                    this.contentScroll.scrollToTop();
+                }
+            }
+
             if (this.paginator) {
                 this.paginator.length = this.pagination.total;
                 this.paginator.pageSize = this.pagination.limit;
@@ -581,7 +606,14 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 });
             } else if (this.viewMode != 'grid') {
                 this.dynamicColumnList = this.dynamicColumnInstancesList = [];
+                this.doAgrupar();
             }
+        }
+
+        if (changes['collapsedGroups'] && this.viewMode === 'list' && this.groupedTarefas) {
+            this.groupedTarefas.forEach((optionData) => {
+                optionData.expanded = !this.collapsedGroups.includes(`${optionData.identifier}`);
+            });
         }
 
         this.classes = `view-mode-${this.viewMode}`;
@@ -646,7 +678,47 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         this.listSort = sort;
         this.sortField = Object.keys(this.listSort)[0];
         this.sortOrder = Object.values(this.listSort)[0];
+        this.groupOptionChange.emit(this.getSortOptionSelected());
+        if (this.contentScroll.enabled) {
+            this.contentScroll.scrollToTop();
+        }
+
         this.loadPage(params);
+    }
+
+    doAgrupar(): void {
+        const sortOption = this.getSortOptionSelected();
+        if (sortOption) {
+            this.groupOptionChange.emit(this.getSortOptionSelected());
+        }
+        if (sortOption && this.agruparFormControl.value === true) {
+            this.groupedTarefas = sortOption.groupDataFactory(
+                this.tarefas,
+                sortOption,
+                {expanded: (groupData: CdkTarefaGroupDataInterface) => !this.collapsedGroups.includes(`${groupData.identifier}`)}
+            );
+        } else {
+            if (this.agruparFormControl) {
+                this.agruparFormControl.setValue(false);
+            }
+            this.groupedTarefas = [
+                {
+                    identifier: 'list',
+                    mode: 'list',
+                    tarefaList: this.tarefas,
+                    expanded: true,
+                }
+            ]
+        }
+    }
+
+    toggleGroupDataExpanded(optionData: CdkTarefaGroupDataInterface): void {
+        this.toggleGroup.emit(
+            {
+                ...optionData,
+                expanded: !optionData.expanded
+            }
+        );
     }
 
     selectTarefa(event, tarefa: Tarefa): void {
@@ -1057,4 +1129,302 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             this.loadPage();
         }
     }
+
+    tarefaTrackBy(index, tarefa: Tarefa): number {
+        return tarefa.id;
+    }
+
+    groupDataTrackBy(index, groupData: CdkTarefaGroupDataInterface): number|string {
+        return groupData.identifier;
+    }
+
+    getSortOptionListSort(sortOption: CdkTarefaSortOptionsInterface): any {
+        const sortField = {};
+        sortField[sortOption.field] = this.sortField === sortOption.field && this.sortOrder === 'DESC' ? 'ASC' : 'DESC';
+
+        return sortField;
+    }
+
+    getSortOptionSelected(): CdkTarefaSortOptionsInterface {
+        return this.sortOptions.find((option) => option.field === this.sortField);
+    }
+
+    public static getSortOptions() : CdkTarefaSortOptionsInterface[] {
+        return [
+            {
+                label: 'Final do Prazo',
+                field: 'dataHoraFinalPrazo',
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const dateNow = moment.now();
+                    const list: CdkTarefaGroupDataInterface[] = [];
+
+                    tarefas.forEach((tarefa) => {
+                        let key = null;
+                        let label = null;
+                        let mode = null;
+                        if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isBefore(dateNow, 'day')) {
+                            key = 1;
+                            label = 'Vencidas';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'day')) {
+                            key = 2;
+                            label = 'Vencem hoje';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'week')) {
+                            key = 3;
+                            label = 'Vencem essa semana';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'month')) {
+                            key = 4;
+                            label = 'Vencem este mês';
+                            mode = 'group';
+                        } else {
+                            key = 5;
+                            label = 'Vencem nos próximos meses';
+                            mode = 'group';
+                        }
+
+                        const identifier = `${key}-${tarefaSortOption.label}`;
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: label,
+                                mode: mode,
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+            {
+                label: 'Data da Distribuição',
+                field: 'dataHoraDistribuicao',
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const dateNow = moment.now();
+                    const list: CdkTarefaGroupDataInterface[] = [];
+
+                    tarefas.forEach((tarefa) => {
+                        let key = null;
+                        let label = null;
+                        let mode = null;
+                        if (tarefa.dataHoraDistribuicao.isBefore(dateNow, 'day')) {
+                            key = 1;
+                            label = 'Distribuídas antes de hoje';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'day')) {
+                            key = 2;
+                            label = 'Distribuidas hoje';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'week')) {
+                            key = 3;
+                            label = 'Distribuidas essa semana';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'month')) {
+                            key = 4;
+                            label = 'Distribuidas este mês';
+                            mode = 'group';
+                        }
+
+                        const identifier = `${key}-${tarefaSortOption.label}`;
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: label,
+                                mode: mode,
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+            {
+                label: 'Última Atualização',
+                field: 'atualizadoEm',
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const dateNow = moment.now();
+                    const list: CdkTarefaGroupDataInterface[] = [];
+
+                    tarefas.forEach((tarefa) => {
+                        let key = null;
+                        let label = null;
+                        let mode = null;
+                        if (tarefa.atualizadoEm.isBefore(dateNow, 'day')) {
+                            key = 1;
+                            label = 'Atualizadas antes de hoje';
+                            mode = 'group';
+                        } else if (tarefa.atualizadoEm.isSame(dateNow, 'day')) {
+                            key = 2;
+                            label = 'Atualizadas hoje';
+                            mode = 'group';
+                        } else if (tarefa.atualizadoEm.isSame(dateNow, 'week')) {
+                            key = 3;
+                            label = 'Atualizadas essa semana';
+                            mode = 'group';
+                        } else if (tarefa.atualizadoEm.isSame(dateNow, 'month')) {
+                            key = 4;
+                            label = 'Atualizadas este mês';
+                            mode = 'group';
+                        }
+
+                        const identifier = `${key}-${tarefaSortOption.label}`;
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: label,
+                                mode: mode,
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+            {
+                label: 'Processo',
+                field: 'processo.NUP',
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const list: CdkTarefaGroupDataInterface[] = [];
+                    tarefas.forEach((tarefa) => {
+                        const identifier = tarefa.processo['@id'];
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: tarefa.processo.NUPFormatado,
+                                mode: 'group',
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+            {
+                label: 'Espécie Tarefa',
+                field: 'especieTarefa.nome',
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const list: CdkTarefaGroupDataInterface[] = [];
+                    tarefas.forEach((tarefa) => {
+                        const identifier = tarefa.especieTarefa['@id'];
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: tarefa.especieTarefa.nome,
+                                mode: 'group',
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+        ];
+    }
+
 }

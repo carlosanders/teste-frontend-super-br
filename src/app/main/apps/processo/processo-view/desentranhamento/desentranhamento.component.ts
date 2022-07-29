@@ -21,6 +21,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {SetCurrentStep} from '../store';
+import * as ProcessoViewActions from "../store/actions/processo-view.actions";
 
 @Component({
     selector: 'desentranhamento',
@@ -104,12 +105,16 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
     doAbort(): void {
         this._router.navigate([this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')])
             .then(() => {
-                const stepHandle = this.routerState.params['stepHandle'].split('-');
-                const currentStep = {
-                    step: parseInt(stepHandle[0], 10),
-                    subStep: parseInt(stepHandle[1], 10)
-                };
-                this._store.dispatch(new SetCurrentStep(currentStep));
+                if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                    const stepHandle = this.routerState.params['stepHandle'].split('-');
+                    const currentStep = {
+                        step: parseInt(stepHandle[0], 10),
+                        subStep: parseInt(stepHandle[1], 10)
+                    };
+                    this._store.dispatch(new SetCurrentStep(currentStep));
+                } else if (this.routerState.params['stepHandle'] === 'capa') {
+                    this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                }
             });
     }
 

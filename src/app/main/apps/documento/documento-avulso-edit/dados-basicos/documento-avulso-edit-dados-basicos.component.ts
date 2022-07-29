@@ -22,7 +22,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {CdkUtils} from '@cdk/utils';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {Back, getRouterState} from '../../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as AssinaturaStore from '../../../../../store';
@@ -330,7 +330,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     onClicked(event): void {
         const documento = event.documento;
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 const sidebar = 'oficio/dados-basicos';
                 if (event.event.ctrlKey) {
@@ -372,7 +372,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         if (this.documento.estaVinculada) {
             return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
             }
@@ -547,7 +547,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             });
             return;
         }
-        this.podeNavegarDoEditor().subscribe((result) => {
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
             if (result) {
                 const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
                 this._router.navigate(

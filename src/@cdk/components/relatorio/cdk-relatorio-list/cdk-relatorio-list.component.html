@@ -120,7 +120,7 @@
         </div>
 
         <div *ngIf="relatorios?.length > 0">
-            <cdk-relatorio-list-item matRipple *ngFor="let relatorio of relatorios" [relatorio]="relatorio"
+            <cdk-relatorio-list-item matRipple *ngFor="let relatorio of relatorios; index as i; trackBy: relatorioTrackBy" [relatorio]="relatorio"
                                      (click)="selectRelatorio(relatorio);"
                                      [selected]="selectedIds.length > 0 && selectedIds.indexOf(relatorio.id) > -1"
                                      [deleting]="deletingIds.length > 0 && deletingIds.indexOf(relatorio.id) > -1"

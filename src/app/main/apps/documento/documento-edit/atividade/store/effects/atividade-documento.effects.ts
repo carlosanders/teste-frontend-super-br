@@ -73,7 +73,7 @@ export class AtividadeDocumentoEffects {
                 this._store.dispatch(new GetTarefa({id: action.payload.tarefa.id}));
             }
             this._store.dispatch(new UnloadDocumento());
-            const url = this.routerState.url;
+            let url = this.routerState.url;
             if (action.payload.encerraTarefa) {
                 const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
                 if (action.payload?.tarefa?.vinculacaoWorkflow) {
@@ -86,7 +86,11 @@ export class AtividadeDocumentoEffects {
             } else {
                 // Não foi encerrada a tarefa, somente fecha a modal de documento
                 // tslint:disable-next-line:max-line-length
-                this._router.navigate([url.split('/documento')[0]]).then(() => {});
+                url = url.split('/documento/')[0];
+                if (url.indexOf('/capa') !== -1) {
+                    url += '/mostrar';
+                }
+                this._router.navigate([url]).then(() => {});
             }
         })
     ), {dispatch: false});

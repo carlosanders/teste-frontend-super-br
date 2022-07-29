@@ -106,7 +106,7 @@
 
     <cdk-minutas-atividade-card class="ml-8 mb-8"
                                 [ngClass]="{'current': currentDocumentoId === documento.id}"
-                                *ngFor="let documento of documentos"
+                                *ngFor="let documento of documentos; index as i; trackBy: documentoTrackBy"
                                 [documento]="documento"
                                 [selected]="selectedIds?.indexOf(documento.id) > -1"
                                 [deleting]="deletingId?.indexOf(documento.id) > -1"
@@ -121,6 +121,7 @@
                                 [assinaturaErrors]="assinaturaErrors"
                                 [errorsAssinatura]="errorsAssinatura"
                                 [mode]="mode"
+                                [indice]="i"
                                 [actions]="actions"
                                 [oficio]="oficio"
                                 [tipoDocumentoPagination]="tipoDocumentoPagination"

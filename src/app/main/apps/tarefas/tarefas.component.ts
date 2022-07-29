@@ -70,6 +70,9 @@ import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tar
 import {
     CdkVinculacaoEtiquetaAcoesDialogComponent
 } from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
+import {
+    CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface
+} from "../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-sort-group.interface";
 
 @Component({
     selector: 'tarefas',
@@ -234,6 +237,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     loadingAcoesEtiqueta$: Observable<boolean>;
     acoesEtiquetaList$: Observable<Acao[]>;
+    collapsedGroups$: Observable<string[]>;
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
@@ -319,6 +323,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.undeletingTarefaIds$ = this._store.pipe(select(fromStore.getUnDeletingTarefaIds));
         this.changingFolderIds$ = this._store.pipe(select(fromStore.getChangingFolderTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
+        this.collapsedGroups$ = this._store.pipe(select(fromStore.getCollapsedGroups));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
 
@@ -1117,7 +1122,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/default']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar/latest']).then();
     }
 
     doRedistribuirTarefa(tarefa: Tarefa): void {
@@ -1590,10 +1595,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         let urlEditor;
-        if (this.routerState.params['processoHandle']) {
-            if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+        if (this.routerState.params['processoHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            if (this.routerState.params['stepHandle']) {
                 stepHandle = this.routerState.params['stepHandle'];
             }
             urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -1617,7 +1622,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     abreEditorOutraAba(documentoId: number, tarefa: Tarefa): void {
-        let stepHandle = 'default';
+        let stepHandle = 'latest';
         if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
             stepHandle = this.routerState.params['stepHandle'];
         }
@@ -2064,18 +2069,27 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     isLoading$: this.loadingAcoesEtiqueta$
                 },
                 width: '600px',
-                height: '300px',
+                height: '600px',
             });
 
         dialogRef.afterClosed()
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((option) => {
-                if (option === true) {
+            .subscribe((acoesId?: number[]) => {
+                if (acoesId) {
                     this._store.dispatch(new fromStore.AprovarSugestao({
                         vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        acoesExecucaoSugestao: JSON.stringify(acoesId),
                         tarefa: tarefa
                     }));
                 }
             });
+    }
+
+    doToggleGroup(groupData: CdkTarefaGroupDataInterface): void {
+        this._store.dispatch(new fromStore.ToggleGroup(groupData));
+    }
+
+    doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface|null): void {
+        this._store.dispatch(new fromStore.UnloadGroup());
     }
 }

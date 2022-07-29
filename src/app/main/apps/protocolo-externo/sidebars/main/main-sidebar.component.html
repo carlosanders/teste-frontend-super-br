@@ -31,23 +31,6 @@
         </div>
 
 
-        <div class="nav-subheader">PROCESSO DE INTERESSE</div>
-
-            <div *ngFor="let pessoaConveniada of pessoasConveniadas">
-               <div>
-                    <div class="nav-subheader">{{ pessoaConveniada.pessoa.nome }}</div>
-
-                    <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
-                        <a class="nav-link" matRipple [routerLink]="'/apps/protocolo-externo/interessados/' + pessoaConveniada.pessoa.id"
-                           [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                            <mat-icon class="nav-link-icon">inbox</mat-icon>
-                            <span>Entrada</span>
-                        </a>
-                    </div>
-            </div>
-        </div>
-
-
     </div>
 
 </div>

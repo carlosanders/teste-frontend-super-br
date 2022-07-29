@@ -13,7 +13,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Etiqueta, ModalidadeEtiqueta, Pagination} from '@cdk/models';
+import {Criteria, Etiqueta, ModalidadeEtiqueta, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-form',
@@ -69,6 +69,8 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
         '#607D8B'
     ];
 
+    tipoAcoesSugestao: Criteria[] = Etiqueta.TIPO_EXECUCAO_LIST;
+
     /**
      * Constructor
      */
@@ -85,6 +87,7 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
             corHexadecimal: [null, [Validators.required]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
             modalidadeEtiqueta: [null, [Validators.required]],
+            tipoExecucaoAcaoSugestao: [null],
         });
 
         this.modalidadeEtiquetaPagination = new Pagination();
