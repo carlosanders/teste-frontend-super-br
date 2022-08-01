@@ -312,13 +312,14 @@
                                      (outraAbaHandler)="doAbrirMinutaEmOutraAba($event)"
                                      (editarObservacao)="doEditarObservacao($event)"
                                      [viewMode]="tarefaListViewMode"
-                                     [parentIdentifier]="parentIdentifier"
                                      [resizableColumns]="['allTableColumns']"
                                      [ordableColumns]="['allTableColumns']"
                                      (resetTableDefinitions)="resetTableDefinitions()"
                                      (pencencies)="doPendencies($event)"
                                      (toggleGroup)="doToggleGroup($event)"
                                      (groupOptionChange)="doGroupOptionChange($event)"
+                                     (tableDefinitionsChange)="doTableDefinitionsChange($event)"
+                                     [tableDefinitions]="tableDefinitions"
                                      [collapsedGroups]="collapsedGroups$ | async">
                     </cdk-tarefa-list>
                 </div>

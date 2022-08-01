@@ -86,6 +86,7 @@ import {UnloadProcesso} from '../../../processo/store';
 import {TarefasComponent} from '../../tarefas.component';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {AcaoService} from '@cdk/services/acao.service';
+import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -114,22 +115,6 @@ export class TarefasEffect {
             JSON.stringify(action.payload.context),
         ).pipe(
             concatMap(response => {
-                this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
-                    .pipe(
-                        take(1),
-                        switchMap((configs) => of(configs || {}))
-                    )
-                    .subscribe((configs) => {
-                        const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
-                        const updatedConfigs = {...configs};
-                        updatedConfigs[scopeKey] = {
-                            ...(updatedConfigs[scopeKey] ?? {}),
-                            tarefaSort: (action.payload.sort)
-                        };
-
-                        this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
-                    });
-
                 return [
                     new AddData<Tarefa>({
                         data: response['entities'],
@@ -149,21 +134,27 @@ export class TarefasEffect {
         )),
         catchError((err) => {
             console.log(err);
-            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+            this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
                 .pipe(
                     take(1),
                     switchMap((configs) => of(configs || {}))
                 )
                 .subscribe((configs) => {
+
                     const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
                     const updatedConfigs = {...configs};
-                    updatedConfigs[scopeKey] = {
-                        ...(updatedConfigs[scopeKey] ?? {}),
-                        listSort: null
-                    };
+                    if (updatedConfigs[scopeKey]) {
+                        delete updatedConfigs[scopeKey]['tableDefinitions'];
+                    }
 
-                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
+                    this._cacheGenericUserDataService
+                        .set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
+
+                    this._tableDefinitionsService.deleteTableDefinitions(
+                        this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
+                    ).subscribe();
                 });
+
             return of(new TarefasActions.GetTarefasFailed(err));
         })
     ));
@@ -1389,7 +1380,8 @@ export class TarefasEffect {
         private _acaoService: AcaoService,
         private _etiquetaService: EtiquetaService,
         private _interessadoService: InteressadoService,
-        private _cacheGenericUserDataService: CacheGenericUserDataService
+        private _cacheGenericUserDataService: CacheGenericUserDataService,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),

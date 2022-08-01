@@ -2,8 +2,8 @@ import {TableColumn} from '../../table-definitions/table-column';
 import {TableColumnDefinitions} from '../../table-definitions/table-column-definitions';
 import {Usuario} from '../../../models';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
-import {TableDefinitions} from "../../table-definitions/table-definitions";
-import {TitleCasePipe} from "../../../pipes/title-case.pipe";
+import {TableDefinitions} from '../../table-definitions/table-definitions';
+import {TitleCasePipe} from '../../../pipes/title-case.pipe';
 
 export const CdkUsuarioGridColumns: TableDefinitions = {
     identifier: 'CdkUsuarioGridComponent',
@@ -80,6 +80,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
                 width: 0,
                 resizable: false,
                 ordable: false,
+                sortable: false
             }
         },
         <TableColumn> {

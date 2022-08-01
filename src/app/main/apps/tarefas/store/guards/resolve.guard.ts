@@ -15,8 +15,10 @@ import {Usuario} from '@cdk/models';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 import {ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
-import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 import {TarefasComponent} from '../../tarefas.component';
+import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
+import {TableDefinitions} from '@cdk/components/table-definitions/table-definitions';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -32,7 +34,8 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<TarefasAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _cacheGenericUserDataService: CacheGenericUserDataService
+        private _cacheGenericUserDataService: CacheGenericUserDataService,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -73,25 +76,50 @@ export class ResolveGuard implements CanActivate {
         ).pipe(
             filter(([foldersLoaded]) => !!(foldersLoaded)),
             take(1),
-            switchMap(() => {
-                return this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+            switchMap(() => this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
                     .pipe(
                         tap((configs) => {
-                            const scopeKey = TarefasComponent.generateScopeKey([this.routerState?.params['generoHandle']]);
+                            let scopeConfigs = {};
                             if (configs) {
-                                const scopeConfigs = {
+                                const scopeKey = TarefasComponent.generateScopeKey([this.routerState?.params['generoHandle']]);
+                                scopeConfigs = {
                                     ...(configs[scopeKey] || {})
                                 };
-                                // Usar sempre o que veio pelo router
-                                if (!this.viewMode) {
-                                    this.viewMode = scopeConfigs?.viewMode
+                                if (scopeConfigs) {
+                                    if (!this.viewMode && scopeConfigs['viewMode']) {
+                                        this.viewMode = scopeConfigs['viewMode'];
+                                    }
+
+                                    if (this.viewMode === 'list' && scopeConfigs['tableDefinitions']) {
+                                        this.tarefaSort = scopeConfigs['tableDefinitions']?.sort;
+                                        this.tarefaLimit = scopeConfigs['tableDefinitions']?.limit;
+                                    }
                                 }
-                                this.tarefaSort = scopeConfigs?.tarefaSort;
-                                this.tarefaLimit = scopeConfigs?.tarefaLimit;
                             }
                         })
                     )
-            }),
+                .pipe(
+                    switchMap((configs) => {
+                        if (this.viewMode === 'grid') {
+                            return this._tableDefinitionsService
+                                .getTableDefinitions(
+                                    this._tableDefinitionsService
+                                        .generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
+                                )
+                                .pipe(
+                                    tap((tableDefinitions: TableDefinitions) => {
+                                        if (tableDefinitions) {
+                                            this.tarefaSort = tableDefinitions.sort;
+                                            this.tarefaLimit = tableDefinitions.limit;
+                                        }
+                                    })
+                                )
+                        }
+
+                        return of(configs);
+                    })
+                )
+            ),
             catchError(() => of(true)),
             switchMap(() =>
                 this.getTarefas()
@@ -123,7 +151,6 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     getTarefas(): any {
-
         return combineLatest(
             [
                 this._store.pipe(select(fromStore.getTarefasLoaded)),
@@ -140,9 +167,9 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         listFilter: {},
                         etiquetaFilter: {},
-                        limit: (this.viewMode === 'grid' ? (this.tarefaLimit || 10) : 10),
+                        limit: (this.tarefaLimit || 10),
                         offset: 0,
-                        sort: (this.viewMode === 'grid' ? (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}) : {dataHoraFinalPrazo: 'ASC'}),
+                        sort: (this.tarefaSort || {dataHoraFinalPrazo: 'ASC'}),
                         populate: [
                             'processo',
                             'colaborador.usuario',

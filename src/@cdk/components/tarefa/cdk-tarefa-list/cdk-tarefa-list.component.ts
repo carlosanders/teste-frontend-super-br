@@ -21,7 +21,6 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService, ViewMode} from './cdk-tarefa-list.service';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
@@ -38,12 +37,11 @@ import {CdkUtils} from '@cdk/utils';
 import {MatSortable} from '@angular/material/sort';
 import {CdkTarefaListGridColumn} from './plugins/cdk-tarefa-list-grid-column';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
-import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import {CdkTarefaListColumns} from './cdk-tarefa-list.columns';
 import {CdkTarefaFilterService} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.service';
-import * as _ from 'lodash';
 import {CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface} from './cdk-tarefa-sort-group.interface';
 import {CdkPerfectScrollbarDirective} from '../../../directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {TableDefinitions} from '../../table-definitions/table-definitions';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -59,56 +57,6 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @ViewChildren('tarefaListItems', {read: CdkTarefaListItemComponent}) tarefaListItems: QueryList<CdkTarefaListItemComponent>;
     @ViewChildren('cdkUpload', {read: CdkComponenteDigitalCardListComponent}) componenteDigitalListItems: QueryList<CdkComponenteDigitalCardListComponent>;
     @ViewChildren(MatMenuTrigger, {read: MatMenuTrigger}) matMenuTriggersList: QueryList<MatMenuTrigger>;
-    @ViewChild(MatPaginator, {static: false}) set _paginator(paginator: MatPaginator) {
-        if (paginator) {
-            if (!this.paginator) {
-                this.paginator = paginator;
-                this.paginator.pageSize = this.pageSize;
-                this.paginator.page
-                    .pipe(
-                        tap(() => this.loadPage(
-                            {
-                                limit: this.paginator.pageSize,
-                                offset: (this.paginator.pageSize * this.paginator.pageIndex)
-                            }
-                        ))
-                    ).subscribe();
-            }
-            this.paginator.length = this.pagination.total;
-            this.paginator.pageSize = this.pagination.limit;
-            this.paginator.pageIndex = this.pagination.offset / this.pagination.limit
-        } else {
-            this.paginator = paginator;
-        }
-        this._changeDetectorRef.detectChanges();
-    };
-
-    @ViewChild(MatSort, {static: false}) set _sort(sort: MatSort) {
-        if (sort && !this.sort) {
-            this.sort = sort;
-            if (this.sortOrder) {
-                this.sort.sort(<MatSortable> {id: this.sortField, start: this.sortOrder.toLowerCase(), disableClear: false});
-            } else {
-                this.sort.active = null;
-            }
-
-            // reset the paginator after sorting
-            this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-            this.sort.sortChange
-                .pipe(
-                tap(() => this.doSort(
-                    this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                    this.paginator ? {
-                        limit: this.paginator.pageSize,
-                        offset: (this.paginator.pageSize * this.paginator.pageIndex)
-                    } : {}
-                ))
-            ).subscribe();
-        } else {
-            this.sort = sort;
-        }
-    };
-
     @ViewChildren('tdTarefaContainer', {read: ViewContainerRef}) set _dynamicComponent(list: QueryList<ViewContainerRef>) {
         list.forEach((viewContainerRef: ViewContainerRef) => {
             const td = this._render.parentNode(viewContainerRef.element.nativeElement);
@@ -432,12 +380,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @Input()
     viewMode: ViewMode = 'list';
 
-    @Input()
-    pageSize = 10;
-
     @HostBinding('class') classes = '';
 
-    columns = new FormControl();
     agruparFormControl = new FormControl<boolean>(false);
 
     listFilter: any;
@@ -451,9 +395,6 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     habilitarTipoDocumentoSalvar = false;
     tarefaDataSource: TarefaDataSource;
     cdkUtils: CdkUtils = CdkUtils;
-    paginator: MatPaginator;
-    sort: MatSort;
-
     dynamicColumnList: CdkTarefaListGridColumn[] = [];
     dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
 
@@ -474,14 +415,15 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         public loginService: LoginService,
         private _render: Renderer2,
         protected _changeDetectorRef: ChangeDetectorRef,
-        protected _tableDefinitionsService: TableDefinitionsService,
         private _cdkTarefaFilterService: CdkTarefaFilterService
     ) {
-        super(_tableDefinitionsService, _changeDetectorRef);
+        super(_changeDetectorRef);
         this.listFilter = {};
         this.formTipoDocumento = this._formBuilder.group({
             tipoDocumentoMinutas: [null]
         });
+
+        this.tableColumns = CdkTarefaListColumns.columns;
 
         this.displayedColumns = [
             'select',
@@ -496,9 +438,6 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             'observacao',
             'urgente',
         ];
-
-        this._tableColumns = _.cloneDeep(CdkTarefaListColumns.columns);
-        this._tableColumnsOriginal = _.cloneDeep(CdkTarefaListColumns.columns);
     }
 
     /**
@@ -541,8 +480,13 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         super.ngOnChanges(changes);
+        if (changes['tableDefinitions'] && this.viewMode === 'list' && this.agruparFormControl) {
+            this.agruparFormControl.setValue(this.tableDefinitions.data?.agrupar || false);
+            this.doAgrupar();
+        }
         if (changes['tarefas']) {
             this._cdkTarefaListService.tarefas = this.tarefas;
+            this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
             this.etiquetasList = [];
             this.etiquetasMinutaList = [];
 
@@ -556,7 +500,6 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                     vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
                 ) : [];
             });
-            this.tarefaDataSource = new TarefaDataSource(of(this.tarefas));
 
             if (changes['pagination'] && changes.pagination.currentValue) {
                 this.listSort = changes.pagination.currentValue.sort;
@@ -595,7 +538,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                                             ];
                                             this.dynamicColumnInstancesList.push(component.instance);
                                             this.displayedColumns = [
-                                                ...this.displayedColumns.filter((campo) => campo !== component.instance.getMatColumnDef()),
+                                                ...this._displayedColumns.filter((campo) => campo !== component.instance.getMatColumnDef()),
                                                 component.instance.getMatColumnDef()
                                             ];
                                         }
@@ -683,7 +626,21 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             this.contentScroll.scrollToTop();
         }
 
+        if (this.viewMode === 'list') {
+            this.tableDefinitions.sort = sort;
+            this.tableDefinitions.limit = this.pagination?.limit || 10;
+            if (this.agruparFormControl) {
+                this.tableDefinitions.data = {agrupar: this.agruparFormControl.value};
+            }
+            this._tableDefinitionsChange(this.tableDefinitions);
+        }
+
         this.loadPage(params);
+    }
+
+    protected _tableDefinitionsChange(tableDefinitions: TableDefinitions) {
+        tableDefinitions.version = CdkTarefaListColumns.version;
+        super._tableDefinitionsChange(tableDefinitions);
     }
 
     doAgrupar(): void {
@@ -691,6 +648,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         if (sortOption) {
             this.groupOptionChange.emit(this.getSortOptionSelected());
         }
+
+        this.agruparFormControl.setValue(this.tableDefinitions.data?.agrupar || false);
+
         if (sortOption && this.agruparFormControl.value === true) {
             this.groupedTarefas = sortOption.groupDataFactory(
                 this.tarefas,
@@ -701,6 +661,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             if (this.agruparFormControl) {
                 this.agruparFormControl.setValue(false);
             }
+
             this.groupedTarefas = [
                 {
                     identifier: 'list',
@@ -708,7 +669,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                     tarefaList: this.tarefas,
                     expanded: true,
                 }
-            ]
+            ];
         }
     }
 
@@ -719,6 +680,47 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 expanded: !optionData.expanded
             }
         );
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage(
+            {
+                limit: paginator.pageSize,
+                offset: (paginator.pageSize * paginator.pageIndex)
+            }
+        );
+    }
+
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.pagination.total;
+        paginator.pageSize = this.pagination.limit;
+        paginator.pageIndex = this.pagination.offset / this.pagination.limit
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort: MatSort, paginator: MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.doSort(
+            sort.active ? {[sort.active]: sort.direction} : {},
+            paginator ? {
+                limit: paginator.pageSize,
+                offset: (paginator.pageSize * paginator.pageIndex)
+            } : {}
+        )
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        if (this.sortOrder) {
+            this.sort.sort(<MatSortable> {id: this.sortField, start: this.sortOrder.toLowerCase(), disableClear: false});
+        } else {
+            this.sort.active = null;
+        }
     }
 
     selectTarefa(event, tarefa: Tarefa): void {
@@ -1155,7 +1157,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 label: 'Final do Prazo',
                 field: 'dataHoraFinalPrazo',
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
-                    const dateNow = moment.now();
+                    const dateNow = moment();
                     const list: CdkTarefaGroupDataInterface[] = [];
 
                     tarefas.forEach((tarefa) => {
@@ -1170,17 +1172,21 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                             key = 2;
                             label = 'Vencem hoje';
                             mode = 'group';
-                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'week')) {
+                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(moment().add(1, 'days'), 'day')) {
                             key = 3;
+                            label = 'Vencem amanhã';
+                            mode = 'group';
+                        } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'week')) {
+                            key = 4;
                             label = 'Vencem essa semana';
                             mode = 'group';
                         } else if (tarefa.dataHoraFinalPrazo && tarefa.dataHoraFinalPrazo.isSame(dateNow, 'month')) {
-                            key = 4;
-                            label = 'Vencem este mês';
+                            key = 5;
+                            label = 'Vencem esse mês';
                             mode = 'group';
                         } else {
-                            key = 5;
-                            label = 'Vencem nos próximos meses';
+                            key = 6;
+                            label = 'Vencem posteriormente';
                             mode = 'group';
                         }
 
@@ -1222,20 +1228,20 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 label: 'Data da Distribuição',
                 field: 'dataHoraDistribuicao',
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
-                    const dateNow = moment.now();
+                    const dateNow = moment();
                     const list: CdkTarefaGroupDataInterface[] = [];
 
                     tarefas.forEach((tarefa) => {
                         let key = null;
                         let label = null;
                         let mode = null;
-                        if (tarefa.dataHoraDistribuicao.isBefore(dateNow, 'day')) {
+                        if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'day')) {
                             key = 1;
-                            label = 'Distribuídas antes de hoje';
+                            label = 'Distribuídas hoje';
                             mode = 'group';
-                        } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'day')) {
+                        } else if (tarefa.dataHoraDistribuicao.isSame(moment().subtract(1, 'day'), 'day')) {
                             key = 2;
-                            label = 'Distribuidas hoje';
+                            label = 'Distribuidas ontem';
                             mode = 'group';
                         } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'week')) {
                             key = 3;
@@ -1243,7 +1249,11 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                             mode = 'group';
                         } else if (tarefa.dataHoraDistribuicao.isSame(dateNow, 'month')) {
                             key = 4;
-                            label = 'Distribuidas este mês';
+                            label = 'Distribuidas esse mês';
+                            mode = 'group';
+                        } else {
+                            key = 5;
+                            label = 'Distribuidas anteriormente';
                             mode = 'group';
                         }
 
@@ -1292,13 +1302,13 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                         let key = null;
                         let label = null;
                         let mode = null;
-                        if (tarefa.atualizadoEm.isBefore(dateNow, 'day')) {
+                        if (tarefa.atualizadoEm.isSame(dateNow, 'day')) {
                             key = 1;
-                            label = 'Atualizadas antes de hoje';
-                            mode = 'group';
-                        } else if (tarefa.atualizadoEm.isSame(dateNow, 'day')) {
-                            key = 2;
                             label = 'Atualizadas hoje';
+                            mode = 'group';
+                        } else if (tarefa.atualizadoEm.isSame(moment().subtract(1, 'days'), 'day')) {
+                            key = 2;
+                            label = 'Atualizadas ontem';
                             mode = 'group';
                         } else if (tarefa.atualizadoEm.isSame(dateNow, 'week')) {
                             key = 3;
@@ -1306,7 +1316,11 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                             mode = 'group';
                         } else if (tarefa.atualizadoEm.isSame(dateNow, 'month')) {
                             key = 4;
-                            label = 'Atualizadas este mês';
+                            label = 'Atualizadas esse mês';
+                            mode = 'group';
+                        } else {
+                            key = 5;
+                            label = 'Atualizadas anteriormente';
                             mode = 'group';
                         }
 

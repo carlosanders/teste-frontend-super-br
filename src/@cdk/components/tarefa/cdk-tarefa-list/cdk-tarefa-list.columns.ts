@@ -79,7 +79,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: false
+                sortable: true
             }
         },
         <TableColumn> {
@@ -115,7 +115,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: false
+                sortable: true
             }
         },
         <TableColumn> {

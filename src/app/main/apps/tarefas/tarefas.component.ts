@@ -72,7 +72,10 @@ import {
 } from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.component';
 import {
     CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface
-} from "../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-sort-group.interface";
+} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-sort-group.interface';
+import {TableDefinitions} from '@cdk/components/table-definitions/table-definitions';
+import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
+import {CdkTarefaListColumns} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.columns';
 
 @Component({
     selector: 'tarefas',
@@ -244,13 +247,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     tarefaListViewMode: ViewMode;
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
-    parentIdentifier: string;
+    tableDefinitions: TableDefinitions = new TableDefinitions();
+
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefasComponent', 'CdkTarefaList'];
+    static readonly LIST_DEFINITIONS_KEY:string = 'tarefaListDefinitions';
 
     private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
     private readonly _defaultSortOrder: string = 'ASC';
-
-    static definitionsKey = 'tarefaListDefinitions';
-
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
@@ -269,9 +272,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _breakpointObserver: BreakpointObserver,
         private _activatedRoute: ActivatedRoute,
         private _cdkTarefaListService: CdkTarefaListService,
-        private _cacheGenericUserDataService: CacheGenericUserDataService
+        private _cacheGenericUserDataService: CacheGenericUserDataService,
+        protected _tableDefinitionsService: TableDefinitionsService
     ) {
-        this.parentIdentifier = this.constructor.name;
         // Set the defaults
         this.formEditor = this._formBuilder.group({
             modelo: [null]
@@ -437,6 +440,38 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             select(fromStore.getViewMode),
             filter((viewMode) => !!viewMode)
         ).subscribe((viewMode) => {
+            if (viewMode === 'grid') {
+                this._tableDefinitionsService
+                    .getTableDefinitions(
+                        this._tableDefinitionsService
+                            .generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
+                    )
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((definitions: TableDefinitions) => {
+                        if (!definitions) {
+                            const tableDefinitions = new TableDefinitions()
+                            tableDefinitions.version = CdkTarefaListColumns.version;
+                            this.tableDefinitions = tableDefinitions;
+                        } else {
+                            this.tableDefinitions = definitions;
+                        }
+                        this._changeDetectorRef.markForCheck();
+                    });
+            } else {
+                this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((genericListDefinitions) => {
+                        const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                        if (genericListDefinitions && genericListDefinitions[scopeKey] && genericListDefinitions[scopeKey]['tableDefinitions']) {
+                            this.tableDefinitions = genericListDefinitions[scopeKey]['tableDefinitions'];
+                        } else {
+                            const tableDefinitions = new TableDefinitions()
+                            tableDefinitions.version = CdkTarefaListColumns.version;
+                            this.tableDefinitions = tableDefinitions;
+                        }
+                        this._changeDetectorRef.markForCheck();
+                    });
+            }
             this._cdkTarefaListService.viewMode = this.tarefaListViewMode = <ViewMode>viewMode;
             this._changeDetectorRef.markForCheck();
         });
@@ -801,25 +836,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 ...nparams['filter'],
                 'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
             };
-        }
-
-        if (this.tarefaListViewMode === 'grid' && nparams.limit !== this.pagination.limit) {
-            this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
-                .pipe(
-                    takeUntil(this._unsubscribeAll),
-                    take(1),
-                    switchMap((configs) => of(configs || {}))
-                )
-                .subscribe((configs) => {
-                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
-                    const updatedConfigs = {...configs};
-                    updatedConfigs[scopeKey] = {
-                        ...(updatedConfigs[scopeKey] ?? {}),
-                        tarefaLimit: nparams.limit
-                    };
-
-                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
-                });
         }
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -2017,7 +2033,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doTarefaListViewModeChange(viewMode: ViewMode): void {
-        this._cacheGenericUserDataService.get(TarefasComponent.definitionsKey)
+        this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
             .pipe(
                 takeUntil(this._unsubscribeAll),
                 take(1),
@@ -2026,35 +2042,65 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .subscribe((configs) => {
                 const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
                 const updatedConfigs = {...configs};
+                if (!updatedConfigs[scopeKey]) {
+                    updatedConfigs[scopeKey] = {};
+                }
+
                 updatedConfigs[scopeKey] = {
                     ...(updatedConfigs[scopeKey] ?? {}),
                     viewMode: viewMode
                 };
 
-                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.definitionsKey, 60 * 60 * 24 * 1000).subscribe();
+                this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
+
+                if (viewMode === 'list') {
+                    this.tarefaListViewMode = viewMode;
+                    this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+
+                    this.reload({
+                        listFilter: this.pagination.listFilter,
+                        listSort: (updatedConfigs[scopeKey]['tableDefinitions']?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
+                        limit: (updatedConfigs[scopeKey]['tableDefinitions']?.limit || 10),
+                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        offset: 0
+                    });
+
+                    this._changeDetectorRef.markForCheck();
+                }
+
             });
 
-        this.tarefaListViewMode = viewMode;
-        this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
+        if (viewMode === 'grid') {
+            this._tableDefinitionsService
+                .getTableDefinitions(
+                    this._tableDefinitionsService
+                        .generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
+                )
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((definitions: TableDefinitions) => {
+                    this.tarefaListViewMode = viewMode;
+                    this._store.dispatch(new fromStore.ChangeViewMode(viewMode));
 
-        this.reload({
-            listFilter: this.pagination.listFilter,
-            listSort: this.pagination.listSort,
-            tipoBusca: this.pagination?.listFilter?.tipoBusca,
-            offset: 0
-        });
+                    this.reload({
+                        listFilter: this.pagination.listFilter,
+                        listSort: (definitions?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
+                        limit: (definitions?.limit || 10),
+                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        offset: 0
+                    });
+
+                    this._changeDetectorRef.markForCheck();
+                });
+        }
     }
 
     resetTableDefinitions(): void {
-        const sort = {...(this.pagination.sort ?? {})};
-        if (Object.keys(sort)[0] !== this._defaultSortField || (Object.values(sort)[0] as string ?? '').toLowerCase() !== this._defaultSortOrder.toLowerCase()) {
-            this.reload({
-                ...this.pagination,
-                listSort: {[this._defaultSortField]: this._defaultSortOrder},
-                limit: 10,
-                offset: 0
-            });
-        }
+        this.reload({
+            ...this.pagination,
+            listSort: {[this._defaultSortField]: this._defaultSortOrder},
+            limit: 10,
+            offset: 0
+        });
     }
 
     doPendencies({vinculacaoEtiqueta, tarefa}): void {
@@ -2091,5 +2137,37 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface|null): void {
         this._store.dispatch(new fromStore.UnloadGroup());
+    }
+
+    doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
+        if (this.tarefaListViewMode === 'grid') {
+            tableDefinitions.identifier = this._tableDefinitionsService
+                .generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS);
+
+            this._tableDefinitionsService.saveTableDefinitions(tableDefinitions);
+        } else {
+            this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
+                .pipe(
+                    takeUntil(this._unsubscribeAll),
+                    take(1),
+                    switchMap((configs) => of(configs || {}))
+                )
+                .subscribe((configs) => {
+                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                    const updatedConfigs = {...configs};
+                    if (!updatedConfigs[scopeKey]) {
+                        updatedConfigs[scopeKey] = {};
+                    }
+
+                    updatedConfigs[scopeKey]['tableDefinitions'] = tableDefinitions;
+
+                    updatedConfigs[scopeKey] = {
+                        ...updatedConfigs[scopeKey],
+                        viewMode: this.tarefaListViewMode
+                    };
+
+                    this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
+                });
+        }
     }
 }

@@ -9,20 +9,21 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {UsuariosListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {
+    TableDefinitionsService
+} from '@cdk/components/table-definitions/table-definitions.service';
+import {UsuariosListComponent} from '../../usuarios-list.component';
+import {TableDefinitions} from '@cdk/components/table-definitions/table-definitions';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
 
-    /**
-     *
-     * @param _store
-     * @param _loginService
-     */
     constructor(
         private _store: Store<UsuariosListAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -41,7 +42,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getUsuarios().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
@@ -50,12 +51,18 @@ export class ResolveGuard implements CanActivate {
         );
     }
 
-    /**
-     * Get Usuarios
-     *
-     * @returns
-     */
-    getUsuarios(): Observable<any> {
+    checkStore(): Observable<any> {
+        return this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(UsuariosListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(
+                switchMap((definitions) => this.getUsuarios(definitions))
+            )
+    }
+
+    getUsuarios(definitions?: TableDefinitions): Observable<any> {
         return this._store.pipe(
             select(fromStore.getUsuariosListLoaded),
             tap((loaded: any) => {
@@ -78,9 +85,9 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.id': 'isNotNull'
                         },
                         gridFilter: {},
-                        limit: 10,
+                        limit: definitions?.limit || 10,
                         offset: 0,
-                        sort: {},
+                        sort: definitions?.sort || {},
                         populate: [
                             'populateAll',
                             'colaborador',
