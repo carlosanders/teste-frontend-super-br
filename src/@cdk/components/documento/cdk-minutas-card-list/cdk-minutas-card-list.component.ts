@@ -351,4 +351,8 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     doGetMore(processoId: number): void {
         this.getMore.emit(processoId);
     }
+
+    documentoTrackBy(index, documento: Documento): number {
+        return documento.id;
+    }
 }

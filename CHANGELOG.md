@@ -1037,3 +1037,7 @@
 * Correção de erros de navegação e roteamento na aplicação quando ocorria vinculação ou desentranhamento de juntadas de processos na rota latest
 * Melhoria em telas onde são exibidas diversas minutas em cards, que passa a exibir também um índice numérico para diferenciar entre as minutas
 * Melhoria em código de rastreamento de alterações no DOM aplicado nas listagens de arquivista, ofícios, protocolo-externo e relatórios
+* Correção na numeração das minutas para iniciar em 1
+* Melhoria adicionada numeração de minutas na listagem de tarefas e no grid de tarefas
+* Correção para garantir ordenação correta das minutas
+* Correção para remover console.log de download de componente digital
