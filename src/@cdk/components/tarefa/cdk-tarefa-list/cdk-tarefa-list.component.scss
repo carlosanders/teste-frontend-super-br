@@ -110,6 +110,53 @@ cdk-tarefa-list {
                 flex: 1 1 auto;
             }
 
+            .view-mode-list {
+
+                .list {
+                    .card-title {
+                        display: none;
+                    }
+                }
+
+                .card {
+
+                    .card-title {
+                        display: inline-flex;
+                        flex-direction: row;
+                        padding: 5px 5px 5px 5px;
+                        cursor: pointer;
+                        border-bottom-width: 1px;
+                        border-bottom-style: solid;
+                        width: 100%;
+
+                        .title-label {
+                            font-weight: bolder;
+                            margin-left: 10px;
+                        }
+
+                        mat-icon {
+                            display: flex;
+                            align-self: center;
+                            transform: rotate(0);
+                            transition: transform 0.3s ease-in-out, opacity 0.25s ease-in-out 0.1s;
+
+                            &.expanded {
+                                transform: rotate(90deg);
+                            }
+                        }
+                    }
+
+                    .card-content {
+                        border-left: solid 2px;
+
+                        &.collapsed {
+                            display: none;
+                        }
+                    }
+                }
+
+            }
+
             table {
 
                 tr {
@@ -252,6 +299,12 @@ cdk-tarefa-list {
                             }
                         }
                     }
+                }
+            }
+
+            cdk-tarefa-list-item {
+                > .content {
+                    min-height: 160px;
                 }
             }
 

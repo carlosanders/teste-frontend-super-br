@@ -52,6 +52,7 @@ export interface TarefasState {
     viewMode: string;
     loadingAcoes: boolean;
     acoesId: number[];
+    collapsedGroups: string[];
 }
 
 export const tarefasInitialState: TarefasState = {
@@ -103,7 +104,8 @@ export const tarefasInitialState: TarefasState = {
     observacaoEditIds: [],
     viewMode: 'list',
     loadingAcoes: false,
-    acoesId: []
+    acoesId: [],
+    collapsedGroups: []
 };
 
 export const tarefasReducer = (state = tarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState => {
@@ -811,6 +813,27 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
                 ...state,
                 savingVinculacaoEtiquetaId: null,
                 error: action.payload
+            };
+        }
+
+        case TarefasActions.TOGGLE_GROUP: {
+            const collapsedGroups = [
+                ...state.collapsedGroups.filter((group) => group !== action.payload.identifier)
+            ];
+            if (!action.payload.expanded) {
+                collapsedGroups.push(action.payload.identifier);
+            }
+
+            return {
+                ...state,
+                collapsedGroups: collapsedGroups,
+            };
+        }
+
+        case TarefasActions.UNLOAD_GROUP: {
+            return {
+                ...state,
+                collapsedGroups: [],
             };
         }
 

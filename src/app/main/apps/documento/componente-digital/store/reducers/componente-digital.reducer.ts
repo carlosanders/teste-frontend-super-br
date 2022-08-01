@@ -66,6 +66,7 @@ export const componenteDigitalReducer = (
 
         case ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL_FAILED: {
             return {
+                ...state,
                 loaded: false,
                 componenteDigitalId: null,
                 loading: false,

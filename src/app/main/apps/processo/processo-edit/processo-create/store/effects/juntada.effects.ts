@@ -2,21 +2,18 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assinatura, Desentranhamento, Juntada} from '@cdk/models';
+import {Desentranhamento, Juntada} from '@cdk/models';
 import {
-    assinatura as assinaturaSchema,
     desentranhamento as desentranhamentoSchema,
     juntada as juntadaSchema
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {environment} from '../../../../../../../../environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {getPagination} from '../selectors';
 import * as JuntadaActions from 'app/main/apps/processo/processo-edit/processo-create/store/actions';
@@ -59,69 +56,7 @@ export class JuntadaEffects {
         })
     ));
     /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<JuntadaActions.AssinaDocumento>(JuntadaActions.ASSINA_DOCUMENTO_JUNTADA),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
-            .pipe(
-                map(response => new JuntadaActions.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new JuntadaActions.AssinaDocumentoFailed(payload));
-                })
-            ), 25)
-    ));
-
-    /**
-     * Assina Documento Eletronicamente
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
-        ofType<JuntadaActions.AssinaDocumentoEletronicamente>(JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Assinatura) => [
-                new JuntadaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new JuntadaActions.ReloadJuntadas()
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                }));
-                return of(new JuntadaActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Reload DocumentosAvulso
+     * Reload Documentos
      */
     reloadJuntadas: any = createEffect(() => this._actions.pipe(
         ofType<JuntadaActions.ReloadJuntadas>(JuntadaActions.RELOAD_JUNTADAS),
@@ -172,7 +107,6 @@ export class JuntadaEffects {
         private _juntadaService: JuntadaService,
         private _documentoService: DocumentoService,
         private _desentranhamentoService: DesentranhamentoService,
-        private _assinaturaService: AssinaturaService,
         private _store: Store<State>,
         private _router: Router
     ) {

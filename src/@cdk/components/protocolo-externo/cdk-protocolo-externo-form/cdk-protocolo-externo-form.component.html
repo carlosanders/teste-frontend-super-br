@@ -1,6 +1,6 @@
 <form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-card>
+    <mat-card *ngIf="form.get('generoSetor').enabled">
         <mat-form-field>
             <input matInput placeholder="Ramo" formControlName="generoSetor" required
                    [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">

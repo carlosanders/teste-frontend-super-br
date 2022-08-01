@@ -243,3 +243,8 @@ export const getAcoesEtiqueta: any = createSelector(
     getAcoesEtiquetaIds,
     schemaSelectorsAcao.entitiesProjector
 );
+
+export const getCollapsedGroups: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.collapsedGroups
+);

@@ -23,7 +23,6 @@ import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkUtils} from '@cdk/utils';
 import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
-import * as fromStore from '../index';
 
 @Injectable()
 export class ProcessoEffect {

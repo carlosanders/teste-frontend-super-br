@@ -122,6 +122,9 @@ export class CdkProtocoloExternoFormComponent implements OnInit, OnChanges, OnDe
 
     setorAtualListIsLoading: boolean;
 
+    @Input()
+    existente: boolean;
+
     /**
      * Constructor
      */
@@ -214,6 +217,12 @@ export class CdkProtocoloExternoFormComponent implements OnInit, OnChanges, OnDe
                     this.form.get('setorAtual').disable();
                 }
             });
+        }
+
+        if(this.existente){
+            this.form.get('generoSetor').disable();
+            this.form.get('estado').disable();
+            this.form.get('setorAtual').disable();
         }
     }
 

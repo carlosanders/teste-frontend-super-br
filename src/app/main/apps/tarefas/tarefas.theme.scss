@@ -204,6 +204,20 @@
         }
     }
 
+    cdk-tarefa-list {
+        > .page-layout {
+            > .content {
+                .view-mode-list {
+                    .card {
+                        .card-title {
+                            border-bottom-color: map-get($foreground, divider);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     table {
         tr {
             &.selected {
