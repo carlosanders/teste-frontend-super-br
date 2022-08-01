@@ -1136,6 +1136,10 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         return tarefa.id;
     }
 
+    vinculacaoEtiquetaTrackBy(index, vinculacaoEtiqueta: VinculacaoEtiqueta): number {
+        return vinculacaoEtiqueta.id;
+    }
+
     groupDataTrackBy(index, groupData: CdkTarefaGroupDataInterface): number|string {
         return groupData.identifier;
     }
