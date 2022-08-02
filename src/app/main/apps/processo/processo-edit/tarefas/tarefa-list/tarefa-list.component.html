@@ -7,6 +7,8 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted', 'atividades', 'compartilhamentos']"
         [displayedColumns]="['select', 'id', 'especieTarefa.nome', 'setorResponsavel.nome', 'usuarioResponsavel.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'dataHoraConclusaoPrazo', 'actions']"
+        [resizableColumns]="['allTableColumns']"
+        [ordableColumns]="['allTableColumns']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
@@ -14,5 +16,6 @@
         (listCompartilhamentos)="listCompartilhamentos($event)"
         (create)="create()"
         (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+        (deleteBlocoEmmitter)="deleteBloco($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()">
 </cdk-tarefa-grid>

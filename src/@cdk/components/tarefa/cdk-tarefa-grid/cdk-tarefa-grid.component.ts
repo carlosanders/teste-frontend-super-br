@@ -7,8 +7,8 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output, SimpleChanges,
-    ViewChild,
+    Output, QueryList, SimpleChanges,
+    ViewChild, ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
@@ -24,6 +24,11 @@ import {TableDefinitionsService} from "../../table-definitions/table-definitions
 import {CdkTarefaGridColumns} from "./cdk-tarefa-grid.columns";
 import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
 import * as _ from "lodash";
+import {MatSortable} from "@angular/material/sort";
+import {TableDefinitions} from "../../table-definitions/table-definitions";
+import {
+    CdkTableColumnResizableDirective
+} from "../../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive";
 
 @Component({
     selector: 'cdk-tarefa-grid',
@@ -34,6 +39,58 @@ import * as _ from "lodash";
     animations: cdkAnimations
 })
 export class CdkTarefaGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
+
+    @Input() set displayedColumns(displayedColumns: string[]) {
+        this._displayedColumns = displayedColumns;
+        this._processDisplayableDefinitions();
+        this._processOrderDefinitions();
+        this.processAllColumnsDefinitions();
+    }
+    @Input('tableColumns') set tableColumns(tableColumns: TableColumn[]) {
+        this._tableColumns = _.cloneDeep(tableColumns);
+        this._originalTableColumns = _.cloneDeep(tableColumns);
+        this.processAllColumnsDefinitions();
+    }
+
+    @Input() tableDefinitions: TableDefinitions = new TableDefinitions();
+    @Input() resizableColumns: string[] = ['!allTableColumns'];
+    @Input() ordableColumns: string[] = ['!allTableColumns'];
+    @Input() pageSize: number = 10;
+
+    @Output() tableDefinitionsChange: EventEmitter<TableDefinitions> = new EventEmitter<TableDefinitions>();
+    @Output() resetTableDefinitions: EventEmitter<void> = new EventEmitter<void>();
+
+    @ViewChildren(CdkTableColumnResizableDirective, {read: CdkTableColumnResizableDirective}) cdkTableColumnsResizableList: QueryList<CdkTableColumnResizableDirective>;
+    @ViewChild(MatPaginator, {static: false}) set _paginator(paginator: MatPaginator) {
+        if (paginator) {
+            if (!this.paginator) {
+                this.paginator = paginator;
+                this.paginator.pageSize = this.pageSize || 10;
+                this.paginator.page
+                    .pipe(
+                        tap(() => this._tablePaginatorPageChange(paginator))
+                    ).subscribe();
+            }
+            this.setTablePaginatorData(this.paginator);
+        } else {
+            this.paginator = paginator;
+        }
+        this._changeDetectorRef.detectChanges();
+    };
+    @ViewChild(MatSort, {static: false}) set _sort(sort: MatSort) {
+        if (sort && !this.sort) {
+            this.sort = sort;
+            this.setTableSortData(this.sort);
+            // reset the paginator after sorting
+            this.sort.sortChange
+                .pipe(
+                    tap(() => this._tableColumnSortChange(this.sort, this.paginator))
+                )
+                .subscribe(() => this.paginator.pageIndex = 0);
+        } else {
+            this.sort = sort;
+        }
+    };
 
     @Input()
     loading = false;
@@ -51,10 +108,6 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo',
-        'dataHoraFinalPrazo', 'actions'];
-
-    @Input()
     deletingIds: number[] = [];
 
     @Input()
@@ -62,9 +115,6 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
 
     @Input()
     deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
@@ -121,56 +171,63 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
     @Input() parentIdentifier: string;
     @Output() columnsDefinitionsChange: EventEmitter<TableColumn[]> = new EventEmitter<TableColumn[]>();
 
-    protected _resizing: boolean = false;
-    protected _tableColumns: TableColumn[] = []
-
     /**
      * @param _changeDetectorRef
-     * @param _cdkSidebarService
      */
     constructor(
         protected _changeDetectorRef: ChangeDetectorRef,
         protected _cdkSidebarService: CdkSidebarService,
-        protected _tableDefinitionsService: TableDefinitionsService,
     ) {
-        super(_tableDefinitionsService, _changeDetectorRef);
+        super(_changeDetectorRef);
         this.gridFilter = {};
         this._tableColumns = _.cloneDeep(CdkTarefaGridColumns.columns);
-        this._tableColumnsOriginal = _.cloneDeep(CdkTarefaGridColumns.columns);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         super.ngOnChanges(changes);
         this.dataSource = new TarefaDataSource(of(this.tarefas));
-        this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
-        this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new TarefaDataSource(of(this.tarefas));
     }
 
     ngAfterViewInit(): void {
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+        super.ngAfterViewInit();
+    }
 
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.total;
+        paginator.pageSize = this.tableDefinitions.limit;
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        const sortKeys = Object.keys(this.tableDefinitions.sort || {});
+        if (sortKeys.length > 0) {
+            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+        } else {
+            this.sort.active = null;
+        }
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage();
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort:MatSort, paginator:MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.loadPage();
     }
 
     toggleFilter(): void {

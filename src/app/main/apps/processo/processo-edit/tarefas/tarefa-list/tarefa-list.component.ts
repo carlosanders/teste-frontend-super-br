@@ -137,4 +137,12 @@ export class TarefaListComponent implements OnInit, OnDestroy {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
+
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: 10
+        });
+    }
 }
