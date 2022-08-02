@@ -993,7 +993,7 @@
 * Correção para exibir as setas de alteração de ano em alguns datepickers
 * Ajuste visual nos subsmenus do processo
 
-1.8.14
+1.9.0
 
 * Refatoramento completo do componente de visualização de processo, visando reduzir a complexidade do código e melhorar o desempenho para processos grandes
 * Eliminada a dependência de um index montado no backend
@@ -1027,3 +1027,17 @@
 * Correção de erro de loop infinito de downloadLatest ao criar minuta baseada em modelo dentro de tarefa cujo processo não tem juntadas
 * Correção de erro ao trocar entre diversas minutas e, posteriormente, tomar alguma ação sobre o componente digital mais recente
 * Correção de bug de barra de rolagem se manter no final da listagem de tarefas ao trocar de pasta/gênero/tipo de tarefa
+* Correção de bug no formulário da tarefa para permitir evento com inicio e fim no mesmo dia
+* Nova funcionalidade para permitir ao usuário externo conveniado juntar uma petição em um NUP existente
+* Nova visão do processo na forma de fluxo de trabalho
+* Configuração de cronjobs no módulo de administração
+* Funcionalidade para agrupar a ordenação da lista de tarefas em datas, processos e espécies de tarefas
+* Funcionalidade para exibir no calendário de taredas não apenas os eventos, mas todas as tarefas
+* Correção em erro no painel de ofícios do usuário externo que limitava a quantidade máxima de ofícios na listagem a 100
+* Correção de erros de navegação e roteamento na aplicação quando ocorria vinculação ou desentranhamento de juntadas de processos na rota latest
+* Melhoria em telas onde são exibidas diversas minutas em cards, que passa a exibir também um índice numérico para diferenciar entre as minutas
+* Melhoria em código de rastreamento de alterações no DOM aplicado nas listagens de arquivista, ofícios, protocolo-externo e relatórios
+* Correção na numeração das minutas para iniciar em 1
+* Melhoria adicionada numeração de minutas na listagem de tarefas e no grid de tarefas
+* Correção para garantir ordenação correta das minutas
+* Correção para remover console.log de download de componente digital

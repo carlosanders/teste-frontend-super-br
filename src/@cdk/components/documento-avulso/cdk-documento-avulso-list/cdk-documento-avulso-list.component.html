@@ -101,7 +101,7 @@
              [infiniteScrollThrottle]="150"
              (scrolled)="onScroll()">
 
-            <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
+            <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso; index as i; trackBy: documentoAvulsoTrackBy"
                                             [documentoAvulso]="documentoAvulso"
                                             (click)="selectDocumentoAvulso(documentoAvulso)"
                                             [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"

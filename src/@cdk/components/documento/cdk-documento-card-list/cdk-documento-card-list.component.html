@@ -118,7 +118,7 @@
     </div>
 
     <cdk-documento-card class="ml-8 mb-8"
-                        *ngFor="let documento of documentos"
+                        *ngFor="let documento of documentos; index as i; trackBy: documentoTrackBy"
                         [documento]="documento"
                         [selected]="selectedIds?.indexOf(documento.id) > -1"
                         [deleting]="deletingId?.indexOf(documento.id) > -1"
@@ -129,6 +129,7 @@
                         [convertendo]="convertendoId?.indexOf(documento.id) > -1"
                         [download]="downloadId?.indexOf(documento.id) > -1"
                         [actions]="actions"
+                        [indice]="i"
                         [tipoDocumentoPagination]="tipoDocumentoPagination"
                         [tiposDocumentosNaoEditaveis]="tiposDocumentosNaoEditaveis"
                         [maisDeUmItemSelecionado]="selectedIds?.length > 1"

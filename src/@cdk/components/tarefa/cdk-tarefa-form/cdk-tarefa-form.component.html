@@ -292,8 +292,8 @@
 
         <div class="dias-uteis" [hidden]="evento">
             <mat-form-field class="dias-input">
-                <input matInput type="number" class="prazoDias" min="1" max="180" [readonly]="!!tarefa.dataHoraConclusaoPrazo"
-                       formControlName="prazoDias" oninput="this.value = Math.abs(this.value) > 0 ? Math.abs(this.value) : null" placeholder="Em dia(s)">
+                <input matInput type="number" class="prazoDias" min="0" max="180" [readonly]="!!tarefa.dataHoraConclusaoPrazo"
+                       formControlName="prazoDias" oninput="this.value = Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" placeholder="Em dia(s)">
             </mat-form-field>
 
             <mat-slide-toggle formControlName="diasUteis" [disabled]="!!tarefa.dataHoraConclusaoPrazo">

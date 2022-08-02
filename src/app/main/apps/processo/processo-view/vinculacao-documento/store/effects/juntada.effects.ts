@@ -145,17 +145,32 @@ export class JuntadaEffects {
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO_SUCCESS),
         tap((action) => {
             let url = this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0];
-            const steps = this.routerState.params['stepHandle'].split('-');
-            const currentStep = {
-                step: parseInt(steps[0], 10),
-                subStep: parseInt(steps[1], 10)
-            };
-            if (currentStep.step === action.payload.juntadaVinculadaId) {
-                currentStep.step = action.payload.juntada.id;
-                url = url.replace(this.routerState.params['stepHandle'], currentStep.step + '-' + currentStep.subStep);
+            let currentStep;
+            if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                currentStep = {
+                    step: parseInt(steps[0], 10),
+                    subStep: parseInt(steps[1], 10)
+                };
+                if (currentStep.step === action.payload.juntadaVinculadaId) {
+                    currentStep.step = action.payload.juntada.id;
+                    url = url.replace(this.routerState.params['stepHandle'], currentStep.step + '-' + currentStep.subStep);
+                }
             }
             this._router.navigate([url]).then(() => {
-                this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                } else if (this.routerState.params['stepHandle'] === 'capa') {
+                    this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                } else {
+                    let processoId = null;
+
+                    const routeParams = of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
+                }
             });
         })
     ), {dispatch: false});

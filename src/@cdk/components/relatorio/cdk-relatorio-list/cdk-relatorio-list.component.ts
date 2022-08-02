@@ -210,4 +210,8 @@ export class CdkRelatorioListComponent {
     criarRelatorio() {
         this.criaRelatorio.emit(true);
     }
+
+    relatorioTrackBy(index, relatorio: Relatorio): number {
+        return relatorio.id;
+    }
 }

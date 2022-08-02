@@ -145,6 +145,8 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
                 return of([]);
             })
         ).subscribe();
+
+        this.form.setErrors({rulesError: ''});
     }
 
     /**

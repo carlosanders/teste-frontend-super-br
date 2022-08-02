@@ -439,17 +439,27 @@ export class ProcessoViewEffect {
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
                 if (documentoId === juntada?.documento.id) {
-                    const stepHandle = this.routerState.params['stepHandle'].split('-');
-                    let componenteDigitalId = null;
-                    if (stepHandle[1]) {
-                        componenteDigitalId = parseInt(stepHandle[1], 10);
-                    }
-                    if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
-                        const currentStep = {
-                            step: parseInt(stepHandle[0], 10),
-                            subStep: componenteDigitalId
-                        };
-                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                    if (this.routerState.params['stepHandle'] !== 'latest') {
+                        const stepHandle = this.routerState.params['stepHandle'].split('-');
+                        let componenteDigitalId = null;
+                        if (stepHandle[1]) {
+                            componenteDigitalId = parseInt(stepHandle[1], 10);
+                        }
+                        if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
+                            const currentStep = {
+                                step: parseInt(stepHandle[0], 10),
+                                subStep: componenteDigitalId
+                            };
+                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                        }
+                    } else if (this.routerState.params['stepHandle'] === 'latest') {
+                        let processoId = null;
+
+                        const routeParams = of('processoHandle');
+                        routeParams.subscribe((param) => {
+                            processoId = parseInt(this.routerState.params[param], 10);
+                        });
+                        this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
                     }
                 }
             }

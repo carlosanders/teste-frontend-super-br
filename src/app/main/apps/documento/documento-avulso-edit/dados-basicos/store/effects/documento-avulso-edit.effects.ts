@@ -134,12 +134,20 @@ export class DocumentoAvulsoEditEffects {
                 } else if (url.indexOf('/oficios') !== -1) {
                     this._store.dispatch(new GetDocumentosAvulsos());
                 }
-                if (this.routerState.params.stepHandle) {
-                    const steps = this.routerState.params['stepHandle'].split('-');
-                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                        step: parseInt(steps[0], 10),
-                        subStep: parseInt(steps[1], 10)
-                    }));
+                if (this.routerState.params['stepHandle']) {
+                    if (this.routerState.params['stepHandle'] !== 'latest' && this.routerState.params['stepHandle'] !== 'capa') {
+                        const steps = this.routerState.params['stepHandle'].split('-');
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                            step: parseInt(steps[0], 10),
+                            subStep: parseInt(steps[1], 10)
+                        }));
+                    } else if (this.routerState.params['stepHandle'] === 'latest') {
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                            step: 0
+                        }));
+                    } else {
+                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                    }
                 }
             });
         })

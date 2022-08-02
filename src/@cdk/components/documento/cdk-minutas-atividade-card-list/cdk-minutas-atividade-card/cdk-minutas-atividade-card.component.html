@@ -15,7 +15,7 @@
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
-            <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
+            <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}{{indice+1}}</div>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa"
                       class="ml-8 mr-8">
                 edit

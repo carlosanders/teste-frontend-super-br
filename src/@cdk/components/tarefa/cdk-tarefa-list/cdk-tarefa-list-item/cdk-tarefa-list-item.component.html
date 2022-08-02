@@ -126,12 +126,12 @@
             </div>
 
             <div class="etiquetas-minutas">
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas; index as i; trackBy: vinculacaoEtiquetaTrackBy"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa, $event); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
                     <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
                     <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
-                    <div class="etiqueta-title mr-4">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    <div class="etiqueta-title mr-4">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}{{i + 1}}</div>
                     <mat-icon *ngIf="!!vinculacaoEtiqueta.objectContext['temAnexos']" [matTooltip]="'Possui Anexos'" class="ml-2 mr-2 small"
                               (click)="doUploadAnexos(vinculacaoEtiqueta); $event.stopPropagation();">attach_file</mat-icon>
                     <mat-icon class="ml-2 mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['assinado']">lock</mat-icon>

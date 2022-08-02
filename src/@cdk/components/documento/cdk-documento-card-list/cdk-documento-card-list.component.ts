@@ -6,7 +6,8 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -350,5 +351,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doGetMore(): void {
         this.getMore.emit(true);
+    }
+
+    documentoTrackBy(index, documento: Documento): number {
+        return documento.id;
     }
 }
