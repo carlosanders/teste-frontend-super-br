@@ -173,6 +173,7 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         protected _changeDetectorRef: ChangeDetectorRef,

@@ -10,6 +10,12 @@ import {TarefaListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getTarefaListLoaded} from '../selectors';
+ import {
+     TableDefinitionsService
+ } from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
+ import {UsuariosListComponent} from "../../../../../../admin/usuarios/usuarios-list/usuarios-list.component";
+ import {TarefaListComponent} from "../../tarefa-list.component";
+ import {TableDefinitions} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -20,9 +26,11 @@ export class ResolveGuard implements CanActivate {
      * Constructor
      *
      * @param _store
+     * @param _tableDefinitionsService
      */
     constructor(
-        private _store: Store<TarefaListAppState>
+        private _store: Store<TarefaListAppState>,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -50,12 +58,23 @@ export class ResolveGuard implements CanActivate {
         );
     }
 
+    checkStore(): Observable<any> {
+        return this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(
+                switchMap((definitions) => this.getTarefas(definitions))
+            )
+    }
+
     /**
      * Get Tarefas
      *
      * @returns
      */
-    getTarefas(): any {
+    getTarefas(definitions?: TableDefinitions): any {
         return this._store.pipe(
             select(getTarefaListLoaded),
             tap((loaded: any) => {
@@ -73,9 +92,9 @@ export class ResolveGuard implements CanActivate {
                             'processo.id': processoId
                         },
                         gridFilter: {},
-                        limit: 10,
+                        limit: definitions?.limit || 10,
                         offset: 0,
-                        sort: {id: 'DESC'},
+                        sort: definitions?.sort || {id: 'DESC'},
                         populate: [
                             'processo',
                             'colaborador.usuario',
