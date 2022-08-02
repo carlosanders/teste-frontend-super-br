@@ -6,9 +6,10 @@ import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {TarefaDetailAppState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
 import * as fromStoreProcesso from 'app/main/apps/processo/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
-import {getHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
+import {getCurrentTarefa} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {getProcessoLoaded, getProcessoIsLoading} from '../../../../processo/store';
+import {Tarefa} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -73,15 +74,25 @@ export class ResolveGuard implements CanActivate {
      */
     getTarefa(): any {
         return this._store.pipe(
-            select(getHasLoaded),
-            tap((loaded: any) => {
-                if (!this.loadingTarefa && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
-                    this._store.dispatch(new fromStore.GetTarefa({
-                        id: this.routerState.params['tarefaHandle']
+            select(getCurrentTarefa),
+            tap((currentTarefa: Tarefa) => {
+                if (currentTarefa && currentTarefa.id === parseInt(this.routerState.params['tarefaHandle'], 10)) {
+                    this._store.dispatch(new fromStore.GetTarefaSuccess({
+                        tarefa: currentTarefa,
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params['tarefaHandle']
+                        }
                     }));
+                } else {
+                    if (!this.loadingTarefa && (!currentTarefa || parseInt(this.routerState.params['tarefaHandle'], 10) !== currentTarefa.id)) {
+                        this._store.dispatch(new fromStore.GetTarefa({
+                            id: this.routerState.params['tarefaHandle']
+                        }));
+                    }
                 }
             }),
-            filter((loaded: any) => !this.loadingTarefa && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((currentTarefa: any) => !this.loadingTarefa && (!!currentTarefa && parseInt(this.routerState.params['tarefaHandle'], 10) === currentTarefa.id)),
             take(1)
         );
     }

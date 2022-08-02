@@ -1041,3 +1041,5 @@
 * Melhoria adicionada numeração de minutas na listagem de tarefas e no grid de tarefas
 * Correção para garantir ordenação correta das minutas
 * Correção para remover console.log de download de componente digital
+* Correção bug que não exibia tela de encaminhamento após encerramento de tarefas em determinada rota da aplicação
+* Melhoria removida requisição desnecessária de GetTarefa ao backend ao abrir detalhamento de tarefa que já consta no normalizr da aplicação

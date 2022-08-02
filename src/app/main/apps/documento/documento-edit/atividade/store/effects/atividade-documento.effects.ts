@@ -75,12 +75,12 @@ export class AtividadeDocumentoEffects {
             this._store.dispatch(new UnloadDocumento());
             let url = this.routerState.url;
             if (action.payload.encerraTarefa) {
-                const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
                 if (action.payload?.tarefa?.vinculacaoWorkflow) {
                     this._router.navigate([
-                        url.split(split)[0] + '/entrada'
+                        'apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/' + this.routerState.params['targetHandle']
                     ]).then();
                 } else {
+                    const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : url.indexOf('/processo') !== -1 ? '/processo' : '/documento';
                     this._router.navigate([url.split(split)[0] + '/encaminhamento']).then();
                 }
             } else {
