@@ -11,6 +11,7 @@ import {
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 import {Documento, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {getRouterState} from '../../../../../../store';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
@@ -39,6 +40,17 @@ export const getPluginLoading: any = createSelector(
 export const getIsSaving: any = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.saving
+);
+
+export const getTarefaHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['tarefaHandle']
+);
+
+export const getCurrentTarefa: any = createSelector(
+    schemaTarefaSelectors.getNormalizedEntities,
+    getTarefaHandle,
+    schemaTarefaSelectors.entityProjector
 );
 
 export const getHasLoaded: any = createSelector(
