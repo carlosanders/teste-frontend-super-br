@@ -125,7 +125,9 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             setor.sequenciaInicialNUP = 0;
         }
 
-        setor.parent = this.unidade;
+        if (!setor.parent) {
+            setor.parent = this.unidade;
+        }
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveSetor({
