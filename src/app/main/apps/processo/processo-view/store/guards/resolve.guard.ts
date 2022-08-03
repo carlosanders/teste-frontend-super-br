@@ -146,7 +146,7 @@ export class ResolveGuard implements CanActivate {
                         this.loadingLatestBinary = true;
                     }
                 }),
-                filter((binary: any) => !this.loadingLatestBinary && (!!binary.src) ||
+                filter((binary: any) => this.loadingLatestBinary || (!!binary.src) ||
                     (binary.processo === parseInt(this.routerState.params['processoHandle'], 10)) ||
                     (this.loadingProcesso === parseInt(this.routerState.params['processoHandle'], 10))),
                 take(1)
@@ -223,7 +223,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingJuntadas = true;
                 }
             }),
-            filter((loaded: any) => !this.loadingJuntadas && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
@@ -262,7 +262,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingVolumes = true;
                 }
             }),
-            filter((loaded: any) => !this.loadingVolumes && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

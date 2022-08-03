@@ -1043,3 +1043,5 @@
 * Correção para remover console.log de download de componente digital
 * Correção bug que não exibia tela de encaminhamento após encerramento de tarefas em determinada rota da aplicação
 * Melhoria removida requisição desnecessária de GetTarefa ao backend ao abrir detalhamento de tarefa que já consta no normalizr da aplicação
+* Melhoria para remover lentidão no guarda de rota de processo-view, liberando a tela antes do fim do download
+* Melhoria implementado componente vazio de tarefa, dentro do tarefa-detail, para ser novo contexto do retorno do editor, redirecionando em seguida para o processo-view
