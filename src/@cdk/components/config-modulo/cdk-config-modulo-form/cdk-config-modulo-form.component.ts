@@ -235,13 +235,15 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
     editorInit(editor: MonacoStandaloneCodeEditor): void {
         setTimeout(() => {
             editor.getAction('editor.action.formatDocument').run().then();
-        }, 1000);
+        }, 500);
     }
 
     editorReadOnlyInit(editor: MonacoStandaloneCodeEditor): void {
         setTimeout(() => {
-            editor.updateOptions({readOnly: true});
             editor.getAction('editor.action.formatDocument').run().then();
+        }, 500);
+        setTimeout(() => {
+            editor.updateOptions({readOnly: true});
         }, 1000);
     }
 
