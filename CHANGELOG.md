@@ -1045,3 +1045,4 @@
 * Melhoria removida requisição desnecessária de GetTarefa ao backend ao abrir detalhamento de tarefa que já consta no normalizr da aplicação
 * Melhoria para remover lentidão no guarda de rota de processo-view, liberando a tela antes do fim do download
 * Melhoria implementado componente vazio de tarefa, dentro do tarefa-detail, para ser novo contexto do retorno do editor, redirecionando em seguida para o processo-view
+* Correção de erro de loop infinito de downloadLatest caso editor seja aberto diretamente pela url em um processo sem componentes digitais/sem juntadas
