@@ -34,7 +34,7 @@ import {
 })
 export class TarefaListComponent implements OnInit, OnDestroy {
 
-    static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefaListComponent', 'CdkTarefaGrid'];
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'TarefaListComponent', 'CdkTarefaGrid'];
 
     routerState: any;
     tarefas$: Observable<Tarefa[]>;
