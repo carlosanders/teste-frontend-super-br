@@ -16,6 +16,13 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {TableDefinitions} from "../../../../../../../@cdk/components/table-definitions/table-definitions";
+import {
+    TableDefinitionsService
+} from "../../../../../../../@cdk/components/table-definitions/table-definitions.service";
+import {
+    CdkTarefaGridColumns
+} from "../../../../../../../@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
 
 @Component({
     selector: 'tarefa-list',
@@ -27,6 +34,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class TarefaListComponent implements OnInit, OnDestroy {
 
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefaListComponent', 'CdkTarefaGrid'];
+
     routerState: any;
     tarefas$: Observable<Tarefa[]>;
     loading$: Observable<boolean>;
@@ -37,16 +46,19 @@ export class TarefaListComponent implements OnInit, OnDestroy {
     deletedIds$: Observable<any>;
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    tableDefinitions: TableDefinitions = new TableDefinitions();
 
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _tableDefinitionsService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.TarefaListAppState>,
+        private _tableDefinitionsService: TableDefinitionsService,
     ) {
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefaList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -69,6 +81,23 @@ export class TarefaListComponent implements OnInit, OnDestroy {
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+
+        this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((definitions: TableDefinitions) => {
+                console.log(definitions);
+                if (!definitions) {
+                    this.tableDefinitions = new TableDefinitions();
+                    this.tableDefinitions.version = CdkTarefaGridColumns.version;
+                } else {
+                    this.tableDefinitions = definitions;
+                }
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     ngOnDestroy(): void {
@@ -136,5 +165,20 @@ export class TarefaListComponent implements OnInit, OnDestroy {
     deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
+    }
+
+    doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
+        tableDefinitions.identifier = this._tableDefinitionsService
+            .generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS);
+
+        this._tableDefinitionsService.saveTableDefinitions(tableDefinitions);
+    }
+
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: 10
+        });
     }
 }
