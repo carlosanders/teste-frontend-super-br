@@ -18,9 +18,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {TableDefinitions} from "../../../../../../../@cdk/components/table-definitions/table-definitions";
 import {
-    CdkUsuarioGridColumns
-} from "../../../../../../../@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.columns";
-import {
     TableDefinitionsService
 } from "../../../../../../../@cdk/components/table-definitions/table-definitions.service";
 import {
@@ -92,6 +89,7 @@ export class TarefaListComponent implements OnInit, OnDestroy {
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((definitions: TableDefinitions) => {
+                console.log(definitions);
                 if (!definitions) {
                     this.tableDefinitions = new TableDefinitions();
                     this.tableDefinitions.version = CdkTarefaGridColumns.version;

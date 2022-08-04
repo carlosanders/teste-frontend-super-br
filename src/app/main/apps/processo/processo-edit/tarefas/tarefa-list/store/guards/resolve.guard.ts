@@ -13,7 +13,6 @@ import {getTarefaListLoaded} from '../selectors';
  import {
      TableDefinitionsService
  } from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
- import {UsuariosListComponent} from "../../../../../../admin/usuarios/usuarios-list/usuarios-list.component";
  import {TarefaListComponent} from "../../tarefa-list.component";
  import {TableDefinitions} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions";
 

@@ -11,7 +11,7 @@ import {
     ViewChild, ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
-import {merge, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
@@ -20,7 +20,6 @@ import {tap} from 'rxjs/operators';
 import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
 import {Tarefa} from '@cdk/models';
 import {TableColumn} from "../../table-definitions/table-column";
-import {TableDefinitionsService} from "../../table-definitions/table-definitions.service";
 import {CdkTarefaGridColumns} from "./cdk-tarefa-grid.columns";
 import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
 import * as _ from "lodash";
@@ -181,7 +180,7 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
     ) {
         super(_changeDetectorRef);
         this.gridFilter = {};
-        this._tableColumns = _.cloneDeep(CdkTarefaGridColumns.columns);
+        this.tableColumns = _.cloneDeep(CdkTarefaGridColumns.columns);
     }
 
     ngOnChanges(changes: SimpleChanges): void {

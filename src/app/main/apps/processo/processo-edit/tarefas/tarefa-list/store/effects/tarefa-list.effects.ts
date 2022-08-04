@@ -17,7 +17,7 @@ import * as ProcessoActions from "../../../../../store/actions/processo.actions"
 import {
     TableDefinitionsService
 } from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
-import {UsuariosListComponent} from "../../../../../../admin/usuarios/usuarios-list/usuarios-list.component";
+import {TarefaListComponent} from "../../tarefa-list.component";
 
 @Injectable()
 export class TarefaListEffect {
@@ -57,7 +57,7 @@ export class TarefaListEffect {
         catchError((err) => {
             console.log(err);
             this._tableDefinitionsService.deleteTableDefinitions(
-                this._tableDefinitionsService.generateTableDeinitionIdentifier(UsuariosListComponent.GRID_DEFINITIONS_KEYS)
+                this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
             ).subscribe();
             return of(new TarefaListActions.GetTarefasFailed(err));
         })
