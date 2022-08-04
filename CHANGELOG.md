@@ -1046,3 +1046,5 @@
 * Melhoria para remover lentidão no guarda de rota de processo-view, liberando a tela antes do fim do download
 * Melhoria implementado componente vazio de tarefa, dentro do tarefa-detail, para ser novo contexto do retorno do editor, redirecionando em seguida para o processo-view
 * Correção de erro de loop infinito de downloadLatest caso editor seja aberto diretamente pela url em um processo sem componentes digitais/sem juntadas
+* Correção em pequeno delay na exibição de um componente digital já baixado na tela de visualização de processo
+* Correção em ordenação de minutas em telas do sistema onde minutas são exibidas em cards

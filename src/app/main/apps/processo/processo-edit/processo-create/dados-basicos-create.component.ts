@@ -498,7 +498,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.vinculacoesProcessosPagination = pagination;
         });
 
-        this.tarefa = new Tarefa();
+        if (!this.processo) {
+            this.tarefa = new Tarefa();
+        }
 
         this.isLinear = true;
 
