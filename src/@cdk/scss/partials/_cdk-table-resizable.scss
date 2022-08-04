@@ -21,6 +21,13 @@
         }
     }
 
+    th,td {
+        mat-checkbox, input[type=checkbox] {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
     .mat-cell {
         word-wrap: anywhere;
         overflow: hidden;

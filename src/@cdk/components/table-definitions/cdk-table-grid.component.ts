@@ -392,7 +392,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
             }
 
             if (defaultColumnDefinitions) {
-                defaultColumnDefinitions.definitions.selected = userColumnDefinitions.definitions.selected;
+                defaultColumnDefinitions.definitions.selected = userColumnDefinitions.definitions.selected && this._displayedColumns.includes(userColumnDefinitions.id);
 
                 if (defaultColumnDefinitions.definitions.order != -1 && (defaultColumnDefinitions.definitions.ordable
                     || this._displayedColumns.indexOf(defaultColumnDefinitions.id) != -1) && !defaultColumnDefinitions.positionFixed) {

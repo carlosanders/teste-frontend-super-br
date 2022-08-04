@@ -103,12 +103,6 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
     isIndeterminate = false;
     hasExcluded = false;
 
-    /*
-    * Drag and Drop
-    * */
-    @Input() parentIdentifier: string;
-    @Output() columnsDefinitionsChange: EventEmitter<TableColumn[]> = new EventEmitter<TableColumn[]>();
-
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -120,6 +114,9 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
         super(_changeDetectorRef);
         this.gridFilter = {};
         this.tableColumns = _.cloneDeep(CdkTarefaGridColumns.columns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkTarefaGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
