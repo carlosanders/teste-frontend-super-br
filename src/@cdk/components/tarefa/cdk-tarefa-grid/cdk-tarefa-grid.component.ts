@@ -39,58 +39,6 @@ import {
 })
 export class CdkTarefaGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
 
-    @Input() set displayedColumns(displayedColumns: string[]) {
-        this._displayedColumns = displayedColumns;
-        this._processDisplayableDefinitions();
-        this._processOrderDefinitions();
-        this.processAllColumnsDefinitions();
-    }
-    @Input('tableColumns') set tableColumns(tableColumns: TableColumn[]) {
-        this._tableColumns = _.cloneDeep(tableColumns);
-        this._originalTableColumns = _.cloneDeep(tableColumns);
-        this.processAllColumnsDefinitions();
-    }
-
-    @Input() tableDefinitions: TableDefinitions = new TableDefinitions();
-    @Input() resizableColumns: string[] = ['!allTableColumns'];
-    @Input() ordableColumns: string[] = ['!allTableColumns'];
-    @Input() pageSize: number = 10;
-
-    @Output() tableDefinitionsChange: EventEmitter<TableDefinitions> = new EventEmitter<TableDefinitions>();
-    @Output() resetTableDefinitions: EventEmitter<void> = new EventEmitter<void>();
-
-    @ViewChildren(CdkTableColumnResizableDirective, {read: CdkTableColumnResizableDirective}) cdkTableColumnsResizableList: QueryList<CdkTableColumnResizableDirective>;
-    @ViewChild(MatPaginator, {static: false}) set _paginator(paginator: MatPaginator) {
-        if (paginator) {
-            if (!this.paginator) {
-                this.paginator = paginator;
-                this.paginator.pageSize = this.pageSize || 10;
-                this.paginator.page
-                    .pipe(
-                        tap(() => this._tablePaginatorPageChange(paginator))
-                    ).subscribe();
-            }
-            this.setTablePaginatorData(this.paginator);
-        } else {
-            this.paginator = paginator;
-        }
-        this._changeDetectorRef.detectChanges();
-    };
-    @ViewChild(MatSort, {static: false}) set _sort(sort: MatSort) {
-        if (sort && !this.sort) {
-            this.sort = sort;
-            this.setTableSortData(this.sort);
-            // reset the paginator after sorting
-            this.sort.sortChange
-                .pipe(
-                    tap(() => this._tableColumnSortChange(this.sort, this.paginator))
-                )
-                .subscribe(() => this.paginator.pageIndex = 0);
-        } else {
-            this.sort = sort;
-        }
-    };
-
     @Input()
     loading = false;
 
@@ -117,12 +65,6 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -155,11 +97,8 @@ export class CdkTarefaGridComponent extends CdkTableGridComponent implements Aft
     listCompartilhamentos = new EventEmitter<number>();
 
     dataSource: TarefaDataSource;
-
     showFilter = false;
-
     gridFilter: any;
-
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
