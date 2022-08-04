@@ -170,7 +170,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
             definitions: <TableColumnDefinitions>{
-                fixed: true,
+                fixed: false,
                 excluded: false,
                 selected: true,
                 order: 80,
@@ -189,7 +189,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
             definitions: <TableColumnDefinitions>{
-                fixed: true,
+                fixed: false,
                 excluded: false,
                 selected: true,
                 order: 90,
@@ -208,7 +208,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
             definitions: <TableColumnDefinitions>{
-                fixed: true,
+                fixed: false,
                 excluded: false,
                 selected: true,
                 order: 100,
