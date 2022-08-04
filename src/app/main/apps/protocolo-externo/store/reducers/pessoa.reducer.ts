@@ -24,7 +24,7 @@ export function PessoaReducer(state = PessoaInitialState, action: PessoaActions.
         case PessoaActions.GET_PESSOA_SUCCESS:
             return {
                 ...state,
-                pessoaId: action.payload.pessoa.id,
+                pessoaId: action.payload?.pessoa?.id,
                 loading: false,
                 loaded: action.payload.loaded
             };
