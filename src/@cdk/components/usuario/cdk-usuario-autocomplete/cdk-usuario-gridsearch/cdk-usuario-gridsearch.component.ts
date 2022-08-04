@@ -95,6 +95,15 @@ export class CdkUsuarioGridsearchComponent implements OnInit {
         this.load (params);
     }
 
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: undefined,
+            offset: undefined
+        })
+    }
+
     select(usuario): void {
         this.selected.emit(usuario);
     }

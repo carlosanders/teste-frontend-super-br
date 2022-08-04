@@ -20,6 +20,7 @@ import {CdkUsuarioGridColumns} from './cdk-usuario-grid.columns';
 import * as _ from 'lodash';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
 import {MatSortable} from '@angular/material/sort';
+import {TableDefinitions} from "../../table-definitions/table-definitions";
 
 @Component({
     selector: 'cdk-usuario-grid',
@@ -128,6 +129,7 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
         this.gridFilter = {};
         this.usuarios = [];
         this.tableColumns = _.cloneDeep(CdkUsuarioGridColumns.columns);
+        this.tableDefinitions = _.cloneDeep(CdkUsuarioGridColumns);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -185,11 +187,13 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const limit = this.tableDefinitions.limit || 10;
+        const sort = this.tableDefinitions.sort || {};
         this.reload.emit({
             gridFilter: filter,
-            limit: this.tableDefinitions.limit,
-            offset: (this.tableDefinitions.limit * this.paginator.pageIndex),
-            sort: this.tableDefinitions.sort,
+            limit: limit,
+            offset: (limit * this.paginator.pageIndex),
+            sort: sort,
             context: contexto
         });
         this.hasExcluded = false;

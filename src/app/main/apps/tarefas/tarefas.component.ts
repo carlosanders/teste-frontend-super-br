@@ -768,8 +768,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
         this.novaTarefa = false;
-        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
-
         let nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
@@ -778,6 +776,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : this.pagination.offset),
             viewMode: this.tarefaListViewMode
         };
+
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         let generoParam = this.routerState.params['generoHandle'];
         if (this.typeHandle === 'minhas-tarefas' && params.tipoBusca === 'todas') {
