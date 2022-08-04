@@ -14,6 +14,10 @@ import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import * as ProcessoActions from "../../../../../store/actions/processo.actions";
+import {
+    TableDefinitionsService
+} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
+import {TarefaListComponent} from "../../tarefa-list.component";
 
 @Injectable()
 export class TarefaListEffect {
@@ -52,6 +56,9 @@ export class TarefaListEffect {
         ]),
         catchError((err) => {
             console.log(err);
+            this._tableDefinitionsService.deleteTableDefinitions(
+                this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
+            ).subscribe();
             return of(new TarefaListActions.GetTarefasFailed(err));
         })
     ));
@@ -106,7 +113,8 @@ export class TarefaListEffect {
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),

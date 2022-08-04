@@ -17,6 +17,8 @@ import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkTarefaGridComponent} from './cdk-tarefa-grid.component';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
+import {TableDefinitionsService} from "../../table-definitions/table-definitions.service";
+import {DndModule} from "ngx-drag-drop";
 
 @NgModule({
     declarations: [
@@ -39,9 +41,11 @@ import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-fi
         CdkSharedModule,
         CdkSidebarModule,
         MatTooltipModule,
+        DndModule,
     ],
     providers: [
         EspecieTarefaService,
+        TableDefinitionsService
     ],
     exports: [
         CdkTarefaGridComponent
