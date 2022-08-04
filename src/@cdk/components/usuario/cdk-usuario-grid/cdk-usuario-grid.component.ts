@@ -129,7 +129,9 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
         this.gridFilter = {};
         this.usuarios = [];
         this.tableColumns = _.cloneDeep(CdkUsuarioGridColumns.columns);
-        this.tableDefinitions = _.cloneDeep(CdkUsuarioGridColumns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkUsuarioGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
     ngOnChanges(changes: SimpleChanges): void {

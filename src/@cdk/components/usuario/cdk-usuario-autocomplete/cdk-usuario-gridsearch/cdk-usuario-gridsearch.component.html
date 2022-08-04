@@ -2,6 +2,7 @@
         [loading]="loading"
         [usuarios]="usuarios"
         [total]="total"
+        [displayedColumns]="['id', 'nome', 'actions']"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"
         (cancel)="doCancel()"

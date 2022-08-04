@@ -489,7 +489,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
         this.tableDefinitions.columns = [];
         this.tableColumns = _.cloneDeep(this._originalTableColumns);
         this.cdkTableColumnsResizableList.forEach((column) => {
-            column.resizeColumnTo(column.tableColumn.definitions.width || 0);
+            column.resizeColumnTo(0);
         })
         this._processDisplayableDefinitions();
         this._processOrderDefinitions();
