@@ -7,19 +7,27 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
-    ViewChild,
+    Output, QueryList, SimpleChanges,
+    ViewChild, ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
-import {merge, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
 import {Tarefa} from '@cdk/models';
-import {FormControl} from '@angular/forms';
+import {TableColumn} from "../../table-definitions/table-column";
+import {CdkTarefaGridColumns} from "./cdk-tarefa-grid.columns";
+import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
+import * as _ from "lodash";
+import {MatSortable} from "@angular/material/sort";
+import {TableDefinitions} from "../../table-definitions/table-definitions";
+import {
+    CdkTableColumnResizableDirective
+} from "../../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive";
 
 @Component({
     selector: 'cdk-tarefa-grid',
@@ -29,7 +37,7 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkTarefaGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -47,135 +55,6 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo',
-        'dataHoraFinalPrazo', 'actions'];
-
-    allColumns: any[] = [
-        {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
-            id: 'id',
-            label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'processo.nup',
-            label: 'NUP',
-            fixed: true
-        },
-        {
-            id: 'urgente',
-            label: 'Urgente',
-            fixed: false
-        },
-        {
-            id: 'observacao',
-            label: 'Observação',
-            fixed: false
-        },
-        {
-            id: 'redistribuida',
-            label: 'Redistribuída',
-            fixed: false
-        },
-        {
-            id: 'dataHoraLeitura',
-            label: 'Data da Leitura',
-            fixed: false
-        },
-        {
-            id: 'dataHoraDistribuicao',
-            label: 'Data da Distribuição',
-            fixed: false
-        },
-        {
-            id: 'dataHoraInicioPrazo',
-            label: 'Data do Início do Prazo',
-            fixed: false
-        },
-        {
-            id: 'dataHoraFinalPrazo',
-            label: 'Data do Final do Prazo',
-            fixed: false
-        },
-        {
-            id: 'dataHoraConclusaoPrazo',
-            label: 'Data da Conclusão do Prazo',
-            fixed: false
-        },
-        {
-            id: 'especieTarefa.nome',
-            label: 'Espécie de Tarefa',
-            fixed: false
-        },
-        {
-            id: 'usuarioResponsavel.nome',
-            label: 'Usuário Responsável',
-            fixed: false
-        },
-        {
-            id: 'setorOrigem.nome',
-            label: 'Setor de Origem',
-            fixed: false
-        },
-        {
-            id: 'unidadeResponsavel.nome',
-            label: 'Unidade Responsável',
-            fixed: false
-        },
-        {
-            id: 'setorResponsavel.nome',
-            label: 'Setor Responsável',
-            fixed: false
-        },
-        {
-            id: 'usuarioConclusaoPrazo.nome',
-            label: 'Usuário da Conclusao do Prazo',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
-            id: 'actions',
-            label: '',
-            fixed: true
-        }
-    ];
-
-    columns = new FormControl();
-
-    @Input()
     deletingIds: number[] = [];
 
     @Input()
@@ -185,16 +64,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     deletingErrors: any = {};
 
     @Input()
-    pageSize = 10;
-
-    @Input()
     actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -227,11 +97,8 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     listCompartilhamentos = new EventEmitter<number>();
 
     dataSource: TarefaDataSource;
-
     showFilter = false;
-
     gridFilter: any;
-
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
@@ -241,60 +108,62 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
      * @param _cdkSidebarService
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        protected _changeDetectorRef: ChangeDetectorRef,
+        protected _cdkSidebarService: CdkSidebarService,
     ) {
+        super(_changeDetectorRef);
         this.gridFilter = {};
+        this.tableColumns = _.cloneDeep(CdkTarefaGridColumns.columns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkTarefaGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
         this.dataSource = new TarefaDataSource(of(this.tarefas));
-        this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
-        this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new TarefaDataSource(of(this.tarefas));
-
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
-
-        this.columns.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values) => {
-                this.displayedColumns = [];
-                this.allColumns.forEach((c) => {
-                    if (c.fixed || (values.indexOf(c.id) > -1)) {
-                        this.displayedColumns.push(c.id);
-                    }
-                });
-                this._changeDetectorRef.markForCheck();
-                return of([]);
-            })
-        ).subscribe();
     }
 
     ngAfterViewInit(): void {
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+        super.ngAfterViewInit();
+    }
 
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.total;
+        paginator.pageSize = this.tableDefinitions.limit;
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        const sortKeys = Object.keys(this.tableDefinitions.sort || {});
+        if (sortKeys.length > 0) {
+            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+        } else {
+            this.sort.active = null;
+        }
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage();
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort:MatSort, paginator:MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.loadPage();
     }
 
     toggleFilter(): void {

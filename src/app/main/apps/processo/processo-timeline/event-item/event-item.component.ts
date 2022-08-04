@@ -173,7 +173,7 @@ export class EventItemComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     private _findParentDotTarefa(firstTimelineEvent: TimelineEvent, usuario: Usuario, dateEventGroup?: DateEventGroup): Tarefa {
-        const parentTimelineEvents = dateEventGroup.timelineEvents
+        const parentTimelineEvents = (dateEventGroup?.timelineEvents || [])
             .filter((timelineEvent) => timelineEvent.tarefa.id !== this.tarefa.id && timelineEvent.firstEvent === true && (timelineEvent.usuario.id === usuario.id) && timelineEvent.eventDate.isBefore(firstTimelineEvent.eventDate))
             .sort(((timelineEventA, timelineEventB) => timelineEventA.eventDate.toDate().getUTCDate() - timelineEventB.eventDate.toDate().getUTCDate()));
 

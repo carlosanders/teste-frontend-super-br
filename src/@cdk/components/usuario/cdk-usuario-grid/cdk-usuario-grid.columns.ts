@@ -2,8 +2,8 @@ import {TableColumn} from '../../table-definitions/table-column';
 import {TableColumnDefinitions} from '../../table-definitions/table-column-definitions';
 import {Usuario} from '../../../models';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
-import {TableDefinitions} from "../../table-definitions/table-definitions";
-import {TitleCasePipe} from "../../../pipes/title-case.pipe";
+import {TableDefinitions} from '../../table-definitions/table-definitions';
+import {TitleCasePipe} from '../../../pipes/title-case.pipe';
 
 export const CdkUsuarioGridColumns: TableDefinitions = {
     identifier: 'CdkUsuarioGridComponent',
@@ -57,25 +57,6 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
                 excluded: false,
                 selected: true,
                 order: 20,
-                slave: false,
-                width: 0,
-                resizable: false,
-                ordable: false,
-            }
-        },
-        <TableColumn> {
-            id: 'assinaturaHTML',
-            headerLabel: 'Assinatura HTML',
-            dataLabel: 'Assinatura HTML: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario.assinaturaHTML,
-            dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
-                return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
-            },
-            definitions: <TableColumnDefinitions>{
-                fixed: false,
-                excluded: false,
-                selected: false,
-                order: 30,
                 slave: false,
                 width: 0,
                 resizable: false,

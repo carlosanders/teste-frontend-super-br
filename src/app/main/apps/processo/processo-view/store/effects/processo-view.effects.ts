@@ -380,7 +380,9 @@ export class ProcessoViewEffect {
     downloadLatestBinaryFailed: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.DownloadLatestBinaryFailed>(ProcessoViewActions.DOWNLOAD_LATEST_BINARY_FAILED),
         tap((action) => {
-            this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+            if (!this.routerState?.url.includes('/documento')) {
+                this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+            }
         })
     ), {dispatch: false});
     /**

@@ -22,10 +22,11 @@ import {
     CdkUsuarioGridComponent
 } from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.component';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {TableColumn} from '@cdk/components/table-definitions/table-column';
-import {CdkUsuarioGridColumns} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.columns';
 import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
 import {TableDefinitions} from '@cdk/components/table-definitions/table-definitions';
+import {
+    CdkUsuarioGridColumns
+} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.columns';
 
 @Component({
     selector: 'usuarios-list',
@@ -39,6 +40,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
 
     @ViewChild(CdkUsuarioGridComponent, {static: true}) cdkUsuarioGrid: CdkUsuarioGridComponent;
 
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['AdminUsuarioListComponent', 'CdkUsuarioGrid'];
     private _unsubscribeAll: Subject<any> = new Subject();
     routerState: any;
     usuarios$: Observable<Usuario[]>;
@@ -51,6 +53,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deletedIds$: Observable<any>;
     lote: string;
     parentIdentifier: string;
+    tableDefinitions: TableDefinitions = new TableDefinitions();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -82,6 +85,22 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+
+        this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(UsuariosListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((definitions: TableDefinitions) => {
+                if (!definitions) {
+                    this.tableDefinitions = new TableDefinitions();
+                    this.tableDefinitions.version = CdkUsuarioGridColumns.version;
+                } else {
+                    this.tableDefinitions = definitions;
+                }
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     ngOnDestroy(): void {
@@ -176,5 +195,20 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
 
     vincularRole(usuarioId): void {
         this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/roles`)]).then();
+    }
+
+    doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
+        tableDefinitions.identifier = this._tableDefinitionsService
+            .generateTableDeinitionIdentifier(UsuariosListComponent.GRID_DEFINITIONS_KEYS);
+
+        this._tableDefinitionsService.saveTableDefinitions(tableDefinitions);
+    }
+
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: 10
+        });
     }
 }

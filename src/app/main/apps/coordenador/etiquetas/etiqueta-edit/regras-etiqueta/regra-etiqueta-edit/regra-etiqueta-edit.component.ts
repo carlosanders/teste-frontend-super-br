@@ -47,17 +47,17 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         {
             id: 2,
             descricao: 'Recebido de setor:',
-            mapeamento: '{\'setorResponsavel.id\':\'eq:{placeholder}\'}'
+            mapeamento: '{\'setorOrigem.id\':\'eq:{placeholder}\'}'
         },
         {
             id: 3,
             descricao: 'Recebido de unidade:',
-            mapeamento: '{\'unidadeResponsavel.id\':\'eq:{placeholder}\'}'
+            mapeamento: '{\'setorOrigem.unidade.id\':\'eq:{placeholder}\'}'
         },
         {
             id: 4,
             descricao: 'Recebido de usuário:',
-            mapeamento: '{\'usuarioResponsavel.id\':\'eq:{placeholder}\'}'
+            mapeamento: '{\'criadoPor.id\':\'eq:{placeholder}\'}'
         },
     ];
     private _unsubscribeAll: Subject<any> = new Subject();

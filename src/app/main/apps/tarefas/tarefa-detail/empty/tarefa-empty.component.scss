@@ -1,0 +1,32 @@
+tarefa-empty {
+    display: flex;
+    flex: 1 1 auto;
+
+    > .empty {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
+
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .header {
+                display: flex;
+                flex: 0 0 auto;
+
+                .actions {
+                    margin-left: auto;
+                    margin-right: 8px;
+                }
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+            }
+        }
+    }
+}

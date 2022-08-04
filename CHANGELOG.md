@@ -1037,3 +1037,12 @@
 * Correção de erros de navegação e roteamento na aplicação quando ocorria vinculação ou desentranhamento de juntadas de processos na rota latest
 * Melhoria em telas onde são exibidas diversas minutas em cards, que passa a exibir também um índice numérico para diferenciar entre as minutas
 * Melhoria em código de rastreamento de alterações no DOM aplicado nas listagens de arquivista, ofícios, protocolo-externo e relatórios
+* Correção na numeração das minutas para iniciar em 1
+* Melhoria adicionada numeração de minutas na listagem de tarefas e no grid de tarefas
+* Correção para garantir ordenação correta das minutas
+* Correção para remover console.log de download de componente digital
+* Correção bug que não exibia tela de encaminhamento após encerramento de tarefas em determinada rota da aplicação
+* Melhoria removida requisição desnecessária de GetTarefa ao backend ao abrir detalhamento de tarefa que já consta no normalizr da aplicação
+* Melhoria para remover lentidão no guarda de rota de processo-view, liberando a tela antes do fim do download
+* Melhoria implementado componente vazio de tarefa, dentro do tarefa-detail, para ser novo contexto do retorno do editor, redirecionando em seguida para o processo-view
+* Correção de erro de loop infinito de downloadLatest caso editor seja aberto diretamente pela url em um processo sem componentes digitais/sem juntadas

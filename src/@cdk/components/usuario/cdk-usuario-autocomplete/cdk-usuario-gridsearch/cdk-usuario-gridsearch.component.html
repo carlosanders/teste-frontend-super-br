@@ -2,8 +2,10 @@
         [loading]="loading"
         [usuarios]="usuarios"
         [total]="total"
+        [displayedColumns]="['id', 'nome', 'actions']"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"
         (cancel)="doCancel()"
-        (reload)="reload($event)">
+        (reload)="reload($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()">
 </cdk-usuario-grid>

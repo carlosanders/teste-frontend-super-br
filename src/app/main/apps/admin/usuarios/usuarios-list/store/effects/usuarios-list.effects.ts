@@ -13,7 +13,11 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
-import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {
+    TableDefinitionsService
+} from '@cdk/components/table-definitions/table-definitions.service';
+import {UsuariosListComponent} from '../../usuarios-list.component';
 
 @Injectable()
 export class UsuariosListEffects {
@@ -50,6 +54,9 @@ export class UsuariosListEffects {
             ]),
             catchError((err) => {
                 console.log(err);
+                this._tableDefinitionsService.deleteTableDefinitions(
+                    this._tableDefinitionsService.generateTableDeinitionIdentifier(UsuariosListComponent.GRID_DEFINITIONS_KEYS)
+                ).subscribe();
                 return of(new UsuariosListActions.GetUsuariosFailed(err));
             })
         ))
@@ -117,18 +124,12 @@ export class UsuariosListEffects {
         ), 25)
     ));
 
-    /**
-     *
-     * @param _actions
-     * @param _usuarioService
-     * @param _loginService
-     * @param _store
-     */
     constructor(
         private _actions: Actions,
         private _usuarioService: UsuarioService,
         private _loginService: LoginService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),

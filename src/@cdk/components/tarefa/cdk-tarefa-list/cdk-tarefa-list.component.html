@@ -220,6 +220,14 @@
                 </mat-slide-toggle>
 
             </mat-menu>
+
+            <button class="refresh" mat-icon-button
+                    (click)="resetTableColumns()"
+                    aria-label="redefinir_campos"
+                    matTooltip="Redefinir Campos">
+                <mat-icon>grid_off</mat-icon>
+            </button>
+
             <mat-form-field class="colunas mr-8" aria-label="columns" matTooltip="Campos">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let tableColumn of getDisplayableTableColumns()">
@@ -227,14 +235,6 @@
                     </div>
                 </mat-select>
             </mat-form-field>
-
-            <button class="refresh" mat-icon-button
-                    *ngIf="parentIdentifier && viewMode === 'grid'"
-                    (click)="resetTableColumns()"
-                    aria-label="redefinir_tabela"
-                    matTooltip="Redefinir Tabela">
-                <mat-icon>grid_off</mat-icon>
-            </button>
 
             <div class="toolbar-separator"></div>
 
@@ -426,12 +426,12 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('vinculacoesEtiquetasMinutas').dataLabel}}">
                         <div class="etiquetas">
-                            <div class="etiqueta-minuta" *ngFor="let vinculacaoEtiqueta of etiquetasMinutaList[tarefa.id]"
+                            <div class="etiqueta-minuta" *ngFor="let vinculacaoEtiqueta of etiquetasMinutaList[tarefa.id]; index as i; trackBy: vinculacaoEtiquetaTrackBy"
                                  (click)="doClickEtiqueta({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa, event: $event}); $event.stopPropagation();"
                                  [matTooltip]="'Clique para abrir o documento'">
                                 <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
                                 <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
-                                <div class="etiqueta-title mr-4">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                                <div class="etiqueta-title mr-4">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}{{i + 1}}</div>
                                 <mat-icon *ngIf="!!vinculacaoEtiqueta.objectContext['temAnexos']" [matTooltip]="'Possui Anexos'" class="ml-2 mr-2 small"
                                           (click)="doUploadAnexos({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa}); $event.stopPropagation();">attach_file</mat-icon>
                                 <mat-icon class="ml-2 mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['assinado']">lock</mat-icon>
@@ -594,11 +594,11 @@
                         <span [innerHTML]="tableColumn.headerLabel | safeHtml"></span>
                     </th>
                     <td mat-cell
-                        *matCellDef="let usuario"
+                        *matCellDef="let tarefa"
                         class='has_label_on_mobile'
                         [attr.data-label]="tableColumn.dataLabel"
-                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(usuario, this, tableColumn) : ''">
-                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(usuario, this) : '') | safeHtml"></span>
+                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(tarefa, this, tableColumn) : ''">
+                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(tarefa, this) : '') | safeHtml"></span>
                     </td>
                 </ng-container>
 

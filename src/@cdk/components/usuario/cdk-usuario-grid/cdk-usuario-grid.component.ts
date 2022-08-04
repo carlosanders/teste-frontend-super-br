@@ -8,22 +8,19 @@ import {
     OnChanges,
     OnInit,
     Output, SimpleChanges,
-    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {merge, of} from 'rxjs';
-
+import {of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {tap} from 'rxjs/operators';
-
 import {Usuario} from '@cdk/models';
 import {UsuarioDataSource} from '@cdk/data-sources/usuario-data-source';
 import {CdkUsuarioGridColumns} from './cdk-usuario-grid.columns';
-import {TableDefinitionsService} from '../../table-definitions/table-definitions.service';
 import * as _ from 'lodash';
 import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
+import {MatSortable} from '@angular/material/sort';
+import {TableDefinitions} from "../../table-definitions/table-definitions";
 
 @Component({
     selector: 'cdk-usuario-grid',
@@ -116,9 +113,6 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
     @Output()
     selectedIds: number[] = [];
 
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
-
     dataSource: UsuarioDataSource;
     showFilter = false;
     gridFilter: any;
@@ -129,21 +123,20 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
 
     constructor(
         protected _changeDetectorRef: ChangeDetectorRef,
-        protected _cdkSidebarService: CdkSidebarService,
-        protected _tableDefinitionsService: TableDefinitionsService
+        protected _cdkSidebarService: CdkSidebarService
     ) {
-        super(_tableDefinitionsService, _changeDetectorRef);
+        super(_changeDetectorRef);
         this.gridFilter = {};
         this.usuarios = [];
-        this.displayedColumns = ['select', 'id', 'nome', 'actions'];
-        this._tableColumns = _.cloneDeep(CdkUsuarioGridColumns.columns);
-        this._tableColumnsOriginal = _.cloneDeep(CdkUsuarioGridColumns.columns);
+        this.tableColumns = _.cloneDeep(CdkUsuarioGridColumns.columns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkUsuarioGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         super.ngOnChanges(changes);
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
-        this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
@@ -151,27 +144,41 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
-        this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
     }
 
     ngAfterViewInit(): void {
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
+       super.ngAfterViewInit();
+    }
+
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.total;
+        paginator.pageSize = this.tableDefinitions.limit;
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        const sortKeys = Object.keys(this.tableDefinitions.sort || {});
+        if (sortKeys.length > 0) {
+            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+        } else {
+            this.sort.active = null;
+        }
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage();
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort:MatSort, paginator:MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.loadPage();
     }
 
     toggleFilter(): void {
@@ -182,11 +189,13 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const limit = this.tableDefinitions.limit || 10;
+        const sort = this.tableDefinitions.sort || {};
         this.reload.emit({
             gridFilter: filter,
-            limit: this.paginator.pageSize,
-            offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            limit: limit,
+            offset: (limit * this.paginator.pageIndex),
+            sort: sort,
             context: contexto
         });
         this.hasExcluded = false;
@@ -198,9 +207,9 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
-                limit: this.paginator.pageSize,
-                offset: (this.paginator.pageSize * this.paginator.pageIndex),
-                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                limit: this.tableDefinitions.limit,
+                offset: (this.tableDefinitions.limit * this.paginator.pageIndex),
+                sort: this.tableDefinitions.sort,
                 context: {mostrarApagadas: true}
             });
         }

@@ -23,6 +23,9 @@ import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/tarefas/tarefa-list/store/guards';
 import {CdkTarefaGridModule} from '@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {
+    TableDefinitionsService
+} from "../../../../../../../@cdk/components/table-definitions/table-definitions.service";
 
 const routes: Routes = [
     {
@@ -70,6 +73,7 @@ modulesConfig.forEach((module) => {
     providers: [
         TarefaService,
         EspecieTarefaService,
+        TableDefinitionsService,
         fromGuards.ResolveGuard
     ],
     exports: [

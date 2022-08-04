@@ -48,6 +48,10 @@ const routes: Routes = [
         component: TarefaDetailComponent,
         children: [
             {
+                path: 'empty',
+                loadChildren: () => import('./empty/tarefa-empty.module').then(m => m.TarefaEmptyModule)
+            },
+            {
                 path: 'editar',
                 loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
             },
@@ -56,7 +60,7 @@ const routes: Routes = [
                 loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
             },
             {
-                path       : 'documento',
+                path: 'documento',
                 loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             },
             {
@@ -110,7 +114,7 @@ modulesConfig.forEach((module) => {
 
 routes[0].children.push({
     path: '**',
-    redirectTo: 'editar'
+    redirectTo: 'empty'
 });
 
 @NgModule({
