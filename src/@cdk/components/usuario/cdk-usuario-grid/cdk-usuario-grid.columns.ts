@@ -64,26 +64,6 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'assinaturaHTML',
-            headerLabel: 'Assinatura HTML',
-            dataLabel: 'Assinatura HTML: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario.assinaturaHTML,
-            dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
-                return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
-            },
-            definitions: <TableColumnDefinitions>{
-                fixed: false,
-                excluded: false,
-                selected: false,
-                order: 30,
-                slave: false,
-                width: 0,
-                resizable: false,
-                ordable: false,
-                sortable: false
-            }
-        },
-        <TableColumn> {
             id: 'email',
             headerLabel: 'Email',
             dataLabel: 'Email: ',
