@@ -281,6 +281,20 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.pagina = pagina;
         })
 
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+
+        this.assinaturasPagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
+    }
+
+    ngOnInit(): void {
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
@@ -331,7 +345,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.src = false;
                 this.pdfSrc = null;
                 this.componenteDigital = null;
-                if (this.routerState.params['stepHandle'] === 'latest') {
+                if (this.routerState?.params['stepHandle'] === 'latest') {
                     this.srcMessage = null;
                 } else {
                     if (this.currentJuntada && !this.currentJuntada.ativo) {
@@ -367,20 +381,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.detectChanges();
         });
 
-        this.pagination$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => this.pagination = pagination);
-
-        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
-        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
-        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
-
-        this.assinaturasPagination$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
-    }
-
-    ngOnInit(): void {
         this._store.pipe(
             select(expandirTela)
         ).subscribe(res => this.expandirTela = res);

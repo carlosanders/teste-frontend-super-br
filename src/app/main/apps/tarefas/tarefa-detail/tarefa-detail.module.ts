@@ -5,7 +5,9 @@ import {
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -146,7 +148,9 @@ routes[0].children.push({
         MatAutocompleteModule,
         MatProgressBarModule,
         CdkComponenteDigitalCardListModule,
-        CdkVinculacaoEtiquetaAcoesDialogModule
+        CdkVinculacaoEtiquetaAcoesDialogModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     providers: [
         AcompanhamentoService,

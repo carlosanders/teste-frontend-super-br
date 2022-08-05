@@ -332,6 +332,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             // eslint-disable-next-line max-len
             vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
+        this.vinculacoesEtiquetasMinutas.sort((a: VinculacaoEtiqueta, b: VinculacaoEtiqueta) => a.id - b.id);
 
         this._changeDetectorRef.markForCheck();
     }
@@ -374,27 +375,28 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     abreEditor(documentoId: number, tarefa: Tarefa, outraAba?: boolean): void {
         let stepHandle = 'latest';
-        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
-            stepHandle = this.routerState.params['stepHandle'];
+        let urlEditor;
+        if (this.routerState.params['processoHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            if (this.routerState.params['stepHandle']) {
+                stepHandle = this.routerState.params['stepHandle'];
+            }
+            urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+                + stepHandle + '/documento/' + documentoId;
+        } else {
+            urlEditor = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/documento/' + documentoId;
         }
-        if(outraAba){
+        if (outraAba) {
             const extras = {
                 queryParams: {
                     novaAba: true
                 }
             };
-            const url = this._router.createUrlTree([
-                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
-            ], extras);
+            const url = this._router.createUrlTree([urlEditor], extras);
             window.open(url.toString(), '_blank');
         } else{
-            this._router.navigate([
-                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
-                + stepHandle + '/documento/' + documentoId
-            ]).then();
+            this._router.navigate([urlEditor]).then();
         }
     }
 
@@ -813,5 +815,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                     }));
                 }
             });
+    }
+
+    vinculacaoEtiquetaTrackBy(index, vinculacaoEtiqueta: VinculacaoEtiqueta): number {
+        return vinculacaoEtiqueta.id;
     }
 }

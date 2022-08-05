@@ -1048,3 +1048,6 @@
 * Correção de erro de loop infinito de downloadLatest caso editor seja aberto diretamente pela url em um processo sem componentes digitais/sem juntadas
 * Correção em pequeno delay na exibição de um componente digital já baixado na tela de visualização de processo
 * Correção em ordenação de minutas em telas do sistema onde minutas são exibidas em cards
+* Correção implementando contador nas minutas exibidas quando tarefa é aberta em nova aba
+* Correção na ação de clique em minutas de dentro da tarefa exibida em nova aba
+* Correção de erro na tela de detalhamento de tarefa que impossibilitava alterar tipo de documento das minutas
