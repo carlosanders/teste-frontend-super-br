@@ -903,7 +903,6 @@ transicao.define({
 unidade.define({
     municipio: municipio,
     especieSetor: especieSetor,
-    unidade: unidade,
     generoSetor: generoSetor,
     parent: setor,
     unidadePai: setor,
