@@ -6,7 +6,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted', 'atividades', 'compartilhamentos', 'redefinir_tabela']"
-        [displayedColumns]="['select', 'id', 'especieTarefa.nome', 'setorResponsavel.nome', 'usuarioResponsavel.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'dataHoraConclusaoPrazo', 'actions']"
+        [displayedColumns]="['select', 'id', 'especieTarefa.nome', 'setorResponsavel.nome', 'usuarioResponsavel.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'dataHoraConclusaoPrazo', 'observacao', 'actions']"
         [resizableColumns]="['allTableColumns']"
         [ordableColumns]="['allTableColumns']"
         [tableDefinitions]="tableDefinitions"
