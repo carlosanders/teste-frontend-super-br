@@ -40,6 +40,12 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
     @Input()
     modeloAndx: any = [];
 
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
     valid: boolean = false;
 
     @Input()

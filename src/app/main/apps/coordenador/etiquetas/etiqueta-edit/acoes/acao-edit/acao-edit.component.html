@@ -30,6 +30,8 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeAcaoEtiqueta]="getModalidadeAcaoEtiquetaSelecionada()"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
         [modeloPagination]="modeloPagination"
         (save)="submitTrigger1($event)"
         (abort)="goBack()">

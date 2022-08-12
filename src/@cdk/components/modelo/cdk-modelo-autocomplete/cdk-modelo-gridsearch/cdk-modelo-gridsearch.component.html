@@ -4,6 +4,8 @@
         [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
         (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
