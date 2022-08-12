@@ -89,7 +89,6 @@ export class TarefaListComponent implements OnInit, OnDestroy {
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((definitions: TableDefinitions) => {
-                console.log(definitions);
                 if (!definitions) {
                     this.tableDefinitions = new TableDefinitions();
                     this.tableDefinitions.version = CdkTarefaGridColumns.version;

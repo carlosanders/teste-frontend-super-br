@@ -5,6 +5,7 @@ import {TableDefinitions} from "../../table-definitions/table-definitions";
 import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 import {CdkTarefaGridComponent} from "./cdk-tarefa-grid.component";
 import {CdkUsuarioGridComponent} from "../../usuario/cdk-usuario-grid/cdk-usuario-grid.component";
+import {CdkTarefaListComponent} from "../cdk-tarefa-list/cdk-tarefa-list.component";
 
 export const CdkTarefaGridColumns: TableDefinitions = {
     identifier: 'CdkTarefaGridComponent',
@@ -257,7 +258,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'setorOrigam.nome',
+            id: 'setorOrigem.nome',
             headerLabel: 'Setor de Origem',
             dataLabel: 'Setor de Origem: ',
             dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.setorOrigem?.nome,
@@ -276,29 +277,11 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'unidadeResponsavel.nome',
-            headerLabel: 'Unidade Responsável',
-            dataLabel: 'Unidade Responsavel: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.unidadeResponsavel?.nome,
-            dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
-                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
-            },
-            definitions: <TableColumnDefinitions>{
-                fixed: false,
-                excluded: false,
-                selected: false,
-                order: 140,
-                slave: false,
-                width: 0,
-                resizable: false,
-                ordable: false,
-            }
-        },
-        <TableColumn> {
             id: 'setorResponsavel.nome',
             headerLabel: 'Setor Responsável',
-            dataLabel: 'Setor Responsavel: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => TitleCasePipe.format(tarefa?.setorResponsavel?.nome),
+            dataLabel: 'Setor Responsável: ',
+            positionFixed: false,
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => `${TitleCasePipe.format(tarefa.setorResponsavel?.nome)} (${tarefa.setorResponsavel?.unidade?.sigla})`,
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
