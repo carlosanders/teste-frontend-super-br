@@ -1052,3 +1052,5 @@
 * Correção na ação de clique em minutas de dentro da tarefa exibida em nova aba
 * Correção de erro na tela de detalhamento de tarefa que impossibilitava alterar tipo de documento das minutas
 * Correção de erro no protocolo ao clicar no link do protocolo sem finalizar o cadastro de um processo
+* Correção de erros relacionados a restrição de acesso a processo e a juntada de processo
+* Correção de erro exibido pelo front ao tentar baixar componente digital sem passar um id

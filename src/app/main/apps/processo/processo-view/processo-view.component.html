@@ -107,7 +107,7 @@
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!loading && (index?.length === 0 && this.routerState.params['stepHandle'] !== 'latest')">
+                <div class="sem-juntadas" *ngIf="!loading && (index?.length === 0 && this.routerState?.params['stepHandle'] !== 'latest')">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
@@ -130,8 +130,15 @@
                         </ng2-pdfjs-viewer>
                     </div>
                     <div class="div-about-blank" *ngIf="(loading === false) && src === false && !!this.srcMessage && !downloadUrl">
-                        <span class="no-juntadas-text">{{this.srcMessage}}</span>
-                        <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">
+                        <span class="no-juntadas-text" *ngIf="!currentJuntada?.documento.acessoNegado">{{this.srcMessage}}</span>
+                        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;" *ngIf="!!currentJuntada?.documento.acessoNegado">
+                            <mat-icon class="s-60 mb-12 red-fg hint-text"
+                                      [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">block
+                            </mat-icon>
+                            <span class="hint-text mat-h1 no-juntadas-text"
+                                  [@animate]="{value:'*',params:{delay:'400ms'}}">Acesso Negado</span>
+                        </div>
+                        <mat-card class="no-componentes" *ngIf="this.currentJuntada && !this.currentJuntada.documento?.acessoNegado && this.currentJuntada.documento?.componentesDigitais.length === 0">
                             <mat-card-subtitle>MOVIMENTO</mat-card-subtitle>
                             <mat-card-content>
                                 <span>{{this.currentJuntada?.descricao}}</span>

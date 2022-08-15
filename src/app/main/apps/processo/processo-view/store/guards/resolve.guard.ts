@@ -158,7 +158,7 @@ export class ResolveGuard implements CanActivate {
                 const stepHandle = this.routerState.params['stepHandle'].split('-');
                 this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                     step: parseInt(stepHandle[0], 10),
-                    subStep: parseInt(stepHandle[1], 10)
+                    subStep: !isNaN(parseInt(stepHandle[1], 10)) ? parseInt(stepHandle[1], 10) : null
                 }));
                 return of(true);
             }
