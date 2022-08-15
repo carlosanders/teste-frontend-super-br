@@ -32,6 +32,12 @@ export class CdkModeloGridsearchComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
     andxFilter: any;
 
     @Input()

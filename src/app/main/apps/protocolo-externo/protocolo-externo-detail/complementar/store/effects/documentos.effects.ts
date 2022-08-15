@@ -34,7 +34,7 @@ export class DocumentosEffects {
             JSON.stringify(action.payload),
             10,
             0,
-            JSON.stringify({criadoEm: 'DESC'}),
+            JSON.stringify({criadoEm: 'ASC'}),
             JSON.stringify([
                 'tipoDocumento',
                 'documentoAvulsoRemessa',
@@ -69,7 +69,7 @@ export class DocumentosEffects {
             JSON.stringify(action.payload),
             10,
             0,
-            JSON.stringify({criadoEm: 'DESC'}),
+            JSON.stringify({criadoEm: 'ASC'}),
             JSON.stringify([
                 'tipoDocumento',
                 'documentoAvulsoRemessa',

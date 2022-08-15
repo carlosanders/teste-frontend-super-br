@@ -278,49 +278,48 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             // this.form.get('procedencia').setValue(null);
             // this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
-            this.form.get('tipoProtocolo').valueChanges.subscribe((value) => {
-                if (value === Processo.TP_INFORMADO) {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').enable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').enable();
-
-                    // this.form.get('procedencia').setValue(null);
-                    // this.form.get('procedencia').enable();
-                } else {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').disable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').disable();
-
-                    // this.form.get('procedencia').setValue(null);
-                    // this.form.get('procedencia').disable();
-                }
-
-                this._changeDetectorRef.markForCheck();
-            });
-
-            this.form.get('unidadeArquivistica').valueChanges.subscribe((value) => {
-                if (value === Processo.UA_DOSSIE) {
-                    this.form.get('tipoProtocolo').setValue(Processo.TP_PENDENTE);
-                } else {
-                    this.form.get('tipoProtocolo').setValue(Processo.TP_NOVO);
-                }
-
-                this._changeDetectorRef.markForCheck();
-            });
         } else {
             this.form.get('dataHoraAbertura').disable();
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
 
-            if (this.processo.id) {
-                this.form.get('processoOrigem').setValue(null);
-                this.form.get('processoOrigem').disable();
-            }
+            this.form.get('processoOrigem').setValue(null);
+            this.form.get('processoOrigem').disable();
         }
+
+        this.form.get('tipoProtocolo').valueChanges.subscribe((value) => {
+            if (value === Processo.TP_INFORMADO) {
+                this.form.get('dataHoraAbertura').setValue(null);
+                this.form.get('dataHoraAbertura').enable();
+
+                this.form.get('NUP').setValue(null);
+                this.form.get('NUP').enable();
+
+                // this.form.get('procedencia').setValue(null);
+                // this.form.get('procedencia').enable();
+            } else {
+                this.form.get('dataHoraAbertura').setValue(null);
+                this.form.get('dataHoraAbertura').disable();
+
+                this.form.get('NUP').setValue(null);
+                this.form.get('NUP').disable();
+
+                // this.form.get('procedencia').setValue(null);
+                // this.form.get('procedencia').disable();
+            }
+
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this.form.get('unidadeArquivistica').valueChanges.subscribe((value) => {
+            if (value === Processo.UA_DOSSIE) {
+                this.form.get('tipoProtocolo').setValue(Processo.TP_PENDENTE);
+            } else {
+                this.form.get('tipoProtocolo').setValue(Processo.TP_NOVO);
+            }
+
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.mostraDataHoraDesarquivamento = (this.processo?.setorAtual?.especieSetor?.nome === 'ARQUIVO') &&
             (this._profile.colaborador.lotacoes.filter(lotacao => lotacao.setor.especieSetor.nome === 'ARQUIVO').length > 0);
@@ -364,11 +363,22 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
         // eslint-disable-next-line max-len
         if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.unidadeArquivistica !== this.form.get('unidadeArquivistica').value))) {
             this.form.patchValue({...this.processo});
             this.form.get('configuracaoNup').clearValidators();
+            if (!this.processo.id) {
+                this.exibirNup = false;
+                this.form.get('temProcessoOrigem').setValue(false);
+
+                this.form.get('dataHoraAbertura').setValue(null);
+                this.form.get('dataHoraAbertura').disable();
+
+                this.form.get('NUP').setValue(null);
+                this.form.get('NUP').disable();
+                this.textBotao = 'SALVAR';
+                this.form.markAsPending();
+            }
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -384,7 +394,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         }
 
-        if (!this.errors) {
+        if (!this.errors && changes['saving']?.previousValue === true && changes['saving']?.currentValue === false) {
+            // É uma situação em que terminou de salvar, e não possui objeto errors
             Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
@@ -585,8 +596,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     showLogEntryGrid(target: string): void {
         const campo = {target: target};
         Object.assign(this.logEntryPagination.filter, campo);
-        if(this.logEntryPagination.filter.id === null && this.form.get('id').value !== null){
-            const id = {id : this.form.get('id').value};
+        if (this.logEntryPagination.filter.id === null && this.form.get('id').value !== null) {
+            const id = {id: this.form.get('id').value};
             Object.assign(this.logEntryPagination.filter, id);
         }
         this.activeCard = 'logentry-gridsearch';

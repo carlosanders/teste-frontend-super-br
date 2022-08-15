@@ -71,7 +71,7 @@ export class ProtocoloDocumentoEffects {
                 },
                 limit: 10,
                 offset: 0,
-                sort: {criadoEm: 'DESC'},
+                sort: {criadoEm: 'ASC'},
                 populate: [
                     'populateAll',
                     'tipoDocumento',

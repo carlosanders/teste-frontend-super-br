@@ -43,7 +43,7 @@
                     (click)="setFolder(null)">ENTRADA
             </button>
             <ng-container *ngFor="let folder of folders">
-                <button mat-menu-item *ngIf="folder.id != targetHandle"
+                <button mat-menu-item *ngIf="folder.id !== targetHandle"
                         (click)="setFolder(folder)">{{folder.nome}}
                 </button>
             </ng-container>

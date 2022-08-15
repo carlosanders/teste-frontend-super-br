@@ -41,7 +41,7 @@ export class DocumentosVinculadosEffects {
                 limit: action.payload.limit,
                 offset: action.payload.offset,
                 sort: {
-                    id: 'DESC'
+                    id: 'ASC'
                 },
                 populate: [
                     'tipoDocumento',

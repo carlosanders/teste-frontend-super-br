@@ -188,6 +188,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         public dialog: MatDialog,
         private _activatedRoute: ActivatedRoute
     ) {
+        this.tarefa = new Tarefa();
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
         this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
@@ -323,6 +324,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             tarefaWorkflow: [null, [Validators.required]],
             workflow: [null, [Validators.required]],
         });
+        this.formTarefa.get('especieTarefa').markAsPending();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -337,7 +339,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.operacaoId = null;
 
         this.configuracaoNupList$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(configuracaoNup => !!configuracaoNup)
         ).subscribe((configuracaoNupList) => {
             this.configuracaoNupList = configuracaoNupList;
             if (configuracaoNupList.length === 1) {
@@ -361,31 +364,45 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(processo => !!processo)
         ).subscribe((processo) => {
-            this.processo = processo;
-            this.isLinear = false;
+            if (processo) {
+                this.processo = processo;
+                this.isLinear = false;
 
-            this.tarefa = new Tarefa();
-            this.tarefa.processo = this.processo;
-            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
-            this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-            this.tarefa.setorOrigem = processo.setorAtual;
+                this.tarefa = new Tarefa();
+                this.tarefa.processo = this.processo;
+                this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
+                this.tarefa.dataHoraInicioPrazo = moment();
+                this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
+                this.tarefa.setorOrigem = processo.setorAtual;
 
-            this.assuntoActivated = 'form';
-            this.interessadoActivated = 'form';
-            this.vinculacaoProcessoActivated = 'form';
-            this.processoVinculadoPagination.filter = {
-                'id': 'neq:' + this.processo.id
-            };
+                this.assuntoActivated = 'form';
+                this.interessadoActivated = 'form';
+                this.vinculacaoProcessoActivated = 'form';
+                this.processoVinculadoPagination.filter = {
+                    'id': 'neq:' + this.processo.id
+                };
 
-            this.assunto = new Assunto();
-            this.assunto.processo = this.processo;
+                this.assunto = new Assunto();
+                this.assunto.processo = this.processo;
 
-            setTimeout(() => {
-                this.selectedIndex = 1;
-            }, 1000);
+                setTimeout(() => {
+                    this.selectedIndex = 1;
+                }, 1000);
+            } else {
+                this.processo = new Processo();
+                this.assunto = new Assunto();
+                this.interessado = new Interessado();
+                this.tarefa = new Tarefa();
+                this.processo.unidadeArquivistica = 1;
+                this.processo.tipoProtocolo = 1;
+                this.selectedIndex = 0;
+                this.assuntoActivated = 'form';
+                this.temAssuntos = false;
+                this.interessadoActivated = 'form';
+                this.temInteressados = false;
+                this.vinculacaoProcessoActivated = 'form';
+            }
         });
 
         if (!this.processo) {
@@ -443,6 +460,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.formAssunto.reset();
             }
         });
+
         this.assuntosPagination$.pipe(
             takeUntil(this._unsubscribeAll),
         ).subscribe((pagination) => {
@@ -492,13 +510,12 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.formVinculacaoProcesso.reset();
             }
         });
+
         this.vinculacoesProcessosPagination$.pipe(
             takeUntil(this._unsubscribeAll),
         ).subscribe((pagination) => {
             this.vinculacoesProcessosPagination = pagination;
         });
-
-        this.tarefa = new Tarefa();
 
         this.isLinear = true;
 
@@ -673,6 +690,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             interessado: interessado,
             operacaoId: operacaoId
         }));
+        console.log(this.formTarefa);
     }
 
     submitVinculacaoProcesso(values): void {

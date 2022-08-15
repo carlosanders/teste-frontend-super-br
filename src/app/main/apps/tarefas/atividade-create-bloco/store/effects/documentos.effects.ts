@@ -41,7 +41,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 limit: 25,
                 offset: 0,
                 sort: {
-                    criadoEm: 'DESC'
+                    criadoEm: 'ASC'
                 },
                 populate: [
                     'tipoDocumento',

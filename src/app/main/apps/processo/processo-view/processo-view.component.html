@@ -107,7 +107,7 @@
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!loading && index?.length === 0">
+                <div class="sem-juntadas" *ngIf="!loading && (index?.length === 0 && this.routerState.params['stepHandle'] !== 'latest')">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 

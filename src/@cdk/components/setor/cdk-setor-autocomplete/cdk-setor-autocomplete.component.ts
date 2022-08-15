@@ -89,7 +89,7 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                         this.setorListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
-                            ...this.pagination.filter,
+                            ...this.pagination?.filter,
                             ...termFilter
                         };
                         return this._setorService.query(
