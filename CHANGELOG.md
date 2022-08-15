@@ -1052,3 +1052,11 @@
 * Correção na ação de clique em minutas de dentro da tarefa exibida em nova aba
 * Correção de erro na tela de detalhamento de tarefa que impossibilitava alterar tipo de documento das minutas
 * Correção de erro no protocolo ao clicar no link do protocolo sem finalizar o cadastro de um processo
+
+1.9.1
+
+* Correções de bug de upgrade de dependencias
+
+1.9.2
+
+* Correções de bug de upgrade de dependencias
