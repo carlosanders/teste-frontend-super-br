@@ -76,7 +76,7 @@ export class ResolveGuard implements CanActivate {
                             limit: 10,
                             offset: 0,
                             sort: {
-                                criadoEm: 'DESC'
+                                criadoEm: 'ASC'
                             },
                             populate: [
                                 'tipoDocumento',

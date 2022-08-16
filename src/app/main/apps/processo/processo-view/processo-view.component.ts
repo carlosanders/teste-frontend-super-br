@@ -281,6 +281,20 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.pagina = pagina;
         })
 
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+
+        this.assinaturasPagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
+    }
+
+    ngOnInit(): void {
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
@@ -331,16 +345,20 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.src = false;
                 this.pdfSrc = null;
                 this.componenteDigital = null;
-                if (this.currentJuntada && !this.currentJuntada.ativo) {
-                    this.srcMessage = 'Juntada desentranhada do processo';
-                } else if (this.currentJuntada && !this.currentJuntada.documento) {
-                    this.srcMessage = 'Não há documento';
-                } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
-                    this.srcMessage = 'Acesso negado';
-                } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
-                    this.srcMessage = 'Não há componentes digitais';
-                } else if (this.currentStep && !this.currentStep.subStep) {
-                    this.srcMessage = 'Não há componentes digitais';
+                if (this.routerState?.params['stepHandle'] === 'latest') {
+                    this.srcMessage = null;
+                } else {
+                    if (this.currentJuntada && !this.currentJuntada.ativo) {
+                        this.srcMessage = 'Juntada desentranhada do processo';
+                    } else if (this.currentJuntada && !this.currentJuntada.documento) {
+                        this.srcMessage = 'Não há documento';
+                    } else if (this.currentJuntada && this.currentJuntada.documento?.acessoNegado) {
+                        this.srcMessage = 'Acesso negado';
+                    } else if (this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0) {
+                        this.srcMessage = 'Não há componentes digitais';
+                    } else if (this.currentStep && !this.currentStep.subStep) {
+                        this.srcMessage = 'Não há componentes digitais';
+                    }
                 }
             }
 
@@ -360,23 +378,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
 
             this.loading = binary.loading;
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         });
 
-        this.pagination$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => this.pagination = pagination);
-
-        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
-        this.assinaturasPagination$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
-        this.assinaturasIsLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
-
-        this.assinaturasPagination$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: Pagination) => this.assinaturasPagination = pagination);
-    }
-
-    ngOnInit(): void {
         this._store.pipe(
             select(expandirTela)
         ).subscribe(res => this.expandirTela = res);

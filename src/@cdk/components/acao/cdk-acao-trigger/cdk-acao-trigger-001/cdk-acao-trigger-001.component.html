@@ -36,6 +36,8 @@
     *ngIf="formState === 'modelo-gridsearch'"
     [andxFilter]="modeloAndx"
     [pagination]="modeloPagination"
+    [unidadePagination]="unidadePagination"
+    [setorPagination]="setorPagination"
     [mode]="'search'"
     (selected)="selectModelo($event)"
     (cancel)="cancel()">

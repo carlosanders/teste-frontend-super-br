@@ -284,8 +284,17 @@
                                     PENDENTE DE CIÊNCIA
                                 </div>
                             </div>
+                            <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center" *ngIf="!!juntada.documento.acessoNegado && juntada.ativo">
+                                <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                </mat-icon>
+                                <a class="ml-4"
+                                   (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoRestrito, null, $event)"
+                                   [ngClass]="{'current-tipo-documento': isCurrent(juntada.id)}">
+                                    ACESSO RESTRITO
+                                </a>
+                            </div>
                             <ng-container
-                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0)">
+                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0 && !juntada.documento.acessoNegado)">
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>

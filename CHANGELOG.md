@@ -1046,3 +1046,19 @@
 * Melhoria para remover lentidão no guarda de rota de processo-view, liberando a tela antes do fim do download
 * Melhoria implementado componente vazio de tarefa, dentro do tarefa-detail, para ser novo contexto do retorno do editor, redirecionando em seguida para o processo-view
 * Correção de erro de loop infinito de downloadLatest caso editor seja aberto diretamente pela url em um processo sem componentes digitais/sem juntadas
+* Correção em pequeno delay na exibição de um componente digital já baixado na tela de visualização de processo
+* Correção em ordenação de minutas em telas do sistema onde minutas são exibidas em cards
+* Correção implementando contador nas minutas exibidas quando tarefa é aberta em nova aba
+* Correção na ação de clique em minutas de dentro da tarefa exibida em nova aba
+* Correção de erro na tela de detalhamento de tarefa que impossibilitava alterar tipo de documento das minutas
+* Correção de erro no protocolo ao clicar no link do protocolo sem finalizar o cadastro de um processo
+
+1.9.1
+
+* Correções de bug de upgrade de dependencias
+
+1.9.2
+
+* Correções de bug de upgrade de dependencias
+* Correção de erros relacionados a restrição de acesso a processo e a juntada de processo
+* Correção de erro exibido pelo front ao tentar baixar componente digital sem passar um id

@@ -74,7 +74,7 @@ export class ComplementaresEffects {
                 },
                 limit: 10,
                 offset: 0,
-                sort: {criadoEm: 'DESC'},
+                sort: {criadoEm: 'ASC'},
                 populate: [
                     'tipoDocumento',
                     'documentoAvulsoRemessa',

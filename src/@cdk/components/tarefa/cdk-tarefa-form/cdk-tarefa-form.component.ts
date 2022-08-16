@@ -861,6 +861,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.clearForm = false;
         }
 
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach((key) => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
+        }
+
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
             if (!this.tarefa.dataHoraFinalPrazo) {
                 this.form.get('prazoDias').disable();
@@ -939,14 +947,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             } catch (e) {
                 this.form.setErrors({rulesError: this.errors.error.message});
             }
-        }
-
-        if (!this.errors) {
-            Object.keys(this.form.controls).forEach((key) => {
-                this.form.get(key).setErrors(null);
-            });
-
-            this.form.setErrors(null);
         }
 
         this._changeDetectorRef.markForCheck();

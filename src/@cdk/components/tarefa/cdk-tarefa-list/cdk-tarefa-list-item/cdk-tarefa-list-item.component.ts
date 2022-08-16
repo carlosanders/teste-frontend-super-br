@@ -336,7 +336,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             // eslint-disable-next-line max-len
             vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         ) : [];
-        this.vinculacoesEtiquetasMinutas.sort((a: VinculacaoEtiqueta, b: VinculacaoEtiqueta) => b.id - a.id);
+        this.vinculacoesEtiquetasMinutas.sort((a: VinculacaoEtiqueta, b: VinculacaoEtiqueta) => a.id - b.id);
     }
 
     ngAfterViewInit(): void {
@@ -391,7 +391,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 // eslint-disable-next-line max-len
                 vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];
-            this.vinculacoesEtiquetasMinutas.sort((a: VinculacaoEtiqueta, b: VinculacaoEtiqueta) => b.id - a.id);
+            this.vinculacoesEtiquetasMinutas.sort((a: VinculacaoEtiqueta, b: VinculacaoEtiqueta) => a.id - b.id);
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             ) : [];

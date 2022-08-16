@@ -1,7 +1,7 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="(expandir$ | async) === false" class="sidebar" name="processo-main-sidebar" position="left"
                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
         <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
     </cdk-sidebar>
