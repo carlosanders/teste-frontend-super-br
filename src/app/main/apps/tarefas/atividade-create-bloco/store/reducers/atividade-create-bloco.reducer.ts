@@ -44,6 +44,28 @@ export const atividadeCreateBlocoReducer = (
             };
         }
 
+        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_LINEAR: {
+            return {
+                ...state,
+                savingTarefasId: [...state.savingTarefasId, action.payload.atividade?.tarefa?.id]
+            };
+        }
+
+        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_LINEAR_SUCCESS: {
+            return {
+                ...state,
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.atividade?.tarefa?.id)
+            };
+        }
+
+        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_LINEAR_FAILED: {
+            return {
+                ...state,
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors
+            };
+        }
+
         default:
             return state;
     }

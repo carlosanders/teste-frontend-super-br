@@ -1062,3 +1062,5 @@
 * Correções de bug de upgrade de dependencias
 * Correção de erros relacionados a restrição de acesso a processo e a juntada de processo
 * Correção de erro exibido pelo front ao tentar baixar componente digital sem passar um id
+* Correção em erro do backend ao criar atividades em bloco de tarefas do mesmo processo
+* Correção em tela de atividades em bloco que mantinha a informação de destinação em tela mesmo sem minutas selecionadas

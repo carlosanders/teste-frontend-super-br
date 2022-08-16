@@ -27,6 +27,7 @@ import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
+import * as _ from 'lodash'
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -251,7 +252,20 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.loteAtividades = CdkUtils.makeId();
         this.encerraTarefa = values.encerraTarefa;
 
-        this.tarefas.forEach((tarefa) => {
+        const tarefasGroupedByProcesso = _.groupBy(this.tarefas, tarefa => tarefa.processo.id);
+
+        const tarefasLineares = [];
+        const tarefasBloco = [];
+
+        Object.keys(tarefasGroupedByProcesso).forEach((processoId) => {
+            if (tarefasGroupedByProcesso[processoId].length > 1) {
+                tarefasLineares.push(tarefasGroupedByProcesso[processoId]);
+            } else {
+                tarefasBloco.push(...tarefasGroupedByProcesso[processoId]);
+            }
+        })
+
+        tarefasBloco.forEach((tarefa) => {
             const atividade = new Atividade();
 
             Object.entries(values).forEach(
@@ -282,11 +296,42 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 loteId: this.loteAtividades
             }));
         });
+        const atividadesLineares = [];
+        tarefasLineares.forEach((tarefasProcesso) => {
+            const atividadesProcesso = tarefasProcesso.map(tarefa => {
+                const atividade = new Atividade();
+                Object.entries(values).forEach(
+                    ([key, value]) => {
+                        atividade[key] = value;
+                    }
+                );
+                atividade.tarefa = tarefa;
+                atividade.usuario = tarefa.usuarioResponsavel;
+                atividade.setor = tarefa.setorResponsavel;
+
+                if (tarefa.vinculacaoWorkflow) {
+                    atividade.setorResponsavel = tarefa.setorResponsavel;
+                    atividade.usuarioResponsavel = tarefa.usuarioResponsavel;
+                }
+
+                if (atividade.encerraTarefa) {
+                    atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
+                } else {
+                    atividade.documentos = this.selectedMinutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
+                }
+                return atividade;
+            });
+            atividadesLineares.push(atividadesProcesso);
+        });
+        atividadesLineares.forEach(atividades => this._store.dispatch(new fromStore.SaveAtividadesLineares({
+            atividadesLineares: atividades,
+            loteId: this.loteAtividades
+        })));
     }
 
     verificaFilterWorkflow(): void {
         if (this.tarefas.length) {
-            const tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa)=> tarefa.vinculacaoWorkflow);
+            const tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa) => tarefa.vinculacaoWorkflow);
             this.especieAtividadePagination['context'] = {};
             if (tarefasWorkflow.length && tarefasWorkflow[0].vinculacaoWorkflow?.transicaoFinalWorkflow !== true && this.atividade.encerraTarefa) {
                 this.form.get('especieAtividade').setValue(null);
@@ -302,7 +347,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 };
 
                 this.especieAtividadePagination['context'] = {tarefaId: tarefasWorkflow[0].id};
-            }  else {
+            } else {
                 if (this.tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
                 } else {
