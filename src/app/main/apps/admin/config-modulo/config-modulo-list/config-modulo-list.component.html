@@ -14,7 +14,7 @@
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
-    [displayedColumns]="['select', 'id', 'nome', 'mandatory', 'dataValue', 'actions']"
+    [displayedColumns]="['select', 'id', 'nome', 'sigla', 'mandatory', 'dataValue', 'actions']"
     [actions]="['edit', 'create']"
     (reload)="reload($event)"
     (edit)="edit($event)"

@@ -69,6 +69,7 @@ export class ConfigModuloEditAdminComponent implements OnInit, OnDestroy {
             id: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required]],
+            sigla: [null, [Validators.maxLength(255)]],
             dataSchema: [null],
             dataType: [null, [Validators.required]],
             dataValue: [null],

@@ -27,6 +27,15 @@
         </mat-form-field>
 
         <mat-form-field>
+            <mat-label>Sigla</mat-label>
+            <input matInput #sigla
+                   name="sigla"
+                   formControlName="sigla"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
             <input matInput placeholder="Módulo"
                    formControlName="modulo"
                    [matAutocomplete]="modulo.autocomplete">

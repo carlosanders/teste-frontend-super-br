@@ -45,6 +45,7 @@ export class CdkConfigModuloFilterComponent implements OnInit {
             id: [null],
             nome: [null],
             descricao: [null],
+            sigla: [null],
             modulo: [null],
             configPendente: [false],
             configHerdada: [false],
@@ -83,6 +84,12 @@ export class CdkConfigModuloFilterComponent implements OnInit {
         if (this.form.get('descricao').value) {
             this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'descricao': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('sigla').value) {
+            this.form.get('sigla').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'sigla': `like:%${bit}%`});
             });
         }
 

@@ -59,6 +59,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         'id',
         'nome',
         'descricao',
+        'sigla',
         'dataType',
         'dataSchema',
         'dataValue',
@@ -125,6 +126,11 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         {
             id: 'descricao',
             label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
             fixed: false
         },
         {
