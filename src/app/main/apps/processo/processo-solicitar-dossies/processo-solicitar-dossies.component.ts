@@ -39,6 +39,7 @@ export class ProcessoSolicitarDossiesComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
     operacoesPendentes: any[] = [];
+    lote: string = '';
 
     selectInteressados: Interessado[] = [];
 
@@ -87,8 +88,8 @@ export class ProcessoSolicitarDossiesComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'dossie');
-            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'dossie' && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'dossie' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'dossie'  && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
     }
@@ -121,6 +122,7 @@ export class ProcessoSolicitarDossiesComponent implements OnInit, OnDestroy {
 
     submit(): void {
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.selectInteressados.forEach((i) => {
             this.selectTiposDossie.forEach((td) => {
@@ -146,7 +148,8 @@ export class ProcessoSolicitarDossiesComponent implements OnInit, OnDestroy {
                 dossie.sobDemanda = true;
                 this._store.dispatch(new fromStore.SaveDossies({
                     dossie,
-                    operacaoId
+                    operacaoId,
+                    loteId: this.lote
                 }));
             });
         });
