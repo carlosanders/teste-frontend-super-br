@@ -240,7 +240,7 @@ export class DocumentoEffect {
                 if (!sidebar) {
                     sidebar = 'editar/' + this.routeAtividade;
                 }
-                if (documento.documentoAvulsoRemessa) {
+                if (documento?.documentoAvulsoRemessa) {
                     sidebar = 'oficio/dados-basicos';
                 }
                 if (url.indexOf('/assinaturas') > -1) {
