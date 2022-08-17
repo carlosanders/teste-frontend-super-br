@@ -769,7 +769,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const customJuntada = JSON.stringify({
             id: juntada.id,
             vinculacoesDocumentos: juntada.documento.vinculacoesDocumentos?.length,
-            vinculacaoDocumentoPrincipal: juntada.documento.estaVinculada,
+            vinculacaoDocumentoPrincipal: juntada.documento?.estaVinculada,
             ativo: juntada.ativo
         });
         event.dataTransfer.setData(customJuntada, '');
@@ -809,7 +809,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
         const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == tmpJuntadaArrastada.id);
         // eslint-disable-next-line max-len
-        return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.estaVinculada && juntadaArrastada.ativo;
+        return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento?.estaVinculada && juntadaArrastada.ativo;
     }
 
     /**
@@ -822,7 +822,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const juntadaArrastadaId = event.data;
         const juntadaArrastada = this.juntadas?.find(aJuntada => aJuntada.id == juntadaArrastadaId);
         // eslint-disable-next-line max-len
-        return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.estaVinculada && juntadaArrastada.ativo;
+        return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento?.estaVinculada && juntadaArrastada.ativo;
     }
 
     onDrop($event, enabled: boolean): void {

@@ -101,7 +101,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
-            this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
+            this.tarefa.unidadeResponsavel = tarefa.setorResponsavel?.unidade;
             this.logEntryPagination.filter = {
                 entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa',
                 id: +this.tarefa.id
@@ -117,7 +117,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             let lotacaoPrincipal: Setor = null;
             this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
             this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
-            this.tarefa.unidadeResponsavel = lotacaoPrincipal.unidade;
+            this.tarefa.unidadeResponsavel = lotacaoPrincipal?.unidade;
         }
 
         this._store.pipe(
