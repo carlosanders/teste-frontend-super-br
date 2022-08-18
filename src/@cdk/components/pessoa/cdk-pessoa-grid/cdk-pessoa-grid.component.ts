@@ -94,6 +94,13 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
             sort: 'all'
         },
         {
+            id: 'pessoaConveniada',
+            label: 'pessoaConveniada',
+            fixed: false,
+            mode: 'all',
+            sort: 'all'
+        },
+        {
             id: 'dataNascimento',
             label: 'Data do Nascimento',
             fixed: false,

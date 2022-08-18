@@ -23,6 +23,13 @@
         </mat-form-field>
 
         <mat-form-field>
+            <mat-label>ID</mat-label>
+            <input matInput #id
+                   name="id"
+                   formControlName="id">
+        </mat-form-field>
+
+        <mat-form-field>
             <mat-label>Nome da Genitora</mat-label>
             <input matInput #nomeGenitora
                    name="nomeGenitora"
@@ -49,6 +56,11 @@
                 [control]="form.get('modalidadeQualificacaoPessoa')">
             </cdk-modalidade-qualificacao-pessoa-autocomplete>
         </mat-form-field>
+
+        <section class="checkbox">
+            <mat-checkbox formControlName="pessoaConveniada" class="check-margin">Conveniado</mat-checkbox>
+            <mat-checkbox formControlName="pessoaValidada" class="check-margin">Validado</mat-checkbox>
+        </section>
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataNascimento?.length}">Data Nascimento</span>
