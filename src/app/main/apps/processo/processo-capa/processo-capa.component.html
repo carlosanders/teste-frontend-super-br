@@ -42,9 +42,9 @@
             </div>
             <div class="valor">
                 <div>
-                    {{ processo.modalidadeFase.valor | titleCasePipe }}
+                    {{ processo.modalidadeFase?.valor | titleCasePipe }}
                 </div>
-                <div *ngIf="processo.modalidadeFase.valor !== 'CORRENTE'" style="color:red;" >
+                <div *ngIf="processo.modalidadeFase?.valor !== 'CORRENTE'" style="color:red;" >
                      (Encerrado)
                 </div>
             </div>

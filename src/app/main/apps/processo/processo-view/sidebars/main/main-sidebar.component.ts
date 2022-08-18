@@ -380,7 +380,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 })
             }
 
-            this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada.volume.numeracaoSequencial);
+            this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada?.volume?.numeracaoSequencial);
             this._changeDetectorRef.markForCheck();
         });
 
