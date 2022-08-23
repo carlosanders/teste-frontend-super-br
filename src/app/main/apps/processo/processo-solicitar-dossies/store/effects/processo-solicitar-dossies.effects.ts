@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {concatMap, Observable, of} from 'rxjs';
 import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ProcessoSolicitarDossiesActions from '../actions/processo-solicitar-dossies.actions';
@@ -113,7 +113,7 @@ export class ProcessoSolicitarDossiesEffect {
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
-        mergeMap(action => this._dossiesService.save(action.payload.dossie).pipe(
+        concatMap(action => this._dossiesService.save(action.payload.dossie).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'dossie',
