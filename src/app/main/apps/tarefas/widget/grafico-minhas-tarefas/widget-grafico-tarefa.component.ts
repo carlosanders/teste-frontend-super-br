@@ -39,7 +39,7 @@ export type ChartOptions = {
 };
 
 @Component({
-    selector: 'widget-tarefa',
+    selector: 'widget-grafico-tarefa',
     templateUrl: './widget-grafico-tarefa.component.html',
     styleUrls: ['./widget-grafico-tarefa.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

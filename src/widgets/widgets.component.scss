@@ -9,6 +9,22 @@ widgets {
         mat-grid-list {
             display: flex;
             flex: 1 1 auto;
+
+            mat-grid-tile {
+                min-height: 300px;
+                &.widget-drag-over {
+                    background-color: #9EA1A9;
+                }
+                .drag-holder {
+                    width: 78px;
+                    height: 67px;
+                    cursor: pointer;
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    z-index: 1;
+                }
+            }
         }
     }
 }

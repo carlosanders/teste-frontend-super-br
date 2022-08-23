@@ -10,13 +10,31 @@
                       [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.nome.split(' ')[0]).charAt(0) + (_profile.nome.split(' ')[0]).slice(1).toLowerCase()}}
                 </span>
             </div>
+            <div class="widgets-control">
+                <mat-form-field class="widgets-form-field mr-8" aria-label="columns" matTooltip="Widgets Visíveis">
+                    <mat-select [formControl]="widgetsControl" multiple>
+                        <div *ngFor="let widget of widgets">
+                            <mat-option [value]="widget.moduleName">{{ widget.nome }}</mat-option>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="mat-option" (click)="resetWidgetsConfig()">
+                            <mat-icon class="s-16 mr-8">grid_off</mat-icon>
+                            <span class="mat-option-text">
+                                Redefinir Configurações
+                            </span>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
         <!-- / HEADER -->
 
         <!-- CONTENT -->
         <div class="content" cdkPerfectScrollbar>
             <widgets *cdkIfOnDom
-                     [@animateStagger]="{value:'50'}"></widgets>
+                     [widgets]="widgets"
+                     [@animateStagger]="{value:'50'}"
+                     (widgetsOrderChange)="widgetsConfigsChange($event)"></widgets>
         </div>
         <!-- / CONTENT -->
 

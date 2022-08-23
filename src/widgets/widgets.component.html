@@ -1,11 +1,21 @@
 <div class="content">
     <mat-grid-list [cdkGridCols]="{xs: 1, sm: 2, md: 3, lg: 4, xl: 4}" rowHeight="300px"
                    (colsChanged)="colsChanged($event)">
-        <mat-grid-tile
-            *ngFor="let widget of widgets"
-            [colspan]="(widget.colspan > maxColspan) ? maxColspan : widget.colspan"
-            [rowspan]="(widget.rowspan > maxRowspan) ? maxRowspan : widget.rowspan">
-            <ng-container #dynamicComponent></ng-container>
-        </mat-grid-tile>
+        <ng-container *ngFor="let widget of widgets">
+            <mat-grid-tile *ngIf="!widget.hidden"
+                           [colspan]="(widget.colspan > maxColspan) ? maxColspan : widget.colspan"
+                           [rowspan]="(widget.rowspan > maxRowspan) ? maxRowspan : widget.rowspan"
+                           (dndDrop)="onDrop(widget, $event.data)"
+                           [dndDragoverClass]="'widget-drag-over'"
+                           [dndDropzoneDisabledClass]="'widget-drag-over-disabled'"
+                           dndDropzone>
+                <div class="drag-holder"
+                     [dndDraggable]="widget"
+                     [dndDragImageOffsetFunction]="this.offsetFunction"
+                     [dndEffectAllowed]="'copy'"></div>
+                <div #dynamicComponent
+                     [attr.widget]="widget.moduleName"></div>
+            </mat-grid-tile>
+        </ng-container>
     </mat-grid-list>
 </div>
