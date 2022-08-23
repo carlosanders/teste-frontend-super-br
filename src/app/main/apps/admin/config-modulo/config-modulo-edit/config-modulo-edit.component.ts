@@ -101,21 +101,27 @@ export class ConfigModuloEditComponent implements OnInit, OnDestroy {
             switchMap((modulo: Modulo) => {
                 if (modulo !== null) {
                     if (typeof modulo === 'object' && modulo) {
-                        const moduloNormalizado = modulo.prefixo ? this.normalizedString(modulo.nome) : modulo.prefixo;
                         const sistema = 'supp_core';
-                        const moduloCompleto = `${moduloNormalizado}_backend`;
                         const nome =
                             this.form.get('nome').value ?
                                 this.form.get('nome').value.split('.').slice(2, this.form.get('nome').value.length).join(".") :
                                 ''
                         ;
-                        this.form.patchValue({'module': moduloNormalizado})
-                        return of(`${sistema}.${moduloCompleto}.${nome}`);
+                        if (!modulo.prefixo) {
+                            const moduloCompleto = `${this.normalizedString(modulo.nome)}_backend`;
+                            return of(`${sistema}.${moduloCompleto}.${nome}`);
+                        } else {
+                            return of(`${modulo.prefixo}${nome}`);
+                        }
                     }
                 }
                 return of(null);
             })
-        ).subscribe((novoNome: string) => this.form.get('nome').setValue(novoNome));
+        ).subscribe((novoNome: string) => {
+            if (this.mode === 'create' && novoNome !== null) {
+                this.form.get('nome').setValue(novoNome);
+            }
+        });
 
         this.form.get('dataType').valueChanges.pipe(
             debounceTime(300),
