@@ -28,6 +28,9 @@ export class OrigemDados {
     status?: number;
 
     @Exclude({ toPlainOnly: true })
+    mensagemUltimaConsulta?: string;
+
+    @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraUltimaConsulta?: moment.Moment;
@@ -70,6 +73,7 @@ export class OrigemDados {
         this.servico = null;
         this.fonteDados = null;
         this.status = null;
+        this.mensagemUltimaConsulta = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
