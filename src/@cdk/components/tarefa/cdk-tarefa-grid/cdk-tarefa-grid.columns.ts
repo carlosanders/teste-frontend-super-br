@@ -128,7 +128,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'dataHoraLeitura',
             headerLabel: 'Data da Leitura',
             dataLabel: 'Data da Leitura: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraLeitura?.format("DD/MM/YYYY"),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraLeitura?.format("DD/MM/YYYY HH:mm:ss"),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -147,7 +147,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'dataHoraDistribuicao',
             headerLabel: 'Data da Distribuição',
             dataLabel: 'Data da Distribuicao: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraDistribuicao?.format("DD/MM/YYYY"),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraDistribuicao?.format("DD/MM/YYYY HH:mm:ss"),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -166,7 +166,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'dataHoraInicioPrazo',
             headerLabel: 'Data do Início do Prazo',
             dataLabel: 'Data do Inicio do Prazo: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraInicioPrazo?.format("DD/MM/YYYY"),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraInicioPrazo?.format("DD/MM/YYYY HH:mm:ss"),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -185,7 +185,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'dataHoraFinalPrazo',
             headerLabel: 'Data do Final do Prazo',
             dataLabel: 'Data do final do Prazo: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraFinalPrazo?.format("DD/MM/YYYY"),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraFinalPrazo?.format("DD/MM/YYYY HH:mm:ss"),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -204,7 +204,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'dataHoraConclusaoPrazo',
             headerLabel: 'Data da Conclusão do Prazo',
             dataLabel: 'Data da Conclusao do Prazo: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraConclusaoPrazo?.format("DD/MM/YYYY"),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.dataHoraConclusaoPrazo?.format("DD/MM/YYYY HH:mm:ss"),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -338,7 +338,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'criadoEm',
             headerLabel: 'Criado Em',
             dataLabel: 'Criado Em: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.criadoEm?.format('DD/MM/YYYY'),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.criadoEm?.format('DD/MM/YYYY HH:mm:ss'),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -376,7 +376,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'atualizadoEm',
             headerLabel: 'Atualizado Em',
             dataLabel: 'Atualizado Em: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.atualizadoEm?.format('DD/MM/YYYY'),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.atualizadoEm?.format('DD/MM/YYYY HH:mm:ss'),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
@@ -414,7 +414,7 @@ export const CdkTarefaGridColumns: TableDefinitions = {
             id: 'apagadoEm',
             headerLabel: 'Apagado Em',
             dataLabel: 'Apagado Em: ',
-            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.apagadoEm?.format('DD/MM/YYYY'),
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => tarefa?.apagadoEm?.format('DD/MM/YYYY HH:mm:ss'),
             dataClass: (tarefa: Tarefa, scope: CdkTarefaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tarefa.id)};
             },
