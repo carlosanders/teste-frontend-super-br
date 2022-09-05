@@ -255,6 +255,7 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -262,11 +263,9 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {
-        this.hasExcluded = !this.hasExcluded;
         if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({

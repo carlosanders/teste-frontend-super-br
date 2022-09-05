@@ -37,7 +37,7 @@ export class DocumentosEffects {
                 limit: action.payload.limit,
                 offset: action.payload.offset,
                 sort: {
-                    criadoEm: 'ASC'
+                    id: 'ASC'
                 },
                 populate: [
                     'tipoDocumento',

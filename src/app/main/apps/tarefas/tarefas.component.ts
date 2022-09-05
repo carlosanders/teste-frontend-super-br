@@ -2,11 +2,13 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ComponentRef,
+    Component,
+    ComponentRef,
     ElementRef,
     OnDestroy,
     OnInit,
-    ViewChild, ViewContainerRef,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
@@ -152,11 +154,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
     draggingIds$: Observable<number[]>;
-
     savingComponentesDigitaisIds$: Observable<number[]>;
 
     selectedTarefas$: Observable<Tarefa[]>;
-
     selectedTarefas: Tarefa[] = [];
 
     screen$: Observable<any>;
@@ -167,8 +167,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     pagination$: Observable<any>;
     pagination: any;
-
-    routerState$: Observable<any>;
 
     maximizado$: Observable<boolean>;
     maximizado = false;
@@ -320,7 +318,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
         this.draggingIds$ = this._store.pipe(select(fromStore.getDraggedTarefasIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-        this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
         this.undeletingTarefaIds$ = this._store.pipe(select(fromStore.getUnDeletingTarefaIds));
@@ -489,8 +486,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             this.routerState = routerState.state;
-            // eslint-disable-next-line radix
-
             this.generoHandle = routerState.state.params['generoHandle'];
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];

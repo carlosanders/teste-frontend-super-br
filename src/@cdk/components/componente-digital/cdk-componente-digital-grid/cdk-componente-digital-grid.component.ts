@@ -414,6 +414,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     loadPage(): void {
         const newFilter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: newFilter,
             limit: this.paginator.pageSize,
@@ -421,7 +422,6 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

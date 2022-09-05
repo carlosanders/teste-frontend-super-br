@@ -212,6 +212,7 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -219,7 +220,6 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

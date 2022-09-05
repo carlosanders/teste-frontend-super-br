@@ -39,7 +39,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store.pipe(
             select(getRouterState),
-            filter(routerState => !!routerState),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.viewMode = this._router.getCurrentNavigation()?.extras?.state?.viewMode ?? this.viewMode;

@@ -181,6 +181,7 @@ export class CdkEstruturaBarramentoGridComponent implements AfterViewInit, OnIni
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -188,7 +189,6 @@ export class CdkEstruturaBarramentoGridComponent implements AfterViewInit, OnIni
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

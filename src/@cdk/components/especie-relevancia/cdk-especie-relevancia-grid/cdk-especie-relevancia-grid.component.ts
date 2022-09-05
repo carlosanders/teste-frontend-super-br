@@ -241,6 +241,8 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto['isAdmin'] = this.hasInatived;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -248,7 +250,6 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {
