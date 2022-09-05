@@ -181,7 +181,7 @@ export class EventItemComponent implements OnInit, AfterViewInit, OnDestroy
             return parentTimelineEvents[parentTimelineEvents.length-1].tarefa;
         }
 
-        return this._findParentDotTarefa(firstTimelineEvent, usuario, dateEventGroup.parent);
+        return this._findParentDotTarefa(firstTimelineEvent, usuario, dateEventGroup?.parent);
     }
 
     private static _getRanHexColor(size: number = 3): string {

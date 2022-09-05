@@ -36,6 +36,11 @@ export class DownloadProcessoComponent {
             .then(() => this._snackbar.dismiss());
     }
 
+    visualizarProcessoNovaAba(): void {
+        const data = JSON.parse(this.data.contexto);
+        window.open(`/apps/processo/${data.id}/visualizar/capa/mostrar`);
+    }
+
     download() {
         const data = JSON.parse(this.data.contexto);
         this._componenteDigitalService

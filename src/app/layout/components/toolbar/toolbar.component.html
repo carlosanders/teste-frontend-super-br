@@ -144,6 +144,7 @@
                                 </p>
                                 <div class="actions">
                                     <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">search</mat-icon>
+                                    <mat-icon class="mat-18" title="Abrir em outra aba" (click)="$event.stopPropagation(); openNewTab(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">open_in_new</mat-icon>
                                     <mat-icon class="mat-18" title="Download" (click)="$event.stopPropagation(); download(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.componente_digital_id">cloud_download</mat-icon>
                                     <mat-icon class="mat-18" title="Marcar como lida" (click)="$event.stopPropagation(); toggleLida(notificacao)" *ngIf="!notificacao.dataHoraLeitura">done</mat-icon>
                                     <mat-icon class="mat-18" title="Remover" (click)="$event.stopPropagation(); removerNotificacao(notificacao)">delete</mat-icon>

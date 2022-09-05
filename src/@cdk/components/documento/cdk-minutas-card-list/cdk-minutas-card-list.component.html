@@ -141,10 +141,10 @@
                                       (clicked)="onClick($event)"
                                       (changedSelected)="toggleInSelected($event)">
                     </cdk-minutas-card>
-                    <div class="loading" *ngIf="tarefasAgrupadas[tarefa].saving">
+                    <div class="loading" *ngIf="tarefasAgrupadas[tarefa]?.saving">
                         <mat-spinner class="nup-loading" diameter="24"></mat-spinner>
                     </div>
-                    <div class="loading" *ngIf="tarefasAgrupadas[tarefa].loading">
+                    <div class="loading" *ngIf="tarefasAgrupadas[tarefa]?.loading">
                         <mat-spinner class="nup-loading" diameter="24"></mat-spinner>
                     </div>
                     <div class="load-more" (click)="doGetMore(tarefa)" matTooltip="Carregar mais"

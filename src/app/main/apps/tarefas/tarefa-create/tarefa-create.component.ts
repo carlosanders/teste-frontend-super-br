@@ -134,7 +134,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         let lotacaoPrincipal: Setor = null;
         this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
         this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
-        this.tarefa.unidadeResponsavel = lotacaoPrincipal.unidade;
+        this.tarefa.unidadeResponsavel = lotacaoPrincipal?.unidade ? lotacaoPrincipal?.unidade : this._profile.lotacoes[0].setor.unidade;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;

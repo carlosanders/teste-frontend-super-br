@@ -554,7 +554,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         } else {
             currentIndex = this.index?.find(juntadaIndex => juntadaIndex.componentesDigitais.includes(this.currentStep.subStep));
         }
-        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex.id);
+        const currentJuntadaPosition = this.juntadas?.findIndex(juntada => juntada.id === currentIndex?.id);
         const currentComponenteDigitalPosition = currentIndex.componentesDigitais.findIndex(cd => cd === this.currentStep.subStep);
         let newJuntadaPosition;
         let nextComponenteDigitalPosition;
