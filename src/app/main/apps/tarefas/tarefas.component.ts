@@ -596,28 +596,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.maximizado$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(value => value !== this.maximizado)
         ).subscribe((maximizado) => {
             this.maximizado = maximizado;
-            const path = 'app/main/apps/tarefas';
-            if (this.container !== undefined) {
-                this.container.clear();
-            }
-            modulesConfig.forEach((module) => {
-                if (module.components.hasOwnProperty(path)) {
-                    module.components[path].forEach(((c) => {
-                        if (this.container !== undefined) {
-                            this._dynamicService.loadComponent(c)
-                                .then((componentFactory) => {
-                                    const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
-                                    componente.instance.setTarefa(this.currentTarefa);
-                                    this._changeDetectorRef.detectChanges();
-                                });
-                        }
-                    }));
-                }
-            });
-        });
+        })
 
         this.selectedTarefas$.pipe(
             takeUntil(this._unsubscribeAll)
