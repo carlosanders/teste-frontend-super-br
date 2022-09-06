@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChanges,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -21,6 +21,12 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Historico} from '@cdk/models';
 import {HistoricoDataSource} from '@cdk/data-sources/historico-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
+import * as _ from "lodash";
+import {CdkTarefaGridColumns} from "../../tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
+import {TableDefinitions} from "../../table-definitions/table-definitions";
+import {CdkHistoricoGridColumns} from "./cdk-historico-grid.columns";
+import {MatSortable} from "@angular/material/sort";
 
 @Component({
     selector: 'cdk-historico-grid',
@@ -30,7 +36,7 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkHistoricoGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -46,49 +52,6 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
 
     @Output()
     create = new EventEmitter<any>();
-
-    @Input()
-    displayedColumns: string[] = ['select', 'id', 'descricao', 'processo', 'actions'];
-
-    allColumns: any[] = [
-        {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
-            id: 'id',
-            label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'descricao',
-            label: 'Descricao',
-            fixed: true
-        },
-        {
-            id: 'processo',
-            label: 'NUP',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'actions',
-            label: '',
-            fixed: true
-        }
-    ];
-
-    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -147,61 +110,62 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
      * @param _cdkSidebarService
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        protected _changeDetectorRef: ChangeDetectorRef,
+        protected _cdkSidebarService: CdkSidebarService
     ) {
+        super(_changeDetectorRef);
         this.gridFilter = {};
-        this.historicos = [];
+        this.tableColumns = _.cloneDeep(CdkHistoricoGridColumns.columns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkHistoricoGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
         this.dataSource = new HistoricoDataSource(of(this.historicos));
-        this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
-        this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new HistoricoDataSource(of(this.historicos));
-
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
-
-        this.columns.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values) => {
-                this.displayedColumns = [];
-                this.allColumns.forEach((c) => {
-                    if (c.fixed || (values.indexOf(c.id) > -1)) {
-                        this.displayedColumns.push(c.id);
-                    }
-                });
-                this._changeDetectorRef.markForCheck();
-                return of([]);
-            })
-        ).subscribe();
     }
 
     ngAfterViewInit(): void {
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+        super.ngAfterViewInit();
+    }
 
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.total;
+        paginator.pageSize = this.tableDefinitions.limit;
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        const sortKeys = Object.keys(this.tableDefinitions.sort || {});
+        if (sortKeys.length > 0) {
+            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+        } else {
+            this.sort.active = null;
+        }
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage();
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort:MatSort, paginator:MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.loadPage();
     }
 
     toggleFilter(): void {

@@ -1,4 +1,5 @@
 @import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-table-resizable";
 
 cdk-historico-grid {
     display: flex;
@@ -37,7 +38,6 @@ cdk-historico-grid {
         .content {
 
             flex: 1 1 auto;
-            display: flex;
             overflow-y: auto;
             padding: 8px;
 
@@ -46,26 +46,13 @@ cdk-historico-grid {
             }
 
             table {
-                display: block;
+                flex: 1 1 auto;
                 width: 100%;
-                height: 100%;
-
-                thead, tbody {
-                    display: block;
-                }
-
-                tr {
-                    display: flex;
-                    flex-direction: row;
-                }
-
                 th {
-                    flex: 1 1;
+                    position: relative;
                 }
-
                 td {
-                    flex: 1 1;
-                    word-break: break-word;
+                    position: relative;
                     &.deleted {
                         text-decoration: line-through;
                     }
@@ -74,8 +61,8 @@ cdk-historico-grid {
                     }
                 }
 
-                .spinner-container .mat-progress-spinner {
-                    display: inline !important;
+                .table-column-drag-over {
+                    background-color:  rgba(0, 0, 0, 0.3) !important;
                 }
             }
         }
@@ -96,15 +83,40 @@ cdk-historico-grid {
             width: 10vw;
 
             > .content {
-                height: 0;
+                height: auto;
             }
         }
+
+        .responsive-grid[max-width~="770px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+
+            > .content {
+                height: 100%;
+            }
+
+            .mat-table {
+                .mat-row {
+                    .mat-cell {
+                        word-wrap: break-word;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+
 
         .responsive-grid[max-width~="600px"] {
 
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: 100%;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;
@@ -145,6 +157,7 @@ cdk-historico-grid {
                     padding: 0 8px;
                     margin: 8px 0;
                     border: 0 none;
+                    word-wrap: break-word;
 
                     &:first-child {
                         padding: 0 48px 0 8px;
