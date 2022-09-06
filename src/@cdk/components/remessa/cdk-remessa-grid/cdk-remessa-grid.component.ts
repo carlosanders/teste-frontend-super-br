@@ -8,7 +8,7 @@ import {
     OnChanges,
     OnInit,
     Output,
-    QueryList,
+    QueryList, SimpleChanges,
     ViewChild,
     ViewChildren,
     ViewContainerRef,
@@ -19,14 +19,18 @@ import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Tramitacao} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
-import {modulesConfig} from '../../../../modules/modules-config';
-import {DynamicService} from '../../../../modules/dynamic.service';
+import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
+import * as _ from "lodash";
+import {TableDefinitions} from "../../table-definitions/table-definitions";
+import {CdkRemessaGridColumns} from "./cdk-remessa-grid.columns";
+import {MatSortable} from "@angular/material/sort";
 import {CdkConfigService} from "../../../services/config.service";
+import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../modules/modules-config";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -36,7 +40,7 @@ import {CdkConfigService} from "../../../services/config.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkRemessaGridComponent extends CdkTableGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -52,88 +56,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     create = new EventEmitter<any>();
-
-    @Input()
-    displayedColumns: string[] = ['select', 'id', 'setorOrigem.nome', 'pessoaDestino.nome',
-        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
-
-    allColumns: any[] = [
-        {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
-            id: 'processo',
-            label: 'NUP',
-            fixed: true
-        },
-        {
-            id: 'observacao',
-            label: 'Observação',
-            fixed: true
-        },
-        {
-            id: 'urgente',
-            label: 'Urgente',
-            fixed: false
-        },
-        {
-            id: 'setorOrigem.nome',
-            label: 'Setor Origem',
-            fixed: false
-        },
-        {
-            id: 'dataHoraRecebimento',
-            label: 'Data Hora Recebimento',
-            fixed: false
-        },
-        {
-            id: 'usuarioRecebimento.nome',
-            label: 'Usuário Recebimento',
-            fixed: false
-        },
-        {
-            id: 'pessoaDestino.nome',
-            label: 'Pessoa Destino',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
-            id: 'actions',
-            label: '',
-            fixed: true
-        }
-    ];
 
     columns = new FormControl();
 
@@ -192,11 +114,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     recebidoIds: number[] = [];
 
     dataSource: TramitacaoDataSource;
-
     showFilter = false;
-
     gridFilter: any;
-
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
@@ -213,18 +132,24 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
      * @param _cdkConfigService
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService,
+        protected _changeDetectorRef: ChangeDetectorRef,
+        protected _cdkSidebarService: CdkSidebarService,
         private _dynamicService: DynamicService,
-        public _cdkConfigService: CdkConfigService
+        public _cdkConfigService: CdkConfigService,
     ) {
+        super(_changeDetectorRef);
         this.gridFilter = {};
         this.remessas = [];
+
+        this.tableColumns = _.cloneDeep(CdkRemessaGridColumns.columns);
+        const tableDefinitions = new TableDefinitions();
+        tableDefinitions.version = CdkRemessaGridColumns.version;
+        this.tableDefinitions = tableDefinitions;
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
         this.dataSource = new TramitacaoDataSource(of(this.remessas));
-        this.paginator.length = this.total;
 
         if (this.remessas) {
             this.carregaModulo();
@@ -232,71 +157,45 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
-        this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new TramitacaoDataSource(of(this.remessas));
-
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
-
-        this.columns.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((values) => {
-                this.displayedColumns = [];
-                this.allColumns.forEach((c) => {
-                    if (c.fixed || (values.indexOf(c.id) > -1)) {
-                        this.displayedColumns.push(c.id);
-                    }
-                });
-                this._changeDetectorRef.markForCheck();
-                return of([]);
-            })
-        ).subscribe();
     }
 
     ngAfterViewInit(): void {
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
+        super.ngAfterViewInit();
     }
 
-    carregaModulo(): void {
-        if (this.btContainer) {
-            this.btContainer.reset([]);
+    //Overriding
+    setTablePaginatorData(paginator: MatPaginator) {
+        super.setTablePaginatorData(paginator);
+        paginator.length = this.total;
+        paginator.pageSize = this.tableDefinitions.limit;
+    }
+
+    //Overriding
+    setTableSortData(sort: MatSort) {
+        super.setTableSortData(sort);
+        const sortKeys = Object.keys(this.tableDefinitions.sort || {});
+        if (sortKeys.length > 0) {
+            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+        } else {
+            this.sort.active = null;
         }
-        const path = '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid#button';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach(((c) => {
-                    this._dynamicService.loadComponent(c)
-                        .then((componentFactory) => {
-                            this.btContainer.forEach((button, index) => {
-                                const componentRef = button.createComponent(componentFactory);
-                                componentRef.instance['remessaId'] = this.remessas[index]['id'];
-                                componentRef.instance['mecanismoRemessa'] = this.remessas[index]['mecanismoRemessa'];
-                                componentRef.instance['apagadoEm'] = !!this.remessas[index]['apagadoEm'];
-                            });
-                            this._changeDetectorRef.markForCheck();
-                        });
-                }));
-            }
-        });
+    }
+
+    //Overriding
+    protected _tablePaginatorPageChange(paginator: MatPaginator) {
+        super._tablePaginatorPageChange(paginator);
+        this.loadPage();
+    }
+
+    //Overriding
+    protected _tableColumnSortChange(sort:MatSort, paginator:MatPaginator) {
+        super._tableColumnSortChange(sort, paginator);
+        this.loadPage();
     }
 
     toggleFilter(): void {
@@ -429,6 +328,29 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     verificaStatusBarramento(documentosAvulsosId: number[]): void {
         this.statusBarramento.emit(documentosAvulsosId);
+    }
+
+    carregaModulo(): void {
+        if (this.btContainer) {
+            this.btContainer.reset([]);
+        }
+        const path = '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid#button';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    this._dynamicService.loadComponent(c)
+                        .then((componentFactory) => {
+                            this.btContainer.forEach((button, index) => {
+                                const componentRef = button.createComponent(componentFactory);
+                                componentRef.instance['remessaId'] = this.remessas[index]['id'];
+                                componentRef.instance['mecanismoRemessa'] = this.remessas[index]['mecanismoRemessa'];
+                                componentRef.instance['apagadoEm'] = !!this.remessas[index]['apagadoEm'];
+                            });
+                            this._changeDetectorRef.markForCheck();
+                        });
+                }));
+            }
+        });
     }
 
 }
