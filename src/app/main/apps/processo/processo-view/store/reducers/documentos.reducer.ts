@@ -19,6 +19,8 @@ export interface ProcessoViewDocumentosState {
     lixeiraMinutas: boolean;
     error: any;
     errorDelete: number[];
+    deleteVisibilidadeDocsIds: number[];
+    deleteVisibilidadeDocsIdsError: number[];
 }
 
 export const processoViewDocumentosInitialState: ProcessoViewDocumentosState = {
@@ -39,7 +41,9 @@ export const processoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     loadingDocumentosExcluidos: false,
     lixeiraMinutas: false,
     error: null,
-    errorDelete: []
+    errorDelete: [],
+    deleteVisibilidadeDocsIds: [],
+    deleteVisibilidadeDocsIdsError: [],
 };
 
 export const processoViewDocumentosReducer = (
@@ -369,6 +373,13 @@ export const processoViewDocumentosReducer = (
             return {
                 ...state,
                 downloadP7SDocumentoIds: state.downloadP7SDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+        case ProcessoViewDocumentosActions.DELETE_VISIBILIDADE_DOCUMENTOS_SUCCESS: {
+            return {
+                ...state,
+                deleteVisibilidadeDocsIds: action.payload.id,
+                deleteVisibilidadeDocsIdsError: action.payload.errors,
             };
         }
         default:

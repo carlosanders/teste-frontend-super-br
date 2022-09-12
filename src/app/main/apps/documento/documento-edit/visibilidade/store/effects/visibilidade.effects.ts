@@ -101,7 +101,7 @@ export class VisibilidadeEffects {
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'visibilidade',
-                content: 'Visibilidade id ' + response.id + ' salva com sucesso.',
+                content: 'Visibilidade id ' + response.valor + ' salva com sucesso.',
                 status: 1, // sucesso
             }))),
             mergeMap((response: Visibilidade) => [

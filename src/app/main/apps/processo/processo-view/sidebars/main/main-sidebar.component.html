@@ -89,6 +89,20 @@
             {{bookmarks?.length}}/{{paginationBookmark.total}}
         </div>
 
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                (click)="$event.stopPropagation()"
+                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="remover restrições"
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
+                    (click)="doDeleteRestricoesDocs(processoId)">
+                    <mat-icon>report_off</mat-icon>
+                    <span>Retirar restrições</span>
+            </button>
+        </mat-menu>
     </div>
 
     <div class="filters" *ngIf="showListFilter">
