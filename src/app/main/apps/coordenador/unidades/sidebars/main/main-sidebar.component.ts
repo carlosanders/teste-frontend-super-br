@@ -51,7 +51,7 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
                 link: 'modelos'
             },
             {
-                nome: 'Teses da Unidade',
+                nome: 'Repositórios da Unidade',
                 icon: 'add_comment',
                 link: 'repositorios'
             },

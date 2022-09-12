@@ -58,7 +58,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses Nacionais',
+                nome: 'Repositórios Nacionais',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
@@ -91,7 +91,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses da Unidade',
+                nome: 'Repositórios da Unidade',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
@@ -129,7 +129,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses do Setor',
+                nome: 'Repositórios do Setor',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
