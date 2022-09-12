@@ -188,7 +188,7 @@ export class CdkUsuarioGridComponent extends CdkTableGridComponent implements Af
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         const limit = this.tableDefinitions.limit || 10;
         const sort = this.tableDefinitions.sort || {};
         contexto['mostrarApagadas'] = this.hasExcluded;

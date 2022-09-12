@@ -411,7 +411,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,

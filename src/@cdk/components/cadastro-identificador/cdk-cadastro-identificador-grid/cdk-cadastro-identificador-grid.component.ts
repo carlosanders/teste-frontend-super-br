@@ -234,7 +234,7 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
