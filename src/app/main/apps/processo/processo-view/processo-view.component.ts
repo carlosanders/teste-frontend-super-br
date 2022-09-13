@@ -745,20 +745,21 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     doLoadAssinaturas(): void {
         const overlay = this._overlay.create({
-            panelClass: 'mat-menu-panel',
+            panelClass: ['mat-menu-panel', 'processo-view-assinatura-panel'],
             backdropClass: 'cdk-overlay-transparent-backdrop',
             maxWidth: 340,
             width: 340,
             scrollStrategy: this._overlay.scrollStrategies.reposition(),
             positionStrategy: (this._overlay
                 .position()
-                .flexibleConnectedTo(this.btnAssinaturas._elementRef.nativeElement)
+                .flexibleConnectedTo(this.btnAssinaturas._elementRef)
                 .withPositions([
                     new ConnectionPositionPair(
                         {originX: 'end', originY: 'bottom'},
                         {overlayX: 'end', overlayY: 'top'}
                     )
                 ])
+                .setOrigin(this.btnAssinaturas._elementRef)
                 .withFlexibleDimensions(false)
                 .withPush(false)),
             disposeOnNavigation: true,
