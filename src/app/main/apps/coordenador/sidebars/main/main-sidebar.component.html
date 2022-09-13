@@ -21,7 +21,7 @@
                 <div class="nav-item" *ngFor="let link of linksNacional">
                     <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/nacional/' + orgao.id + '/' + link.link"
                        [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span class="material-icons-outlined mat-icon mat-icon-no-color nav-link-icon">{{ link.icon }}</span>
                         <span>{{link.nome}}</span>
                     </a>
                 </div>
@@ -42,7 +42,7 @@
                     <a class="nav-link" matRipple
                        [routerLink]="'/apps/coordenador/unidade/' + setor.id + '/' + link.link"
                        [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span class="material-icons-outlined mat-icon mat-icon-no-color nav-link-icon">{{ link.icon }}</span>
                         <span>{{link.nome}}</span>
                     </a>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="nav-item" *ngFor="let link of linksLocal">
                     <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/local/' + setor.id + '/' + link.link"
                        [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span class="material-icons-outlined mat-icon mat-icon-no-color nav-link-icon">{{ link.icon }}</span>
                         <span>{{link.nome}}</span>
                     </a>
                 </div>
