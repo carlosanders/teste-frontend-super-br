@@ -16,6 +16,12 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
+import {TableDefinitionsService} from "../../../../../../@cdk/components/table-definitions/table-definitions.service";
+import {TableDefinitions} from "../../../../../../@cdk/components/table-definitions/table-definitions";
+import {CdkTarefaGridColumns} from "../../../../../../@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
+import {
+    CdkHistoricoGridColumns
+} from "../../../../../../@cdk/components/historico/cdk-historico-grid/cdk-historico-grid.columns";
 
 @Component({
     selector: 'historico-list',
@@ -27,6 +33,8 @@ import {LoginService} from '../../../../auth/login/login.service';
 })
 export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestroy {
 
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'HistoricoConfigListComponent', 'CdkHistoricoGrid'];
+
     routerState: any;
     historicosConfig$: Observable<Historico[]>;
     loading$: Observable<boolean>;
@@ -34,6 +42,7 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
     pagination: any;
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
+    tableDefinitions: TableDefinitions = new TableDefinitions();
 
     /**
      *
@@ -42,13 +51,15 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
      * @param _store
      * @param _route
      * @param _loginService
+     * @param _tableDefinitionsService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.HistoricoConfigListAppState>,
         private _route: ActivatedRoute,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _tableDefinitionsService: TableDefinitionsService,
     ) {
         this.historicosConfig$ = this._store.pipe(select(fromStore.getHistoricoConfigList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -68,10 +79,26 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+
+        this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(HistoricoConfigListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((definitions: TableDefinitions) => {
+                if (!definitions) {
+                    this.tableDefinitions = new TableDefinitions();
+                    this.tableDefinitions.version = CdkHistoricoGridColumns.version;
+                } else {
+                    this.tableDefinitions = definitions;
+                }
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     ngOnChanges(): void {
-        console.log(this.historicosConfig$);
+
     }
 
     ngOnDestroy(): void {
@@ -105,4 +132,19 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
             context: parametros.context,
         }));
     }
+
+    doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
+        tableDefinitions.identifier = this._tableDefinitionsService
+            .generateTableDeinitionIdentifier(HistoricoConfigListComponent.GRID_DEFINITIONS_KEYS);
+
+        this._tableDefinitionsService.saveTableDefinitions(tableDefinitions);
     }
+
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: 10
+        });
+    }
+}

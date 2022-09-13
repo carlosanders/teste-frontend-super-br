@@ -1,12 +1,12 @@
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
+    acao as acaoSchema,
     assunto as assuntoSchema,
     etiqueta as etiquetaSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
     tarefa as tarefaSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema,
-    acao as acaoSchema,
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -31,22 +31,28 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Acao, Etiqueta, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Acao, Assunto, Etiqueta, Interessado, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {AcaoService} from '@cdk/services/acao.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
+import {CacheGenericUserDataService} from '@cdk/services/cache.service';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
+import {
+    VinculacaoEspecieProcessoWorkflowService
+} from '@cdk/services/vinculacao-especie-processo-workflow.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-
-import {Assunto} from '@cdk/models/assunto.model';
-import {AssuntoService} from '@cdk/services/assunto.service';
-import {Interessado} from '@cdk/models/interessado.model';
-import {InteressadoService} from '@cdk/services/interessado.service';
 import {
     getBufferingCiencia,
     getBufferingDelete,
     getBufferingDistribuir,
     getCienciaTarefaIds,
     getDeletingTarefaIds,
-    getDistribuindoTarefaIds, getViewMode,
+    getDistribuindoTarefaIds,
+    getViewMode,
 } from '../selectors';
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
@@ -76,17 +82,9 @@ import {
 } from '../../../documento/store/actions/documento.actions';
 import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {EtiquetaService} from '@cdk/services/etiqueta.service';
-import {
-    VinculacaoEspecieProcessoWorkflowService
-} from '@cdk/services/vinculacao-especie-processo-workflow.service';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';
 import {UnloadProcesso} from '../../../processo/store';
 import {TarefasComponent} from '../../tarefas.component';
-import {CacheGenericUserDataService} from '@cdk/services/cache.service';
-import {AcaoService} from '@cdk/services/acao.service';
-import {TableDefinitionsService} from '@cdk/components/table-definitions/table-definitions.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -378,7 +376,7 @@ export class TarefasEffect {
         })
     ));
     /**
-     * Update Tarefa
+     * Create Tarefa
      *
      * @type {Observable<any>}
      */

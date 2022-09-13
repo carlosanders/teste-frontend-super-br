@@ -109,3 +109,8 @@ export const getErrorsDocumentos: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.error
 );
+
+export const getErrorsDeleteVisibilidadeDocumentos: any = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.deleteVisibilidadeDocsIdsError
+);

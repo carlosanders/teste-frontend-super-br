@@ -11,7 +11,7 @@
                     [editable]="true"
                     [iconeVisibilidade]="vinculacaoEtiqueta.privada ? 'person' : 'public'"
                     [conteudo]="vinculacaoEtiqueta.conteudo"
-                    [hasPendencies]="vinculacaoEtiqueta.objectContext['pendencias']"
+                    [hasPendencies]="vinculacaoEtiqueta.objectContext?.pendencias"
                     (edit)="openDialogEdit($event, vinculacaoEtiqueta)"
                     (select)="openMenu($event)"
                     (delete)="doRemove($event, vinculacaoEtiqueta)"

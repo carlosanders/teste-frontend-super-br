@@ -2,12 +2,12 @@ import {createSelector} from '@ngrx/store';
 import {getTarefasAppState, TarefasAppState, TarefasState} from 'app/main/apps/tarefas/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema, acao as acaoSchema} from '@cdk/normalizr';
-import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {Acao, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {getRouterState} from 'app/store';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaSelectorsVinculacoesEtiqueta = createSchemaSelectors<VinculacaoEtiqueta>(vinculacaoEtiquetaSchema);
-const schemaSelectorsAcao = createSchemaSelectors<VinculacaoEtiqueta>(acaoSchema);
+const schemaSelectorsAcao = createSchemaSelectors<Acao>(acaoSchema);
 
 export const getTarefaHandle: any = createSelector(
     getRouterState,

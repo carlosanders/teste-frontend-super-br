@@ -277,6 +277,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         delete this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ?? null;
         delete this.gridFilter.contexto;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             filter: filter,
             gridFilter: this.gridFilter,
@@ -285,7 +286,6 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

@@ -3,7 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter, Input,
+    EventEmitter,
+    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -925,7 +926,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     doToogleViewMode(): void {
         this.changeViewMode.emit(this.viewMode == 'list' ? 'grid' : 'list');
-        this.router.navigate(['/apps/tarefas/' + this.generoHandle + '/minhas-tarefas/' + this.routerState.params['targetHandle']], {state: {'viewMode': this.viewMode == 'list' ? 'grid' : 'list'}}).then();
-
+        this.router.navigate(['/apps/tarefas/' + this.generoHandle + '/' + this.typeHandle + '/' + this.routerState.params['targetHandle']], {state: {'viewMode': this.viewMode == 'list' ? 'grid' : 'list'}}).then();
     }
 }

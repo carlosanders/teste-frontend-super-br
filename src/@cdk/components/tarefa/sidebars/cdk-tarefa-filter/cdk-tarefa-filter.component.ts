@@ -18,7 +18,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {of, Subject} from 'rxjs';
 import {EspecieTarefa, Etiqueta, Pagination} from '../../../../models';
-import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {SearchBarEtiquetasFiltro} from '../../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 

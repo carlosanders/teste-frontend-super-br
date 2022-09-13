@@ -35,11 +35,19 @@
 
             <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
                 <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    <div *ngFor="let tableColumn of getDisplayableTableColumns()">
+                        <mat-option [value]="tableColumn.id">{{ tableColumn.headerLabel }}</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    *ngIf="actions.indexOf('redefinir_tabela') !== -1"
+                    (click)="resetTableColumns()"
+                    aria-label="redefinir_tabela"
+                    matTooltip="Redefinir Tabela">
+                <mat-icon>grid_off</mat-icon>
+            </button>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -72,7 +80,18 @@
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('select')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('select'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('select')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('select'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('select'))">
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
                                       [disabled]="hasExcluded"
@@ -88,146 +107,47 @@
                     </td>
                 </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                <ng-container *ngFor="let tableColumn of getTableColumnsList()" matColumnDef="{{tableColumn.id}}">
+                    <th mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef
+                        [cdkTableColumnResizable]="tableColumn"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(tableColumn, $event.data)"
+                        [dndDraggable]="tableColumn"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(tableColumn)"
+                        [dndDisableDropIf]="dndDisable(tableColumn)">
+                        <span [innerHTML]="tableColumn.headerLabel | safeHtml"></span>
                     </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.id}} </td>
-                </ng-container>
-
-                <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processo') > -1" matColumnDef="processo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        NUP
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='NUP: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="remessa.processo?.NUP"></mat-checkbox>
+                    <td mat-cell
+                        *matCellDef="let tarefa"
+                        class='has_label_on_mobile'
+                        [attr.data-label]="tableColumn.dataLabel"
+                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(tarefa, this, tableColumn) : ''">
+                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(tarefa, this) : '') | safeHtml"></span>
                     </td>
-                </ng-container>
-
-                <!-- Urgente Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Urgente
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Urgente: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="remessa.urgente"></mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <!-- SetorOrigem Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorOrigem.nome') > -1" matColumnDef="setorOrigem.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Setor de Origem
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Setor de Origem: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.setorOrigem?.nome}} </td>
-                </ng-container>
-
-                <!-- DataHoraRecebimento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraRecebimento') > -1"
-                              matColumnDef="dataHoraRecebimento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data de Recebimento
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile'
-                        data-label='Data de Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.dataHoraRecebimento?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- UsuarioRecebimento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioRecebimento.nome') > -1"
-                              matColumnDef="usuarioRecebimento.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Usuário Recebimento
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile'
-                        data-label='Usuário Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.usuarioRecebimento?.nome}} </td>
-                </ng-container>
-
-                <!-- Observacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Observação
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.observacao}} </td>
-                </ng-container>
-
-                <!-- PessoaDestino Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1"
-                              matColumnDef="pessoaDestino.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Pessoa Destino
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Pessoa Destino: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.pessoaDestino?.nome}} </td>
-                </ng-container>
-
-                <!-- CriadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Por
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.criadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- CriadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Em
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
-                              matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.atualizadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm, 'error': getProp(deletingErrors, remessa.id)}"> {{remessa.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
+                    <th mat-header-cell *matHeaderCellDef
+                        [cdkTableColumnResizable]="getColumnTableColumn('actions')"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('actions'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('actions')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('actions'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('actions'))"></th>
+
                     <td mat-cell *matCellDef="let remessa">
 
                         <button mat-icon-button
@@ -294,8 +214,8 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let remessa; columns: displayedColumns;">
+                <tr mat-header-row *matHeaderRowDef="getDisplayColumns(); sticky: true;"></tr>
+                <tr mat-row *matRowDef="let remessa; columns: getDisplayColumns();">
                 </tr>
             </table>
         </div>

@@ -29,6 +29,7 @@ import * as fromStore from '../../store';
 import * as AssinaturaStore from 'app/store';
 import {
     getDocumentosHasLoaded,
+    getErrorsDeleteVisibilidadeDocumentos,
     getSelectedVolume,
     getVolumes
 } from '../../store';
@@ -239,6 +240,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     isBookmark$: Observable<boolean>;
     isBookmark = false;
     isJuntadas = true;
+    deletingVisibilidadeDocumentosIdErros$: Observable<number[]>;
+
+    documentosRestritos: number[] = [];
+    documentosRestritosErros: number[] = [];
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -318,6 +323,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
         this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
+        this.deletingVisibilidadeDocumentosIdErros$ = this._store.pipe(select(fromStore.getErrorsDeleteVisibilidadeDocumentos));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -379,6 +385,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     this.index.push(tmpJuntada);
                 })
             }
+
+            juntadas.filter(juntada => {
+                return (juntada.documento.acessoRestrito === true &&
+                    !this.documentosRestritos.includes(juntada.documento.id))
+            }).forEach(juntada => {
+                    this.documentosRestritos.push(juntada.documento.id);
+            });
 
             this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada?.volume?.numeracaoSequencial);
             this._changeDetectorRef.markForCheck();
@@ -506,6 +519,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             pagination => this.paginationBookmark = pagination
         );
+
+        this.deletingVisibilidadeDocumentosIdErros$.pipe(
+            distinctUntilChanged(),
+            filter(idErros => !!idErros),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((idErros) => {
+            const errosId = idErros;
+            if(errosId.length>0 && this.documentosRestritosErros.length>0){
+                const error = 'O usuário não possui acesso ao(s) Documento(s) de id ' + errosId +
+                    '. A Restrição não pôde ser retirada.';
+                this._snackBar.open(error, null, {
+                    duration: 5000,
+                    horizontalPosition: this.horizontalPosition,
+                    verticalPosition: this.verticalPosition,
+                    panelClass: ['danger-snackbar']
+                });
+                this.documentosRestritosErros = [];
+            }
+        });
     }
 
     /**
@@ -1548,5 +1580,30 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         if (!this._cdkSidebarService.getSidebar(this.name)?.isLockedOpen) {
             this._cdkSidebarService.getSidebar(this.name).close();
         }
+    }
+
+    doDeleteRestricoesDocs(processoId: string): void {
+        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+                message: 'Este procedimento retira todas as ' +
+                    'Restrições dos Documentos que o usuário tem acesso.' +
+                    ' Deseja realmente continuar?'
+            },
+            disableClose: false
+        });
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this._store.dispatch(new fromStore.DeleteVisibilidadeDocumentos({
+                    processoId: processoId
+                }));
+            }
+            this.confirmDialogRef = null;
+            this.documentosRestritosErros = this.documentosRestritos;
+            this.documentosRestritos = [];
+            this.reloadJuntadas();
+        });
     }
 }

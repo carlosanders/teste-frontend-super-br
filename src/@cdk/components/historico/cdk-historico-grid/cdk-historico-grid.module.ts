@@ -18,6 +18,8 @@ import {CdkHistoricoGridComponent} from './cdk-historico-grid.component';
 import {CdkHistoricoAutocompleteModule} from '@cdk/components/historico/cdk-historico-autocomplete/cdk-historico-autocomplete.module';
 import {CdkHistoricoFilterModule} from '../sidebars/cdk-historico-filter/cdk-historico-filter.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {DndModule} from "ngx-drag-drop";
+import {TableDefinitionsService} from "../../table-definitions/table-definitions.service";
 
 @NgModule({
     declarations: [
@@ -40,9 +42,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CdkSharedModule,
         CdkSidebarModule,
         MatTooltipModule,
+        DndModule,
     ],
     providers: [
         HistoricoService,
+        TableDefinitionsService,
     ],
     exports: [
         CdkHistoricoGridComponent

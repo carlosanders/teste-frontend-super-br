@@ -261,7 +261,8 @@ export class CdkCoordenadorGridComponent implements AfterViewInit, OnInit, OnCha
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -269,7 +270,6 @@ export class CdkCoordenadorGridComponent implements AfterViewInit, OnInit, OnCha
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     editCoordenador(coordenadorId): void {
