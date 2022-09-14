@@ -1064,3 +1064,5 @@
 * Correção de erro exibido pelo front ao tentar baixar componente digital sem passar um id
 * Correção em erro do backend ao criar atividades em bloco de tarefas do mesmo processo
 * Correção em tela de atividades em bloco que mantinha a informação de destinação em tela mesmo sem minutas selecionadas
+* Correção em erro em ambientes de banco postgres após exibir ofícios remetidos de dentro do painel inicial do sistema, e fechar o editor
+* Correção de erro em painel de listagem de tarefas ao editar em bloco data de fim de prazo de tarefas de outro responsável (coordenador)
