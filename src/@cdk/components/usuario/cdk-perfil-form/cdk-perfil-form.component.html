@@ -62,7 +62,7 @@
 
     <mat-form-field>
             <textarea formControlName="assinaturaHTML"
-                      matInput placeholder="Assinatura" upperCase required></textarea>
+                      matInput placeholder="Assinatura" required></textarea>
         <mat-error *ngIf="form.get('assinaturaHTML').hasError('formError')">
             {{form.get('assinaturaHTML').errors.formError}}
         </mat-error>
