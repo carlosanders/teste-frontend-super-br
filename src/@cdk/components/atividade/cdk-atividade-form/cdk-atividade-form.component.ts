@@ -539,10 +539,11 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     getFavoritosUnidadeAprovacao(): void {
         this.unidadeAprovacaoListIsLoading = true;
+        const favoritosUnidadeAprovacao = this.blocoTarefasFavorito[0]?.especieTarefa ? this.blocoTarefasFavorito[0].especieTarefa.id : this.atividade.tarefa.especieTarefa.id;
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
-                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_unidade_aprovacao'
+                context: 'eq:atividade_' + favoritosUnidadeAprovacao + '_unidade_aprovacao'
             }),
             5,
             0,

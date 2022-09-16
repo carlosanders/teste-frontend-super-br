@@ -1464,5 +1464,4 @@ export type TarefasActionsAll
     | AprovarSugestaoFailed
     | ReloadVinculacaoEtiqueta
     | ToggleGroup
-    | UnloadGroup
-    ;
+    | UnloadGroup;

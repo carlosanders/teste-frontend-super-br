@@ -70,7 +70,7 @@ export class RepositorioEditEffect {
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tese',
-                content: 'Tese id ' + response.id + ' salva com sucesso.',
+                content: 'Repositório id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
             }))),
             mergeMap((response: Repositorio) => [

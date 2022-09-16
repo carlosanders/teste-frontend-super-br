@@ -21,7 +21,9 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {ModalidadeGeneroPessoaDataSource} from '@cdk/data-sources/modalidade-genero-pessoa-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModalidadeGeneroPessoaFilterComponent} from '../sidebars/cdk-modalidade-genero-pessoa-filter/cdk-modalidade-genero-pessoa-filter.component';
+import {
+    CdkModalidadeGeneroPessoaFilterComponent
+} from '../sidebars/cdk-modalidade-genero-pessoa-filter/cdk-modalidade-genero-pessoa-filter.component';
 
 
 @Component({
@@ -247,6 +249,8 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto['isAdmin'] = this.hasInatived;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -254,7 +258,6 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {
@@ -268,8 +271,7 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {mostrarApagadas: true}
             });
-        }
-        else {
+        } else {
             this.loadPage();
         }
     }
@@ -285,8 +287,7 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {isAdmin: true}
             });
-        }
-        else {
+        } else {
             this.gridFilter = {};
             this.cdkModalidadeGeneroPessoaFilterComponent.resetarFormulario();
             this.loadPage();
@@ -371,7 +372,7 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
         this.create.emit();
     }
 
-    getProp(obj, prop): any|boolean {
+    getProp(obj, prop): any | boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }
@@ -380,5 +381,5 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
 
     getMessageError(obj): any {
         return obj?.error?.error?.message;
-   }
+    }
 }

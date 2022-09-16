@@ -10,6 +10,12 @@
 
             <div class="title">
                 <mat-icon *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                <button disabled mat-icon-button
+                        *ngIf="documentoAvulso.processo?.acessoNegado">
+                    <mat-icon matTooltip="Acesso restrito!" class="s-15 red-fg">
+                        block
+                    </mat-icon>
+                </button>
                 <span>PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
                 <mat-icon class="s-12 mt-4" (click)="copiarParaAreaTrabalho(documentoAvulso.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>

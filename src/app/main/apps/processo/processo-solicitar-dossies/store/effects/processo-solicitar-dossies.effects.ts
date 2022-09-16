@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {concatMap, Observable, of} from 'rxjs';
 import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ProcessoSolicitarDossiesActions from '../actions/processo-solicitar-dossies.actions';
@@ -111,14 +111,16 @@ export class ProcessoSolicitarDossiesEffect {
             type: 'dossie',
             content: 'Salvando o dossie ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
-        mergeMap(action => this._dossiesService.save(action.payload.dossie).pipe(
+        concatMap(action => this._dossiesService.save(action.payload.dossie).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'dossie',
                 content: 'Dossiê: ' + response?.tipoDossie?.nome + ' para: ' + response?.pessoa?.nome +
                     ' solicitado com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Dossie) => [
                 new ProcessoSolicitarDossiesActions.SaveDossiesSuccess(response)
@@ -130,6 +132,7 @@ export class ProcessoSolicitarDossiesEffect {
                     type: 'dossie',
                     content: 'Erro ao salvar o dossiê!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new ProcessoSolicitarDossiesActions.SaveDossiesFailed(err));
             })

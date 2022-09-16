@@ -442,7 +442,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     doValidateNup(): void {
         const valorNup = this.form.get('NUP').value;
-        const configuracaoNup = this.form.get('configuracaoNup').value.id;
+        const configuracaoNup = this.form.get('configuracaoNup').value?.id;
         const unidadeArquivistica = this.form.get('unidadeArquivistica').value;
 
         if (valorNup) {

@@ -17,6 +17,8 @@ export class ConfigModulo {
 
     nome: string;
 
+    sigla: string;
+
     descricao: string;
 
     dataSchema?: string;
@@ -67,6 +69,7 @@ export class ConfigModulo {
         this.id = null;
         this.uuid = null;
         this.nome = null;
+        this.sigla = null;
         this.descricao = null;
         this.dataSchema = null;
         this.dataType = null;

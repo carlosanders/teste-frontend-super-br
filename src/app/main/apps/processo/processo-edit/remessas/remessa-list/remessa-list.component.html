@@ -5,7 +5,12 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'recebe_remessa', 'delete', 'showDeleted']"
+        [actions]="['create', 'recebe_remessa', 'delete', 'showDeleted', 'redefinir_tabela']"
+        [displayedColumns]="['select', 'id', 'nup', 'setorOrigem.nome', 'pessoaDestino.nome', 'dataHoraRecebimento', 'usuarioRecebimento.nome', 'urgente', 'observacao', 'actions']"
+        [resizableColumns]="['allTableColumns']"
+        [ordableColumns]="['allTableColumns']"
+        [tableDefinitions]="tableDefinitions"
+        (tableDefinitionsChange)="doTableDefinitionsChange($event)"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
@@ -14,5 +19,6 @@
         (statusBarramento)="verificaStatusBarramento($event)"
         (delete)="delete($event)"
         (deleteBlocoEmmitter)="deleteBloco($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()"
 >
 </cdk-remessa-grid>

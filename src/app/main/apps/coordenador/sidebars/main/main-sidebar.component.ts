@@ -58,7 +58,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses Nacionais',
+                nome: 'Repositórios Nacionais',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
@@ -91,7 +91,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses da Unidade',
+                nome: 'Repositórios da Unidade',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
@@ -129,7 +129,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'modelos'
             },
             {
-                nome: 'Teses do Setor',
+                nome: 'Repositórios do Setor',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
@@ -149,11 +149,23 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'avisos'
             }
         ];
-        const path = 'app/main/apps/coordenador/sidebars/main';
+        const mainPath = 'app/main/apps/coordenador/sidebars/main';
+        const nacionalPath = 'app/main/apps/coordenador/sidebars/main#nacional';
+        const unidadePath = 'app/main/apps/coordenador/sidebars/main#unidade';
+        const setorPath = 'app/main/apps/coordenador/sidebars/main#setor';
 
         modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
+            if (module.sidebars.hasOwnProperty(mainPath)) {
+                module.sidebars[mainPath].forEach((s => this.links.push(s)));
+            }
+            if (module.sidebars.hasOwnProperty(nacionalPath)) {
+                module.sidebars[nacionalPath].forEach((s => this.linksNacional.push(s)));
+            }
+            if (module.sidebars.hasOwnProperty(unidadePath)) {
+                module.sidebars[unidadePath].forEach((s => this.linksUnidade.push(s)));
+            }
+            if (module.sidebars.hasOwnProperty(setorPath)) {
+                module.sidebars[setorPath].forEach((s => this.linksLocal.push(s)));
             }
         });
     }

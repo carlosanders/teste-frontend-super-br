@@ -59,6 +59,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         'id',
         'nome',
         'descricao',
+        'sigla',
         'dataType',
         'dataSchema',
         'dataValue',
@@ -125,6 +126,11 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         {
             id: 'descricao',
             label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
             fixed: false
         },
         {
@@ -271,6 +277,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         delete this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ?? null;
         delete this.gridFilter.contexto;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             filter: filter,
             gridFilter: this.gridFilter,
@@ -279,7 +286,6 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

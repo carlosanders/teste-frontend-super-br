@@ -8,10 +8,15 @@
         [loading]="(loading$ | async)"
         [historicos]="(historicosConfig$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="[]"
+        [actions]="['redefinir_tabela']"
         [mode]="'search'"
         [displayedColumns]="['id', 'descricao', 'processo', 'criadoEm']"
-        (reload)="reload($event)">
+        [resizableColumns]="['allTableColumns']"
+        [ordableColumns]="['allTableColumns']"
+        [tableDefinitions]="tableDefinitions"
+        (tableDefinitionsChange)="doTableDefinitionsChange($event)"
+        (reload)="reload($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()">
 </cdk-historico-grid>
 
 <router-outlet></router-outlet>

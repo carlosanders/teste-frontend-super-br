@@ -256,6 +256,8 @@ export class CdkFeriadoGridComponent implements AfterViewInit, OnInit, OnChanges
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto['isAdmin'] = this.hasInatived;
+        contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -263,7 +265,6 @@ export class CdkFeriadoGridComponent implements AfterViewInit, OnInit, OnChanges
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {

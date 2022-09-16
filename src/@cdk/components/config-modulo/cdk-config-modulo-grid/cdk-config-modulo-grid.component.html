@@ -141,6 +141,15 @@
                         data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.descricao}} </td>
                 </ng-container>
+                <!-- Descrição Column -->
+                <ng-container matColumnDef="sigla">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Sigla
+                    </th>
+                    <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
+                        data-label='Sigla: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.sigla}} </td>
+                </ng-container>
 
                 <!-- DataType Column -->
                 <ng-container matColumnDef="dataType">

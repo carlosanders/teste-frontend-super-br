@@ -54,6 +54,15 @@ export class ProcessoService extends ParentGenericService<Processo> {
         );
     }
 
+    destroyVisibilidadeDocs(processoId: number, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.delete(
+            `${environment.api_url}${'administrativo/processo'}/${processoId}/${'deletevisibilidadedocs'}` + environment.xdebug,
+            {params}
+        );
+    }
+
     arquivar(processo: Processo, populate: any = '[]', context: any = '{}'): Observable<Processo> {
         const params = {};
         params['populate'] = populate;

@@ -32,6 +32,7 @@ export class CdkPessoaFilterComponent {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
+            id: [null],
             nome: [null],
             numeroDocumentoPrincipal: [null],
             pessoaValidada: [null],
@@ -40,6 +41,7 @@ export class CdkPessoaFilterComponent {
             nomeGenitora: [null],
             modalidadeQualificacaoPessoa: [null],
             modalidadeGeneroPessoa: [null],
+            pessoaConveniada: [null]
         });
     }
 
@@ -62,12 +64,28 @@ export class CdkPessoaFilterComponent {
             andXFilter.push({'numeroDocumentoPrincipal': `like:%${this.form.get('numeroDocumentoPrincipal').value}%`});
         }
 
+        if (this.form.get('id').value && (this.form.get('id').value.length >= 1)) {
+            andXFilter.push({'id': `eq:${this.form.get('id').value}`});
+        }
+
         if (this.form.get('modalidadeGeneroPessoa').value) {
             andXFilter.push({'modalidadeGeneroPessoa.id': `eq:${this.form.get('modalidadeGeneroPessoa').value.id}`});
         }
 
         if (this.form.get('modalidadeQualificacaoPessoa').value) {
             andXFilter.push({'modalidadeQualificacaoPessoa.id': `eq:${this.form.get('modalidadeQualificacaoPessoa').value.id}`});
+        }
+
+        if (this.form.get('modalidadeQualificacaoPessoa').value) {
+            andXFilter.push({'modalidadeQualificacaoPessoa.id': `eq:${this.form.get('modalidadeQualificacaoPessoa').value.id}`});
+        }
+
+        if (this.form.get('pessoaConveniada').value) {
+            andXFilter.push({'pessoaConveniada': `eq:true`});
+        }
+
+        if (this.form.get('pessoaValidada').value) {
+            andXFilter.push({'pessoaValidada': `eq:true`});
         }
 
         if (this.filterDataObito?.length) {

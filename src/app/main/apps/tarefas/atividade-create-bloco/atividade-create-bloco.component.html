@@ -34,7 +34,7 @@
                         [blocoTarefasFavorito]="tarefas"
                         [especieAtividadePagination]="especieAtividadePagination"
                         [form]="form"
-                        [temMinutas]="!!minutas.length"
+                        [temMinutas]="!!selectedMinutas.length"
                         [saving]="(isSaving$ | async)"
                         [errors]="(errors$ | async)"
                         (changeEncerramentoTarefa)="changeEncerramentoTarefa($event)"

@@ -64,6 +64,10 @@ export const REMOVE_VINCULACAO_DOCUMENTO = '[PROCESSO VIEW] REMOVE VINCULACAO DO
 export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO SUCCESS';
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO FAILED';
 
+export const DELETE_VISIBILIDADE_DOCUMENTOS = '[PROCESSO VIEW] DELETE VISIBILIDADE DOCUMENTOS';
+export const DELETE_VISIBILIDADE_DOCUMENTOS_SUCCESS = '[PROCESSO VIEW] DELETE VISIBILIDADE DOCUMENTOS SUCCESS';
+export const DELETE_VISIBILIDADE_DOCUMENTOS_FAILED = '[PROCESSO VIEW] DELETE VISIBILIDADE DOCUMENTOS FAILED';
+
 /**
  * Reload Documento
  */
@@ -597,6 +601,42 @@ export class RemoveVinculacaoDocumentoFailed implements Action
     {
     }
 }
+/**
+ * Delete Visibilidade Documentos
+ */
+export class DeleteVisibilidadeDocumentos implements Action
+{
+    readonly type = DELETE_VISIBILIDADE_DOCUMENTOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Visibilidade Documentos Success
+ */
+export class DeleteVisibilidadeDocumentosSuccess implements Action
+{
+    readonly type = DELETE_VISIBILIDADE_DOCUMENTOS_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Visibilidade Documentos Failed
+ */
+export class DeleteVisibilidadeDocumentosFailed implements Action
+{
+    readonly type = DELETE_VISIBILIDADE_DOCUMENTOS_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 
 export type ProcessoViewDocumentosActionsAll
     = ReloadDocumento
@@ -645,4 +685,7 @@ export type ProcessoViewDocumentosActionsAll
     | ConverteToHtmlFailed
     | RemoveVinculacaoDocumento
     | RemoveVinculacaoDocumentoSuccess
-    | RemoveVinculacaoDocumentoFailed;
+    | RemoveVinculacaoDocumentoFailed
+    | DeleteVisibilidadeDocumentos
+    | DeleteVisibilidadeDocumentosSuccess
+    | DeleteVisibilidadeDocumentosFailed;

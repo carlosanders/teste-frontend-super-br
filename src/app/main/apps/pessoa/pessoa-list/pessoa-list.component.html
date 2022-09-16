@@ -8,7 +8,8 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'select']"
-        [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'actions']"
+        [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal',
+        'pessoaConveniada', 'pessoaValidada', 'actions']"
         (reload)="reload($event)"
         (edit)="edit($event)"
         (create)="create()"

@@ -36,7 +36,9 @@ const routes: Routes = [
             },
             {
                 path: 'protocolo-existente',
-                loadChildren: () => import('../protocolo-externo/protocolo-existente/protocolo-existente.module').then(m => m.ProtocoloExistenteModule)
+                loadChildren: () => import('../protocolo-externo/protocolo-existente/protocolo-existente.module').then(m => m.ProtocoloExistenteModule),
+                data: {roles: ['ROLE_PESSOA_VINCULADA_CONVENIADA']},
+                canActivate: [RoleGuard],
             },
             {
                 path: '**',

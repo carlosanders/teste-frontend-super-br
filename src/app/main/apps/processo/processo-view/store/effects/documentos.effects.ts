@@ -21,6 +21,9 @@ import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {GetJuntadaDocumentoVinculado} from '../actions';
+import {ProcessoService} from "../../../../../../../@cdk/services/processo.service";
+import * as JuntadaListActions from "../../../processo-edit/juntadas/juntada-list/store/actions";
+import {DeleteVisibilidadeDocumentos} from "../actions/documentos.actions";
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -358,11 +361,51 @@ export class ProcessoViewDocumentosEffects {
         ), 25)
     ));
 
+    deleteVisibilidadeDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewDocumentosActions.DeleteVisibilidadeDocumentos>(ProcessoViewDocumentosActions.DELETE_VISIBILIDADE_DOCUMENTOS),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'processo',
+            content: 'Removendo restrições dos documentos do processo ...',
+            status: 0, // carregando
+        }))),
+        mergeMap(action => this._processoService.destroyVisibilidadeDocs(action.payload.processoId)
+            .pipe(
+                mergeMap((response: any) => [
+                    new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'processo',
+                        content: 'Restrições dos documentos de id '
+                            + response.id + ' do processo id '
+                            + action.payload.processoId + ' removidas com sucesso.',
+                        status: 1, // sucesso
+                    }),
+                    new ProcessoViewDocumentosActions.DeleteVisibilidadeDocumentosSuccess(response),
+                ]),
+                catchError((err) => {
+                    const payload = {
+                        processoId: action.payload.processoId,
+                        error: err
+                    };
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'processo',
+                        content: 'Erro ao remover restrições de juntada!',
+                        status: 2, // erro
+                    }));
+                    return of(new ProcessoViewDocumentosActions.DeleteVisibilidadeDocumentosFailed(payload));
+                })
+            )
+        )
+    ));
+
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
+        private _processoService: ProcessoService,
         private _router: Router,
         private _store: Store<State>,
         public activatedRoute: ActivatedRoute

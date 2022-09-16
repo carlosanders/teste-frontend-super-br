@@ -106,7 +106,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => this.loadingProcesso || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
+            filter((loaded: any) => !this.loadingProcesso && (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

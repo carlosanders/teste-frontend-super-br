@@ -89,6 +89,20 @@
             {{bookmarks?.length}}/{{paginationBookmark.total}}
         </div>
 
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                (click)="$event.stopPropagation()"
+                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="remover restrições"
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
+                    (click)="doDeleteRestricoesDocs(processoId)">
+                    <mat-icon>report_off</mat-icon>
+                    <span>Retirar restrições</span>
+            </button>
+        </mat-menu>
     </div>
 
     <div class="filters" *ngIf="showListFilter">
@@ -241,7 +255,7 @@
                      [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}"
                      [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                      [dndDragImageOffsetFunction]="this.offsetFunction"
-                     [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.estaVinculada"
+                     [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento?.estaVinculada"
                      (dndEnd)="onCancelDrag($event)"
                      (dndCopied)="onCopied($event, juntada)"
                      (dndStart)="onStartDrag($event, juntada)">
@@ -284,8 +298,17 @@
                                     PENDENTE DE CIÊNCIA
                                 </div>
                             </div>
+                            <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center" *ngIf="!!juntada.documento.acessoNegado && juntada.ativo">
+                                <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
+                                </mat-icon>
+                                <a class="ml-4"
+                                   (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoRestrito, null, $event)"
+                                   [ngClass]="{'current-tipo-documento': isCurrent(juntada.id)}">
+                                    ACESSO RESTRITO
+                                </a>
+                            </div>
                             <ng-container
-                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0)">
+                                *ngIf="(juntada.documento?.componentesDigitais.length !== 0 && !juntada.documento.acessoNegado)">
                                 <div *ngFor="let componenteDigital of (juntada.documento?.componentesDigitais); index as j;"
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>

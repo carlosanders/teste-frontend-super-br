@@ -159,11 +159,13 @@ export class CdkConfigModuloFormComponent implements OnChanges, OnInit{
         if (this.mode === 'edit') {
             this.form.get('nome').disable();
             this.form.get('descricao').disable();
+            this.form.get('sigla').disable();
             this.form.get('modulo').disable();
             this.dataSchemaEdit = this.configModule.paradigma ? this.configModule.paradigma.dataSchema : this.configModule.dataSchema;
         } else {
             this.form.get('nome').enable();
             this.form.get('descricao').enable();
+            this.form.get('sigla').enable();
             this.form.get('modulo').enable();
             this.inheritable = !!this.configModule.paradigma;
             this.form.get('paradigma').setValue(this.configModule.paradigma);

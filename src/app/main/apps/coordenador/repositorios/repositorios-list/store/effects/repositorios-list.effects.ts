@@ -79,7 +79,7 @@ export class RepositoriosListEffect {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tese',
-                    content: 'Tese id ' + action.payload.repositorioId + ' deletada com sucesso.',
+                    content: 'Repositório id ' + action.payload.repositorioId + ' deletada com sucesso.',
                     status: 1, // sucesso
                     lote: action.payload.loteId
                 }));
@@ -125,7 +125,7 @@ export class RepositoriosListEffect {
             tap(() => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tese',
-                content: 'Tese id ' + action.payload.repositorio.id + ' editada com sucesso.',
+                content: 'Repositório id ' + action.payload.repositorio.id + ' editada com sucesso.',
                 status: 1, // sucesso
                 lote: action.payload.loteId
             }))),

@@ -12,6 +12,7 @@ import {
 import {MatGridListModule} from '@angular/material/grid-list';
 import {DirectivesModule} from '@cdk/directives/directives';
 import {TourModule} from '../ajuda/tour/tour.module';
+import {DndModule} from 'ngx-drag-drop';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,7 @@ import {TourModule} from '../ajuda/tour/tour.module';
         MatGridListModule,
         DirectivesModule,
         TourModule,
-
+        DndModule,
     ],
     exports: [
         WidgetsComponent

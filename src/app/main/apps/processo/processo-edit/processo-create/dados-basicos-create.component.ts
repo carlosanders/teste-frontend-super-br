@@ -690,7 +690,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             interessado: interessado,
             operacaoId: operacaoId
         }));
-        console.log(this.formTarefa);
     }
 
     submitVinculacaoProcesso(values): void {

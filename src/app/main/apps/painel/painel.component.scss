@@ -29,6 +29,15 @@ painel {
                     justify-content: space-between;
                     align-items: center;
                 }
+
+                > .widgets-control {
+                    .widgets-form-field {
+                        width: 20px !important;
+                        .mat-select-value {
+                            display: none !important;
+                        }
+                    }
+                }
             }
 
             > .content {

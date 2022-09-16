@@ -290,7 +290,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             } else {
                 this.errorsAssinatura = null;
             }
-        })
+        });
     }
 
     ngAfterViewInit(): void {

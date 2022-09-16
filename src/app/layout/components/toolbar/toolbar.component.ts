@@ -440,6 +440,23 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
     }
 
+    openNewTab(notificacao: Notificacao): any {
+        const contexto = this.getNotificacaoContext(notificacao);
+        switch (notificacao.tipoNotificacao.nome) {
+            case 'RELATORIO':
+                return window.open(`/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`);
+            case 'PROCESSO':
+            case 'DOWNLOAD PROCESSO':
+                return window.open(`/apps/processo/${contexto.id}/visualizar/capa/mostrar`);
+            case 'TAREFA':
+                return window.open(
+                        `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
+                );
+            default:
+                return;
+        }
+    }
+
     download(notificacao: Notificacao): void
     {
         const contexto = this.getNotificacaoContext(notificacao);

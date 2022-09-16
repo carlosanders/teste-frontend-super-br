@@ -103,7 +103,7 @@ export class ComponenteDigitalEffect {
 
                 let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                 // eslint-disable-next-line max-len
-                if ((!documento?.minuta || documento?.estaVinculada || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
+                if ((!documento?.minuta || documento?.estaVinculada || action.payload.componenteDigital?.documentoOrigem) && sidebar?.includes('editar/atividade')) {
                     sidebar = 'editar/dados-basicos';
                 }
                 const url = this.routerState.url.includes('/processo/' + this.routerState.params.processoHandle + '/visualizar') ?
@@ -430,7 +430,7 @@ export class ComponenteDigitalEffect {
     assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.AssinaDocumentoSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_SUCCESS),
         tap((action) => {
-            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload && this.routerState.url.includes('editor/ckeditor')) {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload) {
                 this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
             }
         })
@@ -441,7 +441,7 @@ export class ComponenteDigitalEffect {
     assinaDocumentoEletronicamenteSuccess: any = createEffect(() => this._actions.pipe(
         ofType<AssinaturaActions.AssinaDocumentoEletronicamenteSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
         tap((action) => {
-            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload && this.routerState.url.includes('editor/ckeditor')) {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload) {
                 this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
             }
         })

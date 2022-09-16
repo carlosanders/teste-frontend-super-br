@@ -216,7 +216,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if (url.indexOf('/atividades') !== -1) {
             this.getDocumentosAtividades = true;
-        } else if (url.indexOf('/oficios') !== -1) {
+        } else if (url.indexOf('/oficios') !== -1 && url.indexOf('/tarefa/') !== -1) {
             this.getDocumentosAvulsos = true;
         }
 

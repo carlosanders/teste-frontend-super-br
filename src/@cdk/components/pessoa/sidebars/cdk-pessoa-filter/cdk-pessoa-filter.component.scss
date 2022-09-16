@@ -45,6 +45,17 @@ cdk-pessoa-filter {
             mat-form-field {
                 margin-right: 8px;
             }
+
+            .checkbox {
+                display: flex;
+                align-content: center;
+                align-items: center;
+                height: 60px;
+
+                .check-margin {
+                    margin: 0 10px;
+                }
+            }
         }
     }
 

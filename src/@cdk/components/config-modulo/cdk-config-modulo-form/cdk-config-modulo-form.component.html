@@ -42,11 +42,19 @@
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
     </mat-form-field>
 
+    <mat-form-field>
+        <mat-label>Sigla</mat-label>
+        <input matInput #sigla
+               name="sigla"
+               formControlName="sigla"
+               upperCase="true"/>
+        <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
+    </mat-form-field>
+
     <mat-form-field appearance="standard" *ngIf="mode === 'create' || mode === 'admin'">
         <mat-label>Tipo</mat-label>
         <mat-select
-            formControlName="dataType"
-        >
+            formControlName="dataType">
             <div *ngFor="let dataType of dataTypes">
                 <mat-option  [value]="dataType">{{dataType | uppercase}}</mat-option>
             </div>

@@ -216,14 +216,16 @@
                                     <span>Sincronizar Barramento</span>
                                 </ng-container>
                             </button>
-                            <button mat-menu-item *ngIf="containerConverter?.length"
-                                    [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
-                                    (click)="$event.stopPropagation()">
-                                <ng-container>
-                                    <mat-icon>swap_horiz</mat-icon>
-                                    <span>Converter</span>
-                                </ng-container>
-                            </button>
+                            <ng-container *showIfNotRole="'ROLE_USUARIO_EXTERNO'">
+                                <button mat-menu-item *ngIf="containerConverter?.length"
+                                        [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
+                                        (click)="$event.stopPropagation()">
+                                    <ng-container>
+                                        <mat-icon>swap_horiz</mat-icon>
+                                        <span>Converter</span>
+                                    </ng-container>
+                                </button>
+                            </ng-container>
                             <mat-menu #moreMenuConverter="matMenu">
                                 <ng-template #dynamicComponentConverter></ng-template>
                             </mat-menu>
