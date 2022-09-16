@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    Input,
-    OnInit,
+    Input, OnChanges,
+    OnInit, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '../../animations';
@@ -15,7 +15,7 @@ import {cdkAnimations} from '../../animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class PathComponent implements OnInit {
+export class PathComponent implements OnInit, OnChanges {
 
     @Input()
     icone: string;
@@ -38,7 +38,15 @@ export class PathComponent implements OnInit {
         this.carregarCaminho();
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['caminhoAbsoluto'] && this.caminhoAbsoluto) {
+            this.carregarCaminho();
+        }
+    }
+
+
     carregarCaminho(): void {
+        this.linkCaminhos = [{}];
         let caminhoAux = '';
         let caminhoAnterior = '';
         let chave = '';
