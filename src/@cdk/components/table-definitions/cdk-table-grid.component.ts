@@ -384,7 +384,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
         }
 
         this.tableDefinitions.columns.forEach((userColumnDefinitions, index) => {
-            console.log(this._tableColumns);
             const defaultColumnDefinitions = this._tableColumns
                 .find((tableColumn) => tableColumn.id === userColumnDefinitions?.id);
 

@@ -115,22 +115,24 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
                 'criadoPor.id': 'eq:' + this._loginService.getUserProfile().id
             }
         };
-        this._store.dispatch(new fromStore.GetHistoricoConfig({
-            ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-            },
-            gridFilter: {
-                ...parametros.gridFilter
-            },
-            sort: parametros.sort,
-            limit: parametros.limit,
-            offset: parametros.offset,
-            populate: [
-                ...this.pagination.populate
-            ],
-            context: parametros.context,
-        }));
+        if (parametros.gridFilter.andX) {
+            this._store.dispatch(new fromStore.GetHistoricoConfig({
+                ...this.pagination,
+                filter: {
+                    ...this.pagination.filter,
+                },
+                gridFilter: {
+                    ...parametros.gridFilter
+                },
+                sort: parametros.sort,
+                limit: parametros.limit,
+                offset: parametros.offset,
+                populate: [
+                    ...this.pagination.populate
+                ],
+                context: parametros.context,
+            }));
+        }
     }
 
     doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
