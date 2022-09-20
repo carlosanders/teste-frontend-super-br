@@ -43,10 +43,6 @@ const routes: Routes = [
                 path        : 'compartilhamentos',
                 loadChildren: () => import('./compartilhamento-list/compartilhamento-list.module').then(m => m.CompartilhamentoListModule)
             },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
         ]
     }
 ];
@@ -57,6 +53,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'listar'
 });
 
 @NgModule({
