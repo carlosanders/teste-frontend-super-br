@@ -247,7 +247,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         this.hasExcluded = !this.hasExcluded;
         if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
-            const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+            const contexto = this.gridFilter.contexto ? this.gridFilter.contexto :  {};
             this.excluded.emit({
                 gridFilter: filter,
                 limit: this.paginator.pageSize,
