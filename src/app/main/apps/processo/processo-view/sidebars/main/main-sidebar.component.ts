@@ -244,6 +244,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     documentosRestritos: number[] = [];
     documentosRestritosErros: number[] = [];
+    selectedOrigemDados: string = 'todos';
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -284,7 +285,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             criadoPor: [null],
             atualizadoPor: [null],
             unidade: [null],
-            origemDados: ['']
+            origemDados: ['todos']
         });
 
         this.formEditor = this._formBuilder.group({
@@ -785,7 +786,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
             default: true
         };
-
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
     }
 
@@ -793,6 +793,32 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.novaJuntada = false;
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         this._store.dispatch(new fromStore.ReloadJuntadas());
+    }
+
+    doTodasJuntadas(): void {
+        let filtroOrigemDados = {};
+        delete this.listFilter['origemDados.id'];
+        this.selectedOrigemDados = 'todos';
+        this.form.get('origemDados').setValue('');
+        this.reload(filtroOrigemDados);
+    }
+    doAdmJuntadas(): void {
+        let filtroOrigemDados;
+        this.selectedOrigemDados = 'administrativo';
+        filtroOrigemDados = {
+            listFilter: {'origemDados.id': 'isNull'}
+        };
+        this.form.get('origemDados').setValue('administrativo');
+        this.reload(filtroOrigemDados);
+    }
+    doIntegraJuntadas(): void {
+        let filtroOrigemDados;
+        this.selectedOrigemDados = 'integracao';
+        filtroOrigemDados = {
+            listFilter: {'origemDados.id': 'isNotNull'}
+        };
+        this.form.get('origemDados').setValue('integracao');
+        this.reload(filtroOrigemDados);
     }
 
     offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => ({x: 0, y: 0});
@@ -950,6 +976,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     limpar(): void {
         this.form.reset({origemDados: ''});
+        this.selectedOrigemDados = 'todos';
         this._store.dispatch(new fromStore.SelectVolume(false));
         this.emite();
     }

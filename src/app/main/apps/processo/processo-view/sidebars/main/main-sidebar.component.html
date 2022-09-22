@@ -54,6 +54,29 @@
                     matTooltip="Marcadores de páginas">
                 <mat-icon>bookmarks</mat-icon>
             </button>
+
+            <button mat-icon-button aria-label="Juntadas"
+                    [matMenuTriggerFor]="selectMenuJuntadas"
+                    #menuTriggerList="matMenuTrigger">
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos'">all_out</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'">book</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'">backup</mat-icon>
+            </button>
+            <mat-menu #selectMenuJuntadas="matMenu">
+                <button mat-menu-item (click)="doTodasJuntadas()">
+                    <mat-icon>all_out</mat-icon>
+                    Todos
+                </button>
+                <button mat-menu-item (click)="doAdmJuntadas()">
+                    <mat-icon>book</mat-icon>
+                    Administrativo
+                </button>
+                <button mat-menu-item (click)="doIntegraJuntadas()">
+                    <mat-icon>backup</mat-icon>
+                    Integração
+                </button>
+            </mat-menu>
+
         </ng-container>
 
         <ng-container *ngIf="!this.isJuntadas">
