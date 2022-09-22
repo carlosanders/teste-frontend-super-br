@@ -18,7 +18,6 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {TableDefinitionsService} from "../../../../../../@cdk/components/table-definitions/table-definitions.service";
 import {TableDefinitions} from "../../../../../../@cdk/components/table-definitions/table-definitions";
-import {CdkTarefaGridColumns} from "../../../../../../@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
 import {
     CdkHistoricoGridColumns
 } from "../../../../../../@cdk/components/historico/cdk-historico-grid/cdk-historico-grid.columns";
@@ -31,9 +30,9 @@ import {
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestroy {
+export class HistoricoConfigListComponent implements OnInit, OnDestroy {
 
-    static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'HistoricoConfigListComponent', 'CdkHistoricoGrid'];
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['config', 'historico', 'HistoricoConfigListComponent', 'CdkHistoricoGrid'];
 
     routerState: any;
     historicosConfig$: Observable<Historico[]>;
@@ -95,10 +94,6 @@ export class HistoricoConfigListComponent implements OnInit, OnChanges, OnDestro
                 }
                 this._changeDetectorRef.markForCheck();
             });
-    }
-
-    ngOnChanges(): void {
-
     }
 
     ngOnDestroy(): void {
