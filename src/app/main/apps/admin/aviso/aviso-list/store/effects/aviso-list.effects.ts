@@ -34,7 +34,6 @@ export class AvisoListEffects {
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context)).pipe(
             mergeMap(response => [
-
                 new AddData<Aviso>({data: response['entities'], schema: avisoSchema}),
                 new AvisoListActions.GetAvisoSuccess({
 
