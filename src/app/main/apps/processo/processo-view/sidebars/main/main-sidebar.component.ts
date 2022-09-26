@@ -953,6 +953,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else if (this.form.get('origemDados').value === 'integracao') {
                 andXFilter.push({'origemDados.id': 'isNotNull'});
             }
+            this.selectedOrigemDados = this.form.get('origemDados').value;
         }
 
         if (this.selectedVolume) {

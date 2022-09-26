@@ -58,7 +58,8 @@
             <button mat-icon-button aria-label="Juntadas"
                     [matMenuTriggerFor]="selectMenuJuntadas"
                     #menuTriggerList="matMenuTrigger">
-                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos'">all_out</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''">
+                        all_out</mat-icon>
                     <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'">book</mat-icon>
                     <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'">backup</mat-icon>
             </button>
