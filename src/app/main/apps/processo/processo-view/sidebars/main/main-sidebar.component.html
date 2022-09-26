@@ -292,6 +292,7 @@
                     <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                             <div class="descricao">
+                                <mat-icon class="s-14" *ngIf="juntada.origemDados">cloud_upload</mat-icon>
                                 {{juntada.descricao?.split('/').join(' ') | titleCasePipe}}
                             </div>
                             <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>

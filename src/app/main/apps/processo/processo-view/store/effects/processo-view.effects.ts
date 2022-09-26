@@ -49,7 +49,8 @@ export class ProcessoViewEffect {
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                 'documento.criadoPor',
                 'documento.setorOrigem',
-                'documento.setorOrigem.unidade'
+                'documento.setorOrigem.unidade',
+                'origemDados'
             ];
             return this._juntadaService.get(
                 action.payload,
@@ -242,7 +243,8 @@ export class ProcessoViewEffect {
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.vinculacoesEtiquetas',
-                    'documento.vinculacoesEtiquetas.etiqueta'
+                    'documento.vinculacoesEtiquetas.etiqueta',
+                    'origemDados'
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
