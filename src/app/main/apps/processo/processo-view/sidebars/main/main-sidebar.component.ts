@@ -953,7 +953,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else if (this.form.get('origemDados').value === 'integracao') {
                 andXFilter.push({'origemDados.id': 'isNotNull'});
             }
-            this.selectedOrigemDados = this.form.get('origemDados').value;
         }
 
         if (this.selectedVolume) {
@@ -966,6 +965,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
         }
+        this.selectedOrigemDados = this.form.get('origemDados').value;
         this.listFilter = request.filters;
         this.reload({listFilter: this.listFilter, listSort: this.listSort});
         this.toggleFilter();
