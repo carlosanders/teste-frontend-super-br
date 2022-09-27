@@ -155,7 +155,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto :  {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,

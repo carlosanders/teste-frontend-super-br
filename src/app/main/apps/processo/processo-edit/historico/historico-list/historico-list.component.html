@@ -2,7 +2,12 @@
         [loading]="(loading$ | async)"
         [historicos]="(historicos$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="[]"
+        [actions]="['redefinir_tabela']"
         [displayedColumns]="['select', 'id', 'descricao', 'processo', 'criadoPor.nome', 'criadoEm']"
-        (reload)="reload($event)">
+        [resizableColumns]="['allTableColumns']"
+        [ordableColumns]="['allTableColumns']"
+        [tableDefinitions]="tableDefinitions"
+        (tableDefinitionsChange)="doTableDefinitionsChange($event)"
+        (reload)="reload($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()">
 </cdk-historico-grid>

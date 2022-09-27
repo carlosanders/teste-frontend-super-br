@@ -9,6 +9,7 @@
         [historicos]="(historicosConfig$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="['redefinir_tabela']"
+        [mode]="'search'"
         [displayedColumns]="['id', 'descricao', 'processo', 'criadoEm']"
         [resizableColumns]="['allTableColumns']"
         [ordableColumns]="['allTableColumns']"

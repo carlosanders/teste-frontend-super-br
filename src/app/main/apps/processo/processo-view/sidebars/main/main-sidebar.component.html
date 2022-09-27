@@ -54,6 +54,30 @@
                     matTooltip="Marcadores de páginas">
                 <mat-icon>bookmarks</mat-icon>
             </button>
+
+            <button mat-icon-button aria-label="Juntadas"
+                    [matMenuTriggerFor]="selectMenuJuntadas"
+                    #menuTriggerList="matMenuTrigger">
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''">
+                        all_out</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'">book</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'">backup</mat-icon>
+            </button>
+            <mat-menu #selectMenuJuntadas="matMenu">
+                <button mat-menu-item (click)="doTodasJuntadas()">
+                    <mat-icon>all_out</mat-icon>
+                    Todos
+                </button>
+                <button mat-menu-item (click)="doAdmJuntadas()">
+                    <mat-icon>book</mat-icon>
+                    Administrativo
+                </button>
+                <button mat-menu-item (click)="doIntegraJuntadas()">
+                    <mat-icon>backup</mat-icon>
+                    Integração
+                </button>
+            </mat-menu>
+
         </ng-container>
 
         <ng-container *ngIf="!this.isJuntadas">
@@ -268,6 +292,7 @@
                     <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                             <div class="descricao">
+                                <mat-icon class="s-14" *ngIf="juntada?.origemDados || juntada?.documento?.origemDados">cloud_upload</mat-icon>
                                 {{juntada.descricao?.split('/').join(' ') | titleCasePipe}}
                             </div>
                             <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>

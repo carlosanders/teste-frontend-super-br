@@ -49,7 +49,8 @@ export class ProcessoViewEffect {
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                 'documento.criadoPor',
                 'documento.setorOrigem',
-                'documento.setorOrigem.unidade'
+                'documento.setorOrigem.unidade',
+                'origemDados'
             ];
             return this._juntadaService.get(
                 action.payload,
@@ -242,7 +243,8 @@ export class ProcessoViewEffect {
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.vinculacoesEtiquetas',
-                    'documento.vinculacoesEtiquetas.etiqueta'
+                    'documento.vinculacoesEtiquetas.etiqueta',
+                    'origemDados'
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
@@ -440,29 +442,27 @@ export class ProcessoViewEffect {
                     // limpa o cache do componente digital do repositório de cache de componentes digitais
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
-                if (documentoId === juntada?.documento.id) {
-                    if (this.routerState.params['stepHandle'] !== 'latest') {
-                        const stepHandle = this.routerState.params['stepHandle'].split('-');
-                        let componenteDigitalId = null;
-                        if (stepHandle[1]) {
-                            componenteDigitalId = parseInt(stepHandle[1], 10);
-                        }
-                        if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
-                            const currentStep = {
-                                step: parseInt(stepHandle[0], 10),
-                                subStep: componenteDigitalId
-                            };
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
-                        }
-                    } else if (this.routerState.params['stepHandle'] === 'latest') {
-                        let processoId = null;
-
-                        const routeParams = of('processoHandle');
-                        routeParams.subscribe((param) => {
-                            processoId = parseInt(this.routerState.params[param], 10);
-                        });
-                        this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
+                if (this.routerState.params['stepHandle'] !== 'latest' && documentoId === juntada?.documento.id) {
+                    const stepHandle = this.routerState.params['stepHandle'].split('-');
+                    let componenteDigitalId = null;
+                    if (stepHandle[1]) {
+                        componenteDigitalId = parseInt(stepHandle[1], 10);
                     }
+                    if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
+                        const currentStep = {
+                            step: parseInt(stepHandle[0], 10),
+                            subStep: componenteDigitalId
+                        };
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                    }
+                } else if (this.routerState.params['stepHandle'] === 'latest') {
+                    let processoId = null;
+
+                    const routeParams = of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
                 }
             }
             return of(null);
@@ -608,8 +608,8 @@ export class ProcessoViewEffect {
         if (juntadaDefault) {
             defaultStep.step = juntadaDefault.id;
             defaultStep.subStep = juntadaDefault.documento.componentesDigitais.length ?
-                juntadaDefault.documento.componentesDigitais[0].id :
-                juntadaDefault.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
+                juntadaDefault.documento.componentesDigitais[0]?.id :
+                juntadaDefault.documento.vinculacoesDocumentos[0]?.documentoVinculado?.componentesDigitais[0]?.id;
         }
         return defaultStep;
     }

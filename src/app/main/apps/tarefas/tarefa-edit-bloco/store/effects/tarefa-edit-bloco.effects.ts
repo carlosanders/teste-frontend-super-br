@@ -33,7 +33,7 @@ export class TarefaEditBlocoEffect {
             lote: action.payload.loteId
         }))),
         mergeMap((action) => {
-            const populate = JSON.stringify([
+            const populate = [
                 'processo',
                 'colaborador.usuario',
                 'setor.especieSetor',
@@ -55,9 +55,9 @@ export class TarefaEditBlocoEffect {
                 'vinculacoesEtiquetas.etiqueta',
                 'vinculacaoWorkflow',
                 'vinculacaoWorkflow.workflow',
-            ]);
+            ];
             const context = JSON.stringify({'especieProcessoWorkflow': true});
-            return this._tarefaService.patch(action.payload.tarefa, action.payload.changes, populate, context).pipe(
+            return this._tarefaService.patch(action.payload.tarefa, action.payload.changes, JSON.stringify(populate), context).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
@@ -67,7 +67,7 @@ export class TarefaEditBlocoEffect {
                 }))),
                 mergeMap((response: Tarefa) => [
                     new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
-                    new AddData<Tarefa>({data: [response], schema: tarefaSchema})
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate})
                 ]),
                 catchError((err) => {
                     const payload = {

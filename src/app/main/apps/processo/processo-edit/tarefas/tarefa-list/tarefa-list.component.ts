@@ -23,6 +23,7 @@ import {
 import {
     CdkTarefaGridColumns
 } from "../../../../../../../@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'tarefa-list',
@@ -47,6 +48,7 @@ export class TarefaListComponent implements OnInit, OnDestroy {
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     tableDefinitions: TableDefinitions = new TableDefinitions();
+    generoTarefa = 'administrativo';
 
     /**
      * @param _changeDetectorRef
@@ -144,8 +146,24 @@ export class TarefaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tarefaId]).then();
     }
 
-    listAtividades(tarefaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'atividades/') + tarefaId]).then();
+    listAtividades(tarefa: any): void {
+        const genero = tarefa.especieTarefa.generoTarefa.nome.toLowerCase();
+        const path = 'app/main/apps/processo/processo-edit/tarefas/tarefa-list';
+        if (modulesConfig.length > 0) {
+            modulesConfig.forEach((module) => {
+                if (module.routerLinks.hasOwnProperty(path) &&
+                    module.routerLinks[path].hasOwnProperty('atividades') &&
+                    module.routerLinks[path]['atividades'].hasOwnProperty(genero)) {
+                    this._router.navigate([this.routerState.url.replace(
+                        'listar',
+                        module.routerLinks[path]['atividades'][genero]) + tarefa.id]).then();
+                } else {
+                    this._router.navigate([this.routerState.url.replace('listar', 'atividades/') + tarefa.id]).then();
+                }
+            });
+        } else {
+            this._router.navigate([this.routerState.url.replace('listar', 'atividades/') + tarefa.id]).then();
+        }
     }
 
     listCompartilhamentos(tarefaId: number): void {

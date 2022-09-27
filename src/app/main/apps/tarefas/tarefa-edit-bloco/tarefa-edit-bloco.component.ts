@@ -52,7 +52,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditObservacao = false;
     prazoDesabilitado = false;
 
-    lote: string;
+    lote: string = '';
     private _profile: any;
     private _unsubscribeAll: Subject<any> = new Subject();
 
