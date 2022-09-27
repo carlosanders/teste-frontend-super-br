@@ -3,7 +3,7 @@
         [historicos]="(historicos$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="['redefinir_tabela']"
-        [displayedColumns]="['select', 'id', 'descricao', 'processo', 'criadoPor.nome', 'criadoEm']"
+        [displayedColumns]="['select', 'id', 'descricao', 'criadoPor.nome', 'criadoEm']"
         [resizableColumns]="['allTableColumns']"
         [ordableColumns]="['allTableColumns']"
         [tableDefinitions]="tableDefinitions"

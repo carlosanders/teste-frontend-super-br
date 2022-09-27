@@ -495,7 +495,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
         this._processDisplayableDefinitions();
         this._processOrderDefinitions();
         this.processAllColumnsDefinitions();
-        this.processAllColumnsDefinitions();
         this.tableDefinitions.sort = null;
         this.tableDefinitions.limit = null;
         this.tableDefinitions.data = null;
