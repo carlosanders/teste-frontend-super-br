@@ -172,6 +172,9 @@ export class DocumentoAvulso {
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas: VinculacaoEtiqueta[];
 
+    @Exclude({ toPlainOnly: true })
+    any: any;
+
     constructor() {
         this.id = null;
         this.uuid = null;

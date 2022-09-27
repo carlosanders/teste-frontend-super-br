@@ -12,14 +12,22 @@
         [deletedIds]="(deletedIds$ | async)"
         (responder)="responder($event)"
         (statusBarramento)="verificaStatusBarramento($event)"
-        [actions]="['visualizar','showDeleted']"
+        [actions]="['visualizar','showDeleted', 'redefinir_tabela']"
+        [displayedColumns]="['select', 'id', 'especieDocumentoAvulso.nome',
+         'pessoaDestino.nome', 'usuarioResponsavel.nome', 'documentoResposta', 'actions']"
+        [resizableColumns]="['allTableColumns']"
+        [ordableColumns]="['allTableColumns']"
+        [tableDefinitions]="tableDefinitions"
+        (tableDefinitionsChange)="doTableDefinitionsChange($event)"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
         (create)="create()"
         (visualizar)="visualizar($event)"
+        (visualizarDocumento)="visualizarDocumento($event)"
         (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+        (deleteBlocoEmmitter)="deleteBloco($event)"
+        (resetTableDefinitions)="doResetTableDefinitions()">
 </cdk-documento-avulso-grid>
 
 <router-outlet></router-outlet>

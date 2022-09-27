@@ -17,6 +17,8 @@ import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkDocumentoAvulsoGridComponent} from './cdk-documento-avulso-grid.component';
 import {CdkDocumentoAvulsoAutocompleteModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
 import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-filter/cdk-documento-avulso-filter.module';
+import {TableDefinitionsService} from "../../table-definitions/table-definitions.service";
+import {DndModule} from "ngx-drag-drop";
 
 @NgModule({
     declarations: [
@@ -39,9 +41,11 @@ import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-f
 
         CdkDocumentoAvulsoAutocompleteModule,
         CdkDocumentoAvulsoFilterModule,
+        DndModule,
     ],
     providers: [
-        DocumentoAvulsoService
+        DocumentoAvulsoService,
+        TableDefinitionsService
     ],
     exports: [
         CdkDocumentoAvulsoGridComponent
