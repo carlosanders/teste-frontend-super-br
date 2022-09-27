@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ComponentRef,
+    Component, ComponentFactory, ComponentRef,
     EventEmitter, HostBinding,
     Input,
     OnChanges,
@@ -21,7 +21,7 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService, ViewMode} from './cdk-tarefa-list.service';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {of} from 'rxjs';
+import {of, Subscription, zip} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
@@ -42,6 +42,8 @@ import {CdkTarefaFilterService} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-f
 import {CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface} from './cdk-tarefa-sort-group.interface';
 import {CdkPerfectScrollbarDirective} from '../../../directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {TableDefinitions} from '../../table-definitions/table-definitions';
+import {tap} from 'rxjs/operators';
+import {TableColumn} from '../../table-definitions/table-column';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -61,9 +63,14 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         list.forEach((viewContainerRef: ViewContainerRef) => {
             const td = this._render.parentNode(viewContainerRef.element.nativeElement);
             if (td) {
-                const columns = this.dynamicColumnInstancesList.filter((col) => col.getMatColumnDef() == td.getAttribute('column-ref') && col.tarefa.id == td.getAttribute('tarefa-id'));
+                viewContainerRef.clear();
+                const columns = this.dynamicSlaveTableColumns
+                    .filter((col) => col.tableColumn.id == td.getAttribute('column-ref') && col?.tarefa?.id == td.getAttribute('tarefa-id'));
                 columns.forEach((column) => {
-                    viewContainerRef.createEmbeddedView(column.tdTemplateRef());
+                    const templateRef = column.getTemplateRef(column.tableColumn);
+                    if (templateRef) {
+                        viewContainerRef.createEmbeddedView(templateRef);
+                    }
                 });
             }
         });
@@ -395,13 +402,16 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     habilitarTipoDocumentoSalvar = false;
     tarefaDataSource: TarefaDataSource;
     cdkUtils: CdkUtils = CdkUtils;
-    dynamicColumnList: CdkTarefaListGridColumn[] = [];
-    dynamicColumnInstancesList: CdkTarefaListGridColumn[] = [];
 
     filterProcesso: any = null;
     filterEtiquetas: Etiqueta[] = [];
     groupedTarefas: CdkTarefaGroupDataInterface[] = [];
     sortOptions: CdkTarefaSortOptionsInterface[] = CdkTarefaListComponent.getSortOptions();
+
+    dynamicColumnList: CdkTarefaListGridColumn[] = [];
+    dynamicSlaveTableColumns: CdkTarefaListGridColumn[] = []
+
+    private _dynamicColumnsLoaderSubscription: Subscription;
 
     /**
      * Constructor
@@ -423,6 +433,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             tipoDocumentoMinutas: [null]
         });
 
+        this._autoCleanNotDefaultColumns = false;
         this.tableColumns = CdkTarefaListColumns.columns;
 
         this.displayedColumns = [
@@ -520,35 +531,61 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                 this._changeDetectorRef.detectChanges();
             }
 
-            if (this.viewMode == 'grid' && !this.dynamicColumnList.length) {
-                this.dynamicColumnList = this.dynamicColumnInstancesList = [];
+
+            this.dynamicColumnList = this.dynamicSlaveTableColumns = [];
+            if (this.viewMode == 'grid') {
                 const gridColumnPath = '@cdk/components/tarefa/cdk-tarefa-list#gridcolumn';
+                let tableColumns = [...this._tableColumns];
+                let displayColumns = [...this._displayedColumns];
+                let dynamicColumns = [];
+                if (this._dynamicColumnsLoaderSubscription) {
+                    this._dynamicColumnsLoaderSubscription.unsubscribe();
+                    this._dynamicColumnsLoaderSubscription = null;
+                }
+
                 modulesConfig.forEach((module) => {
                     if (module.components.hasOwnProperty(gridColumnPath)) {
-                        module.components[gridColumnPath].forEach(((c) => {
-                            this._dynamicService.loadComponent(c)
-                                .then(componentFactory => {
+                        this._dynamicColumnsLoaderSubscription = zip(module.components[gridColumnPath].map((component) => this._dynamicService.loadComponent(component)))
+                            .subscribe((components) => {
+                                components.forEach((componentFactory: ComponentFactory<CdkTarefaListGridColumn>) => {
                                     this.tarefas.forEach((tarefa) => {
                                         const component: ComponentRef<CdkTarefaListGridColumn> = this._viewContainerRef.createComponent(componentFactory);
                                         component.instance.tarefa = tarefa;
-                                        if (component.instance.isVisible()) {
-                                            this.dynamicColumnList = [
-                                                ...this.dynamicColumnList.filter((column) => column.getMatColumnDef() !== component.instance.getMatColumnDef()),
+                                        this.dynamicColumnList = [
+                                            ...this.dynamicColumnList.filter((column) => column.tableColumn.id !== column.tableColumn.id),
+                                            component.instance
+                                        ];
+                                        if (component.instance.tableColumn.definitions.slave) {
+                                            this.dynamicSlaveTableColumns = [
+                                                ...this.dynamicSlaveTableColumns.filter((column) => column.tableColumn.id !== column.tableColumn.id),
                                                 component.instance
                                             ];
-                                            this.dynamicColumnInstancesList.push(component.instance);
-                                            this.displayedColumns = [
-                                                ...this._displayedColumns.filter((campo) => campo !== component.instance.getMatColumnDef()),
-                                                component.instance.getMatColumnDef()
-                                            ];
                                         }
+
+                                        tableColumns = [
+                                            ...tableColumns.filter((tableColumn) => tableColumn.id !== component.instance.tableColumn.id),
+                                        ];
+                                        displayColumns = [
+                                            ...displayColumns.filter((campo) => campo !== component.instance.tableColumn.id && component.instance.tableColumn.definitions.selected),
+                                            component.instance.tableColumn.id
+                                        ];
+                                        dynamicColumns = [
+                                            ...dynamicColumns.filter((column) => column.id !== component.instance.tableColumn.id),
+                                            component.instance.tableColumn
+                                        ];
                                     });
-                                });
-                        }));
+                                })
+                                if (this.dynamicColumnList.length) {
+                                    this.tableColumns = [
+                                        ...tableColumns,
+                                        ...dynamicColumns
+                                    ];
+                                    this.displayedColumns = displayColumns;
+                                }
+                            })
                     }
                 });
-            } else if (this.viewMode != 'grid') {
-                this.dynamicColumnList = this.dynamicColumnInstancesList = [];
+            } else {
                 this.doAgrupar();
             }
         }

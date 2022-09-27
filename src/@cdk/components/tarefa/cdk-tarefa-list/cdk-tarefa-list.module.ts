@@ -83,7 +83,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatPaginatorModule,
         DirectivesModule,
         MatDividerModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
     ],
     providers: [
         EspecieTarefaService,

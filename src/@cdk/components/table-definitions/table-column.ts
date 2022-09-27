@@ -16,7 +16,7 @@ export class TableColumn {
         this.headerLabel = null;
         this.dataLabel = null;
         this.positionFixed = null;
-        this.definitions = null;
+        this.definitions = new TableColumnDefinitions();
         this.headerClass = (...args: any[]) => null;
         this.dataClass = (...args: any[]) => null;
         this.dataRenderer = (...args: any[]) => null;

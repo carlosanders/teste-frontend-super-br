@@ -602,11 +602,13 @@
                     </td>
                 </ng-container>
 
-                <ng-container *ngFor="let dynamicColumn of dynamicColumnList" matColumnDef="{{dynamicColumn.getMatColumnDef()}}">
+                <ng-container *ngFor="let dynamicColumn of dynamicSlaveTableColumns" matColumnDef="{{dynamicColumn.tableColumn.id}}">
                     <th mat-header-cell *matHeaderCellDef>
-                        <span [innerHTML]="dynamicColumn.headerLabel()"></span>
+                        <span [innerHTML]="dynamicColumn.tableColumn.headerLabel"></span>
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" [attr.column-ref]="dynamicColumn.getMatColumnDef()" [attr.tarefa-id]="tarefa.id" class='has_label_on_mobile' data-label='{{dynamicColumn.headerLabel()}}: '>
+                    <td mat-cell *matCellDef="let tarefa"
+                        [attr.column-ref]="dynamicColumn.tableColumn.id"
+                        [attr.tarefa-id]="tarefa.id" class='has_label_on_mobile' data-label='{{dynamicColumn.tableColumn.headerLabel}}: '>
                         <ng-container #tdTarefaContainer></ng-container>
                     </td>
                 </ng-container>

@@ -87,6 +87,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     protected _tableColumns: TableColumn[] = []
     protected _displayedColumns: string[] = [];
     protected _originalTableColumns: TableColumn[] = []
+    protected _autoCleanNotDefaultColumns: boolean = true;
 
     paginator: MatPaginator;
     sort: MatSort;
@@ -384,11 +385,10 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
         }
 
         this.tableDefinitions.columns.forEach((userColumnDefinitions, index) => {
-            console.log(this._tableColumns);
             const defaultColumnDefinitions = this._tableColumns
                 .find((tableColumn) => tableColumn.id === userColumnDefinitions?.id);
 
-            if (!defaultColumnDefinitions) {
+            if (this._autoCleanNotDefaultColumns && !defaultColumnDefinitions) {
                 delete this.tableDefinitions.columns[index];
             }
 
