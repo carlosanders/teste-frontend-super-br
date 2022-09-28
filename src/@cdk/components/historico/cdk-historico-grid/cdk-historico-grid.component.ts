@@ -144,7 +144,7 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
         super.setTableSortData(sort);
         const sortKeys = Object.keys(this.tableDefinitions.sort || {});
         if (sortKeys.length > 0) {
-            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+            this.sort.sort(<MatSortable> {id: sortKeys[0], start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
         } else {
             this.sort.active = null;
         }
