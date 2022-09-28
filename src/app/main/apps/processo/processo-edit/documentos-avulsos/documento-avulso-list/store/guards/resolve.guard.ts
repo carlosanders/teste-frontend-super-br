@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getDocumentosAvulsos().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
