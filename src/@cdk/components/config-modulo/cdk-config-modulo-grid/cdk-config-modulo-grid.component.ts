@@ -275,7 +275,7 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
     loadPage(): void {
         const filter = this.gridFilter.filters;
         delete this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ?? null;
+        const contexto = this.gridFilter.contexto ?? {};
         delete this.gridFilter.contexto;
         contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
