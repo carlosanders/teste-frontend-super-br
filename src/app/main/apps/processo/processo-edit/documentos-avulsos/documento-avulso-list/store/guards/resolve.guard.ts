@@ -10,6 +10,13 @@ import {DocumentoAvulsoListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentoAvulsoListLoaded} from '../selectors';
+import {modulesConfig} from "../../../../../../../../../modules/modules-config";
+import {TarefaListComponent} from "../../../../tarefas/tarefa-list/tarefa-list.component";
+import {
+    TableDefinitionsService
+} from "@cdk/components/table-definitions/table-definitions.service";
+import {DocumentoAvulsoListComponent} from "../../documento-avulso-list.component";
+import {TableDefinitions} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -20,9 +27,11 @@ export class ResolveGuard implements CanActivate {
      * Constructor
      *
      * @param _store
+     * @param _tableDefinitionsService
      */
     constructor(
-        private _store: Store<DocumentoAvulsoListAppState>
+        private _store: Store<DocumentoAvulsoListAppState>,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -30,7 +39,6 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
     }
 
     /**
@@ -50,12 +58,23 @@ export class ResolveGuard implements CanActivate {
         );
     }
 
+    checkStore(): Observable<any> {
+        return this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(DocumentoAvulsoListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(
+                switchMap((definitions) => this.getDocumentosAvulsos(definitions))
+            )
+    }
+
     /**
      * Get DocumentosAvulsos
      *
      * @returns
      */
-    getDocumentosAvulsos(): any {
+    getDocumentosAvulsos(definitions?: TableDefinitions): any {
         return this._store.pipe(
             select(getDocumentoAvulsoListLoaded),
             tap((loaded: any) => {
@@ -74,20 +93,33 @@ export class ResolveGuard implements CanActivate {
                             'dataHoraRemessa': 'isNotNull'
                         },
                         gridFilter: {},
-                        limit: 10,
+                        limit: definitions?.limit || 10,
                         offset: 0,
-                        sort: {id: 'DESC'},
+                        sort: definitions?.sort || {id: 'DESC'},
+                        context: {},
                         populate: [
                             'processo',
                             'especieDocumentoAvulso',
                             'modelo',
                             'setorDestino',
+                            'setorOrigem',
                             'pessoaDestino',
                             'documentoRemessa',
                             'documentoResposta',
-                            'documentoResposta.componentesDigitais',
+                            'setorResponsavel',
+                            'tarefaOrigem',
+                            'usuarioRemessa',
+                            'usuarioResposta',
+                            'criadoPor',
+                            'apagadoPor'
                         ]
                     };
+
+                    const modulos = [];
+                    modulesConfig.forEach((module) => {
+                        modulos.push(module.name);
+                    });
+                    params.context['modulo'] = modulos;
 
                     this._store.dispatch(new fromStore.GetDocumentosAvulsos(params));
                 }

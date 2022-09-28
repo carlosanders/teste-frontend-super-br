@@ -14,6 +14,10 @@ import {DocumentoAvulso} from '@cdk/models';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import {
+    TableDefinitionsService
+} from "@cdk/components/table-definitions/table-definitions.service";
+import {DocumentoAvulsoListComponent} from "../../documento-avulso-list.component";
 
 @Injectable()
 export class DocumentoAvulsoListEffect {
@@ -48,6 +52,9 @@ export class DocumentoAvulsoListEffect {
         ]),
         catchError((err) => {
             console.log(err);
+            this._tableDefinitionsService.deleteTableDefinitions(
+                this._tableDefinitionsService.generateTableDeinitionIdentifier(DocumentoAvulsoListComponent.GRID_DEFINITIONS_KEYS)
+            ).subscribe();
             return of(new DocumentoAvulsoListActions.GetDocumentosAvulsosFailed(err));
         })
     ));
@@ -114,7 +121,8 @@ export class DocumentoAvulsoListEffect {
         private _actions: Actions,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        private _tableDefinitionsService: TableDefinitionsService
     ) {
         this._store.pipe(
             select(getRouterState),

@@ -67,14 +67,14 @@ export const CdkHistoricoGridColumns: TableDefinitions = {
             id: 'processo.NUP',
             headerLabel: 'NUP',
             dataLabel: 'NUP: ',
-            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => TitleCasePipe.format(historico?.processo?.NUP),
+            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => historico?.processo?.NUP,
             dataClass: (historico: Historico, scope: CdkHistoricoGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(historico.id) > -1 || historico?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, historico.id)};
             },
             definitions: <TableColumnDefinitions>{
                 fixed: false,
                 excluded: false,
-                selected: true,
+                selected: false,
                 order: 30,
                 slave: false,
                 width: 0,

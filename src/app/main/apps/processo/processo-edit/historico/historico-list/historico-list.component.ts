@@ -34,6 +34,7 @@ import {
 export class HistoricoListComponent implements OnInit, OnDestroy {
 
     static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'processo-edit', 'HistoricoListComponent', 'CdkHistoricoGrid'];
+    static readonly LIST_DEFINITIONS_KEY:string = 'processoEditHistoricoListDefinitions';
 
     routerState: any;
     historicos$: Observable<Historico[]>;

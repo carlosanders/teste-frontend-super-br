@@ -68,12 +68,6 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
     @Output()
     reload = new EventEmitter<any>();
 
