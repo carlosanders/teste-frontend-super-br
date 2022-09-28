@@ -9,7 +9,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, Documento, Juntada, Processo} from '@cdk/models';
+import {Assinatura, Documento, Juntada, Processo, VinculacaoDocumento} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -206,12 +206,12 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
-    removeVinculacao(vinculacaoDocumentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
+    removeVinculacao(vinculacaoDocumento: VinculacaoDocumento): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumento));
     }
 
     removerVinculacoes(juntada: Juntada): void {
-        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao));
     }
 
     removerRestricoes(juntada: Juntada): void {

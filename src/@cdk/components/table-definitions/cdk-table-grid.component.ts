@@ -33,6 +33,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
 
     @Input() set displayedColumns(displayedColumns: string[]) {
         this._displayedColumns = displayedColumns;
+        this._originalDisplayedColumns = displayedColumns;
         this._processDisplayableDefinitions();
         this._processOrderDefinitions();
         this.processAllColumnsDefinitions();
@@ -86,6 +87,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     protected _columnsSubscriber: Subscription;
     protected _tableColumns: TableColumn[] = []
     protected _displayedColumns: string[] = [];
+    protected _originalDisplayedColumns: string[] = [];
     protected _originalTableColumns: TableColumn[] = []
     protected _autoCleanNotDefaultColumns: boolean = true;
 
@@ -402,6 +404,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
                 }
 
                 defaultColumnDefinitions.definitions.width = defaultColumnDefinitions.definitions.resizable ? userColumnDefinitions.definitions.width : defaultColumnDefinitions.definitions.width;
+                defaultColumnDefinitions.definitions.selected = userColumnDefinitions.definitions.selected;
             }
         });
     }
@@ -486,7 +489,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     }
 
     resetTableColumns(): void {
-
+        this._displayedColumns = this._originalDisplayedColumns;
         this.tableDefinitions.columns = [];
         this.tableColumns = _.cloneDeep(this._originalTableColumns);
         this.cdkTableColumnsResizableList.forEach((column) => {

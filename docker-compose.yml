@@ -10,8 +10,6 @@ services:
             - 9876:9876
         volumes:
             - '.:/app'
-            - '/home/leonardo/supp/supp-core/supp-consultivo-frontend/src:/app/src/modules/consultivo'
-            - '/home/leonardo/supp/supp-core/supp-ecarta-frontend/src:/app/src/modules/ecarta'
         tty: true
         command: tail -f /dev/null
         networks:

@@ -750,8 +750,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ...this.pagination,
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
-            limit: params.limit || this.pagination.limit,
-            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : this.pagination.offset),
+            limit: params.limit || 10,
+            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : 0),
             viewMode: this.tarefaListViewMode
         };
 

@@ -54,7 +54,7 @@
                               (click)="$event.stopPropagation();"
                               [disabled]="deletedIds?.indexOf(node.data.id) > -1 || hasExcluded">
                 </mat-checkbox>
-                <span>{{node.name}}</span>
+                <span>{{node.name}} <span class="observacao">{{node.data?.observacao | titleCasePipe}}</span></span>
                 <div style="margin-left: auto;" class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenuChild"
                             aria-label="Ferramentas" (click)="$event.stopPropagation()"

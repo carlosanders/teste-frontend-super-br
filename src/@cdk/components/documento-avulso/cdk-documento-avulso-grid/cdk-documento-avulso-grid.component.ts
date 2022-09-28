@@ -157,11 +157,11 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
     ) {
         super(_changeDetectorRef);
         this.gridFilter = {};
+        this.documentosAvulsos = [];
         this.tableColumns = _.cloneDeep(CdkDocumentoAvulsoGridColumns.columns);
         const tableDefinitions = new TableDefinitions();
         tableDefinitions.version = CdkDocumentoAvulsoGridColumns.version;
         this.tableDefinitions = tableDefinitions;
-        this.documentosAvulsos = [];
 
         this._autoCleanNotDefaultColumns = false;
     }
@@ -297,12 +297,14 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        const limit = this.tableDefinitions.limit || 10;
+        const sort = this.tableDefinitions.sort || {};
         contexto['mostrarApagadas'] = this.hasExcluded;
         this.reload.emit({
             gridFilter: filter,
-            limit: this.paginator.pageSize,
-            offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            limit: limit,
+            offset: (limit * this.paginator.pageIndex),
+            sort: sort,
             context: contexto
         });
     }
@@ -313,9 +315,9 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
-                limit: this.paginator.pageSize,
-                offset: (this.paginator.pageSize * this.paginator.pageIndex),
-                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                limit: this.tableDefinitions.limit,
+                offset: (this.tableDefinitions.limit * this.paginator.pageIndex),
+                sort: this.tableDefinitions.sort,
                 context: {mostrarApagadas: true}
             });
         }
