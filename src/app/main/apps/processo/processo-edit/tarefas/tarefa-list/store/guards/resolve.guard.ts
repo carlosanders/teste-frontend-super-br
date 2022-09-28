@@ -12,9 +12,9 @@ import {getRouterState} from 'app/store/reducers';
 import {getTarefaListLoaded} from '../selectors';
  import {
      TableDefinitionsService
- } from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
- import {TarefaListComponent} from "../../tarefa-list.component";
- import {TableDefinitions} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions";
+ } from '../../../../../../../../../@cdk/components/table-definitions/table-definitions.service';
+ import {TarefaListComponent} from '../../tarefa-list.component';
+ import {TableDefinitions} from '../../../../../../../../../@cdk/components/table-definitions/table-definitions';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -48,7 +48,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getTarefas().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
