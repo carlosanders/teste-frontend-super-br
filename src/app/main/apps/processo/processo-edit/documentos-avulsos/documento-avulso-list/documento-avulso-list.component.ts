@@ -24,7 +24,6 @@ import {
 import {
     CdkDocumentoAvulsoGridColumns
 } from "@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid.columns";
-import {CacheGenericUserDataService} from "../../../../../../../@cdk/services/cache.service";
 
 @Component({
     selector: 'documento-avulso-list',
@@ -48,7 +47,7 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
     tableDefinitions: TableDefinitions = new TableDefinitions();
 
-    static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'DocumentoAvulsoListComponent', 'CdkDocumentoAvulsoGrid'];
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['DocumentoAvulsoListComponent', 'CdkDocumentoAvulsoGrid'];
 
     /**
      * @param _changeDetectorRef
@@ -56,7 +55,6 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _activatedRoute
      * @param _tableDefinitionsService
-     * @param _cacheGenericUserDataService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -64,7 +62,6 @@ export class DocumentoAvulsoListComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DocumentoAvulsoListAppState>,
         private _activatedRoute: ActivatedRoute,
         private _tableDefinitionsService: TableDefinitionsService,
-        private _cacheGenericUserDataService: CacheGenericUserDataService,
     ) {
         this.documentosAvulsos$ = this._store.pipe(select(fromStore.getDocumentoAvulsoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
