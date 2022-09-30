@@ -146,7 +146,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Juntado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.documento?.juntadaAtual?.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.documento?.juntadaAtual?.criadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- JuntadoEm Column -->
@@ -169,7 +169,7 @@
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Tipo de Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}">
-                        {{componenteDigital.documento?.tipoDocumento?.nome}}
+                        {{componenteDigital.documento?.tipoDocumento?.nome  | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -201,7 +201,7 @@
                         Arquivo
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line' data-label='Arquivo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.fileName}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.fileName  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- NumeracaoSequencial Column -->
@@ -241,7 +241,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Software de Criação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.softwareCriacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.softwareCriacao  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ChaveInibidor Column -->
@@ -271,7 +271,7 @@
                         Mimetype
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line' data-label='Mimetype: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.mimetype}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.mimetype  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Extensao Column -->
@@ -280,7 +280,7 @@
                         Extensão
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line' data-label='Extensão: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.extensao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.extensao  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataHoraSoftwareCriacao Column -->
@@ -304,7 +304,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Modalidade Alvo Inibidor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modalidadeAlvoInibidor?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modalidadeAlvoInibidor?.valor  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ModalidadeTipoInibidor Column -->
@@ -316,7 +316,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Modalidade Tipo Inibidor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modalidadeTipoInibidor?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modalidadeTipoInibidor?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Modelo Column -->
@@ -325,7 +325,7 @@
                         Modelo
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line' data-label='Modelo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modelo?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.modelo?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
@@ -335,7 +335,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Origem dos Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.origemDados.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.origemDados.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -345,7 +345,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -366,7 +366,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -386,7 +386,7 @@
                     </th>
                     <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile no-line'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1, 'error': getProp(deletingErrors, componenteDigital.id)}"> {{componenteDigital.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

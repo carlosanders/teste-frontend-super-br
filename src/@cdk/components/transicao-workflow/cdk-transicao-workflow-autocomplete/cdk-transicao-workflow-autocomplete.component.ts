@@ -15,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {TransicaoWorkflowService} from '../../../services/transicao-workflow.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-transicao-workflow-autocomplete',
@@ -97,6 +98,6 @@ export class CdkTransicaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTransicaoWorkflowFn(transicaoWorkflow): string {
-        return transicaoWorkflow ? transicaoWorkflow.especieAtividade.nome : '';
+        return transicaoWorkflow ? TitleCasePipe.format(transicaoWorkflow.especieAtividade.nome) : '';
     }
 }

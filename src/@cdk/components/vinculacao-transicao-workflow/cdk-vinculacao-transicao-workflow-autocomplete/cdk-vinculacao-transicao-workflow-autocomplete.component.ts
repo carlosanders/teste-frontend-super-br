@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import { TitleCasePipe } from '@cdk/pipes/title-case.pipe';
 
 @Component({
     selector: 'cdk-vinculacao-transicao-workflow-autocomplete',
@@ -97,10 +98,10 @@ export class CdkVinculacaoTransicaoWorkflowAutocompleteComponent implements OnIn
         let arrText = [];
         arrText.push(vinculacaoTransicaoWorkflow.id);
         if (vinculacaoTransicaoWorkflow.workflow?.nome) {
-            arrText.push('DE: ' + vinculacaoTransicaoWorkflow.workflow.nome);
+            arrText.push('DE: ' + TitleCasePipe.format(vinculacaoTransicaoWorkflow.workflow.nome));
         }
         if (vinculacaoTransicaoWorkflow.transicaoWorkflow?.workflow.nome) {
-            arrText.push('PARA: ' + vinculacaoTransicaoWorkflow.transicaoWorkflow.workflow.nome);
+            arrText.push('PARA: ' + TitleCasePipe.format(vinculacaoTransicaoWorkflow.transicaoWorkflow.workflow.nome));
         }
         return arrText.join(' - ');
     }

@@ -99,7 +99,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.usuario.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.usuario.nome   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -108,7 +108,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.orgaoCentral?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -117,7 +117,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Nome da Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.unidade?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -126,7 +126,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.setor?.unidade?.sigla}} - {{coordenador.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.setor?.unidade?.sigla}} - {{coordenador.setor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -135,7 +135,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.criadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -154,7 +154,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -172,7 +172,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.apagadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

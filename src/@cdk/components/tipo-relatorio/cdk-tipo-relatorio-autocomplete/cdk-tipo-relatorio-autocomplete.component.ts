@@ -16,6 +16,7 @@ import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-relatorio-autocomplete',
@@ -98,7 +99,7 @@ export class CdkTipoRelatorioAutocompleteComponent implements OnInit {
     }
 
     displaySetorFn(setor): string {
-        let displayed = setor ? setor.nome : '';
+        let displayed = setor ? TitleCasePipe.format(setor.nome) : '';
         displayed += (setor && setor.unidade) ? (' (' + setor.unidade.sigla + ')') : '';
         return displayed;
     }

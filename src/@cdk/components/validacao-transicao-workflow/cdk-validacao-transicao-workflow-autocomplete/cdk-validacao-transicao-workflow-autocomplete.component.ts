@@ -15,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination, ValidacaoTransicaoWorkflow} from '@cdk/models';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 
 @Component({
@@ -96,6 +97,6 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
 
 
     displayValidacaoFn(validacao): string {
-        return validacao ? validacao.contexto : null;
+        return validacao ? TitleCasePipe.format(validacao.contexto) : null;
     }
 }

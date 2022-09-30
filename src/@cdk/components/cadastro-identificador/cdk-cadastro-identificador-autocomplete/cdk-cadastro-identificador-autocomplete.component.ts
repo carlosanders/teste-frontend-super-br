@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-cadastro-identificador-autocomplete',
@@ -94,6 +95,6 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
     }
 
     displayCadastroIdentificadorFn(cadastroIdentificador): string {
-        return cadastroIdentificador ? cadastroIdentificador.numero : null;
+        return cadastroIdentificador ? TitleCasePipe.format(cadastroIdentificador.numero) : null;
     }
 }

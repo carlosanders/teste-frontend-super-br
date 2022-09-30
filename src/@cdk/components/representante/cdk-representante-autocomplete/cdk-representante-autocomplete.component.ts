@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-representante-autocomplete',
@@ -94,6 +95,6 @@ export class CdkRepresentanteAutocompleteComponent implements OnInit {
     }
 
     displayRepresentanteFn(representante): string {
-        return representante ? representante.nome : null;
+        return representante ? TitleCasePipe.format(representante.nome) : null;
     }
 }

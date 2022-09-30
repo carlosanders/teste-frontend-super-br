@@ -109,7 +109,7 @@
                         Nome Usuário
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Nome Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.usuario?.nome}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.usuario?.nome  | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -119,7 +119,7 @@
                         Cargo
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Cargo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador?.cargo?.nome}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador?.cargo?.nome  | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -131,7 +131,7 @@
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile'
                         data-label='Modalidade Colaborador: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.modalidadeColaborador?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.modalidadeColaborador?.valor  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -140,7 +140,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.criadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -159,7 +159,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.atualizadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -177,7 +177,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1, 'error': getProp(deletingErrors, colaborador.id)}"> {{colaborador.apagadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

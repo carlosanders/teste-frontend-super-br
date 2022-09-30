@@ -111,7 +111,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile'
                         data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -120,7 +120,7 @@
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile' data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -141,7 +141,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -182,7 +182,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1, 'error': getProp(deletingErrors, modalidadetemplate.id)}"> {{modalidadetemplate.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

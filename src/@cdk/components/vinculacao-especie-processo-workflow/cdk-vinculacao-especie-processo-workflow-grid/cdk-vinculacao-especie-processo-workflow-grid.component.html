@@ -106,7 +106,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.especieProcesso?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.especieProcesso?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descrição Espécie Processo Column -->
@@ -117,7 +117,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Descrição Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.especieProcesso?.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.especieProcesso?.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Nome Workflow Column -->
@@ -128,7 +128,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Workflow: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.workflow?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.workflow?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descrição Workflow Column -->
@@ -139,7 +139,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Descrição Workflow: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.workflow?.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.workflow?.descricao | titleCasePipe}} </td>
                 </ng-container>
 
 
@@ -150,7 +150,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -171,7 +171,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -191,7 +191,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEspecieProcessoWorkflow" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEspecieProcessoWorkflow.id) > -1, 'error': getProp(deletingErrors, vinculacaoEspecieProcessoWorkflow.id)}"> {{vinculacaoEspecieProcessoWorkflow.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

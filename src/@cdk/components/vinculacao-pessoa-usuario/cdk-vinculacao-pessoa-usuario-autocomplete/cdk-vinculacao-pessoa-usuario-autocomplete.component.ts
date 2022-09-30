@@ -15,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {VinculacaoPessoaUsuarioService} from '../../../services/vinculacao-pessoa-usuario.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-vinculacao-pessoa-usuario-autocomplete',
@@ -94,6 +95,6 @@ export class CdkVinculacaoPessoaUsuarioAutocompleteComponent implements OnInit {
     }
 
     displayVinculacaoPessoaUsuarioFn(vinculacaoPessoaUsuario): string {
-        return vinculacaoPessoaUsuario ? vinculacaoPessoaUsuario.usuario.nome : null;
+        return vinculacaoPessoaUsuario ? TitleCasePipe.format(vinculacaoPessoaUsuario.usuario.nome) : null;
     }
 }

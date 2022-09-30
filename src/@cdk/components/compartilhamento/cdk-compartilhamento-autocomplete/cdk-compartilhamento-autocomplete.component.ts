@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-compartilhamento-autocomplete',
@@ -94,6 +95,6 @@ export class CdkCompartilhamentoAutocompleteComponent implements OnInit {
     }
 
     displayCompartilhamentoFn(compartilhamento): string {
-        return compartilhamento ? compartilhamento.usuario.nome : null;
+        return compartilhamento ? TitleCasePipe.format(compartilhamento.usuario.nome) : null;
     }
 }

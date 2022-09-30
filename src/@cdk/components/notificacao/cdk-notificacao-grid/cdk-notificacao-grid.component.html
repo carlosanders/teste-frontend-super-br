@@ -103,7 +103,7 @@
                         Remetente
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Remetente: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.remetente?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.remetente?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Nome Destinatario Column -->
@@ -113,7 +113,7 @@
                         Destinatário
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Destinatário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.destinatario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.destinatario?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Modalidade Notificacao Notificacao Column -->
@@ -123,7 +123,7 @@
                         Modalidade
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.modalidadeNotificacao?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.modalidadeNotificacao?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataHoraExpiracao Column -->
@@ -173,7 +173,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -192,7 +192,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -210,7 +210,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1, 'error': getProp(deletingErrors, notificacao.id) || getProp(toggleLidaErrors, notificacao.id)}"> {{notificacao.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

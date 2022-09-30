@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-regra-etiqueta-autocomplete',
@@ -94,6 +95,6 @@ export class CdkRegraEtiquetaAutocompleteComponent implements OnInit {
     }
 
     displayRegraFn(regraEtiqueta): string {
-        return regraEtiqueta ? regraEtiqueta.nome : null;
+        return regraEtiqueta ? TitleCasePipe.format(regraEtiqueta.nome) : null;
     }
 }

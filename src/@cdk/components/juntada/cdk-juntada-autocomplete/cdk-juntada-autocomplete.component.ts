@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-juntada-autocomplete',
@@ -94,6 +95,6 @@ export class CdkJuntadaAutocompleteComponent implements OnInit {
     }
 
     displayJuntadaFn(juntada): string {
-        return juntada ? juntada.descricao : null;
+        return juntada ? TitleCasePipe.format(juntada.descricao) : null;
     }
 }

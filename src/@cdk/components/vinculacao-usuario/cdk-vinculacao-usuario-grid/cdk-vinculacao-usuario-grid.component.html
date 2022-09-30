@@ -103,7 +103,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Usuário Vinculado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuarioVinculado?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- GeneroTarefa Column -->
@@ -114,7 +114,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Gênero Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.generoTarefa?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -123,7 +123,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuario?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Encerra Tarefa Column -->
@@ -185,7 +185,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -206,7 +206,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -226,7 +226,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1 || vinculacaoUsuario.apagadoEm, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

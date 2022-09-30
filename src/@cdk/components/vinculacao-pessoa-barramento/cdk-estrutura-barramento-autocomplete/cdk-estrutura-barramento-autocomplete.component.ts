@@ -13,6 +13,7 @@ import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
 import {VinculacaoPessoaBarramentoService} from "../../../services/vinculacao-pessoa-barramento.service";
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-estrutura-barramento-autocomplete',
@@ -80,12 +81,12 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     displayEstruturaBarramentoFn(estruturaBarramento): string {
         if(!estruturaBarramento){return null;}
         if(Array.isArray(estruturaBarramento.hierarquia)){
-            return estruturaBarramento.nome + ' - ' +
+            return TitleCasePipe.format(estruturaBarramento.nome) + ' - ' +
                 estruturaBarramento.sigla + ' / ' +
                 estruturaBarramento.hierarquia.reduce(acc => acc['sigla'] + ' / ') + ' - ID ' +
                 estruturaBarramento.numeroDeIdentificacaoDaEstrutura;
         }else{
-            return estruturaBarramento.nome + ' - ' +
+            return TitleCasePipe.format(estruturaBarramento.nome) + ' - ' +
             estruturaBarramento.sigla + ' - ID ' +
             estruturaBarramento.numeroDeIdentificacaoDaEstrutura ;
         }

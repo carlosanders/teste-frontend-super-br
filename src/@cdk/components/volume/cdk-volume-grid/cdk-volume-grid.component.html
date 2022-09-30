@@ -120,7 +120,7 @@
                         Modalidade Meio
                     </th>
                     <td mat-cell *matCellDef="let volume" class='has_label_on_mobile' data-label='Modalidade Meio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.modalidadeMeio?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.modalidadeMeio?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Encerrado Column -->
@@ -140,7 +140,7 @@
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let volume" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.origemDados?.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -149,7 +149,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let volume" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -167,7 +167,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let volume" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -185,7 +185,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let volume" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(volume.id) > -1, 'error': getProp(deletingErrors, volume.id)}"> {{volume.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

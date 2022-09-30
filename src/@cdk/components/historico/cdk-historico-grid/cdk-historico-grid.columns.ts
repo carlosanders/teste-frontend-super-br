@@ -48,7 +48,7 @@ export const CdkHistoricoGridColumns: TableDefinitions = {
             id: 'descricao',
             headerLabel: 'Descrição',
             dataLabel: 'Descrição: ',
-            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => historico?.descricao,
+            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => TitleCasePipe.format(historico?.descricao),
             dataClass: (historico: Historico, scope: CdkHistoricoGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(historico.id) > -1 || historico?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, historico.id)};
             },
@@ -86,7 +86,7 @@ export const CdkHistoricoGridColumns: TableDefinitions = {
             id: 'criadoPor.nome',
             headerLabel: 'Criado por',
             dataLabel: 'Criado por: ',
-            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => historico?.criadoPor?.nome,
+            dataValue: (historico: Historico, scope: CdkHistoricoGridComponent) => TitleCasePipe.format(historico?.criadoPor?.nome),
             dataClass: (historico: Historico, scope: CdkHistoricoGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(historico.id) > -1 || historico?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, historico.id)};
             },

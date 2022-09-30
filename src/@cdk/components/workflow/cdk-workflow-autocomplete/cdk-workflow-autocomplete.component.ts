@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-workflow-autocomplete',
@@ -97,6 +98,6 @@ export class CdkWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayWorkflowFn(workflow): string {
-        return workflow ? workflow.nome : '';
+        return workflow ? TitleCasePipe.format(workflow.nome) : '';
     }
 }

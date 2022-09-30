@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-transicao-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeTransicaoAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeTransicaoFn(modalidadeTransicao): string {
-        return modalidadeTransicao ? modalidadeTransicao.valor : null;
+        return modalidadeTransicao ? TitleCasePipe.format(modalidadeTransicao.valor) : null;
     }
 }

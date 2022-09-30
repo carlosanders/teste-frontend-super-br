@@ -16,6 +16,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-grupo-contato-autocomplete',
@@ -95,6 +96,6 @@ export class CdkGrupoContatoAutocompleteComponent implements OnInit {
     }
 
     displayGrupoContatoFn(grupoContato): string {
-        return grupoContato ? grupoContato.nome : null;
+        return grupoContato ? TitleCasePipe.format(grupoContato.nome) : null;
     }
 }

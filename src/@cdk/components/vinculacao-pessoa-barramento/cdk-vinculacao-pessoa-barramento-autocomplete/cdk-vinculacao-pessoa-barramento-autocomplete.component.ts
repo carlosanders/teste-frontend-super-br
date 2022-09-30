@@ -14,6 +14,7 @@ import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
 import {VinculacaoPessoaBarramento} from '../../../models/vinculacao-pessoa-barramento';
 import {VinculacaoPessoaBarramentoService} from '../../../services/vinculacao-pessoa-barramento.service';
+import { TitleCasePipe } from '@cdk/pipes/title-case.pipe';
 
 @Component({
     selector: 'cdk-vinculacao-pessoa-barramento-autocomplete',
@@ -93,6 +94,6 @@ export class CdkVinculacaoPessoaBarramentoAutocompleteComponent implements OnIni
     }
 
     displayVinculacaoPessoaBarramentoFn(vinculacaoPessoaBarramento): string {
-        return vinculacaoPessoaBarramento ? vinculacaoPessoaBarramento.nome : null;
+        return vinculacaoPessoaBarramento ? TitleCasePipe.format(vinculacaoPessoaBarramento.nome) : null;
     }
 }

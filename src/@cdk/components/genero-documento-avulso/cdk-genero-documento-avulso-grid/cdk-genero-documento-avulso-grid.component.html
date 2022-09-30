@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let generoDocumentoAvulso" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -119,7 +119,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -141,7 +141,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -182,7 +182,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumentoAvulso.id) > -1, 'error': getProp(deletingErrors, generoDocumentoAvulso.id)}"> {{generoDocumentoAvulso.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

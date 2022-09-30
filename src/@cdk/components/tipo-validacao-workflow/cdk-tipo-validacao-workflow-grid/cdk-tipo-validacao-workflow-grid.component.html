@@ -110,7 +110,7 @@
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -128,7 +128,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -148,7 +148,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -168,7 +168,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -188,7 +188,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

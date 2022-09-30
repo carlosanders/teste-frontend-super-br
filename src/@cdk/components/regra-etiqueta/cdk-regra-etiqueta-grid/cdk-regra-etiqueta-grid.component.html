@@ -103,7 +103,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Trigger Column -->
@@ -112,7 +112,7 @@
                         Descricao
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -121,7 +121,7 @@
                         Etiqueta
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.etiqueta?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.etiqueta?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -149,7 +149,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -167,7 +167,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

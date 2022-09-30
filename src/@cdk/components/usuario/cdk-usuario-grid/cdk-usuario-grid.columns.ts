@@ -105,7 +105,7 @@ export const CdkUsuarioGridColumns: TableDefinitions = {
             id: 'colaborador.modalidadeColaborador.valor',
             headerLabel: 'Modalidade Colaborador',
             dataLabel: 'Modalidade Colaborador: ',
-            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => usuario?.colaborador?.modalidadeColaborador.valor,
+            dataValue: (usuario: Usuario, scope: CdkUsuarioGridComponent) => TitleCasePipe.format(usuario?.colaborador?.modalidadeColaborador.valor),
             dataClass: (usuario: Usuario, scope: CdkUsuarioGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(usuario.id) > -1 || (usuario?.isDisponivel === false), 'error': scope.getProp(scope.deletingErrors, usuario.id)};
             },

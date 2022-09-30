@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-notificacao-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeNotificacaoAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeNotificacaoFn(modalidadeNotificacao): string {
-        return modalidadeNotificacao ? modalidadeNotificacao.valor : null;
+        return modalidadeNotificacao ? TitleCasePipe.format(modalidadeNotificacao.valor) : null;
     }
 }

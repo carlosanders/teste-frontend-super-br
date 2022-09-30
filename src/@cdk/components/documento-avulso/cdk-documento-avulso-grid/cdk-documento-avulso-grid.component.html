@@ -157,7 +157,7 @@
                         [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
                         [dndDisableDragIf]="dndDisable(getColumnTableColumn('documentoRemessa'))"
                         [dndDisableDropIf]="dndDisable(getColumnTableColumn('documentoRemessa'))">
-                        {{getColumnTableColumn('documentoRemessa').headerLabel}}
+                        {{getColumnTableColumn('documentoRemessa').headerLabel  | titleCasePipe}}
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label="{{getColumnTableColumn('documentoRemessa').dataLabel}}">
@@ -187,7 +187,7 @@
                         [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
                         [dndDisableDragIf]="dndDisable(getColumnTableColumn('documentoResposta'))"
                         [dndDisableDropIf]="dndDisable(getColumnTableColumn('documentoResposta'))">
-                        {{getColumnTableColumn('documentoResposta').headerLabel}}
+                        {{getColumnTableColumn('documentoResposta').headerLabel  | titleCasePipe}}
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label="{{getColumnTableColumn('documentoResposta').dataLabel}}">

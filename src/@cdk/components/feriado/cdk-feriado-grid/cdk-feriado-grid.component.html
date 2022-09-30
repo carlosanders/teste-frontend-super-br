@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Data do Feriado Column -->
@@ -118,7 +118,7 @@
                         Data do Feriado
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Data do Feriado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.dataFeriado}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.dataFeriado | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Municipio Column -->
@@ -127,7 +127,7 @@
                         Município
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Município: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.municipio?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.municipio?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Estado Column -->
@@ -136,7 +136,7 @@
                         Estado
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Estado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.estado?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.estado?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -156,7 +156,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -175,7 +175,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -193,7 +193,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1, 'error': getProp(deletingErrors, feriado.id)}"> {{feriado.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

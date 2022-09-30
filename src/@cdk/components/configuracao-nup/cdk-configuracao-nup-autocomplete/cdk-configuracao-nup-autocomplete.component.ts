@@ -15,6 +15,7 @@ import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {ConfiguracaoNup, Pagination} from '../../../models';
 import {ConfiguracaoNupService} from '../../../services/configuracao-nup.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 // @ts-ignore
 @Component({
@@ -97,6 +98,6 @@ export class CdkConfiguracaoNupAutocompleteComponent implements OnInit {
     }
 
     displayConfiguracaoNupFn(configuracaoNup): string {
-        return configuracaoNup ? configuracaoNup.nome : '';
+        return configuracaoNup ? TitleCasePipe.format(configuracaoNup.nome) : '';
     }
 }

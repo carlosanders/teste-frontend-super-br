@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-copia-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeCopiaAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeCopiaFn(modalidadeCopia): string {
-        return modalidadeCopia ? modalidadeCopia.valor : null;
+        return modalidadeCopia ? TitleCasePipe.format(modalidadeCopia.valor) : null;
     }
 }

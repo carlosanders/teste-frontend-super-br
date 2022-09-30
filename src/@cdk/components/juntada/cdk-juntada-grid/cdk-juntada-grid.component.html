@@ -112,7 +112,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.descricao}}
+                        {{juntada.descricao  | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -135,7 +135,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Tipo de Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.documento?.tipoDocumento?.nome}}
+                        {{juntada.documento?.tipoDocumento?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -147,7 +147,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Setor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.documento?.setorOrigem?.nome}}
+                        {{juntada.documento?.setorOrigem?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -159,7 +159,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Unidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.documento?.setorOrigem?.unidade?.nome}}
+                        {{juntada.documento?.setorOrigem?.unidade?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -181,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Origem de Dados: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.origemDados?.fonteDados}}
+                        {{juntada.origemDados?.fonteDados | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -220,7 +220,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.criadoPor?.nome}}
+                        {{juntada.criadoPor?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -242,7 +242,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.atualizadoPor?.nome}}
+                        {{juntada.atualizadoPor?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -263,7 +263,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.apagadoPor?.nome}}
+                        {{juntada.apagadoPor?.nome | titleCasePipe}}
                     </td>
                 </ng-container>
 

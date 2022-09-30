@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-lotacao-autocomplete',
@@ -109,8 +110,8 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
     }
 
     displayLotacaoFn(lotacao): string {
-        let displayed = lotacao ? lotacao.colaborador.usuario.nome : '';
-        displayed += (lotacao && lotacao.setor) ? (' - ' + lotacao.setor.nome + '') : '';
+        let displayed = lotacao ? TitleCasePipe.format(lotacao.colaborador.usuario.nome) : '';
+        displayed += (lotacao && lotacao.setor) ? (' - ' + TitleCasePipe.format(lotacao.setor.nome) + '') : '';
         displayed += (lotacao && lotacao.setor && lotacao.setor.unidade) ? (' (' + lotacao.setor.unidade.sigla + ')') : '';
         return displayed;
     }

@@ -15,6 +15,7 @@ import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination, TipoDossie} from '@cdk/models';
 import {TipoDossieService} from "../../../services/tipo-dossie.service";
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-dossie-autocomplete',
@@ -97,7 +98,7 @@ export class CdkTipoDossieAutocompleteComponent implements OnInit {
     }
 
     displaySetorFn(setor): string {
-        let displayed = setor ? setor.nome : '';
+        let displayed = setor ? TitleCasePipe.format(setor.nome) : '';
         displayed += (setor && setor.unidade) ? (' (' + setor.unidade.sigla + ')') : '';
         return displayed;
     }

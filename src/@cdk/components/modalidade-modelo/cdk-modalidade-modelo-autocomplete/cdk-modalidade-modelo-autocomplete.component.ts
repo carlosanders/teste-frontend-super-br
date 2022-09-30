@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-modelo-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeModeloAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeModeloFn(modalidadeModelo): string {
-        return modalidadeModelo ? modalidadeModelo.valor : null;
+        return modalidadeModelo ? TitleCasePipe.format(modalidadeModelo.valor) : null;
     }
 }

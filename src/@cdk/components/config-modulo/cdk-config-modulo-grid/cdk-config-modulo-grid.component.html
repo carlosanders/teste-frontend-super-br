@@ -108,7 +108,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile' data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}">
-                        {{configModule?.nome}}
+                        {{configModule?.nome  | titleCasePipe}}
                         <mat-icon
                                 *ngIf="configModule.mandatory && configModule.dataValue === null"
                                 [ngStyle]="{'color':'red'}"
@@ -139,16 +139,17 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.descricao  | titleCasePipe}} </td>
                 </ng-container>
-                <!-- Descrição Column -->
+
+                <!-- Sigla Column -->
                 <ng-container matColumnDef="sigla">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Sigla
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Sigla: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.sigla}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.sigla  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataType Column -->
@@ -168,7 +169,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='DataSchema: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.dataSchema}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.dataSchema   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataValue Column -->
@@ -202,7 +203,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Módulo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.modulo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule?.modulo.nome   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Mandatory Column -->
@@ -228,7 +229,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.criadoPor?.nome   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Atualizado Por Column -->
@@ -238,7 +239,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.atualizadoPor?.nome   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Deletado Por Column -->
@@ -248,7 +249,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configModule" class='has_label_on_mobile'
                         data-label='Deletado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configModule.id) > -1}"> {{configModule.apagadoPor?.nome   | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

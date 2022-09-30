@@ -89,7 +89,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let estruturaBarramento" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(estruturaBarramento.id) > -1}"> {{estruturaBarramento.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(estruturaBarramento.id) > -1}"> {{estruturaBarramento.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Sigla Column -->

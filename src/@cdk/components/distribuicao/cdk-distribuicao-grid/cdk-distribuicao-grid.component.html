@@ -102,7 +102,7 @@
                         Documento
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.documentoAvulso?.descricaoOutros}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.documentoAvulso?.descricaoOutros | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Tarefa Column -->
@@ -112,7 +112,7 @@
                         Tarefa
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.tarefa.especieTarefa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.tarefa.especieTarefa?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Data Column -->
@@ -132,7 +132,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.usuarioAnterior?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.usuarioAnterior?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -142,7 +142,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.usuarioPosterior?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.usuarioPosterior?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -152,7 +152,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.setorAnterior?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.setorAnterior?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DistribuicaoAutomatica Column -->
@@ -163,7 +163,7 @@
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
                         data-label='Distribuição Automática: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.distribuicaoAutomatica}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.distribuicaoAutomatica | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- LivreBalanceamento Column -->
@@ -174,7 +174,7 @@
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
                         data-label='Livre Balanceamento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.livreBalanceamento}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.livreBalanceamento | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AuditoriaDistribuicao Column -->
@@ -185,7 +185,7 @@
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
                         data-label='Auditoria da Distribuicao: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.auditoriaDistribuicao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.auditoriaDistribuicao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -195,7 +195,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.setorPosterior?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.setorPosterior?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- TipoDistribuicao Column -->
@@ -205,7 +205,7 @@
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
                         data-label='Tipo da Distribuição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.tipoDistribuicao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.tipoDistribuicao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -214,7 +214,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -234,7 +234,7 @@
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -252,7 +252,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1, 'error': getProp(deletingErrors, distribuicao.id)}"> {{distribuicao.apagadoPor?.nomedistribuicao.tarefa.especieTarefa.nome | titleCasePipe }} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

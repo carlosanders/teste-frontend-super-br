@@ -102,7 +102,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descrição Column -->
@@ -111,7 +111,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Genero Processo Column -->
@@ -121,7 +121,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Gênero do Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.generoProcesso?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.generoProcesso?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Especie Tarefa Inicial Column -->
@@ -131,7 +131,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Espécie Tarefa Inicial: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.especieTarefaInicial?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.especieTarefaInicial?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -141,7 +141,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -161,7 +161,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -181,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1, 'error': getProp(deletingErrors, workflow.id)}"> {{workflow.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
