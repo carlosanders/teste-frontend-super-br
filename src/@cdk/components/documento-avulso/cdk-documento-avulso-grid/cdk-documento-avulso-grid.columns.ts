@@ -1,10 +1,10 @@
 import {TableColumn} from '../../table-definitions/table-column';
 import {TableColumnDefinitions} from '../../table-definitions/table-column-definitions';
 import {DocumentoAvulso} from '../../../models';
-import {TableDefinitions} from "../../table-definitions/table-definitions";
-import {TitleCasePipe} from "../../../pipes/title-case.pipe";
-import {CdkUsuarioGridComponent} from "../../usuario/cdk-usuario-grid/cdk-usuario-grid.component";
-import {CdkDocumentoAvulsoGridComponent} from "./cdk-documento-avulso-grid.component";
+import {TableDefinitions} from '../../table-definitions/table-definitions';
+import {TitleCasePipe} from '../../../pipes/title-case.pipe';
+import {CdkUsuarioGridComponent} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid.component';
+import {CdkDocumentoAvulsoGridComponent} from './cdk-documento-avulso-grid.component';
 
 export const CdkDocumentoAvulsoGridColumns: TableDefinitions = {
     identifier: 'CdkDocumentoAvulsoGridComponent',

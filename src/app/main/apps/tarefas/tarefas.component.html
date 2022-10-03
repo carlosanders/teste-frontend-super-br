@@ -16,7 +16,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" [style.display]="(maximizado$ | async) ? 'none' : 'block'">
+        <div class="header" [style.display]="(maximizado$ | async) ? 'none' : 'flex'">
 
             <button mat-icon-button (click)="retornar()" *ngIf="!componentRootUrl && (tarefaListViewMode === 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>

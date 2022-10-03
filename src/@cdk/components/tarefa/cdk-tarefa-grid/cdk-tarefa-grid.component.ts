@@ -7,8 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output, QueryList, SimpleChanges,
-    ViewChild, ViewChildren,
+    Output, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
@@ -16,18 +15,13 @@ import {of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {tap} from 'rxjs/operators';
 import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
 import {Tarefa} from '@cdk/models';
-import {TableColumn} from "../../table-definitions/table-column";
-import {CdkTarefaGridColumns} from "./cdk-tarefa-grid.columns";
-import {CdkTableGridComponent} from "../../table-definitions/cdk-table-grid.component";
-import * as _ from "lodash";
-import {MatSortable} from "@angular/material/sort";
-import {TableDefinitions} from "../../table-definitions/table-definitions";
-import {
-    CdkTableColumnResizableDirective
-} from "../../../directives/cdk-header-cell-resizable/cdk-table-column-resizable.directive";
+import {CdkTarefaGridColumns} from './cdk-tarefa-grid.columns';
+import {CdkTableGridComponent} from '../../table-definitions/cdk-table-grid.component';
+import * as _ from 'lodash';
+import {MatSortable} from '@angular/material/sort';
+import {TableDefinitions} from '../../table-definitions/table-definitions';
 
 @Component({
     selector: 'cdk-tarefa-grid',
