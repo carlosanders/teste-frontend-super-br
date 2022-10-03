@@ -250,32 +250,34 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
                 this._dynamicColumnsLoaderSubscription = zip(module.components[gridColumnPath].map((component) => this._dynamicService.loadComponent(component)))
                     .subscribe((components) => {
                         components.forEach((componentFactory: ComponentFactory<CdkDocumentoAvulsoGridColumn>) => {
-                            this.documentosAvulsos.forEach((documentoAvulso) => {
-                                const component: ComponentRef<CdkDocumentoAvulsoGridColumn> = this._viewContainerRef.createComponent(componentFactory);
-                                component.instance.documentoAvulso = documentoAvulso;
-                                this.dynamicColumnList = [
-                                    ...this.dynamicColumnList.filter((column) => column.tableColumn.id !== column.tableColumn.id),
-                                    component.instance
-                                ];
-                                if (component.instance.tableColumn.definitions.slave) {
-                                    this.dynamicSlaveTableColumns = [
-                                        ...this.dynamicSlaveTableColumns.filter((column) => column.tableColumn.id !== column.tableColumn.id),
+                            if (this.documentosAvulsos) {
+                                this.documentosAvulsos.forEach((documentoAvulso) => {
+                                    const component: ComponentRef<CdkDocumentoAvulsoGridColumn> = this._viewContainerRef.createComponent(componentFactory);
+                                    component.instance.documentoAvulso = documentoAvulso;
+                                    this.dynamicColumnList = [
+                                        ...this.dynamicColumnList.filter((column) => column.tableColumn.id !== column.tableColumn.id),
                                         component.instance
                                     ];
-                                }
+                                    if (component.instance.tableColumn.definitions.slave) {
+                                        this.dynamicSlaveTableColumns = [
+                                            ...this.dynamicSlaveTableColumns.filter((column) => column.tableColumn.id !== column.tableColumn.id),
+                                            component.instance
+                                        ];
+                                    }
 
-                                tableColumns = [
-                                    ...tableColumns.filter((tableColumn) => tableColumn.id !== component.instance.tableColumn.id),
-                                ];
-                                displayColumns = [
-                                    ...displayColumns.filter((campo) => campo !== component.instance.tableColumn.id && component.instance.tableColumn.definitions.selected),
-                                    component.instance.tableColumn.id
-                                ];
-                                dynamicColumns = [
-                                    ...dynamicColumns.filter((column) => column.id !== component.instance.tableColumn.id),
-                                    component.instance.tableColumn
-                                ];
-                            });
+                                    tableColumns = [
+                                        ...tableColumns.filter((tableColumn) => tableColumn.id !== component.instance.tableColumn.id),
+                                    ];
+                                    displayColumns = [
+                                        ...displayColumns.filter((campo) => campo !== component.instance.tableColumn.id && component.instance.tableColumn.definitions.selected),
+                                        component.instance.tableColumn.id
+                                    ];
+                                    dynamicColumns = [
+                                        ...dynamicColumns.filter((column) => column.id !== component.instance.tableColumn.id),
+                                        component.instance.tableColumn
+                                    ];
+                                });
+                            }
                         })
                         if (this.dynamicColumnList.length) {
                             this.tableColumns = [
