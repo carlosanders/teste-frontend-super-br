@@ -565,10 +565,12 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                                         tableColumns = [
                                             ...tableColumns.filter((tableColumn) => tableColumn.id !== component.instance.tableColumn.id),
                                         ];
-                                        displayColumns = [
-                                            ...displayColumns.filter((campo) => campo !== component.instance.tableColumn.id && component.instance.tableColumn.definitions.selected),
-                                            component.instance.tableColumn.id
-                                        ];
+                                        if (!!component.instance.tableColumn.definitions.selected) {
+                                            displayColumns = [
+                                                ...displayColumns.filter((campo) => campo !== component.instance.tableColumn.id),
+                                                component.instance.tableColumn.id
+                                            ];
+                                        }
                                         dynamicColumns = [
                                             ...dynamicColumns.filter((column) => column.id !== component.instance.tableColumn.id),
                                             component.instance.tableColumn
