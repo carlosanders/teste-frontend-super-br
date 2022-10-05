@@ -118,6 +118,10 @@ export class ResolveGuard implements CanActivate {
                             'usuarioConclusaoPrazo',
                             'vinculacaoWorkflow',
                             'vinculacaoWorkflow.workflow',
+                            'foder',
+                            'criadoPor',
+                            'atualizadoPor',
+                            'apagadoPor'
                         ]
                     };
 

@@ -192,7 +192,10 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesEtiquetas.etiqueta',
                             'vinculacaoWorkflow',
                             'vinculacaoWorkflow.workflow',
-                            'folder'
+                            'folder',
+                            'criadoPor',
+                            'atualizadoPor',
+                            'apagadoPor'
                         ],
                         context: {}
                     };
