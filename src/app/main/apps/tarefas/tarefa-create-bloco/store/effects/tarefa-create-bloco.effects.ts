@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from "../../../../../../../@cdk/utils";
 
 @Injectable()
 export class TarefaCreateBlocoEffect {
@@ -53,7 +54,7 @@ export class TarefaCreateBlocoEffect {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
-                    content: 'Erro ao salvar a tarefa!',
+                    content: 'Erro ao salvar a tarefa: ' + CdkUtils.errorsToString(err),
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));
