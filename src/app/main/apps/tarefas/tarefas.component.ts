@@ -578,14 +578,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     if (this.container !== undefined) {
                         this.container.clear();
                     }
-                    const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
+                    const path = 'app/main/apps/tarefas';
                     this.modulesConfig.forEach((module) => {
                         if (module.components.hasOwnProperty(path)) {
                             module.components[path].forEach(((c) => {
                                 this._dynamicService.loadComponent(c)
                                     .then((componentFactory) => {
-                                        const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
-                                        componente.instance.setTarefa(this.currentTarefa);
+                                        this.container.createComponent(componentFactory);
                                         this._changeDetectorRef.detectChanges();
                                     });
                             }));
