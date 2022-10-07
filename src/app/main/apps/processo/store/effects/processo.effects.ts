@@ -50,6 +50,7 @@ export class ProcessoEffect {
                 'especieProcesso.generoProcesso',
                 'setorAtual',
                 'setorAtual.especieSetor',
+                'setorAtual.unidade',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
             ];
