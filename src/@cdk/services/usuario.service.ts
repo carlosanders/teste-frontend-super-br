@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
@@ -54,6 +54,15 @@ export class UsuarioService extends ParentGenericService<Usuario> {
                 Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...usuario, ...response});
             })
+        );
+    }
+
+    obterGraficoTaxaSucessoJudicial(idUnidade: number): Observable<any> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = '{}';
+        return this.http.get(
+            `${environment.api_url}grafico-taxa-sucesso-judicial` + environment.xdebug + `&id_unidade=${idUnidade}`,
+            {params}
         );
     }
 }
