@@ -247,8 +247,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     isSmallScreen: boolean = false;
     tableDefinitions: TableDefinitions = new TableDefinitions();
 
+    modulesConfig: any;
+
     static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefasComponent', 'CdkTarefaList'];
-    static readonly LIST_DEFINITIONS_KEY:string = 'tarefaListDefinitions';
+    static readonly LIST_DEFINITIONS_KEY: string = 'tarefaListDefinitions';
 
     private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
     private readonly _defaultSortOrder: string = 'ASC';
@@ -273,6 +275,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cacheGenericUserDataService: CacheGenericUserDataService,
         protected _tableDefinitionsService: TableDefinitionsService
     ) {
+        this.modulesConfig = modulesConfig;
         // Set the defaults
         this.formEditor = this._formBuilder.group({
             modelo: [null]
@@ -499,7 +502,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.routeAtividadeBloco = 'atividade-bloco';
             this.routeAtividadeDocumento = 'atividade';
             this.routeOficioDocumento = 'oficio';
-            modulesConfig.forEach((module) => {
+            this.modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -515,7 +518,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             });
             const pathDocumento = 'app/main/apps/documento/documento-edit';
-            modulesConfig.forEach((module) => {
+            this.modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
                     module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -572,6 +575,22 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((currentTarefa: any) => {
             if (currentTarefa && currentTarefa.processo) {
                 if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
+                    if (this.container !== undefined) {
+                        this.container.clear();
+                    }
+                    const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
+                    this.modulesConfig.forEach((module) => {
+                        if (module.components.hasOwnProperty(path)) {
+                            module.components[path].forEach(((c) => {
+                                this._dynamicService.loadComponent(c)
+                                    .then((componentFactory) => {
+                                        const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                                        componente.instance.setTarefa(this.currentTarefa);
+                                        this._changeDetectorRef.detectChanges();
+                                    });
+                            }));
+                        }
+                    });
                     this._store.dispatch(new fromStore.SyncCurrentTarefaId({
                         tarefaId: currentTarefa.id,
                         processoId: currentTarefa.processo.id,
@@ -691,24 +710,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routeAtividadeBloco = 'atividade-bloco';
         this.routeAtividadeDocumento = 'atividade';
         this.routeOficioDocumento = 'oficio';
-        if (this.container !== undefined) {
-            this.container.clear();
-        }
 
         modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach(((c) => {
-                    if (this.container !== undefined) {
-                        this._dynamicService.loadComponent(c)
-                            .then((componentFactory) => {
-                                const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
-                                componente.instance.setTarefa(this.currentTarefa);
-                                this._changeDetectorRef.detectChanges();
-                            });
-                    }
-                }));
-            }
-
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
                 module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -2113,7 +2116,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.ToggleGroup(groupData));
     }
 
-    doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface|null): void {
+    doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface | null): void {
         this._store.dispatch(new fromStore.UnloadGroup());
     }
 
