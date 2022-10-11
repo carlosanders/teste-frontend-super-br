@@ -75,6 +75,8 @@ export class Processo {
 
     protocoloEletronico?: boolean;
 
+    emTramitacaoExterna?: boolean;
+
     validaNup?: boolean;
 
     @Exclude({toPlainOnly: true})
@@ -245,6 +247,7 @@ export class Processo {
         this.interessados = [];
         this.requerimento = null;
         this.protocoloEletronico = null;
+        this.emTramitacaoExterna = null;
         this.configuracaoNup = null;
         this.validaNup = null;
         this.alterarChave = null;

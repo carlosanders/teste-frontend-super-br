@@ -35,7 +35,10 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }}</span>
+                <span style="color: red">{{ tarefa.processo?.emTramitacaoExterna ? ' (Em Remessa Externa)' : '' }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}}
+                      {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }}
+                      {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }} </span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
