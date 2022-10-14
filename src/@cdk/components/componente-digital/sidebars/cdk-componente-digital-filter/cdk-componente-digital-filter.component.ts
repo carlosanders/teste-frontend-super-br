@@ -73,7 +73,8 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             juntadoPor: [null],
             juntadoEm: [null],
             unidade: [null],
-            setor: [null, [Validators.required]]
+            setor: [null, [Validators.required]],
+            idDocumento: [null]
         });
     }
 
@@ -154,6 +155,10 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
 
         if (this.form.get('codigo').value) {
             andXFilter.push({'id': `eq:${this.form.get('codigo').value}`});
+        }
+
+        if (this.form.get('idDocumento').value) {
+            andXFilter.push({'documento.id': `eq:${this.form.get('idDocumento').value}`});
         }
 
         if (this.filterJuntadoEm?.length) {

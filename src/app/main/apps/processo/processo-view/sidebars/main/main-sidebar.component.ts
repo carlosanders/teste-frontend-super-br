@@ -285,7 +285,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             criadoPor: [null],
             atualizadoPor: [null],
             unidade: [null],
-            origemDados: ['todos']
+            origemDados: ['todos'],
+            idDocumento: [null],
+            numeroUnicoDocumento: [null]
         });
 
         this.formEditor = this._formBuilder.group({
@@ -953,6 +955,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else if (this.form.get('origemDados').value === 'integracao') {
                 andXFilter.push({'origemDados.id': 'isNotNull'});
             }
+        }
+
+        if (this.form.get('idDocumento').value) {
+            andXFilter.push({'documento.id': `eq:${this.form.get('idDocumento').value}`});
+        }
+
+        if (this.form.get('numeroUnicoDocumento').value) {
+            andXFilter.push({'documento.numeroUnicoDocumento.sequencia': `eq:${this.form.get('numeroUnicoDocumento').value}`});
         }
 
         if (this.selectedVolume) {
