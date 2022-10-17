@@ -10,8 +10,26 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarRef,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {cdkAnimations} from '@cdk/animations';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {
     Assinatura,
     ComponenteDigital,
@@ -19,50 +37,28 @@ import {
     Juntada,
     Pagination,
     Processo,
-    Tarefa, VinculacaoDocumento,
+    Tarefa,
+    VinculacaoDocumento,
     Volume
 } from '@cdk/models';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {Contador} from '@cdk/models/contador';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {MercureService} from '@cdk/services/mercure.service';
+import {CdkUtils} from '@cdk/utils';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../store';
 import * as AssinaturaStore from 'app/store';
-import {
-    getDocumentosHasLoaded,
-    getErrorsDeleteVisibilidadeDocumentos,
-    getSelectedVolume,
-    getVolumes
-} from '../../store';
+import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
-import {getProcesso} from '../../../store';
-import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {MatMenuTrigger} from '@angular/material/menu';
-import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {CdkUtils} from '@cdk/utils';
-import {
-    MatSnackBar,
-    MatSnackBarHorizontalPosition,
-    MatSnackBarRef,
-    MatSnackBarVerticalPosition
-} from '@angular/material/snack-bar';
-import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {
-    CdkAssinaturaEletronicaPluginComponent
-} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {MercureService} from '@cdk/services/mercure.service';
-import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
-import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
-import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {Contador} from '@cdk/models/contador';
-import {Bookmark} from '@cdk/models/bookmark.model';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
+import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
+import {getProcesso} from '../../../store';
+import * as fromStore from '../../store';
+import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -237,14 +233,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark$: any;
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
-    isBookmark$: Observable<boolean>;
-    isBookmark = false;
-    isJuntadas = true;
     deletingVisibilidadeDocumentosIdErros$: Observable<number[]>;
 
     documentosRestritos: number[] = [];
     documentosRestritosErros: number[] = [];
     selectedOrigemDados: string = 'todos';
+    activeCard: fromStore.ProcessoViewActiveCard = 'juntadas';
+    selectedJuntadasId: number[] = [];
+    savingDownloadProcesso: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -325,23 +321,29 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
-        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
         this.deletingVisibilidadeDocumentosIdErros$ = this._store.pipe(select(fromStore.getErrorsDeleteVisibilidadeDocumentos));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
-            this.isJuntadas = true;
             this._changeDetectorRef.markForCheck();
         });
 
-        this.isBookmark$.pipe(
+        this._store.pipe(
+            select(fromStore.getActiveCard),
             takeUntil(this._unsubscribeAll)
-        ).subscribe((isBookmark) => {
-            this.isBookmark = isBookmark;
-            this.isJuntadas = !isBookmark;
-        });
+        ).subscribe((activeCard) => this.activeCard = activeCard);
+
+        this._store.pipe(
+            select(fromStore.getSelectedJuntadasId),
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((selectedJuntadasId) => this.selectedJuntadasId = selectedJuntadasId);
+
+        this._store.pipe(
+            select(fromStore.getSavingDownloadProcesso),
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((savingDownloadProcesso) => this.savingDownloadProcesso = savingDownloadProcesso);
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -1522,6 +1524,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     abreJuntadas(): void {
         SharedBookmarkService.pagina = null;
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
         this._store.dispatch(new fromStore.SetCurrentStep(this.currentStep));
     }
 
@@ -1530,7 +1533,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     getBookmark(): void {
-        this.isJuntadas = false;
+        this._store.dispatch(new fromStore.SetActiveCard('bookmark'));
         this.bookMarkselected = 0;
         this._store.dispatch(new fromStore.ReloadBookmarks());
     }
@@ -1643,5 +1646,26 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.documentosRestritos = [];
             this.reloadJuntadas();
         });
+    }
+
+    doModoSelecao(): void {
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas-select'));
+    }
+
+    doCancelarModoSelecao(): void {
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
+    }
+
+    doToggleSelectJuntadaId(id: number): void {
+        this._store.dispatch(new fromStore.ToggleSelectJuntadaId(id));
+    }
+
+    doDownloadJuntadasSelecionadas(formato: string): void {
+        const params = {
+            sequencial: [...this.selectedJuntadasId].sort().join(','),
+            tipoDownload: formato
+        }
+
+        this._store.dispatch(new fromStore.DownloadProcesso(params));
     }
 }

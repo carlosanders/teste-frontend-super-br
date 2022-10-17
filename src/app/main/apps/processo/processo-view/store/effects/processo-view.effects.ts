@@ -1,26 +1,26 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
+import {ComponenteDigital, Juntada} from '@cdk/models';
+
+import {AddData} from '@cdk/ngrx-normalizr';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
+import {CacheModelService} from '@cdk/services/cache.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
+import {LoginService} from 'app/main/auth/login/login.service';
+
+import {getRouterState, State} from 'app/store/reducers';
 
 import {Observable, of} from 'rxjs';
 import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-
-import {getRouterState, State} from 'app/store/reducers';
-import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
-
-import {AddData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital, Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
-import {JuntadaService} from '@cdk/services/juntada.service';
-import {getBinary, getCurrentJuntada} from '../selectors';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
-import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {CacheModelService} from '@cdk/services/cache.service';
+import {getBinary, getCurrentJuntada} from '../selectors';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -484,7 +484,7 @@ export class ProcessoViewEffect {
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _cdkProgressBarService: CdkProgressBarService,
         private _loginService: LoginService,
-        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>,
     ) {
         this._store.pipe(
             select(getRouterState),

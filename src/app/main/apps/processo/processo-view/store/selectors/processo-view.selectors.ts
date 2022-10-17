@@ -97,9 +97,14 @@ export const getCurrentJuntada: any = createSelector(
     schemaSelectors.entityProjector
 );
 
-export const getIsBookmark: any = createSelector(
+export const getActiveCard: any = createSelector(
     getProcessoViewState,
-    (state: ProcessoViewState) => state.bookmark
+    (state: ProcessoViewState) => state.activeCard
+);
+
+export const getSelectedJuntadasId: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.selectedJuntadasId
 );
 
 export const getPaginaBookmark: any = createSelector(

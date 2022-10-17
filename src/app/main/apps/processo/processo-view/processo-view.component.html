@@ -20,7 +20,7 @@
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso" class="juntada-navigation">
                 <div>
                     <button mat-mini-fab class="previous accent cdk-white-fg"
-                            *ngIf="!isBookmark"
+                            *ngIf="activeCard !== 'bookmark'"
                             (click)="gotoPreviousStep()"
                             [disabled]="disabledBack()">
                         <mat-icon>chevron_left</mat-icon>
@@ -28,7 +28,7 @@
                     <ng-container *showIfRole="'ROLE_COLABORADOR'">
                         <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
                                 class="previous accent cdk-white-fg ml-8"
-                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && !isBookmark"
+                                *ngIf="this.componenteDigital?.mimetype === 'application/pdf' && activeCard !== 'bookmark'"
                                 (click)="criarBookmark(this.componenteDigital.id)">
                             <mat-icon>bookmark</mat-icon>
                         </button>
@@ -60,7 +60,7 @@
                         <mat-icon class="mat-18">zoom_in</mat-icon>
                     </button>
                     <button mat-mini-fab class="next accent cdk-white-fg"
-                            *ngIf="!isBookmark"
+                            *ngIf="activeCard !== 'bookmark'"
                             (click)="gotoNextStep()"
                             [disabled]="disabledNext()">
                         <mat-icon>chevron_right</mat-icon>

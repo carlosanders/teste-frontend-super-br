@@ -1,3 +1,5 @@
+import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
+import {TemplatePortal} from '@angular/cdk/portal';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -14,35 +16,33 @@ import {
     ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {MatButton} from '@angular/material/button';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {cdkAnimations} from '@cdk/animations';
-import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-
-import {JuntadaService} from '@cdk/services/juntada.service';
-import {Assinatura, ComponenteDigital, Juntada, Pagination, Processo} from '@cdk/models';
-import {select, Store} from '@ngrx/store';
-import * as fromStore from './store';
-import {expandirTela} from './store';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import {filter, takeUntil} from 'rxjs/operators';
-import {getRouterState} from '../../../../store';
-import {ActivatedRoute, Router} from '@angular/router';
-import {getProcesso} from '../store';
-import {MercureService} from '@cdk/services/mercure.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
     CdkBookmarkEditDialogComponent
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {Assinatura, ComponenteDigital, Juntada, Pagination, Processo} from '@cdk/models';
 import {Bookmark} from '@cdk/models/bookmark.model';
-import {CdkUtils} from '@cdk/utils';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+
+import {JuntadaService} from '@cdk/services/juntada.service';
+import {MercureService} from '@cdk/services/mercure.service';
 import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
+import {CdkUtils} from '@cdk/utils';
+import {select, Store} from '@ngrx/store';
+import {getRouterState} from 'app/store';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
-import {ConnectionPositionPair, Overlay} from '@angular/cdk/overlay';
-import {TemplatePortal} from '@angular/cdk/portal';
-import {MatButton} from '@angular/material/button';
+import {Observable, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
+import {getProcesso} from '../store';
+import * as fromStore from './store';
+import {expandirTela} from './store';
 
 @Component({
     selector: 'processo-view',
@@ -121,6 +121,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     pagination$: any;
     pagination: any;
+    activeCard: fromStore.ProcessoViewActiveCard = 'juntadas';
 
     routerState: any;
 
@@ -144,8 +145,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     unsafe = false;
 
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
-    isBookmark$: Observable<boolean>;
-    isBookmark = false;
 
     assinaturasIsLoading$: Observable<boolean>;
     assinaturas$: Observable<Assinatura[]>;
@@ -200,8 +199,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.processo$ = this._store.pipe(select(getProcesso));
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
-
-        this.isBookmark$ = this._store.pipe(select(fromStore.getIsBookmark));
         this.pagina$ = this._store.pipe(select(fromStore.getPaginaBookmark));
 
         this.processo$.pipe(
@@ -268,12 +265,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.isBookmark$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((isBookmark) => {
-            this.isBookmark = isBookmark;
-            SharedBookmarkService.modeBookmark = isBookmark;
-        });
+        this._store
+            .pipe(
+                select(fromStore.getActiveCard),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe((activeCard) => {
+                this.activeCard = activeCard;
+                SharedBookmarkService.modeBookmark = activeCard === 'bookmark';
+            });
 
         this.pagina$.pipe(
             takeUntil(this._unsubscribeAll)
