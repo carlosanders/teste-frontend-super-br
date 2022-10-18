@@ -87,6 +87,10 @@ const routes: Routes = [
                 loadChildren: () => import('./compartilhamento-create-bloco/compartilhamento-create-bloco.module').then(m => m.CompartilhamentoCreateBlocoModule),
             },
             {
+                path: 'remove-compartilhamento-bloco',
+                loadChildren: () => import('./compartilhamento-remove-bloco/compartilhamento-remove-bloco.module').then(m => m.CompartilhamentoRemoveBlocoModule),
+            },
+            {
                 path: 'atividade-bloco',
                 loadChildren: () => import('./atividade-create-bloco/atividade-create-bloco.module').then(m => m.AtividadeCreateBlocoModule),
             },

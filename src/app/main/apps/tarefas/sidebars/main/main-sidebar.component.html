@@ -177,6 +177,17 @@
 
         <div class="nav-item">
             <a class="nav-link" matRipple
+               [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/meus-compartilhamentos'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon"
+                          matBadge="{{tarefasPendentes['tarefas_meus_compartilhamentos_' + generoHandleAcentuado]}}"
+                          matBadgeColor="warn"
+                          matBadgeSize="small">
+                    groups
+                </mat-icon>
+                <span>Meus Compartilhamentos</span>
+            </a>
+            <a class="nav-link" matRipple
                [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon"

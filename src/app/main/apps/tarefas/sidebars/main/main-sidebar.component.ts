@@ -767,6 +767,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.tarefasPendentes['tarefas_compartilhadas_' + this.generoHandleAcentuado] = 0;
             }
+
+            if (this.counterState['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] !== undefined) {
+                this.tarefasPendentes['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] = this.counterState['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado];
+            } else {
+                this.tarefasPendentes['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] = 0;
+            }
         }
         this._changeDetectorRef.markForCheck();
     }

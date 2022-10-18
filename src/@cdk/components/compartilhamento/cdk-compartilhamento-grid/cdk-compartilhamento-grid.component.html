@@ -115,6 +115,15 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1, 'error': getProp(deletingErrors, compartilhamento.id)}"> {{compartilhamento.tarefa?.especieTarefa?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
+                <!-- Tarefa ID Column -->
+                <ng-container matColumnDef="tarefa.id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        ID Tarefa
+                    </th>
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='ID Tarefa: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1, 'error': getProp(deletingErrors, compartilhamento.id)}"> {{compartilhamento.tarefa?.id}} </td>
+                </ng-container>
+
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

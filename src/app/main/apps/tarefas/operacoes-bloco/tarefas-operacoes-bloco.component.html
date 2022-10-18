@@ -105,13 +105,25 @@
             </ng-container>
         </button>
 
-        <button mat-menu-item aria-label="compartilhar"
-                (click)="doCompartilharBloco()">
+        <button mat-menu-item aria-label="compartilhamento" [matMenuTriggerFor]="menuCompartilhamento">
             <ng-container>
                 <mat-icon>share</mat-icon>
-                <span>Compartilhar</span>
+                <span>Compartilhamento</span>
             </ng-container>
         </button>
+
+        <mat-menu fxHide #menuCompartilhamento="matMenu">
+            <button mat-menu-item
+                    (click)="doCompartilharBloco()">
+                Compartilhar
+            </button>
+            <button mat-menu-item
+                    *ngIf="['meus-compartilhamentos', 'outros-usuarios'].includes(this.routerState.params['targetHandle']) && this.routerState.params['typeHandle'] === 'compartilhadas'"
+                    (click)="doRemoveCompartilharBloco()">
+                Descompartilhar
+            </button>
+        </mat-menu>
+
 
         <ng-template #dynamicComponent></ng-template>
     </ng-template>
