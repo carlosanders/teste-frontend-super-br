@@ -53,7 +53,8 @@ export class ResolveGuard implements CanActivate {
                         },
                         populate: [
                             'populateAll',
-                            'tarefa.especieTarefa'
+                            'tarefa.especieTarefa',
+                            'tarefa.processo',
                         ]
                     };
 
