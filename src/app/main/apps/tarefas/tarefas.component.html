@@ -164,9 +164,15 @@
                             </div>
                             <cdk-modelo-autocomplete
                                 #modelo="modeloAutocomplete"
+                                [modeloListIsLoading]="modeloListIsLoading"
+                                [modeloList]="modeloList"
                                 [control]="formEditor.get('modelo')"
                                 [pagination]="modeloPagination">
                             </cdk-modelo-autocomplete>
+                            <button matSuffix mat-button mat-icon-button type="button"
+                                    (click)="$event.stopPropagation(); getFavoritosMinuta(autoCompleteModelos)">
+                                <mat-icon matTooltip="Favoritos">star</mat-icon>
+                            </button>
                             <button matSuffix mat-button mat-icon-button type="button"
                                     (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
                                 <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>

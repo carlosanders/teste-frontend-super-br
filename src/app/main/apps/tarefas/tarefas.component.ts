@@ -12,6 +12,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FavoritoService} from '@cdk/services/favorito.service';
 import {select, Store} from '@ngrx/store';
 import {Observable, of, Subject, switchMap} from 'rxjs';
 
@@ -24,7 +25,7 @@ import {
     ComponenteDigital,
     Documento,
     Etiqueta,
-    Folder,
+    Folder, Modelo,
     Pagination,
     Tarefa,
     Usuario,
@@ -39,7 +40,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {catchError, filter, finalize, take, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -246,6 +247,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
     tableDefinitions: TableDefinitions = new TableDefinitions();
+    modeloListIsLoading: boolean = false;
+    modeloList: Modelo[] = [];
 
     modulesConfig: any;
 
@@ -273,7 +276,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _activatedRoute: ActivatedRoute,
         private _cdkTarefaListService: CdkTarefaListService,
         private _cacheGenericUserDataService: CacheGenericUserDataService,
-        protected _tableDefinitionsService: TableDefinitionsService
+        protected _tableDefinitionsService: TableDefinitionsService,
+        private _favoritoService: FavoritoService
     ) {
         this.modulesConfig = modulesConfig;
         // Set the defaults
@@ -2149,5 +2153,31 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
                 });
         }
+    }
+
+    getFavoritosMinuta(autocomplete: HTMLInputElement): void {
+        autocomplete.focus();
+        this.modeloListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Modelo',
+                context: 'eq:modelo'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.modeloPagination.populate)
+        ).pipe(
+            finalize(() => this.modeloListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.modeloList = [];
+                response['entities'].forEach((favorito) => {
+                    this.modeloList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 }

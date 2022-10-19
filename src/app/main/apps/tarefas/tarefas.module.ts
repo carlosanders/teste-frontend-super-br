@@ -17,6 +17,7 @@ import {
     MatToolbarModule,
     MatTooltipModule
 } from '@cdk/angular/material';
+import {FavoritoService} from '@cdk/services/favorito.service';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -211,7 +212,8 @@ modulesConfig.forEach((module) => {
         DocumentoService,
         VinculacaoEspecieProcessoWorkflowService,
         VinculacaoEtiquetaService,
-        AcaoService
+        AcaoService,
+        FavoritoService
     ],
     entryComponents: [
         SnackBarDesfazerComponent,
