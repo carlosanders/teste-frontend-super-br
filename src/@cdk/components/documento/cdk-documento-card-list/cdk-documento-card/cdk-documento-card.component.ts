@@ -94,6 +94,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     downloadP7s = new EventEmitter<Documento>();
 
     @Output()
+    converteMinuta: EventEmitter<Documento> = new EventEmitter<Documento>();
+
+    @Output()
     desvincular = new EventEmitter<VinculacaoDocumento>();
 
     @Output()
@@ -198,6 +201,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doDownloadP7s(documento: Documento): void {
         this.downloadP7s.emit(documento);
+    }
+
+    doConverteMinuta(documento: Documento): void {
+        this.converteMinuta.emit(documento);
     }
 
     onClick(documento): void {

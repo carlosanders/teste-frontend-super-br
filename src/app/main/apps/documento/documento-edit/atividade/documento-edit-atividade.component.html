@@ -10,6 +10,9 @@
         [assinaturaErrors]="(assinaturaErrors$ | async)"
         [assinaturasErrosDocumentosId]="(assinaturaErrosDocumentosId$ | async)"
         [errorsAssinatura]="errorsAssinatura"
+        [dropZoneEnabled]="true"
+        [dragEnabled]="true"
+        (dropDocumento)="onDropDocumento($event)"
         (clicked)="onClicked($event)"
         (assinatura)="doAssinatura($event)"
         (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
@@ -77,6 +80,7 @@
                                  (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                  (downloadP7S)="doDownloadP7S($event)"
                                  (desvincular)="doDesvincular($event)"
+                                 (converteMinuta)="doConverteMinuta($event)"
                                  (desvincularBloco)="doDesvincularBloco($event)"
                                  (getMore)="paginaDocumentosVinculados()"
                                  (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">

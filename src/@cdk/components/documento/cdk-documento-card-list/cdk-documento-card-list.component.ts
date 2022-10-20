@@ -85,6 +85,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     verResposta = new EventEmitter<Documento>();
 
     @Output()
+    converteMinuta: EventEmitter<Documento> = new EventEmitter<Documento>();
+
+    @Output()
     alterarTipoDocumento = new EventEmitter<Documento>();
 
     @Output()
@@ -209,6 +212,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doVerResposta(documento): void {
         this.verResposta.emit(documento);
+    }
+
+    doConverteMinuta(documento): void {
+        this.converteMinuta.emit(documento);
     }
 
     doAlterarDocumentoBloco(): void {

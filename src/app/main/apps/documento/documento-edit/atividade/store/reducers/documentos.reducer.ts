@@ -7,6 +7,10 @@ export interface DocumentosState {
     pagination: {
         limit: number;
         offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
         total: number;
     };
     loading: boolean;
@@ -20,6 +24,10 @@ export const documentosInitialState: DocumentosState = {
     pagination: {
         limit: 0,
         offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
         total: 0,
     },
     loading: false,
@@ -36,7 +44,10 @@ export const documentosReducer = (
             return {
                 ...state,
                 loading: true,
-                pagination: action.payload,
+                pagination: {
+                    ...state.pagination,
+                    ...action.payload
+                },
             };
         }
 
@@ -94,6 +105,54 @@ export const documentosReducer = (
         case DocumentosActions.UNLOAD_DOCUMENTOS: {
             return {
                 ...documentosInitialState
+            };
+        }
+
+        case DocumentosActions.CONVERTE_MINUTA_EM_ANEXO: {
+            return {
+                ...state,
+                documentosId: state.documentosId.filter((id) => id !== action.payload.documentoOrigem.id),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total-1
+                },
+                loading: true
+            };
+        }
+
+        case DocumentosActions.CONVERTE_MINUTA_EM_ANEXO_SUCCESS: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case DocumentosActions.CONVERTE_MINUTA_EM_ANEXO_FAILED: {
+            return {
+                ...state,
+                documentosId: [
+                    ...state.documentosId.filter((id) => id !== action.payload.documentoOrigem.id),
+                    action.payload.documentoOrigem.id
+                ].sort(),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total+1
+                },
+                loading: false
+            };
+        }
+
+        case DocumentosActions.ADD_DOCUMENTO_ID: {
+            return {
+                ...state,
+                documentosId: [
+                    ...state.documentosId.filter((id) => id !== action.payload),
+                    action.payload
+                ].sort(),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total+1
+                }
             };
         }
 

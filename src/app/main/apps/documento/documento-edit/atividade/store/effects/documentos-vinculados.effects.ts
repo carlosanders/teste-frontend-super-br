@@ -1,26 +1,23 @@
 import {Injectable} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@cdk/angular/material';
+import {Documento} from '@cdk/models';
+import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema, vinculacaoDocumento as vinculacaoDocumentoSchema} from '@cdk/normalizr';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {CdkUtils} from '@cdk/utils';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import {getRouterState, State} from 'app/store/reducers';
 
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
-
-import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
 import * as fromStore from '../';
-import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
-import {DocumentoService} from '@cdk/services/documento.service';
-import {
-    documento as documentoSchema,
-    vinculacaoDocumento as vinculacaoDocumentoSchema
-} from '@cdk/normalizr';
-import {ActivatedRoute, Router} from '@angular/router';
-import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
-import {CriadoAnexoDocumento, RemovidoAnexoDocumento} from '../../../../store';
-import {getDocumentoId} from '../selectors';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as fromDocumentoStore from '../../../../store';
+import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -32,7 +29,7 @@ export class DocumentosVinculadosEffects {
      */
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
-        withLatestFrom(this._store.pipe(select(getDocumentoId))),
+        withLatestFrom(this._store.pipe(select(fromStore.getDocumentoId))),
         mergeMap(([action, documentoId]) => {
             const params = {
                 filter: {
@@ -138,7 +135,7 @@ export class DocumentosVinculadosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                this._store.dispatch(new RemovidoAnexoDocumento(action.payload.documentoId));
+                this._store.dispatch(new fromDocumentoStore.RemovidoAnexoDocumento(action.payload.documentoId));
                 return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
             }),
             catchError((err) => {
@@ -307,7 +304,7 @@ export class DocumentosVinculadosEffects {
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
         tap((action) => {
-            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
+            this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
             if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
@@ -319,12 +316,70 @@ export class DocumentosVinculadosEffects {
     saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
         tap((action) => {
-            this._store.dispatch(new CriadoAnexoDocumento(action.payload.documentoOrigem.id));
+            this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
             if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })
     ), {dispatch: false});
+
+    converteAnexoEmMinuta: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.ConverteAnexoEmMinuta>(DocumentosVinculadosActions.CONVERTE_ANEXO_EM_MINUTA),
+        tap((action) => this._store.dispatch(new OperacoesActions.Operacao(action.payload.operacao))),
+        mergeMap((action) => {
+            return this._documentoService.converteAnexoEmMinuta(
+                action.payload.documento,
+                action.payload.tarefa,
+                JSON.stringify([
+                    'tipoDocumento',
+                    'tarefaOrigem',
+                    'atualizadoPor'
+                ]),
+                JSON.stringify({'verificaAnexos': true})
+            ).pipe(
+                tap((response: Documento) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacao.id,
+                        type: action.payload.operacao.type,
+                        content: `Convertendo anexo id ${action.payload.documento.id} em minuta da tarefa id ${action.payload.tarefa.id} com sucesso!`,
+                        status: 1, // sucesso
+                        redo: 'inherent',
+                        undo: 'inherent'
+                    }));
+
+                    this._store.dispatch(new AddData<Documento>({data: [response], schema: documentoSchema}));
+                    this._store.dispatch(new fromDocumentoStore.RemovidoAnexoDocumento(response.id));
+                    this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
+                }),
+                mergeMap((response: Documento) => [
+                    new fromStore.AddDocumentoId(response.id),
+                    new DocumentosVinculadosActions.ConverteAnexoEmMinutaSuccess(response),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacao.id,
+                        type: 'documento',
+                        content: `Erro ao converter anexo id ${action.payload.documento.id} em minuta da tarefa id ${action.payload.tarefa.id}!`,
+                        status: 2, // erro
+                        redo: 'inherent',
+                        undo: 'inherent'
+                    }));
+                    this._snackBar.open(CdkUtils.errorsToString(err), null, {
+                        duration: 5000,
+                        horizontalPosition: 'center',
+                        verticalPosition: 'top',
+                        panelClass: ['danger-snackbar']
+                    });
+                    return of(new DocumentosVinculadosActions.ConverteAnexoEmMinutaFailed({
+                        documento: action.payload.documento,
+                        tarefa: action.payload.tarefa,
+                        error: err
+                    }));
+                })
+            );
+        })
+    ));
 
     constructor(
         private _actions: Actions,
@@ -333,7 +388,8 @@ export class DocumentosVinculadosEffects {
         private _store: Store<State>,
         private _activatedRoute: ActivatedRoute,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _vinculacaoDocumentoService: VinculacaoDocumentoService
+        private _vinculacaoDocumentoService: VinculacaoDocumentoService,
+        private _snackBar: MatSnackBar,
     ) {
         this._store.pipe(
             select(getRouterState),

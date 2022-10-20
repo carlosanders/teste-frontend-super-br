@@ -83,7 +83,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     documentosVinculados: Documento[];
     pagination$: Observable<any>;
     pagination: Pagination;
-    actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'select'];
+    actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'converteMinuta', 'select'];
     isSavingDocumentosVinculados$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
 
@@ -591,6 +591,21 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         }));
     }
 
+    doConverteMinuta(documento: Documento): void {
+        this._store.dispatch(new fromStore.ConverteAnexoEmMinuta({
+            documento: documento,
+            tarefa: this.tarefa,
+            operacao: {
+                id: CdkUtils.makeId(),
+                type: 'documento',
+                content: `Convertendo anexo id ${documento.id} em minuta da tarefa id ${this.tarefa.id}...`,
+                status: 0, // carregando
+                redo: 'inherent',
+                undo: 'inherent'
+            }
+        }))
+    }
+
     anexarCopia(): void {
         if (this.documento.estaVinculada) {
             const rota = 'anexar-copia/' + this.documento.processoOrigem.id;
@@ -657,5 +672,20 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    onDropDocumento({origem, destino}): void {
+        this._store.dispatch(new fromStore.ConverteMinutaEmAnexo({
+            documentoOrigem: origem,
+            documentoDestino: destino,
+            operacao: {
+                id: CdkUtils.makeId(),
+                type: 'documento',
+                content: `Convertendo minuta id ${origem.id} em anexo da minuta id ${destino.id}...`,
+                status: 0, // carregando
+                redo: 'inherent',
+                undo: 'inherent'
+            }
+        }));
     }
 }

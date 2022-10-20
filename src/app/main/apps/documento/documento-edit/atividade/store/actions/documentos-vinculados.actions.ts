@@ -34,6 +34,10 @@ export const APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS = '[DOCUMENTO EDIT COM
 
 export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL SUCCESS';
 
+export const CONVERTE_ANEXO_EM_MINUTA = '[DOCUMENTO EDIT] CONVERTE ANEXO EM MINUTA';
+export const CONVERTE_ANEXO_EM_MINUTA_SUCCESS = '[DOCUMENTO EDIT] CONVERTE ANEXO EM MINUTA SUCCESS';
+export const CONVERTE_ANEXO_EM_MINUTA_FAILED = '[DOCUMENTO EDIT] CONVERTE ANEXO EM MINUTA FAILED';
+
 /**
  * Get Documentos Vinculados
  */
@@ -284,6 +288,33 @@ export class SaveComponenteDigitalDocumentoSuccess implements Action
     }
 }
 
+export class ConverteAnexoEmMinuta implements Action
+{
+    readonly type = CONVERTE_ANEXO_EM_MINUTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteAnexoEmMinutaSuccess implements Action
+{
+    readonly type = CONVERTE_ANEXO_EM_MINUTA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteAnexoEmMinutaFailed implements Action
+{
+    readonly type = CONVERTE_ANEXO_EM_MINUTA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -307,4 +338,8 @@ export type DocumentosVinculadosActionsAll
     | ReloadDocumentosVinculados
     | UnloadDocumentosVinculados
     | ApproveComponenteDigitalVinculadoSuccess
-    | SaveComponenteDigitalDocumentoSuccess;
+    | SaveComponenteDigitalDocumentoSuccess
+    | ConverteAnexoEmMinuta
+    | ConverteAnexoEmMinutaSuccess
+    | ConverteAnexoEmMinutaFailed
+    ;

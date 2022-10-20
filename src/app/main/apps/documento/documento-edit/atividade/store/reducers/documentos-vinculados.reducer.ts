@@ -199,6 +199,41 @@ export const documentosVinculadosReducer = (
             }
         }
 
+        case DocumentosVinculadosActions.CONVERTE_ANEXO_EM_MINUTA: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [
+                    ...state.alterandoDocumentoIds.filter((id) => id !== action.payload.documento.id),
+                    action.payload.documento.id,
+                ],
+                loaded: false,
+                loading: true,
+            };
+        }
+
+        case DocumentosVinculadosActions.CONVERTE_ANEXO_EM_MINUTA_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter((id) => id !== action.payload.id),
+                documentosId: state.documentosId.filter((id) => id !== action.payload.id),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total-1
+                },
+                loaded: true,
+                loading: false,
+            };
+        }
+
+        case DocumentosVinculadosActions.CONVERTE_ANEXO_EM_MINUTA_FAILED: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter((id) => id !== action.payload.documento.id),
+                loaded: true,
+                loading: false,
+            };
+        }
+
         default:
             return state;
     }

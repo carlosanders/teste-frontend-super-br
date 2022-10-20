@@ -10,6 +10,7 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
+import {DndModule} from 'ngx-drag-drop';
 import {CdkMinutasAtividadeCardListComponent} from './cdk-minutas-atividade-card-list.component';
 import {CdkMinutasAtividadeCardModule} from './cdk-minutas-atividade-card/cdk-minutas-atividade-card.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
@@ -36,6 +37,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CdkTipoDocumentoAutocompleteModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
+        DndModule
     ],
     providers: [
     ],

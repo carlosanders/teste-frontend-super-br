@@ -105,6 +105,12 @@
                     <mat-icon color="accent">unlink</mat-icon>
                     <span>Desvincular Juntada</span>
                 </button>
+                <button fxLayout="row" fxLayoutAlign="start center"
+                         *ngIf="documento.minuta && this._loginService.isGranted('ROLE_COLABORADOR') && !documento.temAnexos && actions.indexOf('converteMinuta') > -1"
+                       (click)="doConverteMinuta(documento)" mat-menu-item>
+                    <mat-icon color="accent">insert_drive_file</mat-icon>
+                    <span>Converter em Minuta</span>
+                </button>
             </ng-template>
             <ng-template [ngIf]="documento.minuta && documento.apagadoEm">
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(documento.id)" mat-menu-item>
