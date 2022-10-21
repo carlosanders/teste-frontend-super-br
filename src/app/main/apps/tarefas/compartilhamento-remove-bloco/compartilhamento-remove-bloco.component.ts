@@ -22,7 +22,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as fromStore from './store';
 
 @Component({
-    selector: 'compartilhamento-create',
+    selector: 'compartilhamento-remove-bloco',
     templateUrl: './compartilhamento-remove-bloco.component.html',
     styleUrls: ['./compartilhamento-remove-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

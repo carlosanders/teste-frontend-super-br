@@ -1661,8 +1661,29 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doDownloadJuntadasSelecionadas(formato: string): void {
+        let numeracoesSequenciais = [];
+        this.selectedJuntadasId
+            .map((id) => this.juntadas.find((juntada) => juntada.id === id))
+            .forEach((juntada) => {
+                numeracoesSequenciais = [
+                    numeracoesSequenciais.filter(numeracaoSequencial => numeracaoSequencial !== juntada.numeracaoSequencial),
+                    juntada.numeracaoSequencial
+                ];
+
+                juntada.documento.vinculacoesDocumentos.forEach((vinculacaoDocumento) => {
+
+                    numeracoesSequenciais = [
+                        numeracoesSequenciais.filter(numeracaoSequencial => numeracaoSequencial !== vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial),
+                        vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial
+                    ];
+                });
+            });
+
+
         const params = {
-            sequencial: [...this.selectedJuntadasId].sort().join(','),
+            sequencial: numeracoesSequenciais
+                .sort()
+                .join(','),
             tipoDownload: formato
         }
 
