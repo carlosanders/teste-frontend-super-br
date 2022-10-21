@@ -112,6 +112,10 @@ const routes: Routes = [
                 loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
             },
             {
+                path: 'remeter-oficios-bloco',
+                loadChildren: () => import('./remeter-oficios-bloco/remeter-oficios-bloco.module').then(m => m.RemeterOficiosBlocoModule),
+            },
+            {
                 path: 'upload-bloco',
                 loadChildren: () => import('./upload-bloco/upload-bloco.module').then(m => m.UploadBlocoModule),
             },

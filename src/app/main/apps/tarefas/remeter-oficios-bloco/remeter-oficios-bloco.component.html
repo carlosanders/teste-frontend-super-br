@@ -1,0 +1,25 @@
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button
+                (click)="doAbort()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="content">
+
+    <h2>Remeter ofícios das tarefas selecionadas</h2>
+
+    <cdk-documento-avulso-grid
+        [displayedColumns]="['select', 'id', 'processo', 'especieDocumentoAvulso.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'observacao', 'actions']"
+        [actions]="['remeter', 'remeterLote']"
+        [documentosAvulsos]="oficios"
+        [total]="pagination?.total"
+        [remeterIds]="remeterIds"
+        [loading]="(isLoading$ | async)"
+        (reload)="reload($event)"
+        (remeterLote)="doRemeterOficios($event)">
+    </cdk-documento-avulso-grid>
+</div>

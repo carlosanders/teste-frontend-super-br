@@ -383,6 +383,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         ]).then();
     }
 
+    doRemeterOficiosBloco(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/remeter-oficios-bloco'
+        ]).then();
+    }
+
     setFolder(folder): void {
         const loteId = CdkUtils.makeId();
         this.tarefas.forEach((tarefa) => {
