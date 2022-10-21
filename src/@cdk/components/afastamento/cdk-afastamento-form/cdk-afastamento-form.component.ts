@@ -5,7 +5,7 @@ import {
     EventEmitter,
     Input,
     OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output,
     SimpleChange,
     ViewEncapsulation
@@ -14,6 +14,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Afastamento, ModalidadeAfastamento, Pagination, Usuario} from '@cdk/models';
+import {distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-afastamento-form',
@@ -23,7 +25,7 @@ import {Afastamento, ModalidadeAfastamento, Pagination, Usuario} from '@cdk/mode
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
+export class CdkAfastamentoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     afastamento: Afastamento;
@@ -74,6 +76,29 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit():void {
+        this.form.get('dataInicio').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap(() => {
+                    this.form.get('dataInicioBloqueio').setValue(this.form.get('dataInicio').value)
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('dataFim').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap(() => {
+                    this.form.get('dataFimBloqueio').setValue(this.form.get('dataFim').value)
+                    return of([]);
+                }
+            )
+        ).subscribe();
+    }
 
     /**
      * On change

@@ -51,7 +51,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'documento.id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
 
     @Input()
     mobileMode = false;
@@ -74,7 +74,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
 
     @Input()
-    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
+    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry', 'abrirOutraAba'];
 
     @Input()
     unidadePagination: Pagination;
