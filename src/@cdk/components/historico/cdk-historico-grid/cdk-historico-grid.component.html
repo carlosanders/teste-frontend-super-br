@@ -175,6 +175,15 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('abrirOutraAba') > -1"
+                                [disabled]="deletedIds?.indexOf(historico.id) > -1 && !hasExcluded"
+                                (click)="visualizarProcessoNovaAba(historico)"
+                                aria-label="visualizar processo"
+                                matTooltip="Visualizar Processo em Nova Aba">
+                            <mat-icon>open_in_new</mat-icon>
+                        </button>
+
                         <mat-error *ngIf="getProp(deletingErrors, historico.id)">
                             {{ getMessageError(getProp(deletingErrors, historico.id)) }}
                         </mat-error>
