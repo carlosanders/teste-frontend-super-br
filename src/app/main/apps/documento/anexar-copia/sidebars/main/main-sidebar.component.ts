@@ -35,6 +35,7 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {MercureService} from '@cdk/services/mercure.service';
 import {Contador} from '@cdk/models/contador';
+import {AnexarCopiaService} from '../../anexar-copia.service';
 
 @Component({
     selector: 'anexar-copia-main-sidebar',
@@ -122,6 +123,7 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
      * @param _juntadaService
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param anexarCopiaService
      * @param _store
      * @param _formBuilder
      * @param _router
@@ -133,6 +135,7 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
+        public anexarCopiaService: AnexarCopiaService,
         private _store: Store<fromStore.AnexarCopiaAppState>,
         private _formBuilder: FormBuilder,
         private _router: Router,
@@ -311,9 +314,10 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
      * @param juntadaId
      * @param restrito
      * @param componenteDigitalId
+     * @param documentoId
      * @param event
      */
-    goToJuntada(juntadaId, restrito, componenteDigitalId = null, event = null): void {
+    goToJuntada(juntadaId, restrito, componenteDigitalId = null, documentoId = null, event = null): void {
         const step = juntadaId;
         let substep = 0;
 
@@ -340,7 +344,7 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
             // in the animation direction registered
             this._changeDetectorRef.detectChanges();
 
-            this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
+            this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep, documentoId: documentoId}));
         }
     }
 
@@ -516,6 +520,11 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     isCurrent(juntadaId: number, componenteDigitalId: number = null): boolean {
+        if (componenteDigitalId && this.currentStep.step === 0) {
+            // latest ou inicial
+            const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+            return juntadaLatest && juntadaId === juntadaLatest.id && this.currentStep.subStep === componenteDigitalId;
+        }
         if (!componenteDigitalId) {
             if (this.currentStep.step === 0) {
                 // latest ou inicial

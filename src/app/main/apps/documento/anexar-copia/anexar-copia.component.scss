@@ -1,26 +1,62 @@
-@import "@cdk/scss/cdk";
+@import "~@cdk/scss/cdk";
 
 anexar-copia {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
 
-    .actions {
+    > .actions {
         display: flex;
-        flex: 0 0 auto;
+        flex-direction: column;
+        flex: 0 1 auto;
         position: relative;
 
-        .nup {
+        > .buttons {
             display: flex;
-            flex: 1 1 auto;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
+            flex: 1 0 auto;
+
+            .nup {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                justify-content: center;
+                font-size: 13px;
+            }
+
+            .centralizado {
+                vertical-align: middle;
+            }
+
+            .slider {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .mat-slide-toggle {
+                    margin-bottom: 0;
+                }
+            }
+
+            .anexar-copia {
+                margin-left: auto;
+                margin-right: 4px;
+            }
+
+            .toggle-anexos {
+                display: flex;
+                margin-left: auto;
+                margin-right: 16px;
+                flex-direction: row;
+                flex: 0 0 auto;
+                justify-content: center;
+                align-items: center;
+            }
         }
 
-        .anexar-copia {
-            margin-left: auto;
-            margin-right: 32px;
+        > .anexos {
+            display: flex;
+            flex-direction: row;
+            flex: 0 1 auto;
         }
     }
 

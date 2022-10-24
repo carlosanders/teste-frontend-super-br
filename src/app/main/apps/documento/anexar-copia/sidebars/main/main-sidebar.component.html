@@ -161,8 +161,9 @@
             <div class="volume" id="juntada_{{juntada.id}}" #element
                  *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
                 {{contador.reset()}}
+                {{this.anexarCopiaService.resetContadoresJuntada(juntada.id)}}
                 <div class="juntada" matRipple
-                     (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, $event)"
+                     (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, juntada.documento.id, $event)"
                      [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}">
                     <div class="index">
                         <span>{{juntada.numeracaoSequencial}}</span>
@@ -212,9 +213,9 @@
                                      class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
                                     <a class="ml-4"
-                                       (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                       (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, juntada.documento.id, $event)"
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
-                                        {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
+                                        {{juntada.documento.tipoDocumento.nome}}{{this.anexarCopiaService.addComponenteDigitalJuntada(juntada.id, componenteDigital.id, juntada.documento.tipoDocumento.nome, contador.getCount())}}{{ contador.inc() }}
                                     </a>
                                     <mat-icon class="ml-4 s-24"
                                               *ngIf="isCurrent(juntada.id, componenteDigital.id)">
@@ -236,9 +237,9 @@
                                     </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                         <a class="ml-4"
-                                           (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
+                                           (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, vinculacaoDocumento.documentoVinculado.id, $event)"
                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
-                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
+                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{this.anexarCopiaService.addComponenteDigitalJuntada(juntada.id, componenteDigital.id, vinculacaoDocumento.documentoVinculado.tipoDocumento.nome, contadorVinculacoes.getCount())}}{{ contadorVinculacoes.inc() }}
                                         </a>
                                         <mat-icon class="ml-4 s-24"
                                                   *ngIf="isCurrent(juntada.id, componenteDigital.id)">

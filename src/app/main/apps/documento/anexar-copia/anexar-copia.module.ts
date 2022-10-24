@@ -19,6 +19,7 @@ import {
     MatTooltipModule
 } from '@cdk/angular/material';
 import {AnexarCopiaStoreModule} from './store/store.module';
+import {ComponenteDigitalStoreModule} from '../componente-digital/store/store.module';
 import * as fromGuards from './store/guards';
 
 import {modulesConfig} from 'modules/modules-config';
@@ -43,6 +44,10 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {
+    CdkAnexosCardListModule
+} from "../../../../../@cdk/components/componente-digital/cdk-anexos-card-list/cdk-anexos-card-list.module";
 
 
 const routes: Routes = [
@@ -89,6 +94,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
 
         AnexarCopiaStoreModule,
+        ComponenteDigitalStoreModule,
 
         CdkSharedModule,
         CdkSidebarModule,
@@ -108,7 +114,9 @@ modulesConfig.forEach((module) => {
         MatSelectModule,
         CdkBookmarkEditDialogModule,
         PdfJsViewerModule,
-        CdkAssinaturaGridModule
+        CdkAssinaturaGridModule,
+        MatSlideToggleModule,
+        CdkAnexosCardListModule
     ],
     providers: [
         ProcessoService,

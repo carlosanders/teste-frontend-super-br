@@ -39,6 +39,7 @@ import {TemplatePortal} from '@angular/cdk/portal';
 import {MatButton} from '@angular/material/button';
 import {CdkSearchBarComponent} from '@cdk/components/search-bar/search-bar.component';
 import {MatDialog} from '@angular/material/dialog';
+import {AnexarCopiaService} from './anexar-copia.service';
 
 @Component({
     selector: 'anexar-copia',
@@ -92,6 +93,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     currentStep$: Observable<any>;
     currentStep: any;
     currentJuntada: Juntada;
+    currentDocumento$: Observable<Documento>;
+    currentDocumento: Documento;
 
     animationDirection: 'left' | 'right' | 'none';
 
@@ -134,11 +137,23 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
 
     documento$: Observable<Documento>;
     documento: Documento;
-    isSaving$: Observable<boolean>;
+    savingComponentesDigitaisIds$: Observable<number[]>;
+    uploadedAnexosIds: number[] = [];
+    savedComponentesDigitaisIds$: Observable<number[]>;
+    errorsComponentesDigitaisIds$: Observable<number[]>;
     errors$: Observable<any>;
 
     currentComponenteDigitalId$: Observable<number>;
     currentComponenteDigitalId: number;
+    anexos$: Observable<ComponenteDigital[]>;
+    anexos: ComponenteDigital[] = [];
+    disabledIds: number[] = [];
+    selectedAnexosIds$: Observable<number[]>;
+    selectedAnexos$: Observable<ComponenteDigital[]>;
+    selectedAnexos: ComponenteDigital[] = [];
+    loadingAnexos$: Observable<boolean>;
+    loadingAnexos: boolean = false;
+    showAnexos = false;
 
     routerState: any;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -151,6 +166,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      * @param _juntadaService
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param anexarCopiaService
      * @param _componenteDigitalService
      * @param _sanitizer
      * @param _router
@@ -165,6 +181,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
+        public anexarCopiaService: AnexarCopiaService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _sanitizer: DomSanitizer,
         private _router: Router,
@@ -183,7 +200,16 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
+        this.currentDocumento$ = this._store.pipe(select(fromStore.getDocumento));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.loadingAnexos$ = this._store.pipe(select(fromStore.getIsLoadingAnexos));
+        this.anexos$ = this._store.pipe(select(fromStore.getAnexos));
+        this.selectedAnexosIds$ = this._store.pipe(select(fromStore.getSelectedAnexosIds));
+        this.selectedAnexos$ = this._store.pipe(select(fromStore.getSelectedAnexos));
+        this.errors$ = this._store.pipe(select(fromStore.getErrorsComponentesDigitais));
+        this.savingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getSavingComponentesDigitaisIds));
+        this.savedComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getSavedComponentesDigitaisIds));
+        this.errorsComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getErrorsComponentesDigitaisIds));
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
@@ -200,6 +226,10 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             this.processo = processo;
             this._changeDetectorRef.markForCheck();
         });
+
+        this.savedComponentesDigitaisIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(ids => this.uploadedAnexosIds = ids);
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -236,6 +266,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
 
             if (this.currentStep && this.currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === this.currentStep.step);
+                this.currentDocumento = this.currentJuntada.documento;
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -248,14 +279,42 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             if (this.juntadas?.length > 0 && currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
             } else {
-                this.currentJuntada = this.index?.find(juntada => juntada.componentesDigitais.includes(currentStep.subStep));
+                const tmpJuntada = this.index?.find(juntada => juntada.componentesDigitais.includes(currentStep.subStep));
+                if (this.juntadas?.length > 0) {
+                    this.currentJuntada = this.juntadas.find(juntada => juntada.id === tmpJuntada.id);
+                    if (currentStep.documentoId === 0) {
+                        this.currentDocumento = this.currentJuntada.documento;
+                    }
+                } else {
+                    this.currentJuntada = tmpJuntada;
+                }
             }
         });
+
+        this.currentDocumento$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(currentDocumento => !!currentDocumento)
+        ).subscribe((currentDocumento) => {
+            this.currentDocumento = currentDocumento;
+        });
+
+        this.anexos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(anexos => this.anexos = anexos);
+
+        this.selectedAnexos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(anexos => this.selectedAnexos = anexos);
+
+        this.loadingAnexos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => this.loadingAnexos = loading);
 
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
             if (binary.src && binary.src.conteudo) {
+                this.showAnexos = false;
                 this.srcMessage = null;
                 this.pdfSrc = null;
                 this.componenteDigital = binary.src;
@@ -321,8 +380,6 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
 
         this.documento$ = this._store.pipe(select(fromStoreDocumento.getDocumento));
         this.currentComponenteDigitalId$ = this._store.pipe(select(getCurrentComponenteDigitalId));
-        this.isSaving$ = this._store.pipe(select(fromStoreDocumento.getComponenteDigitalIsSaving));
-        this.errors$ = this._store.pipe(select(fromStoreDocumento.getComponenteDigitalErrors));
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -412,10 +469,29 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         componenteDigital.extensao = this.componenteDigital.extensao;
 
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStoreDocumento.SaveComponenteDigital({
+        this._store.dispatch(new fromStore.SaveComponenteDigital({
             componenteDigital: componenteDigital,
-            operacaoId: operacaoId
+            operacaoId: operacaoId,
+            componenteDigitalId: this.componenteDigital.id
         }));
+        if (this.showAnexos && this.selectedAnexos.length > 0) {
+            this.selectedAnexos.forEach((anexo) => {
+                let tmpComponenteDigital = new ComponenteDigital();
+                tmpComponenteDigital.documentoOrigem = this.documento;
+
+                tmpComponenteDigital.fileName = anexo.fileName;
+                tmpComponenteDigital.hash = anexo.hash;
+                tmpComponenteDigital.tamanho = anexo.tamanho;
+                tmpComponenteDigital.mimetype = anexo.mimetype;
+                tmpComponenteDigital.extensao = anexo.extensao;
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveComponenteDigital({
+                    componenteDigital: tmpComponenteDigital,
+                    operacaoId: operacaoId,
+                    componenteDigitalId: anexo.id
+                }));
+            })
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -447,6 +523,35 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             }
         });
         return houveMudanca;
+    }
+
+    doToggleAnexos(): void {
+        this.showAnexos = !this.showAnexos;
+        if (this.showAnexos) {
+            let componenteDigitalIds = [];
+            if (this.currentDocumento.componentesDigitais) {
+                componenteDigitalIds = [
+                    ...componenteDigitalIds,
+                    ...this.currentDocumento.componentesDigitais.map(cd => cd.id)
+                ];
+            }
+            if (this.currentDocumento.vinculacoesDocumentos) {
+                this.currentDocumento.vinculacoesDocumentos.forEach((vd) => {
+                    vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
+                        componenteDigitalIds.push(dvcd.id);
+                    })
+                })
+            }
+
+            componenteDigitalIds = componenteDigitalIds.filter(cd => cd !== this.componenteDigital.id);
+
+            this._store.dispatch(new fromStore.GetAnexos({
+                componentesDigitaisIds: componenteDigitalIds,
+                documentoId: this.currentDocumento.id
+            }));
+        } else {
+            this._store.dispatch(new fromStore.UnloadAnexos());
+        }
     }
 
     disabledBack(): boolean {
@@ -497,6 +602,10 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             ],
             {relativeTo: this._activatedRoute.parent.parent}
         ).then(() => {});
+    }
+
+    changeSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedAnexos(selectedIds));
     }
 
     /**

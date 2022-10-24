@@ -91,6 +91,9 @@ export class DocumentosVinculadosEffects {
                     limit: pagination.limit,
                     offset: pagination.offset + pagination.limit
                 }));
+            } else {
+                // encerrar reloading
+                this._store.dispatch(new DocumentosVinculadosActions.FinishReloading());
             }
         })
     ), {dispatch: false});
@@ -175,9 +178,7 @@ export class DocumentosVinculadosEffects {
                 }],
                 {
                     relativeTo: this._activatedRoute.parent
-                }).then(() => {
-                    console.log('Aqui');
-            });
+                }).then(() => {});
         })
     ), {dispatch: false});
     /**
@@ -303,9 +304,10 @@ export class DocumentosVinculadosEffects {
      */
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
-        tap((action) => {
+        withLatestFrom(this._store.select(fromStore.getReloading)),
+        tap(([action, reloading]) => {
             this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
-            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+            if (!reloading && action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })
@@ -315,9 +317,10 @@ export class DocumentosVinculadosEffects {
      */
     saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
-        tap((action) => {
+        withLatestFrom(this._store.select(fromStore.getReloading)),
+        tap(([action, reloading]) => {
             this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
-            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+            if (!reloading && action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })
