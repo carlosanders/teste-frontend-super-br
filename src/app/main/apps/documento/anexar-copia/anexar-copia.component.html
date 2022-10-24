@@ -1,31 +1,67 @@
 <div class="actions p-8">
-    <button class="back" mat-icon-button
-            (click)="back()"
-            aria-label="voltar"
-            matTooltip="Voltar">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <cdk-search-bar (inputText)="search($event)" #searchBarComponent></cdk-search-bar>
-
-    <div class="nup">{{processo?.NUPFormatado}}</div>
-
-    <div *ngIf="!(isSaving$ | async)" class="anexar-copia">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                aria-label="anexar cópia"
-                matTooltip="Anexar Cópia"
-                [disabled]="!componenteDigital"
-                (click)="anexarCopia()">
-            <mat-icon class="black-fg">file_copy</mat-icon>
-            Anexar Cópia
+    <div class="buttons">
+        <button class="back" mat-icon-button
+                (click)="back()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
         </button>
-    </div>
 
-    <div *ngIf="(isSaving$ | async)" class="anexar-copia mr-sm-12"
-         fxLayoutAlign="start center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
+        <cdk-search-bar (inputText)="search($event)" #searchBarComponent></cdk-search-bar>
 
+        <div class="nup">{{processo?.NUPFormatado}}</div>
+
+        <div class="anexar-copia">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    aria-label="anexar cópia"
+                    matTooltip="Anexar Cópia"
+                    [disabled]="!componenteDigital || (showAnexos && loadingAnexos) || (savingComponentesDigitaisIds$ | async)?.length > 0"
+                    (click)="anexarCopia()">
+                <mat-icon class="black-fg">file_copy</mat-icon>
+                Anexar Cópia
+            </button>
+        </div>
+
+        <div *ngIf="(savedComponentesDigitaisIds$ | async)?.length > 0 && (savedComponentesDigitaisIds$ | async)?.indexOf(componenteDigital.id) > -1" class="anexar-copia mr-sm-12"
+             fxLayoutAlign="start center">
+            <mat-icon class="green-fg">check</mat-icon>
+        </div>
+
+        <div *ngIf="(errorsComponentesDigitaisIds$ | async)?.length > 0 && (errorsComponentesDigitaisIds$ | async)?.indexOf(componenteDigital.id) > -1" class="anexar-copia mr-sm-12"
+             fxLayoutAlign="start center">
+            <mat-icon class="red-fg" [matTooltip]="(errors$ | async)?.[componenteDigital.id]">clear</mat-icon>
+        </div>
+
+        <div class="slider centralizado mr-8">
+            <mat-slide-toggle color="accent" (change)="doToggleAnexos()" [checked]="showAnexos"
+                              [disabled]="!currentDocumento ||
+                          ((!currentDocumento.vinculacoesDocumentos || currentDocumento.vinculacoesDocumentos.length === 0) &&
+                          ((!currentDocumento.componentesDigitais || currentDocumento.componentesDigitais.length <= 1)))">
+                Incluir anexos:
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="(savingComponentesDigitaisIds$ | async)?.length > 0" class="anexar-copia mr-sm-12"
+             fxLayoutAlign="start center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </div>
+    <div class="anexos" *ngIf="showAnexos">
+        <div *ngIf="(loadingAnexos$ | async) === true" class="mr-sm-12" fxLayoutAlign="start center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+        <cdk-anexos-card-list
+            *ngIf="(loadingAnexos$ | async) === false"
+            [componentesDigitais]="this.anexarCopiaService.sortComponentesDigitaisJuntada(currentJuntada.id, anexos)"
+            [savingComponentesDigitaisIds]="(savingComponentesDigitaisIds$ | async)"
+            [savedComponentesDigitaisIds]="(savedComponentesDigitaisIds$ | async)"
+            [errorsComponentesDigitaisIds]="(errorsComponentesDigitaisIds$ | async)"
+            [errors]="(errors$ | async)"
+            [selectedIds]="(selectedAnexosIds$ | async)"
+            [disabledSelects]="disabledIds"
+            (changedSelectedIds)="changeSelectedIds($event)">
+        </cdk-anexos-card-list>
+    </div>
 </div>
 
 <div class="anexar-copia" *ngIf="this.processo">
@@ -115,6 +151,7 @@
 
                     <div class="anexar-copia-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}"
                          [ngStyle]="{'display': loading === true || (loading === false && index?.length === 0) ? 'none' : 'flex'}">
+
                         <iframe id="iframe-juntadas" name="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                                 [src]="src">
                         </iframe>

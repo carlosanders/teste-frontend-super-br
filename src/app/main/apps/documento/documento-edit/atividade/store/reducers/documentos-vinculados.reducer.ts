@@ -19,6 +19,7 @@ export interface DocumentosVinculadosState {
     saving: boolean;
     loading: boolean;
     loaded: boolean;
+    reloading: boolean;
     error: any;
 }
 
@@ -41,6 +42,7 @@ export const documentosVinculadosInitialState: DocumentosVinculadosState = {
     saving: false,
     loading: false,
     loaded: false,
+    reloading: false,
     error: null,
 };
 
@@ -49,6 +51,12 @@ export const documentosVinculadosReducer = (
     action: DocumentosVinculadosActions.DocumentosVinculadosActionsAll
 ): DocumentosVinculadosState => {
     switch (action.type) {
+        case DocumentosVinculadosActions.RELOAD_DOCUMENTOS_VINCULADOS: {
+            return {
+                ...state,
+                reloading: true
+            };
+        }
 
         case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS: {
             return {

@@ -28,11 +28,12 @@ export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT] REMOVE VINC
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT] REMOVE VINCULACAO DOCUMENTO FAILED';
 
 export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] RELOAD DOCUMENTOS VINCULADOS';
+export const FINISH_RELOADING = '[DOCUMENTO EDIT ANEXOS] FINISH RELOADING DOCUMENTOS VINCULADOS';
 export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] UNLOAD DOCUMENTOS VINCULADOS';
 
 export const APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS = '[DOCUMENTO EDIT COMPONENTE DIGITAL] APPROVE COMPONENTE DIGITAL SUCCESS';
 
-export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL SUCCESS';
+export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[ANEXAR COPIA] SAVE COMPONENTE DIGITAL SUCCESS';
 
 export const CONVERTE_ANEXO_EM_MINUTA = '[DOCUMENTO EDIT] CONVERTE ANEXO EM MINUTA';
 export const CONVERTE_ANEXO_EM_MINUTA_SUCCESS = '[DOCUMENTO EDIT] CONVERTE ANEXO EM MINUTA SUCCESS';
@@ -255,6 +256,15 @@ export class ReloadDocumentosVinculados implements Action
     }
 }
 
+export class FinishReloading implements Action
+{
+    readonly type = FINISH_RELOADING;
+
+    constructor()
+    {
+    }
+}
+
 export class UnloadDocumentosVinculados implements Action
 {
     readonly type = UNLOAD_DOCUMENTOS_VINCULADOS;
@@ -336,10 +346,10 @@ export type DocumentosVinculadosActionsAll
     | RemoveVinculacaoDocumentoSuccess
     | RemoveVinculacaoDocumentoFailed
     | ReloadDocumentosVinculados
+    | FinishReloading
     | UnloadDocumentosVinculados
     | ApproveComponenteDigitalVinculadoSuccess
     | SaveComponenteDigitalDocumentoSuccess
     | ConverteAnexoEmMinuta
     | ConverteAnexoEmMinutaSuccess
-    | ConverteAnexoEmMinutaFailed
-    ;
+    | ConverteAnexoEmMinutaFailed;

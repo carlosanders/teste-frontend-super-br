@@ -27,7 +27,6 @@ export const VISUALIZAR_JUNTADA_FAILED = '[ANEXAR COPIA] VISUALIZAR JUNTADA FAIL
      }
  }
 
-
 export type ComponenteDigitalActionsAll
     = VisualizarJuntada
     | VisualizarJuntadaFailed;

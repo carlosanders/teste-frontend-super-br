@@ -1,0 +1,29 @@
+<div class="toolbar pt-8 pb-8 pl-0 pr-8" *ngIf="loading || componentesDigitais?.length > 0">
+    <div class="multiple-choices" *ngIf="componentesDigitais.length > 0">
+
+        <mat-checkbox (click)="toggleSelectAll($event)"
+                      [checked]="selectedIds.length > 0"
+                      [disabled]="disabledSelects.length > 0"
+                      *ngIf="componentesDigitais.length > 1 && disabledSelects.length !== componentesDigitais.length"
+                      [indeterminate]="isIndeterminate">
+        </mat-checkbox>
+    </div>
+
+    <cdk-anexos-card class="ml-8 mb-8"
+                     *ngFor="let componenteDigital of componentesDigitais; trackBy: componenteDigitalTrackBy"
+                     [componenteDigital]="componenteDigital"
+                     [selected]="selectedIds?.indexOf(componenteDigital.id) > -1"
+                     [disabledSelect]="disabledSelects.indexOf(componenteDigital.id) > -1"
+                     [isSaving]="savingComponentesDigitaisIds.indexOf(componenteDigital.id) > -1"
+                     [isSaved]="savedComponentesDigitaisIds.indexOf(componenteDigital.id) > -1"
+                     [hasErrors]="errorsComponentesDigitaisIds.indexOf(componenteDigital.id) > -1"
+                     [errors]="errors[componenteDigital.id] ?? ''"
+                     [texto]="this.anexarCopiaService.getTextoComponenteDigital(componenteDigital.id)"
+                     [indice]="this.anexarCopiaService.getContadorComponenteDigital(componenteDigital.id)"
+                     (click)="onClick(componenteDigital, $event)"
+                     (changedSelected)="toggleInSelected($event)">
+    </cdk-anexos-card>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
+    </div>
+</div>

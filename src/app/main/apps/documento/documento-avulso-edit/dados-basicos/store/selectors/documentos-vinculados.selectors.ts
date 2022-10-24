@@ -67,3 +67,8 @@ export const getSelectedDocumentosVinculados: any = createSelector(
     getSelectedDocumentosVinculadosIds,
     schemaDocumentoSelectors.entitiesProjector
 );
+
+export const getReloading: any = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.reloading
+);
