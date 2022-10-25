@@ -139,6 +139,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     selectedIds: number[] = [];
 
+    selectedDocumentos: Documento[] = [];
+
     hasSelected = false;
 
     isIndeterminate = false;
@@ -168,12 +170,13 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        this.isNotMinutas = this.documentos?.filter(documento => !documento.minuta)?.length > 0;
+        this.isNotMinutas = this.selectedDocumentos?.filter(documento => !documento.minuta)?.length > 0;
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['documentos'] && this.documentos && this.documentos.length) {
-            this.isNotMinutas = this.documentos?.filter(documento => !documento.minuta)?.length > 0;
+            this.selectedDocumentos = this.documentos.filter(doc => this.selectedIds.includes(doc.id));
+            this.isNotMinutas = this.selectedDocumentos?.filter(documento => !documento.minuta)?.length > 0;
         }
     }
 
@@ -182,13 +185,18 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     toggleInSelected(documentoId): void {
+        const documento = this.documentos.find(doc => doc.id === documentoId);
         const selectedDocumentoIds = [...this.selectedIds];
         if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
             this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+            this.selectedDocumentos = this.selectedDocumentos.filter(doc => doc.id === documentoId);
         } else {
             this.selectedIds = [...selectedDocumentoIds, documentoId];
+            this.selectedDocumentos.push(documento);
         }
+
         this.hasSelected = this.selectedIds.length > 0;
+        this.isNotMinutas = this.selectedDocumentos?.filter(documento => !documento.minuta)?.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
 
         this.changedSelectedIds.emit(this.selectedIds);
@@ -250,7 +258,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     doDesvincularBloco(): void {
         const vinculacoesBloco = [];
         this.documentos.forEach((documento: Documento) => {
-            if (this.selectedIds.indexOf(documento.id) > -1 && !!documento.estaVinculada) {
+            if (this.selectedIds.indexOf(documento.id) > -1 && !documento.minuta && !!documento.estaVinculada) {
                 vinculacoesBloco.push(documento.vinculacaoDocumentoPrincipal);
             }
         });
@@ -309,6 +317,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     selectAll(): void {
         const arr = Object.keys(this.documentos).map(k => this.documentos[k]);
         this.selectedIds = arr.map(documento => documento.id);
+        this.selectedDocumentos = this.documentos;
+        this.isNotMinutas = this.selectedDocumentos?.filter(documento => !documento.minuta)?.length > 0;
         this.recompute();
     }
 
@@ -317,6 +327,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      */
     deselectAll(): void {
         this.selectedIds = [];
+        this.selectedDocumentos = [];
+        this.isNotMinutas = this.selectedDocumentos?.filter(documento => !documento.minuta)?.length > 0;
         this.recompute();
     }
 

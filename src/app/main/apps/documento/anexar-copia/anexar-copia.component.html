@@ -15,52 +15,18 @@
             <button mat-raised-button color="accent" class="mr-sm-12"
                     aria-label="anexar cópia"
                     matTooltip="Anexar Cópia"
-                    [disabled]="!componenteDigital || (showAnexos && loadingAnexos) || (savingComponentesDigitaisIds$ | async)?.length > 0"
+                    [disabled]="!componenteDigital || (savingComponentesDigitaisIds$ | async)?.length > 0 || (savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)"
                     (click)="anexarCopia()">
                 <mat-icon class="black-fg">file_copy</mat-icon>
-                Anexar Cópia
+                <span *ngIf="!(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexar Cópia</span>
+                <span *ngIf="(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexado</span>
             </button>
-        </div>
-
-        <div *ngIf="(savedComponentesDigitaisIds$ | async)?.length > 0 && (savedComponentesDigitaisIds$ | async)?.indexOf(componenteDigital.id) > -1" class="anexar-copia mr-sm-12"
-             fxLayoutAlign="start center">
-            <mat-icon class="green-fg">check</mat-icon>
-        </div>
-
-        <div *ngIf="(errorsComponentesDigitaisIds$ | async)?.length > 0 && (errorsComponentesDigitaisIds$ | async)?.indexOf(componenteDigital.id) > -1" class="anexar-copia mr-sm-12"
-             fxLayoutAlign="start center">
-            <mat-icon class="red-fg" [matTooltip]="(errors$ | async)?.[componenteDigital.id]">clear</mat-icon>
-        </div>
-
-        <div class="slider centralizado mr-8">
-            <mat-slide-toggle color="accent" (change)="doToggleAnexos()" [checked]="showAnexos"
-                              [disabled]="!currentDocumento ||
-                          ((!currentDocumento.vinculacoesDocumentos || currentDocumento.vinculacoesDocumentos.length === 0) &&
-                          ((!currentDocumento.componentesDigitais || currentDocumento.componentesDigitais.length <= 1)))">
-                Incluir anexos:
-            </mat-slide-toggle>
         </div>
 
         <div *ngIf="(savingComponentesDigitaisIds$ | async)?.length > 0" class="anexar-copia mr-sm-12"
              fxLayoutAlign="start center">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>
-    </div>
-    <div class="anexos" *ngIf="showAnexos">
-        <div *ngIf="(loadingAnexos$ | async) === true" class="mr-sm-12" fxLayoutAlign="start center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-        <cdk-anexos-card-list
-            *ngIf="(loadingAnexos$ | async) === false"
-            [componentesDigitais]="this.anexarCopiaService.sortComponentesDigitaisJuntada(currentJuntada.id, anexos)"
-            [savingComponentesDigitaisIds]="(savingComponentesDigitaisIds$ | async)"
-            [savedComponentesDigitaisIds]="(savedComponentesDigitaisIds$ | async)"
-            [errorsComponentesDigitaisIds]="(errorsComponentesDigitaisIds$ | async)"
-            [errors]="(errors$ | async)"
-            [selectedIds]="(selectedAnexosIds$ | async)"
-            [disabledSelects]="disabledIds"
-            (changedSelectedIds)="changeSelectedIds($event)">
-        </cdk-anexos-card-list>
     </div>
 </div>
 

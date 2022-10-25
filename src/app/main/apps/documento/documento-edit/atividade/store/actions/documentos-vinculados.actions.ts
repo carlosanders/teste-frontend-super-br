@@ -28,6 +28,7 @@ export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT] REMOVE VINC
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT] REMOVE VINCULACAO DOCUMENTO FAILED';
 
 export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] RELOAD DOCUMENTOS VINCULADOS';
+export const FINISH_UPLOAD_ANEXOS = '[ANEXAR COPIA] FINISH UPLOAD ANEXOS';
 export const FINISH_RELOADING = '[DOCUMENTO EDIT ANEXOS] FINISH RELOADING DOCUMENTOS VINCULADOS';
 export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] UNLOAD DOCUMENTOS VINCULADOS';
 
@@ -256,6 +257,18 @@ export class ReloadDocumentosVinculados implements Action
     }
 }
 
+/**
+ * Finish Upload Anexos
+ */
+export class FinishUploadAnexos implements Action
+{
+    readonly type = FINISH_UPLOAD_ANEXOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export class FinishReloading implements Action
 {
     readonly type = FINISH_RELOADING;
@@ -346,6 +359,7 @@ export type DocumentosVinculadosActionsAll
     | RemoveVinculacaoDocumentoSuccess
     | RemoveVinculacaoDocumentoFailed
     | ReloadDocumentosVinculados
+    | FinishUploadAnexos
     | FinishReloading
     | UnloadDocumentosVinculados
     | ApproveComponenteDigitalVinculadoSuccess

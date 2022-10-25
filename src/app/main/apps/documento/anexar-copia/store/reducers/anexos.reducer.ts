@@ -2,6 +2,15 @@ import * as AnexosActions from '../actions/anexos.actions';
 
 export interface AnexosState {
     componentesDigitaisId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedComponentesDigitaisId: number[];
     loading: boolean;
@@ -15,6 +24,15 @@ export interface AnexosState {
 
 export const anexosInitialState: AnexosState = {
     componentesDigitaisId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedComponentesDigitaisId: [],
     loading: false,
@@ -36,6 +54,15 @@ export const anexosReducer = (
             return {
                 ...state,
                 loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
             };
         }
 
@@ -43,8 +70,12 @@ export const anexosReducer = (
             return {
                 ...state,
                 loading: false,
-                componentesDigitaisId: action.payload.entitiesId,
+                componentesDigitaisId: [...state.componentesDigitaisId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
             };
         }
 

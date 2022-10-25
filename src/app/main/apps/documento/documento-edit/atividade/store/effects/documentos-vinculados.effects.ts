@@ -304,10 +304,9 @@ export class DocumentosVinculadosEffects {
      */
     aprovarComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.ApproveComponenteDigitalVinculadoSuccess>(DocumentosVinculadosActions.APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS),
-        withLatestFrom(this._store.select(fromStore.getReloading)),
-        tap(([action, reloading]) => {
+        tap((action) => {
             this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
-            if (!reloading && action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })
@@ -317,10 +316,17 @@ export class DocumentosVinculadosEffects {
      */
     saveComponenteDigitalSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
-        withLatestFrom(this._store.select(fromStore.getReloading)),
-        tap(([action, reloading]) => {
+        tap((action) => {
             this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
-            if (!reloading && action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+        })
+    ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados da minuta atualmente aberta
+     */
+    finishUploadAnexos: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.FinishUploadAnexos>(DocumentosVinculadosActions.FINISH_UPLOAD_ANEXOS),
+        tap((action) => {
+            if (action.payload === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })

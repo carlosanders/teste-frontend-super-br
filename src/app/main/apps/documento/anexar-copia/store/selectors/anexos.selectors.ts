@@ -67,3 +67,8 @@ export const getComponentesDigitaisError: any = createSelector(
     getAnexosState,
     (state: AnexosState) => state.error
 );
+
+export const getAnexosPagination: any = createSelector(
+    getAnexosState,
+    (state: AnexosState) => state.pagination
+);
