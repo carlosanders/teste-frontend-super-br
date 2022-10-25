@@ -1,8 +1,10 @@
-import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
+import {IconSvgService} from "../../../../../../modules/divida/@cdk/services/icon-svg.service";
+import {CdkUtils} from "../../../../../../@cdk/utils";
 
 @Component({
     selector       : 'pesquisa-main-sidebar',
@@ -12,10 +14,10 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
     encapsulation  : ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class PesquisaMainSidebarComponent
-{
+export class PesquisaMainSidebarComponent implements OnInit {
 
-    links: any;
+    menu: any[] = [];
+    roles: any[] = [];
 
     /**
      * Constructor
@@ -23,31 +25,46 @@ export class PesquisaMainSidebarComponent
      */
     constructor(
         private _cdkSidebarService: CdkSidebarService,
+        private _iconSvgService: IconSvgService
     )
     {
-
-        this.links = [
+        this.menu['administrativo'] = CdkUtils.sortArraySideBar([
             {
                 nome: 'Processos',
                 icon: 'book',
                 link: 'processos',
-                role: 'ROLE_USER'
+                role: ['ROLE_USER']
             },
             {
                 nome: 'Documentos',
                 icon: 'insert_drive_file',
                 link: 'documentos',
-                role: 'ROLE_COLABORADOR'
+                role: ['ROLE_COLABORADOR']
             }
-        ];
+        ]);
+
+        this.roles['administrativo'] = this.menu['administrativo']
+            .map(link => link.role)
+            .flat()
+            .filter((x, i, a) => x && a.indexOf(x) === i);
 
         const path = 'app/main/apps/pesquisa/sidebars/main';
 
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
+                let moduleLinks: any[] = [];
+                module.sidebars[path].forEach((s => moduleLinks.push(s)));
+                this.menu[module['label'] ? module['label'].toLowerCase() : module['name'].toLowerCase()] = CdkUtils.sortArraySideBar(moduleLinks);
+                this.roles[module['label'] ? module['label'].toLowerCase() : module['name'].toLowerCase()] =
+                    moduleLinks.map(link => link.role)
+                        .flat()
+                        .filter((x, i, a) => x && a.indexOf(x) === i);
             }
         });
+    }
+
+    ngOnInit(): void {
+        this._iconSvgService.registerIcons();
     }
 
     fecharSidebar() {
