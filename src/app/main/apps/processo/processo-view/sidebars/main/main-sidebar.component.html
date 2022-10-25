@@ -1,20 +1,21 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-4">
     <div class="actions">
-        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
-                aria-label="Maximizar Tela"
-                matTooltip="Maximizar Tela"
-                (click)="expandirTela(true)">
-            <mat-icon>fullscreen</mat-icon>
-        </button>
-
-        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
-                aria-label="Minimizar Tela"
-                matTooltip="Minimizar Tela"
-                (click)="expandirTela(false)">
-            <mat-icon>fullscreen_exit</mat-icon>
-        </button>
         <ng-container *ngIf="activeCard === 'juntadas'">
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
             <button class="refresh" mat-icon-button
                     (click)="reloadJuntadas()"
                     aria-label="recarregar juntadas"
@@ -55,41 +56,79 @@
                 <mat-icon>bookmarks</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Juntadas"
-                    [matMenuTriggerFor]="selectMenuJuntadas"
-                    #menuTriggerList="matMenuTrigger">
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                    (click)="$event.stopPropagation()"
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="Juntadas"
+                        [matMenuTriggerFor]="selectMenuJuntadas"
+                        #menuTriggerList="matMenuTrigger"
+                        matTooltip="Filtro de documentos">
                     <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''">
                         all_out</mat-icon>
                     <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'">book</mat-icon>
                     <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'">backup</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                    aria-label="Modo seleção"
-                    matTooltip="Modo seleção" (click)="doModoSelecao();">
-                    <span class="material-icons-outlined mat-icon mat-icon-no-color mr-8">checklist</span>
-            </button>
-
-            <mat-menu #selectMenuJuntadas="matMenu">
-                <button mat-menu-item (click)="doTodasJuntadas()">
-                    <mat-icon>all_out</mat-icon>
-                    Todos
+                    <span>Filtro de documentos</span>
                 </button>
-                <button mat-menu-item (click)="doAdmJuntadas()">
-                    <mat-icon>book</mat-icon>
-                    Administrativo
+
+                <button mat-menu-item
+                        aria-label="Modo seleção"
+                        matTooltip="Modo seleção" (click)="doModoSelecao();">
+                    <span class="material-icons-outlined mat-icon mat-icon-no-color mr-8" style="margin-right: 16px !important;">checklist</span>
+                    <span>Modo Seleção</span>
                 </button>
-                <button mat-menu-item (click)="doIntegraJuntadas()">
-                    <mat-icon>backup</mat-icon>
-                    Integração
+
+                <mat-menu #selectMenuJuntadas="matMenu">
+                    <button mat-menu-item (click)="doTodasJuntadas()">
+                        <mat-icon>all_out</mat-icon>
+                        Todos
+                    </button>
+                    <button mat-menu-item (click)="doAdmJuntadas()">
+                        <mat-icon>book</mat-icon>
+                        Administrativo
+                    </button>
+                    <button mat-menu-item (click)="doIntegraJuntadas()">
+                        <mat-icon>backup</mat-icon>
+                        Integração
+                    </button>
+                </mat-menu>
+
+                <button mat-menu-item aria-label="remover restrições"
+                        *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
+                        (click)="doDeleteRestricoesDocs(processoId)">
+                    <mat-icon>report_off</mat-icon>
+                    <span>Retirar restrições</span>
                 </button>
             </mat-menu>
-
         </ng-container>
 
         <ng-container *ngIf="activeCard === 'juntadas-select'">
-            
+
             <mat-spinner *ngIf="savingDownloadProcesso" diameter="24"></mat-spinner>
+
+            <button mat-icon-button
+                    (click)="doCancelarModoSelecao()"
+                    aria-label="juntadas do processo"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
 
             <button mat-icon-button *ngIf="!savingDownloadProcesso"
                     [matMenuTriggerFor]="matDownloadProcessoMenu"
@@ -112,17 +151,30 @@
                     <span>Download em PDF</span>
                 </button>
             </mat-menu>
+        </ng-container>
 
+        <ng-container *ngIf="activeCard === 'bookmark'">
             <button mat-icon-button
-                    (click)="doCancelarModoSelecao()"
-                    aria-label="juntadas do processo"
+                    (click)="abreJuntadas()"
+                    aria-label="abrir juntadas"
                     matTooltip="Juntadas do processo">
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
-        </ng-container>
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
 
-        <ng-container *ngIf="activeCard === 'bookmark'">
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
             <button class="refresh" mat-icon-button
                     (click)="reloadBookmarks()"
                     aria-label="recarregar marcadores"
@@ -135,13 +187,6 @@
                     aria-label="copiar Bookmark"
                     matTooltip="Copiar Bookmark para o clipboard">
                 <mat-icon>file_copy</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                    (click)="abreJuntadas()"
-                    aria-label="abrir juntadas"
-                    matTooltip="Juntadas do processo">
-                <mat-icon>arrow_back</mat-icon>
             </button>
         </ng-container>
 
@@ -158,21 +203,6 @@
         <div *ngIf="activeCard === 'juntadas-select'">
             {{selectedJuntadasId?.length}}/{{pagination.total}}
         </div>
-
-        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                (click)="$event.stopPropagation()"
-                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1">
-            <mat-icon class="secondary-text">more_vert</mat-icon>
-        </button>
-
-        <mat-menu #moreMenu="matMenu">
-            <button mat-menu-item aria-label="remover restrições"
-                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
-                    (click)="doDeleteRestricoesDocs(processoId)">
-                    <mat-icon>report_off</mat-icon>
-                    <span>Retirar restrições</span>
-            </button>
-        </mat-menu>
     </div>
 
     <div class="filters" *ngIf="showListFilter">
