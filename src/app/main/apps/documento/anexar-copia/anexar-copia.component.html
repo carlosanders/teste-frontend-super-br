@@ -18,8 +18,8 @@
                     [disabled]="!componenteDigital || (savingComponentesDigitaisIds$ | async)?.length > 0 || (savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)"
                     (click)="anexarCopia()">
                 <mat-icon class="black-fg">file_copy</mat-icon>
-                <span *ngIf="!(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexar Cópia</span>
-                <span *ngIf="(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexado</span>
+                <span *ngIf="componenteDigital && !(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexar Cópia</span>
+                <span *ngIf="componenteDigital && (savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)">Anexado</span>
             </button>
         </div>
 

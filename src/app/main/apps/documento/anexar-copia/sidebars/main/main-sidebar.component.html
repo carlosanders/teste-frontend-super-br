@@ -216,12 +216,12 @@
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                         {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                                     </a>
-                                    <div class="actions select-mode-actions" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
+                                    <div class="actions select-mode-actions" (click)="$event.stopPropagation();" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
                                         <mat-checkbox
                                             *ngIf="(savingComponentesDigitaisIds$ | async)?.length === 0 && (savedComponentesDigitaisIds$ | async)?.length === 0 && (errorsComponentesDigitaisIds$ | async)?.length === 0"
                                             [disabled]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1"
-                                            (click)="$event.stopPropagation()"
-                                            (change)="doToggleSelectAnexo(juntada.id, componenteDigital)"
+                                            (click)="$event.stopPropagation();"
+                                            (change)="doToggleSelectAnexo(componenteDigital)"
                                             [checked]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1 || anexarCopiaService.isSelected(componenteDigital.id)">
                                         </mat-checkbox>
                                         <div *ngIf="(savingComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
@@ -254,12 +254,12 @@
                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                             {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
-                                        <div class="actions select-mode-actions filho" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
+                                        <div class="actions select-mode-actions filho" (click)="$event.stopPropagation();" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
                                             <mat-checkbox
                                                 *ngIf="(savingComponentesDigitaisIds$ | async)?.length === 0 && (savedComponentesDigitaisIds$ | async)?.length === 0 && (errorsComponentesDigitaisIds$ | async)?.length === 0"
                                                 [disabled]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1"
-                                                (click)="$event.stopPropagation()"
-                                                (change)="doToggleSelectAnexo(juntada.id, componenteDigital)"
+                                                (click)="$event.stopPropagation();"
+                                                (change)="doToggleSelectAnexo(componenteDigital)"
                                                 [checked]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1 || anexarCopiaService.isSelected(componenteDigital.id)">
                                             </mat-checkbox>
                                             <div *ngIf="(savingComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">

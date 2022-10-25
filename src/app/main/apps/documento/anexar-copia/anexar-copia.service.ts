@@ -3,7 +3,6 @@ import {Subject} from 'rxjs';
 import {ComponenteDigital} from '@cdk/models';
 
 export interface ComponenteDigitalSelecionado {
-    juntadaId: number;
     id: number;
     hash: string;
     fileName: string;
@@ -36,13 +35,12 @@ export class AnexarCopiaService {
         this._componentesDigitaisSelecionados = [];
     }
 
-    toggleSelectComponenteDigital(juntadaId: number, componenteDigital: ComponenteDigital): void {
+    toggleSelectComponenteDigital(componenteDigital: ComponenteDigital): void {
         const index = this._idsSelecionados.indexOf(componenteDigital.id);
         if (index === -1) {
             // Componente digital informado não está selecionado
             this._idsSelecionados.push(componenteDigital.id);
             const componenteDigitalSelecionado: ComponenteDigitalSelecionado = {
-                juntadaId: juntadaId,
                 id: componenteDigital.id,
                 hash: componenteDigital.hash,
                 fileName: componenteDigital.fileName,

@@ -237,10 +237,6 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentStep) => {
-            if (this.currentStep && ((currentStep.step !== this.currentStep.step) || (currentStep.subStep !== this.currentStep.subStep))) {
-                this.anexarCopiaService.resetComponentesDigitaisSelecionados();
-                this._store.dispatch(new fromStore.UnloadAnexos());
-            }
             this.currentStep = currentStep;
             this.isJuntadas = true;
             if (this.juntadas?.length > 0 && currentStep.step !== 0) {
@@ -613,27 +609,11 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
             // Componente digital questionado é o que está sendo exibido no editor
             return 1;
         }
-        let componenteDigitalIds = [];
-        if (this.currentDocumento.componentesDigitais) {
-            componenteDigitalIds = [
-                ...componenteDigitalIds,
-                ...this.currentDocumento.componentesDigitais.map(cd => cd.id)
-            ];
-        }
-        if (this.currentDocumento.vinculacoesDocumentos) {
-            this.currentDocumento.vinculacoesDocumentos.forEach((vd) => {
-                vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                    componenteDigitalIds.push(dvcd.id);
-                })
-            })
-        }
-
-        componenteDigitalIds = componenteDigitalIds.filter(cd => cd !== this.currentStep.subStep);
-        return componenteDigitalIds.includes(componenteDigitalId) ? 0 : -1;
+        return 0;
     }
 
-    doToggleSelectAnexo(juntadaId: number, componenteDigital: ComponenteDigital): void {
-        this.anexarCopiaService.toggleSelectComponenteDigital(juntadaId, componenteDigital);
+    doToggleSelectAnexo(componenteDigital: ComponenteDigital): void {
+        this.anexarCopiaService.toggleSelectComponenteDigital(componenteDigital);
     }
 
     fecharSidebar(): void {

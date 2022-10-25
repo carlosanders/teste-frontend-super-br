@@ -284,6 +284,10 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
             filter(currentStep => currentStep.subStep !== 0)
         ).subscribe((currentStep) => {
+            if (this.currentStep && ((currentStep.step !== this.currentJuntada.id))) {
+                this.anexarCopiaService.resetComponentesDigitaisSelecionados();
+                this._store.dispatch(new fromStore.UnloadAnexos());
+            }
             this.currentStep = currentStep;
             if (this.juntadas?.length > 0 && currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
@@ -327,6 +331,9 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
                 this.srcMessage = null;
                 this.pdfSrc = null;
                 this.componenteDigital = binary.src;
+                if (!this.anexarCopiaService.isSelected(this.componenteDigital.id)) {
+                    this.anexarCopiaService.toggleSelectComponenteDigital(this.componenteDigital);
+                }
                 this.page = 1;
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
@@ -450,6 +457,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._store.dispatch(new fromStore.UnloadCopia());
         this._store.dispatch(new fromStore.UnloadAnexos());
+        this.anexarCopiaService.resetComponentesDigitaisSelecionados();
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
@@ -468,22 +476,6 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     }
 
     anexarCopia(): void {
-        const componenteDigital = new ComponenteDigital();
-
-        componenteDigital.documentoOrigem = this.documento;
-
-        componenteDigital.fileName = this.componenteDigital.fileName;
-        componenteDigital.hash = this.componenteDigital.hash;
-        componenteDigital.tamanho = this.componenteDigital.tamanho;
-        componenteDigital.mimetype = this.componenteDigital.mimetype;
-        componenteDigital.extensao = this.componenteDigital.extensao;
-
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            componenteDigital: componenteDigital,
-            operacaoId: operacaoId,
-            componenteDigitalId: this.componenteDigital.id
-        }));
         const selectedAnexos = this.anexarCopiaService.componentesDigitaisSelecionados;
         if (selectedAnexos.length > 0) {
             selectedAnexos.forEach((anexo) => {
