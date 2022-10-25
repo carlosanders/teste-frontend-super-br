@@ -28,7 +28,7 @@ export class PesquisaMainSidebarComponent implements OnInit {
         private _iconSvgService: IconSvgService
     )
     {
-        this.menu['administrativo'] = CdkUtils.sortArraySideBar([
+        this.menu['administrativo'] = [
             {
                 nome: 'Processos',
                 icon: 'book',
@@ -41,7 +41,7 @@ export class PesquisaMainSidebarComponent implements OnInit {
                 link: 'documentos',
                 role: ['ROLE_COLABORADOR']
             }
-        ]);
+        ];
 
         this.roles['administrativo'] = this.menu['administrativo']
             .map(link => link.role)
