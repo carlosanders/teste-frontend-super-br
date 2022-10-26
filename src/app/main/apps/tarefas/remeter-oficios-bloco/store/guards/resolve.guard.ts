@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Observable, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {getTarefaGroup} from '../../store';
 import * as fromStore from '../../store';
 import * as tarefaStore from '../../../store';
 import {getRouterState, RouterStateUrl} from 'app/store/reducers';
@@ -36,33 +37,41 @@ export class ResolveGuard implements CanActivate {
     }
 
     checkStore(): any {
-        const loadedValue = [this.routerState.params['generoHandle'], this.routerState.params['typeHandle'], this.routerState.params['targetHandle']].join('_');
-        return this._store.pipe(
-            select(fromStore.getLoaded),
-            withLatestFrom(this._store.pipe(select(tarefaStore.getSelectedTarefas))),
-            tap(([loaded, tarefas]) => {
-                if (loaded !== loadedValue && tarefas?.length) {
-                    const params = {
-                        limit: 10,
-                        offset: 0,
-                        filter: {
-                            'documentoRemessa.tarefaOrigem.id': `in:${tarefas.map((tarefa) => tarefa.id).join(',')}`,
-                            'documentoRemessa.juntadaAtual': 'isNull',
-                            'dataHoraRemessa': 'isNull',
-                        },
-                        populate: [
-                            'populateAll',
-                            'documentoRemessa.tarefaOrigem'
-                        ],
-                        sort: {
-                            'criadoEm': 'ASC'
-                        }
-                    };
-
-                    this._store.dispatch(new fromStore.GetOficios(params));
+        return combineLatest([
+            this._store.pipe(select(tarefaStore.getSelectedTarefas)),
+            this._store.pipe(select(fromStore.getAnyLoading)),
+            this._store.pipe(select(fromStore.getAllLoaded)),
+            this._store.pipe(select(fromStore.getTarefaGroup)),
+        ]).pipe(
+            tap(([tarefas, loading, loaded, tarefasGroup]) => {
+                if (tarefas.length && !loading && !loaded && Object.values(tarefasGroup).length === 0) {
+                    tarefas
+                        .sort((a, b) => a.processo.id < b.processo.id ? -1 : a.processo.id > b.processo.id ? 1 : 0)
+                        .forEach((tarefa) => this._store.dispatch(new fromStore.GetOficios({
+                                tarefa: tarefa,
+                                more: true,
+                                pagination: {
+                                    limit: 10,
+                                    offset: 0,
+                                    filter: {
+                                        'documentoRemessa.tarefaOrigem.id': `eq:${tarefa.id}`,
+                                        'documentoRemessa.juntadaAtual': 'isNull',
+                                        'dataHoraRemessa': 'isNull',
+                                    },
+                                    populate: [
+                                        'populateAll',
+                                        'documentoRemessa.tipoDocumento',
+                                        'documentoRemessa.tarefaOrigem',
+                                    ],
+                                    sort: {
+                                        'criadoEm': 'ASC'
+                                    }
+                                }
+                            }))
+                        );
                 }
             }),
-            filter(([loaded, tarefas]) => loaded === loadedValue && tarefas?.length),
+            filter(([, loading, loaded,]) => !loading && loaded),
             take(1)
         );
     }

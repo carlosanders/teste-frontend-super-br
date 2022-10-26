@@ -63,6 +63,15 @@
                     </ng-container>
                 </button>
 
+                <button mat-menu-item aria-label="converter em minutas"
+                        *ngIf="!isNotMinutas"
+                        (click)="doConverteMinutaBloco()">
+                    <ng-container>
+                        <mat-icon>insert_drive_file</mat-icon>
+                        <span>Converter em Minutas</span>
+                    </ng-container>
+                </button>
+
                 <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
                         [disabled]="isNotMinutas"
                         *showIfRole="'ROLE_COLABORADOR'"
