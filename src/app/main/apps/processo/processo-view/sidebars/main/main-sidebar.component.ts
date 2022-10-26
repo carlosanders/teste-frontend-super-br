@@ -1589,6 +1589,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     isCurrent(juntadaId: number, componenteDigitalId: any = null): boolean {
+        if (componenteDigitalId && this.currentStep.step === 0) {
+            // latest ou inicial
+            const juntadaLatest = this.index.find(juntada => juntada.componentesDigitais.includes(this.currentStep.subStep));
+            return !this.capa && juntadaLatest && juntadaId === juntadaLatest.id && this.currentStep.subStep === componenteDigitalId;
+        }
         if (!componenteDigitalId) {
             if (this.currentStep.step === 0) {
                 // latest ou inicial

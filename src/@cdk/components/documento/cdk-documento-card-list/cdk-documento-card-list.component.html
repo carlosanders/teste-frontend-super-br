@@ -55,7 +55,7 @@
                 </button>
 
                 <button mat-menu-item aria-label="desvincular bloco"
-                        *ngIf="!isNotMinutas"
+                        *ngIf="isNotMinutas"
                         (click)="doDesvincularBloco()">
                     <ng-container>
                         <mat-icon>unlink</mat-icon>

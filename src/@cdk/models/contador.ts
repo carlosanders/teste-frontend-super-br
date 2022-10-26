@@ -6,4 +6,7 @@ export class Contador {
     inc(): number {
         return this.value++;
     }
+    getCount(): number {
+        return this.value;
+    }
 }

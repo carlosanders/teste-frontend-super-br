@@ -1,0 +1,55 @@
+@import '../../../../scss/cdk';
+
+cdk-anexos-card {
+    display: flex;
+    flex-direction: row;
+    flex: 0 1 auto;
+
+    > div.card {
+        flex-direction: row;
+        flex: 0 1 auto;
+        border: 1px solid;
+        border-radius: 3px;
+        display: flex;
+
+        > div.check {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        > div.file {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+
+            > .conteudo {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            > .space {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                height: 4px;
+            }
+        }
+    }
+
+    .disabled {
+        cursor: default !important;
+    }
+
+    .borda-erro {
+        border: solid red 1px !important;
+    }
+}
+
+.multiline-tooltip {
+    white-space: pre-line !important;
+}

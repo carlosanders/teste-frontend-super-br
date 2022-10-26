@@ -91,6 +91,9 @@ export class DocumentosVinculadosEffects {
                     limit: pagination.limit,
                     offset: pagination.offset + pagination.limit
                 }));
+            } else {
+                // encerrar reloading
+                this._store.dispatch(new DocumentosVinculadosActions.FinishReloading());
             }
         })
     ), {dispatch: false});
@@ -175,9 +178,7 @@ export class DocumentosVinculadosEffects {
                 }],
                 {
                     relativeTo: this._activatedRoute.parent
-                }).then(() => {
-                    console.log('Aqui');
-            });
+                }).then(() => {});
         })
     ), {dispatch: false});
     /**
@@ -317,7 +318,15 @@ export class DocumentosVinculadosEffects {
         ofType<DocumentosVinculadosActions.SaveComponenteDigitalDocumentoSuccess>(DocumentosVinculadosActions.SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(action.payload.documentoOrigem.id));
-            if (action.payload.documentoOrigem.id === parseInt(this.routerState.params['documentoHandle'], 10)) {
+        })
+    ), {dispatch: false});
+    /**
+     * Anexar por cópia deve atualizar lista de documentos vinculados da minuta atualmente aberta
+     */
+    finishUploadAnexos: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.FinishUploadAnexos>(DocumentosVinculadosActions.FINISH_UPLOAD_ANEXOS),
+        tap((action) => {
+            if (action.payload === parseInt(this.routerState.params['documentoHandle'], 10)) {
                 this._store.dispatch(new DocumentosVinculadosActions.ReloadDocumentosVinculados());
             }
         })
