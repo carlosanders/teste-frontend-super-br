@@ -88,6 +88,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     orgaoCentralId$: Observable<number>;
     orgaoCentralId: number = null;
     coordenacaoMenuOpen: boolean = false;
+    assessoriaMenuOpen: boolean = false;
+    distribuicaoMenuOpen: boolean = false;
     filtrosMenuOpen: boolean = false;
 
     setoresDistribuidor: Setor[] = [];

@@ -237,6 +237,101 @@
             </ng-container>
         </div>
 
+        <div *ngIf="usuariosAssessor.length > 0"
+             class="nav-item">
+            <div class="nav-subheader cursor-pointer" (click)="assessoriaMenuOpen = !assessoriaMenuOpen">
+                <span>ASSESSOR</span>
+                <mat-icon class="nav-link-icon"
+                          [matTooltip]="!assessoriaMenuOpen ? 'Exibir itens assessoria' : 'Fechar itens assessoria'">
+                    {{!assessoriaMenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
+                </mat-icon>
+            </div>
+            <ng-container *ngIf="assessoriaMenuOpen">
+                <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
+                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                        <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
+                        <span>{{usuario.nome | titleCasePipe}}</span>
+                    </a>
+                </div>
+            </ng-container>
+        </div>
+
+        <div *ngIf="setoresDistribuidor.length > 0"
+             class="nav-item">
+            <div class="nav-subheader cursor-pointer" (click)="distribuicaoMenuOpen = !distribuicaoMenuOpen">
+                <span>DISTRIBUIDOR</span>
+                <mat-icon class="nav-link-icon"
+                          [matTooltip]="!distribuicaoMenuOpen ? 'Exibir itens distribuição' : 'Fechar itens distribuição'">
+                    {{!distribuicaoMenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
+                </mat-icon>
+            </div>
+            <ng-container *ngIf="distribuicaoMenuOpen">
+                <div class="nav-item lotacao-drop" *ngFor="let setor of setoresDistribuidor">
+                    <div class="menu_content nav-link setor" dndDropzone
+                         dndDragoverClass="custom-drag-over"
+                         id="distribuidor_{{setor.id}}"
+                         #elementSetor
+                         (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
+                         (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
+                         [routerLinkActive]="['active', 'accent']"
+                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                         (click)="fecharSidebar()">
+                        <section class="setor">
+                            <div class="menu_content_label">
+                                <div>
+                                    <mat-icon class="nav-link-icon">domain</mat-icon>
+                                    <span>{{setor?.unidade?.sigla}} - {{setor.nome | titleCasePipe}}</span>
+                                </div>
+                                <mat-icon class="place-holder">
+                                    assignment_return
+                                </mat-icon>
+                            </div>
+                        </section>
+                        <div class="menu_content button">
+                            <mat-icon class="nav-link-icon" *ngIf="!usuariosOpen || setorLotacaoId !== setor.id"
+                                      (click)="$event.stopPropagation(); listaUsuario(setor, true)"
+                                      matTooltip="Lista todos os usuários desta coordenação">keyboard_arrow_down
+                            </mat-icon>
+                            <mat-icon class="nav-link-icon" *ngIf="usuariosOpen && setorLotacaoId === setor.id"
+                                      (click)="$event.stopPropagation(); fechaUsuarios()" matTooltip="fechar lista">
+                                keyboard_arrow_up
+                            </mat-icon>
+                        </div>
+                    </div>
+
+                    <div class="lotacao-drop lotacao" *ngIf="usuariosOpen && setorLotacaoId === setor.id">
+                        <div class="loading-wrapper" *ngIf="(lotacaoLoading$ | async) && lotacoes?.length === 0">
+                            <mat-spinner class="loading" diameter="24"></mat-spinner>
+                        </div>
+                        <section class="lotacao" dndDropzone
+                                 *ngFor="let lotacao of lotacoes"
+                                 dndDragoverClass="custom-drag-over"
+                                 id="lotacao_distribuidor_{{lotacao?.colaborador?.usuario?.id}}"
+                                 [ngClass]="{'indisponivel': !lotacao?.colaborador?.usuario?.isDisponivel}"
+                                 #elementUsuario
+                                 (dndDrop)="onDropDistribuir([$event, lotacao.setor], lotacao?.colaborador?.usuario, dropEnabledUsuario($event, lotacao.colaborador.usuario))"
+                                 (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
+                            <div class="nav-link-badge">
+                                <mat-icon class="nav-link-icon">person</mat-icon>
+                                <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
+                                <mat-icon class="place-holder">
+                                    assignment_return
+                                </mat-icon>
+                            </div>
+                        </section>
+                        <div class="loading-wrapper"
+                             *ngIf="(lotacaoLoading$ | async) && (lotacoes?.length !== 0)">
+                            <mat-spinner class="loading" diameter="24"></mat-spinner>
+                        </div>
+                        <div class="mais-registros" (click)="paginaUsuarios()"
+                             *ngIf="lotacoes?.length > 0 && lotacoes?.length < this.paginationLotacoes?.total && !(lotacaoLoading$ | async)">
+                            <span>+</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
 
         <div *ngIf="setoresCoordenacao.length > 0 || unidadesCoordenacao.length > 0 || orgaoCentralCoordenacao.length > 0"
              class="nav-item">
@@ -584,89 +679,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div *ngIf="setoresDistribuidor.length > 0">
-                    <div class="nav-subheader">
-                        DISTRIBUIDOR
-                    </div>
-
-                    <div class="nav-item lotacao-drop" *ngFor="let setor of setoresDistribuidor">
-                        <div class="menu_content nav-link setor" dndDropzone
-                             dndDragoverClass="custom-drag-over"
-                             id="distribuidor_{{setor.id}}"
-                             #elementSetor
-                             (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
-                             (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
-                             [routerLinkActive]="['active', 'accent']"
-                             [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
-                             (click)="fecharSidebar()">
-                            <section class="setor">
-                                <div class="menu_content_label">
-                                    <div>
-                                        <mat-icon class="nav-link-icon">domain</mat-icon>
-                                        <span>{{setor?.unidade?.sigla}} - {{setor.nome | titleCasePipe}}</span>
-                                    </div>
-                                    <mat-icon class="place-holder">
-                                        assignment_return
-                                    </mat-icon>
-                                </div>
-                            </section>
-                            <div class="menu_content button">
-                                <mat-icon class="nav-link-icon" *ngIf="!usuariosOpen || setorLotacaoId !== setor.id"
-                                          (click)="$event.stopPropagation(); listaUsuario(setor, true)"
-                                          matTooltip="Lista todos os usuários desta coordenação">keyboard_arrow_down
-                                </mat-icon>
-                                <mat-icon class="nav-link-icon" *ngIf="usuariosOpen && setorLotacaoId === setor.id"
-                                          (click)="$event.stopPropagation(); fechaUsuarios()" matTooltip="fechar lista">
-                                    keyboard_arrow_up
-                                </mat-icon>
-                            </div>
-                        </div>
-
-                        <div class="lotacao-drop lotacao" *ngIf="usuariosOpen && setorLotacaoId === setor.id">
-                            <div class="loading-wrapper" *ngIf="(lotacaoLoading$ | async) && lotacoes?.length === 0">
-                                <mat-spinner class="loading" diameter="24"></mat-spinner>
-                            </div>
-                            <section class="lotacao" dndDropzone
-                                     *ngFor="let lotacao of lotacoes"
-                                     dndDragoverClass="custom-drag-over"
-                                     id="lotacao_distribuidor_{{lotacao?.colaborador?.usuario?.id}}"
-                                     [ngClass]="{'indisponivel': !lotacao?.colaborador?.usuario?.isDisponivel}"
-                                     #elementUsuario
-                                     (dndDrop)="onDropDistribuir([$event, lotacao.setor], lotacao?.colaborador?.usuario, dropEnabledUsuario($event, lotacao.colaborador.usuario))"
-                                     (dndDragover)="dragOver($event, elementUsuario, dropzoneEnabledUsuario($event, lotacao?.colaborador?.usuario))">
-                                <div class="nav-link-badge">
-                                    <mat-icon class="nav-link-icon">person</mat-icon>
-                                    <span class="nome-usuario">{{lotacao?.colaborador?.usuario?.nome | titleCasePipe}}</span>
-                                    <mat-icon class="place-holder">
-                                        assignment_return
-                                    </mat-icon>
-                                </div>
-                            </section>
-                            <div class="loading-wrapper"
-                                 *ngIf="(lotacaoLoading$ | async) && (lotacoes?.length !== 0)">
-                                <mat-spinner class="loading" diameter="24"></mat-spinner>
-                            </div>
-                            <div class="mais-registros" (click)="paginaUsuarios()"
-                                 *ngIf="lotacoes?.length > 0 && lotacoes?.length < this.paginationLotacoes?.total && !(lotacaoLoading$ | async)">
-                                <span>+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
-
-                <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
-                    <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
-                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                        <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
-                        <span>{{usuario.nome | titleCasePipe}}</span>
-                    </a>
-                </div>
             </ng-container>
         </div>
-
     </div>
 </div>
 <!-- / SIDEBAR CONTENT -->
