@@ -817,8 +817,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             pct = event.rectangle.width/viewContainerSize * 100;
         }
 
-        if (pct < 30) {
-            pct = 30;
+        if (pct < 20) {
+            pct = 20;
         }
 
         if (pct > 90) {
