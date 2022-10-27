@@ -9,26 +9,26 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Interessado} from '@cdk/models';
+import {Representante} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
-import {getRouterState} from '../../../../../../store';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import * as fromStore from './store';
+import {Back, getRouterState} from 'app/store';
+import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'interessado-list',
-    templateUrl: './interessado-list.component.html',
-    styleUrls: ['./interessado-list.component.scss'],
+    selector: 'representante-list',
+    templateUrl: './representante-list.component.html',
+    styleUrls: ['./representante-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class InteressadoListComponent implements OnInit, OnDestroy {
+export class RepresentanteListComponent implements OnInit, OnDestroy {
 
     routerState: any;
-    interessados$: Observable<Interessado[]>;
+    representantes$: Observable<Representante[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
@@ -46,9 +46,9 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.InteressadoListAppState>,
+        private _store: Store<fromStore.RepresentanteListAppState>,
     ) {
-        this.interessados$ = this._store.pipe(select(fromStore.getInteressadoList));
+        this.representantes$ = this._store.pipe(select(fromStore.getRepresentanteList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
@@ -77,6 +77,7 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadRepresentante())
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,7 +85,7 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
-        this._store.dispatch(new fromStore.GetInteressados({
+        this._store.dispatch(new fromStore.GetRepresentantes({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
@@ -100,7 +101,7 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
     }
 
     excluded(params): void {
-        this._store.dispatch(new fromStore.GetInteressados({
+        this._store.dispatch(new fromStore.GetRepresentantes({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
@@ -120,34 +121,32 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
-    edit(interessadoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]).then();
+    edit(representanteId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + representanteId]).then();
     }
 
-    delete(interessadoId: any): void {
-        if (interessadoId.length > 0) {
+    delete(representanteId: any): void {
+        if (representanteId.length > 0) {
             this.lote = CdkUtils.makeId();
-            interessadoId.forEach((i) => {
+            representanteId.forEach((i) => {
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.DeleteInteressado({
-                    interessadoId: i,
+                this._store.dispatch(new fromStore.DeleteRepresentante({
+                    representanteId: i,
                     operacaoId: operacaoId,
                     loteId: this.lote,
                 }));
             });
         } else {
             const operacaoId = CdkUtils.makeId();
-            this._store.dispatch(new fromStore.DeleteInteressado({
-                interessadoId: interessadoId,
+            this._store.dispatch(new fromStore.DeleteRepresentante({
+                representanteId: representanteId,
                 operacaoId: operacaoId,
                 loteId: null,
             }));
         }
-
     }
 
-    representantes(interessadoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${interessadoId}/representantes/listar`)]).then();
+    back(): void {
+        this._store.dispatch(new Back());
     }
-
 }

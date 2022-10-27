@@ -57,6 +57,10 @@ cdk-representante-grid {
                 tr {
                     display: flex;
                     flex-direction: row;
+
+                    &.deleted {
+                        text-decoration: line-through;
+                    }
                 }
 
                 th {
@@ -66,9 +70,6 @@ cdk-representante-grid {
                 td {
                     flex: 1 1;
                     word-break: break-word;
-                    &.deleted {
-                        text-decoration: line-through;
-                    }
                     &.error {
                         color: red;
                     }

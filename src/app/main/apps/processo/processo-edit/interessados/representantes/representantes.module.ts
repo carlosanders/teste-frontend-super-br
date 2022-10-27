@@ -15,8 +15,8 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {InteressadosComponent} from './interessados.component';
-import {InteressadoService} from '@cdk/services/interessado.service';
+import {RepresentantesComponent} from './representantes.component';
+import {RepresentanteService} from '@cdk/services/representante.service';
 import {RouterModule, Routes} from '@angular/router';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {modulesConfig} from 'modules/modules-config';
@@ -24,19 +24,15 @@ import {modulesConfig} from 'modules/modules-config';
 const routes: Routes = [
     {
         path: '',
-        component: InteressadosComponent,
+        component: RepresentantesComponent,
         children: [
             {
                 path       : 'listar',
-                loadChildren: () => import('./interessado-list/interessado-list.module').then(m => m.InteressadoListModule),
+                loadChildren: () => import('./representante-list/representante-list.module').then(m => m.RepresentanteListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: () => import('./interessado-edit/interessado-edit.module').then(m => m.InteressadoEditModule),
-            },
-            {
-                path       : ':interessadoHandle/representantes',
-                loadChildren: () => import('./representantes/representantes.module').then(m => m.RepresentantesModule),
+                loadChildren: () => import('./representante-edit/representante-edit.module').then(m => m.RepresentanteEditModule),
             },
             {
                 path: '**',
@@ -46,7 +42,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/processo/processo-edit/interessados';
+const path = 'app/main/apps/processo/processo-edit/interessados/representantes';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -56,7 +52,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        InteressadosComponent
+        RepresentantesComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -79,11 +75,11 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
     ],
     providers: [
-        InteressadoService
+        RepresentanteService
     ],
     exports: [
-        InteressadosComponent
+        RepresentantesComponent
     ]
 })
-export class InteressadosModule {
+export class RepresentantesModule {
 }

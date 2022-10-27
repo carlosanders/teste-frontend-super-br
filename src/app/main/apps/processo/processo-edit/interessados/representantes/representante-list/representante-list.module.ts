@@ -15,38 +15,24 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {InteressadosComponent} from './interessados.component';
-import {InteressadoService} from '@cdk/services/interessado.service';
+import {RepresentanteListComponent} from './representante-list.component';
+import {RepresentanteService} from '@cdk/services/representante.service';
 import {RouterModule, Routes} from '@angular/router';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {RepresentanteListStoreModule} from 'app/main/apps/processo/processo-edit/interessados/representantes/representante-list/store/store.module';
+import {ModalidadeRepresentanteService} from '@cdk/services/modalidade-representante.service';
+import * as fromGuards from 'app/main/apps/processo/processo-edit/interessados/representantes/representante-list/store/guards';
+import {CdkRepresentanteGridModule} from '@cdk/components/representante/cdk-representante-grid/cdk-representante-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
         path: '',
-        component: InteressadosComponent,
-        children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./interessado-list/interessado-list.module').then(m => m.InteressadoListModule),
-            },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./interessado-edit/interessado-edit.module').then(m => m.InteressadoEditModule),
-            },
-            {
-                path       : ':interessadoHandle/representantes',
-                loadChildren: () => import('./representantes/representantes.module').then(m => m.RepresentantesModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
-        ]
+        component: RepresentanteListComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/processo/processo-edit/interessados';
+const path = 'app/main/apps/processo/processo-edit/interessados/representantes/representante-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -56,7 +42,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        InteressadosComponent
+        RepresentanteListComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -76,14 +62,19 @@ modulesConfig.forEach((module) => {
         TranslateModule,
 
         CdkSharedModule,
-        MatTooltipModule,
+
+        CdkRepresentanteGridModule,
+
+        RepresentanteListStoreModule,
     ],
     providers: [
-        InteressadoService
+        RepresentanteService,
+        ModalidadeRepresentanteService,
+        fromGuards.ResolveGuard
     ],
     exports: [
-        InteressadosComponent
+        RepresentanteListComponent
     ]
 })
-export class InteressadosModule {
+export class RepresentanteListModule {
 }
