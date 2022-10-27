@@ -101,6 +101,8 @@
                     <mat-icon>report_off</mat-icon>
                     <span>Retirar restrições</span>
                 </button>
+
+                <ng-template *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')" #dynamicComponent></ng-template>
             </mat-menu>
         </ng-container>
 
