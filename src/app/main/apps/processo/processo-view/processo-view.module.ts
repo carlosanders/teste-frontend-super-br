@@ -56,6 +56,7 @@ import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.ser
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
+import {ResizableModule} from 'angular-resizable-element';
 import {modulesConfig} from 'modules/modules-config';
 import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {DndModule} from 'ngx-drag-drop';
@@ -159,7 +160,8 @@ modulesConfig.forEach((module) => {
         PdfJsViewerModule,
         CdkAssinaturaGridModule,
         MatSlideToggleModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        ResizableModule
     ],
     providers: [
         JuntadaService,

@@ -1,13 +1,28 @@
 <div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
-        <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa"
-                                    (scrolled)="onScroll()" (sorted)="onSort($event)" [name]="sidebarName"></processo-view-main-sidebar>
-    </cdk-sidebar>
+    <div class="sidebar-container"
+         [ngClass]="{'hide': !sidebarElement.opened}"
+         mwlResizable
+         [enableGhostResize]="true"
+         [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+         (resizeEnd)="onResizingSidebar($event)"
+         [fxFlex]="sidebarSize"
+         (selectstart)="$event.preventDefault()">
+        <cdk-sidebar #sidebarElement class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
+            <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa"
+                                        (scrolled)="onScroll()" (sorted)="onSort($event)" [name]="sidebarName"></processo-view-main-sidebar>
+        </cdk-sidebar>
+    </div>
+
     <!-- / SIDEBAR -->
 
-    <div class="center">
+    <div class="center"
+         mwlResizable
+         [enableGhostResize]="true"
+         [fxFlex]="100"
+         [resizeEdges]="{bottom: false, right: false, top: false, left: false}"
+         (selectstart)="$event.preventDefault()">
 
         <!-- HEADER -->
         <div class="header">

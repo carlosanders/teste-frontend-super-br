@@ -3,7 +3,7 @@ import {TemplatePortal} from '@angular/cdk/portal';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ElementRef,
     EventEmitter,
     OnDestroy,
     OnInit,
@@ -36,6 +36,7 @@ import {MercureService} from '@cdk/services/mercure.service';
 import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
 import {CdkUtils} from '@cdk/utils';
 import {select, Store} from '@ngrx/store';
+import {ResizeEvent} from 'angular-resizable-element';
 import {getRouterState} from 'app/store';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 import {Observable, Subject} from 'rxjs';
@@ -78,6 +79,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     @ViewChild('assinaturasTemplate', {static: false}) assinaturasTemplateRef: TemplateRef<any>;
     @ViewChild('btnAssinaturas', {static: false}) btnAssinaturas: MatButton;
+    @ViewChild('sidebarElement', {read: ElementRef, static: false}) sidebarElement: ElementRef;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -152,6 +154,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     assinaturasPagination: Pagination;
 
     sortOrder: string = 'DESC';
+    sidebarSize: number = 10;
+    sidebarOriginalSize: number;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -803,5 +807,24 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     print(): void {
         window.frames['iframe-juntadas'].focus();
         window.frames['iframe-juntadas'].print();
+    }
+
+    onResizingSidebar(event: ResizeEvent): void {
+        const viewContainerSize = this._viewContainerRef.element.nativeElement.offsetWidth;
+        let pct = 100;
+
+        if (event.rectangle.width < viewContainerSize) {
+            pct = event.rectangle.width/viewContainerSize * 100;
+        }
+
+        if (pct < 30) {
+            pct = 30;
+        }
+
+        if (pct > 90) {
+            pct = 90;
+        }
+
+        this.sidebarSize = pct;
     }
 }
