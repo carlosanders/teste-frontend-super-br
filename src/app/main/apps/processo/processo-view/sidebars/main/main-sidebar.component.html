@@ -65,20 +65,19 @@
             <mat-menu #moreMenu="matMenu">
                 <button mat-menu-item aria-label="Juntadas"
                         [matMenuTriggerFor]="selectMenuJuntadas"
-                        #menuTriggerList="matMenuTrigger"
-                        matTooltip="Filtro de documentos">
-                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''">
+                        #menuTriggerList="matMenuTrigger">
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''" matTooltip="Filtro de documentos">
                         all_out</mat-icon>
-                    <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'">book</mat-icon>
-                    <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'">backup</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'" matTooltip="Filtro de documentos">book</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'" matTooltip="Filtro de documentos">backup</mat-icon>
                     <span>Filtro de documentos</span>
                 </button>
 
                 <button mat-menu-item
-                        aria-label="Modo seleção"
-                        matTooltip="Modo seleção" (click)="doModoSelecao();">
-                    <span class="material-icons-outlined mat-icon mat-icon-no-color mr-8" style="margin-right: 16px !important;">checklist</span>
-                    <span>Modo Seleção</span>
+                        aria-label="Download"
+                        (click)="doModoSelecao();">
+                    <mat-icon matTooltip="Download">cloud_download</mat-icon>
+                    <span>Download</span>
                 </button>
 
                 <mat-menu #selectMenuJuntadas="matMenu">
