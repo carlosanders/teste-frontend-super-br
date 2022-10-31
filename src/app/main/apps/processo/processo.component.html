@@ -29,36 +29,11 @@
                     <div style="font-style: italic">{{processo.titulo|titleCasePipe}}</div>
                 </div>
                 <div class="tarefas">
-                    <div class="user" *ngFor="let tarefa of tarefasProcesso| slice:0:3;" fxHide.xs>
-                        <div class="profileImage" [matMenuTriggerFor]="moreMenuTarefa"
-                             #menuTrigger="matMenuTrigger"
-                             (click)="$event.stopPropagation()"
-                             (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
-                             {{tarefa?.usuarioResponsavel?.nome | slice:0:2 }}
-                        </div>
-                        <mat-menu #moreMenuTarefa="matMenu" [hasBackdrop]="false">
-                            <mat-card
-                                (click)="$event.stopPropagation()"
-                                (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
-                                <mat-card-header>
-                                    <mat-card-title><b>{{tarefa?.usuarioResponsavel?.nome}}</b></mat-card-title>
-                                    <mat-card-subtitle>
-                                        {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                                    </mat-card-subtitle>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <div>{{tarefa.especieTarefa?.nome | titleCasePipe}}</div>
-                                    <div *ngIf="tarefa?.dataHoraDistribuicao">
-                                        Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
-                                    </div>
-                                    <div>Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                        até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        </mat-menu>
+                    <div class="user" *ngFor="let usuarioTarefas of usuariosTarefa|keyvalue| slice:0:3;" fxHide.xs>
+                        <ng-container [ngTemplateOutlet]="usuarioTarefasTemplate" [ngTemplateOutletContext]="{'usuarioTarefas': usuarioTarefas.value, 'collapsedList': false, 'showTarefaList': true}">
+                        </ng-container>
                     </div>
-                    <div class="more-user" *ngIf="tarefasProcesso?.length > 3">
+                    <div class="more-user" *ngIf="usuariosTarefa.size > 3">
                         <button mat-mini-fab fxHide.xs
                                 class="active accent more-button"
                                 [matMenuTriggerFor]="moreMenuTarefas"
@@ -66,48 +41,14 @@
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <div class="more-tarefa" fxHide.xs cdkPerfectScrollbar>
-                            <mat-menu #moreMenuTarefas="matMenu">
-                                <mat-card *ngFor="let tarefa of tarefasProcesso | slice:3">
-                                    <mat-card-content>
-                                        <div><b>{{tarefa?.usuarioResponsavel?.nome}}</b></div>
-                                        <div>
-                                            {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                                        </div>
-                                        <div>{{tarefa.especieTarefa?.nome | titleCasePipe}}</div>
-                                        <div *ngIf="tarefa?.dataHoraDistribuicao">
-                                            Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
-                                        </div>
-                                        <div>Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                            até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                        </div>
-                                    </mat-card-content>
-                                </mat-card>
-                            </mat-menu>
-                        </div>
-                        <button mat-mini-fab fxHide.gt-xs
-                                class="active accent more-button"
-                                [matMenuTriggerFor]="moreMenuTarefas"
-                                #menuTriggerTarefas="matMenuTrigger"
-                                (click)="$event.stopPropagation()">
-                            <mat-icon>keyboard_arrow_down</mat-icon>
-                        </button>
-                        <div class="more-tarefa" fxHide.gt-xs cdkPerfectScrollbar>
-                            <mat-menu #moreMenuTarefas="matMenu" [hasBackdrop]="false">
-                                <mat-card *ngFor="let tarefa of tarefasProcesso">
-                                    <mat-card-content>
-                                        <div>{{tarefa?.usuarioResponsavel?.nome}}</div>
-                                        <div>
-                                            {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                                        </div>
-                                        <div>{{tarefa.especieTarefa?.nome | titleCasePipe}}</div>
-                                        <div *ngIf="tarefa?.dataHoraDistribuicao">
-                                            Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
-                                        </div>
-                                        <div>Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                            até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                        </div>
-                                    </mat-card-content>
-                                </mat-card>
+                            <mat-menu #moreMenuTarefas="matMenu"
+                                      class="processo-tarefa-menu more-tarefa"
+                                      xPosition="before"
+                                      yPosition="below">
+                                <div mat-menu-item class="user" *ngFor="let usuarioTarefas of usuariosTarefa|keyvalue| slice:3" fxHide.xs>
+                                    <ng-container [ngTemplateOutlet]="usuarioTarefasTemplate" [ngTemplateOutletContext]="{'usuarioTarefas': usuarioTarefas.value, 'showTarefaList': true,  'menuClass': 'sub-menu-more-tarefa'}">
+                                    </ng-container>
+                                </div>
                             </mat-menu>
                         </div>
                     </div>
@@ -271,3 +212,73 @@
     <!-- / CENTER -->
 
 </div>
+<ng-template #userProfileInfo let-usuarioTarefas='usuarioTarefas' let-badge="badge" let-nome="nome" let-image="image">
+    <div class="profileImage"
+         [matBadge]="usuarioTarefas.tarefas.length > 99 ? '99+' : usuarioTarefas.tarefas.length"
+         [matBadgePosition]="'above after'"
+         [matBadgeHidden]="usuarioTarefas.tarefas.length <= 1 || badge !== true"
+         [matBadgeColor]="'warn'"
+         [matBadgeSize]="'small'">
+        <ng-container *ngIf="usuarioTarefas.usuario?.imgPerfil?.conteudo && image">
+            <img class="avatar mr-0 mr-sm-8"
+                 [src]="usuarioTarefas.usuario?.imgPerfil?.conteudo|safeResourceUrl">
+        </ng-container>
+        <ng-container *ngIf="!usuarioTarefas.usuario?.imgPerfil?.conteudo && image">
+            {{usuarioTarefas.usuario?.nome | slice:0:2 }}
+        </ng-container>
+    </div>
+    <b *ngIf="nome">{{usuarioTarefas.usuario.nome}}</b>
+</ng-template>
+
+<ng-template #usuarioTarefasTemplate
+             let-usuarioTarefas="usuarioTarefas"
+             let-showTarefaList="showTarefaList"
+             let-menuClass="menuClass">
+    <div [matMenuTriggerFor]="moreMenuTarefa"
+         #menuTrigger="matMenuTrigger"
+         (click)="$event.stopPropagation()"
+         (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
+        <ng-container [ngTemplateOutlet]="userProfileInfo" [ngTemplateOutletContext]="{'usuarioTarefas': usuarioTarefas, 'badge': true, 'nome': false, 'image': true}"></ng-container>
+    </div>
+    <mat-menu #moreMenuTarefa="matMenu"
+              [hasBackdrop]="false"
+              class="processo-tarefa-menu {{menuClass}}"
+              xPosition="before"
+              yPosition="below">
+        <mat-card class="card-usuario"
+                  (click)="$event.stopPropagation()"
+                  (mouseenter)="mouseEnter(menuTrigger)"
+                  (mouseleave)="mouseLeave(menuTrigger)">
+            <mat-card-header>
+                <mat-card-title>
+                    <ng-container [ngTemplateOutlet]="userProfileInfo" [ngTemplateOutletContext]="{'usuarioTarefas': usuarioTarefas, 'badge': false, 'nome': true, 'image': true}"></ng-container>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <ng-container *ngIf="showTarefaList === true">
+                    <mat-card *ngFor="let tarefa of usuarioTarefas.tarefas" class="mb-10 card-tarefa">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <b>ID:</b> {{tarefa.id}}
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div>{{tarefa.especieTarefa?.nome | titleCasePipe}}</div>
+                            <div *ngIf="tarefa?.dataHoraDistribuicao">
+                                Distribuída
+                                em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <div>Prazo
+                                de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </mat-menu>
+</ng-template>
