@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as AnexosActions from '../actions/anexos.actions';
+import * as fromStore from '../';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
@@ -14,7 +15,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class AnexosEffects {
@@ -31,6 +32,8 @@ export class AnexosEffects {
                 filter: {
                     'id': `in:${action.payload.componentesDigitaisIds}`
                 },
+                limit: action.payload.limit,
+                offset: action.payload.offset,
                 sort: {
                     id: 'ASC'
                 },
@@ -42,8 +45,8 @@ export class AnexosEffects {
                 JSON.stringify({
                     ...params.filter
                 }),
-                50,
-                0,
+                params.limit,
+                params.offset,
                 JSON.stringify(params.sort),
                 JSON.stringify(params.populate),
                 JSON.stringify(params.context)
@@ -55,6 +58,8 @@ export class AnexosEffects {
                             value: action.payload.documentoId
                         },
                         entitiesId: response['entities'].map(cd => cd.id),
+                        componentesDigitaisIds: action.payload.componentesDigitaisIds,
+                        documentoId: action.payload.documentoId,
                         total: response['total']
                     })
                 ]),
@@ -65,6 +70,20 @@ export class AnexosEffects {
             )
         }),
     ));
+    getAnexosSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<AnexosActions.GetAnexosSuccess>(AnexosActions.GET_ANEXOS_SUCCESS),
+        withLatestFrom(this._store.select(fromStore.getAnexosPagination), this._store.select(fromStore.getAnexosId)),
+        tap(([action, pagination, anexosIds]) => {
+            if (action.payload.total > anexosIds.length) {
+                this._store.dispatch(new AnexosActions.GetAnexos({
+                    componentesDigitaisIds: action.payload.componentesDigitaisIds,
+                    documentoId: action.payload.documentoId,
+                    limit: pagination.limit,
+                    offset: pagination.offset + pagination.limit
+                }));
+            }
+        })
+    ), {dispatch: false});
     /**
      * Save ComponenteDigital
      *

@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatBadgeModule} from '@angular/material/badge';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
@@ -121,7 +122,8 @@ routes[0].children.push({
         ProcessoDownloadModule,
         MatMenuModule,
         MatRippleModule,
-        MatCardModule
+        MatCardModule,
+        MatBadgeModule
     ],
     providers: [
         ProcessoService,

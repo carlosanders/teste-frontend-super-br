@@ -7,6 +7,7 @@ export const GET_ANEXOS_FAILED = '[ANEXAR COPIA] GET ANEXOS FAILED';
 export const SAVE_COMPONENTE_DIGITAL = '[ANEXAR COPIA] SAVE COMPONENTE DIGITAL';
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[ANEXAR COPIA] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[ANEXAR COPIA] SAVE COMPONENTE DIGITAL FAILED';
+export const FINISH_UPLOAD_ANEXOS = '[ANEXAR COPIA] FINISH UPLOAD ANEXOS';
 
 export const CHANGE_SELECTED_ANEXOS = '[ANEXAR COPIA] CHANGE SELECTED ANEXOS';
 export const UNLOAD_ANEXOS = '[ANEXAR COPIA ANEXOS] UNLOAD ANEXOS';
@@ -84,6 +85,18 @@ export class SaveComponenteDigitalFailed implements Action
 }
 
 /**
+ * Finish Upload Anexos
+ */
+export class FinishUploadAnexos implements Action
+{
+    readonly type = FINISH_UPLOAD_ANEXOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Anexos
  */
 export class ChangeSelectedAnexos implements Action {
@@ -107,5 +120,6 @@ export type AnexosActionsAll
     | SaveComponenteDigital
     | SaveComponenteDigitalSuccess
     | SaveComponenteDigitalFailed
+    | FinishUploadAnexos
     | ChangeSelectedAnexos
     | UnloadAnexos;

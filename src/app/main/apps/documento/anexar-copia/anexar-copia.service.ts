@@ -2,10 +2,13 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {ComponenteDigital} from '@cdk/models';
 
-export interface ComponenteDigitalJuntada {
+export interface ComponenteDigitalSelecionado {
     id: number;
-    texto: string;
-    contador: number;
+    hash: string;
+    fileName: string;
+    tamanho: number;
+    mimetype: string;
+    extensao: string;
 }
 
 @Injectable({
@@ -13,9 +16,8 @@ export interface ComponenteDigitalJuntada {
 })
 export class AnexarCopiaService {
     private _guardaAtivado: Subject<boolean> = new Subject();
-    private _contadoresComponentesDigitaisJuntada: {
-        [id: number]: ComponenteDigitalJuntada[]
-    } = {};
+    private _componentesDigitaisSelecionados: ComponenteDigitalSelecionado[] = [];
+    private _idsSelecionados: number[] = [];
 
     get guardaAtivado(): Subject<boolean> {
         return this._guardaAtivado;
@@ -25,60 +27,35 @@ export class AnexarCopiaService {
         this._guardaAtivado = value;
     }
 
-    get contadoresComponentesDigitais(): any {
-        return this._contadoresComponentesDigitaisJuntada;
+    get componentesDigitaisSelecionados(): ComponenteDigitalSelecionado[] {
+        return this._componentesDigitaisSelecionados;
     }
 
-    resetContadoresJuntada(juntadaId: number): void {
-        this._contadoresComponentesDigitaisJuntada[juntadaId] = [];
+    resetComponentesDigitaisSelecionados(): void {
+        this._componentesDigitaisSelecionados = [];
     }
 
-    addComponenteDigitalJuntada(juntadaId: number, componenteDigitalId: number, texto: string, contador: number): void {
-        const componenteDigital: ComponenteDigitalJuntada = {
-            id: componenteDigitalId,
-            texto: texto,
-            contador: contador
-        };
-        if (this._contadoresComponentesDigitaisJuntada[juntadaId]) {
-            this._contadoresComponentesDigitaisJuntada[juntadaId].push(componenteDigital);
+    toggleSelectComponenteDigital(componenteDigital: ComponenteDigital): void {
+        const index = this._idsSelecionados.indexOf(componenteDigital.id);
+        if (index === -1) {
+            // Componente digital informado não está selecionado
+            this._idsSelecionados.push(componenteDigital.id);
+            const componenteDigitalSelecionado: ComponenteDigitalSelecionado = {
+                id: componenteDigital.id,
+                hash: componenteDigital.hash,
+                fileName: componenteDigital.fileName,
+                tamanho: componenteDigital.tamanho,
+                mimetype: componenteDigital.mimetype,
+                extensao: componenteDigital.extensao
+            };
+            this._componentesDigitaisSelecionados.push(componenteDigitalSelecionado);
         } else {
-            this._contadoresComponentesDigitaisJuntada[juntadaId] = [componenteDigital];
+            this._idsSelecionados.splice(index, 1);
+            this._componentesDigitaisSelecionados.splice(index, 1);
         }
     }
 
-    sortComponentesDigitaisJuntada(juntadaId: number, componentesDigitais: ComponenteDigital[]): ComponenteDigital[] {
-        const contadoresJuntada: ComponenteDigitalJuntada[] = this._contadoresComponentesDigitaisJuntada[juntadaId];
-        const sortedComponentesDigitais: ComponenteDigital[] = [];
-        contadoresJuntada.forEach((componenteDigitalJuntada) => {
-            if (sortedComponentesDigitais.findIndex(cd => cd.id === componenteDigitalJuntada.id) === -1) {
-                const found = componentesDigitais.find(cd => cd.id === componenteDigitalJuntada.id);
-                if (found) {
-                    sortedComponentesDigitais.push(found);
-                }
-            }
-        });
-        return sortedComponentesDigitais;
-    }
-
-    getTextoComponenteDigital(componenteDigitalId: number): string {
-        let texto = '';
-        Object.keys(this._contadoresComponentesDigitaisJuntada).forEach((juntadaId) => {
-            const componenteDigital: ComponenteDigitalJuntada = this._contadoresComponentesDigitaisJuntada[juntadaId].find(contador => contador.id === componenteDigitalId);
-            if (componenteDigital) {
-                texto = componenteDigital.texto;
-            }
-        });
-        return texto;
-    }
-
-    getContadorComponenteDigital(componenteDigitalId: number): number {
-        let contador;
-        Object.keys(this._contadoresComponentesDigitaisJuntada).forEach((juntadaId) => {
-            const componenteDigital: ComponenteDigitalJuntada = this._contadoresComponentesDigitaisJuntada[juntadaId].find(contador => contador.id === componenteDigitalId);
-            if (componenteDigital) {
-                contador = componenteDigital.contador;
-            }
-        });
-        return contador;
+    isSelected(componenteDigitalId: number): boolean {
+        return this._componentesDigitaisSelecionados.findIndex(cd => cd.id === componenteDigitalId) !== -1;
     }
 }

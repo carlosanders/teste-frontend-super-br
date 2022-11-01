@@ -21,13 +21,6 @@ widgetGraficoTarefa.role = 'ROLE_COLABORADOR';
 widgetGraficoTarefa.nome = 'Distribuição';
 widgetGraficoTarefa.moduleName = 'WidgetGraficoTarefaModule';
 
-// const widgetGraficoTaxaSucessoJudicial = new Widget();
-// widgetGraficoTaxaSucessoJudicial.ordem = 30;
-// widgetGraficoTaxaSucessoJudicial.module = () => import('app/main/apps/tarefas/widget/grafico-taxa-sucesso-judicial/widget-grafico-taxa-sucesso-judicial.module').then(m => m.WidgetGraficoTaxaSucessoJudicialModule);
-// widgetGraficoTaxaSucessoJudicial.role = 'ROLE_COLABORADOR';
-// widgetGraficoTaxaSucessoJudicial.nome = 'Taxa de Sucesso Judicial';
-// widgetGraficoTaxaSucessoJudicial.moduleName = 'WidgetGraficoTaxaSucessoJudicialModule';
-
 export const widgetConfig =
     [
         widgetMinhasTarefas,

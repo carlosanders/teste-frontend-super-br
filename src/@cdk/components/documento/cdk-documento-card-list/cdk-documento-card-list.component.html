@@ -55,11 +55,20 @@
                 </button>
 
                 <button mat-menu-item aria-label="desvincular bloco"
-                        *ngIf="!isNotMinutas"
+                        *ngIf="isNotMinutas"
                         (click)="doDesvincularBloco()">
                     <ng-container>
                         <mat-icon>unlink</mat-icon>
                         <span>Desvincular Juntadas</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="converter em minutas"
+                        *ngIf="!isNotMinutas"
+                        (click)="doConverteMinutaBloco()">
+                    <ng-container>
+                        <mat-icon>insert_drive_file</mat-icon>
+                        <span>Converter em Minutas</span>
                     </ng-container>
                 </button>
 

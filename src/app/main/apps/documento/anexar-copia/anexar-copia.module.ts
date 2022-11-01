@@ -44,10 +44,7 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {
-    CdkAnexosCardListModule
-} from "../../../../../@cdk/components/componente-digital/cdk-anexos-card-list/cdk-anexos-card-list.module";
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 const routes: Routes = [
@@ -115,8 +112,7 @@ modulesConfig.forEach((module) => {
         CdkBookmarkEditDialogModule,
         PdfJsViewerModule,
         CdkAssinaturaGridModule,
-        MatSlideToggleModule,
-        CdkAnexosCardListModule
+        MatCheckboxModule
     ],
     providers: [
         ProcessoService,

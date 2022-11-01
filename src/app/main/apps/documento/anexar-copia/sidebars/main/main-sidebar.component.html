@@ -161,7 +161,6 @@
             <div class="volume" id="juntada_{{juntada.id}}" #element
                  *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
                 {{contador.reset()}}
-                {{this.anexarCopiaService.resetContadoresJuntada(juntada.id)}}
                 <div class="juntada" matRipple
                      (click)="goToJuntada(juntada.id, juntada.documento.acessoNegado, null, juntada.documento.id, $event)"
                      [ngClass]="{'current': isCurrent(juntada.id), 'completed': isCompleted(juntada.id), 'last': last, 'first': first}">
@@ -215,12 +214,26 @@
                                     <a class="ml-4"
                                        (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, juntada.documento.id, $event)"
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
-                                        {{juntada.documento.tipoDocumento.nome}}{{this.anexarCopiaService.addComponenteDigitalJuntada(juntada.id, componenteDigital.id, juntada.documento.tipoDocumento.nome, contador.getCount())}}{{ contador.inc() }}
+                                        {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                                     </a>
-                                    <mat-icon class="ml-4 s-24"
-                                              *ngIf="isCurrent(juntada.id, componenteDigital.id)">
-                                        arrow_left
-                                    </mat-icon>
+                                    <div class="actions select-mode-actions" (click)="$event.stopPropagation();" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
+                                        <mat-checkbox
+                                            *ngIf="(savingComponentesDigitaisIds$ | async)?.length === 0 && (savedComponentesDigitaisIds$ | async)?.length === 0 && (errorsComponentesDigitaisIds$ | async)?.length === 0"
+                                            [disabled]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1"
+                                            (click)="$event.stopPropagation();"
+                                            (change)="doToggleSelectAnexo(componenteDigital)"
+                                            [checked]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1 || anexarCopiaService.isSelected(componenteDigital.id)">
+                                        </mat-checkbox>
+                                        <div *ngIf="(savingComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                            <mat-spinner diameter="14"></mat-spinner>
+                                        </div>
+                                        <div *ngIf="(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                            <mat-icon class="green-fg">check</mat-icon>
+                                        </div>
+                                        <div *ngIf="(errorsComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                            <mat-icon class="red-fg" [matTooltip]="(errors$ | async)?.[componenteDigital.id]">clear</mat-icon>
+                                        </div>
+                                    </div>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="juntada.documento.vinculacoesDocumentos?.length !== 0">
@@ -239,12 +252,26 @@
                                         <a class="ml-4"
                                            (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, vinculacaoDocumento.documentoVinculado.id, $event)"
                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
-                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{this.anexarCopiaService.addComponenteDigitalJuntada(juntada.id, componenteDigital.id, vinculacaoDocumento.documentoVinculado.tipoDocumento.nome, contadorVinculacoes.getCount())}}{{ contadorVinculacoes.inc() }}
+                                            {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
-                                        <mat-icon class="ml-4 s-24"
-                                                  *ngIf="isCurrent(juntada.id, componenteDigital.id)">
-                                            arrow_left
-                                        </mat-icon>
+                                        <div class="actions select-mode-actions filho" (click)="$event.stopPropagation();" *ngIf="showCheckboxAnexo(juntada.id, componenteDigital.id) !== -1">
+                                            <mat-checkbox
+                                                *ngIf="(savingComponentesDigitaisIds$ | async)?.length === 0 && (savedComponentesDigitaisIds$ | async)?.length === 0 && (errorsComponentesDigitaisIds$ | async)?.length === 0"
+                                                [disabled]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1"
+                                                (click)="$event.stopPropagation();"
+                                                (change)="doToggleSelectAnexo(componenteDigital)"
+                                                [checked]="showCheckboxAnexo(juntada.id, componenteDigital.id) === 1 || anexarCopiaService.isSelected(componenteDigital.id)">
+                                            </mat-checkbox>
+                                            <div *ngIf="(savingComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                                <mat-spinner diameter="14"></mat-spinner>
+                                            </div>
+                                            <div *ngIf="(savedComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                                <mat-icon class="green-fg">check</mat-icon>
+                                            </div>
+                                            <div *ngIf="(errorsComponentesDigitaisIds$ | async)?.includes(componenteDigital.id)" class="result-container">
+                                                <mat-icon class="red-fg" [matTooltip]="(errors$ | async)?.[componenteDigital.id]">clear</mat-icon>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </ng-container>

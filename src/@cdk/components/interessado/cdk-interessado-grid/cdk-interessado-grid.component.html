@@ -219,6 +219,15 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('representantes') > -1 && deletingIds?.indexOf(interessado.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(interessado.id) > -1"
+                                (click)="listarRepresentantes(interessado.id)"
+                                aria-label="representantes"
+                                matTooltip="Listar Representantes">
+                            <mat-icon>groups</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(interessado.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>

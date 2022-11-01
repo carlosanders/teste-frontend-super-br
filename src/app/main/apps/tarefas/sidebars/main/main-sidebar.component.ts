@@ -87,6 +87,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     unidades: Setor[] = [];
     orgaoCentralId$: Observable<number>;
     orgaoCentralId: number = null;
+    coordenacaoMenuOpen: boolean = false;
+    assessoriaMenuOpen: boolean = false;
+    distribuicaoMenuOpen: boolean = false;
+    filtrosMenuOpen: boolean = false;
 
     setoresDistribuidor: Setor[] = [];
 
@@ -766,12 +770,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.tarefasPendentes['tarefas_compartilhadas_' + this.generoHandleAcentuado] = this.counterState['tarefas_compartilhadas_' + this.generoHandleAcentuado];
             } else {
                 this.tarefasPendentes['tarefas_compartilhadas_' + this.generoHandleAcentuado] = 0;
-            }
-
-            if (this.counterState['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] !== undefined) {
-                this.tarefasPendentes['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] = this.counterState['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado];
-            } else {
-                this.tarefasPendentes['tarefas_meus_compartilhamentos_' + this.generoHandleAcentuado] = 0;
             }
         }
         this._changeDetectorRef.markForCheck();

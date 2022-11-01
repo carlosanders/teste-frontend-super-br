@@ -18,8 +18,8 @@ import {
 } from '@cdk/angular/material';
 import {CdkSidebarModule} from '@cdk/components';
 import {
-    CdkDocumentoAvulsoGridModule
-} from '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid.module';
+    CdkOficiosCardListModule
+} from '@cdk/components/documento-avulso/cdk-oficios-card-list/cdk-oficios-card-list.module';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
@@ -33,7 +33,13 @@ const routes: Routes = [
     {
         path: '',
         component: RemeterOficiosBlocoComponent,
-        canActivate: [fromGuard.ResolveGuard]
+        canActivate: [fromGuard.ResolveGuard],
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],
     }
 ];
 
@@ -71,7 +77,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
-        CdkDocumentoAvulsoGridModule,
+        CdkOficiosCardListModule,
     ],
     providers: [
         DocumentoAvulsoService,

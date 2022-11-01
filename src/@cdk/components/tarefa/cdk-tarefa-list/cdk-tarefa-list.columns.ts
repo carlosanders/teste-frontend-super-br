@@ -227,7 +227,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'vinculacoesEtiquetasMinutas',
+            id: 'vinculacoesEtiquetas.objectClass',
             headerLabel: 'Minutas',
             dataLabel: 'Minutas: ',
             positionFixed: false,
@@ -240,7 +240,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: false
+                sortable: true
             }
         },
         <TableColumn> {

@@ -231,6 +231,15 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(ids => this.uploadedAnexosIds = ids);
 
+        this.savingComponentesDigitaisIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((ids) => {
+            if (this.uploadedAnexosIds.length > 0 && ids.length === 0) {
+                // Terminaram todos os uploads, hora de atualizar a lista de anexos do documento
+                this._store.dispatch(new fromStore.FinishUploadAnexos(this.documento.id));
+            }
+        });
+
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(juntadas => !!juntadas && (juntadas.length !== this.juntadas?.length || juntadas != this.juntadas))
@@ -275,6 +284,10 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
             filter(currentStep => currentStep.subStep !== 0)
         ).subscribe((currentStep) => {
+            if (this.currentStep && ((currentStep.step !== this.currentJuntada.id))) {
+                this.anexarCopiaService.resetComponentesDigitaisSelecionados();
+                this._store.dispatch(new fromStore.UnloadAnexos());
+            }
             this.currentStep = currentStep;
             if (this.juntadas?.length > 0 && currentStep.step !== 0) {
                 this.currentJuntada = this.juntadas?.find(juntada => juntada.id === currentStep.step);
@@ -318,6 +331,9 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
                 this.srcMessage = null;
                 this.pdfSrc = null;
                 this.componenteDigital = binary.src;
+                if (!this.anexarCopiaService.isSelected(this.componenteDigital.id)) {
+                    this.anexarCopiaService.toggleSelectComponenteDigital(this.componenteDigital);
+                }
                 this.page = 1;
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
@@ -440,6 +456,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._store.dispatch(new fromStore.UnloadCopia());
+        this._store.dispatch(new fromStore.UnloadAnexos());
+        this.anexarCopiaService.resetComponentesDigitaisSelecionados();
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
@@ -458,24 +476,9 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     }
 
     anexarCopia(): void {
-        const componenteDigital = new ComponenteDigital();
-
-        componenteDigital.documentoOrigem = this.documento;
-
-        componenteDigital.fileName = this.componenteDigital.fileName;
-        componenteDigital.hash = this.componenteDigital.hash;
-        componenteDigital.tamanho = this.componenteDigital.tamanho;
-        componenteDigital.mimetype = this.componenteDigital.mimetype;
-        componenteDigital.extensao = this.componenteDigital.extensao;
-
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            componenteDigital: componenteDigital,
-            operacaoId: operacaoId,
-            componenteDigitalId: this.componenteDigital.id
-        }));
-        if (this.showAnexos && this.selectedAnexos.length > 0) {
-            this.selectedAnexos.forEach((anexo) => {
+        const selectedAnexos = this.anexarCopiaService.componentesDigitaisSelecionados;
+        if (selectedAnexos.length > 0) {
+            selectedAnexos.forEach((anexo) => {
                 let tmpComponenteDigital = new ComponenteDigital();
                 tmpComponenteDigital.documentoOrigem = this.documento;
 
@@ -490,8 +493,9 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
                     operacaoId: operacaoId,
                     componenteDigitalId: anexo.id
                 }));
-            })
+            });
         }
+        this.anexarCopiaService.resetComponentesDigitaisSelecionados();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -523,35 +527,6 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             }
         });
         return houveMudanca;
-    }
-
-    doToggleAnexos(): void {
-        this.showAnexos = !this.showAnexos;
-        if (this.showAnexos) {
-            let componenteDigitalIds = [];
-            if (this.currentDocumento.componentesDigitais) {
-                componenteDigitalIds = [
-                    ...componenteDigitalIds,
-                    ...this.currentDocumento.componentesDigitais.map(cd => cd.id)
-                ];
-            }
-            if (this.currentDocumento.vinculacoesDocumentos) {
-                this.currentDocumento.vinculacoesDocumentos.forEach((vd) => {
-                    vd.documentoVinculado.componentesDigitais.forEach((dvcd) => {
-                        componenteDigitalIds.push(dvcd.id);
-                    })
-                })
-            }
-
-            componenteDigitalIds = componenteDigitalIds.filter(cd => cd !== this.componenteDigital.id);
-
-            this._store.dispatch(new fromStore.GetAnexos({
-                componentesDigitaisIds: componenteDigitalIds,
-                documentoId: this.currentDocumento.id
-            }));
-        } else {
-            this._store.dispatch(new fromStore.UnloadAnexos());
-        }
     }
 
     disabledBack(): boolean {

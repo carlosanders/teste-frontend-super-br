@@ -591,12 +591,13 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         }));
     }
 
-    doConverteMinuta(documento: Documento): void {
+    doConverteMinuta(documento: Documento, loteId?: string): void {
         this._store.dispatch(new fromStore.ConverteAnexoEmMinuta({
             documento: documento,
             tarefa: this.tarefa,
             operacao: {
                 id: CdkUtils.makeId(),
+                loteId: loteId,
                 type: 'documento',
                 content: `Convertendo anexo id ${documento.id} em minuta da tarefa id ${this.tarefa.id}...`,
                 status: 0, // carregando
@@ -604,6 +605,12 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                 undo: 'inherent'
             }
         }))
+    }
+
+    doConverteMinutaBloco(documentos: Documento[]): void {
+        const loteId = CdkUtils.makeId();
+        documentos.forEach((documento) => this.doConverteMinuta(documento, loteId));
+
     }
 
     anexarCopia(): void {

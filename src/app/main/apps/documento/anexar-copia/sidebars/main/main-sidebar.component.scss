@@ -217,6 +217,15 @@ anexar-copia-main-sidebar {
                 }
             }
 
+            a {
+                vertical-align: middle;
+                font-size: 14px;
+                line-height: 14px;
+                min-height: 14px;
+                max-height: 14px;
+                height: 14px;
+            }
+
             .current-tipo-documento {
                 font-weight: bold;
             }
@@ -387,6 +396,69 @@ anexar-copia-main-sidebar {
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
+
+            &.select-mode-actions {
+                align-items: flex-end;
+                flex: 1 0 auto !important;
+                min-height: 14px;
+                max-height: 14px;
+                line-height: 14px;
+                height: 14px;
+
+                mat-checkbox {
+                    margin: 0 2px 0 0;
+                }
+
+                .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+                    margin-top: 0;
+                    margin-left: 0;
+                    width: 14px;
+                    line-height: 14px;
+                    min-height: 14px;
+                    max-height: 14px;
+                    height: 14px;
+                }
+
+                .mat-checkbox-inner-container {
+                    height: 14px;
+                    width: 14px;
+                    line-height: 14px;
+                    margin: 0;
+                }
+
+                .result-container {
+                    display: flex;
+
+                    > .mat-icon {
+                        font-size: 14px;
+                        line-height: 14px;
+                        height: 14px;
+                        width: 14px;
+                        min-height: 14px;
+                        max-height: 14px;
+                        min-width: 14px;
+                        max-width: 14px;
+                        margin: 0 2px 3px 0;
+                    }
+
+                    > .mat-progress-spinner {
+                        margin: 0 2px 3px 0;
+                    }
+                }
+            }
+
+            &.filho {
+                min-height: 20px;
+                max-height: 20px;
+                line-height: 20px;
+                height: 20px;
+                justify-content: center;
+
+                mat-checkbox {
+                    font-size: 14px;
+                    margin: 0 2px 3px 0;
+                }
+            }
         }
 
         .no-events {

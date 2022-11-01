@@ -16,7 +16,7 @@ import {Documento} from '@cdk/models/documento.model';
 @Component({
     selector: 'cdk-documento-avulso-card-list',
     templateUrl: './cdk-documento-avulso-card-list.component.html',
-    styleUrls: ['./cdk-documento-avulso-card--list.component.scss'],
+    styleUrls: ['./cdk-documento-avulso-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations

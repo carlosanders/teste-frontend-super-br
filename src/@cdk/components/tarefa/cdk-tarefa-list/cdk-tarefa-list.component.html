@@ -212,7 +212,7 @@
                 </button>
                 <mat-divider></mat-divider>
                 <mat-slide-toggle class="ml-10"
-                                  [disabled]="getSortOptionSelected() === undefined"
+                                  [disabled]="getSortOptionSelected() === undefined || getSortOptionSelected()?.groupable === false"
                                   [formControl]="agruparFormControl"
                                   (change)="doSort(listSort)"
                                   (click)="$event.stopPropagation();">
@@ -407,24 +407,24 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="vinculacoesEtiquetasMinutas">
+                <ng-container matColumnDef="vinculacoesEtiquetas.objectClass">
                     <th mat-header-cell *matHeaderCellDef
                         mat-sort-header
-                        [disabled]="getColumnTableColumn('vinculacoesEtiquetasMinutas').definitions.sortable === false"
+                        [disabled]="getColumnTableColumn('vinculacoesEtiquetas.objectClass').definitions.sortable === false"
                         (columnChageWidth)="columnChageWidth($event)"
-                        [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetasMinutas')"
+                        [cdkTableColumnResizable]="getColumnTableColumn('vinculacoesEtiquetas.objectClass')"
                         (resizing)="resizingColumn($event)"
                         dndDropzone
-                        (dndDrop)="onDrop(getColumnTableColumn('vinculacoesEtiquetasMinutas'), $event.data)"
-                        [dndDraggable]="getColumnTableColumn('vinculacoesEtiquetasMinutas')"
+                        (dndDrop)="onDrop(getColumnTableColumn('vinculacoesEtiquetas.objectClass'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('vinculacoesEtiquetas.objectClass')"
                         [dndEffectAllowed]="'move'"
                         [dndDragoverClass]="'table-column-drag-over'"
                         [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
-                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetasMinutas'))"
-                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetasMinutas'))">
-                        {{getColumnTableColumn('vinculacoesEtiquetasMinutas').headerLabel}}
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetas.objectClass'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('vinculacoesEtiquetas.objectClass'))">
+                        {{getColumnTableColumn('vinculacoesEtiquetas.objectClass').headerLabel}}
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('vinculacoesEtiquetasMinutas').dataLabel}}">
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label="{{getColumnTableColumn('vinculacoesEtiquetas.objectClass').dataLabel}}">
                         <div class="etiquetas">
                             <div class="etiqueta-minuta" *ngFor="let vinculacaoEtiqueta of etiquetasMinutaList[tarefa.id]; index as i; trackBy: vinculacaoEtiquetaTrackBy"
                                  (click)="doClickEtiqueta({vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: tarefa, event: $event}); $event.stopPropagation();"
