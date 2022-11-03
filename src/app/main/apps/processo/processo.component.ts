@@ -9,6 +9,7 @@ import {
     ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
+import {MatMenuTrigger} from '@angular/material/menu';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
@@ -84,9 +85,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     generoProcesso = '';
 
     loadingTarefasProcesso$: Observable<boolean>;
-    tarefasProcesso$: Observable<Tarefa[]>;
-    tarefasProcesso: Tarefa[];
+    usuariosTarefa: Map<number, {usuario: Usuario, tarefas: Tarefa[]}> = new Map<number, {usuario: Usuario; tarefas: Tarefa[]}>();
     timedOutCloser: any;
+    lastUsuarioMenuTrigger: MatMenuTrigger;
 
     private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -152,7 +153,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.expandir$ = this._store.pipe(select(fromStore.getExpandirTela));
         this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoadingProcesso));
         this.loadingTarefasProcesso$ = this._store.pipe(select(fromStore.getLoadingTarefasProcesso));
-        this.tarefasProcesso$ = this._store.pipe(select(fromStore.getTarefaList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -220,10 +220,22 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             });
         });
 
-        this.tarefasProcesso$.pipe(
-            filter(tarefas => !!tarefas)
-        ).subscribe((tarefas) => {
-            this.tarefasProcesso = tarefas;
+        this._store.pipe(
+            select(fromStore.getTarefaList),
+            filter(tarefas => !!tarefas),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefas: Tarefa[]) => {
+            this.usuariosTarefa = new Map<number, {usuario: Usuario; tarefas: Tarefa[]}>();
+            tarefas.forEach((tarefa) => {
+               if (!this.usuariosTarefa.has(tarefa.usuarioResponsavel.id)) {
+                   this.usuariosTarefa.set(tarefa.usuarioResponsavel.id, {usuario: tarefa.usuarioResponsavel, tarefas: []});
+               }
+
+               const usuarioTarefas = this.usuariosTarefa.get(tarefa.usuarioResponsavel.id);
+               usuarioTarefas.tarefas.push(tarefa);
+
+                this.usuariosTarefa.set(tarefa.usuarioResponsavel.id, usuarioTarefas);
+            });
         });
     }
 
@@ -401,16 +413,25 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'dossies']).then();
     }
 
-    mouseEnter(trigger): void {
+    mouseEnter(trigger: MatMenuTrigger): void {
         if (this.timedOutCloser) {
             clearTimeout(this.timedOutCloser);
         }
-        trigger.openMenu();
+        if (this.lastUsuarioMenuTrigger && this.lastUsuarioMenuTrigger.menu.panelId !== trigger.menu.panelId) {
+            this.timedOutCloser = setTimeout(() => {
+                this.lastUsuarioMenuTrigger.closeMenu();
+                this.lastUsuarioMenuTrigger = trigger;
+                trigger.openMenu();
+            }, 1);
+        } else {
+            this.lastUsuarioMenuTrigger = trigger;
+            trigger.openMenu();
+        }
     }
 
     mouseLeave(trigger) {
         this.timedOutCloser = setTimeout(() => {
             trigger.closeMenu();
-        }, 1);
+        }, 100);
     }
 }

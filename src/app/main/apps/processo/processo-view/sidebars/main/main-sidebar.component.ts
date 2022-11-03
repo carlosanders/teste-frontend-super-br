@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -7,7 +8,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    ViewChild,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -59,6 +60,7 @@ import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {getProcesso} from '../../../store';
 import * as fromStore from '../../store';
 import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
+import {DynamicService} from "../../../../../../../modules/dynamic.service";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -68,7 +70,7 @@ import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
+export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input()
     capaProcesso: boolean;
@@ -99,6 +101,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
     autoCompleteModelos: MatAutocompleteTrigger;
+
+    @ViewChild('dynamicComponent', {read: ViewContainerRef})
+    container: ViewContainerRef;
 
     sort: string = 'DESC';
 
@@ -258,6 +263,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * @param _loginService
      * @param _mercureService
      * @param _snackBar
+     * @param _dynamicService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -270,7 +276,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         public _loginService: LoginService,
         private _mercureService: MercureService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _dynamicService: DynamicService,
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -681,6 +688,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
+    }
+
+    ngAfterViewInit(): void {
+
+        let path = 'app/main/apps/processo/sidebar';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    if (this.container !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then((componentFactory) => {
+                                this.container.createComponent(componentFactory);
+                                this._changeDetectorRef.markForCheck();
+                            });
+                    }
+                }));
+            }
+        });
     }
 
     ngOnDestroy(): void {

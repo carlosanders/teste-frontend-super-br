@@ -9,17 +9,23 @@
     </div>
 </div>
 <div class="content">
+    <h2>Remeter Ofícios</h2>
 
-    <h2>Remeter ofícios das tarefas selecionadas</h2>
-
-    <cdk-documento-avulso-grid
-        [displayedColumns]="['select', 'id', 'processo', 'especieDocumentoAvulso.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'observacao', 'actions']"
-        [actions]="['remeter', 'remeterLote']"
-        [documentosAvulsos]="oficios"
-        [total]="pagination?.total"
-        [remeterIds]="remeterIds"
-        [loading]="(isLoading$ | async)"
-        (reload)="reload($event)"
-        (remeterLote)="doRemeterOficios($event)">
-    </cdk-documento-avulso-grid>
+    <div class="upload">
+        <cdk-oficios-card-list [actions]="actions"
+                               [tarefasAgrupadas]="tarefasAgrupadas"
+                               [selectedIds]="(selectedIds$ | async)"
+                               [remeterIds]="remeterIds"
+                               [oficios]="documentosAvulso"
+                               [loading]="(isLoadingAny$ | async)"
+                               [saving]="remeterIds.length > 1"
+                               (remeterBloco)="doRemeterBloco($event)"
+                               (remeter)="doRemeter($event)"
+                               (getMore)="doGetMore($event)"
+                               (clicked)="doClicked($event)"
+                               (changedSelectedIds)="doChangedSelectedIds($event)">
+        </cdk-oficios-card-list>
+    </div>
 </div>
+
+<router-outlet></router-outlet>

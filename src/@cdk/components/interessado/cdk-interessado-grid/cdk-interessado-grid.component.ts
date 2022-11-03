@@ -160,6 +160,9 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     edit = new EventEmitter<number>();
 
     @Output()
+    representantes = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -288,6 +291,10 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
 
     editInteressado(interessadoId): void {
         this.edit.emit(interessadoId);
+    }
+
+    listarRepresentantes(interessadoId): void {
+        this.representantes.emit(interessadoId);
     }
 
     selectInteressado(interessado: Interessado): void {

@@ -16,21 +16,6 @@ export const getRemeterOficiosBlocoState: any = createSelector(
     (state: RemeterOficiosBlocoAppState) => state.remeterOficiosBloco
 );
 
-export const getPagination: any = createSelector(
-    getRemeterOficiosBlocoState,
-    (state: RemeterOficiosBlocoState) => state.pagination
-);
-
-export const getLoaded: any = createSelector(
-    getRemeterOficiosBlocoState,
-    (state: RemeterOficiosBlocoState) => state.loaded
-);
-
-export const isLoading: any = createSelector(
-    getRemeterOficiosBlocoState,
-    (state: RemeterOficiosBlocoState) => state.loading
-);
-
 export const getRemeterIds: any = createSelector(
     getRemeterOficiosBlocoState,
     (state: RemeterOficiosBlocoState) => state.remeterIds
@@ -41,9 +26,36 @@ export const getIds: any = createSelector(
     (state: RemeterOficiosBlocoState) => state.entitiesId
 );
 
-export const getDocumentos: any = createSelector(
+export const getDocumentosAvulso: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getIds,
     schemaDocumentoSelectors.entitiesProjector
+);
+
+export const getSelectedIds: any = createSelector(
+    getRemeterOficiosBlocoState,
+    (state: RemeterOficiosBlocoState) => state.selectedIds
+);
+
+export const getTarefaGroup: any = createSelector(
+    getRemeterOficiosBlocoState,
+    (state: RemeterOficiosBlocoState) => state.tarefaGroup
+);
+
+export const getAnyLoading: any = createSelector(
+    getRemeterOficiosBlocoState,
+    (state: RemeterOficiosBlocoState) => {
+        const tarefasGroup = Object.values(state.tarefaGroup);
+        return tarefasGroup.filter((group) => group.loading === true).length > 0
+    }
+);
+
+export const getAllLoaded: any = createSelector(
+    getRemeterOficiosBlocoState,
+    (state: RemeterOficiosBlocoState) => {
+        const tarefasGroup = Object.values(state.tarefaGroup);
+        const notLoaded = tarefasGroup.filter((group) => group.loaded === false);
+        return tarefasGroup.length > 0 && notLoaded.length === 0
+    }
 );
 

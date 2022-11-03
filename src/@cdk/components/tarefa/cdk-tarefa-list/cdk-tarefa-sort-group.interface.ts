@@ -3,7 +3,8 @@ import {Tarefa} from '@cdk/models';
 export interface CdkTarefaSortOptionsInterface {
     label: string;
     field?: string;
-    groupDataFactory(tarefas: Tarefa[], tarefaGroupOption: CdkTarefaSortOptionsInterface, options?: {expanded: boolean | ((groupData: CdkTarefaGroupDataInterface)=>boolean)}): CdkTarefaGroupDataInterface[];
+    groupable: boolean;
+    groupDataFactory?: (tarefas: Tarefa[], tarefaGroupOption: CdkTarefaSortOptionsInterface, options?: {expanded: boolean | ((groupData: CdkTarefaGroupDataInterface)=>boolean)}) => CdkTarefaGroupDataInterface[];
 }
 
 export interface CdkTarefaGroupDataInterface {

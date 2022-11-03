@@ -10,7 +10,7 @@ export const GET_OFICIOS_FAILED = '[OFICIO REMETER BLOCO] GET OFICIOS FAILED';
 
 export const UNLOAD_OFICIOS = '[OFICIO REMETER BLOCO] UNLOAD OFICIOS';
 
-export const SET_LOTE_SIZE = '[OFICIO REMETER BLOCO] SET LOTE SIZE';
+export const SET_SELECTED_IDS = '[OFICIO REMETER BLOCO] SET SELECTED IDS';
 
 export class RemeterOficio implements Action
 {
@@ -71,13 +71,14 @@ export class UnloadOficios implements Action
     readonly type = UNLOAD_OFICIOS;
 }
 
-export class SetLoteSize implements Action
+export class SetSelectedIds implements Action
 {
-    readonly type = SET_LOTE_SIZE;
+    readonly type = SET_SELECTED_IDS;
 
     constructor(public payload: any)
     {
     }
+
 }
 
 export type OficioBlocoRemoveActionsAll
@@ -88,5 +89,5 @@ export type OficioBlocoRemoveActionsAll
     | GetOficiosSuccess
     | GetOficiosFailed
     | UnloadOficios
-    | SetLoteSize
+    | SetSelectedIds
     ;
