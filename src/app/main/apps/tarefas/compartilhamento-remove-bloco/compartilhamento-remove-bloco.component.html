@@ -1,16 +1,13 @@
-<div class="header">
-    <div class="actions">
+<div class="content">
+    <div class="header">
         <button mat-icon-button
                 (click)="doAbort()"
                 aria-label="voltar"
                 matTooltip="Voltar">
             <mat-icon>arrow_back</mat-icon>
         </button>
+        <h2>Descompartilhar tarefas selecionadas</h2>
     </div>
-</div>
-<div class="content">
-
-    <h2>Descompartilhar tarefas selecionadas</h2>
 
     <cdk-compartilhamento-grid
             [loading]="(isLoading$ | async)"
