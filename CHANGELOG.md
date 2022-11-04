@@ -1071,3 +1071,4 @@
 * Correção de bug que não filtrava corretamente ao trocar modo de exibição das tarefas de grid para lista e vice-versa
 * Correção em bug ao trocar a pasta enquanto tarefas se encontram filtradas
 * Correção em bug onde mais de uma requisição de assinatura era enviada ao backend, resultando em duplicação de assinaturas de minuta
+* Correção em outro local onde a assinatura poderia ocorrer de forma duplicada

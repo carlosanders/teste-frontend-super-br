@@ -1678,7 +1678,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
             if (result.certificadoDigital) {
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento([vinculacaoEtiqueta.objectId]));
             } else {
