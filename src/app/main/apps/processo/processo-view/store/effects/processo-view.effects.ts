@@ -110,7 +110,7 @@ export class ProcessoViewEffect {
                 withLatestFrom(this._store.pipe(select(fromStore.getJuntadas))),
                 tap(([response, juntadas]) => {
                     novasJuntadas = [...juntadas, ...[response]];
-                    if (pagination.sort === {'numeracaoSequencial': 'ASC'}) {
+                    if (pagination.sort['numeracaoSequencial'] === 'ASC') {
                         novasJuntadas.sort((a: Juntada, b: Juntada) => a.numeracaoSequencial - b.numeracaoSequencial);
                     } else {
                         novasJuntadas.sort((a: Juntada, b: Juntada) => b.numeracaoSequencial - a.numeracaoSequencial);
