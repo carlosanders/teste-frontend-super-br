@@ -381,6 +381,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(() => {
             this.error = '';
         });
+
+        if (this.routerState.params['targetHandle'] === 'meus-compartilhamentos') {
+            this.filtrosMenuOpen = true;
+        }
     }
 
     /**

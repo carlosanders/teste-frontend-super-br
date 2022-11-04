@@ -1,5 +1,5 @@
 <div class="toolbar pt-8 pb-8 pl-0 pr-8">
-    <div class="multiple-choices" *ngIf="oficios.length > 0">
+    <div class="multiple-choices" *ngIf="oficios && oficios.length > 0">
 
         <mat-checkbox (click)="toggleSelectAll($event)"
                       [checked]="selectedIds.length > 0"
@@ -53,6 +53,9 @@
                          *ngIf="tarefaGroup.entitiesId?.length < tarefaGroup.pagination?.total && !tarefaGroup.loading">
                         <span>+</span>
                     </div>
+                </div>
+                <div class="oficios" *ngIf="tarefaGroup.entitiesId.length === 0">
+                    Não há ofícios a serem remetidos.
                 </div>
             </div>
         </div>
