@@ -1301,10 +1301,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             if (result.certificadoDigital) {
                 const ids = this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+                assinaSub.unsubscribe();
             } else {
                 this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
                     vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
@@ -1346,6 +1347,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         }));
                     });
                 });
+                assinaSub.unsubscribe();
             }
         });
     }
@@ -1355,11 +1357,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             if (result.certificadoDigital) {
                 const ids = this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
                     .filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+                assinaSub.unsubscribe();
             } else {
                 this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
                     .filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
@@ -1402,6 +1405,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         }));
                     });
                 });
+                assinaSub.unsubscribe();
             }
         });
     }
