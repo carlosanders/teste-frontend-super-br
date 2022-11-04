@@ -1066,3 +1066,8 @@
 * Correção em tela de atividades em bloco que mantinha a informação de destinação em tela mesmo sem minutas selecionadas
 * Correção em erro em ambientes de banco postgres após exibir ofícios remetidos de dentro do painel inicial do sistema, e fechar o editor
 * Correção de erro em painel de listagem de tarefas ao editar em bloco data de fim de prazo de tarefas de outro responsável (coordenador)
+* Correção de bug que retirava do normalizr o conteúdo do componente digital exibido no editor ao listar os componentes digitais dentro do editor
+* Melhoria ocultando da barra lateral a pasta selecionada ao filtrar as tarefas pesquisando em todas as pastas
+* Correção de bug que não filtrava corretamente ao trocar modo de exibição das tarefas de grid para lista e vice-versa
+* Correção em bug ao trocar a pasta enquanto tarefas se encontram filtradas
+

@@ -601,7 +601,7 @@ export class AnexarCopiaMainSidebarComponent implements OnInit, OnDestroy {
      * @param componenteDigitalId
      */
     showCheckboxAnexo(juntadaId: number, componenteDigitalId: number): number {
-        if (juntadaId !== this.currentJuntada.id) {
+        if (!this.currentJuntada || juntadaId !== this.currentJuntada.id) {
             // Juntada questionada não está sendo exibida atualmente no editor
             return -1;
         }

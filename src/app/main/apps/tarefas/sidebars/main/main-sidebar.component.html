@@ -47,7 +47,9 @@
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
                      [state]="{'viewMode': viewMode}"
-                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                     [class.active]="isLinkActive('entrada')"
+                     [class.accent]="isLinkActive('entrada')"
+                     (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -111,7 +113,9 @@
                 <div class="menu_content nav-link"
                      [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.id"
                      [state]="{'viewMode': viewMode}"
-                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                     [class.active]="isLinkActive(folder.id)"
+                     [class.accent]="isLinkActive(folder.id)"
+                     (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes[folder.nome]}}"
@@ -151,7 +155,9 @@
                      (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
                      [state]="{'viewMode': viewMode}"
-                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                     [class.active]="isLinkActive('lixeira')"
+                     [class.accent]="isLinkActive('lixeira')"
+                     (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['lixeira_' + generoHandleAcentuado]}}"

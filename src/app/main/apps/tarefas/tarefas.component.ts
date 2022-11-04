@@ -252,6 +252,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     modulesConfig: any;
 
+    buscarTodas: boolean = false;
+
     static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefasComponent', 'CdkTarefaList'];
     static readonly LIST_DEFINITIONS_KEY: string = 'tarefaListDefinitions';
 
@@ -764,7 +766,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         let generoParam = this.routerState.params['generoHandle'];
+        this.buscarTodas = false;
         if (this.typeHandle === 'minhas-tarefas' && params.tipoBusca === 'todas') {
+            this.buscarTodas = true;
             nparams.filter = {
                 'usuarioResponsavel.id': 'eq:' + this._profile.id,
                 'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`,
@@ -2045,7 +2049,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         listFilter: this.pagination.listFilter,
                         listSort: (updatedConfigs[scopeKey]['tableDefinitions']?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
                         limit: (updatedConfigs[scopeKey]['tableDefinitions']?.limit || 10),
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        tipoBusca: this.buscarTodas ? 'todas' : undefined,
                         offset: 0
                     });
 
@@ -2069,7 +2073,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         listFilter: this.pagination.listFilter,
                         listSort: (definitions?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
                         limit: (definitions?.limit || 10),
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        tipoBusca: this.buscarTodas ? 'todas' : undefined,
                         offset: 0
                     });
 

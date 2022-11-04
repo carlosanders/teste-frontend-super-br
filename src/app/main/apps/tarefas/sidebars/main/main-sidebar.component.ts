@@ -66,6 +66,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     viewMode: ViewMode;
 
     @Input()
+    buscarTodas: boolean = false;
+
+    @Input()
     draggingIds: number[];
 
     @ViewChild(MatSort, {static: true})
@@ -381,6 +384,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(() => {
             this.error = '';
         });
+
+        if (this.routerState.params['targetHandle'] === 'meus-compartilhamentos') {
+            this.filtrosMenuOpen = true;
+        }
     }
 
     /**
@@ -931,5 +938,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     doToogleViewMode(): void {
         this.changeViewMode.emit(this.viewMode == 'list' ? 'grid' : 'list');
         this.router.navigate(['/apps/tarefas/' + this.generoHandle + '/' + this.typeHandle + '/' + this.routerState.params['targetHandle']], {state: {'viewMode': this.viewMode == 'list' ? 'grid' : 'list'}}).then();
+    }
+
+    isLinkActive(link): boolean {
+        if (this.buscarTodas === true) {
+            return false;
+        }
+        return link == this.routerState.params['targetHandle'];
     }
 }
