@@ -11,7 +11,7 @@
     <div class="nav material2">
 
         <div *ngFor="let module of links | keyvalue; let i = index;">
-            <mat-expansion-panel *showIfRole="module.value[0]?.role"  class="mat-elevation-z0" [expanded]="i <= 0">
+            <mat-expansion-panel *showIfRole="roles[module.key]"  class="mat-elevation-z0" [expanded]="i <= 0">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{module.key.toUpperCase()}}
