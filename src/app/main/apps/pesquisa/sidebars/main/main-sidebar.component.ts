@@ -3,7 +3,6 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@an
 import {cdkAnimations} from '@cdk/animations';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
-import {IconSvgService} from "../../../../../../modules/divida/@cdk/services/icon-svg.service";
 import {CdkUtils} from "../../../../../../@cdk/utils";
 
 @Component({
@@ -24,8 +23,7 @@ export class PesquisaMainSidebarComponent implements OnInit {
      *
      */
     constructor(
-        private _cdkSidebarService: CdkSidebarService,
-        private _iconSvgService: IconSvgService
+        private _cdkSidebarService: CdkSidebarService
     )
     {
         this.menu['administrativo'] = [
@@ -64,7 +62,7 @@ export class PesquisaMainSidebarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._iconSvgService.registerIcons();
+
     }
 
     fecharSidebar() {
