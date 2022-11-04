@@ -445,7 +445,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             'setorResponsavel.nome',
             'dataHoraFinalPrazo',
             'vinculacoesEtiquetas',
-            'vinculacoesEtiquetasMinutas',
+            'vinculacoesEtiquetas.objectClass',
             'observacao',
             'urgente',
         ];
@@ -690,7 +690,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
         this.agruparFormControl.setValue(this.tableDefinitions.data?.agrupar || false);
 
-        if (sortOption && this.agruparFormControl.value === true) {
+        if (sortOption && this.agruparFormControl.value === true && sortOption.groupable === true && sortOption.groupDataFactory) {
             this.groupedTarefas = sortOption.groupDataFactory(
                 this.tarefas,
                 sortOption,
@@ -1199,6 +1199,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             {
                 label: 'Final do Prazo',
                 field: 'dataHoraFinalPrazo',
+                groupable: true,
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
                     const dateNow = moment();
                     const list: CdkTarefaGroupDataInterface[] = [];
@@ -1270,6 +1271,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             {
                 label: 'Data da Distribuição',
                 field: 'dataHoraDistribuicao',
+                groupable: true,
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
                     const dateNow = moment();
                     const list: CdkTarefaGroupDataInterface[] = [];
@@ -1337,6 +1339,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             {
                 label: 'Última Atualização',
                 field: 'atualizadoEm',
+                groupable: true,
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
                     const dateNow = moment.now();
                     const list: CdkTarefaGroupDataInterface[] = [];
@@ -1404,6 +1407,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             {
                 label: 'Processo',
                 field: 'processo.NUP',
+                groupable: true,
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
                     const list: CdkTarefaGroupDataInterface[] = [];
                     tarefas.forEach((tarefa) => {
@@ -1444,6 +1448,7 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
             {
                 label: 'Espécie Tarefa',
                 field: 'especieTarefa.nome',
+                groupable: true,
                 groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
                     const list: CdkTarefaGroupDataInterface[] = [];
                     tarefas.forEach((tarefa) => {
@@ -1459,6 +1464,66 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                                 tarefaList: [],
                                 dataLabel: tarefa.especieTarefa.nome,
                                 mode: 'group',
+                                expanded: expanded,
+                            };
+
+                            if (options && options?.expanded) {
+                                if (typeof options.expanded === 'boolean') {
+                                    expanded = options.expanded;
+                                }
+                                if (typeof options.expanded === 'function') {
+                                    expanded = options.expanded(groupData);
+                                }
+                            }
+
+                            groupData.expanded = expanded;
+                            list.push(groupData);
+                        }
+
+                        groupData.tarefaList.push(tarefa);
+                    });
+
+                    return list;
+                }
+            },
+            {
+                label: 'Minutas',
+                field: 'vinculacoesEtiquetas.objectClass',
+                groupable: true,
+                groupDataFactory(tarefas: Tarefa[], tarefaSortOption: CdkTarefaSortOptionsInterface, options): CdkTarefaGroupDataInterface[] {
+                    const list: CdkTarefaGroupDataInterface[] = [];
+
+                    tarefas.forEach((tarefa) => {
+                        const minutasTarefa = !tarefa.vinculacoesEtiquetas ? [] : tarefa.vinculacoesEtiquetas.filter(
+                            vinculacaoEtiqueta => vinculacaoEtiqueta?.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+                        );
+
+                        let key = null;
+                        let label = null;
+                        let mode = null;
+
+                        if (minutasTarefa.length > 0) {
+                            key = 1;
+                            label = 'Tarefas com minutas';
+                            mode = 'group';
+                        } else {
+                            key = 2;
+                            label = 'Tarefas sem minutas';
+                            mode = 'group';
+                        }
+
+                        const identifier = `${key}-${tarefaSortOption.label}`;
+                        let groupData = list.find((groupData) => groupData.identifier === identifier);
+
+                        if (!groupData) {
+                            let expanded = true;
+
+                            groupData = {
+                                identifier: identifier,
+                                tarefaSortOption: tarefaSortOption,
+                                tarefaList: [],
+                                dataLabel: label,
+                                mode: mode,
                                 expanded: expanded,
                             };
 

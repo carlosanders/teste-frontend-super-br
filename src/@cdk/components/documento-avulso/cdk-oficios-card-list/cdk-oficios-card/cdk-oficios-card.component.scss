@@ -1,0 +1,29 @@
+@import '../../../../scss/cdk';
+
+cdk-oficios-card {
+    border: 1px solid;
+    border-radius: 3px;
+
+    .more-vert {
+        height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .file {
+        cursor: pointer;
+        border-right: 1px solid;
+    }
+
+    .space {
+        height: 4px;
+    }
+
+    .borda-erro {
+        border: solid red 1px;
+    }
+}
+
+.multiline-tooltip {
+    white-space: pre-line !important;
+}

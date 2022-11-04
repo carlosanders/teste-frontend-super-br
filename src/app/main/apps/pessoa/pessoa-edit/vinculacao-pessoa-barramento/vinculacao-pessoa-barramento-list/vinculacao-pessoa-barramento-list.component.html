@@ -4,7 +4,7 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'edit']"
+        [actions]="['create', 'edit', 'delete']"
         (reload)="reload($event)"
         (create)="create()"
         (edit)="edit($event)"

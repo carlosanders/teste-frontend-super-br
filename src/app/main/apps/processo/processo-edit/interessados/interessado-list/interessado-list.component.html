@@ -5,10 +5,11 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create' ,'edit', 'delete', 'showDeleted']"
+        [actions]="['create' ,'edit', 'delete', 'showDeleted', 'representantes']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
         (create)="create()"
-        (delete)="delete($event)">
+        (delete)="delete($event)"
+        (representantes)="representantes($event)">
 </cdk-interessado-grid>

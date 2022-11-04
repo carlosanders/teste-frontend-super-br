@@ -29,7 +29,10 @@ export class RemeterOficiosBlocoEffect {
                 redo: 'inherent'
             }))),
             mergeMap((response: DocumentoAvulso) => [
-                new fromStore.RemeterOficioSuccess(action.payload),
+                new fromStore.RemeterOficioSuccess({
+                    oficio: response,
+                    tarefa: action.payload.tarefa
+                }),
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
             ]),
             catchError((err) => {
@@ -41,37 +44,42 @@ export class RemeterOficiosBlocoEffect {
                     redo: 'inherent'
                 }));
                 return of(new fromStore.RemeterOficioFailed({
-                    id: action.payload.documentoId,
+                    tarefa: action.payload.tarefa,
+                    oficio: action.payload.oficio,
                     error: CdkUtils.errorsToString(err)
                 }));
             })
         ), 25)
     ));
 
-    getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
+    getDocumentosAvulso: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<fromStore.GetOficios>(fromStore.GET_OFICIOS),
         mergeMap(action => this._documentoAvulsoService.query(
                 JSON.stringify({
-                    ...action.payload.filter,
-                    ...action.payload.gridFilter,
+                    ...action.payload.pagination.filter,
+                    ...action.payload.pagination.gridFilter,
                 }),
-                action.payload.limit,
-                action.payload.offset ?? 0,
-                JSON.stringify(action.payload.sort),
-                JSON.stringify(action.payload.populate),
-                JSON.stringify(action.payload.context)
+                action.payload.pagination.limit,
+                action.payload.pagination.offset ?? 0,
+                JSON.stringify(action.payload.pagination.sort),
+                JSON.stringify(action.payload.pagination.populate),
+                JSON.stringify(action.payload.pagination.context)
             ).pipe(
             mergeMap(response => [
                 new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                 new fromStore.GetOficiosSuccess({
                     entitiesId: response['entities'].map((documento) => documento.id),
-                    loaded: [this.routerState.params['generoHandle'], this.routerState.params['typeHandle'], this.routerState.params['targetHandle']].join('_'),
                     total: response['total'],
+                    tarefa: action.payload.tarefa,
+                    more: action.payload?.more
                 }),
             ]),
             catchError((err) => {
                 console.log(err);
-                return of(new fromStore.GetOficiosFailed(err));
+                return of(new fromStore.GetOficiosFailed({
+                    tarefa: action.payload.tarefa,
+                    error: err
+                }));
             })
         ))
     ));

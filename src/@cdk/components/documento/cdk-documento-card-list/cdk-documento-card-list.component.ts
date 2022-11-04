@@ -11,14 +11,16 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Documento, Pagination, VinculacaoDocumento} from '@cdk/models';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatMenuTrigger} from '@angular/material/menu';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
-import {MatDialog} from '@angular/material/dialog';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 
 @Component({
     selector: 'cdk-documento-card-list',
@@ -86,6 +88,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Output()
     converteMinuta: EventEmitter<Documento> = new EventEmitter<Documento>();
+
+    @Output()
+    converteMinutaBloco: EventEmitter<Documento[]> = new EventEmitter<Documento[]>();
 
     @Output()
     alterarTipoDocumento = new EventEmitter<Documento>();
@@ -224,6 +229,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doConverteMinuta(documento): void {
         this.converteMinuta.emit(documento);
+    }
+
+    doConverteMinutaBloco(): void {
+        this.converteMinutaBloco.emit(this.selectedIds.map((id) => this.documentos.find((documento) => documento.id === id)));
     }
 
     doAlterarDocumentoBloco(): void {

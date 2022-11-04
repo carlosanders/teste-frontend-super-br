@@ -350,6 +350,7 @@ export class DocumentosVinculadosEffects {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacao.id,
                         type: action.payload.operacao.type,
+                        loteId: action.payload.operacao.loteId,
                         content: `Convertendo anexo id ${action.payload.documento.id} em minuta da tarefa id ${action.payload.tarefa.id} com sucesso!`,
                         status: 1, // sucesso
                         redo: 'inherent',
@@ -368,6 +369,7 @@ export class DocumentosVinculadosEffects {
                     console.log(err);
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacao.id,
+                        loteId: action.payload.operacao.loteId,
                         type: 'documento',
                         content: `Erro ao converter anexo id ${action.payload.documento.id} em minuta da tarefa id ${action.payload.tarefa.id}!`,
                         status: 2, // erro

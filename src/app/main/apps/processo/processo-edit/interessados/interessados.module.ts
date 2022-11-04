@@ -35,6 +35,10 @@ const routes: Routes = [
                 loadChildren: () => import('./interessado-edit/interessado-edit.module').then(m => m.InteressadoEditModule),
             },
             {
+                path       : ':interessadoHandle/representantes',
+                loadChildren: () => import('./representantes/representantes.module').then(m => m.RepresentantesModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

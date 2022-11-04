@@ -7,6 +7,13 @@ compartilhamento-remove-bloco {
         padding: 8px;
         flex-direction: column;
 
+        > .header {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
         > div.actions {
             flex: 0 1 auto;
             display: flex;

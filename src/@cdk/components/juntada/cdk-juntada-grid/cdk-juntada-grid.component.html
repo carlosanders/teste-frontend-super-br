@@ -353,7 +353,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('assinar') > -1 && deletingIds?.indexOf(juntada.id) === -1 &&
                                      (assinandoId !== undefined && assinandoId?.indexOf(juntada.documento?.id)) === -1"
-                                [disabled]="deletedIds?.indexOf(juntada.id) > -1 || juntada.documento?.assinado || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
+                                [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
                                 (click)="doAssinar(juntada.documento)" aria-label="Assinar" matTooltip="Assinar">
                             <mat-icon>lock</mat-icon>
                         </button>

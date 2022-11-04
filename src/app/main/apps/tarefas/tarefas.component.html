@@ -213,6 +213,7 @@
                 <div class="tarefa-list" #tarefaListElement mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      (resizeEnd)="onResizeEndTarefaList($event)"
+                     (selectstart)="$event.preventDefault()"
                      [fxFlex]="tarefaListSize"
                      [ngClass]="{
                         'mobile-mode': mobileMode || tarefaListViewMode === 'grid',
@@ -332,6 +333,7 @@
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [fxFlex]="100"
+                     (selectstart)="$event.preventDefault()"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
                         'mobile-mode': mobileMode || tarefaListViewMode === 'grid',

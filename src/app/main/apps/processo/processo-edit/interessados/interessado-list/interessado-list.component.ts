@@ -146,4 +146,8 @@ export class InteressadoListComponent implements OnInit, OnDestroy {
 
     }
 
+    representantes(interessadoId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${interessadoId}/representantes/listar`)]).then();
+    }
+
 }
