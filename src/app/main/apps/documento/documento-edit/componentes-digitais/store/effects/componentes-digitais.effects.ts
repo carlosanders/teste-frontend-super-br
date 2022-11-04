@@ -54,7 +54,7 @@ export class ComponenteDigitalEffects {
                 JSON.stringify(params.populate));
         }),
         mergeMap(response => [
-            new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema, populate: ['criadoPor']}),
+            new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
             new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                 entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
                 loaded: {

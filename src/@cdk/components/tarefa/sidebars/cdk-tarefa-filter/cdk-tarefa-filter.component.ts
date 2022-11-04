@@ -203,13 +203,19 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
             this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
         }
 
-        if (this.typeHandle === 'minhas-tarefas' && changes['targetHandle'] !== this.targetHandle) {
+        if (changes['targetHandle'] && !changes['targetHandle'].firstChange && this.typeHandle === 'minhas-tarefas' && changes['targetHandle']?.previousValue !== this.targetHandle) {
             this.form.get('tipoBusca').setValue('pastaAtual');
-        }
-
-        if (this.typeHandle !== changes['typeHandle'] && this.targetHandle !== changes['targetHandle']) {
             this.form.get('redistribuida').setValue('todos');
             this.form.get('urgente').setValue('todos');
+            this.emite();
+            return;
+        }
+
+        if (changes['typeHandle'] && !changes['typeHandle'].firstChange && this.typeHandle !== changes['typeHandle']?.previousValue) {
+            this.form.get('redistribuida').setValue('todos');
+            this.form.get('urgente').setValue('todos');
+            this.emite();
+            return;
         }
 
         if (this.filterProcesso) {
