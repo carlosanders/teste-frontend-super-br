@@ -256,6 +256,7 @@
                                      [novaTarefa]="novaTarefa"
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
+                                     (limparFiltros)="limpaFiltros()"
                                      (reload)="reload($event)"
                                      (selected)="setCurrentTarefa($event)"
                                      (folder)="setFolderOnSelectedTarefas($event)"

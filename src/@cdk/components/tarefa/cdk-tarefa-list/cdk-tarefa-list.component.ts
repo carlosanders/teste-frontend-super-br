@@ -141,6 +141,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
     @Output()
     changeSelectedIds = new EventEmitter();
 
+    @Output()
+    limparFiltros = new EventEmitter();
+
     @Input()
     error: any;
 
@@ -860,6 +863,11 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
         }
 
         this.loadPage();
+    }
+
+    limpaFiltros(listFilter): void {
+        this.listFilter = listFilter;
+        this.limparFiltros.emit();
     }
 
     doMovimentar(tarefaId): void {
