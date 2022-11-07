@@ -1074,3 +1074,4 @@
 * Correção em outro local onde a assinatura poderia ocorrer de forma duplicada
 * Correção de erros na lista de tarefas após implementação dos filtros de buscar todas
 * Melhoria possibilitando clicar na pasta do atual targetHandle para remover o filtro de todas da pesquisa na lista de tarefas
+* Correção de erro ao remeter ofícios em diversas rotas do painel de tarefas
