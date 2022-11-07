@@ -38,6 +38,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     @Output()
     selected = new EventEmitter<any>();
 
+    @Output()
+    limpaFiltros = new EventEmitter<any>();
+
+    @Input()
+    doLimparFiltro: Subject<boolean> = new Subject<boolean>();
+
     @Input()
     mode = 'list';
 
@@ -196,6 +202,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
                 }));
             }
         });
+        this.doLimparFiltro.subscribe((value) => {
+            if (value) {
+                this.removeFiltros();
+                this.doLimparFiltro.next(false);
+            }
+        })
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
@@ -203,19 +215,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
             this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
         }
 
-        if (changes['targetHandle'] && !changes['targetHandle'].firstChange && this.typeHandle === 'minhas-tarefas' && changes['targetHandle']?.previousValue !== this.targetHandle) {
-            this.form.get('tipoBusca').setValue('pastaAtual');
-            this.form.get('redistribuida').setValue('todos');
-            this.form.get('urgente').setValue('todos');
-            this.emite();
-            return;
+        if (changes['targetHandle'] && !changes['targetHandle'].firstChange && changes['targetHandle'].currentValue !== undefined && this.typeHandle === 'minhas-tarefas' && changes['targetHandle'].previousValue !== this.targetHandle) {
+            this.removeFiltros();
         }
 
         if (changes['typeHandle'] && !changes['typeHandle'].firstChange && this.typeHandle !== changes['typeHandle']?.previousValue) {
-            this.form.get('redistribuida').setValue('todos');
-            this.form.get('urgente').setValue('todos');
-            this.emite();
-            return;
+            this.removeFiltros();
         }
 
         if (this.filterProcesso) {
@@ -472,6 +477,25 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
 
     buscar(): void {
         this.emite();
+    }
+
+    removeFiltros(): void {
+        this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
+        this._cdkTarefaFilterService.clear.next(true);
+        this.etiquetas = [];
+        this.selectedEspecieTarefaList = [];
+
+        if (this.form.get('tipoBusca')) {
+            this.form.get('tipoBusca').setValue('pastaAtual');
+        }
+        this.form.get('redistribuida').setValue('todos');
+        this.form.get('urgente').setValue('todos');
+        const request = {
+            filters: {},
+            tipoBusca: null
+        };
+        this.limpaFiltros.emit(request);
     }
 
     limpar(): void {

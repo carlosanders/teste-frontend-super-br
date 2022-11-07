@@ -114,6 +114,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routerState: any;
     hiddenFilters: string[] = [];
+    doLimpaFiltros: Subject<boolean> = new Subject<boolean>();
 
     searchInput: FormControl;
 
@@ -752,6 +753,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    limpaFiltros(): void {
+        this.buscarTodas = false;
+    }
+
     reload(params): void {
         this.novaTarefa = false;
         const nparams = {
@@ -779,9 +784,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 modulo: generoParam,
                 mostrarApagadas: true
             };
-        }
-
-        if (this.typeHandle === 'minhas-tarefas') {
+        } else if (this.typeHandle === 'minhas-tarefas') {
             nparams.filter = {
                 'usuarioResponsavel.id': 'eq:' + this._profile.id,
                 'dataHoraConclusaoPrazo': 'isNull'
@@ -822,57 +825,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     mostrarApagadas: true
                 };
             }
-        }
-
-        if (this.typeHandle === 'compartilhadas') {
-
-            if (this.routerState.params['targetHandle'] === 'outros-usuarios') {
-                nparams.filter = {
-                    'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                    'dataHoraConclusaoPrazo': 'isNull'
-                };
-            }
-
-            if (this.routerState.params['targetHandle'] === 'meus-compartilhamentos') {
-                nparams.filter = {
-                    'compartilhamentos.tarefa.usuarioResponsavel.id': 'eq:' + this._profile.id,
-                    'dataHoraConclusaoPrazo': 'isNull'
-                };
-            }
-        }
-
-        if (this.typeHandle === 'concluidas') {
-            nparams.filter = {
-                'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                'dataHoraConclusaoPrazo': 'isNotNull'
-            };
-        }
-
-        if (this.typeHandle === 'enviadas') {
-            nparams.filter = {
-                'criadoPor.id': 'eq:' + this._profile.id,
-                'usuarioResponsavel.id': 'neq:' + this._profile.id,
-            };
-        }
-
-        if (this.typeHandle === 'coordenacao') {
-            nparams.filter = {
-                dataHoraConclusaoPrazo: 'isNull'
-            };
-            const routeTargetParam = of('targetHandle');
-            routeTargetParam.subscribe((targetParam) => {
-                nparams.filter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-            });
-        }
-
-        if (this.typeHandle === 'assessor') {
-            nparams.filter = {
-                dataHoraConclusaoPrazo: 'isNull'
-            };
-            const routeTargetParam = of('targetHandle');
-            routeTargetParam.subscribe((targetParam) => {
-                nparams.filter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-            });
         }
 
         nparams['filter'] = {
@@ -1884,6 +1836,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
+    limparBuscaTodos(): void {
+        this.buscarTodas = false;
+        this.limpaFiltros();
+    }
+
     /**
      * Remove documento vinculado
      *
@@ -2224,7 +2181,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Modelo',
-                context: 'eq:modelo'
+                context: 'eq:modelo' +
+                    '_genero_' + this.routerState.params.generoHandle
             }),
             5,
             0,

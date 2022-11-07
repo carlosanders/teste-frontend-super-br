@@ -79,7 +79,7 @@ import {
     CRIADO_ANEXO_DOCUMENTO,
     CriadoAnexoDocumento, REMOVIDO_ANEXO_DOCUMENTO,
     RemovidoAnexoDocumento
-} from '../../../documento/store/actions/documento.actions';
+} from '../../../documento/store';
 import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';

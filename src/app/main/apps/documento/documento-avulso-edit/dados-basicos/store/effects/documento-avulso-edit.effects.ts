@@ -142,9 +142,7 @@ export class DocumentoAvulsoEditEffects {
                             subStep: parseInt(steps[1], 10)
                         }));
                     } else if (this.routerState.params['stepHandle'] === 'latest') {
-                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                            step: 0
-                        }));
+                        this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(this.routerState.params['processoHandle']));
                     } else {
                         this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                     }
