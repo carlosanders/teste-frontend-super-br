@@ -21,7 +21,7 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService, ViewMode} from './cdk-tarefa-list.service';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {of, Subscription, zip} from 'rxjs';
+import {of, Subject, Subscription, zip} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
@@ -83,6 +83,9 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
 
     @Input()
     togglingUrgenteIds: number[] = [];
+
+    @Input()
+    doLimparFiltros: Subject<boolean> = new Subject<boolean>();
 
     @Input()
     assinandoTarefasIds: number[] = [];

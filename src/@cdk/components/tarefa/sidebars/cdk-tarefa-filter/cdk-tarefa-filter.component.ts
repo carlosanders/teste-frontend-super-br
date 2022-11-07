@@ -42,6 +42,9 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
     limpaFiltros = new EventEmitter<any>();
 
     @Input()
+    doLimparFiltro: Subject<boolean> = new Subject<boolean>();
+
+    @Input()
     mode = 'list';
 
     @Input()
@@ -199,6 +202,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
                 }));
             }
         });
+        this.doLimparFiltro.subscribe((value) => {
+            if (value) {
+                this.removeFiltros();
+                this.doLimparFiltro.next(false);
+            }
+        })
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {

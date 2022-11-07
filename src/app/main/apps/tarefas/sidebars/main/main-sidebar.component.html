@@ -49,7 +49,7 @@
                      [state]="{'viewMode': viewMode}"
                      [class.active]="isLinkActive('entrada')"
                      [class.accent]="isLinkActive('entrada')"
-                     (click)="fecharSidebar()">
+                     (click)="fecharSidebar('entrada')">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -115,7 +115,7 @@
                      [state]="{'viewMode': viewMode}"
                      [class.active]="isLinkActive(folder.id)"
                      [class.accent]="isLinkActive(folder.id)"
-                     (click)="fecharSidebar()">
+                     (click)="fecharSidebar(folder.id)">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes[folder.nome]}}"
@@ -157,7 +157,7 @@
                      [state]="{'viewMode': viewMode}"
                      [class.active]="isLinkActive('lixeira')"
                      [class.accent]="isLinkActive('lixeira')"
-                     (click)="fecharSidebar()">
+                     (click)="fecharSidebar('lixeira')">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['lixeira_' + generoHandleAcentuado]}}"

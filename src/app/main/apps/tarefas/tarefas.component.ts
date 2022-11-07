@@ -114,6 +114,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routerState: any;
     hiddenFilters: string[] = [];
+    doLimpaFiltros: Subject<boolean> = new Subject<boolean>();
 
     searchInput: FormControl;
 
@@ -1833,6 +1834,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     doRemoveAssinaturaDocumento(documentoId: number): void {
         this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    limparBuscaTodos(): void {
+        this.buscarTodas = false;
+        this.limpaFiltros();
     }
 
     /**

@@ -69,6 +69,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     buscarTodas: boolean = false;
 
     @Input()
+    doLimpaFiltros: Subject<boolean> = new Subject<boolean>();
+
+    @Output()
+    limparBuscaTodos: EventEmitter<any> = new EventEmitter<any>();
+
+    @Input()
     draggingIds: number[];
 
     @ViewChild(MatSort, {static: true})
@@ -929,7 +935,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         return usuario.isDisponivel && tarefa.usuarioResponsavel.id !== usuario.id;
     }
 
-    fecharSidebar(): void {
+    fecharSidebar(link = null): void {
+        if (link && this.buscarTodas === true && link == this.routerState.params['targetHandle']) {
+            this.doLimpaFiltros.next(true);
+            this.changeViewMode.emit(this.viewMode);
+        }
         if (!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('tarefas-main-sidebar').close();
         }

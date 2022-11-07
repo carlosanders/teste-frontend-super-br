@@ -6,6 +6,8 @@
         <tarefas-main-sidebar
             (reload)="reload($event)"
             (changeViewMode)="doTarefaListViewModeChange($event)"
+            (limparBuscaTodos)="limparBuscaTodos()"
+            [doLimpaFiltros]="this.doLimpaFiltros"
             [viewMode]="tarefaListViewMode"
             [buscarTodas]="buscarTodas"
             [draggingIds]="draggingIds$ | async">
@@ -257,6 +259,7 @@
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
                                      (limparFiltros)="limpaFiltros()"
+                                     [doLimparFiltros]="this.doLimpaFiltros"
                                      (reload)="reload($event)"
                                      (selected)="setCurrentTarefa($event)"
                                      (folder)="setFolderOnSelectedTarefas($event)"

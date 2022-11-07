@@ -5,6 +5,7 @@
         <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
                            (limpaFiltros)="limpaFiltros($event)"
                            [arrayFiltrosEtiquetas]="arraySearchTypes"
+                           [doLimparFiltro]="this.doLimparFiltros"
                            [targetHandle]="targetHandle"
                            [typeHandle]="typeHandle"
                            [filterProcesso]="filterProcesso"
