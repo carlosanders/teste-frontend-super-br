@@ -57,15 +57,15 @@ export class RepositorioEditEffect {
         ofType<RepositorioEditActions.SaveRepositorio>(RepositorioEditActions.SAVE_REPOSITORIO),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
-            type: 'tese',
-            content: 'Salvando a tese ...',
+            type: 'repositorio',
+            content: 'Salvando a repositório ...',
             status: 0, // carregando
         }))),
         switchMap(action => this._repositorioService.save(action.payload.repositorio).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
-                type: 'tese',
-                content: 'Tese id ' + response.id + ' salva com sucesso.',
+                type: 'repositorio',
+                content: 'Repositório id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
             }))),
             mergeMap((response: Repositorio) => [
@@ -77,8 +77,8 @@ export class RepositorioEditEffect {
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
-                    type: 'tese',
-                    content: 'Erro ao salvar a tese!',
+                    type: 'repositorio',
+                    content: 'Erro ao salvar a repositório!',
                     status: 2, // erro
                 }));
                 return of(new RepositorioEditActions.SaveRepositorioFailed(err));

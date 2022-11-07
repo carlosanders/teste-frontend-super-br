@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-estado-autocomplete',
@@ -101,6 +102,6 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
     }
 
     displayEstadoFn(estado): string {
-        return estado ? estado.nome + ` (${estado.uf})`: null;
+        return estado ? TitleCasePipe.format(estado.nome) + ` (${estado.uf})`: null;
     }
 }

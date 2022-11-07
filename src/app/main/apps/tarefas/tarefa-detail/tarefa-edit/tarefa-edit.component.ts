@@ -93,6 +93,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         const operacaoId = CdkUtils.makeId();
         const tarefa = new Tarefa();
+        Object.assign(tarefa, this.tarefa);
 
         Object.entries(values).forEach(
             ([key, value]) => {

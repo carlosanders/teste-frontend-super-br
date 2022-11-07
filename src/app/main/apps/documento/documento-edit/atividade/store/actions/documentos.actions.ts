@@ -14,6 +14,12 @@ export const UPDATE_DOCUMENTO_FAILED = '[ATIVIDADE DOCUMENTO] UPDATE DOCUMENTO F
 
 export const REMOVE_MINUTAS_TAREFA = '[ATIVIDADE DOCUMENTO] REMOVE MINUTAS TAREFA';
 
+export const CONVERTE_MINUTA_EM_ANEXO = '[ATIVIDADE DOCUMENTO] CONVERTE MINUTA EM ANEXO';
+export const CONVERTE_MINUTA_EM_ANEXO_SUCCESS = '[ATIVIDADE DOCUMENTO] CONVERTE MINUTA EM ANEXO SUCCESS';
+export const CONVERTE_MINUTA_EM_ANEXO_FAILED = '[ATIVIDADE DOCUMENTO] CONVERTE MINUTA EM ANEXO FAILED';
+
+export const ADD_DOCUMENTO_ID = '[ATIVIDADE DOCUMENTO] ADD DOCUMENTO ID';
+
 /**
  * Get Documentos
  */
@@ -122,6 +128,42 @@ export class UpdateDocumentoFailed implements Action
     }
 }
 
+export class ConverteMinutaEmAnexo implements Action
+{
+    readonly type = CONVERTE_MINUTA_EM_ANEXO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteMinutaEmAnexoSuccess implements Action
+{
+    readonly type = CONVERTE_MINUTA_EM_ANEXO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteMinutaEmAnexoFailed implements Action
+{
+    readonly type = CONVERTE_MINUTA_EM_ANEXO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AddDocumentoId implements Action
+{
+    readonly type = ADD_DOCUMENTO_ID;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -131,4 +173,9 @@ export type DocumentosActionsAll
     | RemoveMinutasTarefa
     | UpdateDocumento
     | UpdateDocumentoSuccess
-    | UpdateDocumentoFailed;
+    | UpdateDocumentoFailed
+    | ConverteMinutaEmAnexo
+    | ConverteMinutaEmAnexoSuccess
+    | ConverteMinutaEmAnexoFailed
+    | AddDocumentoId
+    ;

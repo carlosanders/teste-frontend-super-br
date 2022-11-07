@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-autocomplete',
@@ -97,8 +98,8 @@ export class CdkTipoAcaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTipoAcaoWorkflowFn(tipoAcaoWorkflow): string {
-        let displayed = tipoAcaoWorkflow ? tipoAcaoWorkflow.valor : '';
-        displayed += (tipoAcaoWorkflow && tipoAcaoWorkflow.generoProcesso) ? (' (' + tipoAcaoWorkflow.generoProcesso.nome + ')') : '';
+        let displayed = tipoAcaoWorkflow ? TitleCasePipe.format(tipoAcaoWorkflow.valor) : '';
+        displayed += (tipoAcaoWorkflow && tipoAcaoWorkflow.generoProcesso) ? (' (' + TitleCasePipe.format(tipoAcaoWorkflow.generoProcesso.nome) + ')') : '';
         return displayed;
     }
 }

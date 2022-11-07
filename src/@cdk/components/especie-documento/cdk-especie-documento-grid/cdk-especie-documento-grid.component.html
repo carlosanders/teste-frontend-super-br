@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -118,7 +118,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.descricao  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- GeneroDocumento Column -->
@@ -129,7 +129,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile'
                         data-label='Gênero Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.generoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.generoDocumento?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -150,7 +150,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.criadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -170,7 +170,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.atualizadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -190,7 +190,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumento" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumento.id) > -1, 'error': getProp(deletingErrors, especieDocumento.id)}"> {{especieDocumento.apagadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

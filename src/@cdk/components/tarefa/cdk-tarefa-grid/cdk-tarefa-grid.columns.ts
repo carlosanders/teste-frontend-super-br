@@ -1,11 +1,11 @@
 import {TableColumn} from '../../table-definitions/table-column';
 import {TableColumnDefinitions} from '../../table-definitions/table-column-definitions';
 import {Tarefa} from '../../../models';
-import {TableDefinitions} from "../../table-definitions/table-definitions";
-import {TitleCasePipe} from "../../../pipes/title-case.pipe";
-import {CdkTarefaGridComponent} from "./cdk-tarefa-grid.component";
-import {CdkUsuarioGridComponent} from "../../usuario/cdk-usuario-grid/cdk-usuario-grid.component";
-import {CdkTarefaListComponent} from "../cdk-tarefa-list/cdk-tarefa-list.component";
+import {TableDefinitions} from '../../table-definitions/table-definitions';
+import {TitleCasePipe} from '../../../pipes/title-case.pipe';
+import {CdkTarefaGridComponent} from './cdk-tarefa-grid.component';
+import {CdkUsuarioGridComponent} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid.component';
+import {CdkTarefaListComponent} from '../cdk-tarefa-list/cdk-tarefa-list.component';
 
 export const CdkTarefaGridColumns: TableDefinitions = {
     identifier: 'CdkTarefaGridComponent',

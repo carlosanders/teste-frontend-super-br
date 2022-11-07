@@ -20,7 +20,6 @@ import {CalendarComponent} from './calendar.component';
 import {CalendarService} from 'app/main/apps/calendario/calendar.service';
 import {CalendarEventFormDialogComponent} from './event-form/event-form.component';
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {LoginService} from '../../auth/login/login.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import * as fromGuards from 'app/main/apps/calendario/store/guards';
 import {CalendarioStoreModule} from './store/store.module';
@@ -30,7 +29,7 @@ import {MatDividerModule} from '@angular/material/divider';
 
 const routes: Routes = [
     {
-        path: ':contextHandle/:typeHandle/:targetHandle',
+        path: ':contextHandle/:typeHandle/:alvoHandle',
         component: CalendarComponent,
         children: [],
         canActivate: [fromGuards.ResolveGuard]

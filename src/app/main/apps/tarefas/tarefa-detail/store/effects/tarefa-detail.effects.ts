@@ -85,6 +85,7 @@ export class TarefaDetailEffect {
                 'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
+                'folder'
             ];
             let generoParam = this.routerState.params['generoHandle'];
             if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {

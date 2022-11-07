@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-historico-autocomplete',
@@ -94,6 +95,6 @@ export class CdkHistoricoAutocompleteComponent implements OnInit {
     }
 
     displayHistoricoFn(historico): string {
-        return historico ? historico.nome : null;
+        return historico ? TitleCasePipe.format(historico.nome) : null;
     }
 }

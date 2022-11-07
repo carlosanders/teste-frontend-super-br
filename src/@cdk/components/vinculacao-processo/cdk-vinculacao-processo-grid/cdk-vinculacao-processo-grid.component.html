@@ -126,7 +126,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
                         data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.modalidadeVinculacaoProcesso?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.modalidadeVinculacaoProcesso?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -136,7 +136,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
                         data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.observacao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -146,7 +146,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -167,7 +167,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -187,7 +187,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1, 'error': getProp(deletingErrors, vinculacaoProcesso.id)}"> {{vinculacaoProcesso.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

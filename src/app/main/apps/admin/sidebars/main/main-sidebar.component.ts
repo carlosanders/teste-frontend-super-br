@@ -17,6 +17,7 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 export class MainSidebarComponent implements OnInit, OnDestroy {
 
     links: any = [];
+    roles: any[] = [];
     colaborador: Colaborador;
 
     /**
@@ -176,14 +177,23 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
         ];
 
         this.links['administrativo'] = CdkUtils.sortArraySideBar(links);
-        const path = 'app/main/apps/admin/sidebars/main';
 
+        this.roles['administrativo'] = this.links['administrativo']
+            .map(link => link.role)
+            .flat()
+            .filter((x, i, a) => x && a.indexOf(x) === i);
+
+        const path = 'app/main/apps/admin/sidebars/main';
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
                 let modulesLink = [];
                 module.sidebars[path].forEach((s => modulesLink.push(s)));
                 modulesLink = CdkUtils.sortArraySideBar(modulesLink);
                 this.links[module['label'] ? module['label'].toLowerCase() : module['name'].toLowerCase()] = modulesLink;
+                this.roles[module['label'] ? module['label'].toLowerCase() : module['name'].toLowerCase()] =
+                    modulesLink.map(link => link.role)
+                        .flat()
+                        .filter((x, i, a) => x && a.indexOf(x) === i);
             }
         });
     }

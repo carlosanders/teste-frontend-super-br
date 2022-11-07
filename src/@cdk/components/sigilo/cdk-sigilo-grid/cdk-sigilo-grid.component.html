@@ -106,7 +106,7 @@
                         Tipo
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Tipo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.tipoSigilo?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.tipoSigilo?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Desclassificado Column -->
@@ -124,7 +124,7 @@
                         Razões de Classificação
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Razões de Classificação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.razoesClassificacaoSigilo}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.razoesClassificacaoSigilo | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataHoraExpiracao Column -->
@@ -151,7 +151,7 @@
                         Fundamento Legal
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Fundamento Legal: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.fundamentoLegal}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.fundamentoLegal | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Modalidade do Sigilo Column -->
@@ -160,7 +160,7 @@
                         Categoria
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Categoria: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.modalidadeCategoriaSigilo?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.modalidadeCategoriaSigilo?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -169,7 +169,7 @@
                         Observação
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.observacao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
@@ -178,7 +178,7 @@
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.origemDados?.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CodigoIndexacao Column -->
@@ -214,7 +214,7 @@
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.origemDados?.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->
@@ -223,7 +223,7 @@
                         Documento
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.documento?.tipoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.documento?.tipoDocumento?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -232,7 +232,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -250,7 +250,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -268,7 +268,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1, 'error': getProp(deletingErrors, sigilo.id)}"> {{sigilo.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

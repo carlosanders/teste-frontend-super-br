@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -118,7 +118,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -138,7 +138,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -158,7 +158,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -178,7 +178,7 @@
                     </th>
                     <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1, 'error': getProp(deletingErrors, generoDocumento.id)}"> {{generoDocumento.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

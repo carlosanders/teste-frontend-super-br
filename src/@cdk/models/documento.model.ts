@@ -164,6 +164,8 @@ export class Documento {
     estaVinculada?: boolean;
     @Exclude({ toPlainOnly: true })
     temVinculacoes?: boolean;
+    @Exclude({ toPlainOnly: true })
+    temAnexos?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Sigilo)

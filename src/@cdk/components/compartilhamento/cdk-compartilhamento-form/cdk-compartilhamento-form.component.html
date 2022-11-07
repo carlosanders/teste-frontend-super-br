@@ -1,7 +1,7 @@
 <form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-card>
-        <label id="compartilhamento-rg">Selecione para quem será o Compartilhamento</label>
+        <label style="margin-bottom: 5px" id="compartilhamento-rg">Selecione para quem será o compartilhamento</label>
         <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
                          formControlName="modalidadeCompartilhamento" aria-labelledby="compartilhamento-rg" required
                          fxFlex>

@@ -1,20 +1,21 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-4">
     <div class="actions">
-        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
-                aria-label="Maximizar Tela"
-                matTooltip="Maximizar Tela"
-                (click)="expandirTela(true)">
-            <mat-icon>fullscreen</mat-icon>
-        </button>
+        <ng-container *ngIf="activeCard === 'juntadas'">
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
 
-        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
-                aria-label="Minimizar Tela"
-                matTooltip="Minimizar Tela"
-                (click)="expandirTela(false)">
-            <mat-icon>fullscreen_exit</mat-icon>
-        </button>
-        <ng-container *ngIf="this.isJuntadas">
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
             <button class="refresh" mat-icon-button
                     (click)="reloadJuntadas()"
                     aria-label="recarregar juntadas"
@@ -54,9 +55,127 @@
                     matTooltip="Marcadores de páginas">
                 <mat-icon>bookmarks</mat-icon>
             </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                    (click)="$event.stopPropagation()"
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="Juntadas"
+                        [matMenuTriggerFor]="selectMenuJuntadas"
+                        #menuTriggerList="matMenuTrigger">
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'todos' || this.selectedOrigemDados === ''" matTooltip="Filtro de documentos">
+                        all_out</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'administrativo'" matTooltip="Filtro de documentos">book</mat-icon>
+                    <mat-icon *ngIf="this.selectedOrigemDados === 'integracao'" matTooltip="Filtro de documentos">backup</mat-icon>
+                    <span>Filtro de documentos</span>
+                </button>
+
+                <button mat-menu-item
+                        aria-label="Download"
+                        (click)="doModoSelecao();">
+                    <mat-icon matTooltip="Download">cloud_download</mat-icon>
+                    <span>Download</span>
+                </button>
+
+                <mat-menu #selectMenuJuntadas="matMenu">
+                    <button mat-menu-item (click)="doTodasJuntadas()">
+                        <mat-icon>all_out</mat-icon>
+                        Todos
+                    </button>
+                    <button mat-menu-item (click)="doAdmJuntadas()">
+                        <mat-icon>book</mat-icon>
+                        Administrativo
+                    </button>
+                    <button mat-menu-item (click)="doIntegraJuntadas()">
+                        <mat-icon>backup</mat-icon>
+                        Integração
+                    </button>
+                </mat-menu>
+
+                <button mat-menu-item aria-label="remover restrições"
+                        *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
+                        (click)="doDeleteRestricoesDocs(processoId)">
+                    <mat-icon>report_off</mat-icon>
+                    <span>Retirar restrições</span>
+                </button>
+
+                <ng-template *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')" #dynamicComponent></ng-template>
+            </mat-menu>
         </ng-container>
 
-        <ng-container *ngIf="!this.isJuntadas">
+        <ng-container *ngIf="activeCard === 'juntadas-select'">
+
+            <mat-spinner *ngIf="savingDownloadProcesso" diameter="24"></mat-spinner>
+
+            <button mat-icon-button
+                    (click)="doCancelarModoSelecao()"
+                    aria-label="juntadas do processo"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="!savingDownloadProcesso"
+                    [matMenuTriggerFor]="matDownloadProcessoMenu"
+                    matTooltip="Baixar Processo com Juntadas Selecionadas">
+                <mat-icon>cloud_download</mat-icon>
+            </button>
+
+            <mat-menu fxHide #matDownloadProcessoMenu="matMenu">
+                <button mat-menu-item
+                        [disabled]="selectedJuntadasId.length === 0"
+                        (click)="doDownloadJuntadasSelecionadas('ZIP')"
+                        aria-label="baixar juntadas zip">
+                    <span>Download em ZIP</span>
+                </button>
+
+                <button mat-menu-item
+                        [disabled]="selectedJuntadasId.length === 0"
+                        (click)="doDownloadJuntadasSelecionadas('PDF')"
+                        aria-label="baixar juntadas pdf">
+                    <span>Download em PDF</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+
+        <ng-container *ngIf="activeCard === 'bookmark'">
+            <button mat-icon-button
+                    (click)="abreJuntadas()"
+                    aria-label="abrir juntadas"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
             <button class="refresh" mat-icon-button
                     (click)="reloadBookmarks()"
                     aria-label="recarregar marcadores"
@@ -70,39 +189,21 @@
                     matTooltip="Copiar Bookmark para o clipboard">
                 <mat-icon>file_copy</mat-icon>
             </button>
-
-            <button mat-icon-button
-                    (click)="abreJuntadas()"
-                    aria-label="abrir juntadas"
-                    matTooltip="Juntadas do processo">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
         </ng-container>
 
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
-        <div *ngIf="this.isJuntadas">
+        <div *ngIf="activeCard === 'juntadas'">
             {{juntadas?.length}}/{{pagination.total}}
         </div>
 
-        <div *ngIf="!this.isJuntadas">
+        <div *ngIf="activeCard === 'bookmark'">
             {{bookmarks?.length}}/{{paginationBookmark.total}}
         </div>
 
-        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                (click)="$event.stopPropagation()"
-                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1">
-            <mat-icon class="secondary-text">more_vert</mat-icon>
-        </button>
-
-        <mat-menu #moreMenu="matMenu">
-            <button mat-menu-item aria-label="remover restrições"
-                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && this.documentosRestritos?.length > 1"
-                    (click)="doDeleteRestricoesDocs(processoId)">
-                    <mat-icon>report_off</mat-icon>
-                    <span>Retirar restrições</span>
-            </button>
-        </mat-menu>
+        <div *ngIf="activeCard === 'juntadas-select'">
+            {{selectedJuntadasId?.length}}/{{pagination.total}}
+        </div>
     </div>
 
     <div class="filters" *ngIf="showListFilter">
@@ -129,6 +230,13 @@
                         </div>
                     </div>
                 </div>
+
+                <mat-form-field>
+                    <mat-label>Id</mat-label>
+                    <input matInput #idDocumento
+                           name="idDocumento"
+                           formControlName="idDocumento">
+                </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Numeração Sequencial</mat-label>
@@ -182,6 +290,13 @@
                         <mat-option value="integracao">Integração</mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Número Único do Documento</mat-label>
+                    <input matInput #numeroUnicoDocumento
+                           name="numeroUnicoDocumento"
+                           formControlName="numeroUnicoDocumento">
+                </mat-form-field>
             </div>
 
             <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
@@ -206,7 +321,7 @@
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
 
-    <ng-container *ngIf="isJuntadas">
+    <ng-container *ngIf="activeCard !== 'bookmark'">
         <div class="documentos-juntados-title" fxFlex="0 0 auto"
              fxLayoutAlign="start center">
             <div class="ml-24">Documentos Juntados</div>
@@ -259,7 +374,15 @@
                      (dndEnd)="onCancelDrag($event)"
                      (dndCopied)="onCopied($event, juntada)"
                      (dndStart)="onStartDrag($event, juntada)">
-                    <div class="index">
+                    <div class="actions select-mode-actions" *ngIf="activeCard === 'juntadas-select'">
+                        <mat-checkbox
+                                [disabled]="savingDownloadProcesso"
+                                (click)="$event.stopPropagation()"
+                                (change)="doToggleSelectJuntadaId(juntada.id)"
+                                [checked]="selectedJuntadasId.includes(juntada.id)">
+                        </mat-checkbox>
+                    </div>
+                    <div class="index" [ngClass]="{'actions-before': activeCard === 'juntadas-select'}">
                         <span dndDragImageRef>{{juntada.numeracaoSequencial}}</span>
                     </div>
                     <div *ngIf="!juntada.ativo">
@@ -268,6 +391,7 @@
                     <div fxFlex fxLayout="row">
                         <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                             <div class="descricao">
+                                <mat-icon class="s-14" *ngIf="juntada?.origemDados || juntada?.documento?.origemDados">cloud_upload</mat-icon>
                                 {{juntada.descricao?.split('/').join(' ') | titleCasePipe}}
                             </div>
                             <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>
@@ -364,7 +488,7 @@
                                     <div>
                                         {{juntada.documento.numeroUnicoDocumentoFormatado}}
                                     </div>
-                                    <mat-icon class="s-10" fxFlex="1 1 auto" fxLayoutAlign="center"
+                                    <mat-icon class="s-10" fxFlex="1 1 auto" fxLayoutAlign="start" style="padding-left:5px"
                                               [matTooltip]="'Copiar Número do Documento'"
                                               (click)="doCopyNumDoc(juntada.documento?.numeroUnicoDocumentoFormatado); $event.stopPropagation();">
                                         file_copy
@@ -381,7 +505,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="actions" *ngIf="juntada.ativo">
+                        <div class="actions" *ngIf="juntada.ativo && activeCard === 'juntadas'">
                             <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
                                       *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
                             </mat-icon>
@@ -486,7 +610,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="!isJuntadas">
+    <ng-container *ngIf="activeCard === 'bookmark'">
         <div class="documentos-juntados-title" fxFlex="0 0 auto"
              fxLayoutAlign="start center">
             <div class="ml-24">Marcadores de páginas</div>

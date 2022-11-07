@@ -95,7 +95,7 @@
                         Campo
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Campo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.label}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.label  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ObjFavoritoClass Column -->
@@ -105,7 +105,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.objFavoritoClass[0].nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.objFavoritoClass[0].nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- QtdUso Column -->
@@ -114,7 +114,7 @@
                         Quantidade de Uso
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Quantidade de Uso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.qtdUso}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.qtdUso  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Prioritario Column -->
@@ -135,7 +135,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.usuario?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -144,7 +144,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.criadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -163,7 +163,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1, 'error': getProp(deletingErrors, favorito.id)}"> {{favorito.atualizadoPor?.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->

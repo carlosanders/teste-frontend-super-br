@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-genero-pessoa-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeGeneroPessoaAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeGeneroPessoaFn(modalidadeGeneroPessoa): string {
-        return modalidadeGeneroPessoa ? modalidadeGeneroPessoa.valor : null;
+        return modalidadeGeneroPessoa ? TitleCasePipe.format(modalidadeGeneroPessoa.valor) : null;
     }
 }

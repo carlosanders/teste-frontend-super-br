@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-campo-autocomplete',
@@ -97,6 +98,6 @@ export class CdkCampoAutocompleteComponent implements OnInit {
     }
 
     displayCampoFn(campo): string {
-        return campo ? campo.nome : null;
+        return campo ? TitleCasePipe.format(campo.nome) : null;
     }
 }

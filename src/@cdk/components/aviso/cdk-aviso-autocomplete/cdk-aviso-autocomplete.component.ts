@@ -15,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {AvisoService} from '../../../services/aviso.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-aviso-autocomplete',
@@ -93,6 +94,6 @@ export class CdkAvisoAutocompleteComponent implements OnInit {
     }
 
     displayAvisoFn(aviso): string {
-        return aviso ? aviso.nome : null;
+        return aviso ? TitleCasePipe.format(aviso.nome) : null;
     }
 }

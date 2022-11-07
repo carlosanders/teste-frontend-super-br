@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-colaborador-autocomplete',
@@ -95,6 +96,6 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
     }
 
     displayColaboradorFn(colaborador): string {
-        return colaborador ? colaborador.usuario.nome : null;
+        return colaborador ? TitleCasePipe.format(colaborador.usuario.nome) : null;
     }
 }

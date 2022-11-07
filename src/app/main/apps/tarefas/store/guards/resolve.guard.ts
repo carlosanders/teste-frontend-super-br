@@ -192,6 +192,10 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesEtiquetas.etiqueta',
                             'vinculacaoWorkflow',
                             'vinculacaoWorkflow.workflow',
+                            'folder',
+                            'criadoPor',
+                            'atualizadoPor',
+                            'apagadoPor'
                         ],
                         context: {}
                     };
@@ -200,10 +204,20 @@ export class ResolveGuard implements CanActivate {
                     routeTypeParam.subscribe((typeParam) => {
                         let tarefaFilter = {};
                         if (this.routerState.params[typeParam] === 'compartilhadas') {
-                            tarefaFilter = {
-                                'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                                'dataHoraConclusaoPrazo': 'isNull'
-                            };
+
+                            if (this.routerState.params['targetHandle'] === 'outros-usuarios') {
+                                tarefaFilter = {
+                                    'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
+                                    'dataHoraConclusaoPrazo': 'isNull'
+                                };
+                            }
+
+                            if (this.routerState.params['targetHandle'] === 'meus-compartilhamentos') {
+                                tarefaFilter = {
+                                    'compartilhamentos.tarefa.usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                    'dataHoraConclusaoPrazo': 'isNull'
+                                };
+                            }
                         }
 
                         if (this.routerState.params[typeParam] === 'concluidas') {

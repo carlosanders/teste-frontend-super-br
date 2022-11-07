@@ -1,0 +1,24 @@
+<div class="content">
+    <div class="header">
+        <button mat-icon-button
+                (click)="doAbort()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Descompartilhar tarefas selecionadas</h2>
+    </div>
+
+    <cdk-compartilhamento-grid
+            [loading]="(isLoading$ | async)"
+            [compartilhamentos]="compartilhamentos"
+            [total]="pagination?.total"
+            [deletingIds]="(deletingIds$ | async)"
+            [deletedIds]="(deletedIds$ | async)"
+            [deletingErrors]="(deletingErrors$ | async)"
+            [displayedColumns]="['select', 'tarefa.processo.NUP', 'tarefa.id', 'tarefa.especieTarefa.nome', 'usuario.nome', 'criadoPor.nome', 'actions']"
+            [actions]="['delete']"
+            (delete)="delete($event)"
+            (reload)="reload($event)">
+    </cdk-compartilhamento-grid>
+</div>

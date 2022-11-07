@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-validacao-workflow-autocomplete',
@@ -97,8 +98,8 @@ export class CdkTipoValidacaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTipoValidacaoWorkflowFn(tipoValidacaoWorkflow): string {
-        let displayed = tipoValidacaoWorkflow ? tipoValidacaoWorkflow.valor : '';
-        displayed += (tipoValidacaoWorkflow && tipoValidacaoWorkflow.generoProcesso) ? (' (' + tipoValidacaoWorkflow.generoProcesso.nome + ')') : '';
+        let displayed = tipoValidacaoWorkflow ? TitleCasePipe.format(tipoValidacaoWorkflow.valor) : '';
+        displayed += (tipoValidacaoWorkflow && tipoValidacaoWorkflow.generoProcesso) ? (' (' + TitleCasePipe.format(tipoValidacaoWorkflow.generoProcesso.nome) + ')') : '';
         return displayed;
     }
 }

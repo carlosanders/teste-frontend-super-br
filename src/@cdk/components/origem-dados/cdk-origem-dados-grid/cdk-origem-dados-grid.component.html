@@ -102,7 +102,7 @@
                         Fonte de Dados
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Fonte de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Servico Column -->
@@ -111,7 +111,7 @@
                         Serviço
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Serviço: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.servico}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.servico | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Status Column -->
@@ -120,7 +120,7 @@
                         Status
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Status: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.status}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.status | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DataHoraUltimaConsulta Column -->
@@ -140,7 +140,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -159,7 +159,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -177,7 +177,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1, 'error': getProp(deletingErrors, origemDados.id)}"> {{origemDados.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

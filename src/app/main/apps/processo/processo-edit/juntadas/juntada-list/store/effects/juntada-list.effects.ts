@@ -6,9 +6,9 @@ import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/actions';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
 import {Documento, Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
+import {documento as documentoSchema, juntada as juntadaSchema, vinculacaoDocumento as vinculacaoDocumentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
@@ -65,10 +65,16 @@ export class JuntadaListEffect {
     ), {dispatch: false});
     removeVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<JuntadaListActions.RemoveVinculacaoDocumento>(JuntadaListActions.REMOVE_VINCULACAO_DOCUMENTO),
-        mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload)
+        mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload.id)
             .pipe(
                 mergeMap(() => [
-                    new JuntadaListActions.RemoveVinculacaoDocumentoSuccess(action.payload),
+                    new RemoveChildData({
+                        id: action.payload.id,
+                        childSchema: vinculacaoDocumentoSchema,
+                        parentSchema: documentoSchema,
+                        parentId: action.payload.documento.id,
+                    }),
+                    new JuntadaListActions.RemoveVinculacaoDocumentoSuccess(action.payload.id),
                     new JuntadaListActions.ReloadJuntadas()
                 ]),
                 catchError((err) => {

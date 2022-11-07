@@ -1,4 +1,10 @@
 import {NgModule} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
@@ -13,40 +19,52 @@ import {
     MatRippleModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import {TranslateModule} from '@ngx-translate/core';
+import {CdkSidebarModule} from '@cdk/components';
+import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
+import {
+    CdkBookmarkEditDialogModule
+} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
+import {
+    CdkComponenteDigitalCardListModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {
+    CdkAssinaturaEletronicaPluginModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
+import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
+import {
+    CdkModeloAutocompleteModule
+} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {
+    CdkTipoDocumentoAutocompleteModule
+} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
+import {
+    CdkUsuarioAutocompleteModule
+} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {
+    CdkVolumeAutocompleteModule
+} from '@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {BookmarkService} from '@cdk/services/bookmark.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
-import {DndModule} from 'ngx-drag-drop';
-import {ProcessoViewComponent} from './processo-view.component';
-import {JuntadaService} from '@cdk/services/juntada.service';
-import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
-import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
-import {ProcessoViewMainSidebarComponent} from './sidebars/main/main-sidebar.component';
-import {ProcessoViewStoreModule} from './store/store.module';
-import * as fromGuards from './store/guards';
-import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {CdkVolumeAutocompleteModule} from '@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
+import {TranslateModule} from '@ngx-translate/core';
+import {ResizableModule} from 'angular-resizable-element';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
-import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatDialogModule} from '@angular/material/dialog';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
-import {MatCardModule} from '@angular/material/card';
-import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
-import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {MatSelectModule} from '@angular/material/select';
-import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
-import {BookmarkService} from '@cdk/services/bookmark.service';
 import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {
-    CdkAssinaturaGridModule
-} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
+import {DndModule} from 'ngx-drag-drop';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {ProcessoViewComponent} from './processo-view.component';
+import {ProcessoViewMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import * as fromGuards from './store/guards';
+import {ProcessoViewStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
@@ -140,7 +158,10 @@ modulesConfig.forEach((module) => {
         MatSelectModule,
         CdkBookmarkEditDialogModule,
         PdfJsViewerModule,
-        CdkAssinaturaGridModule
+        CdkAssinaturaGridModule,
+        MatSlideToggleModule,
+        MatCheckboxModule,
+        ResizableModule
     ],
     providers: [
         JuntadaService,
@@ -148,7 +169,8 @@ modulesConfig.forEach((module) => {
         fromGuards.ResolveGuard,
         fromGuards.DeactivateGuard,
         BookmarkService,
-        AssinaturaService
+        AssinaturaService,
+        ProcessoService
     ],
     entryComponents: [
         CdkAssinaturaEletronicaPluginComponent

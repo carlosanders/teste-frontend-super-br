@@ -185,7 +185,7 @@
                                 aria-label="ver atividades"
                                 matTooltip="Ver Atividades"
                                 *ngIf="actions.indexOf('atividades') > -1 && !hasExcluded"
-                                (click)="listAtividade(tarefa.id)">
+                                (click)="listAtividade(tarefa)">
                             <mat-icon class="black-fg">list</mat-icon>
                         </button>
 
@@ -206,7 +206,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

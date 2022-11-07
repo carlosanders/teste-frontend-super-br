@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let pais" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Codigo Column -->
@@ -138,7 +138,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let pais" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -157,7 +157,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let pais" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -175,7 +175,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let pais" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(pais.id) > -1, 'error': getProp(deletingErrors, pais.id)}"> {{pais.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

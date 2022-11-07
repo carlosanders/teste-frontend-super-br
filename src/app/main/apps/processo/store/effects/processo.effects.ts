@@ -1,28 +1,28 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {getRouterState, State} from 'app/store/reducers';
-import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.actions';
-import {ProcessoService} from '@cdk/services/processo.service';
-import {LoginService} from 'app/main/auth/login/login.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Compartilhamento, Processo, Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Processo, VinculacaoEtiqueta, Tarefa} from '@cdk/models';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {
     compartilhamento as acompanhamentoSchema,
     processo as processoSchema,
+    tarefa as tarefaSchema,
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {ActivatedRoute, Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkUtils} from '@cdk/utils';
-import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.actions';
+import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {getRouterState, State} from 'app/store/reducers';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {TarefaService} from '@cdk/services/tarefa.service';
 
 @Injectable()
 export class ProcessoEffect {
@@ -50,6 +50,7 @@ export class ProcessoEffect {
                 'especieProcesso.generoProcesso',
                 'setorAtual',
                 'setorAtual.especieSetor',
+                'setorAtual.unidade',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
             ];
@@ -437,6 +438,7 @@ export class ProcessoEffect {
             JSON.stringify(
                 [
                     'usuarioResponsavel',
+                    'usuarioResponsavel.imgPerfil',
                     'setorResponsavel',
                     'setorResponsavel.unidade',
                     'especieTarefa'

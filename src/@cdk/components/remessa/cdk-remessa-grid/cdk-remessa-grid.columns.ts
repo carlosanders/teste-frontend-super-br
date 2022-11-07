@@ -146,7 +146,7 @@ export const CdkRemessaGridColumns: TableDefinitions = {
             id: 'usuarioRecebimento.nome',
             headerLabel: 'Usuário Recebimento',
             dataLabel: 'Usuário Recebimento: ',
-            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => tramitacao?.usuarioRecebimento?.nome,
+            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => TitleCasePipe.format(tramitacao?.usuarioRecebimento?.nome),
             dataClass: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tramitacao.id)};
             },
@@ -165,7 +165,7 @@ export const CdkRemessaGridColumns: TableDefinitions = {
             id: 'pessoaDestino.nome',
             headerLabel: 'Pessoa Destino',
             dataLabel: 'Pessoa Destino: ',
-            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => tramitacao?.pessoaDestino?.nome,
+            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => TitleCasePipe.format(tramitacao?.pessoaDestino?.nome),
             dataClass: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tramitacao.id)};
             },
@@ -184,7 +184,7 @@ export const CdkRemessaGridColumns: TableDefinitions = {
             id: 'criadoPor.nome',
             headerLabel: 'Criado por',
             dataLabel: 'Criado por: ',
-            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => tramitacao?.criadoPor?.nome,
+            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => TitleCasePipe.format(tramitacao?.criadoPor?.nome),
             dataClass: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tramitacao.id)};
             },
@@ -222,7 +222,7 @@ export const CdkRemessaGridColumns: TableDefinitions = {
             id: 'atualizadoPor.nome',
             headerLabel: 'Atualizado Por',
             dataLabel: 'Atualizado Por: ',
-            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => tramitacao?.atualizadoPor?.nome,
+            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => TitleCasePipe.format(tramitacao?.atualizadoPor?.nome),
             dataClass: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tramitacao.id)};
             },
@@ -260,7 +260,7 @@ export const CdkRemessaGridColumns: TableDefinitions = {
             id: 'apagadoPor.nome',
             headerLabel: 'Apagado Por',
             dataLabel: 'Apagado Por: ',
-            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => tramitacao?.apagadoPor?.nome,
+            dataValue: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => TitleCasePipe.format(tramitacao?.apagadoPor?.nome),
             dataClass: (tramitacao: Tramitacao, scope: CdkRemessaGridComponent) => {
                 return {'deleted':scope.deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, tramitacao.id)};
             },

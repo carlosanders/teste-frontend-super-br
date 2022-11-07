@@ -23,7 +23,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital, Pagination} from '@cdk/models';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
@@ -599,9 +599,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result), takeUntil(this._unsubscribeAll)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             this.assinando = result;
             this.doSave();
+            assinaSub.unsubscribe();
         });
     }
 

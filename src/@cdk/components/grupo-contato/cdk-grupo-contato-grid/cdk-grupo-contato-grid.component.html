@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let grupoContato" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -129,7 +129,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let grupoContato" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.descricao | titleCasePipe}} </td>
                 </ng-container>
 
 
@@ -139,7 +139,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let grupoContato" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -159,7 +159,7 @@
                     </th>
                     <td mat-cell *matCellDef="let grupoContato" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -178,7 +178,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let grupoContato" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(grupoContato.id) > -1, 'error': getProp(deletingErrors, grupoContato.id)}"> {{grupoContato.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

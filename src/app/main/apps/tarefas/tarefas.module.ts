@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatBadgeModule} from '@angular/material/badge';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
@@ -17,52 +18,54 @@ import {
     MatToolbarModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import {TranslateModule} from '@ngx-translate/core';
-
-import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
-import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
-import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
-import {TarefasComponent} from './tarefas.component';
-import {TarefasMainSidebarComponent} from './sidebars/main/main-sidebar.component';
-import {TarefaService} from '@cdk/services/tarefa.service';
-import {LotacaoService} from '@cdk/services/lotacao.service';
-import {FolderService} from '@cdk/services/folder.service';
-import {ProcessoService} from '@cdk/services/processo.service';
-import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {SetorService} from '@cdk/services/setor.service';
-import {UsuarioService} from '@cdk/services/usuario.service';
-import {PipesModule} from '@cdk/pipes/pipes.module';
-import {ResizableModule} from 'angular-resizable-element';
-import {CdkTarefaListModule} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.module';
-import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
-import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {
+    CdkAssinaturaEletronicaPluginModule
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
-import {DndModule} from 'ngx-drag-drop';
-import {AssuntoService} from '@cdk/services/assunto.service';
-import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
-import {modulesConfig} from 'modules/modules-config';
-import {InteressadoService} from '@cdk/services/interessado.service';
-import {DocumentoService} from '@cdk/services/documento.service';
-import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
-import {MatBadgeModule} from '@angular/material/badge';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
-import {CdkSearchBarEtiquetasModule} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
 import {
     CdkModeloAutocompleteModule
 } from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
-import {
-    VinculacaoEspecieProcessoWorkflowService
-} from '@cdk/services/vinculacao-especie-processo-workflow.service';
+import {CdkSearchBarEtiquetasModule} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
+import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
+import {CdkTarefaListModule} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.module';
 import {
     CdkVinculacaoEtiquetaAcoesDialogModule
 } from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-acoes-dialog/cdk-vinculacao-etiqueta-acoes-dialog.module';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 import {AcaoService} from '@cdk/services/acao.service';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
+import {FavoritoService} from '@cdk/services/favorito.service';
+import {FolderService} from '@cdk/services/folder.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {LotacaoService} from '@cdk/services/lotacao.service';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {SetorService} from '@cdk/services/setor.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {VinculacaoEspecieProcessoWorkflowService} from '@cdk/services/vinculacao-especie-processo-workflow.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+
+import {CdkSharedModule} from '@cdk/shared.module';
+import {TranslateModule} from '@ngx-translate/core';
+import {ResizableModule} from 'angular-resizable-element';
+import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
+
+import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
+import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
+import {modulesConfig} from 'modules/modules-config';
+import {DndModule} from 'ngx-drag-drop';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {TarefasMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {TarefasComponent} from './tarefas.component';
 
 const routes: Routes = [
     {
@@ -87,6 +90,10 @@ const routes: Routes = [
                 loadChildren: () => import('./compartilhamento-create-bloco/compartilhamento-create-bloco.module').then(m => m.CompartilhamentoCreateBlocoModule),
             },
             {
+                path: 'remove-compartilhamento-bloco',
+                loadChildren: () => import('./compartilhamento-remove-bloco/compartilhamento-remove-bloco.module').then(m => m.CompartilhamentoRemoveBlocoModule),
+            },
+            {
                 path: 'atividade-bloco',
                 loadChildren: () => import('./atividade-create-bloco/atividade-create-bloco.module').then(m => m.AtividadeCreateBlocoModule),
             },
@@ -105,6 +112,10 @@ const routes: Routes = [
             {
                 path: 'documento-avulso-bloco',
                 loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
+            },
+            {
+                path: 'remeter-oficios-bloco',
+                loadChildren: () => import('./remeter-oficios-bloco/remeter-oficios-bloco.module').then(m => m.RemeterOficiosBlocoModule),
             },
             {
                 path: 'upload-bloco',
@@ -207,7 +218,8 @@ modulesConfig.forEach((module) => {
         DocumentoService,
         VinculacaoEspecieProcessoWorkflowService,
         VinculacaoEtiquetaService,
-        AcaoService
+        AcaoService,
+        FavoritoService
     ],
     entryComponents: [
         SnackBarDesfazerComponent,

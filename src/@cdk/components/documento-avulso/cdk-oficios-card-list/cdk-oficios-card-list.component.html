@@ -1,0 +1,63 @@
+<div class="toolbar pt-8 pb-8 pl-0 pr-8">
+    <div class="multiple-choices" *ngIf="oficios && oficios.length > 0">
+
+        <mat-checkbox (click)="toggleSelectAll($event)"
+                      [checked]="selectedIds.length > 0"
+                      [disabled]="saving"
+                      *ngIf="oficios.length > 1 && actions.indexOf('select') > -1"
+                      [indeterminate]="isIndeterminate">
+        </mat-checkbox>
+
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" #menuTriggerList="matMenuTrigger"
+                aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                *ngIf="oficios.length > 1 && selectedIds?.length > 1">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <ng-container *ngIf="actions.indexOf('remeter') > -1">
+                <button mat-menu-item aria-label="remeter"
+                        (click)="doRemeterBloco()">
+                    <ng-container>
+                        <mat-icon>send</mat-icon>
+                        <span>Remeter Oficios</span>
+                    </ng-container>
+                </button>
+            </ng-container>
+        </mat-menu>
+    </div>
+
+    <div class="grupo-nups">
+        <div class="nups" *ngFor="let processoGroup of (processos | keys)">
+            <span class="nup"><mat-icon>book</mat-icon>{{processoGroup.key}}</span>
+            <div class="tarefas" *ngFor="let tarefaGroup of processoGroup.value.tarefas">
+                <span class="tarefa"><mat-icon>assignment</mat-icon>Tarefa {{tarefaGroup.tarefaId}}</span>
+                <div class="oficios" *ngIf="tarefaGroup.entitiesId.length > 0 || tarefaGroup.pagination?.total > 0">
+                    <cdk-oficios-card class="ml-8 mb-8"
+                                      *ngFor="let documentoAvulso of getDocumentoAvulsos(tarefaGroup.entitiesId); index as i; trackBy: trackBy"
+                                      [documentoAvulso]="documentoAvulso"
+                                      [selected]="selectedIds?.indexOf(documentoAvulso.id) > -1"
+                                      [saving]="remeterIds?.indexOf(documentoAvulso.id) > -1"
+                                      [actions]="actions"
+                                      [indice]="i"
+                                      [error]="tarefaGroup?.error[documentoAvulso.id] ?? null"
+                                      (verResposta)="doVerResposta($event)"
+                                      (remeter)="doRemeter($event)"
+                                      (clicked)="onClick($event)"
+                                      (changedSelected)="toggleInSelected($event)">
+                    </cdk-oficios-card>
+                    <div class="loading" *ngIf="tarefaGroup?.loading">
+                        <mat-spinner class="nup-loading" diameter="24"></mat-spinner>
+                    </div>
+                    <div class="load-more" (click)="doGetMore(tarefaGroup.tarefaId)" matTooltip="Carregar mais"
+                         *ngIf="tarefaGroup.entitiesId?.length < tarefaGroup.pagination?.total && !tarefaGroup.loading">
+                        <span>+</span>
+                    </div>
+                </div>
+                <div class="oficios" *ngIf="tarefaGroup.entitiesId.length === 0">
+                    Não há ofícios a serem remetidos.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

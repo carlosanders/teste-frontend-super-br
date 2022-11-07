@@ -1,26 +1,26 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
+import {ComponenteDigital, Juntada} from '@cdk/models';
+
+import {AddData} from '@cdk/ngrx-normalizr';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
+import {CacheModelService} from '@cdk/services/cache.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
+import {LoginService} from 'app/main/auth/login/login.service';
+
+import {getRouterState, State} from 'app/store/reducers';
 
 import {Observable, of} from 'rxjs';
 import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-
-import {getRouterState, State} from 'app/store/reducers';
-import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
-
-import {AddData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital, Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
-import {JuntadaService} from '@cdk/services/juntada.service';
-import {getBinary, getCurrentJuntada} from '../selectors';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {CdkProgressBarService} from '@cdk/components/progress-bar/progress-bar.service';
-import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {CacheModelService} from '@cdk/services/cache.service';
+import {getBinary, getCurrentJuntada} from '../selectors';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -49,7 +49,8 @@ export class ProcessoViewEffect {
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                 'documento.criadoPor',
                 'documento.setorOrigem',
-                'documento.setorOrigem.unidade'
+                'documento.setorOrigem.unidade',
+                'origemDados'
             ];
             return this._juntadaService.get(
                 action.payload,
@@ -109,7 +110,7 @@ export class ProcessoViewEffect {
                 withLatestFrom(this._store.pipe(select(fromStore.getJuntadas))),
                 tap(([response, juntadas]) => {
                     novasJuntadas = [...juntadas, ...[response]];
-                    if (pagination.sort === {'numeracaoSequencial': 'ASC'}) {
+                    if (pagination.sort['numeracaoSequencial'] === 'ASC') {
                         novasJuntadas.sort((a: Juntada, b: Juntada) => a.numeracaoSequencial - b.numeracaoSequencial);
                     } else {
                         novasJuntadas.sort((a: Juntada, b: Juntada) => b.numeracaoSequencial - a.numeracaoSequencial);
@@ -242,7 +243,8 @@ export class ProcessoViewEffect {
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.vinculacoesEtiquetas',
-                    'documento.vinculacoesEtiquetas.etiqueta'
+                    'documento.vinculacoesEtiquetas.etiqueta',
+                    'origemDados'
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
@@ -440,29 +442,27 @@ export class ProcessoViewEffect {
                     // limpa o cache do componente digital do repositório de cache de componentes digitais
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id).subscribe();
                 });
-                if (documentoId === juntada?.documento.id) {
-                    if (this.routerState.params['stepHandle'] !== 'latest') {
-                        const stepHandle = this.routerState.params['stepHandle'].split('-');
-                        let componenteDigitalId = null;
-                        if (stepHandle[1]) {
-                            componenteDigitalId = parseInt(stepHandle[1], 10);
-                        }
-                        if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
-                            const currentStep = {
-                                step: parseInt(stepHandle[0], 10),
-                                subStep: componenteDigitalId
-                            };
-                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
-                        }
-                    } else if (this.routerState.params['stepHandle'] === 'latest') {
-                        let processoId = null;
-
-                        const routeParams = of('processoHandle');
-                        routeParams.subscribe((param) => {
-                            processoId = parseInt(this.routerState.params[param], 10);
-                        });
-                        this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
+                if (this.routerState.params['stepHandle'] !== 'latest' && documentoId === juntada?.documento.id) {
+                    const stepHandle = this.routerState.params['stepHandle'].split('-');
+                    let componenteDigitalId = null;
+                    if (stepHandle[1]) {
+                        componenteDigitalId = parseInt(stepHandle[1], 10);
                     }
+                    if (componentesDigitais.map(componenteDigital => componenteDigital.id).includes(componenteDigitalId)) {
+                        const currentStep = {
+                            step: parseInt(stepHandle[0], 10),
+                            subStep: componenteDigitalId
+                        };
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep(currentStep));
+                    }
+                } else if (this.routerState.params['stepHandle'] === 'latest') {
+                    let processoId = null;
+
+                    const routeParams = of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = parseInt(this.routerState.params[param], 10);
+                    });
+                    this._store.dispatch(new ProcessoViewActions.DownloadLatestBinary(processoId));
                 }
             }
             return of(null);
@@ -484,7 +484,7 @@ export class ProcessoViewEffect {
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _cdkProgressBarService: CdkProgressBarService,
         private _loginService: LoginService,
-        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>,
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -608,8 +608,8 @@ export class ProcessoViewEffect {
         if (juntadaDefault) {
             defaultStep.step = juntadaDefault.id;
             defaultStep.subStep = juntadaDefault.documento.componentesDigitais.length ?
-                juntadaDefault.documento.componentesDigitais[0].id :
-                juntadaDefault.documento.vinculacoesDocumentos[0].documentoVinculado.componentesDigitais[0].id;
+                juntadaDefault.documento.componentesDigitais[0]?.id :
+                juntadaDefault.documento.vinculacoesDocumentos[0]?.documentoVinculado?.componentesDigitais[0]?.id;
         }
         return defaultStep;
     }

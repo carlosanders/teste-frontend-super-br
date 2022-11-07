@@ -105,7 +105,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Pessoa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.pessoaRelacionada?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.pessoaRelacionada?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ModalidadeRelacionamentoPessoal Column -->
@@ -116,7 +116,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.modalidadeRelacionamentoPessoal?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.modalidadeRelacionamentoPessoal?.valor | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
@@ -127,7 +127,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Origem Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.origemDados?.fonteDados | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -137,7 +137,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -158,7 +158,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -178,7 +178,7 @@
                     </th>
                     <td mat-cell *matCellDef="let relacionamentoPessoal" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1, 'error': getProp(deletingErrors, relacionamentoPessoal.id)}"> {{relacionamentoPessoal.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

@@ -110,7 +110,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao do Localizador Column -->
@@ -119,7 +119,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -128,7 +128,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.setor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -148,7 +148,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -167,7 +167,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -185,7 +185,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, localizador.id)}"> {{localizador.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

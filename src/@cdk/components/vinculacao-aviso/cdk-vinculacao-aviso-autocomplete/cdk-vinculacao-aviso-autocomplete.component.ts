@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import { TitleCasePipe } from '@cdk/pipes/title-case.pipe';
 
 @Component({
     selector: 'cdk-vinculacao-aviso-autocomplete',
@@ -94,6 +95,6 @@ export class CdkVinculacaoAvisoAutocompleteComponent implements OnInit {
     }
 
     displayVinculacaoAvisoFn(vinculacaoAviso): string {
-        return vinculacaoAviso ? vinculacaoAviso.aviso.nome : null;
+        return vinculacaoAviso ? TitleCasePipe.format(vinculacaoAviso.aviso.nome) : null;
     }
 }

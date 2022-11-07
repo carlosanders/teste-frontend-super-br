@@ -227,7 +227,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'vinculacoesEtiquetasMinutas',
+            id: 'vinculacoesEtiquetas.objectClass',
             headerLabel: 'Minutas',
             dataLabel: 'Minutas: ',
             positionFixed: false,
@@ -240,7 +240,7 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 width: 0,
                 resizable: true,
                 ordable: true,
-                sortable: false
+                sortable: true
             }
         },
         <TableColumn> {
@@ -276,6 +276,120 @@ export const CdkTarefaListColumns: TableDefinitions = {
                 resizable: false,
                 ordable: true,
                 sortable: true
+            }
+        },
+        <TableColumn> {
+            id: 'criadoPor.nome',
+            headerLabel: 'Criado por',
+            dataLabel: 'Criado por: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.criadoPor?.nome,
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 280,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
+            }
+        },
+        <TableColumn> {
+            id: 'criadoEm',
+            headerLabel: 'Criado Em',
+            dataLabel: 'Criado Em: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.criadoEm?.format('DD/MM/YYYY HH:mm:ss'),
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 290,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
+            }
+        },
+        <TableColumn> {
+            id: 'atualizadoPor.nome',
+            headerLabel: 'Atualizado Por',
+            dataLabel: 'Atualizado Por: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.atualizadoPor?.nome,
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 300,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
+            }
+        },
+        <TableColumn> {
+            id: 'atualizadoEm',
+            headerLabel: 'Atualizado Em',
+            dataLabel: 'Atualizado Em: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.atualizadoEm?.format('DD/MM/YYYY HH:mm:ss'),
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 310,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
+            }
+        },
+        <TableColumn> {
+            id: 'apagadoPor.nome',
+            headerLabel: 'Apagado Por',
+            dataLabel: 'Apagado Por: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.apagadoPor?.nome,
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 320,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
+            }
+        },
+        <TableColumn> {
+            id: 'apagadoEm',
+            headerLabel: 'Apagado Em',
+            dataLabel: 'Apagado Em: ',
+            dataValue: (tarefa: Tarefa, scope: CdkTarefaListComponent) => tarefa?.apagadoEm?.format('DD/MM/YYYY HH:mm:ss'),
+            dataClass: (tarefa: Tarefa, scope: CdkTarefaListComponent) => {
+                return {'deleted':scope.deletedIds?.indexOf(tarefa.id) > -1 || tarefa?.apagadoEm};
+            },
+            definitions: <TableColumnDefinitions>{
+                fixed: false,
+                excluded: false,
+                selected: false,
+                order: 330,
+                slave: false,
+                width: 0,
+                resizable: false,
+                ordable: false,
             }
         },
     ]

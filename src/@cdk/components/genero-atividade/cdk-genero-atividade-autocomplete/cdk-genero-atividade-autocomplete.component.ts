@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-genero-atividade-autocomplete',
@@ -94,6 +95,6 @@ export class CdkGeneroAtividadeAutocompleteComponent implements OnInit {
     }
 
     displayGeneroAtividadeFn(generoAtividade): string {
-        return generoAtividade ? generoAtividade.nome : null;
+        return generoAtividade ? TitleCasePipe.format(generoAtividade.nome) : null;
     }
 }

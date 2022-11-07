@@ -103,7 +103,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documento?.tipoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documento?.tipoDocumento?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- DocumentoVinculado Column -->
@@ -114,7 +114,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Documento Vinculado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documentoVinculado?.tipoDocumento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documentoVinculado?.tipoDocumento?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ModalidadeVinculacaoDocumento Column -->
@@ -125,7 +125,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Modalidade da Vinculação do Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documentoVinculado?.descricaoOutros}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.documentoVinculado?.descricaoOutros | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -135,7 +135,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -156,7 +156,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -176,7 +176,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1, 'error': getProp(deletingErrors, vinculacaoDocumento.id)}"> {{vinculacaoDocumento.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

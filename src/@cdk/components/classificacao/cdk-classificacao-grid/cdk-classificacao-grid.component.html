@@ -109,7 +109,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Nome: ' [matTooltip]="classificacao.nomeCompleto"
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.nome}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.nome  | titleCasePipe}}
                     </td>
                 </ng-container>
 
@@ -121,7 +121,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Modalidade Destinação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.modalidadeDestinacao?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.modalidadeDestinacao?.valor  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseCorrenteAno Column -->
@@ -132,7 +132,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Corrente Ano: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteAno}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteAno  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseCorrenteMes Column -->
@@ -143,7 +143,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Corrente Mês: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteMes}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteMes  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseCorrenteDia Column -->
@@ -154,7 +154,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Corrente Dia: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteDia}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteDia  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseCorrenteEvento Column -->
@@ -165,7 +165,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Corrente Evento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteEvento}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseCorrenteEvento  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseIntermediariaAno Column -->
@@ -176,7 +176,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Intermediária Ano: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaAno}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaAno  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseIntermediariaMes Column -->
@@ -187,7 +187,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Intermediária Mês: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaMes}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaMes  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseIntermediariaDia Column -->
@@ -198,7 +198,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Intermediária Dia: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaDia}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaDia  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- PrazoGuardaFaseIntermediariaEvento Column -->
@@ -209,7 +209,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Prazo Guarda Idade Intermediária Evento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaEvento}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.prazoGuardaFaseIntermediariaEvento | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Codigo Column -->
@@ -228,7 +228,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Classificação Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.parent?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.parent?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -259,7 +259,7 @@
                         Observação
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.observacao  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -268,7 +268,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -288,7 +288,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -307,7 +307,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, classificacao.id)}"> {{classificacao.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

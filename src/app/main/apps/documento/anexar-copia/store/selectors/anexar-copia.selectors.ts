@@ -1,11 +1,12 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {juntada as juntadaSchema, processo as processoSchema} from '@cdk/normalizr';
-import {Juntada, Processo} from '@cdk/models';
+import {documento as documentoSchema, juntada as juntadaSchema, processo as processoSchema} from '@cdk/normalizr';
+import {Documento, Juntada, Processo} from '@cdk/models';
 import {AnexarCopiaAppState, AnexarCopiaState, getAnexarCopiaAppState} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaSelectorsJuntada = createSchemaSelectors<Juntada>(juntadaSchema);
+const schemaSelectorsDocumento = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getAnexarCopiaState: any = createSelector(
     getAnexarCopiaAppState,
@@ -15,6 +16,17 @@ export const getAnexarCopiaState: any = createSelector(
 export const getProcessoId: any = createSelector(
     getAnexarCopiaState,
     (state: AnexarCopiaState) => state.processoId
+);
+
+export const getDocumentoId: any = createSelector(
+    getAnexarCopiaState,
+    (state: AnexarCopiaState) => state.currentStep?.documentoId
+);
+
+export const getDocumento: any = createSelector(
+    schemaSelectorsDocumento.getNormalizedEntities,
+    getDocumentoId,
+    schemaSelectorsDocumento.entityProjector
 );
 
 export const getProcessoLoaded: any = createSelector(

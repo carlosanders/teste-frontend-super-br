@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-autocomplete',
@@ -94,6 +95,6 @@ export class CdkModalidadeDocumentoIdentificadorAutocompleteComponent implements
     }
 
     displayModalidadeDocumentoIdentificadorFn(modalidadeDocumentoIdentificador): string {
-        return modalidadeDocumentoIdentificador ? modalidadeDocumentoIdentificador.valor : null;
+        return modalidadeDocumentoIdentificador ? TitleCasePipe.format(modalidadeDocumentoIdentificador.valor) : null;
     }
 }

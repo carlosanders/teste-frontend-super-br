@@ -15,6 +15,13 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
+import {TableDefinitions} from "../../../../../../../@cdk/components/table-definitions/table-definitions";
+import {
+    CdkTarefaGridColumns
+} from "../../../../../../../@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.columns";
+import {
+    TableDefinitionsService
+} from "../../../../../../../@cdk/components/table-definitions/table-definitions.service";
 
 @Component({
     selector: 'historico-list',
@@ -26,12 +33,16 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class HistoricoListComponent implements OnInit, OnDestroy {
 
+    static readonly GRID_DEFINITIONS_KEYS: string[] = ['processo', 'processo-edit', 'HistoricoListComponent', 'CdkHistoricoGrid'];
+    static readonly LIST_DEFINITIONS_KEY:string = 'processoEditHistoricoListDefinitions';
+
     routerState: any;
     historicos$: Observable<Historico[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
     private _unsubscribeAll: Subject<any> = new Subject();
+    tableDefinitions: TableDefinitions = new TableDefinitions();
 
     /**
      * @param _changeDetectorRef
@@ -42,6 +53,7 @@ export class HistoricoListComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.HistoricoListAppState>,
+        private _tableDefinitionsService: TableDefinitionsService,
     ) {
         this.historicos$ = this._store.pipe(select(fromStore.getHistoricoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -61,6 +73,22 @@ export class HistoricoListComponent implements OnInit, OnDestroy {
         ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+
+        this._tableDefinitionsService
+            .getTableDefinitions(
+                this._tableDefinitionsService
+                    .generateTableDeinitionIdentifier(HistoricoListComponent.GRID_DEFINITIONS_KEYS)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((definitions: TableDefinitions) => {
+                if (!definitions) {
+                    this.tableDefinitions = new TableDefinitions();
+                    this.tableDefinitions.version = CdkTarefaGridColumns.version;
+                } else {
+                    this.tableDefinitions = definitions;
+                }
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     ngOnDestroy(): void {
@@ -83,5 +111,20 @@ export class HistoricoListComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.pagination.populate
         }));
+    }
+
+    doTableDefinitionsChange(tableDefinitions: TableDefinitions): void {
+        tableDefinitions.identifier = this._tableDefinitionsService
+            .generateTableDeinitionIdentifier(HistoricoListComponent.GRID_DEFINITIONS_KEYS);
+
+        this._tableDefinitionsService.saveTableDefinitions(tableDefinitions);
+    }
+
+    doResetTableDefinitions(): void {
+        this.reload({
+            ...this.pagination,
+            sort: {},
+            limit: 10
+        });
     }
 }

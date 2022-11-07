@@ -1,5 +1,5 @@
 <div class="toolbar pt-8 pb-8 pl-0 pr-8" *ngIf="loading || saving || loadingDocumentosExcluidos || lixeiraMinutas || documentos?.length > 0">
-    <div class="multiple-choices" *ngIf="documentos.length > 0">
+    <div class="multiple-choices" *ngIf="documentos.length > 1 && mode !== 'editor'">
 
         <mat-checkbox (click)="toggleSelectAll($event)"
                       [checked]="selectedIds.length > 0"
@@ -104,6 +104,10 @@
         <mat-spinner diameter="24"></mat-spinner>
     </div>
 
+    <p class="secondary-text pink-50 m-8 p-8" *ngIf="currentDragDocumento?.temAnexos">
+        A Minuta selecionada possuí anexos e não pode ser convertida em anexo de outra minuta.
+    </p>
+
     <cdk-minutas-atividade-card class="ml-8 mb-8"
                                 [ngClass]="{'current': currentDocumentoId === documento.id}"
                                 *ngFor="let documento of documentos; index as i; trackBy: documentoTrackBy"
@@ -136,7 +140,19 @@
                                 (downloadP7s)="doDownloadP7S($event)"
                                 (restaurar)="doRestaurar($event)"
                                 (click)="onClick(documento, $event)"
-                                (changedSelected)="toggleInSelected($event)">
+                                (changedSelected)="toggleInSelected($event)"
+                                dndDragImageRef
+                                dndDropzone
+                                dndDragoverClass="drag-over"
+                                [dndDraggable]="documento"
+                                [dndDisableDropIf]="isDropDisable(documento)"
+                                [dndDisableDragIf]="isDragDisable(documento)"
+                                [dndEffectAllowed]="'copy'"
+                                [dndDragImageOffsetFunction]="this.offsetFunction"
+                                (dndEnd)="doCancelDrag($event)"
+                                (dndStart)="doStartDrag($event, documento)"
+                                (dndDrop)="onDrop($event.data, documento, !isDropDisable(documento))"
+    >
     </cdk-minutas-atividade-card>
     <div class="loading" *ngIf="saving">
         <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>

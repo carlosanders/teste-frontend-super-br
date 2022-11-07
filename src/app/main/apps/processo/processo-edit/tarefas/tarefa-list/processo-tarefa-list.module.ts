@@ -25,7 +25,7 @@ import {CdkTarefaGridModule} from '@cdk/components/tarefa/cdk-tarefa-grid/cdk-ta
 import {modulesConfig} from 'modules/modules-config';
 import {
     TableDefinitionsService
-} from "../../../../../../../@cdk/components/table-definitions/table-definitions.service";
+} from '../../../../../../../@cdk/components/table-definitions/table-definitions.service';
 
 const routes: Routes = [
     {

@@ -1,0 +1,26 @@
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button
+                (click)="back()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="content">
+    <cdk-representante-grid
+            [loading]="(loading$ | async)"
+            [representantes]="(representantes$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [deletingIds]="(deletingIds$ | async)"
+            [deletingErrors]="(deletingErrors$ | async)"
+            [deletedIds]="(deletedIds$ | async)"
+            [actions]="['create' ,'edit', 'delete', 'showDeleted']"
+            (reload)="reload($event)"
+            (excluded)="excluded($event)"
+            (edit)="edit($event)"
+            (create)="create()"
+            (delete)="delete($event)">
+    </cdk-representante-grid>
+</div>

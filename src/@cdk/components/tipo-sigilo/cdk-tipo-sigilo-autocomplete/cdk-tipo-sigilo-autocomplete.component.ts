@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-sigilo-autocomplete',
@@ -94,6 +95,6 @@ export class CdkTipoSigiloAutocompleteComponent implements OnInit {
     }
 
     displayTipoSigiloFn(tipoSigilo): string {
-        return tipoSigilo ? tipoSigilo.nome : null;
+        return tipoSigilo ? TitleCasePipe.format(tipoSigilo.nome) : null;
     }
 }

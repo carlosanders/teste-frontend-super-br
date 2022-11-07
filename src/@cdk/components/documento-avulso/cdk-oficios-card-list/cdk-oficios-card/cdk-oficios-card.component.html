@@ -1,0 +1,53 @@
+<div fxLayout="row" matTooltipClass="multiline-tooltip" [ngClass]="{'borda-erro': this.error}" [matTooltip]="this.error ?? documentoAvulso.documentoRemessa?.tipoDocumento?.descricao">
+    <div fxFlex fxLayoutAlign="center center" lg *ngIf="actions.indexOf('select') > -1">
+        <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
+                      (change)="toggleInSelected()"
+                      (click)="$event.stopPropagation();">
+        </mat-checkbox>
+    </div>
+
+    <div fxFlex class="p-8 file" fxLayout="column" (click)="doClick()" lg>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon *ngIf="documentoAvulso" class="ml-8 mr-8">mail</mat-icon>
+            <div class="mr-8">{{documentoAvulso.documentoRemessa?.tipoDocumento?.sigla || 'OUT'}}{{indice + 1}}</div>
+            <mat-icon *ngIf="!documentoAvulso.dataHoraRemessa" class="ml-8 mr-8">edit</mat-icon>
+            <mat-icon *ngIf="!documentoAvulso.dataHoraResposta" class="ml-8 mr-8">
+                screen_share
+            </mat-icon>
+            <mat-icon *ngIf="documentoAvulso.dataHoraResposta" class="ml-8 mr-8">
+                reply
+            </mat-icon>
+            <mat-icon *ngIf="documentoAvulso.documentoRemessa.assinado" class="ml-8 mr-8">lock</mat-icon>
+        </div>
+    </div>
+
+    <div class="more-vert" lg>
+        <button *ngIf="!saving"
+                mat-icon-button
+                [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
+            <mat-icon>expand_more</mat-icon>
+        </button>
+
+        <div *ngIf="saving"
+             class="spinner-container m-8">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <mat-menu #menuDocumento="matMenu">
+            <button *ngIf="documentoAvulso.dataHoraResposta && actions.indexOf('verResposta') > -1"
+                    mat-menu-item
+                    fxLayout="row" fxLayoutAlign="start center"
+                    (click)="doVerResposta()">
+                <mat-icon color="accent">picture_as_pdf</mat-icon>
+                <span>Ver Resposta</span>
+            </button>
+            <button *ngIf="!documentoAvulso.dataHoraRemessa && actions.indexOf('remeter') > -1"
+                    mat-menu-item
+                    fxLayout="row" fxLayoutAlign="start center"
+                    (click)="doRemeter()">
+                <mat-icon color="accent">send</mat-icon>
+                <span>Remeter</span>
+            </button>
+        </mat-menu>
+    </div>
+</div>

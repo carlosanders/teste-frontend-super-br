@@ -17,6 +17,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-lembrete-autocomplete',
@@ -99,7 +100,7 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
     }
 
     displayLembreteFn(lembrete): string {
-        return lembrete ? lembrete.conteudo : null;
+        return lembrete ? TitleCasePipe.format(lembrete.conteudo) : null;
     }
 
     onSelected(etiqueta: Etiqueta): void {

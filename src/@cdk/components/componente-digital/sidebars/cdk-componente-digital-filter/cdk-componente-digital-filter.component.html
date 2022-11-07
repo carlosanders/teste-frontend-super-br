@@ -112,6 +112,13 @@
             </cdk-setor-autocomplete>
         </mat-form-field>
 
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Id</mat-label>
+            <input matInput #idDocumento
+                   name="idDocumento"
+                   formControlName="idDocumento">
+        </mat-form-field>
+
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
@@ -146,6 +153,8 @@
             <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>
             <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
         </mat-button-toggle-group>
+
+
     </form>
 </div>
 

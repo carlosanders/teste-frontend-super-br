@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-vinculacao-especie-processo-workflow-autocomplete',
@@ -96,10 +97,10 @@ export class CdkVinculacaoEspecieProcessoWorkflowAutocompleteComponent implement
     displayVinculacaoEspecieProcessoWorkflowFn(vinculacaoEspecieProcessoWorkflow): string {
         let arrText = [];
         if (vinculacaoEspecieProcessoWorkflow.especieProcesso?.nome) {
-            arrText.push(vinculacaoEspecieProcessoWorkflow.especieProcesso.nome);
+            arrText.push(TitleCasePipe.format(vinculacaoEspecieProcessoWorkflow.especieProcesso.nome));
         }
         if (vinculacaoEspecieProcessoWorkflow.workflow?.nome) {
-            arrText.push(vinculacaoEspecieProcessoWorkflow.workflow.nome);
+            arrText.push(TitleCasePipe.format(vinculacaoEspecieProcessoWorkflow.workflow.nome));
         }
         return arrText.join(' - ');
     }

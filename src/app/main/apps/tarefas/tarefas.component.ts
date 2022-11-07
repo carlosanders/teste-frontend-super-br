@@ -12,6 +12,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FavoritoService} from '@cdk/services/favorito.service';
 import {select, Store} from '@ngrx/store';
 import {Observable, of, Subject, switchMap} from 'rxjs';
 
@@ -24,7 +25,7 @@ import {
     ComponenteDigital,
     Documento,
     Etiqueta,
-    Folder,
+    Folder, Modelo,
     Pagination,
     Tarefa,
     Usuario,
@@ -39,7 +40,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {catchError, filter, finalize, take, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -108,11 +109,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
-    tarefasList: CdkTarefaListComponent
+    tarefasList: CdkTarefaListComponent;
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     routerState: any;
     hiddenFilters: string[] = [];
+    doLimpaFiltros: Subject<boolean> = new Subject<boolean>();
 
     searchInput: FormControl;
 
@@ -246,9 +248,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     componentRootUrl: boolean = true;
     isSmallScreen: boolean = false;
     tableDefinitions: TableDefinitions = new TableDefinitions();
+    modeloListIsLoading: boolean = false;
+    modeloList: Modelo[] = [];
+
+    modulesConfig: any;
+
+    buscarTodas: boolean = false;
 
     static readonly GRID_DEFINITIONS_KEYS: string[] = ['TarefasComponent', 'CdkTarefaList'];
-    static readonly LIST_DEFINITIONS_KEY:string = 'tarefaListDefinitions';
+    static readonly LIST_DEFINITIONS_KEY: string = 'tarefaListDefinitions';
 
     private readonly _defaultSortField: string = 'dataHoraFinalPrazo';
     private readonly _defaultSortOrder: string = 'ASC';
@@ -271,8 +279,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _activatedRoute: ActivatedRoute,
         private _cdkTarefaListService: CdkTarefaListService,
         private _cacheGenericUserDataService: CacheGenericUserDataService,
-        protected _tableDefinitionsService: TableDefinitionsService
+        protected _tableDefinitionsService: TableDefinitionsService,
+        private _favoritoService: FavoritoService
     ) {
+        this.modulesConfig = modulesConfig;
         // Set the defaults
         this.formEditor = this._formBuilder.group({
             modelo: [null]
@@ -329,7 +339,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._breakpointObserver
             .observe([Breakpoints.Small])
-            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches)
+            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches);
 
         const vinculacaoEtiquetaPagination = new Pagination();
         vinculacaoEtiquetaPagination.filter = {
@@ -435,7 +445,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         this._store.pipe(
             select(fromStore.getViewMode),
-            filter((viewMode) => !!viewMode)
+            filter(viewMode => !!viewMode)
         ).subscribe((viewMode) => {
             if (viewMode === 'grid') {
                 this._tableDefinitionsService
@@ -446,7 +456,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((definitions: TableDefinitions) => {
                         if (!definitions) {
-                            const tableDefinitions = new TableDefinitions()
+                            const tableDefinitions = new TableDefinitions();
                             tableDefinitions.version = CdkTarefaListColumns.version;
                             this.tableDefinitions = tableDefinitions;
                         } else {
@@ -462,7 +472,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         if (genericListDefinitions && genericListDefinitions[scopeKey] && genericListDefinitions[scopeKey]['tableDefinitions']) {
                             this.tableDefinitions = genericListDefinitions[scopeKey]['tableDefinitions'];
                         } else {
-                            const tableDefinitions = new TableDefinitions()
+                            const tableDefinitions = new TableDefinitions();
                             tableDefinitions.version = CdkTarefaListColumns.version;
                             this.tableDefinitions = tableDefinitions;
                         }
@@ -499,7 +509,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.routeAtividadeBloco = 'atividade-bloco';
             this.routeAtividadeDocumento = 'atividade';
             this.routeOficioDocumento = 'oficio';
-            modulesConfig.forEach((module) => {
+            this.modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(path) &&
                     module.routerLinks[path].hasOwnProperty('atividades') &&
                     module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -515,7 +525,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             });
             const pathDocumento = 'app/main/apps/documento/documento-edit';
-            modulesConfig.forEach((module) => {
+            this.modulesConfig.forEach((module) => {
                 if (module.routerLinks.hasOwnProperty(pathDocumento) &&
                     module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
                     module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -533,7 +543,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.typeHandle !== 'minhas-tarefas') {
                 this.hiddenFilters = ['tipoBusca'];
             } else {
-                this.hiddenFilters = []
+                this.hiddenFilters = [];
             }
 
             const componentRootUrl = '/apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -572,6 +582,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((currentTarefa: any) => {
             if (currentTarefa && currentTarefa.processo) {
                 if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
+                    if (this.container !== undefined) {
+                        this.container.clear();
+                    }
+                    const path = 'app/main/apps/tarefas';
+                    this.modulesConfig.forEach((module) => {
+                        if (module.components.hasOwnProperty(path)) {
+                            module.components[path].forEach(((c) => {
+                                this._dynamicService.loadComponent(c)
+                                    .then((componentFactory) => {
+                                        this.container.createComponent(componentFactory);
+                                        this._changeDetectorRef.detectChanges();
+                                    });
+                            }));
+                        }
+                    });
                     this._store.dispatch(new fromStore.SyncCurrentTarefaId({
                         tarefaId: currentTarefa.id,
                         processoId: currentTarefa.processo.id,
@@ -595,7 +620,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(value => value !== this.maximizado)
         ).subscribe((maximizado) => {
             this.maximizado = maximizado;
-        })
+        });
 
         this.selectedTarefas$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -650,7 +675,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((trocandoPastas) => {
             this.trocandoPastas = trocandoPastas;
-        })
+        });
 
         this.changingFolderIds$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -659,7 +684,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 // Acabou de trocar as pastas das tarefas selecionadas
                 this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasFinish());
             }
-        })
+        });
 
         this.errorComponentesDigitais$.pipe(
             filter(errors => !!errors),
@@ -691,24 +716,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routeAtividadeBloco = 'atividade-bloco';
         this.routeAtividadeDocumento = 'atividade';
         this.routeOficioDocumento = 'oficio';
-        if (this.container !== undefined) {
-            this.container.clear();
-        }
 
         modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach(((c) => {
-                    if (this.container !== undefined) {
-                        this._dynamicService.loadComponent(c)
-                            .then((componentFactory) => {
-                                const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
-                                componente.instance.setTarefa(this.currentTarefa);
-                                this._changeDetectorRef.detectChanges();
-                            });
-                    }
-                }));
-            }
-
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
                 module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle) &&
@@ -744,21 +753,28 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    limpaFiltros(): void {
+        this.buscarTodas = false;
+    }
+
     reload(params): void {
         this.novaTarefa = false;
-        let nparams = {
+        const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
-            limit: params.limit || this.pagination.limit,
-            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : this.pagination.offset),
+            limit: params.limit || 10,
+            offset: ((params.offset !== undefined && params.offset !== null) ? params.offset : 0),
             viewMode: this.tarefaListViewMode
         };
 
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         let generoParam = this.routerState.params['generoHandle'];
+        this.buscarTodas = false;
+        delete nparams['folderFilter'];
         if (this.typeHandle === 'minhas-tarefas' && params.tipoBusca === 'todas') {
+            this.buscarTodas = true;
             nparams.filter = {
                 'usuarioResponsavel.id': 'eq:' + this._profile.id,
                 'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`,
@@ -768,7 +784,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 modulo: generoParam,
                 mostrarApagadas: true
             };
-            delete nparams['folderFilter'];
         } else if (this.typeHandle === 'minhas-tarefas') {
             nparams.filter = {
                 'usuarioResponsavel.id': 'eq:' + this._profile.id,
@@ -791,7 +806,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 paramUrl = this.routerState.params[targetParam];
                 if (this.routerState.params[targetParam] === 'lixeira') {
-                    nparams.filters = {
+                    nparams.filter = {
                         'usuarioResponsavel.id': 'eq:' + this._profile.id,
                         'apagadoEm': 'gt:' + moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')
                     };
@@ -810,11 +825,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     mostrarApagadas: true
                 };
             }
-            nparams['filter'] = {
-                ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
-            };
         }
+
+        nparams['filter'] = {
+            ...nparams['filter'],
+            'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
+        };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
@@ -1264,7 +1280,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 selectedTarefa.upload();
             }
         } else {
-            const selectedTarefa = this.tarefasList.componenteDigitalListItems.find((componenteDigitalListItem) => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
+            const selectedTarefa = this.tarefasList.componenteDigitalListItems.find(componenteDigitalListItem => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
             if (selectedTarefa) {
                 selectedTarefa.upload();
             }
@@ -1291,10 +1307,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             if (result.certificadoDigital) {
                 const ids = this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+                assinaSub.unsubscribe();
             } else {
                 this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
                     vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
@@ -1336,6 +1353,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         }));
                     });
                 });
+                assinaSub.unsubscribe();
             }
         });
     }
@@ -1345,11 +1363,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             if (result.certificadoDigital) {
                 const ids = this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
                     .filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+                assinaSub.unsubscribe();
             } else {
                 this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
                     .filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
@@ -1392,6 +1411,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         }));
                     });
                 });
+                assinaSub.unsubscribe();
             }
         });
     }
@@ -1664,7 +1684,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
             if (result.certificadoDigital) {
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento([vinculacaoEtiqueta.objectId]));
             } else {
@@ -1813,6 +1834,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     doRemoveAssinaturaDocumento(documentoId: number): void {
         this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    limparBuscaTodos(): void {
+        this.buscarTodas = false;
+        this.limpaFiltros();
     }
 
     /**
@@ -2015,7 +2041,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 takeUntil(this._unsubscribeAll),
                 take(1),
-                switchMap((configs) => of(configs || {}))
+                switchMap(configs => of(configs || {}))
             )
             .subscribe((configs) => {
                 const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
@@ -2039,7 +2065,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         listFilter: this.pagination.listFilter,
                         listSort: (updatedConfigs[scopeKey]['tableDefinitions']?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
                         limit: (updatedConfigs[scopeKey]['tableDefinitions']?.limit || 10),
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        tipoBusca: this.buscarTodas ? 'todas' : undefined,
                         offset: 0
                     });
 
@@ -2063,7 +2089,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         listFilter: this.pagination.listFilter,
                         listSort: (definitions?.sort || {[this._defaultSortField]: this._defaultSortOrder}),
                         limit: (definitions?.limit || 10),
-                        tipoBusca: this.pagination?.listFilter?.tipoBusca,
+                        tipoBusca: this.buscarTodas ? 'todas' : undefined,
                         offset: 0
                     });
 
@@ -2113,7 +2139,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.ToggleGroup(groupData));
     }
 
-    doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface|null): void {
+    doGroupOptionChange(sortOption: CdkTarefaSortOptionsInterface | null): void {
         this._store.dispatch(new fromStore.UnloadGroup());
     }
 
@@ -2128,7 +2154,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 .pipe(
                     takeUntil(this._unsubscribeAll),
                     take(1),
-                    switchMap((configs) => of(configs || {}))
+                    switchMap(configs => of(configs || {}))
                 )
                 .subscribe((configs) => {
                     const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
@@ -2147,5 +2173,31 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this._cacheGenericUserDataService.set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
                 });
         }
+    }
+
+    getFavoritosMinuta(autocomplete: HTMLInputElement): void {
+        autocomplete.focus();
+        this.modeloListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Modelo',
+                context: 'eq:modelo'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.modeloPagination.populate)
+        ).pipe(
+            finalize(() => this.modeloListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.modeloList = [];
+                response['entities'].forEach((favorito) => {
+                    this.modeloList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 }

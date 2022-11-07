@@ -67,10 +67,10 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params['contextHandle'] ||
                     !this.routerState.params['typeHandle'] ||
-                    !this.routerState.params['targetHandle'] ||
+                    !this.routerState.params['alvoHandle'] ||
                     (this.routerState.params['contextHandle'] +
                         '_' + this.routerState.params['typeHandle'] +
-                        '_' + this.routerState.params['targetHandle']) !==
+                        '_' + this.routerState.params['alvoHandle']) !==
                     loaded.value) {
 
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
@@ -104,7 +104,7 @@ export class ResolveGuard implements CanActivate {
                                         'dataHoraConclusaoPrazo': 'isNull',
                                         'especieTarefa.evento': 'eq:true'
                                     };
-                                    const routeTargetParam = of('targetHandle');
+                                    const routeTargetParam = of('alvoHandle');
                                     routeTargetParam.subscribe((targetParam) => {
                                         tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                                     });
@@ -115,7 +115,7 @@ export class ResolveGuard implements CanActivate {
                                         'dataHoraConclusaoPrazo': 'isNull',
                                         'especieTarefa.evento': 'eq:true'
                                     };
-                                    const routeTargetParam = of('targetHandle');
+                                    const routeTargetParam = of('alvoHandle');
                                     routeTargetParam.subscribe((targetParam) => {
                                         tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                                     });
@@ -158,10 +158,10 @@ export class ResolveGuard implements CanActivate {
             }),
             filter((loaded: any) => this.routerState.params['contextHandle'] &&
                 this.routerState.params['typeHandle'] &&
-                this.routerState.params['targetHandle'] &&
+                this.routerState.params['alvoHandle'] &&
                 (this.routerState.params['contextHandle'] +
                     '_' + this.routerState.params['typeHandle'] +
-                    '_' + this.routerState.params['targetHandle']) ===
+                    '_' + this.routerState.params['alvoHandle']) ===
                 loaded.value),
             take(1)
         );

@@ -16,6 +16,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-genero-relatorio-autocomplete',
@@ -98,6 +99,6 @@ export class CdkGeneroRelatorioAutocompleteComponent implements OnInit {
     }
 
     displayGeneroRelatorioFn(generoRelatorio): string {
-        return generoRelatorio ? generoRelatorio.nome : null;
+        return generoRelatorio ? TitleCasePipe.format(generoRelatorio.nome) : null;
     }
 }

@@ -12,12 +12,22 @@
 
     <div class="nav material2">
 
-        <div class="nav-item" *ngFor="let link of links">
-            <a class="nav-link" matRipple [routerLink]="link.link"
-               [routerLinkActive]="['active', 'accent']" *showIfRole="link.role" (click)="fecharSidebar()">
-                <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                <span>{{link.nome | titleCasePipe}}</span>
-            </a>
+        <div *ngFor="let menuItem of menu | keyvalue; let i = index;">
+            <mat-expansion-panel *showIfRole="roles[menuItem.key]" class="mat-elevation-z0" [expanded]="i <= 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{menuItem.key.toUpperCase()}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="nav-item" *ngFor="let link of menuItem.value">
+                    <a *showIfRole="link.role" class="nav-link" matRipple [routerLink]="'/apps/pesquisa/' + link.link"
+                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                        <span class="material-icons-outlined mat-icon mat-icon-no-color nav-link-icon">{{ link.icon }}</span>
+                        <span>{{link.nome}}</span>
+                    </a>
+                </div>
+            </mat-expansion-panel>
+
         </div>
 
     </div>

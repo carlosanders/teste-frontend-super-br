@@ -1,4 +1,24 @@
-@import "@cdk/scss/cdk";
+@import "src/@cdk/scss/cdk";
+
+@mixin processoUserProfileCss {
+    .profileImage {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin: 0 8px 0 0;
+        border-radius: 50%;
+        font-weight: bold;
+        color: #FFFFFF;
+        text-align: center;
+        background: #3949AB;
+
+        .mat-badge-content {
+            right: calc(-8px) !important;
+            top: calc(-4px) !important;
+        }
+    }
+}
 
 processo {
 
@@ -46,30 +66,10 @@ processo {
                         display: flex;
                         flex: 0 1 auto;
 
-                        > .user {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: flex-start;
-                            align-items: center;
-
-                            > .profileImage {
-                                width: 35px;
-                                min-width: 35px;
-                                height: 35px;
-                                line-height: 35px;
-                                margin: 0 8px 0 0;
-                                border-radius: 50%;
-                                font-weight: bold;
-                                color: #FFFFFF;
-                                text-align: center;
-                                background: #3949AB;
-                            }
-                        }
-
                         > .more-user {
                             > .more-button {
-                                width: 35px;
-                                height: 35px;
+                                width: 40px;
+                                height: 40px;
                                 color: #FFFFFF;
                                 margin: 0 8px 0 0;
                                 > .mat-button-wrapper {
@@ -115,6 +115,16 @@ processo {
                 margin: 8px;
             }
         }
+
+    }
+
+    .user {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        @include processoUserProfileCss;
     }
 
 }
@@ -127,4 +137,59 @@ processo {
 
 .mat-menu-content:not(:empty) {
     max-height: 550px !important;
+}
+
+.processo-tarefa-menu {
+    @include processoUserProfileCss;
+
+    mat-card {
+        &.card-usuario {
+            mat-card-header {
+                mat-card-title {
+                    display: flex !important;
+                    align-items: center;
+                }
+            }
+        }
+
+        &.card-tarefa {
+            mat-card-header {
+                .mat-card-header-text {
+                    margin: 0 !important;
+                }
+                mat-card-title {
+                    font-size: 14px !important;
+                }
+            }
+        }
+    }
+
+    &.more-tarefa {
+        background-color: transparent !important;
+        box-shadow: unset !important;
+        display: flex;
+        justify-content: flex-end;
+        left: calc(9px);
+
+        .mat-menu-content {
+            max-height: unset !important;
+            margin-top: 8px;
+
+            .mat-menu-item {
+                padding: 0 !important;
+                margin-bottom: 10px;
+                overflow: unset !important;
+
+                .mat-menu-trigger {
+                    padding: 0 !important;
+                    overflow: unset !important;
+                }
+            }
+        }
+    }
+
+    &.sub-menu-more-tarefa {
+        left: calc(-50px);
+        top: calc(-20px);
+    }
 }

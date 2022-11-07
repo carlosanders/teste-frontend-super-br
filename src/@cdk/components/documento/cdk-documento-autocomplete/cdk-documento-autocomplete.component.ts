@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-documento-autocomplete',
@@ -102,6 +103,6 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
         if (documento && documento.juntadaAtual) {
             result += (' - JUNTADA SEQUENCIAL ' + documento.juntadaAtual.numeracaoSequencial);
         }
-        return result;
+        return TitleCasePipe.format(result);
     }
 }

@@ -35,11 +35,19 @@
 
             <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
                 <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    <div *ngFor="let tableColumn of getDisplayableTableColumns()">
+                        <mat-option [value]="tableColumn.id">{{ tableColumn.headerLabel }}</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    *ngIf="actions.indexOf('redefinir_tabela') !== -1"
+                    (click)="resetTableColumns()"
+                    aria-label="redefinir_tabela"
+                    matTooltip="Redefinir Tabela">
+                <mat-icon>grid_off</mat-icon>
+            </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('responder') > -1"
                     (click)="responderDocumentosAvulsos(selectedIds)"
@@ -47,6 +55,15 @@
                     matTooltip="Responder ofícios">
                 <mat-icon>reply</mat-icon>
             </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('remeterLote') > -1 && !hasExcluded && remeterIds?.length === 0"
+                    (click)="remeterDocumentosAvulsos(selectedIds)"
+                    aria-label="remeter ofícios"
+                    matTooltip="Remeter ofícios">
+                <mat-icon>send</mat-icon>
+            </button>
+
+            <mat-spinner *ngIf="remeterIds?.length > 0 && selectedIds.length > 1 && actions.indexOf('remeterLote') > -1 && !hasExcluded" diameter="16"></mat-spinner>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -79,7 +96,18 @@
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('select')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('select'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('select')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('select'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('select'))">
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
                                       [disabled]="hasExcluded"
@@ -87,7 +115,7 @@
                         </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso">
-                        <mat-checkbox [checked]="selectedIds.indexOf(documentoAvulso.id) > -1"
+                        <mat-checkbox [checked]="selectedIds.includes(documentoAvulso.id)"
                                       (change)="toggleInSelected(documentoAvulso.id)"
                                       (click)="$event.stopPropagation();"
                                       [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1 || hasExcluded">
@@ -95,374 +123,117 @@
                     </td>
                 </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                <ng-container *ngFor="let tableColumn of getTableColumnsList()" matColumnDef="{{tableColumn.id}}">
+                    <th mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef
+                        [cdkTableColumnResizable]="tableColumn"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(tableColumn, $event.data)"
+                        [dndDraggable]="tableColumn"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(tableColumn)"
+                        [dndDisableDropIf]="dndDisable(tableColumn)">
+                        <span [innerHTML]="tableColumn.headerLabel | safeHtml"></span>
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.id}} </td>
-                </ng-container>
-
-                <!-- EspecieDocumentoAvulso Column -->
-                <ng-container matColumnDef="especieDocumentoAvulso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie de Documento Avulso
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Espécie de Documento Avulso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.especieDocumentoAvulso?.nome}} </td>
-                </ng-container>
-
-                <!-- SetorOrigem Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorOrigem.nome') > -1" matColumnDef="setorOrigem.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Setor de Origem
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Setor de Origem: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.setorOrigem?.nome}} </td>
-                </ng-container>
-
-                <!-- Observacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Observação
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.observacao}} </td>
-                </ng-container>
-
-                <!-- Urgente Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Urgente
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Urgente: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}">
-                        <mat-checkbox [disabled]="true" [checked]="documentoAvulso.urgente"></mat-checkbox>
+                    <td mat-cell
+                        *matCellDef="let documentoAvulso"
+                        class='has_label_on_mobile'
+                        [attr.data-label]="tableColumn.dataLabel"
+                        [ngClass]="tableColumn.dataClass ? tableColumn.dataClass(documentoAvulso, this, tableColumn) : ''">
+                        <span [innerHTML]="(tableColumn.dataValue ? tableColumn.dataValue(documentoAvulso, this) : '') | safeHtml"></span>
                     </td>
                 </ng-container>
 
-                <!-- Modelo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modelo.nome') > -1" matColumnDef="modelo.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Modelo
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Modelo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.modelo?.nome}} </td>
-                </ng-container>
 
-                <!-- DataHoraEncerramento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraEncerramento') > -1"
-                              matColumnDef="dataHoraEncerramento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data Encerramento
+                <!-- documentoRemessa Column -->
+                <ng-container matColumnDef="documentoRemessa">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('documentoRemessa').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('documentoRemessa')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('documentoRemessa'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('documentoRemessa')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('documentoRemessa'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('documentoRemessa'))">
+                        {{getColumnTableColumn('documentoRemessa').headerLabel  | titleCasePipe}}
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data Encerramento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraEncerramento?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- DataHoraInicioPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraInicioPrazo') > -1"
-                              matColumnDef="dataHoraInicioPrazo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data do Início Prazo
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data do Início Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- DataHoraFinalPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1"
-                              matColumnDef="dataHoraFinalPrazo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data do Final do Prazo
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data do Final do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- DataHoraConclusaoPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusaoPrazo') > -1"
-                              matColumnDef="dataHoraConclusaoPrazo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data da Conclusão do Prazo
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data da Conclusão do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraConclusaoPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- PessoaDestino Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1"
-                              matColumnDef="pessoaDestino.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Pessoa de Destino
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Pessoa de Destino: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.pessoaDestino?.nome}} </td>
-                </ng-container>
-
-                <!-- SetorDestino.nome Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1"
-                              matColumnDef="setorDestino.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Setor de Destino
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Setor de Destino: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.setorDestino?.nome}} </td>
-                </ng-container>
-
-                <!-- DataHoraRemessa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraRemessa') > -1" matColumnDef="dataHoraRemessa">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data Remessa
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data Remessa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- DataHoraResposta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraResposta') > -1" matColumnDef="dataHoraResposta">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data Resposta
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data Resposta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- DataHoraReiteracao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraReiteracao') > -1"
-                              matColumnDef="dataHoraReiteracao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Data Reiteracao
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Data Reiteracao: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraReiteracao?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- DocumentoResposta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoResposta.tipoDocumento.nome') > -1"
-                              matColumnDef="documentoResposta.tipoDocumento.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento de Resposta
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Documento de Resposta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.documentoResposta?.tipoDocumento?.nome}} </td>
-                </ng-container>
-
-                <!-- DocumentoRemessa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoRemessa.tipoDocumento.nome') > -1"
-                              matColumnDef="documentoRemessa.tipoDocumento.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento de Remessa
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Documento de Remessa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.documentoRemessa?.tipoDocumento?.nome}} </td>
-                </ng-container>
-
-                <!-- UsuarioResponsavel Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioResponsavel.nome') > -1"
-                              matColumnDef="usuarioResponsavel.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Usuário Responsável
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Usuário Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.usuarioResponsavel?.nome}} </td>
-                </ng-container>
-
-                <!-- UsuarioResposta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioResposta.nome') > -1"
-                              matColumnDef="usuarioResposta.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Usuário Resposta
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Usuário Resposta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.usuarioResposta?.nome}} </td>
-                </ng-container>
-
-                <!-- UsuarioRemessa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioRemessa.nome') > -1"
-                              matColumnDef="usuarioRemessa.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Usuário Remessa
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Usuário Remessa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.usuarioRemessa?.nome}} </td>
-                </ng-container>
-
-                <!-- SetorResponsavel Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.nome') > -1"
-                              matColumnDef="setorResponsavel.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Setor de Responsável
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Setor de Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.setorResponsavel?.nome}} </td>
-                </ng-container>
-
-                <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processo') > -1" matColumnDef="processo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        NUP
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='NUP: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.processo?.NUP}} </td>
-                </ng-container>
-
-                <!-- DocumentoAvulsoOrigem Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoAvulsoOrigem.especieDocumentoAvulso.nome') > -1"
-                              matColumnDef="documentoAvulsoOrigem.especieDocumentoAvulso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento Avulso de Origem
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Documento Avulso de Origem: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.documentoAvulsoOrigem?.especieDocumentoAvulso?.nome}} </td>
-                </ng-container>
-
-                <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefaOrigem.especieTarefa.nome') > -1"
-                              matColumnDef="tarefaOrigem.especieTarefa.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Tarefa
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.tarefaOrigem?.especieTarefa?.nome}} </td>
-                </ng-container>
-
-                <!-- PostIt Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('postIt') > -1" matColumnDef="postIt">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Post It
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Post It: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.postIt}} </td>
-                </ng-container>
-
-                <!-- DistribuicaoAutomatica Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoAutomatica') > -1"
-                              matColumnDef="distribuicaoAutomatica">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Distribuição Automática
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Distribuição Automática: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}">
-                        <mat-checkbox [disabled]="true"
-                                      [checked]="documentoAvulso.distribuicaoAutomatica"></mat-checkbox>
+                        data-label="{{getColumnTableColumn('documentoRemessa').dataLabel}}">
+                        <button mat-icon-button
+                                *ngIf="documentoAvulso?.documentoRemessa"
+                                [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1"
+                                (click)="visualizarDocumentoEditor(documentoAvulso?.documentoRemessa)"
+                                aria-label="download" matTooltip="abrir">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
-                <!-- LivreBalanceamento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('livreBalanceamento') > -1"
-                              matColumnDef="livreBalanceamento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Livre Balanceamento
+                <!-- documentoResposta Column -->
+                <ng-container matColumnDef="documentoResposta">
+                    <th mat-header-cell *matHeaderCellDef
+                        mat-sort-header
+                        [disabled]="getColumnTableColumn('documentoResposta').definitions.sortable === false"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        [cdkTableColumnResizable]="getColumnTableColumn('documentoResposta')"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('documentoResposta'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('documentoResposta')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('documentoResposta'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('documentoResposta'))">
+                        {{getColumnTableColumn('documentoResposta').headerLabel  | titleCasePipe}}
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Livre Balanceamento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}">
-                        <mat-checkbox [disabled]="true" [checked]="documentoAvulso.livreBalanceamento"></mat-checkbox>
+                        data-label="{{getColumnTableColumn('documentoResposta').dataLabel}}">
+                        <button mat-icon-button *ngIf="documentoAvulso?.documentoResposta"
+                                [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1"
+                                (click)="visualizarDocumentoEditor(documentoAvulso?.documentoResposta)"
+                                aria-label="download" matTooltip="abrir">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
-                <!-- AuditoriaDistribuicao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('auditoriaDistribuicao') > -1"
-                              matColumnDef="auditoriaDistribuicao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Auditoria de Distribuição
+                <ng-container *ngFor="let dynamicColumn of dynamicSlaveTableColumns" matColumnDef="{{dynamicColumn.tableColumn.id}}">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span [innerHTML]="dynamicColumn.tableColumn.headerLabel"></span>
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Auditoria de Distribuição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.auditoriaDistribuicao}} </td>
-                </ng-container>
-
-                <!-- TipoDistribuicao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tipoDistribuicao') > -1" matColumnDef="tipoDistribuicao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Tipo de Distribuição
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Tipo de Distribuição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.tipoDistribuicao}} </td>
-                </ng-container>
-
-                <!-- CriadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Por
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.criadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- CriadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Em
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
-                              matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.atualizadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
-                        data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                    <td mat-cell *matCellDef="let tarefa"
+                        [attr.column-ref]="dynamicColumn.tableColumn.id"
+                        [attr.tarefa-id]="tarefa.id" class='has_label_on_mobile' data-label='{{dynamicColumn.tableColumn.headerLabel}}: '>
+                        <ng-container #tdTarefaContainer></ng-container>
+                    </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
+                    <th mat-header-cell *matHeaderCellDef
+                        [cdkTableColumnResizable]="getColumnTableColumn('actions')"
+                        (columnChageWidth)="columnChageWidth($event)"
+                        (resizing)="resizingColumn($event)"
+                        dndDropzone
+                        (dndDrop)="onDrop(getColumnTableColumn('actions'), $event.data)"
+                        [dndDraggable]="getColumnTableColumn('actions')"
+                        [dndEffectAllowed]="'move'"
+                        [dndDragoverClass]="'table-column-drag-over'"
+                        [dndDropzoneDisabledClass]="'table-column-drag-over-disabled'"
+                        [dndDisableDragIf]="dndDisable(getColumnTableColumn('actions'))"
+                        [dndDisableDropIf]="dndDisable(getColumnTableColumn('actions'))"></th>
                     <td mat-cell *matCellDef="let documentoAvulso">
 
                         <button mat-icon-button
@@ -526,13 +297,24 @@
                             <mat-icon>remove_red_eye</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('remeter') > -1 && remeterIds?.indexOf(documentoAvulso.id) === -1"
+                                [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1"
+                                (click)="remeterDocumentosAvulsos([documentoAvulso.id])"
+                                aria-label="remeter"
+                                matTooltip="Remeter">
+                            <mat-icon>send</mat-icon>
+                        </button>
+
+                        <mat-spinner *ngIf="remeterIds?.indexOf(documentoAvulso.id) > -1" diameter="16"></mat-spinner>
+
                         <ng-template #buttonModule></ng-template>
 
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let documentoAvulso; columns: displayedColumns;">
+                <tr mat-header-row *matHeaderRowDef="getDisplayColumns(); sticky: true;"></tr>
+                <tr mat-row *matRowDef="let documentoAvulso; columns: getDisplayColumns();">
                 </tr>
             </table>
         </div>

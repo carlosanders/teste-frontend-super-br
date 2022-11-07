@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@cdk/angular/material';
+import {Documento} from '@cdk/models';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {CdkUtils} from '@cdk/utils';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {getRouterState, State} from 'app/store/reducers';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
-import {AddData} from '@cdk/ngrx-normalizr';
-import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
-import {DocumentoService} from '@cdk/services/documento.service';
-import {
-    documento as documentoSchema
-} from '@cdk/normalizr';
-import {Router} from '@angular/router';
-import * as DocumentosActionsAll from '../actions/documentos.actions';
-import {getDocumento} from '../../../../store';
+import * as fromDocumentoStore from '../../../../store';
 import * as fromStore from '../../store';
+import * as DocumentosActionsAll from '../actions/documentos.actions';
 
 @Injectable()
 export class DocumentosEffects {
@@ -25,7 +27,7 @@ export class DocumentosEffects {
      */
     getDocumentos: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.GetDocumentos>(DocumentosActionsAll.GET_DOCUMENTOS),
-        withLatestFrom(this._store.pipe(select(getDocumento))),
+        withLatestFrom(this._store.pipe(select(fromDocumentoStore.getDocumento))),
         mergeMap(([action, documento]) => {
             const tarefaId = this.routerState.params['tarefaHandle'] ?? documento.tarefaOrigem.id;
             const params = {
@@ -41,7 +43,8 @@ export class DocumentosEffects {
                 },
                 populate: [
                     'tipoDocumento',
-                ]
+                ],
+                context: {'verificaAnexos': true}
             };
 
             return this._documentoService.query(
@@ -51,7 +54,8 @@ export class DocumentosEffects {
                 params.limit,
                 params.offset,
                 JSON.stringify(params.sort),
-                JSON.stringify(params.populate)
+                JSON.stringify(params.populate),
+                JSON.stringify(params.context)
             ).pipe(
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -108,11 +112,94 @@ export class DocumentosEffects {
         }, 25)
     ));
 
+    converteMinutaEmAnexo: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentosActionsAll.ConverteMinutaEmAnexo>(DocumentosActionsAll.CONVERTE_MINUTA_EM_ANEXO),
+        tap((action) => this._store.dispatch(new OperacoesActions.Operacao(action.payload.operacao))),
+        mergeMap((action) => {
+            return this._documentoService.converteMinutaEmAnexo(
+                action.payload.documentoOrigem,
+                action.payload.documentoDestino,
+                JSON.stringify([
+                    'tipoDocumento',
+                    'tarefaOrigem',
+                    'atualizadoPor'
+                ]),
+                JSON.stringify({'verificaAnexos': true})
+            ).pipe(
+                tap((response: Documento) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacao.id,
+                        type: action.payload.operacao.type,
+                        content: `Minuta id ${action.payload.documentoOrigem.id} convertida em anexo com sucesso!`,
+                        status: 1, // sucesso
+                        redo: 'inherent',
+                        undo: 'inherent'
+                    }));
+
+                    this._store.dispatch(new AddData<Documento>({data: [response], schema: documentoSchema}));
+                    this._store.dispatch(new fromDocumentoStore.CriadoAnexoDocumento(response.id));
+                    this._store.dispatch(new DocumentosActionsAll.RemoveMinutasTarefa({
+                        documentos: [action.payload.documentoOrigem],
+                        tarefaId: response.tarefaOrigem.id
+                    }));
+                    this._store.dispatch(new fromDocumentoStore.RemovidoAnexoDocumento(response.id));
+                    if (action.payload.documentoDestino.id === +this.routerState.params['documentoHandle']) {
+                        this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
+                    }
+
+                    if (action.payload.documentoOrigem.id === +this.routerState.params['documentoHandle']) {
+                        this._componenteDigitalService.saving.next(false);
+                        this._router.navigate([
+                                this.routerState.url.split('/documento/' + this.routerState.params['documentoHandle'])[0] +
+                                '/documento/' + action.payload.documentoDestino.id,
+                                {
+                                    outlets: {
+                                        sidebar: 'editar/atividade'
+                                    }
+                                }],
+                            {
+                                relativeTo: this._activatedRoute.parent,
+                                queryParams: {lixeira: null}
+                            }).then();
+                    }
+                }),
+                mergeMap((response: Documento) => [
+                    new DocumentosActionsAll.ConverteMinutaEmAnexoSuccess(response),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacao.id,
+                        type: 'documento',
+                        content: `Erro ao converter modelo id ${action.payload.documentoOrigem.id} em anexo da minuta id ${action.payload.documentoDestino.id}!`,
+                        status: 2, // erro
+                        redo: 'inherent',
+                        undo: 'inherent'
+                    }));
+                    this._snackBar.open(CdkUtils.errorsToString(err), null, {
+                        duration: 5000,
+                        horizontalPosition: 'center',
+                        verticalPosition: 'top',
+                        panelClass: ['danger-snackbar']
+                    });
+                    return of(new DocumentosActionsAll.ConverteMinutaEmAnexoFailed({
+                        documentoOrigem: action.payload.documentoOrigem,
+                        documentoDestino: action.payload.documentoDestino,
+                        error: err
+                    }));
+                })
+            );
+        })
+    ));
+
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _router: Router,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _snackBar: MatSnackBar,
+        private _componenteDigitalService: ComponenteDigitalService,
+        private _activatedRoute: ActivatedRoute,
     ) {
         this._store.pipe(
             select(getRouterState),

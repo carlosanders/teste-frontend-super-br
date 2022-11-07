@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-vinculacao-etiqueta-autocomplete',
@@ -104,6 +105,6 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
     }
 
     displayVinculacaoEtiquetaFn(vinculacaoEtiqueta): string {
-        return vinculacaoEtiqueta ? vinculacaoEtiqueta.etiqueta.nome : null;
+        return vinculacaoEtiqueta ? TitleCasePipe.format(vinculacaoEtiqueta.etiqueta.nome) : null;
     }
 }

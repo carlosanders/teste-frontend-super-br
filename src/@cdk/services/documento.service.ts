@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Documento, Visibilidade} from '@cdk/models';
+import {Documento, Tarefa, Visibilidade} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
@@ -107,6 +107,36 @@ export class DocumentoService extends ParentGenericService<Documento> {
             id,
             changes,
             new HttpParams({fromObject: params})
+        );
+    }
+
+    converteMinutaEmAnexo(documentoOrigem: Documento, documentoDestino: Documento, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const objParams = {
+            'context': context,
+            'populate': populate
+        };
+        const params: HttpParams = new HttpParams({fromObject: objParams});
+        return this.http.patch(
+            `${environment.api_url}administrativo/documento/${documentoOrigem.id}/converte_minuta_anexo/${documentoDestino.id}` + environment.xdebug,
+            null,
+            { params }
+        ).pipe(
+            map((response) => plainToClass(Documento, response))
+        );
+    }
+
+    converteAnexoEmMinuta(documento: Documento, tarefa: Tarefa, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const objParams = {
+            'context': context,
+            'populate': populate
+        };
+        const params: HttpParams = new HttpParams({fromObject: objParams});
+        return this.http.patch(
+            `${environment.api_url}administrativo/documento/${documento.id}/converte_anexo_minuta/${tarefa.id}` + environment.xdebug,
+            null,
+            { params }
+        ).pipe(
+            map((response) => plainToClass(Documento, response))
         );
     }
 }

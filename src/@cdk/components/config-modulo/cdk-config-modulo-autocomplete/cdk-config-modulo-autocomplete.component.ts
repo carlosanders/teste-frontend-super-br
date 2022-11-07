@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models/pagination';
 import {ConfigModuloService} from '../../../services/config-modulo.service';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-config-modulo-autocomplete',
@@ -81,6 +82,6 @@ export class CdkConfigModuloAutocompleteComponent implements OnInit {
     }
 
     displayConfigModuleFn(configModule): string {
-        return configModule ? configModule.nome + '(' + configModule.id + ')' : null;
+        return configModule ? TitleCasePipe.format(configModule.nome + '(' + configModule.id + ')') : null;
     }
 }

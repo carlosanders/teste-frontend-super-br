@@ -16,6 +16,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-tipo-contato-autocomplete',
@@ -95,6 +96,6 @@ export class CdkTipoContatoAutocompleteComponent implements OnInit {
     }
 
     displayTipoContatoFn(tipoContato): string {
-        return tipoContato ? tipoContato.nome : null;
+        return tipoContato ? TitleCasePipe.format(tipoContato.nome) : null;
     }
 }

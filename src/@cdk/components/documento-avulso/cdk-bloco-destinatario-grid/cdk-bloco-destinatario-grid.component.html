@@ -60,7 +60,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1, 'error': getProp(deletingErrors, element.id)}"> {{element.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1, 'error': getProp(deletingErrors, element.id)}"> {{element.nome  | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Tipo Column -->

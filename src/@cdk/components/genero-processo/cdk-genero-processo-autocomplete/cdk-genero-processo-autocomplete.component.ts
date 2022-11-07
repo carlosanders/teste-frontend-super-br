@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-genero-processo-autocomplete',
@@ -94,6 +95,6 @@ export class CdkGeneroProcessoAutocompleteComponent implements OnInit {
     }
 
     displayGeneroProcessoFn(generoProcesso): string {
-        return generoProcesso ? generoProcesso.nome : null;
+        return generoProcesso ? TitleCasePipe.format(generoProcesso.nome) : null;
     }
 }

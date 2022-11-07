@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-genero-setor-autocomplete',
@@ -94,6 +95,6 @@ export class CdkGeneroSetorAutocompleteComponent implements OnInit {
     }
 
     displayGeneroSetorFn(generoSetor): string {
-        return generoSetor ? generoSetor.nome : null;
+        return generoSetor ? TitleCasePipe.format(generoSetor.nome) : null;
     }
 }

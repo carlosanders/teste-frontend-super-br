@@ -6,7 +6,10 @@
         <tarefas-main-sidebar
             (reload)="reload($event)"
             (changeViewMode)="doTarefaListViewModeChange($event)"
+            (limparBuscaTodos)="limparBuscaTodos()"
+            [doLimpaFiltros]="this.doLimpaFiltros"
             [viewMode]="tarefaListViewMode"
+            [buscarTodas]="buscarTodas"
             [draggingIds]="draggingIds$ | async">
         </tarefas-main-sidebar>
     </cdk-sidebar>
@@ -16,7 +19,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" [style.display]="(maximizado$ | async) ? 'none' : 'block'">
+        <div class="header" [style.display]="(maximizado$ | async) ? 'none' : 'flex'">
 
             <button mat-icon-button (click)="retornar()" *ngIf="!componentRootUrl && (tarefaListViewMode === 'grid' || isSmallScreen)">
                 <mat-icon>arrow_back</mat-icon>
@@ -164,9 +167,15 @@
                             </div>
                             <cdk-modelo-autocomplete
                                 #modelo="modeloAutocomplete"
+                                [modeloListIsLoading]="modeloListIsLoading"
+                                [modeloList]="modeloList"
                                 [control]="formEditor.get('modelo')"
                                 [pagination]="modeloPagination">
                             </cdk-modelo-autocomplete>
+                            <button matSuffix mat-button mat-icon-button type="button"
+                                    (click)="$event.stopPropagation(); getFavoritosMinuta(autoCompleteModelos)">
+                                <mat-icon matTooltip="Favoritos">star</mat-icon>
+                            </button>
                             <button matSuffix mat-button mat-icon-button type="button"
                                     (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
                                 <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>
@@ -207,6 +216,7 @@
                 <div class="tarefa-list" #tarefaListElement mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      (resizeEnd)="onResizeEndTarefaList($event)"
+                     (selectstart)="$event.preventDefault()"
                      [fxFlex]="tarefaListSize"
                      [ngClass]="{
                         'mobile-mode': mobileMode || tarefaListViewMode === 'grid',
@@ -248,6 +258,8 @@
                                      [novaTarefa]="novaTarefa"
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
+                                     (limparFiltros)="limpaFiltros()"
+                                     [doLimparFiltros]="this.doLimpaFiltros"
                                      (reload)="reload($event)"
                                      (selected)="setCurrentTarefa($event)"
                                      (folder)="setFolderOnSelectedTarefas($event)"
@@ -326,6 +338,7 @@
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [fxFlex]="100"
+                     (selectstart)="$event.preventDefault()"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
                         'mobile-mode': mobileMode || tarefaListViewMode === 'grid',

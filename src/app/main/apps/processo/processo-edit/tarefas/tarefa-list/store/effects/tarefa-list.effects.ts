@@ -13,11 +13,11 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
-import * as ProcessoActions from "../../../../../store/actions/processo.actions";
+import * as ProcessoActions from '../../../../../store/actions/processo.actions';
 import {
     TableDefinitionsService
-} from "../../../../../../../../../@cdk/components/table-definitions/table-definitions.service";
-import {TarefaListComponent} from "../../tarefa-list.component";
+} from '../../../../../../../../../@cdk/components/table-definitions/table-definitions.service';
+import {TarefaListComponent} from '../../tarefa-list.component';
 
 @Injectable()
 export class TarefaListEffect {

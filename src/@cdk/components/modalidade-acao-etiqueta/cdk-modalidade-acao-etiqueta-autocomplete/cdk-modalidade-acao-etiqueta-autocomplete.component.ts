@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import {TitleCasePipe} from "../../../pipes/title-case.pipe";
 
 @Component({
     selector: 'cdk-modalidade-acao-etiqueta-autocomplete',
@@ -97,8 +98,8 @@ export class CdkModalidadeAcaoEtiquetaAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeAcaoEtiquetaFn(modalidadeAcaoEtiqueta): string {
-        let displayed = modalidadeAcaoEtiqueta ? modalidadeAcaoEtiqueta.nome : '';
-        displayed += (modalidadeAcaoEtiqueta && modalidadeAcaoEtiqueta.generoProcesso) ? (' (' + modalidadeAcaoEtiqueta.generoProcesso.nome + ')') : '';
+        let displayed = modalidadeAcaoEtiqueta ? TitleCasePipe.format(modalidadeAcaoEtiqueta.nome) : '';
+        displayed += (modalidadeAcaoEtiqueta && modalidadeAcaoEtiqueta.generoProcesso) ? (' (' + TitleCasePipe.format(modalidadeAcaoEtiqueta.generoProcesso.nome) + ')') : '';
         return displayed;
     }
 }

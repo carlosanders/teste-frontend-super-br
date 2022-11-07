@@ -15,6 +15,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
+import { TitleCasePipe } from '@cdk/pipes/title-case.pipe';
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-autocomplete',
@@ -94,6 +95,6 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
     }
 
     displayRelacionamentoPessoalFn(relacionamentoPessoal): string {
-        return relacionamentoPessoal ? relacionamentoPessoal.nome : null;
+        return relacionamentoPessoal ? TitleCasePipe.format(relacionamentoPessoal.nome) : null;
     }
 }

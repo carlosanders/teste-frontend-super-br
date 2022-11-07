@@ -66,13 +66,7 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
+    actions: string[] = ['edit', 'delete', 'select', 'abrirOutraAba'];
 
     @Output()
     reload = new EventEmitter<any>();
@@ -150,7 +144,7 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
         super.setTableSortData(sort);
         const sortKeys = Object.keys(this.tableDefinitions.sort || {});
         if (sortKeys.length > 0) {
-            this.sort.sort(<MatSortable> {id: sortKeys[0].toLowerCase(), start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
+            this.sort.sort(<MatSortable> {id: sortKeys[0], start: this.tableDefinitions.sort[sortKeys[0]], disableClear: true});
         } else {
             this.sort.active = null;
         }
@@ -291,4 +285,9 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
     getMessageError(obj): any {
         return obj?.error?.error?.message;
    }
+
+    visualizarProcessoNovaAba(historico: Historico): void {
+        window.open( '/apps/processo/' + historico.processo.id
+            + '/visualizar', '_blank');
+    }
 }

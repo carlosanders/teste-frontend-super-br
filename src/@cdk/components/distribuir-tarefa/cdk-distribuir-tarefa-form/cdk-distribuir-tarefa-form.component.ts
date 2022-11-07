@@ -153,6 +153,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                     if (value) {
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
+                        this.selected = true;
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }

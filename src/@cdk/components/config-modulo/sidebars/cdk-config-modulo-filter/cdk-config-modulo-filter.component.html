@@ -38,7 +38,8 @@
         <mat-form-field>
             <input matInput placeholder="Módulo"
                    formControlName="modulo"
-                   [matAutocomplete]="modulo.autocomplete">
+                   [matAutocomplete]="modulo.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-modulo-autocomplete
                 #modulo="moduloAutocomplete"
                 [control]="form.get('modulo')"

@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {Documento, Pagination, TipoDocumento, VinculacaoDocumento} from '@cdk/models';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {filter} from 'rxjs/operators';
+import {filter, take} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatAutocomplete} from '../../../../angular/material';
@@ -94,6 +94,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     downloadP7s = new EventEmitter<Documento>();
 
     @Output()
+    converteMinuta: EventEmitter<Documento> = new EventEmitter<Documento>();
+
+    @Output()
     desvincular = new EventEmitter<VinculacaoDocumento>();
 
     @Output()
@@ -170,9 +173,10 @@ export class CdkDocumentoCardComponent implements OnInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             result.documento = this.documento;
             this.assinatura.emit(result);
+            assinaSub.unsubscribe();
         });
     }
 
@@ -198,6 +202,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doDownloadP7s(documento: Documento): void {
         this.downloadP7s.emit(documento);
+    }
+
+    doConverteMinuta(documento: Documento): void {
+        this.converteMinuta.emit(documento);
     }
 
     onClick(documento): void {

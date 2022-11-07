@@ -1,5 +1,6 @@
-import {Tarefa} from "../../../../models";
-import {TemplateRef, ViewContainerRef} from "@angular/core";
+import {Tarefa} from '../../../../models';
+import {TemplateRef} from '@angular/core';
+import {TableColumn} from '../../../table-definitions/table-column';
 
 /**
  * Classe abstrata de plugin para criação de colunas dinâmicas na view mode 'grid' da cdk-tarefa-list.
@@ -47,52 +48,45 @@ import {TemplateRef, ViewContainerRef} from "@angular/core";
  * ```typescript
  * @Component({
  *     template: `
- *         <ng-template #td>
- *             EXEMPLO: {{tarefa.id}}
+ *         <ng-template #columnExemplo>
+ *             EXEMPLO SLAVE TPL: {{tarefa.id}}
  *         </ng-template>
  *     `,
  *     styles: [],
  *     changeDetection: ChangeDetectionStrategy.OnPush,
  *     encapsulation: ViewEncapsulation.None
  * })
- * export class TarefaGridColumnTesteComponent extends CdkTarefaListGridColumn {
- *     @ViewChild('td', {static: true, read: TemplateRef}) _tdTemplateRef;
+ * export class TarefaGridColumnTesteComponent implements CdkTarefaListGridColumn {
+ *     @ViewChild('columnExemplo', {static: true, read: TemplateRef}) columnTeste;
  *
- *     protected _matColumnDef: string = 'teste';
- *     protected _headerLabel: string = 'Teste';
- *     protected _isVisible: boolean = true;
+ *     tableColumn: TableColumn;
+ *     tarefa: Tarefa;
+ *
+ *     constructor() {
+ *         this.tableColumn = new TableColumn();
+ *         this.tableColumn.id = 'exemplo';
+ *         this.tableColumn.positionFixed = false;
+ *         this.tableColumn.headerLabel = 'EXEMPLO';
+ *         this.tableColumn.definitions.order = 1000;
+ *         this.tableColumn.definitions.selected = true;
+ *         this.tableColumn.definitions.ordable = true;
+ *         this.tableColumn.definitions.resizable = true;
+ *         this.tableColumn.definitions.sortable = false;
+ *         this.tableColumn.definitions.slave = false; // se true usa o getTemplateRef, se false usa o dataValue
+ *         this.tableColumn.dataValue = (tarefa,) => `EXEMPLO DATA COLUMN: ${tarefa.id}`;
+ *     }
+ *
+ *     getTemplateRef(tableColumn: TableColumn): TemplateRef<any> | null {
+ *         if (tableColumn.id === 'exemplo') {
+ *             return this.columnTeste;
+ *         }
+ *     }
  * }
  * ```
  */
-export abstract class CdkTarefaListGridColumn {
+export interface CdkTarefaListGridColumn {
 
-    protected _matColumnDef: string;
-    protected _tarefa: Tarefa;
-    protected _isVisible: boolean;
-    protected _headerLabel: string;
-    protected _tdTemplateRef: TemplateRef<any>;
-
-    public set tarefa(tarefa: Tarefa) {
-        this._tarefa = tarefa;
-    }
-
-    public get tarefa(): Tarefa {
-        return this._tarefa;
-    }
-
-    public getMatColumnDef(): string {
-        return this._matColumnDef;
-    }
-
-    public isVisible(): boolean {
-        return this._isVisible;
-    }
-
-    public tdTemplateRef(): TemplateRef<any> {
-        return this._tdTemplateRef;
-    }
-
-    public headerLabel(): string {
-        return this._headerLabel;
-    }
+    tarefa: Tarefa;
+    tableColumn: TableColumn;
+    getTemplateRef: (tableColumn: TableColumn) => TemplateRef<any> | null;
 }

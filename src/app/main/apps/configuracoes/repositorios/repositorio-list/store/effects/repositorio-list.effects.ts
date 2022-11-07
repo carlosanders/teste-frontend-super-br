@@ -67,8 +67,8 @@ export class RepositorioListEffect {
         ofType<RepositorioListActions.DeleteRepositorio>(RepositorioListActions.DELETE_REPOSITORIO),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
-            type: 'tese',
-            content: 'Apagando a tese id ' + action.payload.repositorioId + '...',
+            type: 'repositorio',
+            content: 'Apagando a repositório id ' + action.payload.repositorioId + '...',
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
@@ -76,8 +76,8 @@ export class RepositorioListEffect {
             map((response) => {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
-                    type: 'tese',
-                    content: 'Tese id ' + action.payload.repositorioId + ' deletada com sucesso.',
+                    type: 'repositorio',
+                    content: 'Repositório id ' + action.payload.repositorioId + ' deletada com sucesso.',
                     status: 1, // sucesso
                     lote: action.payload.loteId
                 }));
@@ -95,8 +95,8 @@ export class RepositorioListEffect {
                 };
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
-                    type: 'tese',
-                    content: 'Erro ao apagar a tese id ' + action.payload.repositorioId + '!',
+                    type: 'repositorio',
+                    content: 'Erro ao apagar a repositório id ' + action.payload.repositorioId + '!',
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));

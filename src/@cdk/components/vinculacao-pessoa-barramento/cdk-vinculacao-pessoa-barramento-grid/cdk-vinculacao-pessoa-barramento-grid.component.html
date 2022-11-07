@@ -106,7 +106,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Pessoa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.pessoa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.pessoa?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Repositorio Column -->
@@ -117,7 +117,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Repositorio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.repositorio}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.repositorio | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- NomeRepositorio Column -->
@@ -128,7 +128,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Repositorio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.nomeRepositorio}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.nomeRepositorio | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Estrutura Column -->
@@ -139,7 +139,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Estrutura: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.estrutura}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.estrutura | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- NomeEstrutura Column -->
@@ -150,7 +150,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Repositorio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.nomeEstrutura}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.nomeEstrutura | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -160,7 +160,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -181,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -201,7 +201,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoPessoaBarramento" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoPessoaBarramento.id) > -1}"> {{vinculacaoPessoaBarramento.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

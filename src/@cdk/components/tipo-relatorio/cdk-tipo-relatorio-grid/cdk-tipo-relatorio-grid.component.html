@@ -110,7 +110,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -139,7 +139,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- EspecieRelatorio Column -->
@@ -150,7 +150,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile'
                         data-label='Espécie de Relatorio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.especieRelatorio.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.especieRelatorio.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -159,7 +159,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -179,7 +179,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -198,7 +198,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1, 'error': getProp(deletingErrors, tipoRelatorio.id)}"> {{tipoRelatorio.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->

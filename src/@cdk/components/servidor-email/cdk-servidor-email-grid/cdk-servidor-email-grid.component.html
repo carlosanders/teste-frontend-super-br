@@ -110,7 +110,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -119,7 +119,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.descricao | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Host Column -->
@@ -128,7 +128,7 @@
                         Host
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Host: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.host}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.host | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Porta Column -->
@@ -146,7 +146,7 @@
                         Protocolo
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Protocolo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.protocolo}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.protocolo | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- Método Encriptação Column -->
@@ -186,7 +186,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.criadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -206,7 +206,7 @@
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.atualizadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -225,7 +225,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let servidorEmail" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(servidorEmail.id) > -1, 'error': getProp(deletingErrors, servidorEmail.id)}"> {{servidorEmail.apagadoPor?.nome | titleCasePipe}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
