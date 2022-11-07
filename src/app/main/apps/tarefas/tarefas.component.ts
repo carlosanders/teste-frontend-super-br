@@ -2181,7 +2181,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Modelo',
-                context: 'eq:modelo'
+                context: 'eq:modelo' +
+                    '_genero_' + this.routerState.params.generoHandle
             }),
             5,
             0,
