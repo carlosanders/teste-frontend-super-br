@@ -109,7 +109,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }) autoCompleteModelos: MatAutocompleteTrigger;
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
-    tarefasList: CdkTarefaListComponent
+    tarefasList: CdkTarefaListComponent;
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     routerState: any;
@@ -338,7 +338,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._breakpointObserver
             .observe([Breakpoints.Small])
-            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches)
+            .subscribe((state: BreakpointState) => this.isSmallScreen = state.matches);
 
         const vinculacaoEtiquetaPagination = new Pagination();
         vinculacaoEtiquetaPagination.filter = {
@@ -444,7 +444,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         this._store.pipe(
             select(fromStore.getViewMode),
-            filter((viewMode) => !!viewMode)
+            filter(viewMode => !!viewMode)
         ).subscribe((viewMode) => {
             if (viewMode === 'grid') {
                 this._tableDefinitionsService
@@ -455,7 +455,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((definitions: TableDefinitions) => {
                         if (!definitions) {
-                            const tableDefinitions = new TableDefinitions()
+                            const tableDefinitions = new TableDefinitions();
                             tableDefinitions.version = CdkTarefaListColumns.version;
                             this.tableDefinitions = tableDefinitions;
                         } else {
@@ -471,7 +471,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                         if (genericListDefinitions && genericListDefinitions[scopeKey] && genericListDefinitions[scopeKey]['tableDefinitions']) {
                             this.tableDefinitions = genericListDefinitions[scopeKey]['tableDefinitions'];
                         } else {
-                            const tableDefinitions = new TableDefinitions()
+                            const tableDefinitions = new TableDefinitions();
                             tableDefinitions.version = CdkTarefaListColumns.version;
                             this.tableDefinitions = tableDefinitions;
                         }
@@ -542,7 +542,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.typeHandle !== 'minhas-tarefas') {
                 this.hiddenFilters = ['tipoBusca'];
             } else {
-                this.hiddenFilters = []
+                this.hiddenFilters = [];
             }
 
             const componentRootUrl = '/apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -619,7 +619,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(value => value !== this.maximizado)
         ).subscribe((maximizado) => {
             this.maximizado = maximizado;
-        })
+        });
 
         this.selectedTarefas$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -674,7 +674,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((trocandoPastas) => {
             this.trocandoPastas = trocandoPastas;
-        })
+        });
 
         this.changingFolderIds$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -683,7 +683,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 // Acabou de trocar as pastas das tarefas selecionadas
                 this._store.dispatch(new fromStore.SetFolderOnSelectedTarefasFinish());
             }
-        })
+        });
 
         this.errorComponentesDigitais$.pipe(
             filter(errors => !!errors),
@@ -754,7 +754,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
         this.novaTarefa = false;
-        let nparams = {
+        const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort,
@@ -767,6 +767,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         let generoParam = this.routerState.params['generoHandle'];
         this.buscarTodas = false;
+        delete nparams['folderFilter'];
         if (this.typeHandle === 'minhas-tarefas' && params.tipoBusca === 'todas') {
             this.buscarTodas = true;
             nparams.filter = {
@@ -778,8 +779,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 modulo: generoParam,
                 mostrarApagadas: true
             };
-            delete nparams['folderFilter'];
-        } else if (this.typeHandle === 'minhas-tarefas') {
+        }
+
+        if (this.typeHandle === 'minhas-tarefas') {
             nparams.filter = {
                 'usuarioResponsavel.id': 'eq:' + this._profile.id,
                 'dataHoraConclusaoPrazo': 'isNull'
@@ -801,7 +803,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 paramUrl = this.routerState.params[targetParam];
                 if (this.routerState.params[targetParam] === 'lixeira') {
-                    nparams.filters = {
+                    nparams.filter = {
                         'usuarioResponsavel.id': 'eq:' + this._profile.id,
                         'apagadoEm': 'gt:' + moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')
                     };
@@ -820,11 +822,63 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     mostrarApagadas: true
                 };
             }
-            nparams['filter'] = {
-                ...nparams['filter'],
-                'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
+        }
+
+        if (this.typeHandle === 'compartilhadas') {
+
+            if (this.routerState.params['targetHandle'] === 'outros-usuarios') {
+                nparams.filter = {
+                    'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
+                    'dataHoraConclusaoPrazo': 'isNull'
+                };
+            }
+
+            if (this.routerState.params['targetHandle'] === 'meus-compartilhamentos') {
+                nparams.filter = {
+                    'compartilhamentos.tarefa.usuarioResponsavel.id': 'eq:' + this._profile.id,
+                    'dataHoraConclusaoPrazo': 'isNull'
+                };
+            }
+        }
+
+        if (this.typeHandle === 'concluidas') {
+            nparams.filter = {
+                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                'dataHoraConclusaoPrazo': 'isNotNull'
             };
         }
+
+        if (this.typeHandle === 'enviadas') {
+            nparams.filter = {
+                'criadoPor.id': 'eq:' + this._profile.id,
+                'usuarioResponsavel.id': 'neq:' + this._profile.id,
+            };
+        }
+
+        if (this.typeHandle === 'coordenacao') {
+            nparams.filter = {
+                dataHoraConclusaoPrazo: 'isNull'
+            };
+            const routeTargetParam = of('targetHandle');
+            routeTargetParam.subscribe((targetParam) => {
+                nparams.filter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+            });
+        }
+
+        if (this.typeHandle === 'assessor') {
+            nparams.filter = {
+                dataHoraConclusaoPrazo: 'isNull'
+            };
+            const routeTargetParam = of('targetHandle');
+            routeTargetParam.subscribe((targetParam) => {
+                nparams.filter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+            });
+        }
+
+        nparams['filter'] = {
+            ...nparams['filter'],
+            'especieTarefa.generoTarefa.nome': `eq:${generoParam?.toUpperCase()}`
+        };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
@@ -1274,7 +1328,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 selectedTarefa.upload();
             }
         } else {
-            const selectedTarefa = this.tarefasList.componenteDigitalListItems.find((componenteDigitalListItem) => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
+            const selectedTarefa = this.tarefasList.componenteDigitalListItems.find(componenteDigitalListItem => componenteDigitalListItem.tarefaOrigem.id === this.currentTarefaId);
             if (selectedTarefa) {
                 selectedTarefa.upload();
             }
@@ -1678,7 +1732,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
             if (result.certificadoDigital) {
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento([vinculacaoEtiqueta.objectId]));
             } else {
@@ -2029,7 +2084,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 takeUntil(this._unsubscribeAll),
                 take(1),
-                switchMap((configs) => of(configs || {}))
+                switchMap(configs => of(configs || {}))
             )
             .subscribe((configs) => {
                 const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
@@ -2142,7 +2197,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 .pipe(
                     takeUntil(this._unsubscribeAll),
                     take(1),
-                    switchMap((configs) => of(configs || {}))
+                    switchMap(configs => of(configs || {}))
                 )
                 .subscribe((configs) => {
                     const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);

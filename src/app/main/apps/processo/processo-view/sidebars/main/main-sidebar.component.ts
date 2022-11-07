@@ -51,7 +51,7 @@ import {select, Store} from '@ngrx/store';
 import * as AssinaturaStore from 'app/store';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
 import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
@@ -1086,9 +1086,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             result.documento = documento;
             this.assinaDocumento(result);
+            assinaSub.unsubscribe();
         });
     }
 
