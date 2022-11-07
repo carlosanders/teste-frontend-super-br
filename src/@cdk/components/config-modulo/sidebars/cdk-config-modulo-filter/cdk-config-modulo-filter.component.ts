@@ -68,6 +68,13 @@ export class CdkConfigModuloFilterComponent implements OnInit {
         this.emite();
     }
 
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
+    }
+
     emite(): void {
         if (!this.form.valid) {
             return;
