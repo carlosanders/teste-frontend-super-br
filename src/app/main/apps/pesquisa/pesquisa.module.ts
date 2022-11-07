@@ -12,7 +12,7 @@ import {CommonModule} from '@angular/common';
 import {RouteGuard} from './guard';
 import {modulesConfig} from 'modules/modules-config';
 import {RoleGuard} from '../role.guard';
-import * as fromGuards from "../protocolo-externo/store/guards";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 const routes: Routes = [
     {
@@ -73,7 +73,8 @@ modulesConfig.forEach((module) => {
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatRippleModule
+        MatRippleModule,
+        MatExpansionModule
     ],
     providers: [
         RoleGuard

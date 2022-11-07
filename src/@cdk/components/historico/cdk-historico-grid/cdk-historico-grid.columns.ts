@@ -128,7 +128,7 @@ export const CdkHistoricoGridColumns: TableDefinitions = {
             definitions: <TableColumnDefinitions>{
                 fixed: true,
                 excluded: false,
-                selected: false,
+                selected: true,
                 order: 1000,
                 slave: true,
                 width: 0,

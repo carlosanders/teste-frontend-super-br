@@ -1,0 +1,27 @@
+<div class="card" [matTooltip]="errors !== '' ? errors : componenteDigital.fileName"
+     matTooltipClass="multiline-tooltip"
+     [ngClass]="{'borda-erro': hasErrors}">
+    <div class="check" [ngClass]="{'grey-100':disabledSelect}">
+        <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
+                      (change)="toggleInSelected(componenteDigital.id)"
+                      (click)="$event.stopPropagation();"
+                      [disabled]="disabledSelect || isSaving">
+        </mat-checkbox>
+    </div>
+
+    <div class="p-8 file" (click)="onClick(componenteDigital)">
+        <div class="conteudo">
+            <mat-icon class="ml-8 mr-8">insert_drive_file</mat-icon>
+            <div class="mr-8">{{texto}}{{indice}}</div>
+            <mat-icon *ngIf="componenteDigital.assinado" class="ml-8 mr-8">lock</mat-icon>
+        </div>
+    </div>
+
+    <div *ngIf="isSaving" class="spinner-container m-8">
+        <mat-spinner diameter="18"></mat-spinner>
+    </div>
+
+    <div *ngIf="isSaved" class="spinner-container m-8">
+        <mat-icon class="ml-8 mr-8 green-fg">check</mat-icon>
+    </div>
+</div>

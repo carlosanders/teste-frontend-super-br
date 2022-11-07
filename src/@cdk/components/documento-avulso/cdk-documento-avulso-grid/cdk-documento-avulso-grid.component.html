@@ -56,6 +56,15 @@
                 <mat-icon>reply</mat-icon>
             </button>
 
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('remeterLote') > -1 && !hasExcluded && remeterIds?.length === 0"
+                    (click)="remeterDocumentosAvulsos(selectedIds)"
+                    aria-label="remeter ofícios"
+                    matTooltip="Remeter ofícios">
+                <mat-icon>send</mat-icon>
+            </button>
+
+            <mat-spinner *ngIf="remeterIds?.length > 0 && selectedIds.length > 1 && actions.indexOf('remeterLote') > -1 && !hasExcluded" diameter="16"></mat-spinner>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -287,6 +296,17 @@
                                 matTooltip="visualizar">
                             <mat-icon>remove_red_eye</mat-icon>
                         </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('remeter') > -1 && remeterIds?.indexOf(documentoAvulso.id) === -1"
+                                [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1"
+                                (click)="remeterDocumentosAvulsos([documentoAvulso.id])"
+                                aria-label="remeter"
+                                matTooltip="Remeter">
+                            <mat-icon>send</mat-icon>
+                        </button>
+
+                        <mat-spinner *ngIf="remeterIds?.indexOf(documentoAvulso.id) > -1" diameter="16"></mat-spinner>
 
                         <ng-template #buttonModule></ng-template>
 

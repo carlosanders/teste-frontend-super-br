@@ -56,6 +56,11 @@ export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
 export const LIMPA_CACHE_DOCUMENTO = '[PROCESSO VIEW] LIMPA CACHE DOCUMENTO';
 export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO';
 
+export const SET_ACTIVE_CARD = '[PROCESSO VIEW] SET ACTIVE CARD';
+
+export const TOGGLE_SELECT_JUNTADA_ID = '[PROCESSO VIEW] TOGGLE SELECT JUNTADA ID';
+
+export const UNLOAD_SELECTED_JUNTADAS_ID = '[PROCESSO VIEW] UNLOAD SELECTED JUNTADAS ID';
 
 /**
  * Expandir Processo
@@ -509,6 +514,33 @@ export class RemoveConteudoBinario implements Action {
     }
 }
 
+/**
+ * Set Active Card
+ */
+export class SetActiveCard implements Action {
+    readonly type = SET_ACTIVE_CARD;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Toggle Select Juntada Id
+ */
+export class ToggleSelectJuntadaId implements Action {
+    readonly type = TOGGLE_SELECT_JUNTADA_ID;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Unload Selected Juntadas Id
+ */
+export class UnloadSelectedJuntadasId implements Action {
+    readonly type = UNLOAD_SELECTED_JUNTADAS_ID;
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -549,4 +581,8 @@ export type ProcessoViewActionsAll
     | SetBinaryViewSuccess
     | SetBinaryViewFailed
     | LimpaCacheDocumento
-    | RemoveConteudoBinario;
+    | RemoveConteudoBinario
+    | SetActiveCard
+    | ToggleSelectJuntadaId
+    | UnloadSelectedJuntadasId
+    ;

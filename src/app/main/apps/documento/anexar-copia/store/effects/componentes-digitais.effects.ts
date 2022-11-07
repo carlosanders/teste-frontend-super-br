@@ -2,15 +2,19 @@ import {Injectable, SecurityContext} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr'
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DomSanitizer} from '@angular/platform-browser';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {ComponenteDigital} from "../../../../../../../@cdk/models";
 
 @Injectable()
 export class ComponentesDigitaisEffects {

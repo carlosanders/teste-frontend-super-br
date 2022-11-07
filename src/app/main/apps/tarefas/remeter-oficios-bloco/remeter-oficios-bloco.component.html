@@ -1,0 +1,28 @@
+<div class="content">
+    <div class="header">
+        <button mat-icon-button
+                (click)="doAbort()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Remeter Ofícios</h2>
+    </div>
+    <div class="upload">
+        <cdk-oficios-card-list [actions]="actions"
+                               [tarefasAgrupadas]="tarefasAgrupadas"
+                               [selectedIds]="(selectedIds$ | async)"
+                               [remeterIds]="remeterIds"
+                               [oficios]="documentosAvulso"
+                               [loading]="(isLoadingAny$ | async)"
+                               [saving]="remeterIds.length > 1"
+                               (remeterBloco)="doRemeterBloco($event)"
+                               (remeter)="doRemeter($event)"
+                               (getMore)="doGetMore($event)"
+                               (clicked)="doClicked($event)"
+                               (changedSelectedIds)="doChangedSelectedIds($event)">
+        </cdk-oficios-card-list>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

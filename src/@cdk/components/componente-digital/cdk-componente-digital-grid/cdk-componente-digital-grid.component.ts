@@ -51,7 +51,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'documento.id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
 
     @Input()
     mobileMode = false;
@@ -74,7 +74,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
 
     @Input()
-    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
+    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry', 'abrirOutraAba'];
 
     @Input()
     unidadePagination: Pagination;
@@ -326,6 +326,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     isIndeterminate = false;
     hasExcluded = false;
 
+    routerState: any;
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -555,5 +557,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-componente-pesquisa-on');
         (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-componente-lista-on');
         (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-componente-lista-off');
+    }
+
+    visualizarProcessoNovaAba(componenteDigital: ComponenteDigital): void {
+        window.open( '/apps/processo/' + componenteDigital.documento.juntadaAtual.volume.processo.id
+            + '/visualizar', '_blank');
     }
 }

@@ -1,4 +1,4 @@
-@import "@cdk/scss/cdk";
+@import "src/@cdk/scss/cdk";
 
 processo-view {
 
@@ -10,11 +10,28 @@ processo-view {
         display: flex;
         flex-direction: row;
 
-        > .sidebar {
-            width: 280px !important;
-            min-width: 280px !important;
-            max-width: 280px !important;
+        > .sidebar-container {
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            position: relative;
+
+            &.hide {
+                display: none;
+            }
+
+            &.resize-active {
+                max-width: 400px !important;
+            }
+
+            > .sidebar {
+                width: 100% !important;
+                max-width: unset !important;
+                min-width: unset !important;
+                position: absolute !important;
+            }
         }
+
 
         > .center {
             flex: 1 1 auto;

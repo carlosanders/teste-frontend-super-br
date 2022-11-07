@@ -308,6 +308,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         ]).then();
     }
 
+    doRemoveCompartilharBloco(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+            + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/remove-compartilhamento-bloco'
+        ]).then();
+    }
+
     doEtiquetarBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
@@ -373,6 +380,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
             + this.routerState.params.targetHandle + '/documento-avulso-bloco'
+        ]).then();
+    }
+
+    doRemeterOficiosBloco(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/remeter-oficios-bloco'
         ]).then();
     }
 

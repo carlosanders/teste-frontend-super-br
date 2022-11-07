@@ -66,7 +66,7 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'abrirOutraAba'];
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,4 +285,9 @@ export class CdkHistoricoGridComponent extends CdkTableGridComponent implements 
     getMessageError(obj): any {
         return obj?.error?.error?.message;
    }
+
+    visualizarProcessoNovaAba(historico: Historico): void {
+        window.open( '/apps/processo/' + historico.processo.id
+            + '/visualizar', '_blank');
+    }
 }

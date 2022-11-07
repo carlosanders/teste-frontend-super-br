@@ -1,0 +1,67 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome')?.errors?.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Inscrição</mat-label>
+        <input matInput
+               name="inscricao"
+               formControlName="inscricao" upperCase>
+        <mat-error *ngIf="form.get('inscricao').hasError('formError')">
+            {{form.get('inscricao')?.errors?.formError}}
+        </mat-error>
+        <mat-error *ngIf="form.get('inscricao').hasError('pattern')">
+            Formato inválido! Formato deve ser CCDDDDDDDC, sendo os primeiros 'C' a UF, os 'D' seguintes o número da inscrição, devendo incluir zeros ('0') à esquerda e o último 'C' a letra identificadora do tipo de inscrição.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeRepresentante"
+               [matAutocomplete]="modalidadeRepresentante.autocomplete"
+               (blur)="doCheckModalidadeRepresentante()"
+               required>
+        <cdk-modalidade-representante-autocomplete
+            #modalidadeRepresentante="modalidadeRepresentanteAutocomplete"
+            [control]="form.get('modalidadeRepresentante')"
+            [pagination]="modalidadeRepresentantePagination">
+        </cdk-modalidade-representante-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="doShowModalidadeRepresentanteGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeRepresentante').hasError('formError')">
+            {{form.get('modalidadeRepresentante').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-modalidade-representante-gridsearch
+    *ngIf="activeCard === 'modalidade-representante-gridsearch'"
+    (selected)="doSelectModalidadeRepresentante($event)"
+    [pagination]="modalidadeRepresentantePagination"
+    (cancel)="doCancel()">
+</cdk-modalidade-representante-gridsearch>

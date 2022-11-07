@@ -1,11 +1,15 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {processoViewReducer, ProcessoViewState} from './processo-view.reducer';
-import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
-import {processoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
-import {volumesReducer, VolumesState} from './volumes.reducer';
-import {documentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
-import {bookmarkReducer, BookmarksState} from './bookmark.reducer';
+import {
+    downloadProcessoReducer,
+    DownloadProcessoState
+} from 'app/main/apps/processo/processo-view/store/reducers/download-processo.reducer';
 import {assinaturasReducer, AssinaturasState} from './assinaturas.reducer';
+import {bookmarkReducer, BookmarksState} from './bookmark.reducer';
+import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
+import {documentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
+import {processoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
+import {processoViewReducer, ProcessoViewState} from './processo-view.reducer';
+import {volumesReducer, VolumesState} from './volumes.reducer';
 
 export interface ProcessoViewAppState
 {
@@ -16,6 +20,7 @@ export interface ProcessoViewAppState
     documentosVinculados: DocumentosVinculadosState;
     bookmark: BookmarksState;
     assinaturas: AssinaturasState;
+    downloadProcesso: DownloadProcessoState;
 }
 
 export const getProcessoViewAppState = createFeatureSelector<ProcessoViewAppState>(
@@ -34,7 +39,8 @@ export const reducers: ActionReducerMap<ProcessoViewAppState> = {
     volumes: volumesReducer,
     documentosVinculados: documentosVinculadosReducer,
     bookmark: bookmarkReducer,
-    assinaturas: assinaturasReducer
+    assinaturas: assinaturasReducer,
+    downloadProcesso: downloadProcessoReducer
 };
 
 export * from './processo-view.reducer';
@@ -44,3 +50,4 @@ export * from './volumes.reducer';
 export * from './documentos-vinculados.reducer';
 export * from './bookmark.reducer';
 export * from './assinaturas.reducer';
+export * from './download-processo.reducer';

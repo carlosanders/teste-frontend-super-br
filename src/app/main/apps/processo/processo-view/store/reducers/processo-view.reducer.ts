@@ -1,5 +1,7 @@
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
+export type ProcessoViewActiveCard = 'juntadas' | 'bookmark' | 'juntadas-select';
+
 export interface ProcessoViewState {
     entitiesId: number[];
     pagination: {
@@ -26,8 +28,9 @@ export interface ProcessoViewState {
         error?: any;
     };
     expandir: boolean;
-    bookmark?: boolean;
+    activeCard: ProcessoViewActiveCard;
     pagina: number;
+    selectedJuntadasId: number[];
 }
 
 export const processoViewInitialState: ProcessoViewState = {
@@ -55,8 +58,9 @@ export const processoViewInitialState: ProcessoViewState = {
         processo: null
     },
     expandir: false,
-    bookmark: false,
-    pagina: null
+    activeCard: 'juntadas',
+    pagina: null,
+    selectedJuntadasId: []
 };
 
 export const processoViewReducer = (state = processoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState => {
@@ -154,7 +158,8 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                         offset: 0,
                         total: 0
                     },
-                    pagina: null
+                    pagina: null,
+                    selectedJuntadasId: []
                 };
             }
         }
@@ -199,7 +204,10 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     subStep: subStep
                 },
                 currentStepLoaded: action.payload.loaded,
-                bookmark: false
+                activeCard: state.activeCard === 'bookmark' ? 'juntadas' : state.activeCard,
+                selectedJuntadasId: [
+                    ...(state.activeCard === 'bookmark' ? [] : state.selectedJuntadasId)
+                ]
             };
         }
 
@@ -249,8 +257,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     processo: null,
                     error: null
                 },
-                bookmark: true,
-                pagina: action.payload.pagina
+                activeCard: 'bookmark',
+                pagina: action.payload.pagina,
+                selectedJuntadasId: []
             };
         }
 
@@ -316,8 +325,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     error: action.payload.error
                 },
                 currentStepLoaded: false,
-                bookmark: false,
-                pagina: null
+                activeCard: 'juntadas',
+                pagina: null,
+                selectedJuntadasId: []
             };
         }
 
@@ -344,8 +354,34 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     src: null,
                     loading: false
                 },
-                bookmark: false,
-                pagina: null
+                activeCard: state.activeCard === 'bookmark' ? 'juntadas' : state.activeCard,
+                pagina: null,
+                selectedJuntadasId: [
+                    ...(state.activeCard === 'bookmark' ? [] : state.selectedJuntadasId)
+                ]
+            };
+        }
+
+        case ProcessoViewActions.SET_ACTIVE_CARD: {
+            return {
+                ...state,
+                activeCard: action.payload,
+                selectedJuntadasId: []
+            };
+        }
+
+        case ProcessoViewActions.TOGGLE_SELECT_JUNTADA_ID: {
+            return {
+                ...state,
+                selectedJuntadasId: state.selectedJuntadasId.includes(action.payload) ?
+                    [...state.selectedJuntadasId.filter((id) => id !== action.payload)] : [...state.selectedJuntadasId, action.payload]
+            };
+        }
+
+        case ProcessoViewActions.UNLOAD_SELECTED_JUNTADAS_ID: {
+            return {
+                ...state,
+                selectedJuntadasId: []
             };
         }
         default:

@@ -62,6 +62,9 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
     deletedIds: number[] = [];
 
     @Input()
+    remeterIds: number[] = [];
+
+    @Input()
     deletingErrors: any = {};
 
     @Input()
@@ -96,6 +99,9 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
 
     @Output()
     responder = new EventEmitter<number[]>();
+
+    @Output()
+    remeterLote: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Output()
     visualizar = new EventEmitter<DocumentoAvulso>();
@@ -348,6 +354,10 @@ export class CdkDocumentoAvulsoGridComponent extends CdkTableGridComponent imple
 
     responderDocumentosAvulsos(documentosAvulsosId: number[]): void {
         this.responder.emit(documentosAvulsosId);
+    }
+
+    remeterDocumentosAvulsos(documentosAvulsosId: number[]): void {
+        this.remeterLote.emit(documentosAvulsosId);
     }
 
     verificaStatusBarramento(documentosAvulsosId: number[]): void {

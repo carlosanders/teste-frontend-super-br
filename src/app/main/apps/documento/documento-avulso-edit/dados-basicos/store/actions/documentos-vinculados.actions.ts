@@ -28,11 +28,13 @@ export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[DOCUMENTO AVULSO EDIT] REMO
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[DOCUMENTO AVULSO EDIT] REMOVE VINCULACAO DOCUMENTO FAILED';
 
 export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO AVULSO EDIT ANEXOS] RELOAD DOCUMENTOS VINCULADOS';
+export const FINISH_UPLOAD_ANEXOS = '[ANEXAR COPIA] FINISH UPLOAD ANEXOS';
+export const FINISH_RELOADING = '[DOCUMENTO AVULSO EDIT ANEXOS] FINISH RELOADING DOCUMENTOS VINCULADOS';
 export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO AVULSO EDIT ANEXOS] UNLOAD DOCUMENTOS VINCULADOS';
 
 export const APPROVE_COMPONENTE_DIGITAL_VINCULADO_SUCCESS = '[DOCUMENTO AVULSO EDIT COMPONENTE DIGITAL] APPROVE COMPONENTE DIGITAL SUCCESS';
 
-export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL SUCCESS';
+export const SAVE_COMPONENTE_DIGITAL_DOCUMENTO_SUCCESS = '[ANEXAR COPIA] SAVE COMPONENTE DIGITAL SUCCESS';
 
 /**
  * Get Documentos Vinculados
@@ -251,6 +253,27 @@ export class ReloadDocumentosVinculados implements Action
     }
 }
 
+/**
+ * Finish Upload Anexos
+ */
+export class FinishUploadAnexos implements Action
+{
+    readonly type = FINISH_UPLOAD_ANEXOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class FinishReloading implements Action
+{
+    readonly type = FINISH_RELOADING;
+
+    constructor()
+    {
+    }
+}
+
 export class UnloadDocumentosVinculados implements Action
 {
     readonly type = UNLOAD_DOCUMENTOS_VINCULADOS;
@@ -305,6 +328,8 @@ export type DocumentosVinculadosActionsAll
     | RemoveVinculacaoDocumentoSuccess
     | RemoveVinculacaoDocumentoFailed
     | ReloadDocumentosVinculados
+    | FinishUploadAnexos
+    | FinishReloading
     | UnloadDocumentosVinculados
     | ApproveComponenteDigitalVinculadoSuccess
     | SaveComponenteDigitalDocumentoSuccess;

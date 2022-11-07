@@ -11,15 +11,17 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 import {cdkAnimations} from '@cdk/animations';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {Documento, Pagination} from '@cdk/models';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatMenuTrigger} from '@angular/material/menu';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {filter} from 'rxjs/operators';
-import {MatDialog} from '@angular/material/dialog';
-import {LoginService} from "../../../../app/main/auth/login/login.service";
 
 @Component({
     selector: 'cdk-minutas-atividade-card-list',
@@ -45,6 +47,12 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
     @Input()
     mode = 'atividade';
+
+    @Input()
+    dropZoneEnabled: boolean = false;
+
+    @Input()
+    dragEnabled: boolean = false;
 
     @Output()
     delete = new EventEmitter<number>();
@@ -87,6 +95,9 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
     @Output()
     alterarTipoDocumento = new EventEmitter<Documento>();
+
+    @Output()
+    dropDocumento: EventEmitter<{origem: Documento, destino: Documento}> = new EventEmitter<{origem: Documento, destino: Documento}>();
 
     @Input()
     deletingId: number[] = [];
@@ -155,6 +166,9 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
     form: FormGroup;
 
     habilitarTipoDocumentoSalvar = false;
+
+    isDraggin: boolean = false;
+    currentDragDocumento: Documento;
 
 
     /**
@@ -354,5 +368,39 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
     documentoTrackBy(index, documento: Documento): number {
         return documento.id;
+    }
+
+    offsetFunction<DndDragImageOffsetFunction>(event: DragEvent, dragImage: Element): any {
+        return {x: 0, y: 0}
+    };
+
+    doCancelDrag(event: DragEvent): void {
+        this.isDraggin = false;
+        this.currentDragDocumento = null;
+    }
+
+    doStartDrag(event: DragEvent, documento: Documento): void {
+        this.isDraggin = true;
+        this.currentDragDocumento = documento;
+    }
+
+    isDragDisable(documento: Documento): boolean {
+        return !this.dragEnabled;
+    }
+
+    isDropDisable(documento: Documento): boolean {
+        return !this.dropZoneEnabled || documento.id === this.currentDragDocumento?.id || this.currentDragDocumento?.temAnexos === true;
+    }
+
+    onDrop(documentoOrigem: Documento, documentoDestino: Documento, enabled: boolean): void {
+        this.isDraggin = false;
+        this.currentDragDocumento = null;
+        if (enabled && documentoOrigem?.id !== documentoDestino.id) {
+            console.log('drop', documentoOrigem, documentoDestino, enabled)
+            this.dropDocumento.emit({
+                origem: documentoOrigem,
+                destino: documentoDestino
+            });
+        }
     }
 }

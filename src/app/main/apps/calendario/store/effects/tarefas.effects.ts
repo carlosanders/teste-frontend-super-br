@@ -46,8 +46,8 @@ export class TarefasEffect {
             new TarefasActions.GetTarefasSuccess({
                 entitiesId: response['entities'].map(tarefa => tarefa.id),
                 loaded: {
-                    id: 'contextHandle_typeHandle_targetHandle',
-                    value: this.routerState.params.contextHandle + '_' + this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                    id: 'contextHandle_typeHandle_alvoHandle',
+                    value: this.routerState.params.contextHandle + '_' + this.routerState.params.typeHandle + '_' + this.routerState.params.alvoHandle
                 },
                 total: response['total']
             })

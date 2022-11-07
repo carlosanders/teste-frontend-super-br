@@ -18,6 +18,7 @@ export interface AnexarCopiaState {
     currentStep: {
         step: number;
         subStep: any;
+        documentoId: number;
     };
     currentStepLoaded: any;
     binary: {
@@ -46,7 +47,8 @@ export const anexarCopiaInitialState: AnexarCopiaState = {
     loadedJuntadas: false,
     currentStep: {
         step: 0,
-        subStep: 0
+        subStep: 0,
+        documentoId: 0
     },
     currentStepLoaded: false,
     binary: {
@@ -160,6 +162,7 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
                 currentStep: {
                     step: parseInt(action.payload.step, 10),
                     subStep: parseInt(action.payload.subStep, 10),
+                    documentoId: parseInt(action.payload.documentoId, 10)
                 }
             };
         }
@@ -227,7 +230,8 @@ export const anexarCopiaReducer = (state = anexarCopiaInitialState, action: Anex
                 },
                 currentStep: {
                     step: 0,
-                    subStep: action.payload.subStep
+                    subStep: action.payload.subStep,
+                    documentoId: 0
                 },
                 loadingLatestBinary: false
             };
