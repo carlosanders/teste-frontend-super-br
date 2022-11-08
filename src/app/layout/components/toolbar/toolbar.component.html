@@ -135,22 +135,22 @@
                 <mat-list *ngIf="notificacoes.length; else vazio">
                     <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
                         <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
-                            <div class="notification-item" *ngIf="getNotificacaoContext(notificacao)?.id" (click)="sendToTarget(notificacao)">
+                            <div class="notification-item" *ngIf="getNotificacaoContext(notificacao)?.id" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
                                 <div class="data-hora">
                                     <div>{{notificacao.criadoEm?.toDate() | date: 'dd/MM/yy HH:mm':'-0300'}}</div>
                                 </div>
-                                <p [innerHTML]="notificacao.conteudo | titleCasePipe">
+                                <p [innerHTML]="notificacao.conteudo | titleCasePipe" (click)="sendToTarget(notificacao);">
                                 </p>
                                 <div class="actions">
-                                    <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)">search</mat-icon>
+                                    <mat-icon class="mat-18" title="Abrir" (click)="sendToTarget(notificacao)">search</mat-icon>
                                     <mat-icon class="mat-18" title="Abrir em outra aba" (click)="$event.stopPropagation(); openNewTab(notificacao)">open_in_new</mat-icon>
                                     <mat-icon class="mat-18" title="Download" (click)="$event.stopPropagation(); download(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.componente_digital_id">cloud_download</mat-icon>
                                     <mat-icon class="mat-18" title="Marcar como lida" (click)="$event.stopPropagation(); toggleLida(notificacao)" *ngIf="!notificacao.dataHoraLeitura">done</mat-icon>
                                     <mat-icon class="mat-18" title="Remover" (click)="$event.stopPropagation(); removerNotificacao(notificacao)">delete</mat-icon>
                                 </div>
                             </div>
-                            <div class="notification-item" *ngIf="!getNotificacaoContext(notificacao)?.id">
+                            <div class="notification-item" *ngIf="!getNotificacaoContext(notificacao)?.id" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
                                 <div class="data-hora">
                                     <div>{{notificacao.criadoEm?.toDate() | date: 'dd/MM/yy HH:mm':'-0300'}}</div>
