@@ -7,9 +7,10 @@ import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
 import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {ComponenteDigital, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
+    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema,
     vinculacaoDocumento as vinculacaoDocumentoSchema
@@ -23,7 +24,9 @@ import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {GetJuntadaDocumentoVinculado} from '../actions';
 import {ProcessoService} from "../../../../../../../@cdk/services/processo.service";
 import * as JuntadaListActions from "../../../processo-edit/juntadas/juntada-list/store/actions";
-import {DeleteVisibilidadeDocumentos} from "../actions/documentos.actions";
+import {AssinaturaService} from "@cdk/services/assinatura.service";
+import * as AssinaturaActions from "../../../../../../store/actions/assinatura.actions";
+import * as ProcessoViewActions from "../actions/processo-view.actions";
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -400,6 +403,55 @@ export class ProcessoViewDocumentosEffects {
         )
     ));
 
+    /**
+     * Assina Componente Digital Eletronicamente
+     *
+     * @type {Observable<any>}
+     */
+    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewDocumentosActions.AssinaDocumentoEletronicamente>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'assinatura',
+            content: 'Assinando componenteDigital id ' + action.payload.componenteDigital.id + ' ...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'assinatura',
+                content: 'Assinatura id ' + response.id + ' criada com sucesso.',
+                status: 1, // sucesso
+                lote: action.payload.loteId
+            }))),
+            mergeMap((response: Assinatura) => [
+                new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.componenteDigital.id),
+                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                new UpdateData<ComponenteDigital>({
+                    id: action.payload.componenteDigital.id,
+                    schema: componenteDigitalSchema,
+                    changes: {assinado: true}
+                })
+            ]),
+            catchError((err) => {
+                const payload = {
+                    componenteDigitalId: action.payload.componenteDigital.id,
+                    error: err
+                };
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Ocorreu um erro na assinatura do componenteDigital id ' + action.payload.componenteDigital.id + '.',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
+            })
+        ))
+    ));
+
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
@@ -408,7 +460,8 @@ export class ProcessoViewDocumentosEffects {
         private _processoService: ProcessoService,
         private _router: Router,
         private _store: Store<State>,
-        public activatedRoute: ActivatedRoute
+        public activatedRoute: ActivatedRoute,
+        private _assinaturaService: AssinaturaService,
     ) {
         this._store.pipe(
             select(getRouterState),

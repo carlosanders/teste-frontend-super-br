@@ -195,7 +195,7 @@ export const processoViewDocumentosReducer = (
         case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
             return {
                 ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento?.id],
                 error: false
             };
         }
