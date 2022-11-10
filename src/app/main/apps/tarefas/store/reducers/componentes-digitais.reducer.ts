@@ -113,6 +113,62 @@ export const componenteDigitalReducer = (
             };
         }
 
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO: {
+            return {
+                ...state,
+                saving: [...state.saving, action.payload.tarefaId],
+                loading: true,
+                loaded: false
+            };
+        }
+
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO_SUCCESS: {
+            return {
+                ...state,
+                saving: state.saving.filter(id => id !== action.payload),
+                errors: false,
+                loading: false,
+                loaded: true
+            };
+        }
+
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO_FAILED: {
+            return {
+                ...state,
+                saving: state.saving.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors,
+                loading: false
+            };
+        }
+
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO_BLOCO: {
+            return {
+                ...state,
+                saving: [...state.saving, action.payload.tarefaId],
+                loading: true,
+                loaded: false
+            };
+        }
+
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO_BLOCO_SUCCESS: {
+            return {
+                ...state,
+                saving: state.saving.filter(id => id !== action.payload.tarefaId),
+                errors: false,
+                loading: false,
+                loaded: true
+            };
+        }
+
+        case ComponenteDigitalActions.SAVE_DOCUMENTO_AVULSO_BLOCO_FAILED: {
+            return {
+                ...state,
+                saving: state.saving.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors,
+                loading: false
+            };
+        }
+
         case ComponenteDigitalActions.ACERVO_SAVE_COMPONENTE_DIGITAL: {
             return {
                 ...state,

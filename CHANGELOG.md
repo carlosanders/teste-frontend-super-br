@@ -1075,3 +1075,6 @@
 * Correção de erros na lista de tarefas após implementação dos filtros de buscar todas
 * Melhoria possibilitando clicar na pasta do atual targetHandle para remover o filtro de todas da pesquisa na lista de tarefas
 * Correção de erro ao remeter ofícios em diversas rotas do painel de tarefas
+* Correção de erro em que criação de ofícios em bloco não atualizava a tela com o resultado das operações
+* Correção de erro em que criação de ofícios em bloco não atualizava etiquetas das tarefas
+* Correção de erro em que criação de ofícios em bloco não exibia na lista de tarefas as tarefas onde ofícios eram criados
