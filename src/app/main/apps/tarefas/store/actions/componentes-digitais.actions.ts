@@ -36,6 +36,14 @@ export const ATIVIDADE_SAVE_COMPONENTE_DIGITAL = AtividadeComponenteDigitalActio
 export const ATIVIDADE_SAVE_COMPONENTE_DIGITAL_SUCCESS = AtividadeComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS;
 export const ATIVIDADE_SAVE_COMPONENTE_DIGITAL_FAILED = AtividadeComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_FAILED;
 
+export const SAVE_DOCUMENTO_AVULSO_BLOCO = '[DOCUMENTO AVULSO CREATE BLOCO] SAVE DOCUMENTO AVULSO';
+export const SAVE_DOCUMENTO_AVULSO_BLOCO_SUCCESS = '[DOCUMENTO AVULSO CREATE BLOCO] SAVE DOCUMENTO AVULSO SUCCESS';
+export const SAVE_DOCUMENTO_AVULSO_BLOCO_FAILED = '[DOCUMENTO AVULSO CREATE BLOCO] SAVE DOCUMENTO AVULSO FAILED';
+
+export const SAVE_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO] SAVE DOCUMENTO AVULSO';
+export const SAVE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO AVULSO] SAVE DOCUMENTO AVULSO SUCCESS';
+export const SAVE_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO AVULSO] SAVE DOCUMENTO AVULSO FAILED';
+
 export const DOWNLOAD_COMPONENTE_DIGITAL = '[TAREFAS] DOWNLOAD COMPONENTE DIGITAL';
 export const DOWNLOAD_COMPONENTE_DIGITAL_SUCCESS = '[TAREFAS] DOWNLOAD COMPONENTE DIGITAL SUCCESS';
 export const DOWNLOAD_COMPONENTE_DIGITAL_FAILED = '[TAREFAS] DOWNLOAD COMPONENTE DIGITAL FAILED';
@@ -292,6 +300,78 @@ export class CreateComponenteDigitalSuccess implements Action
 }
 
 /**
+ * Save DocumentoAvulso
+ */
+export class SaveDocumentoAvulso implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save DocumentoAvulso Success
+ */
+export class SaveDocumentoAvulsoSuccess implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save DocumentoAvulso Failed
+ */
+export class SaveDocumentoAvulsoFailed implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save DocumentoAvulsoBloco
+ */
+export class SaveDocumentoAvulsoBloco implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO_BLOCO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save DocumentoAvulsoBloco Success
+ */
+export class SaveDocumentoAvulsoBlocoSuccess implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO_BLOCO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save DocumentoAvulsoBloco Failed
+ */
+export class SaveDocumentoAvulsoBlocoFailed implements Action
+{
+    readonly type = SAVE_DOCUMENTO_AVULSO_BLOCO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Get Documento
  */
 export class GetDocumento implements Action
@@ -443,4 +523,10 @@ export type ComponenteDigitalActionsAll
     | DownloadComponenteDigitalFailed
     | AprovarDocumento
     | AprovarDocumentoSuccess
-    | AprovarDocumentoFailed;
+    | AprovarDocumentoFailed
+    | SaveDocumentoAvulso
+    | SaveDocumentoAvulsoSuccess
+    | SaveDocumentoAvulsoFailed
+    | SaveDocumentoAvulsoBloco
+    | SaveDocumentoAvulsoBlocoSuccess
+    | SaveDocumentoAvulsoBlocoFailed;

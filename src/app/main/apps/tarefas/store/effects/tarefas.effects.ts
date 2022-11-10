@@ -75,6 +75,8 @@ import * as DocumentoOficioVinculadosActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documentos-vinculados.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
+import * as DocumentoAvulsoCreateBlocoActions
+    from '../../documento-avulso-create-bloco/store/actions/documento-avulso-create-bloco.actions';
 import {
     CRIADO_ANEXO_DOCUMENTO,
     CriadoAnexoDocumento, REMOVIDO_ANEXO_DOCUMENTO,
@@ -1004,6 +1006,13 @@ export class TarefasEffect {
         ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload));
+        })
+    ), {dispatch: false});
+    /* Ações referentes à criação de ofício de dentro da listagem de tarefas */
+    createOficioBloco: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })
     ), {dispatch: false});
     /* Ações referentes ao editor de modelos de minutas por acervo,

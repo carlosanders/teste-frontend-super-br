@@ -13,6 +13,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DomSanitizer} from '@angular/platform-browser';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -79,6 +80,13 @@ export class ComponenteDigitalEffects {
                     id: action.payload.componenteDigital.tarefaOrigem.id,
                     error: err
                 };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Erro ao salvar o componente digital: ' + CdkUtils.errorsToString(err),
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
                 return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(payload));
             })
         ))
