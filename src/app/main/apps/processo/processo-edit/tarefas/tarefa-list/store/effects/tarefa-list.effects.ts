@@ -39,28 +39,29 @@ export class TarefaListEffect {
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context)
-        )),
-        mergeMap(response => [
-            new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-            new TarefaListActions.GetTarefasSuccess({
-                entitiesId: response['entities'].map(tarefa => tarefa.id),
-                loaded: {
-                    id: 'processoHandle',
-                    value: this.routerState.params.processoHandle
-                },
-                total: response['total']
-            }),
-            new ProcessoActions.GetTarefasProcessoSuccess({
-                entitiesId: response['entities'].filter(tarefa => !tarefa.dataHoraConclusaoPrazo).map(tarefa => tarefa.id),
-            }),
-        ]),
-        catchError((err) => {
-            console.log(err);
-            this._tableDefinitionsService.deleteTableDefinitions(
-                this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
-            ).subscribe();
-            return of(new TarefaListActions.GetTarefasFailed(err));
-        })
+        ).pipe(
+            mergeMap(response => [
+                new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema, populate: action.payload.populate}),
+                new TarefaListActions.GetTarefasSuccess({
+                    entitiesId: response['entities'].map(tarefa => tarefa.id),
+                    loaded: {
+                        id: 'processoHandle',
+                        value: this.routerState.params.processoHandle
+                    },
+                    total: response['total']
+                }),
+                new ProcessoActions.GetTarefasProcessoSuccess({
+                    entitiesId: response['entities'].filter(tarefa => !tarefa.dataHoraConclusaoPrazo).map(tarefa => tarefa.id),
+                }),
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._tableDefinitionsService.deleteTableDefinitions(
+                    this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefaListComponent.GRID_DEFINITIONS_KEYS)
+                ).subscribe();
+                return of(new TarefaListActions.GetTarefasFailed(err));
+            })
+        ))
     ));
     /**
      * Delete Tarefa
