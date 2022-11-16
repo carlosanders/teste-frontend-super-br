@@ -17,7 +17,7 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {getSelectedTarefas} from '../../store';
-import {getOperacoes} from '../../../../../store';
+import {Back, getOperacoes} from '../../../../../store';
 
 @Component({
     selector: 'modelos-bloco-modelo',
@@ -153,5 +153,9 @@ export class ModeloComponent implements OnInit, OnDestroy {
 
     doVisualizar(modeloId): void {
         this._store.dispatch(new fromStore.VisualizarModelo(modeloId));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

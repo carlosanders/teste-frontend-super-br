@@ -120,7 +120,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
             ];
         }
-
+        this.lote = CdkUtils.makeId();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'documento avulso' && operacao.lote === this.lote);
-            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'documento avulso' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'documento avulso' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -185,6 +185,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveDocumentoAvulso({
                 documentoAvulso: documentoAvulso,
+                tarefaId: tarefaBloco.id,
                 operacaoId: operacaoId,
                 loteId: this.lote
             }));

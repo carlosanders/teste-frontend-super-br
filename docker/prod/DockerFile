@@ -14,7 +14,7 @@ RUN apk add python3 make g++
 
 RUN npm install npm@8.19.2 -g
 
-RUN npm install -g @angular/cli@14.2.8
+RUN npm install -g @angular/cli@14.2.9
 
 RUN npm install --legacy-peer-deps --package-lock=false
 

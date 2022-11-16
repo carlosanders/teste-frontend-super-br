@@ -7,8 +7,7 @@
          [enableGhostResize]="true"
          [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
          (resizeEnd)="onResizingSidebar($event)"
-         [fxFlex]="sidebarSize"
-         (selectstart)="$event.preventDefault()">
+         [fxFlex]="sidebarSize">
         <cdk-sidebar #sidebarElement class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
             <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa"
                                         (scrolled)="onScroll()" (sorted)="onSort($event)" [name]="sidebarName"></processo-view-main-sidebar>
@@ -21,8 +20,7 @@
          mwlResizable
          [enableGhostResize]="true"
          [fxFlex]="100"
-         [resizeEdges]="{bottom: false, right: false, top: false, left: false}"
-         (selectstart)="$event.preventDefault()">
+         [resizeEdges]="{bottom: false, right: false, top: false, left: false}">
 
         <!-- HEADER -->
         <div class="header">
