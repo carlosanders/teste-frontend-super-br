@@ -31,6 +31,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module';
 import {MatStepperIntl} from '@angular/material/stepper';
 import {CdkMatStepperIntl} from '../@cdk/angular/cdk-mat-stepper-intl';
+import {MatPaginatorIntl} from '@angular/material/paginator';
+import {CdkMatPaginatorIntl} from '../@cdk/angular/cdk-mat-paginator-intl';
 import {GlobalErrorHandler} from './global-error-handler';
 import {AssinaturaService} from '../@cdk/services/assinatura.service';
 import {DocumentoService} from '../@cdk/services/documento.service';
@@ -150,6 +152,7 @@ modulesConfig.forEach((module: any) => {
         {provide: ErrorHandler, useClass: GlobalErrorHandler},
         ...httpInterceptors,
         {provide: MatStepperIntl, useClass: CdkMatStepperIntl},
+        {provide: MatPaginatorIntl, useClass: CdkMatPaginatorIntl},
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},
         {provide: AssinaturaService, useClass: AssinaturaService},

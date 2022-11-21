@@ -210,14 +210,7 @@ export class CdkVinculacaoEspecieProcessoWorkflowGridComponent implements AfterV
         elementQueries.listen();
         elementQueries.init();
 
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
         this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new VinculacaoEspecieProcessoWorkflowDataSource(of(this.vinculacoesEspecieProcessoWorkflow));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

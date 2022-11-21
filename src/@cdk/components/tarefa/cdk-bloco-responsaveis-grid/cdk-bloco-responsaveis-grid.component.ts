@@ -165,14 +165,7 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnInit(): void {
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
         this.paginator.pageSize = this.pageSize;
-
         this.usuariosSetoresDataSource = new DataSource(of([...this.responsaveis]));
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 

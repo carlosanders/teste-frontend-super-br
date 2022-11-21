@@ -1078,3 +1078,6 @@
 * Correção de erro em que criação de ofícios em bloco não atualizava a tela com o resultado das operações
 * Correção de erro em que criação de ofícios em bloco não atualizava etiquetas das tarefas
 * Correção de erro em que criação de ofícios em bloco não exibia na lista de tarefas as tarefas onde ofícios eram criados
+* Correção de erro ao tentar encaminhar processos em bloco criando novas tarefas, que em determinadas situações parava de exibir o formulário
+* Correção de erro que não retirava os processos salvos do estado da aplicação
+* Correção de dependência em internacionalização de MatPaginator em todo o sistema, para se adequar a novas regras do Angular 15

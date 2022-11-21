@@ -17,7 +17,7 @@
     </mat-list>
 
     <cdk-tarefa-form
-        *ngIf="operacoes.length === 0 || ((isSaving$ | async) === false && processos.length > 0)"
+        *ngIf="operacoes.length === 0 || ((isSaving$ | async) === false && (errors$ | async) !== false)"
         [tarefa]="tarefa"
         [processos]="processos"
         [valid]="(processos$ | async)?.length > 0"

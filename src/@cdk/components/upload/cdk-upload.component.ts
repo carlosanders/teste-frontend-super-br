@@ -81,10 +81,6 @@ export class CdkUploadComponent implements OnInit {
     ngOnInit(): void {
         this.filesDataSource.paginator = this.filesPaginator;
         this.filesDataSource.sort = this.filesSort;
-
-        this.filesDataSource.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.filesDataSource.paginator._intl.nextPageLabel = 'Seguinte';
-        this.filesDataSource.paginator._intl.previousPageLabel = 'Anterior';
     }
 
     onClick(): void {

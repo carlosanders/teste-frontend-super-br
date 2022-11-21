@@ -88,6 +88,7 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPaginationTree = new Pagination();
         this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
+        this.lote = CdkUtils.makeId();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -100,7 +101,7 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.operacaoId = null;
         this.operacoes = [];
-
+        this.lote = CdkUtils.makeId();
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState),
