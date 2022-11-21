@@ -10,17 +10,22 @@ cdk-avaliacao-dialog-plugin {
     .estrelas {
         display: inline-block;
         cursor: pointer;
-        line-height: 50px;
-        text-align: center;
+        overflow: hidden;
+        vertical-align: middle;
         width: 35px;
-        > .ativas {
-            font-size: 26px;
-        }
+        font-size: 20px;
+    }
 
-        > .inativas {
+    /*rating-input {
+        .estrelas {
+            display: inline-block;
+            cursor: pointer;
+            overflow: hidden;
+            vertical-align: middle;
+            width: 35px;
             font-size: 20px;
         }
-    }
+    }*/
 
     .resultante {
         font-weight: bold;
@@ -35,7 +40,7 @@ cdk-avaliacao-dialog-plugin {
     }
 
     .yellow-icon {
-        color: yellow;
+        color: #FFF000;
     }
 
     .actions {

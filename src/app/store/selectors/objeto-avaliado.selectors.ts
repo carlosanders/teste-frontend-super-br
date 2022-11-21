@@ -22,3 +22,9 @@ export const getIsLoadingObjetoAvaliado: any = createSelector(
     getObjetoAvaliadoState,
     (state: ObjetoAvaliadoState) => state.loading
 );
+
+export const getObjetoAvaliadoLoaded: any = createSelector(
+    getObjetoAvaliadoState,
+    (state: ObjetoAvaliadoState) => state.loaded
+);
+

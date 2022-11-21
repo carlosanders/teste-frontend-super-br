@@ -1,0 +1,49 @@
+@import "src/@cdk/scss/cdk";
+
+cdk-avaliacao-btn-plugin {
+
+    .only-show-on-hover {
+        position: relative;
+        display: inline-block;
+        &:hover {
+            .content-text {
+                visibility: visible !important;
+            }
+        }
+
+        .content-text {
+            position: absolute;
+            visibility: hidden;
+            font-size: 13px;
+            width: 150px;
+            background: #FFFFFF;
+            color: #000000;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -75px;
+            margin-bottom: 5px;
+            z-index: 999999;
+            opacity: 0.9;
+            box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+        }
+
+        .content-text:after {
+            content: " ";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #FFFFFF transparent transparent transparent;
+        }
+
+        .avaliacoes {
+            font-weight: bold;
+            font-size: 14px;
+        }
+    }
+}

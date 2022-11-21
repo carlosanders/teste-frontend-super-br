@@ -26,6 +26,7 @@ export const avaliacaoReducer = (
             return {
                 ...state,
                 avaliacaoId: null,
+                errors: false,
                 loading: true
             };
         }
@@ -36,6 +37,7 @@ export const avaliacaoReducer = (
                 ...state,
                 avaliacaoId: action.payload.avaliacaoId,
                 loaded: action.payload.loaded,
+                errors: false,
                 loading: false
             };
         }

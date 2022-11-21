@@ -1,0 +1,6 @@
+<div>
+    <span *ngFor="let star of stars; let i = index" on-mouseenter="rate(i + 1)" class="estrelas">
+        <ng-container *ngIf="star; else noIcon">⭐</ng-container>
+        <ng-template #noIcon>★</ng-template>
+    </span>
+</div>
