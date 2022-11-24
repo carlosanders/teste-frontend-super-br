@@ -4,6 +4,7 @@ import {CdkAvaliacaoDialogPluginComponent} from './cdk-avaliacao-dialog-plugin.c
 import {MatButtonModule, MatDialogModule, MatInputModule} from '@cdk/angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {RatingInputModule} from "../rating-input/rating-input.module";
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
         MatInputModule,
         CdkSharedModule,
         MatIconModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        RatingInputModule
     ],
     exports: [
         CdkAvaliacaoDialogPluginComponent

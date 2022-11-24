@@ -102,9 +102,9 @@ export class DocumentoViewComponent implements OnInit, DoCheck {
 
     ngDoCheck(): void {
         this.documentos.forEach((documento, key) => {
-            if (documento.componentesDigitais[0].id == this.componenteDigitalAtualId) {
-                this.nextDocumento = this.documentos[key + 1];
-                this.isLast =  key+ 1 === this.documentos.length;
+            if (documento.componentesDigitais[0].id === this.componenteDigitalAtualId) {
+                this.nextDocumento =  key === this.documentos.length - 1 ? this.documentos[key] : this.documentos[key + 1];
+                this.isLast = key === this.documentos.length - 1;
                 this.previousDocumento = key === 0 ? this.documentos[key] : this.documentos[key - 1];
                 this.isFirst = key === 0;
             }

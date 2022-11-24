@@ -7,24 +7,15 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {CdkAvaliacaoDialogPluginComponent} from '../avaliacao-dialog-plugin/cdk-avaliacao-dialog-plugin.component';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {ObjetoAvaliado} from '@cdk/models';
 import {AvaliacaoDialogService} from '../avaliacao-dialog.service';
 
 @Component({
     selector: 'cdk-avaliacao-btn-plugin',
-    template: `
-        <button mat-icon-button
-                *ngIf="hasVisibled"
-                [disabled]="hasDisabled"
-                (click)="doOpen(this.objetoId)"
-                aria-label="avaliação"
-                matTooltip="Avaliação">
-            <mat-icon color="primary">grade</mat-icon>
-        </button>`,
-    styleUrls: [],
+    templateUrl: './cdk-avaliacao-btn-plugin.component.html',
+    styleUrls: ['./cdk-avaliacao-btn-plugin.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: cdkAnimations
@@ -58,7 +49,7 @@ export class CdkAvaliacaoBtnPluginComponent {
     @Output()
     open = new EventEmitter<number>();
 
-    dialogRef: MatDialogRef<CdkAvaliacaoDialogPluginComponent>;
+    Math = Math;
 
     /**
      *
@@ -71,8 +62,8 @@ export class CdkAvaliacaoBtnPluginComponent {
     ) {
     }
 
-    doOpen(objetoId: number): void {
-        this.avaliacao.emit(objetoId);
+    doOpen(): void {
+        this.avaliacao.emit(this.objetoId);
 
         this._avaliacaoDialogService.openDialog({
             objetoAvaliado$: this.objetoAvaliado$,
@@ -80,5 +71,9 @@ export class CdkAvaliacaoBtnPluginComponent {
             isSaving$: this.isSaving$,
             errors$: this.errors$
         });
+    }
+
+    doShowDetail(): void {
+        this.avaliacao.emit(this.objetoId);
     }
 }

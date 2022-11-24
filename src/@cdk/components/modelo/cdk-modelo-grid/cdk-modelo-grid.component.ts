@@ -300,14 +300,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         elementQueries.listen();
         elementQueries.init();
 
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
         this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new ModeloDataSource(of(this.modelos));
 
         this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
