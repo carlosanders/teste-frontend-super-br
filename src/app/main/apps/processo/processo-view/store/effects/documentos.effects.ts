@@ -27,6 +27,7 @@ import * as JuntadaListActions from "../../../processo-edit/juntadas/juntada-lis
 import {AssinaturaService} from "@cdk/services/assinatura.service";
 import * as AssinaturaActions from "../../../../../../store/actions/assinatura.actions";
 import * as ProcessoViewActions from "../actions/processo-view.actions";
+import * as ComponenteDigitalActions from "../actions/componentes-digitais.actions";
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -413,7 +414,7 @@ export class ProcessoViewDocumentosEffects {
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'assinatura',
-            content: 'Assinando componenteDigital id ' + action.payload.componenteDigital.id + ' ...',
+            content: 'Assinando documento id ' + action.payload.documento.id + ' ...',
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
@@ -426,11 +427,11 @@ export class ProcessoViewDocumentosEffects {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: Assinatura) => [
-                new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.componenteDigital.id),
+                new AssinaturaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
                 new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<ComponenteDigital>({
-                    id: action.payload.componenteDigital.id,
-                    schema: componenteDigitalSchema,
+                new UpdateData<Documento>({
+                    id: action.payload.documento.id,
+                    schema: documentoSchema,
                     changes: {assinado: true}
                 })
             ]),
@@ -450,6 +451,28 @@ export class ProcessoViewDocumentosEffects {
                 return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
             })
         ))
+    ));
+
+    /**
+     * Assina Componente Digital
+     *
+     * @type {Observable<any>}
+     */
+    assinaDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewDocumentosActions.AssinaDocumento>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO),
+        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
+            .pipe(
+                map(response => new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response)),
+                catchError((err) => {
+                    const payload = {
+                        ids: action.payload,
+                        error: err
+                    };
+                    console.log(err);
+                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
+                })
+            )
+        )
     ));
 
     constructor(

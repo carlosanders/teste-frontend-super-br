@@ -246,7 +246,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                                 })
                             })
                         }
-                        this.documento = juntada.documento;
                     }
                     const tmpJuntada = {
                         id: juntada.id,
@@ -842,38 +841,36 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.overlay.backdropClick();
         this.overlay.detach();
 
+        this.documento = this.currentJuntada ? this.currentJuntada.documento : this.juntadas[0].documento;
+
         const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
-        const currentStep = {
-            step: this.documento.juntadaAtual,
-            subStep: this.componenteDigital.id,
-        }
         const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             assinaSub.unsubscribe();
             if (result.certificadoDigital) {
-                // this._store.dispatch(new AssinaturaStore.AssinaDocumento(this.documento.id));
+                this._store.dispatch(new fromStore.AssinaDocumento([this.documento.id]));
+                this.documento.componentesDigitais.forEach((componenteDigital) => {
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id.toString());
+                });
             } else {
-                    const documento = new Documento();
-                    documento.id = this.documento.id;
-                    const assinatura = new Assinatura();
-                    const componenteDigital = new ComponenteDigital();
-                    componenteDigital.id = this.componenteDigital.id;
-                    assinatura.componenteDigital = componenteDigital;
-                    assinatura.algoritmoHash = 'A1';
-                    assinatura.cadeiaCertificadoPEM = 'A1';
-                    assinatura.cadeiaCertificadoPkiPath = 'A1';
-                    assinatura.assinatura = 'A1';
-                    assinatura.plainPassword = result.plainPassword;
-                    const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura,
-                        componenteDigital: componenteDigital,
-                        operacaoId: operacaoId
-                    }));
-                this._cacheComponenteDigitalModelService.delete(this.componenteDigital.id.toString());
-                this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
-                this._store.dispatch(new fromStore.ReloadJuntadas());
+                    this.documento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: this.documento,
+                            componenteDigital: componenteDigital,
+                            operacaoId: operacaoId
+                        }));
+                        this._cacheComponenteDigitalModelService.delete(componenteDigital.id.toString());
+                    });
                 }
         });
     }
