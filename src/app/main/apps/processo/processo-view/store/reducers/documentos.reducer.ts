@@ -6,12 +6,11 @@ export interface ProcessoViewDocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     alterandoDocumentoIds: number[];
-    assinandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
     downloadP7SDocumentoIds: number[];
     undeletingDocumentoIds: number[];
+    removendoVinculacoesDocumentoIds: number[];
     bufferingDelete: number;
     loading: boolean;
     loaded: boolean;
@@ -28,13 +27,12 @@ export const processoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: [],
     alterandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
     downloadP7SDocumentoIds: [],
     undeletingDocumentoIds: [],
+    removendoVinculacoesDocumentoIds: [],
     bufferingDelete: 0,
     loading: false,
     loaded: false,
@@ -163,125 +161,6 @@ export const processoViewDocumentosReducer = (
             };
         }
 
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoViewDocumentosActions.PREPARA_ASSINATURA_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
-                error: action.payload.error
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento?.id],
-                error: false
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
-                error: false
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
-                error: action.payload.error
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
-                error: false
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
-                error: false
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
-                error: action.payload.error
-            };
-        }
-
-        case ProcessoViewDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
-            };
-        }
-
-        case ProcessoViewDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoViewDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
         case ProcessoViewDocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
             return {
                 ...state,
@@ -381,6 +260,24 @@ export const processoViewDocumentosReducer = (
                 deleteVisibilidadeDocsIds: action.payload.id,
                 deleteVisibilidadeDocsIdsError: action.payload.errors,
             };
+        }
+        case ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO: {
+            return {
+                ...state,
+                removendoVinculacoesDocumentoIds: [...state.removendoVinculacoesDocumentoIds, action.payload.vinculacaoDocumento.id]
+            }
+        }
+        case ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoVinculacoesDocumentoIds: state.removendoVinculacoesDocumentoIds.filter(id => id !== action.payload)
+            }
+        }
+        case ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoVinculacoesDocumentoIds: state.removendoVinculacoesDocumentoIds.filter(id => id !== action.payload)
+            }
         }
         default:
             return state;

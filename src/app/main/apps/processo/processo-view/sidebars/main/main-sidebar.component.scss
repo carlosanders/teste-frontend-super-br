@@ -855,6 +855,10 @@ processo-view-main-sidebar {
                     margin: 0 5px 0 0;
                 }
             }
+            &.desvincular-mode-actions {
+                align-items: flex-end;
+                flex: 1 0 auto !important;
+            }
         }
 
         .no-events {

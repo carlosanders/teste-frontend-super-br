@@ -1,6 +1,6 @@
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
-export type ProcessoViewActiveCard = 'juntadas' | 'bookmark' | 'juntadas-select';
+export type ProcessoViewActiveCard = 'juntadas' | 'bookmark' | 'juntadas-select' | 'juntadas-desvincular';
 
 export interface ProcessoViewState {
     entitiesId: number[];

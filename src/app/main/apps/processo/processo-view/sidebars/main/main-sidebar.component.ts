@@ -162,6 +162,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
     alterandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentoIds$: Observable<number[]>;
+    removendoVinculacoesDocumentoIds$: Observable<number[]>;
+    removendoVinculacoesDocumentoIds: number[];
     lixeiraMinutas$: Observable<boolean>;
     loadingDocumentosExcluidos$: Observable<boolean>;
 
@@ -316,6 +318,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         this.errorsDocumento$ = this._store.pipe(select(fromStore.getErrorsDocumentos));
 
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.removendoVinculacoesDocumentoIds$ = this._store.pipe(select(fromStore.getRemovendoVinculacoesDocumentoIds));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
@@ -580,6 +583,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
                 this.sheetRef.dismiss();
             }
         });
+
+        this.removendoVinculacoesDocumentoIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(removendoVinculacoesDocumentoIds => this.removendoVinculacoesDocumentoIds = removendoVinculacoesDocumentoIds);
 
         this._store.pipe(
             select(getMercureState),
@@ -1155,21 +1162,27 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
     }
 
     doRemoverVinculacoes(juntada: Juntada): void {
-        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
-            data: {
-                title: 'Confirmação',
-                confirmLabel: 'Sim',
-                message: 'Deseja realmente remover as vinculações da juntada?',
-                cancelLabel: 'Não',
-            },
-            disableClose: false
-        });
+        if (juntada.documento.vinculacoesDocumentos.length === 1) {
+            this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    message: 'Deseja realmente remover as vinculações da juntada?',
+                    cancelLabel: 'Não',
+                },
+                disableClose: false
+            });
 
-        this.confirmDialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao, juntada.documento.id));
-            }
-        });
+            this.confirmDialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao, juntada.documento.id));
+                }
+            });
+        } else {
+            // Possui mais de uma vinculação de documento
+            // Ativar o modo de remoção de vinculações de documento
+            this._store.dispatch(new fromStore.SetActiveCard('juntadas-desvincular'));
+        }
     }
 
     removeVinculacao(vinculacao: VinculacaoDocumento, documentoId: number): void {
@@ -1684,6 +1697,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
     }
 
     doCancelarModoSelecao(): void {
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
+    }
+
+    doCancelarModoRemoverVinculacoes(): void {
         this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
     }
 

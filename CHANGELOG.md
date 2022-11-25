@@ -1081,3 +1081,7 @@
 * Correção de erro ao tentar encaminhar processos em bloco criando novas tarefas, que em determinadas situações parava de exibir o formulário
 * Correção de erro que não retirava os processos salvos do estado da aplicação
 * Correção de dependência em internacionalização de MatPaginator em todo o sistema, para se adequar a novas regras do Angular 15
+* Melhoria implementada funcionalidade, na visualização de processo, para desvincular juntadas individualmente
+* Correção de erros na consulta de modelos enviada ao backend em algumas situações no gridsearch de modelos
+* Correção no dialog de confirmação de registro de extravio de documentos/processos no módulo de arquivista
+* Correção de mensagem no dialog de confirmação de relatório excel de tarefas

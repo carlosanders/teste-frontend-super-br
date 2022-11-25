@@ -7,10 +7,9 @@ import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
 import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema,
     vinculacaoDocumento as vinculacaoDocumentoSchema
@@ -22,12 +21,7 @@ import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {GetJuntadaDocumentoVinculado} from '../actions';
-import {ProcessoService} from "../../../../../../../@cdk/services/processo.service";
-import * as JuntadaListActions from "../../../processo-edit/juntadas/juntada-list/store/actions";
-import {AssinaturaService} from "@cdk/services/assinatura.service";
-import * as AssinaturaActions from "../../../../../../store/actions/assinatura.actions";
-import * as ProcessoViewActions from "../actions/processo-view.actions";
-import * as ComponenteDigitalActions from "../actions/componentes-digitais.actions";
+import {ProcessoService} from '@cdk/services/processo.service';
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -404,77 +398,6 @@ export class ProcessoViewDocumentosEffects {
         )
     ));
 
-    /**
-     * Assina Componente Digital Eletronicamente
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaDocumentoEletronicamente>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Assinando documento id ' + action.payload.documento.id + ' ...',
-            status: 0, // carregando
-            lote: action.payload.loteId
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' criada com sucesso.',
-                status: 1, // sucesso
-                lote: action.payload.loteId
-            }))),
-            mergeMap((response: Assinatura) => [
-                new AssinaturaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    componenteDigitalId: action.payload.componenteDigital.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Ocorreu um erro na assinatura do componenteDigital id ' + action.payload.componenteDigital.id + '.',
-                    status: 2, // erro
-                    lote: action.payload.loteId
-                }));
-                return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-
-    /**
-     * Assina Componente Digital
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaDocumento>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        ids: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                })
-            )
-        )
-    ));
-
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
@@ -483,8 +406,7 @@ export class ProcessoViewDocumentosEffects {
         private _processoService: ProcessoService,
         private _router: Router,
         private _store: Store<State>,
-        public activatedRoute: ActivatedRoute,
-        private _assinaturaService: AssinaturaService,
+        public activatedRoute: ActivatedRoute
     ) {
         this._store.pipe(
             select(getRouterState),

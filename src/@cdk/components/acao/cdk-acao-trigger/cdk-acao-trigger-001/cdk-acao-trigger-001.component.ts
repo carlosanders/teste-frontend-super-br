@@ -32,6 +32,9 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
     modeloPagination: Pagination;
 
     @Input()
+    gridsearchModeloPagination: Pagination;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -80,6 +83,7 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
             modelo: [null, [Validators.required]]
         });
         this.modeloPagination = new Pagination();
+        this.gridsearchModeloPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

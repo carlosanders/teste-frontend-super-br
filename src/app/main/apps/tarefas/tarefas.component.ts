@@ -1486,13 +1486,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.'
             },
             disableClose: false
         });
-
-        this.confirmDialogRef
-            .componentInstance
-            .confirmMessage = 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.';
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {

@@ -191,9 +191,35 @@
             </button>
         </ng-container>
 
+        <ng-container *ngIf="activeCard === 'juntadas-desvincular'">
+
+            <mat-spinner *ngIf="removendoVinculacoesDocumentoIds.length > 0" diameter="24"></mat-spinner>
+
+            <button mat-icon-button
+                    (click)="doCancelarModoRemoverVinculacoes()"
+                    aria-label="juntadas do processo"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+        </ng-container>
+
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
-        <div *ngIf="activeCard === 'juntadas'">
+        <div *ngIf="activeCard === 'juntadas' || activeCard === 'juntadas-desvincular'">
             {{juntadas?.length}}/{{pagination.total}}
         </div>
 
@@ -462,8 +488,8 @@
                                         class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                         <mat-icon class="ml-8 s-14">attach_file</mat-icon>
                                         <span class="index-vinculado" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
-                                        <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
-                                    </span>
+                                            <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
+                                        </span>
                                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                         <div *ngIf="!!vinculacaoDocumento.documentoVinculado.acessoRestrito && juntada.ativo">
                                             <mat-icon matTooltip="Acesso restrito!" class="ml-4 s-20 red-fg">block
@@ -478,6 +504,15 @@
                                                   *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
                                         </mat-icon>
+                                        <div class="actions desvincular-mode-actions" *ngIf="activeCard === 'juntadas-desvincular' && z === 0">
+                                            <button class="s-14" mat-icon-button
+                                                    aria-label="Desvincular juntada"
+                                                    matTooltip="Desvincular juntada"
+                                                    (click)="$event.stopPropagation(); removeVinculacao(vinculacaoDocumento, juntada.documento.id)">
+                                                <mat-icon>link_off</mat-icon>
+                                            </button>
+                                        </div>
+
                                         <mat-spinner *ngIf="isCurrent(juntada.id, componenteDigital.id) && (isSavingBookmark$ | async)" diameter="16"></mat-spinner>
                                     </div>
                                 </div>
