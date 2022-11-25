@@ -849,7 +849,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
             assinaSub.unsubscribe();
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaDocumento([this.documento.id]));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([this.documento.id]));
                 this.documento.componentesDigitais.forEach((componenteDigital) => {
                     this._cacheComponenteDigitalModelService.delete(componenteDigital.id.toString());
                 });
@@ -863,7 +863,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         assinatura.assinatura = 'A1';
                         assinatura.plainPassword = result.plainPassword;
                         const operacaoId = CdkUtils.makeId();
-                        this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                             assinatura: assinatura,
                             documento: this.documento,
                             componenteDigital: componenteDigital,
