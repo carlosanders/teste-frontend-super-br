@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -49,17 +49,38 @@ export class CdkAvaliacaoBtnPluginComponent {
     @Output()
     open = new EventEmitter<number>();
 
-    Math = Math;
+    @Input()
+    quantity: number = 5;
+
+    @Input()
+    stars: boolean[] = Array(this.quantity).fill(false);
+
+    @Input()
+    readonly: boolean = true;
+
+    objetoAvaliado: ObjetoAvaliado;
+    avaliacaoResultante: number;
 
     /**
      *
      * @param dialog
      * @param _avaliacaoDialogService
+     * @param _changeDetectorRef
      */
     constructor(
         public dialog: MatDialog,
-        private _avaliacaoDialogService: AvaliacaoDialogService
+        private _avaliacaoDialogService: AvaliacaoDialogService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
+    }
+
+    ngOnInit(): void {
+        this.objetoAvaliado$.subscribe((objetoAvaliado) => {
+            this.objetoAvaliado = objetoAvaliado;
+            this.avaliacaoResultante = Math.trunc(Math.round(objetoAvaliado?.avaliacaoResultante / 20.0));
+            this.starsActivate(this.avaliacaoResultante);
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     doOpen(): void {
@@ -75,5 +96,15 @@ export class CdkAvaliacaoBtnPluginComponent {
 
     doShowDetail(): void {
         this.avaliacao.emit(this.objetoId);
+    }
+
+    rate(rating: number): void {
+        if (!this.readonly) {
+            this.stars = this.stars.map((_, i) => rating > i);
+        }
+    }
+
+    starsActivate(init: number = 100): void {
+        this.stars = this.stars.map((_, i) => init > i);
     }
 }

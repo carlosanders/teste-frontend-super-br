@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {of, catchError, mergeMap, tap, switchMap, withLatestFrom} from 'rxjs';
+import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
+import {of, catchError, mergeMap, tap, switchMap} from 'rxjs';
 
 import * as AvaliacaoActions from '../actions/avaliacao.actions';
 import * as ObjetoAvaliadoActions from '../actions/objeto-avaliado.actions';
@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {getObjetoAvaliadoLoaded} from '../selectors';
+import {getObjetoAvaliadoFromRedux, getObjetoAvaliadoLoaded} from '../selectors';
 
 @Injectable()
 export class AvaliacaoEffects {
@@ -90,28 +90,17 @@ export class AvaliacaoEffects {
         )
     ));
 
-    /**
-     * Get ObjetoAvaliado with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    getObjetoAvaliado: any = createEffect(() => this._actions.pipe(
+    getObjetoAvaliado2: any = createEffect(() => this._actions.pipe(
         ofType<ObjetoAvaliadoActions.GetObjetoAvaliado>(ObjetoAvaliadoActions.GET_OBJETO_AVALIADO),
-        withLatestFrom(this._store.pipe(select(getObjetoAvaliadoLoaded))),
-        mergeMap(([action, loaded]) => {
-            if (loaded && loaded.objetoId === action.payload.objetoId) {
-                return of(new ObjetoAvaliadoActions.GetObjetoAvaliadoSuccess({
-                    objetoAvaliadoId: loaded.value,
-                    loaded: loaded
-                }));
+        concatLatestFrom(action => this._store.pipe(select(getObjetoAvaliadoFromRedux(action.payload.objetoId, action.payload.classe)))),
+        switchMap(([action, objetoAvaliado]) => {
+            if (objetoAvaliado) {
+                return of(new ObjetoAvaliadoActions.GetObjetoAvaliadoSuccess({objetoAvaliadoId: objetoAvaliado.id}));
             } else {
-                return this._objetoAvaliadoService.consultar(action.payload, JSON.stringify(['objetoAvaliado'])).pipe(
+                return this._objetoAvaliadoService.consultar(action.payload).pipe(
                     switchMap(response => [
                         new AddData<ObjetoAvaliado>({data: [response], schema: objetoAvaliadoSchema}),
-                        new ObjetoAvaliadoActions.GetObjetoAvaliadoSuccess({
-                            objetoAvaliadoId: response.id,
-                            loaded: {id: 'objetoAvaliadoHandle', value: response.id, objetoId: response.objetoId}
-                        })
+                        new ObjetoAvaliadoActions.GetObjetoAvaliadoSuccess({objetoAvaliadoId: response.id})
                     ]),
                     catchError((err, caught) => {
                         console.log(err);

@@ -45,7 +45,8 @@ export const objetoAvaliadoReducer = (
         case ObjetoAvaliadoActions.GET_OBJETO_AVALIADO_FAILED: {
             return {
                 ...state,
-                loading: false
+                loading: false,
+                errors: action.payload
             };
         }
 
