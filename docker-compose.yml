@@ -10,9 +10,6 @@ services:
             - 9876:9876
         volumes:
             - '.:/app'
-            - '/home/jonas/supp-core/gitlab/supp-divida-frontend/src:/app/src/modules/divida'
-            - '/home/jonas/supp-core/gitlab/supp-judicial-frontend/src:/app/src/modules/judicial'
-            - '/home/jonas/supp-core/gitlab/supp-gestao-devedor-frontend/src:/app/src/modules/gestao-devedor'
         tty: true
         command: tail -f /dev/null
         networks:
