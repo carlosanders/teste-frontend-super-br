@@ -843,6 +843,17 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.documento = this.currentJuntada ? this.currentJuntada.documento : this.juntadas[0].documento;
 
+        if((this.documento.componentesDigitais.filter(
+            (componente) => {return componente.id === this.componenteDigital.id})).length < 1){
+            this.documento.vinculacoesDocumentos.forEach((vincDoc) => {
+                if((vincDoc.documentoVinculado.componentesDigitais.filter((componenteDigital) => {
+                    return componenteDigital.id === this.componenteDigital.id
+                })).length > 0){
+                    this.documento = vincDoc.documentoVinculado;
+                }
+            });
+        }
+
         const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
