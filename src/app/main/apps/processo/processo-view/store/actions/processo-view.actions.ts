@@ -58,7 +58,8 @@ export const REMOVE_CONTEUDO_BINARIO = '[PROCESSO VIEW] REMOVE CONTEUDO BINARIO'
 
 export const SET_ACTIVE_CARD = '[PROCESSO VIEW] SET ACTIVE CARD';
 
-export const TOGGLE_SELECT_JUNTADA_ID = '[PROCESSO VIEW] TOGGLE SELECT JUNTADA ID';
+export const TOGGLE_SELECT_JUNTADA_ID = '[PROCESSO VIEW] TOGGLE SELECT JUNTADA ID'
+export const TOGGLE_SELECT_JUNTADA_VINCULADA_ID = '[PROCESSO VIEW] TOGGLE SELECT JUNTADA VINCULADA ID';
 
 export const UNLOAD_SELECTED_JUNTADAS_ID = '[PROCESSO VIEW] UNLOAD SELECTED JUNTADAS ID';
 
@@ -535,6 +536,16 @@ export class ToggleSelectJuntadaId implements Action {
 }
 
 /**
+ * Toggle Select Juntada Vinculada Id
+ */
+export class ToggleSelectJuntadaVinculadaId implements Action {
+    readonly type = TOGGLE_SELECT_JUNTADA_VINCULADA_ID;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Unload Selected Juntadas Id
  */
 export class UnloadSelectedJuntadasId implements Action {
@@ -584,5 +595,6 @@ export type ProcessoViewActionsAll
     | RemoveConteudoBinario
     | SetActiveCard
     | ToggleSelectJuntadaId
+    | ToggleSelectJuntadaVinculadaId
     | UnloadSelectedJuntadasId
     ;

@@ -107,6 +107,11 @@ export const getSelectedJuntadasId: any = createSelector(
     (state: ProcessoViewState) => state.selectedJuntadasId
 );
 
+export const getSelectedJuntadasVinculadasId: any = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.selectedJuntadasVinculadasId
+);
+
 export const getPaginaBookmark: any = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.pagina

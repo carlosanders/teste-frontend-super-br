@@ -80,6 +80,13 @@
                     <span>Download</span>
                 </button>
 
+                <button mat-menu-item
+                        aria-label="Download"
+                        (click)="doModoAssinatura();">
+                    <mat-icon matTooltip="Download">lock</mat-icon>
+                    <span>Assinar</span>
+                </button>
+
                 <mat-menu #selectMenuJuntadas="matMenu">
                     <button mat-menu-item (click)="doTodasJuntadas()">
                         <mat-icon>all_out</mat-icon>
@@ -217,6 +224,40 @@
             </button>
         </ng-container>
 
+        <ng-container *ngIf="activeCard === 'juntadas-assinar'">
+
+            <mat-spinner *ngIf="assinandoDocumentosId.length > 0" diameter="24"></mat-spinner>
+
+            <button mat-icon-button
+                    (click)="doCancelarAssinaturas()"
+                    aria-label="juntadas do processo"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
+                    aria-label="Maximizar Tela"
+                    matTooltip="Maximizar Tela"
+                    (click)="expandirTela(true)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                    aria-label="Minimizar Tela"
+                    matTooltip="Minimizar Tela"
+                    (click)="expandirTela(false)">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    [disabled]="(selectedJuntadasId.length === 0) && (selectedJuntadasVinculadasId.length === 0)"
+                    (click)="doAssinarJuntadasSelecionadas()"
+                    aria-label="assinar juntadas">
+                <mat-icon>lock</mat-icon>
+            </button>
+
+        </ng-container>
+
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
         <div *ngIf="activeCard === 'juntadas' || activeCard === 'juntadas-desvincular'">
@@ -227,7 +268,7 @@
             {{bookmarks?.length}}/{{paginationBookmark.total}}
         </div>
 
-        <div *ngIf="activeCard === 'juntadas-select'">
+        <div *ngIf="activeCard === ('juntadas-select') || activeCard ===  ('juntadas-assinar')">
             {{selectedJuntadasId?.length}}/{{pagination.total}}
         </div>
     </div>
@@ -471,6 +512,14 @@
                                        [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                         {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                                     </a>
+                                    <div class="actions assina-mode-actions filho" (click)="$event.stopPropagation();"
+                                         *ngIf="(activeCard === 'juntadas-assinar')">
+                                        <mat-checkbox
+                                            (click)="$event.stopPropagation()"
+                                            (change)="doToggleSelectJuntadaId(juntada.id)"
+                                            [checked]="selectedJuntadasId.includes(juntada.id)">
+                                        </mat-checkbox>
+                                    </div>
                                     <mat-icon class="ml-4 s-24"
                                               *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                         arrow_left
@@ -497,9 +546,17 @@
                                         </div>
                                         <a class="ml-4"
                                            (click)="$event.stopPropagation(); goToJuntada(juntada.id, juntada.documento.acessoNegado, componenteDigital.id, $event)"
-                                           [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
+                                            [ngClass]="{'current-tipo-documento': isCurrent(juntada.id, componenteDigital.id)}">
                                             {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contadorVinculacoes.inc() }}
                                         </a>
+                                        <div class="actions assina-mode-actions filho" (click)="$event.stopPropagation();"
+                                             *ngIf="(activeCard === 'juntadas-assinar') ">
+                                            <mat-checkbox
+                                                (click)="$event.stopPropagation()"
+                                                (change)="doToggleSelectJuntadaVinculadaId(vinculacaoDocumento.documentoVinculado.juntadaAtual.id)"
+                                                [checked]="selectedJuntadasVinculadasId.includes(vinculacaoDocumento.documentoVinculado.juntadaAtual.id)">
+                                            </mat-checkbox>
+                                        </div>
                                         <mat-icon class="ml-4 s-24"
                                                   *ngIf="isCurrent(juntada.id, componenteDigital.id)">
                                             arrow_left
@@ -631,6 +688,10 @@
                                     </ng-container>
                                 </button>
                             </mat-menu>
+                        </div>
+                        <div class="actions-assinatura" *ngIf="juntada.ativo && activeCard === 'juntadas-assinar'">
+                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                            </mat-icon>
                         </div>
                     </div>
                 </div>

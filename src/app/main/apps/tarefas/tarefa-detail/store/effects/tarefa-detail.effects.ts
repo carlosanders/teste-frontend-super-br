@@ -76,6 +76,7 @@ export class TarefaDetailEffect {
             this.populate = action.payload.populate ?? [
                 'especieTarefa',
                 'usuarioResponsavel',
+                'usuarioResponsavel.colaborador',
                 'setorResponsavel',
                 'setorResponsavel.unidade',
                 'setorOrigem',

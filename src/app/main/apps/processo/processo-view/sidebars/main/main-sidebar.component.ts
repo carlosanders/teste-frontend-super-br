@@ -158,6 +158,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
 
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
@@ -247,6 +248,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
     selectedOrigemDados: string = 'todos';
     activeCard: fromStore.ProcessoViewActiveCard = 'juntadas';
     selectedJuntadasId: number[] = [];
+    selectedJuntadasVinculadasId: number[] = [];
     savingDownloadProcesso: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -266,6 +268,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
      * @param _mercureService
      * @param _snackBar
      * @param _dynamicService
+     * @param _matDialog
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -280,6 +283,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         private _mercureService: MercureService,
         private _snackBar: MatSnackBar,
         private _dynamicService: DynamicService,
+        private _matDialog: MatDialog
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -332,6 +336,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
         this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
         this.deletingVisibilidadeDocumentosIdErros$ = this._store.pipe(select(fromStore.getErrorsDeleteVisibilidadeDocumentos));
+        this.removendoVinculacoesDocumentoIds$ = this._store.pipe(select(fromStore.getRemovendoVinculacoesDocumentoIds));
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -349,6 +354,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
             select(fromStore.getSelectedJuntadasId),
             takeUntil(this._unsubscribeAll),
         ).subscribe((selectedJuntadasId) => this.selectedJuntadasId = selectedJuntadasId);
+
+        this._store.pipe(
+            select(fromStore.getSelectedJuntadasVinculadasId),
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((selectedJuntadasVinculadasId) => this.selectedJuntadasVinculadasId = selectedJuntadasVinculadasId);
 
         this._store.pipe(
             select(fromStore.getSavingDownloadProcesso),
@@ -587,6 +597,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         this.removendoVinculacoesDocumentoIds$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(removendoVinculacoesDocumentoIds => this.removendoVinculacoesDocumentoIds = removendoVinculacoesDocumentoIds);
+
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(assinandoDocumentosId => this.assinandoDocumentosId = assinandoDocumentosId);
 
         this._store.pipe(
             select(getMercureState),
@@ -1696,6 +1710,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         this._store.dispatch(new fromStore.SetActiveCard('juntadas-select'));
     }
 
+    doModoAssinatura(): void {
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas-assinar'));
+    }
+
     doCancelarModoSelecao(): void {
         this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
     }
@@ -1704,8 +1722,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
     }
 
+    doCancelarAssinaturas(): void {
+        this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
+    }
+
     doToggleSelectJuntadaId(id: number): void {
         this._store.dispatch(new fromStore.ToggleSelectJuntadaId(id));
+    }
+
+    doToggleSelectJuntadaVinculadaId(id: number): void {
+        this._store.dispatch(new fromStore.ToggleSelectJuntadaVinculadaId(id));
     }
 
     doDownloadJuntadasSelecionadas(formato: string): void {
@@ -1736,5 +1762,57 @@ export class ProcessoViewMainSidebarComponent implements OnInit, AfterViewInit, 
         }
 
         this._store.dispatch(new fromStore.DownloadProcesso(params));
+    }
+
+    doAssinarJuntadasSelecionadas(): void {
+        let documentos = [];
+
+        this.selectedJuntadasId
+            .map((id) => this.juntadas.find((juntada) => juntada.id === id))
+            .forEach((juntada) => {
+                documentos.push(juntada.documento);
+            });
+
+        this.juntadas.forEach((juntada) => {
+            if((this.selectedJuntadasVinculadasId.length > 0) && (juntada.documento.vinculacoesDocumentos.length > 0)){
+                console.log(juntada);
+                this.selectedJuntadasVinculadasId
+                    .map((id) => juntada.documento.vinculacoesDocumentos.find((vinculacaoDocumento) =>
+                        vinculacaoDocumento.documentoVinculado.juntadaAtual.id === id))
+                    .forEach((vinculacaoDocumento) => documentos.push(vinculacaoDocumento.documentoVinculado));
+            }
+        });
+
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
+            if (result.certificadoDigital) {
+                documentos.forEach((documento) =>{
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumento([documento.id]));
+                    }
+                )
+            } else {
+                documentos.forEach((documento) =>{
+                    documento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            componenteDigital: componenteDigital,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
+            }
+        });
     }
 }
