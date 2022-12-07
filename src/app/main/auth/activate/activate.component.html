@@ -12,24 +12,28 @@
 
             <div class="card-activated" novalidate>
 
-                <div class="activated-success" *ngIf="(isActivated$ | async)">
-                    <p class="sub-title">
-                        <mat-icon matSuffix class="secondary-text">done</mat-icon>
-                        Registro ativado com sucesso!<br>
-                        O usuário foi ativado com sucesso, volte ao login para acessar o sistema.
-                    </p>
+                <div class="loading-wrapper" *ngIf="loading">
+                    <mat-spinner class="loading" diameter="60"></mat-spinner>
                 </div>
 
-                <div class="activated-failure" *ngIf="!(isActivated$ | async)">
-                    <p class="sub-title">
-                        <mat-icon matSuffix class="secondary-text">clear</mat-icon>
-                        Não foi possível ativar o registro!<br>
-                    </p>
-                </div>
+                <ng-container *ngIf="!loading">
+                    <div class="activated-success" *ngIf="(isActivated$ | async)">
+                        <p class="sub-title">
+                            <mat-icon matSuffix class="secondary-text">done</mat-icon>
+                            Registro ativado com sucesso!<br>
+                            O usuário foi ativado com sucesso, volte ao login para acessar o sistema.
+                        </p>
+                    </div>
 
-                <div class="separator">
-                    <span class="text">OU</span>
-                </div>
+                    <div class="activated-failure" *ngIf="(isActivated$ | async) === false">
+                        <p class="sub-title">
+                            <mat-icon matSuffix class="secondary-text">clear</mat-icon>
+                            Não foi possível ativar o registro!<br>
+                        </p>
+                    </div>
+                </ng-container>
+
+
 
                 <div class="login" fxLayout="column" fxLayoutAlign="center center">
                     <a class="link" [routerLink]="'/auth/login'">Voltar ao login</a>

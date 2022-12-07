@@ -38,9 +38,22 @@ activate {
                     margin: 8px 0 32px 0;
                 }
 
-                .card-aciveted {
+                .card-activated {
                     width: 100%;
-                    text-align: left;
+                    text-align: center;
+
+                    > .loading-wrapper {
+                        flex: 0 1 auto;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                        > .loading {
+                            display: flex;
+                            position: relative;
+                        }
+                    }
 
                     mat-form-field {
                         width: 100%;

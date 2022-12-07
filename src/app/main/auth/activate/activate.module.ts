@@ -7,6 +7,7 @@ import {ActivateComponent} from './activate.component';
 import {ActivateStoreModule} from './store/store.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import * as fromGuards from '../../auth/activate/store/guards';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
     {
@@ -26,7 +27,8 @@ const routes: Routes = [
         MatIconModule,
         MatProgressBarModule,
         CdkSharedModule,
-        ActivateStoreModule
+        ActivateStoreModule,
+        MatProgressSpinnerModule
     ],
     providers: [
         UsuarioService,
