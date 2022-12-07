@@ -1085,3 +1085,8 @@
 * Correção de erros na consulta de modelos enviada ao backend em algumas situações no gridsearch de modelos
 * Correção no dialog de confirmação de registro de extravio de documentos/processos no módulo de arquivista
 * Correção de mensagem no dialog de confirmação de relatório excel de tarefas
+
+1.11.0
+
+* Ícones de edição e remoção da capa do processo, nas seções de 'Assuntos' e 'Interessados', não estão funcionais. #953
+* Filtro de assinaturas de um documento juntado não está funcionando. #954
