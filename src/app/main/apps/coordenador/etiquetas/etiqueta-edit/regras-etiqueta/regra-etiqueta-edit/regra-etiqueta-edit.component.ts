@@ -33,6 +33,7 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
     unidadePagination: Pagination;
     setorPagination: Pagination;
     usuarioPagination: Pagination;
+    assuntoAdministrativoPagination: Pagination;
 
     _profile: Usuario;
 
@@ -58,6 +59,11 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
             id: 4,
             descricao: 'Recebido de usuário:',
             mapeamento: '{\'criadoPor.id\':\'eq:{placeholder}\'}'
+        },
+        {
+            id: 5,
+            descricao: 'Assunto do Processo:',
+            mapeamento: '{\'processo.assuntos.assuntoAdministrativo.id\':\'eq:{placeholder}\'}'
         },
     ];
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -89,6 +95,9 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
 
         this.usuarioPagination = new Pagination();
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
+
+        this.assuntoAdministrativoPagination = new Pagination();
+        this.assuntoAdministrativoPagination.populate = ['parent'];
 
         this.criteriasTemplate.forEach((criteria) => {
             const newCriteria = new Criteria();
