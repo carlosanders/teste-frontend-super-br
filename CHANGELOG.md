@@ -1090,3 +1090,6 @@
 
 * Ícones de edição e remoção da capa do processo, nas seções de 'Assuntos' e 'Interessados', não estão funcionais. #953
 * Filtro de assinaturas de um documento juntado não está funcionando. #954
+* Na edição de departamento ("Unidade") no campo e-mail não aparece um feedback descritivo para o usuário #971
+* Botão de 'Salvar' encontra-se desabilitado na tela de criação de 'Relatórios'. #921
+* Códigos da árvore de classificações encontram-se desordenados na tela de criação de processo. #928
