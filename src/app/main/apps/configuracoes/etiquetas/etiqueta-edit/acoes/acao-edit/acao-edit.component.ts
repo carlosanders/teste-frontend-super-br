@@ -76,6 +76,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     documentoAvulso: DocumentoAvulso;
 
     modeloPagination: Pagination;
+    gridsearchModeloPagination: Pagination;
 
     unidadePagination: Pagination;
     setorPagination: Pagination;
@@ -111,8 +112,37 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
             'documento',
             'documento.componentesDigitais'
         ];
+        // Alterando filtro para só trazer modelos em branco e individuais
         this.modeloPagination.filter = {
-            'modalidadeModelo.valor': 'eq:EM BRANCO'
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
+        this.gridsearchModeloPagination = new Pagination();
+        this.gridsearchModeloPagination.populate = [
+            'populateAll',
+            'documento',
+            'documento.componentesDigitais'
+        ];
+        // Implementando paginação padrão do gridsearch como nacional
+        this.gridsearchModeloPagination.filter = {
+            andX: [
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+            ]
         };
         this.unidadePagination = new Pagination();
         this.unidadePagination.filter = {parent: 'isNull'};

@@ -222,9 +222,6 @@ export class CdkConfigModuloGridComponent implements AfterViewInit, OnInit, OnCh
         const elementQueries = require('css-element-queries/src/ElementQueries');
         elementQueries.listen();
         elementQueries.init();
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
         this.paginator.pageSize = this.pageSize;
         this.dataSource = new ConfigModuloDataSource(of(this.configModules));
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

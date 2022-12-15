@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -23,8 +22,13 @@ import {Router} from '@angular/router';
 import {Assinatura, Documento} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {getDocumento} from '../../store';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from "../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import * as AssinaturaStore from "../../../../../store";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector: 'documento-edit-assinaturas',
@@ -63,6 +67,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
      * @param _loginService
      * @param _dynamicService
      * @param _ref
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAssinaturasAppState>,
@@ -70,7 +75,8 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         private _router: Router,
         public _loginService: LoginService,
         private _dynamicService: DynamicService,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _matDialog: MatDialog,
     ) {
         this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
         this.documento$ = this._store.pipe(select(getDocumento));
@@ -169,6 +175,38 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
     deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
+    }
+
+    /**
+     * Assina um Documento
+     */
+    doAssinaDocumento(): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([this.documento.id]));
+            } else {
+                this.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: this.documento,
+                        componenteDigital: componenteDigital,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
     }
 
 }

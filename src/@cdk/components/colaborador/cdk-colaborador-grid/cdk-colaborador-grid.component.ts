@@ -195,14 +195,7 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
         elementQueries.listen();
         elementQueries.init();
 
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
-        this.paginator._intl.firstPageLabel = 'Primeiro';
-        this.paginator._intl.lastPageLabel = 'Último';
-
         this.paginator.pageSize = this.pageSize;
-
         this.dataSource = new ColaboradorDataSource(of(this.colaboradors));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

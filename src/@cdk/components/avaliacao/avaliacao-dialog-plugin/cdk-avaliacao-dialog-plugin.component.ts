@@ -70,7 +70,7 @@ export class CdkAvaliacaoDialogPluginComponent implements OnInit, OnDestroy {
     avaliacao(avaliacao: number): any {
         const avaliacaoRealizada = {
             classe: this.objetoAvaliado.classe,
-            objetoAvaliadoId: this.objetoAvaliado.id,
+            objetoId: this.objetoAvaliado.objetoId,
             avaliacao: avaliacao
         };
 

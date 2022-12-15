@@ -74,10 +74,7 @@ export class ResolveGuard implements CanActivate {
                     (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) !== loaded.value) {
                     this._store.dispatch(new fromStore.Activate(params));
                 }
-            }),
-            filter((loaded: any) => this.routerState.params['cpfHandle'] && this.routerState.params['tokenHandle'] &&
-                (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) === loaded.value),
-            take(1)
+            })
         );
     }
 }

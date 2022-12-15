@@ -24,6 +24,13 @@
                 <mat-icon class="black-fg">gavel</mat-icon>
             </button>
 
+            <button *ngIf="!(documento$ | async)?.apagadoEm" mat-icon-button
+                    aria-label="assinaturas"
+                    matTooltip="Assinaturas" routerLink="assinaturas"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">lock</mat-icon>
+            </button>
+
             <div class="documento-edit-buttons" *ngIf="!(documento$ | async)?.apagadoEm">
 
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu"
@@ -58,15 +65,6 @@
                         <ng-container>
                             <mat-icon class="black-fg">picture_as_pdf</mat-icon>
                             <span>Componentes Digitais</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="assinaturas"
-                            matTooltip="Assinaturas" routerLink="assinaturas"
-                            [routerLinkActive]="['active', 'accent']">
-                        <ng-container>
-                            <mat-icon class="black-fg">lock</mat-icon>
-                            <span>Assinaturas</span>
                         </ng-container>
                     </button>
 

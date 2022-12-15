@@ -27,7 +27,7 @@ import {
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
-import {Assinatura, ComponenteDigital, Juntada, Pagination, Processo} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Juntada, Pagination, Processo} from '@cdk/models';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
@@ -40,10 +40,13 @@ import {ResizeEvent} from 'angular-resizable-element';
 import {getRouterState} from 'app/store';
 import {PdfJsViewerComponent} from 'ng2-pdfjs-viewer';
 import {Observable, Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {getProcesso} from '../store';
 import * as fromStore from './store';
 import {expandirTela} from './store';
+import {CdkAssinaturaEletronicaPluginComponent} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import * as AssinaturaStore from "../../../../store";
+import {CacheModelService} from "@cdk/services/cache.service";
 
 @Component({
     selector: 'processo-view',
@@ -54,7 +57,6 @@ import {expandirTela} from './store';
     animations: cdkAnimations
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
-    // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
     @ViewChildren(CdkPerfectScrollbarDirective)
@@ -108,6 +110,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     page = 1;
     spreadMode: 'off' | 'even' | 'odd' = 'off';
     componenteDigital: ComponenteDigital;
+    documento: Documento;
+    overlay: any;
 
     sidebarName = 'juntadas-left-sidebar-' + CdkUtils.makeId(3);
 
@@ -175,6 +179,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _matDialog
      * @param _overlay
      * @param _viewContainerRef
+     * @param _cacheComponenteDigitalModelService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -188,7 +193,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _mercureService: MercureService,
         private _matDialog: MatDialog,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef
+        private _viewContainerRef: ViewContainerRef,
+        private _cacheComponenteDigitalModelService: CacheModelService<ComponenteDigital>,
     ) {
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
@@ -748,7 +754,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     doLoadAssinaturas(): void {
-        const overlay = this._overlay.create({
+        this.overlay = this._overlay.create({
             panelClass: ['mat-menu-panel', 'processo-view-assinatura-panel'],
             backdropClass: 'cdk-overlay-transparent-backdrop',
             maxWidth: 340,
@@ -770,10 +776,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             hasBackdrop: true
         });
 
-        overlay.attach(new TemplatePortal(this.assinaturasTemplateRef, this._viewContainerRef));
-        overlay.backdropClick()
+        this.overlay.attach(new TemplatePortal(this.assinaturasTemplateRef, this._viewContainerRef));
+        this.overlay.backdropClick()
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => overlay.detach())
+            .subscribe(() => this.overlay.detach())
 
         const params = {
             filter: {
@@ -826,5 +832,57 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
 
         this.sidebarSize = pct;
+    }
+
+    /**
+     * Assina um Documento
+     */
+    doAssinaDocumento(): void {
+        this.overlay.backdropClick();
+        this.overlay.detach();
+
+        this.documento = this.currentJuntada ? this.currentJuntada.documento : this.juntadas[0].documento;
+
+        if((this.documento.componentesDigitais.filter(
+            (componente) => {return componente.id === this.componenteDigital.id})).length < 1){
+            this.documento.vinculacoesDocumentos.forEach((vincDoc) => {
+                if((vincDoc.documentoVinculado.componentesDigitais.filter((componenteDigital) => {
+                    return componenteDigital.id === this.componenteDigital.id
+                })).length > 0){
+                    this.documento = vincDoc.documentoVinculado;
+                }
+            });
+        }
+
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+        const assinaSub = dialogRef.afterClosed().pipe(filter(result => !!result), take(1)).subscribe((result) => {
+            assinaSub.unsubscribe();
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([this.documento.id]));
+                this.documento.componentesDigitais.forEach((componenteDigital) => {
+                    this._cacheComponenteDigitalModelService.delete(componenteDigital.id.toString());
+                });
+            } else {
+                    this.documento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: this.documento,
+                            componenteDigital: componenteDigital,
+                            operacaoId: operacaoId
+                        }));
+                        this._cacheComponenteDigitalModelService.delete(componenteDigital.id.toString());
+                    });
+                }
+        });
     }
 }

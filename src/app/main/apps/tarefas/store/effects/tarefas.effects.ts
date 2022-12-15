@@ -179,6 +179,7 @@ export class TarefasEffect {
                 'processo.documentoAvulsoOrigem',
                 'especieTarefa',
                 'usuarioResponsavel',
+                'usuarioResponsavel.colaborador',
                 'setorResponsavel',
                 'setorResponsavel.unidade',
                 'setorOrigem',

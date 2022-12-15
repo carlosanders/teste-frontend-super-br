@@ -5,13 +5,15 @@ export interface ObjetoAvaliadoState {
     saving: boolean;
     errors: any;
     loading: boolean;
+    loaded: any;
 }
 
 export const objetoAvaliadoInitialState: ObjetoAvaliadoState = {
     objetoAvaliadoId: null,
     saving: false,
     errors: false,
-    loading: false
+    loading: false,
+    loaded: false
 };
 
 export const objetoAvaliadoReducer = (
@@ -24,6 +26,7 @@ export const objetoAvaliadoReducer = (
             return {
                 ...state,
                 objetoAvaliadoId: null,
+                errors: false,
                 loading: true
             };
         }
@@ -33,6 +36,8 @@ export const objetoAvaliadoReducer = (
             return {
                 ...state,
                 objetoAvaliadoId: action.payload.objetoAvaliadoId,
+                loaded: action.payload.loaded,
+                errors: false,
                 loading: false
             };
         }
@@ -40,7 +45,8 @@ export const objetoAvaliadoReducer = (
         case ObjetoAvaliadoActions.GET_OBJETO_AVALIADO_FAILED: {
             return {
                 ...state,
-                loading: false
+                loading: false,
+                errors: action.payload
             };
         }
 

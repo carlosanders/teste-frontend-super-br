@@ -154,4 +154,14 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
                 })
             );
     }
+
+    preparaAssinaturaComponente(componentesDigitalId: any = '[]', documentoId: any = '[]', context: any = '{}'): Observable<any> {
+        const p = {};
+        p['componentesDigitalId'] = componentesDigitalId;
+        p['documentoId'] = documentoId;
+        p['processUUID'] = localStorage.getItem('assinador');
+        const params = new HttpParams({fromObject: p});
+        params['context'] = context;
+        return this.http.get(`${environment.api_url}administrativo/${'componente_digital'}` + '/prepara_assinatura_componente' + environment.xdebug, {params});
+    }
 }

@@ -22,3 +22,13 @@ export const getIsLoadingObjetoAvaliado: any = createSelector(
     getObjetoAvaliadoState,
     (state: ObjetoAvaliadoState) => state.loading
 );
+
+export const getObjetoAvaliadoLoaded: any = createSelector(
+    getObjetoAvaliadoState,
+    (state: ObjetoAvaliadoState) => state.loaded
+);
+
+export const getObjetoAvaliadoFromRedux = (objetoId: number, classe: string): any => createSelector(
+    schemaSelectors.getEntities,
+    (entities) => entities?.find(e => e.classe === classe && e.objetoId === objetoId)
+);

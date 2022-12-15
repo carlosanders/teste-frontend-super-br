@@ -1,0 +1,28 @@
+<div class="only-show-on-hover">
+    <button mat-icon-button
+            *ngIf="hasVisibled"
+            [disabled]="hasDisabled"
+            (click)="doOpen()"
+            (mouseenter)="doShowDetail()"
+            aria-label="avaliação">
+        <mat-icon color="primary" class="control-visibility">grade</mat-icon>
+    </button>
+
+    <div class="content-text" #contetText>
+        <div class="loading" *ngIf="(isLoading$ | async) === true">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+        <div *ngIf="(isLoading$ | async) === false">
+            <span *ngFor="let star of stars; let i = index" on-mouseenter="rate(i + 1)"  class="estrelas">
+                <ng-container *ngIf="star; else noIcon">⭐</ng-container>
+                <ng-template #noIcon>★</ng-template>
+            </span>
+            <ng-container>
+                <div class="avaliacoes">
+                    <p>{{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes ?? 0 }} {{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes === 1 ? 'avaliação' : 'avaliações' }}</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+

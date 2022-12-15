@@ -8,7 +8,8 @@ import {Router} from '@angular/router';
 
 import * as fromStore from './store';
 import {getActivateAppState} from './store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'activate',
@@ -25,16 +26,25 @@ export class ActivateComponent implements OnInit, OnDestroy {
     isActivated: boolean;
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    error$: Observable<any>;
+    loading$: Observable<any>;
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+    error: string = '';
+
+
     /**
      *
      * @param cdkConfigService
      * @param _router
      * @param _store
+     * @param _snackBar
      */
     constructor(
         public cdkConfigService: CdkConfigService,
         private _router: Router,
-        private _store: Store<fromStore.ActivateAppState>
+        private _store: Store<fromStore.ActivateAppState>,
+        private _snackBar: MatSnackBar,
     ) {
         // Configure the layout
         this.cdkConfigService.config = {
@@ -56,6 +66,8 @@ export class ActivateComponent implements OnInit, OnDestroy {
 
         this.getActivateState = this._store.pipe(select(getActivateAppState));
         this.isActivated$ = this._store.pipe(select(fromStore.getIsActivated));
+        this.error$ = this._store.pipe(select(fromStore.getErrors));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,19 +78,35 @@ export class ActivateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.loading = false;
 
         this.isActivated$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((isActivated) => {
             this.isActivated = isActivated;
-            this.loading = true;
         });
 
         this.getActivateState.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
-            this.loading = false;
+        });
+
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((loading) => {
+            this.loading = loading;
+        });
+
+        this.error$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
         });
     }
 

@@ -563,6 +563,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');
         }
+        if(this.formProcesso.get('tipoProtocolo').value === 2){
+            //Protocolo existente, descobre no back o NUP provider
+            processo['configuracaoNup'] = null;
+        }
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveProcesso({
