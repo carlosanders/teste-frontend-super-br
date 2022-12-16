@@ -270,7 +270,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'setor',
             'setor.unidade',
             'colaborador',
-            'colaborador.usuario'
+            'colaborador.usuario',
+            'colaborador.usuario.colaborador',
         ];
         this.workflowPagination = new Pagination();
         this.workflowPagination.populate = [
@@ -1311,6 +1312,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     getFavoritosUsuarioResponsavel(): void {
         this.usuarioResponsavelListIsLoading = true;
+        this.usuarioResponsavelPagination['populate'] = ['colaborador'];
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',

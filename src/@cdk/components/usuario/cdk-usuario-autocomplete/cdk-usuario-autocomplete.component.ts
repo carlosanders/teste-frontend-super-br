@@ -131,6 +131,10 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         });
     }
 
+    formatUsuario(usuario: Usuario): string {
+        return
+    }
+
     displayUsernameFn(usuario: Usuario): string {
         if (usuario) {
             if (usuario.username) {
@@ -144,9 +148,8 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     }
 
     displayUsuarioFn(usuario: Usuario): string {
-        const usuarioFormatado = usuario?.colaborador ?
+        return usuario ? ((usuario.colaborador || usuario.roles.includes('ROLE_COLABORADOR')) ?
             TitleCasePipe.format(usuario?.nome) + ' (' + usuario?.username + ')' :
-            TitleCasePipe.format(usuario?.nome) + ' (' + usuario?.username + ')' + ' (Usuário Externo)'
-        return usuario ? usuarioFormatado : null;
+            TitleCasePipe.format(usuario?.nome) + ' (' + usuario?.username + ')' + ' (Usuário Externo)') : null;
     }
 }
