@@ -46,6 +46,7 @@ export class TarefaEditBlocoEffect {
                 'processo.documentoAvulsoOrigem',
                 'especieTarefa',
                 'usuarioResponsavel',
+                'usuarioResponsavel.colaborador',
                 'setorResponsavel',
                 'setorResponsavel.unidade',
                 'setorOrigem',
