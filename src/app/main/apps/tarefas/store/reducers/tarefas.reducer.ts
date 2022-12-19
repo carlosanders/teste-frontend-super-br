@@ -156,6 +156,13 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.CREATE_VINCULACAO_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                error: action.payload
+            };
+        }
+
         case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
