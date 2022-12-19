@@ -52,7 +52,6 @@ import {
     getCienciaTarefaIds,
     getDeletingTarefaIds,
     getDistribuindoTarefaIds,
-    getViewMode,
 } from '../selectors';
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
@@ -224,24 +223,33 @@ export class TarefasEffect {
     ));
     getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
-        mergeMap(action => this._vinculacaoEtiquetaService.query(
-            JSON.stringify({
-                'tarefa.id': 'eq:' + action.payload,
-            }),
-            25,
-            0,
-            JSON.stringify({}),
-            JSON.stringify(['etiqueta'])).pipe(
-            mergeMap(response => [
-                new TarefasActions.GetEtiquetasTarefasSuccess(response),
-                new AddChildData<VinculacaoEtiqueta>({
-                    data: response['entities'],
-                    childSchema: vinculacaoEtiquetaSchema,
-                    parentSchema: tarefaSchema,
-                    parentId: action.payload
-                })
-            ])
+        map(action => action.payload),
+        mergeMap(tarefaId => of(tarefaId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getVinculacoesEtiquetaIdsByTarefaId(tarefaId))).pipe(
+                map(vinculacoesEtiqueta => vinculacoesEtiqueta)
+            ))
         ), 25),
+        mergeMap(([tarefaId, vinculacoesEtiqueta]) => {
+            const offset = vinculacoesEtiqueta ? vinculacoesEtiqueta.length : 0;
+            return this._vinculacaoEtiquetaService.query(
+                JSON.stringify({
+                    'tarefa.id': 'eq:' + tarefaId,
+                }),
+                25,
+                offset,
+                JSON.stringify({}),
+                JSON.stringify(['etiqueta'])).pipe(
+                mergeMap(response => [
+                    new TarefasActions.GetEtiquetasTarefasSuccess(response),
+                    new AddChildData<VinculacaoEtiqueta>({
+                        data: response['entities'],
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: tarefaSchema,
+                        parentId: tarefaId
+                    })
+                ])
+            )
+        }, 25),
         catchError((err) => {
             console.log(err);
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
