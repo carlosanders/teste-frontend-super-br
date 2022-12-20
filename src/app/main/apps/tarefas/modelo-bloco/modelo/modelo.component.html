@@ -4,7 +4,7 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <h2 class="ml-8">Pesquisa de Modelos</h2>
+    <h2 class="ml-8" [hidden]="operacoes.length > 0">Pesquisa de Modelos</h2>
 
     <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && (saving$ | async) === false"
                      [hidden]="operacoes.length > 0"

@@ -72,6 +72,7 @@ export class CdkContatoFormComponent implements OnChanges, OnDestroy, OnInit {
         });
 
         this.usuarioPagination = new Pagination();
+        this.usuarioPagination['populate'] = ['colaborador'];
         this.unidadePagination = new Pagination();
         this.setorPagination = new Pagination();
     }
