@@ -844,6 +844,13 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.CLEAR_ERROR: {
+            return {
+                ...state,
+                error: null
+            };
+        }
+
         default:
             return state;
     }

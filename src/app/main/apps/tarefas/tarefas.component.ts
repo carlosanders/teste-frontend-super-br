@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    ComponentRef,
     ElementRef,
     OnDestroy,
     OnInit,
@@ -63,7 +62,6 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
-import {HasTarefa} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 import {CdkTarefaListService, ViewMode} from '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.service';
@@ -668,6 +666,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 verticalPosition: this.verticalPosition,
                 panelClass: ['danger-snackbar']
             });
+            this._store.dispatch(new fromStore.ClearError());
         });
 
         this._store.pipe(

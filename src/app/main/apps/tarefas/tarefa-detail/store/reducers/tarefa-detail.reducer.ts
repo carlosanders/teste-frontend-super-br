@@ -292,6 +292,19 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
+        case TarefaDetailActions.CLEAR_ERROR: {
+            return {
+                ...state,
+                errors: null
+            };
+        }
+
+        case TarefaDetailActions.UNLOAD_TAREFA_DETAIL: {
+            return {
+                ...TarefaDetailInitialState
+            };
+        }
+
         default:
             return state;
     }

@@ -317,6 +317,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadTarefaDetail());
     }
 
     // -----------------------------------------------------------------------------------------------------
