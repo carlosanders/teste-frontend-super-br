@@ -35,7 +35,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload.errors
             };
         }
 
