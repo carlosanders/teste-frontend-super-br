@@ -20,6 +20,22 @@ export const CONVERTE_MINUTA_EM_ANEXO_FAILED = '[ATIVIDADE DOCUMENTO] CONVERTE M
 
 export const ADD_DOCUMENTO_ID = '[ATIVIDADE DOCUMENTO] ADD DOCUMENTO ID';
 
+export const CREATE_COMPONENTE_DIGITAL = '[ATIVIDADE DOCUMENTO] CREATE COMPONENTE DIGITAL';
+export const CREATE_COMPONENTE_DIGITAL_SUCCESS = '[ATIVIDADE DOCUMENTO] CREATE COMPONENTE DIGITAL SUCCESS';
+
+export const SAVE_COMPONENTE_DIGITAL_MINUTA = '[ATIVIDADE DOCUMENTO] SAVE COMPONENTE DIGITAL';
+export const SAVE_COMPONENTE_DIGITAL_MINUTA_SUCCESS = '[ATIVIDADE DOCUMENTO] SAVE COMPONENTE DIGITAL SUCCESS';
+export const SAVE_COMPONENTE_DIGITAL_MINUTA_FAILED = '[ATIVIDADE DOCUMENTO] SAVE COMPONENTE DIGITAL FAILED';
+
+export const GET_DOCUMENTO = '[ATIVIDADE DOCUMENTO] GET DOCUMENTO';
+export const GET_DOCUMENTO_SUCCESS = '[ATIVIDADE DOCUMENTO] GET DOCUMENTO SUCCESS';
+export const GET_DOCUMENTO_FAILED = '[ATIVIDADE DOCUMENTO] GET DOCUMENTO FAILED';
+
+export const VISUALIZAR_MODELO = '[ATIVIDADE DOCUMENTO] VISUALIZAR MODELO';
+export const VISUALIZAR_MODELO_FAILED = '[ATIVIDADE DOCUMENTO] VISUALIZAR MODELO FAILED';
+
+export const SET_SAVING_MINUTAS = '[ATIVIDADE DOCUMENTO] SET SAVING MINUTAS';
+
 /**
  * Get Documentos
  */
@@ -164,6 +180,135 @@ export class AddDocumentoId implements Action
     }
 }
 
+
+
+/**
+ * Create Componente Digital
+ */
+export class CreateComponenteDigital implements Action
+{
+    readonly type = CREATE_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Componente Digital Success
+ */
+export class CreateComponenteDigitalSuccess implements Action
+{
+    readonly type = CREATE_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+
+/**
+ * Save Componente Digital
+ */
+export class SaveComponenteDigitalMinuta implements Action
+{
+    readonly type = SAVE_COMPONENTE_DIGITAL_MINUTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Componente Digital Success
+ */
+export class SaveComponenteDigitalMinutaSuccess implements Action
+{
+    readonly type = SAVE_COMPONENTE_DIGITAL_MINUTA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Componente Digital Failed
+ */
+export class SaveComponenteDigitalMinutaFailed implements Action
+{
+    readonly type = SAVE_COMPONENTE_DIGITAL_MINUTA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Get Documento
+ */
+export class GetDocumento implements Action
+{
+    readonly type = GET_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documento Success
+ */
+export class GetDocumentoSuccess implements Action
+{
+    readonly type = GET_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documento Failed
+ */
+export class GetDocumentoFailed implements Action
+{
+    readonly type = GET_DOCUMENTO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Visualizar Modelo
+ */
+export class VisualizarModelo implements Action
+{
+    readonly type = VISUALIZAR_MODELO;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Visualizar Modelo Failed
+ */
+export class VisualizarModeloFailed implements Action
+{
+    readonly type = VISUALIZAR_MODELO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+export class SetSavingMinutas implements Action
+{
+    readonly type = SET_SAVING_MINUTAS;
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -178,4 +323,14 @@ export type DocumentosActionsAll
     | ConverteMinutaEmAnexoSuccess
     | ConverteMinutaEmAnexoFailed
     | AddDocumentoId
-    ;
+    | CreateComponenteDigital
+    | CreateComponenteDigitalSuccess
+    | SaveComponenteDigitalMinuta
+    | SaveComponenteDigitalMinutaSuccess
+    | SaveComponenteDigitalMinutaFailed
+    | GetDocumento
+    | GetDocumentoSuccess
+    | GetDocumentoFailed
+    | VisualizarModelo
+    | VisualizarModeloFailed
+    | SetSavingMinutas;

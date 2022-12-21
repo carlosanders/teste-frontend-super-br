@@ -74,6 +74,10 @@ const routes: Routes = [
             {
                 path       : 'acesso-negado/:processoAcessoNegadoHandle',
                 loadChildren: () => import('./acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
+            },
+            {
+                path: 'modelos',
+                loadChildren: () => import('app/main/apps/modelos/modelos.module').then(m => m.ModelosModule),
             }
         ]
     }

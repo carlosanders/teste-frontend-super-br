@@ -52,3 +52,8 @@ export const getSelectedDocumentos: any = createSelector(
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
+
+export const getIsSavingMinutas: any = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.saving
+);

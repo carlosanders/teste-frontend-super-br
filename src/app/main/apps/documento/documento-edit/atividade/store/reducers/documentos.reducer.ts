@@ -1,4 +1,6 @@
 import * as DocumentosActions from '../actions/documentos.actions';
+import * as ComponenteDigitalActions from "../../../../../tarefas/store/actions/componentes-digitais.actions";
+import {SAVE_COMPONENTE_DIGITAL_MINUTA} from "../actions/documentos.actions";
 
 export interface DocumentosState {
     documentosId: number[];
@@ -14,6 +16,8 @@ export interface DocumentosState {
         total: number;
     };
     loading: boolean;
+    saving: boolean;
+    errors: any;
     loaded: any;
 }
 
@@ -31,6 +35,8 @@ export const documentosInitialState: DocumentosState = {
         total: 0,
     },
     loading: false,
+    saving: false,
+    errors: false,
     loaded: false
 };
 
@@ -44,6 +50,7 @@ export const documentosReducer = (
             return {
                 ...state,
                 loading: true,
+                saving: false,
                 pagination: {
                     ...state.pagination,
                     ...action.payload
@@ -60,14 +67,16 @@ export const documentosReducer = (
                     ...state.pagination,
                     total: action.payload.total
                 },
-                loading: false
+                loading: false,
+                saving: false
             };
         }
 
         case DocumentosActions.GET_DOCUMENTOS_FAILED: {
             return {
                 ...state,
-                loading: false
+                loading: false,
+                saving: false
             };
         }
 
@@ -154,6 +163,50 @@ export const documentosReducer = (
                     total: state.pagination.total+1
                 }
             };
+        }
+
+        case DocumentosActions.CREATE_COMPONENTE_DIGITAL: {
+            return {
+                ...state,
+                errors: false,
+                loading: true,
+                loaded: false
+            };
+        }
+
+        case DocumentosActions.SAVE_COMPONENTE_DIGITAL_MINUTA: {
+            return {
+                ...state,
+                saving: true,
+                loading: true,
+                loaded: false
+            };
+        }
+
+        case DocumentosActions.SAVE_COMPONENTE_DIGITAL_MINUTA_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false,
+                loading: false,
+                loaded: true
+            };
+        }
+
+        case DocumentosActions.SAVE_COMPONENTE_DIGITAL_MINUTA_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload.error,
+                loading: false
+            };
+        }
+
+        case DocumentosActions.SET_SAVING_MINUTAS: {
+            return {
+                ...state,
+                saving: !state.loading
+            }
         }
 
         default:
