@@ -39,6 +39,12 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
+        case ProcessoActions.UNLOAD: {
+            return {
+                ...ProcessoInitialState
+            };
+        }
+
         default:
             return state;
     }
