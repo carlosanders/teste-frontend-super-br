@@ -401,25 +401,6 @@ export const CdkDocumentoAvulsoGridColumns: TableDefinitions = {
             }
         },
         <TableColumn> {
-            id: 'tarefaOrigem.especieTarefa.nome',
-            headerLabel: 'Tarefa',
-            dataLabel: 'Tarefa: ',
-            dataValue: (documentoAvulso: DocumentoAvulso, scope: CdkDocumentoAvulsoGridComponent) => documentoAvulso?.tarefaOrigem?.especieTarefa?.nome,
-            dataClass: (documentoAvulso: DocumentoAvulso, scope: CdkDocumentoAvulsoGridComponent) => {
-                return {'deleted':scope.deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso?.apagadoEm, 'error': scope.getProp(scope.deletingErrors, documentoAvulso.id)};
-            },
-            definitions: <TableColumnDefinitions>{
-                fixed: false,
-                excluded: false,
-                selected: false,
-                order: 240,
-                slave: false,
-                width: 0,
-                resizable: false,
-                ordable: false,
-            }
-        },
-        <TableColumn> {
             id: 'usuarioResponsavel.nome',
             headerLabel: 'Usuário Responsável',
             dataLabel: 'Usuario Responsavel: ',
