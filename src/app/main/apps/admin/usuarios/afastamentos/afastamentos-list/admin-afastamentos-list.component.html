@@ -12,7 +12,7 @@
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'dataInicio', 'dataInicioBloqueio', 'dataFim', 'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions']"
-    [actions]="['create', 'edit', 'delete']"
+    [actions]="['create', 'edit', 'delete', 'showDeleted']"
     [colaboradorPagination]="this.colaboradorPagination"
     (reload)="reload($event)"
     (create)="create()"

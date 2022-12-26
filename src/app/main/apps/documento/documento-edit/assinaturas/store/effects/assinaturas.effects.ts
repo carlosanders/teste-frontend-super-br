@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as AssinaturaActions from '../actions/assinaturas.actions';
+import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
+import * as fromStore from '../index';
 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assinatura} from '@cdk/models';
@@ -24,7 +25,7 @@ export class AssinaturasEffects {
      * @type {Observable<any>}
      */
     getAssinatura: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AssinaturaActions.GetAssinatura>(AssinaturaActions.GET_ASSINATURA_DOCUMENTO),
+        ofType<fromStore.GetAssinatura>(fromStore.GET_ASSINATURA_DOCUMENTO),
         switchMap(action => this._assinaturaService.query(JSON.stringify({
                 id: 'eq:' + action.payload.assinaturaId
             }),
@@ -36,7 +37,7 @@ export class AssinaturasEffects {
             ]))),
         switchMap(response => [
             new AddData<Assinatura>({data: response['entities'], schema: assinaturaSchema}),
-            new AssinaturaActions.GetAssinaturaSuccess({
+            new fromStore.GetAssinaturaSuccess({
                 loaded: {
                     id: 'assinaturaHandle',
                     value: response['entities'][0].id
@@ -46,7 +47,7 @@ export class AssinaturasEffects {
         ]),
         catchError((err) => {
             console.log(err);
-            return of(new AssinaturaActions.GetAssinaturaFailed(err));
+            return of(new fromStore.GetAssinaturaFailed(err));
         })
     ));
     /**
@@ -55,7 +56,7 @@ export class AssinaturasEffects {
      * @type {Observable<any>}
      */
     getAssinaturas: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AssinaturaActions.GetAssinaturas>(AssinaturaActions.GET_ASSINATURAS_DOCUMENTO),
+        ofType<fromStore.GetAssinaturas>(fromStore.GET_ASSINATURAS_DOCUMENTO),
         switchMap((action) => {
 
             const params = {
@@ -79,7 +80,7 @@ export class AssinaturasEffects {
         }),
         mergeMap(response => [
             new AddData<Assinatura>({data: response['entities'], schema: assinaturaSchema}),
-            new AssinaturaActions.GetAssinaturasSuccess({
+            new fromStore.GetAssinaturasSuccess({
                 entitiesId: response['entities'].map(assinatura => assinatura.id),
                 loaded: {
                     id: 'componenteDigitalHandle',
@@ -90,7 +91,7 @@ export class AssinaturasEffects {
         ]),
         catchError((err) => {
             console.log(err);
-            return of(new AssinaturaActions.GetAssinaturasFailed(err));
+            return of(new fromStore.GetAssinaturasFailed(err));
         })
     ));
     /**
@@ -98,8 +99,8 @@ export class AssinaturasEffects {
      *
      * @type {Observable<any>}
      */
-    deleteAssinatura: Observable<AssinaturaActions.AssinaturaActionsAll> = createEffect(() => this._actions.pipe(
-        ofType<AssinaturaActions.DeleteAssinatura>(AssinaturaActions.DELETE_ASSINATURA_DOCUMENTO),
+    deleteAssinatura: Observable<fromStore.AssinaturaActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<fromStore.DeleteAssinatura>(fromStore.DELETE_ASSINATURA_DOCUMENTO),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'assinatura',
@@ -121,7 +122,7 @@ export class AssinaturasEffects {
                     schema: assinaturaSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new AssinaturaActions.DeleteAssinaturaSuccess({assinaturaId: response.id, documentoId: action.payload.documentoId});
+                return new fromStore.DeleteAssinaturaSuccess({assinaturaId: response.id, documentoId: action.payload.documentoId});
             }),
             catchError((err) => {
                 const payload = {
@@ -136,7 +137,7 @@ export class AssinaturasEffects {
                     lote: action.payload.loteId
                 }));
                 console.log(err);
-                return of(new AssinaturaActions.DeleteAssinaturaFailed(payload));
+                return of(new fromStore.DeleteAssinaturaFailed(payload));
             })
         ), 25)
     ));
@@ -146,7 +147,7 @@ export class AssinaturasEffects {
      * @type {Observable<any>}
      */
     saveAssinatura: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AssinaturaActions.SaveAssinaturaDocumento>(AssinaturaActions.SAVE_ASSINATURA_DOCUMENTO),
+        ofType<fromStore.SaveAssinaturaDocumento>(fromStore.SAVE_ASSINATURA_DOCUMENTO),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'assinatura',
@@ -163,8 +164,8 @@ export class AssinaturasEffects {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: Assinatura) => [
-                new AssinaturaActions.SaveAssinaturaDocumentoSuccess(),
-                new AssinaturaActions.GetAssinaturas(action.payload.documentoId),
+                new fromStore.SaveAssinaturaDocumentoSuccess(),
+                new fromStore.GetAssinaturas(action.payload.documentoId),
                 new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
             ]),
             catchError((err) => {
@@ -176,10 +177,45 @@ export class AssinaturasEffects {
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));
-                return of(new AssinaturaActions.SaveAssinaturaDocumentoFailed(err));
+                return of(new fromStore.SaveAssinaturaDocumentoFailed(err));
             })
         ))
     ));
+
+    /**
+     * Ações relacionadas a assinatura de minutas com sucesso
+     */
+    assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.AssinaDocumentoSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new fromStore.GetAssinaturas({
+                filter: {
+                    'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
+                },
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: []
+            }));
+        })
+    ), {dispatch: false});
+    /**
+     * Ações referentes a sucesso na assinatura eletrônica de componente digital
+     */
+    assinaDocumentoEletronicamenteSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.AssinaDocumentoEletronicamenteSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new fromStore.GetAssinaturas({
+                filter: {
+                    'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
+                },
+                sort: {},
+                limit: 10,
+                offset: 0,
+                populate: []
+            }));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

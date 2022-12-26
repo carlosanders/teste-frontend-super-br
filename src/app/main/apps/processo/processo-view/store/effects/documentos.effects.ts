@@ -21,9 +21,7 @@ import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {GetJuntadaDocumentoVinculado} from '../actions';
-import {ProcessoService} from "../../../../../../../@cdk/services/processo.service";
-import * as JuntadaListActions from "../../../processo-edit/juntadas/juntada-list/store/actions";
-import {DeleteVisibilidadeDocumentos} from "../actions/documentos.actions";
+import {ProcessoService} from '@cdk/services/processo.service';
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {

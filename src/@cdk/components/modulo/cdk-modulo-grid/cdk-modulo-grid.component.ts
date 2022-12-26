@@ -165,9 +165,6 @@ export class CdkModuloGridComponent implements AfterViewInit, OnInit, OnChanges 
         const ElementQueries = require('css-element-queries/src/ElementQueries');
         ElementQueries.listen();
         ElementQueries.init();
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.nextPageLabel = 'Seguinte';
-        this.paginator._intl.previousPageLabel = 'Anterior';
         this.paginator.pageSize = this.pageSize;
         this.dataSource = new ModuloDataSource(of(this.modulos));
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

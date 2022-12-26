@@ -61,6 +61,9 @@ export class CdkRegraEtiquetaFormComponent implements OnInit, OnChanges, OnDestr
     @Input()
     usuarioRecebidoPagination: Pagination;
 
+    @Input()
+    assuntoAdministrativoPagination: Pagination;
+
     /**
      * Constructor
      */

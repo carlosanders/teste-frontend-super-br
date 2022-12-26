@@ -1,6 +1,6 @@
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
-export type ProcessoViewActiveCard = 'juntadas' | 'bookmark' | 'juntadas-select';
+export type ProcessoViewActiveCard = 'juntadas' | 'bookmark' | 'juntadas-select' | 'juntadas-desvincular' | 'juntadas-assinar';
 
 export interface ProcessoViewState {
     entitiesId: number[];
@@ -31,6 +31,7 @@ export interface ProcessoViewState {
     activeCard: ProcessoViewActiveCard;
     pagina: number;
     selectedJuntadasId: number[];
+    selectedJuntadasVinculadasId: number[];
 }
 
 export const processoViewInitialState: ProcessoViewState = {
@@ -60,7 +61,8 @@ export const processoViewInitialState: ProcessoViewState = {
     expandir: false,
     activeCard: 'juntadas',
     pagina: null,
-    selectedJuntadasId: []
+    selectedJuntadasId: [],
+    selectedJuntadasVinculadasId: [],
 };
 
 export const processoViewReducer = (state = processoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState => {
@@ -378,10 +380,19 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.TOGGLE_SELECT_JUNTADA_VINCULADA_ID: {
+            return {
+                ...state,
+                selectedJuntadasVinculadasId: state.selectedJuntadasVinculadasId.includes(action.payload) ?
+                    [...state.selectedJuntadasVinculadasId.filter((id) => id !== action.payload)] : [...state.selectedJuntadasVinculadasId, action.payload]
+            };
+        }
+
         case ProcessoViewActions.UNLOAD_SELECTED_JUNTADAS_ID: {
             return {
                 ...state,
-                selectedJuntadasId: []
+                selectedJuntadasId: [],
+                selectedJuntadasVinculadasId: []
             };
         }
         default:

@@ -41,16 +41,6 @@ export const getAlterandoDocumentosId: any = createSelector(
     (state: ProcessoViewDocumentosState) => state.alterandoDocumentoIds
 );
 
-export const getAssinandoDocumentosId: any = createSelector(
-    getProcessoViewDocumentosState,
-    (state: ProcessoViewDocumentosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getProcessoViewDocumentosState,
-    (state: ProcessoViewDocumentosState) => state.removendoAssinaturaDocumentoIds
-);
-
 export const getSelectedDocumentoIds: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.selectedDocumentosId
@@ -103,6 +93,11 @@ export const getLixeiraMinutas: any = createSelector(
 export const getBufferingDelete: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.bufferingDelete
+);
+
+export const getRemovendoVinculacoesDocumentoIds: any = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.removendoVinculacoesDocumentoIds
 );
 
 export const getErrorsDocumentos: any = createSelector(

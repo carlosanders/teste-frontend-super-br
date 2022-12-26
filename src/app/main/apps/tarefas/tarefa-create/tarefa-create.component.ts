@@ -96,7 +96,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.setorOrigemPaginationTree = new Pagination();
         this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
         this.lotacaoPagination = new Pagination();
-        this.lotacaoPagination.populate = ['colaborador', 'colaborador.usuario', 'setor', 'setor.unidade'];
+        this.lotacaoPagination.populate = ['colaborador', 'colaborador.usuario', 'colaborador.usuario.colaborador', 'setor', 'setor.unidade'];
         this.lotacaoPagination.context = {
             'semAfastamento': true
         };

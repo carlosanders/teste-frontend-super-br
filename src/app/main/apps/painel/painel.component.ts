@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import {FormControl} from '@angular/forms';
 import {of, Subject, switchMap, zip} from 'rxjs';
 import {CacheGenericUserDataService} from '@cdk/services/cache.service';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'painel',
@@ -147,7 +147,9 @@ export class PainelComponent implements OnInit, OnDestroy{
             widgets,
             PainelComponent.PAINEL_WIDGETS_CACHE_KEY,
             60 * 60 * 24 * 1000
-        );
+        ).pipe(
+            take(1)
+        ).subscribe();
         this._changeDetectorRef.detectChanges();
     }
 

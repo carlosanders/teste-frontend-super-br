@@ -20,6 +20,8 @@ RUN npm install --legacy-peer-deps --package-lock=false
 
 COPY . /var/www/html
 
+COPY docker/pkg/pdf.worker.js /var/www/html/node_modules/ng2-pdfjs-viewer/pdfjs/build/pdf.worker.js
+
 RUN node --max_old_space_size=12192 node_modules/@angular/cli/bin/ng build --configuration production
 
 FROM nginx:stable-alpine

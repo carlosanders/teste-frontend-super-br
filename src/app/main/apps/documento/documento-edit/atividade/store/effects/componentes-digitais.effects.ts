@@ -2,9 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
+import * as ComponentesDigitaisModeloActions from '../../../../../modelos/modelo/store/actions/componentes-digitais.actions';
+import * as ComponentesDigitaisAcervoActions from '../../../../../modelos/componentes-digitais/store/actions/componentes-digitais.actions';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
@@ -16,6 +18,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
 import {CriadoAnexoDocumento} from '../../../../store';
+import * as TarefasActions from '../../../../../tarefas/store/actions/tarefas.actions';
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -224,6 +227,42 @@ export class ComponenteDigitalEffects {
             );
         })
     ));
+    /* Ações referentes ao editor de modelos de minutas,
+     * que o painel de tarefas fica observando
+     */
+    createModelo: any = createEffect(() => this._actions.pipe(
+        ofType<ComponentesDigitaisModeloActions.SaveComponenteDigitalSuccess>(ComponentesDigitaisModeloActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        withLatestFrom(this._store.pipe(select(fromStore.getDocumentosPagination))),
+        tap(([action, pagination]) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
+            let offset = pagination.offset + pagination.limit;
+            if (offset > pagination.total) {
+                offset = pagination.total;
+            }
+            this._store.dispatch(new fromStore.GetDocumentos({
+                limit: pagination.limit,
+                offset: offset
+            }));
+        })
+    ), {dispatch: false});
+    /* Ações referentes ao editor de acervos,
+     * que o painel de tarefas fica observando
+     */
+    createAcervo: any = createEffect(() => this._actions.pipe(
+        ofType<ComponentesDigitaisAcervoActions.SaveComponenteDigitalSuccess>(ComponentesDigitaisAcervoActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        withLatestFrom(this._store.pipe(select(fromStore.getDocumentosPagination))),
+        tap(([action, pagination]) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
+            let offset = pagination.offset + pagination.limit;
+            if (offset > pagination.total) {
+                offset = pagination.total;
+            }
+            this._store.dispatch(new fromStore.GetDocumentos({
+                limit: pagination.limit,
+                offset: offset
+            }));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

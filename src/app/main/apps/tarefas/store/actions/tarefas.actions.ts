@@ -146,11 +146,9 @@ export const UPLOAD_CONCLUIDO = '[TAREFAS] UPLOAD CONCLUIDO';
 
 export const CHANGE_VIEW_MODE = '[TAREFAS] CHANGE VIEW MODE';
 
-
 export const GET_ACOES_ETIQUETA = '[TAREFAS] GET ACOES ETIQUETA';
 export const GET_ACOES_ETIQUETA_SUCCESS = '[TAREFAS] GET ACOES ETIQUETA SUCCESS';
 export const GET_ACOES_ETIQUETA_FAILED = '[TAREFAS] GET ACOES ETIQUETA FAILED';
-
 
 export const APROVAR_SUGESTAO = '[TAREFAS] APROVAR SUGESTAO';
 export const APROVAR_SUGESTAO_SUCCESS = '[TAREFAS] APROVAR SUGESTAO SUCCESS';
@@ -161,6 +159,8 @@ export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFAS] RELOAD VINCULACAO_ETIQUETA'
 export const TOGGLE_GROUP = '[TAREFAS] TOGGLE GROUP';
 
 export const UNLOAD_GROUP = '[TAREFAS] UNLOAD GROUP';
+
+export const CLEAR_ERROR = '[TAREFAS] CLEAR ERROR';
 
 /**
  * Unload Tarefas
@@ -1348,6 +1348,10 @@ export class UnloadGroup implements Action {
     readonly type = UNLOAD_GROUP;
 }
 
+export class ClearError implements Action {
+    readonly type = CLEAR_ERROR;
+}
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -1464,4 +1468,5 @@ export type TarefasActionsAll
     | AprovarSugestaoFailed
     | ReloadVinculacaoEtiqueta
     | ToggleGroup
-    | UnloadGroup;
+    | UnloadGroup
+    | ClearError;

@@ -79,6 +79,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
                         if (this.filtrarPor && this.filtrarPor === 'username') {
                             this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
                             andxFilter.push({
@@ -130,6 +131,10 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         });
     }
 
+    formatUsuario(usuario: Usuario): string {
+        return
+    }
+
     displayUsernameFn(usuario: Usuario): string {
         if (usuario) {
             if (usuario.username) {
@@ -143,6 +148,8 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     }
 
     displayUsuarioFn(usuario: Usuario): string {
-        return usuario ? TitleCasePipe.format(usuario.nome) + ' (' + usuario.username + ')' : null;
+        return usuario ? ((usuario.colaborador || usuario.roles.includes('ROLE_COLABORADOR')) ?
+            TitleCasePipe.format(usuario?.nome) + ' (' + usuario?.username + ')' :
+            TitleCasePipe.format(usuario?.nome) + ' (' + usuario?.username + ')' + ' (Usuário Externo)') : null;
     }
 }

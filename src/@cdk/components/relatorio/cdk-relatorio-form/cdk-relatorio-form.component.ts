@@ -203,7 +203,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value && typeof value === 'object' && value.parametros) {
+                    if (value && typeof value === 'object' && value.parametros && value.parametros !== ' ') {
                         this.processaParametros(value);
                     } else {
                         this.invalid = false;

@@ -15,6 +15,8 @@ import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/ativid
 import {DocumentoService} from '../../../../../../../@cdk/services/documento.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
+import * as ModeloComponenteDigitalActions from "../../../modelo/store/actions/componentes-digitais.actions";
+import * as TarefasActions from "../../../../tarefas/store/actions/tarefas.actions";
 
 @Injectable()
 export class ComponentesDigitaisEffect {
@@ -203,7 +205,6 @@ export class ComponentesDigitaisEffect {
             return of(new ComponentesDigitaisActions.GetComponentesDigitaisFailed(err));
         })
     ));
-
     constructor(
         private _actions: Actions,
         private _componenteDigitalService: ComponenteDigitalService,

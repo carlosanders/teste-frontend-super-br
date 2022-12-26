@@ -1,9 +1,70 @@
 <div class="atividade" *ngIf="this.atividade && this.tarefa">
+    <button mat-mini-fab
+            class="ml-8 mb-8 active accent add-file-button"
+            *ngIf="this.routerState.params['typeHandle'] === 'minhas-tarefas'"
+            [matMenuTriggerFor]="moreMenuMinuta" aria-label="Criar Minuta"
+            #menuTriggerList="matMenuTrigger"
+            (click)="$event.stopPropagation()">
+        <mat-icon class="secondary-text">add</mat-icon>
+    </button>
+    <mat-menu #moreMenuMinuta="matMenu">
+        <button mat-menu-item aria-label="upload de minuta"
+                (click)="uploadMinuta()">
+            <ng-container>
+                <span>Upload</span>
+            </ng-container>
+        </button>
+
+        <button mat-menu-item aria-label="editor de modelos" [matMenuTriggerFor]="modeloMenu">
+            Editor
+        </button>
+    </mat-menu>
+
+    <mat-menu #modeloMenu="matMenu">
+        <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
+        <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
+              fxLayoutAlign="start"
+              (submit)="doEditor()"
+              fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                    <input matInput placeholder="Nome ou Id"
+                           formControlName="modelo"
+                           #autoCompleteModelos
+                           [matAutocomplete]="modelo.autocomplete"
+                           (blur)="checkModelo()">
+                </div>
+                <cdk-modelo-autocomplete
+                    #modelo="modeloAutocomplete"
+                    [modeloListIsLoading]="modeloListIsLoading"
+                    [modeloList]="modeloList"
+                    [control]="formEditor.get('modelo')"
+                    [pagination]="modeloPagination">
+                </cdk-modelo-autocomplete>
+                <button matSuffix mat-button mat-icon-button type="button"
+                        (click)="$event.stopPropagation(); getFavoritosMinuta(autoCompleteModelos)">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button type="button"
+                        (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
+                    <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button type="button"
+                        (click)="$event.stopPropagation(); showModelosGrid()">
+                    <mat-icon matTooltip="Procurar em todos os modelos">search</mat-icon>
+                </button>
+            </mat-form-field>
+            <button mat-raised-button color="accent" type="submit" [disabled]="!formEditorValid">
+                CRIAR MINUTA
+            </button>
+        </form>
+    </mat-menu>
     <cdk-minutas-atividade-card-list
         [assinandoId]="(assinandoDocumentosId$ | async)"
         [alterandoId]="(alterandoDocumentosId$ | async)"
         [documentos]="minutas"
         [selectedIds]="(selectedIds$ | async)"
+        [saving]="(isSavingMinutas$ | async)"
         [mode]="'editor'"
         [disabledSelects]="disabledIds"
         [currentDocumentoId]="documento?.id"
@@ -18,6 +79,13 @@
         (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
         (changedSelectedIds)="changedSelectedIds($event)">
     </cdk-minutas-atividade-card-list>
+
+    <cdk-componente-digital-card-list #ckdUploadMinuta
+                                      [tarefaOrigem]="tarefa"
+                                      [uploadMode]="'linear'"
+                                      (completed)="onCompleteMinuta()"
+                                      (completedAll)="onCompleteAllMinutas()">
+    </cdk-componente-digital-card-list>
 
     <div *ngIf="(loadingDocumentos$ | async) === true" class="spinner-container m-8">
         <mat-spinner diameter="24"></mat-spinner>

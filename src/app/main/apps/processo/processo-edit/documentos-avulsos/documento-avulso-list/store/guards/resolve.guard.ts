@@ -107,7 +107,6 @@ export class ResolveGuard implements CanActivate {
                             'documentoRemessa',
                             'documentoResposta',
                             'setorResponsavel',
-                            'tarefaOrigem',
                             'usuarioRemessa',
                             'usuarioResposta',
                             'criadoPor',

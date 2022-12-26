@@ -74,6 +74,9 @@ export const APROVAR_SUGESTAO_SUCCESS = '[TAREFA DETAIL] APROVAR SUGESTAO SUCCES
 export const APROVAR_SUGESTAO_FAILED = '[TAREFA DETAIL] APROVAR SUGESTAO FAILED';
 export const RELOAD_VINCULACAO_ETIQUETA = '[TAREFA DETAIL] RELOAD VINCULACAO_ETIQUETA';
 
+export const CLEAR_ERROR = '[TAREFA DETAIL] CLEAR ERROR';
+export const UNLOAD_TAREFA_DETAIL = '[TAREFA DETAIL] UNLOAD TAREFA DETAIL';
+
 /**
  * Get Tarefa
  */
@@ -658,6 +661,14 @@ export class ReloadVinculacaoEtiqueta implements Action {
     }
 }
 
+export class ClearError implements Action {
+    readonly type = CLEAR_ERROR;
+}
+
+export class UnloadTarefaDetail implements Action {
+    readonly type = UNLOAD_TAREFA_DETAIL;
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -712,4 +723,5 @@ export type TarefaDetailActionsAll
     | AprovarSugestaoSuccess
     | AprovarSugestaoFailed
     | ReloadVinculacaoEtiqueta
-    ;
+    | ClearError
+    | UnloadTarefaDetail;

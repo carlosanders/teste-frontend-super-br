@@ -85,12 +85,12 @@ export class DocumentoAvulsoEditEffects {
                     documentoAvulsoUuid: response.uuid,
                     uuid: action.payload.uuid
                 })
-            ])
-        )),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoFailed(err));
-        })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoFailed(err));
+            })
+        ))
     ));
     /**
      * Remeter Documento Avulso

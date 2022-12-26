@@ -60,6 +60,9 @@
                 </div>
 
                 <div class="right">
+                    <button mat-mini-fab *ngIf="componenteDigital?.id && !componenteDigital.assinado" #btnAssinaturas (click)="doLoadAssinaturas()">
+                        <mat-icon class="mat-18">lock_open</mat-icon>
+                    </button>
                     <button mat-mini-fab *ngIf="componenteDigital?.id && componenteDigital.assinado" #btnAssinaturas (click)="doLoadAssinaturas()">
                         <mat-icon class="mat-18">lock</mat-icon>
                     </button>
@@ -86,8 +89,9 @@
                                      [loading]="(assinaturasIsLoading$ | async)"
                                      [assinaturas]="(assinaturas$ | async)"
                                      [total]="(assinaturasPagination$ | async)?.total"
-                                     [actions]="[]"
-                                     (reload)="doReloadAssinaturas($event)">
+                                     [actions]="['create']"
+                                     (reload)="doReloadAssinaturas($event)"
+                                     (create)="doAssinaDocumento()">
                 </cdk-assinatura-grid>
             </ng-template>
         </div>
