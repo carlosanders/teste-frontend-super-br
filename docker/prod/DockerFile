@@ -1,5 +1,5 @@
 # build
-FROM node:18.12.0-alpine AS build
+FROM node:18.12.1-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=12192
 ENV CYPRESS_CACHE_FOLDER=./tmp/Cypress
@@ -14,7 +14,7 @@ RUN apk add python3 make g++
 
 RUN npm install npm@8.19.2 -g
 
-RUN npm install -g @angular/cli@14.2.9
+RUN npm install -g @angular/cli@14.2.10
 
 RUN npm install --legacy-peer-deps --package-lock=false
 
