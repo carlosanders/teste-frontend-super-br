@@ -1093,3 +1093,4 @@
 * Na edição de departamento ("Unidade") no campo e-mail não aparece um feedback descritivo para o usuário #971
 * Botão de 'Salvar' encontra-se desabilitado na tela de criação de 'Relatórios'. #921
 * Códigos da árvore de classificações encontram-se desordenados na tela de criação de processo. #928
+* Correções de bug de upgrade de dependencias
