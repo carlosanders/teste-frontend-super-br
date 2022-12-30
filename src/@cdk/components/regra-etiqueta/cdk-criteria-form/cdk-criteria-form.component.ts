@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Colaborador, Criteria, Pagination, Setor, Usuario} from '@cdk/models';
+import {AssuntoAdministrativo, Colaborador, Criteria, Pagination, Setor, Usuario} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -58,6 +58,9 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
     setorRecebidoPagination: Pagination;
 
     @Input()
+    assuntoAdministrativoPagination: Pagination;
+
+    @Input()
     form: FormGroup;
 
     criteriaSelect = new FormControl();
@@ -65,6 +68,10 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
     activeCard = 'form';
 
     _profile: Colaborador;
+
+    assuntoAdministrativoList: AssuntoAdministrativo[] = [];
+
+    assuntoAdministrativoListIsLoading: boolean;
 
 
     /**
@@ -86,7 +93,8 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
             setor: [null],
             usuario: [null],
             valor: [null],
-            exibicao: [null]
+            exibicao: [null],
+            assuntoAdministrativo: [null]
         });
         this.unidadeRecebidoPagination = new Pagination();
         this.unidadeRecebidoPagination.filter = {parent: 'isNull'};
@@ -170,6 +178,20 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object' && this.criteriaSelect.value?.id === 4) {
+                        this.form.get('valor').setValue(value.id, {emitEvent: false});
+                        this.form.get('exibicao').setValue(value.nome);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('assuntoAdministrativo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.criteriaSelect.value?.id === 5) {
                         this.form.get('valor').setValue(value.id, {emitEvent: false});
                         this.form.get('exibicao').setValue(value.nome);
                         this._changeDetectorRef.markForCheck();
@@ -309,6 +331,28 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
     selectUsuarioRecebido(usuario: Usuario): void {
         if (usuario) {
             this.form.get('usuario').setValue(usuario);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkAssuntoAdministrativo(): void {
+        const value = this.form.get('assuntoAdministrativo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('assuntoAdministrativo').setValue(null);
+        }
+    }
+
+    showAssuntoAdministrativoGrid(): void {
+        this.activeCard = 'assunto-administrativo-gridsearch';
+    }
+
+    showAssuntoAdministrativoGridTree(): void {
+        this.activeCard = 'assunto-administrativo-grid-tree';
+    }
+
+    selectAssuntoAdministrativo(assuntoAdministrativo: AssuntoAdministrativo): void {
+        if (assuntoAdministrativo) {
+            this.form.get('assuntoAdministrativo').setValue(assuntoAdministrativo);
         }
         this.activeCard = 'form';
     }

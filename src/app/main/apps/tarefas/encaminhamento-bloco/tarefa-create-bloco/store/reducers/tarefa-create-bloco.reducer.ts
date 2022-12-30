@@ -32,7 +32,7 @@ export function TarefaCreateBlocoReducer(
         case TarefaCreateBlocoActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.tarefa?.processo?.id)
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo?.id)
             };
         }
 

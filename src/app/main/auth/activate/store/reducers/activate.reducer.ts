@@ -22,6 +22,7 @@ export function ActivateReducer(
             return {
                 ...state,
                 errors: false,
+                loading: true,
                 isActivated: false
             };
         }
@@ -30,6 +31,7 @@ export function ActivateReducer(
             return {
                 ...state,
                 loaded: action.payload.loaded,
+                loading: false,
                 errors: false,
                 isActivated: action.payload.usuario.enabled
             };
@@ -39,7 +41,8 @@ export function ActivateReducer(
             return {
                 ...state,
                 errors: action.payload,
-                isActivated: false
+                isActivated: false,
+                loading: false,
             };
         }
 

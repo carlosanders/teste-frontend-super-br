@@ -1074,3 +1074,23 @@
 * Correção em outro local onde a assinatura poderia ocorrer de forma duplicada
 * Correção de erros na lista de tarefas após implementação dos filtros de buscar todas
 * Melhoria possibilitando clicar na pasta do atual targetHandle para remover o filtro de todas da pesquisa na lista de tarefas
+* Correção de erro ao remeter ofícios em diversas rotas do painel de tarefas
+* Correção de erro em que criação de ofícios em bloco não atualizava a tela com o resultado das operações
+* Correção de erro em que criação de ofícios em bloco não atualizava etiquetas das tarefas
+* Correção de erro em que criação de ofícios em bloco não exibia na lista de tarefas as tarefas onde ofícios eram criados
+* Correção de erro ao tentar encaminhar processos em bloco criando novas tarefas, que em determinadas situações parava de exibir o formulário
+* Correção de erro que não retirava os processos salvos do estado da aplicação
+* Correção de dependência em internacionalização de MatPaginator em todo o sistema, para se adequar a novas regras do Angular 15
+* Melhoria implementada funcionalidade, na visualização de processo, para desvincular juntadas individualmente
+* Correção de erros na consulta de modelos enviada ao backend em algumas situações no gridsearch de modelos
+* Correção no dialog de confirmação de registro de extravio de documentos/processos no módulo de arquivista
+* Correção de mensagem no dialog de confirmação de relatório excel de tarefas
+
+1.11.0
+
+* Ícones de edição e remoção da capa do processo, nas seções de 'Assuntos' e 'Interessados', não estão funcionais. #953
+* Filtro de assinaturas de um documento juntado não está funcionando. #954
+* Na edição de departamento ("Unidade") no campo e-mail não aparece um feedback descritivo para o usuário #971
+* Botão de 'Salvar' encontra-se desabilitado na tela de criação de 'Relatórios'. #921
+* Códigos da árvore de classificações encontram-se desordenados na tela de criação de processo. #928
+* Correções de bug de upgrade de dependencias

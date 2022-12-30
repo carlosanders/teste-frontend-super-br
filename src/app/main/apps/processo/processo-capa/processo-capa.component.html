@@ -3,6 +3,8 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar *ngIf="(processo !== null)">
+    <ng-template #dynamicComponent></ng-template>
+
     <mat-card class="card">
         <div class="linha">
             <div class="titulo">
@@ -201,6 +203,7 @@
             [loading]="(loadingInteressados$ | async)"
             (reload)="reloadInteressados($event)"
             [interessados]="interessados"
+            [actions]="['']"
             [displayedColumns]="['id', 'pessoa.numeroDocumentoPrincipal', 'pessoa.nome', 'modalidadeInteressado.valor']"
             [total]="(paginationInteressados$ | async)?.total">
         </cdk-interessado-grid>
@@ -212,6 +215,7 @@
             [loading]="(loadingAssuntos$ | async)"
             (reload)="reloadAssuntos($event)"
             [assuntos]="assuntos"
+            [actions]="['']"
             [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
             [total]="(paginationAssuntos$ | async)?.total">
         </cdk-assunto-grid>

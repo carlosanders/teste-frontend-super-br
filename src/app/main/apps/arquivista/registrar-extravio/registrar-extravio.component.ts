@@ -86,13 +86,11 @@ export class RegistrarExtravioComponent implements OnInit, OnDestroy {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Deseja realmente registrar o extravio do processo? NUPs apensos ou anexos também serão registrados como extraviados.'
             },
             disableClose: false
         });
 
-        this.confirmDialogRef
-            .componentInstance
-            .confirmMessage = 'Deseja realmente registrar o extravio do processo? NUPs apensos ou anexos também serão registrados como extraviados.';
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const transicao = new Transicao();

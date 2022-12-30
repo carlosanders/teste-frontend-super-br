@@ -246,6 +246,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
         this.setorResponsavelPaginationTree = new Pagination();
         this.usuarioResponsavelPagination = new Pagination();
+        this.usuarioResponsavelPagination['populate'] = ['colaborador'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade'];
         this.setorOrigemPaginationTree = new Pagination();
@@ -270,7 +271,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'setor',
             'setor.unidade',
             'colaborador',
-            'colaborador.usuario'
+            'colaborador.usuario',
+            'colaborador.usuario.colaborador',
         ];
         this.workflowPagination = new Pagination();
         this.workflowPagination.populate = [
@@ -1311,6 +1313,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     getFavoritosUsuarioResponsavel(): void {
         this.usuarioResponsavelListIsLoading = true;
+        this.usuarioResponsavelPagination['populate'] = ['colaborador'];
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',

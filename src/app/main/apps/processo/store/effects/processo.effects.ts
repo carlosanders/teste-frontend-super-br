@@ -439,6 +439,7 @@ export class ProcessoEffect {
                 [
                     'usuarioResponsavel',
                     'usuarioResponsavel.imgPerfil',
+                    'usuarioResponsavel.colaborador',
                     'setorResponsavel',
                     'setorResponsavel.unidade',
                     'especieTarefa'

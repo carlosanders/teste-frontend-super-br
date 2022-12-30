@@ -1,4 +1,9 @@
 <div class="header">
+    <div class="left" *ngIf="this.routerState?.url.includes('/documento/') !== -1">
+        <button mat-icon-button aria-label="voltar" matTooltip="Voltar" (click)="goBack()">
+            <mat-icon class="black-fg">arrow_back</mat-icon>
+        </button>
+    </div>
     <div class="actions">
         <button mat-icon-button aria-label="pesquisar modelo" matTooltip="Pesquisar Modelo"
                 [routerLink]="'modelo'"

@@ -1,16 +1,18 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
-    QueryList,
-    ViewChildren,
+    QueryList, ViewChild,
+    ViewChildren, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Assunto, Juntada, Pagination, Processo, Tarefa, VinculacaoProcesso} from '@cdk/models';
 import {cdkAnimations} from '@cdk/animations';
+import {modulesConfig} from 'modules/modules-config';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -18,6 +20,7 @@ import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store';
 import {Router} from '@angular/router';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'processo-capa',
@@ -27,7 +30,10 @@ import {Router} from '@angular/router';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoCapaComponent implements OnInit, OnDestroy {
+export class ProcessoCapaComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('dynamicComponent', {read: ViewContainerRef})
+    container: ViewContainerRef;
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -78,12 +84,14 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _router
+     * @param _dynamicService
      * @param _store
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _router: Router,
+        private _dynamicService: DynamicService,
         private _store: Store<fromStore.ProcessoCapaAppState>
     ) {
         this.routerState$ = this._store.pipe(select(getRouterState));
@@ -106,7 +114,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
@@ -126,10 +133,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             } else {
                 this.estaNumProcessoWorkflow = 'NÃO';
             }
-
             this._changeDetectorRef.markForCheck();
         });
-
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -174,6 +179,25 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
         ).subscribe((paginationJuntadas) => {
             this.paginationJuntadas = paginationJuntadas;
+        });
+    }
+
+    ngAfterViewInit(): void {
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
+
+        let path = 'app/main/apps/processo/processo-capa';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path) && this.processo.especieProcesso.generoProcesso.nome === module.name.toUpperCase()) {
+                module.components[path].forEach(((c) => {
+                    this._dynamicService.loadComponent(c)
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.detectChanges();
+                        });
+                }));
+            }
         });
     }
 

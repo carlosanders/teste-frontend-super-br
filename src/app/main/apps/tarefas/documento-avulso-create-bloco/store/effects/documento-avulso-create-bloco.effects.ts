@@ -13,6 +13,7 @@ import {DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class DocumentoAvulsoCreateBlocoEffect {
@@ -40,19 +41,23 @@ export class DocumentoAvulsoCreateBlocoEffect {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: DocumentoAvulso) => [
-                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload),
+                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess({
+                    documentoAvulso: action.payload,
+                    tarefaId: action.payload.tarefaId
+                }),
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
             ]),
             catchError((err) => {
                 const payload = {
                     processoId: action.payload.documentoAvulso.processo.id,
+                    tarefaId: action.payload.tarefaId,
                     errors: err
                 };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'documento avulso',
-                    content: 'Erro ao salvar o documento avulso!',
+                    content: 'Erro ao salvar o documento avulso: ' + CdkUtils.errorsToString(err),
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));

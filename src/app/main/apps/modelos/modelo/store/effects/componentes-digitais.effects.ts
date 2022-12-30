@@ -108,7 +108,8 @@ export class ComponenteDigitalEffect {
             '{}',
             JSON.stringify([
                 'processoOrigem',
-                'tarefaOrigem'
+                'tarefaOrigem',
+                'componentesDigitais'
             ]),
             JSON.stringify({'incluiVinculacaoDocumentoPrincipal': true})
         )),
@@ -118,7 +119,8 @@ export class ComponenteDigitalEffect {
                 schema: documentoSchema,
                 populate: [
                     'processoOrigem',
-                    'tarefaOrigem'
+                    'tarefaOrigem',
+                    'componentesDigitais'
                 ]
             }),
             new ComponenteDigitalActions.GetDocumentoSuccess({
@@ -146,8 +148,20 @@ export class ComponenteDigitalEffect {
             const tarefaId = action.payload.documento.estaVinculada ?
                 action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
                 action.payload.documento.tarefaOrigem.id;
-            const url = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/documento/' + action.payload.documento.id;
+
+            let url = 'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/tarefa/' + tarefaId;
+
+            if (this.routerState.params['processoHandle']) {
+                let stepHandle = this.routerState.params['stepHandle'];
+                const processoId = action.payload.documento.processoOrigem.id;
+                if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'],10)) {
+                    stepHandle = 'latest';
+                }
+                url += '/processo/' + processoId + '/visualizar/' + stepHandle;
+            }
+
+            url += '/documento/' + action.payload.documento.id
 
             this._router.navigate([
                     url,

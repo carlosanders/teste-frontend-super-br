@@ -206,11 +206,6 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
      * @param paginator
      */
     setTablePaginatorData(paginator: MatPaginator): void {
-        paginator._intl.itemsPerPageLabel = 'Registros por página';
-        paginator._intl.nextPageLabel = 'Seguinte';
-        paginator._intl.previousPageLabel = 'Anterior';
-        paginator._intl.firstPageLabel = 'Primeiro';
-        paginator._intl.lastPageLabel = 'Último';
     }
 
     /**

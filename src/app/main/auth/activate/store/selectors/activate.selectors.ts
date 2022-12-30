@@ -30,3 +30,8 @@ export const getErrors: any = createSelector(
     getActivateState,
     (state: ActivateState) => state.errors
 );
+export const getIsLoading: any = createSelector(
+    getActivateState,
+    (state: ActivateState) => state.loading
+);
+

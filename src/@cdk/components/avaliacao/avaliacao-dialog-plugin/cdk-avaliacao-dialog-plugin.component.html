@@ -5,20 +5,17 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
         <div *ngIf="(isLoading$ | async) === false">
-            <span *ngFor="let star of stars; let i = index" on-mouseover="rate(i + 1)" class="estrelas">
-                <ng-container *ngIf="star; else noIcon">
-                    <mat-icon class="yellow-icon ativas">star_border</mat-icon>
-                </ng-container>
-                <ng-template #noIcon>
-                    <mat-icon class="inativas">star</mat-icon>
-                </ng-template>
-            </span>
-            <span class="resultante">{{ avaliacaoResultante }} de {{ quantity }}</span>
-            <ng-container>
-                <span class="error" *ngIf="(errors$ | async)?.error">
+            <span class="error" *ngIf="(errors$ | async)?.error">
                     <mat-icon>error_outline</mat-icon>
-                    {{(errors$ | async)?.error.message}}
+                {{(errors$ | async)?.error.message}}
+            </span>
+            <div class="content-stars">
+                <span *ngFor="let star of stars; let i = index" on-mouseenter="rate(i + 1)"  class="estrelas">
+                    <ng-container *ngIf="star; else noIcon">⭐</ng-container>
+                    <ng-template #noIcon>★</ng-template>
                 </span>
+            </div>
+            <ng-container>
                 <div class="avaliacoes">
                     <p>{{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes ?? 0 }} {{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes === 1 ? 'avaliação' : 'avaliações' }}</p>
                 </div>

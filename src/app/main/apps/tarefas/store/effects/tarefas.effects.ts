@@ -52,7 +52,6 @@ import {
     getCienciaTarefaIds,
     getDeletingTarefaIds,
     getDistribuindoTarefaIds,
-    getViewMode,
 } from '../selectors';
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
@@ -75,11 +74,13 @@ import * as DocumentoOficioVinculadosActions
     from 'app/main/apps/documento/documento-avulso-edit/dados-basicos/store/actions/documentos-vinculados.actions';
 import * as DocumentoAvulsoCreateActions
     from 'app/main/apps/documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
+import * as DocumentoAvulsoCreateBlocoActions
+    from '../../documento-avulso-create-bloco/store/actions/documento-avulso-create-bloco.actions';
 import {
     CRIADO_ANEXO_DOCUMENTO,
     CriadoAnexoDocumento, REMOVIDO_ANEXO_DOCUMENTO,
     RemovidoAnexoDocumento
-} from '../../../documento/store/actions/documento.actions';
+} from '../../../documento/store';
 import {UnloadJuntadas} from '../../../processo/processo-view/store';
 import {navigationConverter} from 'app/navigation/navigation';
 import * as OficiosDocumentosActions from '../../tarefa-detail/oficios/store/actions/documentos.actions';
@@ -177,6 +178,7 @@ export class TarefasEffect {
                 'processo.documentoAvulsoOrigem',
                 'especieTarefa',
                 'usuarioResponsavel',
+                'usuarioResponsavel.colaborador',
                 'setorResponsavel',
                 'setorResponsavel.unidade',
                 'setorOrigem',
@@ -221,24 +223,33 @@ export class TarefasEffect {
     ));
     getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
-        mergeMap(action => this._vinculacaoEtiquetaService.query(
-            JSON.stringify({
-                'tarefa.id': 'eq:' + action.payload,
-            }),
-            25,
-            0,
-            JSON.stringify({}),
-            JSON.stringify(['etiqueta'])).pipe(
-            mergeMap(response => [
-                new TarefasActions.GetEtiquetasTarefasSuccess(response),
-                new AddChildData<VinculacaoEtiqueta>({
-                    data: response['entities'],
-                    childSchema: vinculacaoEtiquetaSchema,
-                    parentSchema: tarefaSchema,
-                    parentId: action.payload
-                })
-            ])
+        map(action => action.payload),
+        mergeMap(tarefaId => of(tarefaId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getVinculacoesEtiquetaIdsByTarefaId(tarefaId))).pipe(
+                map(vinculacoesEtiqueta => vinculacoesEtiqueta)
+            ))
         ), 25),
+        mergeMap(([tarefaId, vinculacoesEtiqueta]) => {
+            const offset = vinculacoesEtiqueta ? vinculacoesEtiqueta.length : 0;
+            return this._vinculacaoEtiquetaService.query(
+                JSON.stringify({
+                    'tarefa.id': 'eq:' + tarefaId,
+                }),
+                25,
+                offset,
+                JSON.stringify({}),
+                JSON.stringify(['etiqueta'])).pipe(
+                mergeMap(response => [
+                    new TarefasActions.GetEtiquetasTarefasSuccess(response),
+                    new AddChildData<VinculacaoEtiqueta>({
+                        data: response['entities'],
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: tarefaSchema,
+                        parentId: tarefaId
+                    })
+                ])
+            )
+        }, 25),
         catchError((err) => {
             console.log(err);
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
@@ -1004,6 +1015,13 @@ export class TarefasEffect {
         ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload));
+        })
+    ), {dispatch: false});
+    /* Ações referentes à criação de ofício de dentro da listagem de tarefas */
+    createOficioBloco: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })
     ), {dispatch: false});
     /* Ações referentes ao editor de modelos de minutas por acervo,

@@ -47,6 +47,7 @@ export class DocumentosVinculadosEffects {
                     'processoOrigem',
                     'setorOrigem',
                     'tarefaOrigem',
+                    'componentesDigitais',
                     'tarefaOrigem.usuarioResponsavel',
                     'tarefaOrigem.vinculacoesEtiquetas',
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',

@@ -22,7 +22,6 @@ import {filter, take, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetJuntada,
-    SetCurrentStep,
 } from '../processo/processo-view/store';
 import {
     GetDocumentos as GetDocumentosAtividade

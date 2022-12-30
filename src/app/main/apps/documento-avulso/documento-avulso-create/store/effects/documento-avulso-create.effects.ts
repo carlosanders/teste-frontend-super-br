@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class DocumentoAvulsoCreateEffect {
@@ -59,14 +60,18 @@ export class DocumentoAvulsoCreateEffect {
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    tarefaId: action.payload.tarefaId,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'documento avulso',
-                    content: 'Erro ao salvar o documento avulso!',
+                    content: 'Erro ao salvar o documento avulso: ' + CdkUtils.errorsToString(err),
                     status: 2, // erro
                 }));
-                return of(new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoFailed(err));
+                return of(new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoFailed(payload));
             })
         ))
     ));

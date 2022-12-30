@@ -19,6 +19,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkUtils} from '@cdk/utils';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'encaminhamento',
@@ -38,6 +39,9 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -46,12 +50,14 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
      *
      * @param _changeDetectorRef
      * @param _store
+     * @param _snackBar
      * @param _router
      * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.EncaminhamentoAppState>,
+        private _snackBar: MatSnackBar,
         private _router: Router,
         private _matDialog: MatDialog,
     ) {
@@ -77,7 +83,18 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
-
+        this.errors$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
     }
 
     /**
@@ -87,6 +104,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.Unload());
     }
 
     // -----------------------------------------------------------------------------------------------------

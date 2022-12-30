@@ -16,7 +16,7 @@ import {
     Assinatura,
     Atividade,
     ComponenteDigital,
-    Documento,
+    Documento, Modelo,
     Pagination,
     Tarefa,
     VinculacaoDocumento
@@ -26,7 +26,7 @@ import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back, getRouterState} from '../../../../../store';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {catchError, filter, finalize, take, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -36,6 +36,11 @@ import {Location} from '@angular/common';
 import {modulesConfig} from "../../../../../../modules/modules-config";
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {CriadoAnexoDocumento} from '../../store';
+import {LoginService} from "../../../../auth/login/login.service";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {GetEtiquetasTarefas, UploadConcluido} from "../../../tarefas/store";
+import {FavoritoService} from "../../../../../../@cdk/services/favorito.service";
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -46,6 +51,9 @@ import {CriadoAnexoDocumento} from '../../store';
     animations: cdkAnimations
 })
 export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
+
+    @ViewChild('ckdUploadMinuta', {static: false})
+    cdkUploadMinuta;
 
     @ViewChild('cdkUpload', {static: false})
     cdkUpload;
@@ -85,6 +93,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
     pagination: Pagination;
     actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'converteMinuta', 'select'];
     isSavingDocumentosVinculados$: Observable<boolean>;
+    isSavingMinutas$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
 
     selectedDocumentosVinculados$: Observable<Documento[]>;
@@ -106,6 +115,20 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     loadingDocumentos$: Observable<boolean>;
 
+    formEditor: FormGroup;
+    habilitarEditorSalvar = false;
+    modeloPagination: Pagination;
+    formEditorValid = false;
+    modeloListIsLoading: boolean = false;
+    modeloList: Modelo[] = [];
+    documentosPagination$: Observable<any>;
+    documentosPagination: Pagination;
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+    @ViewChild('autoCompleteModelos', {
+        static: false,
+        read: MatAutocompleteTrigger
+    }) autoCompleteModelos: MatAutocompleteTrigger;
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -116,9 +139,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _router
      * @param _dynamicService
+     * @param _loginService
      * @param _formBuilder
      * @param _activatedRoute
      * @param _matDialog
+     * @param _favoritoService
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAtividadeAppState>,
@@ -127,9 +152,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _dynamicService: DynamicService,
+        private _loginService: LoginService,
         private _formBuilder: FormBuilder,
         private _activatedRoute: ActivatedRoute,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _favoritoService: FavoritoService
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -157,6 +184,29 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             usuarioResponsavel: [null],
             distribuicaoAutomatica: [null],
         });
+        this.formEditor = this._formBuilder.group({
+            modelo: [null]
+        });
+        this.formEditor.get('modelo').valueChanges.subscribe((value) => {
+            this.formEditorValid = value && typeof value === 'object';
+        });
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = [
+            'documento',
+            'documento.componentesDigitais'
+        ];
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
         this.tarefa$ = this._store.pipe(select(getTarefa));
@@ -189,11 +239,13 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosVinculadosP7SId));
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
+        this.isSavingMinutas$ = this._store.pipe(select(fromStore.getIsSavingMinutas));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.assinaturaErrors$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrors));
         this.assinaturaErrosDocumentosId$ = this._store.pipe(select(AssinaturaStore.getAssinaturaErrosDocumentosId));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.documentosPagination$ = this._store.pipe(select(fromStore.getDocumentosPagination));
         this.loadingDocumentos$ = this._store.pipe(select(fromStore.getDocumentosLoading));
     }
 
@@ -246,6 +298,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             filter(pagination => !!pagination),
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => this.pagination = pagination);
+
+        this.documentosPagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.documentosPagination = pagination);
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
@@ -363,6 +420,10 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
             documentoOrigem: this.documento,
             operacaoId: operacaoId
         }));
+    }
+
+    uploadMinuta(): void {
+        this.cdkUploadMinuta.upload();
     }
 
     upload(): void {
@@ -518,6 +579,86 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         });
     }
 
+    checkModelo(): void {
+        const value = this.formEditor.get('modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.habilitarEditorSalvar = false;
+            this.formEditor.get('modelo').setValue(null);
+        } else {
+            this.habilitarEditorSalvar = true;
+        }
+    }
+
+    doEditor(): void {
+        const modelo = this.formEditor.get('modelo').value;
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateComponenteDigital({
+            modelo: modelo,
+            tarefaOrigem: this.tarefa,
+            processoOrigem: this.tarefa.processo,
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
+        }));
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+    }
+
+    showModelosGrid(): void {
+        this.autoCompleteModelos.closePanel();
+        this._changeDetectorRef.markForCheck();
+        this.menuTriggerList.closeMenu();
+        this._changeDetectorRef.markForCheck();
+        this.podeNavegarDoEditor().pipe(take(1)).subscribe((result) => {
+            if (result) {
+                const rota = 'modelos/modelo';
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                        {outlets: {primary: rota}}
+                    ],
+                    {relativeTo: this._activatedRoute.parent}
+                ).then(() => {});
+            }
+        });
+    }
+
+    doVisualizarModelo(): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
+    }
+
+    getFavoritosMinuta(autocomplete: HTMLInputElement): void {
+        autocomplete.focus();
+        this.modeloListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Modelo',
+                context: 'eq:modelo' +
+                    '_genero_' + this.routerState.params.generoHandle
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.modeloPagination.populate)
+        ).pipe(
+            finalize(() => this.modeloListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.modeloList = [];
+                response['entities'].forEach((favorito) => {
+                    this.modeloList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    closeAutocomplete(): void {
+        this.autoCompleteModelos.closePanel();
+        this.formEditor.get('modelo').setValue(null);
+        this._changeDetectorRef.markForCheck();
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
@@ -551,8 +692,26 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         });
     }
 
+    onCompleteMinuta(): void {
+        this._store.dispatch(new fromStore.SetSavingMinutas());
+    }
+
     onCompleteDocumentoVinculado(): void {
         this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+    }
+
+    onCompleteAllMinutas(): void {
+        this._store.dispatch(new UploadConcluido(this.tarefa.id));
+        this._store.dispatch(new GetEtiquetasTarefas(this.tarefa.id));
+        let offset = this.documentosPagination.offset + this.documentosPagination.limit;
+        if (offset > this.documentosPagination.total) {
+            offset = this.documentosPagination.total;
+        }
+        this._store.dispatch(new fromStore.SetSavingMinutas());
+        this._store.dispatch(new fromStore.GetDocumentos({
+            limit: this.documentosPagination.limit,
+            offset: offset
+        }));
     }
 
     onCompleteAllDocumentosVinculados(): void {

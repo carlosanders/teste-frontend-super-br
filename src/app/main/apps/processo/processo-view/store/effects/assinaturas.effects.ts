@@ -23,6 +23,8 @@ export class AssinaturasEffects {
         ofType<AssinaturaActions.AssinaDocumentoSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload));
+            this._store.dispatch(new fromStore.UnloadSelectedJuntadasId());
+            this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
         })
     ), {dispatch: false});
     /**
@@ -32,6 +34,8 @@ export class AssinaturasEffects {
         ofType<AssinaturaActions.AssinaDocumentoEletronicamenteSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
         tap((action) => {
             this._store.dispatch(new ProcessoViewActions.LimpaCacheDocumento(action.payload));
+            this._store.dispatch(new fromStore.UnloadSelectedJuntadasId());
+            this._store.dispatch(new fromStore.SetActiveCard('juntadas'));
         })
     ), {dispatch: false});
 

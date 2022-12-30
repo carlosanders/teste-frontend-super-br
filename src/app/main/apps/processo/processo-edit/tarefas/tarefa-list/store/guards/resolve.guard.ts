@@ -107,6 +107,7 @@ export class ResolveGuard implements CanActivate {
                             'processo.documentoAvulsoOrigem',
                             'especieTarefa',
                             'usuarioResponsavel',
+                            'usuarioResponsavel.colaborador',
                             'setorResponsavel',
                             'setorResponsavel.unidade',
                             'setorOrigem',
@@ -118,7 +119,6 @@ export class ResolveGuard implements CanActivate {
                             'usuarioConclusaoPrazo',
                             'vinculacaoWorkflow',
                             'vinculacaoWorkflow.workflow',
-                            'folder',
                             'criadoPor',
                             'atualizadoPor',
                             'apagadoPor'

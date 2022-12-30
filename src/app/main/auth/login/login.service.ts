@@ -173,13 +173,18 @@ export class LoginService {
         return this.http.get(url);
     }
 
-    isGranted(role: string): boolean {
-        const profile = this.getUserProfile();
-        const roleExp = RegExp(role.replace('*', '.*'), 'i');
-        if (profile && profile.roles && profile.roles.length > 0) {
-            return profile.roles.filter((value) => value.match(roleExp)).length > 0;
-        }
-        return false;
+    isGranted(role: string | string[]): boolean {
+        const roles = Array.isArray(role) ? role : [role];
+        const accessRoles = [];
+
+        roles.forEach((role) => {
+            const roleExp = RegExp(role.replace('*', '.*'), 'i');
+            if (this.getUserProfile()?.roles.length > 0) {
+                accessRoles.push(...this.getUserProfile().roles.filter(value => value.match(roleExp)));
+            }
+        });
+
+        return accessRoles.length > 0;
     }
 
     isCoordenador(): boolean {
