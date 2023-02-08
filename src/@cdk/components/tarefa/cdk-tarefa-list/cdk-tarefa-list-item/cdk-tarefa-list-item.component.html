@@ -27,10 +27,10 @@
                 <mat-icon class="s-18" (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
                 </mat-icon>
-                <mat-icon class="s-12 mt-4" [matTooltip]="'Filtrar por NUP'" (click)="doFilterNup(tarefa?.processo); $event.stopPropagation();">
+                <mat-icon class="s-12 mt-2" [matTooltip]="'Filtrar por NUP'" (click)="doFilterNup(tarefa?.processo); $event.stopPropagation();">
                     search
                 </mat-icon>
-                <mat-icon class="s-12 mt-4" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
+                <mat-icon class="s-12 mt-2" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
             </div>
 
