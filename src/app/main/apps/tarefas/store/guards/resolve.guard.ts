@@ -204,6 +204,12 @@ export class ResolveGuard implements CanActivate {
                     const routeTypeParam = of('typeHandle');
                     routeTypeParam.subscribe((typeParam) => {
                         let tarefaFilter = {};
+
+                        let generoParam = this.routerState.params['generoHandle'];
+                        if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                            generoParam = navigationConverter[this.routerState.params['generoHandle']];
+                        }
+
                         if (this.routerState.params[typeParam] === 'compartilhadas') {
 
                             if (this.routerState.params['targetHandle'] === 'outros-usuarios') {
@@ -262,10 +268,6 @@ export class ResolveGuard implements CanActivate {
                             };
                             let folderFilter = 'isNull';
                             let paramUrl = '';
-                            let generoParam = this.routerState.params['generoHandle'];
-                            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
-                                generoParam = navigationConverter[this.routerState.params['generoHandle']];
-                            }
                             const routeTargetParam = of('targetHandle');
                             routeTargetParam.subscribe((targetParam) => {
                                 if (
@@ -290,13 +292,11 @@ export class ResolveGuard implements CanActivate {
                                 params['folderFilter'] = {
                                     'folder.id': folderFilter
                                 };
-                                params.context['modulo'] = generoParam;
                             } else {
-                                params.context['modulo'] = generoParam;
                                 params.context['mostrarApagadas'] = true;
                             }
                         }
-
+                        params.context['modulo'] = generoParam;
                         params['filter'] = tarefaFilter;
                     });
 
