@@ -10,10 +10,10 @@ export class TableColumnDefinitions {
     sortable: boolean;
 
     constructor() {
-        this.width = null;
+        this.width = 0;
         this.resizable = null;
         this.ordable = null;
-        this.excluded = null;
+        this.excluded = false;
         this.selected = null;
         this.fixed = null;
         this.slave = null;

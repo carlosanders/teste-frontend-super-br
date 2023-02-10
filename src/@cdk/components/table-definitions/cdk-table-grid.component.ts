@@ -398,7 +398,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
                     defaultColumnDefinitions.definitions.order = userColumnDefinitions.definitions.order;
                 }
 
-                defaultColumnDefinitions.definitions.width = defaultColumnDefinitions.definitions.resizable ? userColumnDefinitions.definitions.width : defaultColumnDefinitions.definitions.width;
+                defaultColumnDefinitions.definitions.width = (defaultColumnDefinitions.definitions.resizable ? userColumnDefinitions.definitions.width : defaultColumnDefinitions.definitions.width) || 0;
                 defaultColumnDefinitions.definitions.selected = userColumnDefinitions.definitions.selected;
             }
         });
@@ -435,6 +435,8 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
     }
 
     columnChageWidth(event: ColumnWidthChangeEvent): void {
+        const index = this._tableColumns.findIndex((tableColumn: TableColumn) => tableColumn.id == event.tableColumn.id);
+        this._tableColumns[index] = event.tableColumn;
         this.tableDefinitions.columns = _.cloneDeep(this._tableColumns);
         this._tableDefinitionsChange(this.tableDefinitions);
     }

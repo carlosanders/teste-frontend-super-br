@@ -5,6 +5,9 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '../../models';
 import md5 from 'crypto-js/md5';
 import {TableDefinitions} from './table-definitions';
+import {plainToClass} from "class-transformer";
+import {TableColumnDefinitions} from "./table-column-definitions";
+import {TableColumn} from "./table-column";
 
 export interface _BaseTableDefinitionsProviderService {
     getTableDefinitions(tableDefinitionsIdentifier: string|TableDefinitions): Observable<TableDefinitions>;
@@ -51,6 +54,27 @@ export class LocalStorageTableDefinitionsProviderService implements _BaseTableDe
         }
     }
 
+    private _deepParse(jsonObject: any[]): TableDefinitions[] {
+        let tableDefinitionList: TableDefinitions[] = [];
+        jsonObject.forEach((tableDef) => {
+            const tableDefinition = new TableDefinitions();
+            tableDef.columns.forEach((column) => {
+                const tableColumnDefinition = plainToClass(TableColumnDefinitions, column.definitions);
+                const tableColumn = new TableColumn();
+                Object.assign(tableColumn, column);
+                tableColumn.definitions = tableColumnDefinition;
+                tableDefinition.columns.push(tableColumn);
+            });
+            tableDefinition.data = tableDef.data;
+            tableDefinition.identifier = tableDef.identifier;
+            tableDefinition.limit = tableDef.limit;
+            tableDefinition.sort = tableDef.sort;
+            tableDefinition.version = tableDef.version;
+            tableDefinitionList.push(tableDefinition);
+        });
+        return tableDefinitionList;
+    }
+
     deleteAllTableDefinitions(): Observable<boolean> {
         try {
             this._checkLoaded();
@@ -79,7 +103,7 @@ export class LocalStorageTableDefinitionsProviderService implements _BaseTableDe
         try {
             this._checkLoaded();
             const identifier = (typeof tableDefinitionsIdentifier == 'object' ? tableDefinitionsIdentifier?.identifier : tableDefinitionsIdentifier);
-            let tableDefinitionsList: TableDefinitions[] = JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || [];
+            let tableDefinitionsList: TableDefinitions[] = this._deepParse(JSON.parse(localStorage.getItem(this._getLocalStorageKey()))) || [];
 
             return of(tableDefinitionsList.find((tableDefinitions: TableDefinitions) => tableDefinitions.identifier == identifier))
         } catch (error) {

@@ -42,8 +42,7 @@ import {CdkTarefaFilterService} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-f
 import {CdkTarefaGroupDataInterface, CdkTarefaSortOptionsInterface} from './cdk-tarefa-sort-group.interface';
 import {CdkPerfectScrollbarDirective} from '../../../directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {TableDefinitions} from '../../table-definitions/table-definitions';
-import {tap} from 'rxjs/operators';
-import {TableColumn} from '../../table-definitions/table-column';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -589,6 +588,8 @@ export class CdkTarefaListComponent extends CdkTableGridComponent implements OnI
                                         ...dynamicColumns
                                     ];
                                     this.displayedColumns = displayColumns;
+                                    this.tableDefinitions.columns = _.cloneDeep(this._tableColumns);
+                                    this._tableDefinitionsChange(this.tableDefinitions);
                                 }
                             })
                     }

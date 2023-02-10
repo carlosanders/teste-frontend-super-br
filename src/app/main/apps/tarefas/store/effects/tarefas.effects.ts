@@ -129,33 +129,33 @@ export class TarefasEffect {
                         total: response['total']
                     })
                 ];
+            }),
+            catchError((err) => {
+                console.log(err);
+                this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
+                    .pipe(
+                        take(1),
+                        switchMap((configs) => of(configs || {}))
+                    )
+                    .subscribe((configs) => {
+
+                        const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
+                        const updatedConfigs = {...configs};
+                        if (updatedConfigs[scopeKey]) {
+                            delete updatedConfigs[scopeKey]['tableDefinitions'];
+                        }
+
+                        this._cacheGenericUserDataService
+                            .set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
+
+                        this._tableDefinitionsService.deleteTableDefinitions(
+                            this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
+                        ).subscribe();
+                    });
+
+                return of(new TarefasActions.GetTarefasFailed(err));
             })
         )),
-        catchError((err) => {
-            console.log(err);
-            this._cacheGenericUserDataService.get(TarefasComponent.LIST_DEFINITIONS_KEY)
-                .pipe(
-                    take(1),
-                    switchMap((configs) => of(configs || {}))
-                )
-                .subscribe((configs) => {
-
-                    const scopeKey = TarefasComponent.generateScopeKey([this.generoHandle]);
-                    const updatedConfigs = {...configs};
-                    if (updatedConfigs[scopeKey]) {
-                        delete updatedConfigs[scopeKey]['tableDefinitions'];
-                    }
-
-                    this._cacheGenericUserDataService
-                        .set(updatedConfigs, TarefasComponent.LIST_DEFINITIONS_KEY, 60 * 60 * 24 * 1000).subscribe();
-
-                    this._tableDefinitionsService.deleteTableDefinitions(
-                        this._tableDefinitionsService.generateTableDeinitionIdentifier(TarefasComponent.GRID_DEFINITIONS_KEYS)
-                    ).subscribe();
-                });
-
-            return of(new TarefasActions.GetTarefasFailed(err));
-        })
     ));
     /**
      * Get Tarefa
