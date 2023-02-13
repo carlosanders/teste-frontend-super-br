@@ -103,7 +103,7 @@ export class LocalStorageTableDefinitionsProviderService implements _BaseTableDe
         try {
             this._checkLoaded();
             const identifier = (typeof tableDefinitionsIdentifier == 'object' ? tableDefinitionsIdentifier?.identifier : tableDefinitionsIdentifier);
-            let tableDefinitionsList: TableDefinitions[] = this._deepParse(JSON.parse(localStorage.getItem(this._getLocalStorageKey()))) || [];
+            let tableDefinitionsList: TableDefinitions[] = this._deepParse(JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || []);
 
             return of(tableDefinitionsList.find((tableDefinitions: TableDefinitions) => tableDefinitions.identifier == identifier))
         } catch (error) {
