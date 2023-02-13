@@ -344,7 +344,7 @@ export abstract class CdkTableGridComponent implements OnInit, OnChanges, AfterV
             }
 
             return 0;
-        })
+        });
     }
 
     protected _processDisplayableDefinitions(): void {

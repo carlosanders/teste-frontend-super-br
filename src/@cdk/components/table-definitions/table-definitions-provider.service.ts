@@ -5,9 +5,9 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '../../models';
 import md5 from 'crypto-js/md5';
 import {TableDefinitions} from './table-definitions';
-import {plainToClass} from "class-transformer";
-import {TableColumnDefinitions} from "./table-column-definitions";
-import {TableColumn} from "./table-column";
+import {plainToClass} from 'class-transformer';
+import {TableColumnDefinitions} from './table-column-definitions';
+import {TableColumn} from './table-column';
 
 export interface _BaseTableDefinitionsProviderService {
     getTableDefinitions(tableDefinitionsIdentifier: string|TableDefinitions): Observable<TableDefinitions>;
@@ -89,7 +89,7 @@ export class LocalStorageTableDefinitionsProviderService implements _BaseTableDe
         try {
             this._checkLoaded()
             const identifier = (typeof tableDefinitionsIdentifier == 'object' ? tableDefinitionsIdentifier?.identifier : tableDefinitionsIdentifier);
-            let tableDefinitionsList: TableDefinitions[] = JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || [];
+            let tableDefinitionsList: TableDefinitions[] = this._deepParse(JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || []);
             tableDefinitionsList = tableDefinitionsList.filter((tableDefinitions: TableDefinitions) => tableDefinitions.identifier != identifier);
             localStorage.setItem(this._getLocalStorageKey(), JSON.stringify(tableDefinitionsList));
 
@@ -123,7 +123,7 @@ export class LocalStorageTableDefinitionsProviderService implements _BaseTableDe
     saveTableDefinitions(tableDefinitions: TableDefinitions): Observable<boolean> {
         try {
             this._checkLoaded();
-            let tableDefinitionsList: TableDefinitions[] = JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || [];
+            let tableDefinitionsList: TableDefinitions[] = this._deepParse(JSON.parse(localStorage.getItem(this._getLocalStorageKey())) || []);
             tableDefinitionsList = tableDefinitionsList.filter((tableDefinitions: TableDefinitions) => tableDefinitions.identifier != tableDefinitions.identifier);
             tableDefinitionsList.push(tableDefinitions);
             localStorage.setItem(this._getLocalStorageKey(), JSON.stringify(tableDefinitionsList));

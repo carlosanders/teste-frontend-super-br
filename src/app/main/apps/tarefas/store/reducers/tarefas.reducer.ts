@@ -114,7 +114,8 @@ export const tarefasReducer = (state = tarefasInitialState, action: TarefasActio
         case TarefasActions.UNLOAD_TAREFAS: {
             if (action.payload.reset) {
                 return {
-                    ...tarefasInitialState
+                    ...tarefasInitialState,
+                    viewMode: state.viewMode
                 };
             } else {
                 return {
