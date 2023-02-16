@@ -89,7 +89,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
-        contentsCss: '/assets/ckeditor/contents.css',
+        contentsCss: 'http://localhost:8000/contentCss',
         justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
         resize_enabled: false,
         removePlugins: 'elementspath',
@@ -239,17 +239,17 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
-        this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id;
         if (this.mode === 'modelo' || this.mode === 'repositorio' || this.mode === 'template') {
-            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+            this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id + '?mode=campos';
         }
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (this.mode === 'documento') {
-            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+            this.config['contentsCss'] = 'http://localhost:8000/contentCss/'  + this.componenteDigital.id;
         } else {
-            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+            this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id + '?mode=campos';
         }
 
         if (changes['repositorio']) {
