@@ -5,7 +5,7 @@ import {
     EventEmitter,
     Input,
     OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output,
     SimpleChange,
     ViewEncapsulation
@@ -23,7 +23,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations,
 })
-export class CdkLoginFormComponent implements OnChanges, OnDestroy {
+export class CdkLoginFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     config: any;
@@ -67,6 +67,12 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
             username: ['', [Validators.required]],
             password: ['', Validators.required]
         });
+    }
+
+    ngOnInit() {
+        this.onChangeTipoLogin(
+            this._loginService.getLoginType()?? 'interno'
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
