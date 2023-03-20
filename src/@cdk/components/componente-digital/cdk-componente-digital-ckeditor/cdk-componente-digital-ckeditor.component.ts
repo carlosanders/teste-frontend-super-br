@@ -30,6 +30,7 @@ import {ComponenteDigitalService} from '../../../services/componente-digital.ser
 import {Subject} from 'rxjs';
 import * as moment from 'moment';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {environment} from 'environments/environment';
 
 declare var CKEDITOR: any;
 
@@ -88,9 +89,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             'sourcearea',
         language: 'pt-br',
         disableNativeSpellChecker: false,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         scayt_autoStartup: false,
-        contentsCss: 'http://localhost:8000/contentCss',
+        contentsCss: `${environment.base_url}contentCss`,
         justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         resize_enabled: false,
         removePlugins: 'elementspath',
 
@@ -239,17 +242,17 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
-        this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id;
+        this.config['contentsCss'] = `${environment.base_url}contentCss/` + this.componenteDigital.id;
         if (this.mode === 'modelo' || this.mode === 'repositorio' || this.mode === 'template') {
-            this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id + '?mode=campos';
+            this.config['contentsCss'] = `${environment.base_url}contentCss/` + this.componenteDigital.id + '?mode=campos';
         }
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (this.mode === 'documento') {
-            this.config['contentsCss'] = 'http://localhost:8000/contentCss/'  + this.componenteDigital.id;
+            this.config['contentsCss'] = `${environment.base_url}contentCss/`  + this.componenteDigital.id;
         } else {
-            this.config['contentsCss'] = 'http://localhost:8000/contentCss/' + this.componenteDigital.id + '?mode=campos';
+            this.config['contentsCss'] = `${environment.base_url}contentCss/` + this.componenteDigital.id + '?mode=campos';
         }
 
         if (changes['repositorio']) {
