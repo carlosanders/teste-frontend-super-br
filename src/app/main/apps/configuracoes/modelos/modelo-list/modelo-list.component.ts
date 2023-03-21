@@ -64,6 +64,11 @@ export class ModeloListComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+
+        this.modelos$.subscribe((changeValues)=>{
+            // eslint-disable-next-line no-debugger
+            debugger;
+        });
     }
 
     ngOnInit(): void {

@@ -53,6 +53,11 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+
+        this.modelo$.subscribe((changeValues)=>{
+            // eslint-disable-next-line no-debugger
+            debugger;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -88,7 +93,8 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
+        // eslint-disable-next-line no-debugger
+        debugger;
         const modelo = new Modelo();
 
         Object.entries(values).forEach(

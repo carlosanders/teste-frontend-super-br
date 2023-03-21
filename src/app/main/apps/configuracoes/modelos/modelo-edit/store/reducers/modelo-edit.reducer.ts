@@ -13,30 +13,29 @@ export const ModeloEditInitialState: ModeloEditState = {
     saving: false,
     errors: false,
     loading: false,
-    loaded: false
+    loaded: false,
 };
 
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function ModeloEditReducer(
     state = ModeloEditInitialState,
     action: ModeloEditActions.ModeloEditActionsAll
 ): ModeloEditState {
     switch (action.type) {
-
         case ModeloEditActions.GET_MODELO: {
             return {
                 ...state,
                 modeloId: null,
-                loading: true
+                loading: true,
             };
         }
 
         case ModeloEditActions.GET_MODELO_SUCCESS: {
-
             return {
                 ...state,
                 modeloId: action.payload.modeloId,
                 loaded: action.payload.loaded,
-                loading: false
+                loading: false,
             };
         }
 
@@ -46,32 +45,36 @@ export function ModeloEditReducer(
                 modeloId: null,
                 loaded: {
                     id: 'modeloHandle',
-                    value: 'criar'
+                    value: 'criar',
                 },
-                loading: false
+                loading: false,
             };
         }
 
         case ModeloEditActions.GET_MODELO_FAILED: {
             return {
                 ...state,
-                loading: false
+                loading: false,
             };
         }
 
         case ModeloEditActions.SAVE_MODELO: {
+            // eslint-disable-next-line no-debugger
+            debugger;
             return {
                 ...state,
                 saving: true,
-                errors: false
+                errors: false,
             };
         }
 
         case ModeloEditActions.SAVE_MODELO_SUCCESS: {
+            // eslint-disable-next-line no-debugger
+            debugger;
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
             };
         }
 
@@ -79,7 +82,7 @@ export function ModeloEditReducer(
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload,
             };
         }
 

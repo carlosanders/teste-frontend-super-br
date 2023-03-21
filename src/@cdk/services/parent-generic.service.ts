@@ -114,6 +114,8 @@ export class ParentGenericService<T> {
                     })
                 );
         } else {
+            // eslint-disable-next-line no-debugger
+            debugger;
             return this.modelService.post(this.path, classToPlain(t), new HttpParams({fromObject: params}))
                 .pipe(
                     map((response) => {

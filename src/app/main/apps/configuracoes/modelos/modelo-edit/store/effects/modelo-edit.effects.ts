@@ -63,6 +63,10 @@ export class ModeloEditEffect {
             content: 'Salvando o modelo ...',
             status: 0, // carregando
         }))),
+        tap((action) =>{
+            // eslint-disable-next-line no-debugger
+            debugger;
+        }),
         switchMap(action => this._modeloService.save(action.payload.modelo).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,

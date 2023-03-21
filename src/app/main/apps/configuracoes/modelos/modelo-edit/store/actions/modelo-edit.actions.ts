@@ -56,6 +56,8 @@ export class SaveModelo implements Action
 
     constructor(public payload: any)
     {
+        // eslint-disable-next-line no-debugger
+        debugger;
     }
 }
 
