@@ -159,6 +159,10 @@ export class SetorListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/localizadores`)]).then();
     }
 
+    coordenadores(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/coordenadores`)]).then();
+    }
+
     numerosUnicosDocumentos(setorId: number): void {
         this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/numeros-unicos-documentos`)]).then();
     }

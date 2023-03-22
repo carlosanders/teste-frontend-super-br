@@ -411,6 +411,24 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('coordenadores') > -1"
+                                [disabled]="deletedIds?.includes(setor.id)"
+                                (click)="coordenadoresSetor(setor.id)"
+                                aria-label="coordenadores"
+                                matTooltip="Coordenadores">
+                                <mat-icon>tune</mat-icon>
+                        </button>
+
+                        <!-- <button mat-icon-button
+                                *ngIf="actions.indexOf('coordenadores') > -1"
+                                [disabled]="deletedIds?.includes(setor.id)"
+                                (click)="coordenacoesUsuario(setor.id)"
+                                aria-label="coordenações"
+                                matTooltip="Coordenações">
+                            <mat-icon>tune</mat-icon>
+                        </button> -->
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('competencias') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(setor.id) > -1"
                                 (click)="competenciasUnidade(setor.id)"

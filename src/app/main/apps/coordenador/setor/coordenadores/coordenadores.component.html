@@ -1,0 +1,15 @@
+<div class="header" *ngIf="action !== 'lotacoes' && action !== 'localizadores'">
+    <div class="actions">
+        <button mat-icon-button
+                *ngIf="action === 'listar'"
+                (click)="goBack()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="content">
+    <router-outlet></router-outlet>
+</div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -248,6 +249,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     localizadores = new EventEmitter<number>();
 
     @Output()
+    coordenadores = new EventEmitter<number>();
+
+    @Output()
     competencias = new EventEmitter<number>();
 
     @Output()
@@ -405,6 +409,10 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     localizadoresSetor(setorId): void {
         this.localizadores.emit(setorId);
+    }
+
+    coordenadoresSetor(setorId): void {
+        this.coordenadores.emit(setorId);
     }
 
     numerosUnicosDocumentosSetor(setorId): void {

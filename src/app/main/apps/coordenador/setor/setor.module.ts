@@ -66,6 +66,10 @@ const routes: Routes = [
                 loadChildren: () => import('../localizador/localizador.module').then(m => m.LocalizadorModule),
             },
             {
+                path: 'coordenadores',
+                loadChildren: () => import('./coordenadores/coordenadores.module').then(m => m.CoordenadoresModule),
+            },
+            {
                 path       : 'numeros-unicos-documentos',
                 loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
             },

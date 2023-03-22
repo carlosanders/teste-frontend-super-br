@@ -12,7 +12,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'nome', 'sigla', 'especieSetor.nome', 'parent.nome', 'apenasDistribuidor', 'ativo', 'actions']"
-        [actions]="['edit', 'create', 'lotacoes', 'localizadores', 'select', 'showInatived']"
+        [actions]="['edit', 'create', 'lotacoes', 'localizadores', 'coordenadores', 'select', 'showInatived']"
         (inatived)="inatived($event)"
         (reload)="reload($event)"
         (create)="create()"
@@ -20,6 +20,7 @@
         (selected)="select($event)"
         (lotacoes)="lotacoes($event)"
         (localizadores)="localizadores($event)"
+        (coordenadores)="coordenadores($event)"
         (numerosUnicosDocumentos)="numerosUnicosDocumentos($event)"
         (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-setor-grid>
