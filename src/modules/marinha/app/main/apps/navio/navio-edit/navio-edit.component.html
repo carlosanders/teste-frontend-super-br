@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="navios">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-navio-form
+        [navio]="(navio$ | async)"
+        [form]="formNavio"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitNavio($event)"
+        (abort)="doAbort()">
+    </cdk-navio-form>
+</div>

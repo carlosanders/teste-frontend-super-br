@@ -1,0 +1,10 @@
+<cdk-navio-grid
+        [loading]="loading"
+        [navios]="navios"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-navio-grid>

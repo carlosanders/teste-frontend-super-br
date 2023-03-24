@@ -1,0 +1,9 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayNavioFn">
+    <mat-option *ngFor="let navio of navioList"
+                [value]="navio">
+        <span [innerHTML]="displayNavioFn(navio) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="navioListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

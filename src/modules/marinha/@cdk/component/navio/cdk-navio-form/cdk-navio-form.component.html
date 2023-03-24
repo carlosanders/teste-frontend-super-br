@@ -1,0 +1,52 @@
+<form fxLayoutGap="8px" name="form" [formGroup]="form">
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               minlength="3"
+               maxlength="255"
+               required
+               upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+        <mat-error *ngIf="form.get('nome').hasError('minlength')">
+            Tamanho mínimo de 3 caracteres
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <input matInput #descricao
+               name="descricao"
+               formControlName="descricao"
+               maxlength="255"
+               required
+               upperCase>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+

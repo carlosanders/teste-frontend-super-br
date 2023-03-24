@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="navios">
+    </path>
+</div>
+<cdk-navio-grid
+    [loading]="(loading$ | async)"
+    [navios]="(navios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-navio-grid>

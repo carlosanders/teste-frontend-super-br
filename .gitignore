@@ -40,7 +40,7 @@ testem.log
 Thumbs.db
 
 # modules
-/src/modules/**/*
+# /src/modules/**/*
 /e2e/
 
 # tests
