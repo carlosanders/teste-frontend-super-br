@@ -8,7 +8,7 @@ export const environment = {
     hmr: false,
     base_url: 'http://10.206.72.215:8000/',
     api_url: 'http://10.206.72.215:8000/v1/',
-    mercure_hub: 'http://localhost:4000/.well-known/mercure',
+    mercure_hub: 'http://10.206.72.215:4000/.well-known/mercure',
     xdebug: '?XDEBUG_SESSION_START=docker',
     json_schema_draft: 'http://json-schema.org/draft-07/schema#',
 };

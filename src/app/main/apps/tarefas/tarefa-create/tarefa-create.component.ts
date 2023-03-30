@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import { visibilidade } from './../../../../../@cdk/normalizr/index';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -14,6 +16,8 @@ import {Colaborador, Pagination, Processo, Setor, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import * as fromLoginStore from 'app/main/auth/login/store';
+import { getConfig } from 'app/main/auth/login/store';
 import * as fromStoreSidebar from 'app/main/apps/tarefas/store';
 import * as moment from 'moment';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -38,6 +42,9 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    config$: Observable<any>;
+    config: any;
+
     _profile: Colaborador;
 
     especieTarefaPagination: Pagination;
@@ -52,6 +59,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     visibilidades$: Observable<boolean>;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     NUP: any;
+    processoPagination: Pagination;
 
     routerState: any;
     isClearForm$: Observable<boolean>;
@@ -72,6 +80,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
+        private _loginStore: Store<fromLoginStore.LoginAppState>,
         private _store: Store<fromStore.TarefaCreateAppState>,
         private _storeSideBar: Store<fromStoreSidebar.TarefasAppState>,
         public _loginService: LoginService,
@@ -79,6 +88,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
+        this.config$ = this._loginStore.pipe(select(fromLoginStore.getConfig));
+
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
@@ -86,6 +97,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
         this.isClearForm$ = this._storeSideBar.pipe(select(fromStoreSidebar.getIsClearForm));
 
+        this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['populateAll', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
@@ -110,6 +123,17 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.config$.subscribe((value)=>{
+            this.config = value;
+            if(this.config?.visibilidade === 'APENAS_PROCESSOS_LOTACAO_USUARIO'){
+                this.processoPagination.filter = {
+                    'setorAtual.unidade.id': 'in:'+
+                    this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')
+                };
+            }
+            console.log(this.config);
+        });
+
         this.operacaoId = null;
         this.operacoes = [];
 
